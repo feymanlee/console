@@ -1,0 +1,547 @@
+<div class="main-content">
+			<div class="container-fluid">
+				<div class="pos-ser">
+					<div class="position">
+						<a href="/index.php">首页</a>/<span>服务器状态</span>
+					</div>
+				</div>
+				<div class="system-info">
+					<div class="tips">
+						系统: <span id="info"> 获取中</span>&#12288;&#12288;&#12288;已不间断运行: <span id="running"> 获取中</span><button onclick="ReBoot()" class="btn btn-success btn-xs" style="vertical-align:1px;margin-left:10px">安全重启</button>
+						<span style="position:relative;left: 50px;">
+							版本: <span id="btversion" onclick="openLog()"><?php echo @$_SESSION['info-n'];?></span>
+							<span id="toUpdate"></span>
+						</span>
+					</div>
+					<div class="list-serve">
+					<ul class="row">
+						<li class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
+							<div class="serve-box">
+								<h3>网站</h3>
+								<div class="server-box-right">
+									<h4><?php echo @$_SESSION['server_count']['sites']; ?>个</h4>
+									<p>在此添加以及管理服务器上的网站</p>
+									<div class="sbr-btn">
+										<a href="/site.php">管理</a>|<a href="javascript:;" onclick="webAdd(0)">添加</a>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
+							<div class="serve-box">
+								<h3>FTP</h3>
+								<div class="server-box-right">
+									<h4><?php echo @$_SESSION['server_count']['ftps']; ?>个</h4>
+									<p>在此添加以及管理服务器上的FTP</p>
+									<div class="sbr-btn">
+										<a href="/ftp.php">管理</a>|<a href="javascript:;" onclick="ftpAdd(0)">添加</a>
+									</div>
+								</div>
+							</div>
+						</li>
+						<li class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
+							<div class="serve-box">
+								<h3>数据库</h3>
+								<div class="server-box-right">
+									<h4><?php echo @$_SESSION['server_count']['databases']; ?>个</h4>
+									<p>在此添加以及管理服务器上的数据库</p>
+									<div class="sbr-btn">
+										<a href="/database.php">管理</a>|<a href="javascript:;" onclick="DataAdd(0)">添加</a>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+				</div>
+				<div class="server">
+					<div class="s-title">
+						<h3>服务器使用情况</h3>
+						<a href="javascript:;" onclick="getInfo()">刷新</a>
+					</div>
+					<div class="server-circle">
+						<ul class="row">
+							<li class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+								<h3>CPU使用率</h3>
+								<div class="circle">
+									<div class="pie_left">
+										<div class="left"></div>
+									</div>
+									<div class="pie_right">
+										<div class="right"></div>
+									</div>
+									<div class="mask"><span id="state">0</span>%</div>
+								</div>
+								<h4 id="core">获取中</h4>
+							</li> 
+							<li class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+								<h3>内存使用率</h3>
+								<div class="circle">
+									<div class="pie_left">
+										<div class="left"></div>
+									</div>
+									<div class="pie_right">
+										<div class="right"></div>
+									</div>
+									<div class="mask"><span id="left">0</span>%</div>
+								</div>
+								<h4 id="memory">获取中</h4>
+							</li> 
+							<?php foreach($Disk as $value){ ?>
+								<li class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+									<h3><?php echo $value['分区']; ?></h3>
+									<div class="circle">
+										<div class="pie_left">
+											<div class="left"></div>
+										</div>
+										<div class="pie_right">
+											<div class="right"></div>
+										</div>
+										<div class="mask"><span><?php echo $value['使用率']; ?></span>%</div>
+									</div>
+									<h4><?php echo $value['可用空间'].'/'.$value['总容量']; ?>(GB)</h4>
+								</li> 
+							<?php } ?>
+						</ul>
+					</div>
+				</div>
+				<div class="span6">
+					<div class="bw">
+						<div class="bg">
+						<div class="bw-title">网络流量</div>
+						<div class="bw-info">
+							<ul>
+								<li class="bi-line"><span>上行速度</span><a id="upSpeed">获取中</a></li>
+								<li class="bi-line"><span>下行速度</span><a id="downSpeed">获取中</a></li>
+								<li><span>总发送</span><a id="upAll">获取中</a></li>
+								<li><span>总接收</span><a id="downAll">获取中</a></li>
+							</ul>
+						</div>
+						<div id="NetImg" style="width:98%;height:330px;"></div>
+						</div>
+					</div>
+				</div>
+				<div class="span6">
+					<div class="bw zun-updata">
+					<div class="bg">
+					<div class="bw-title">套件
+						<div class="pull-right phpinfo">
+							<span>面板当前使用PHP版本</span>
+							<select id="phpinfo" style="vertical-align:-1px; height:22px">
+								<option>PHP-5.4</option>
+							</select>
+							<button onclick="SetPanelPHPVersion()" class="btn btn-success btn-xs">切换</button>
+						</div>
+					</div>
+					<div class="setting-con">
+						<div class="divtable">
+							<table width="100%" cellspacing="0" cellpadding="0" border="0" class="table table-hover">
+								<thead>
+									<tr>
+										<th>安装软件</th>
+										<th>配置</th>
+										<th>状态</th>
+										<th width="90" style="text-align: right;">操作</th>
+									</tr>
+								</thead>
+								<tbody id="tjBody">
+									<tr>
+										<td><?php echo $ConfigInfo['web']['type'].$ConfigInfo['web']['version']; ?> </td>
+										<td><a class="link" href="javascript:GetConfigFile('<?php echo $ConfigInfo['web']['type']; ?>');">修改</a> | 
+											<a class="link" href="javascript:ServiceAdmin('<?php echo $ConfigInfo['web']['type']; ?>','reload');">重载</a>
+											<?php if($_SESSION['server_type'] == 'nginx'){ ?>
+											 | <a class="link" href="javascript:GetNginxStatus();">负载状态</a></td>
+											<?php } ?>
+										</td>
+										<td><span class="ico-start glyphicon glyphicon-play"></span></td>
+										<td style="text-align: right;"><a class="link" href="javascript:ServiceAdmin('<?php echo $ConfigInfo['web']['type']; ?>','restart');">重启</a>
+									</tr>
+									<tr>
+										<td>MySQL <?php echo $ConfigInfo['mysql']['version']; ?></td>
+										<td><a class="link" href="javascript:GetConfigFile('mysql');">修改</a> | <a class="link" href="javascript:ServiceAdmin('mysqld','reload');">重载</a></td>
+										<td><span class="<?php if($ConfigInfo['mysql']['status']){ echo 'ico-start glyphicon glyphicon-play';}else{echo 'ico-stop glyphicon glyphicon-stop';}?>"></span></td>
+										<td style="text-align: right;"><a class="link" href="javascript:ServiceAdmin('mysqld','restart');">重启</a>
+											<?php if($ConfigInfo['mysql']['status']){ ?>
+												<!-- | <a class="link" href="javascript:ServiceAdmin('mysqld','stop');">停止</a></td>-->
+											<?php }else{ ?>
+												 | <a class="link" href="javascript:ServiceAdmin('mysqld','start');">启动</a></td>
+											<?php } ?>
+									</tr>
+									<tr>
+										<td>Pure-Ftpd <?php echo $ConfigInfo['pure-ftpd']['version']; ?> </td>
+										<td><a class="link" href="javascript:GetConfigFile('pure-ftpd');">修改</a> | <a class="link" href="javascript:ServiceAdmin('pure-ftpd','reload');">重载</a></td>
+										<td><span class="<?php if($ConfigInfo['pure-ftpd']['status']){ echo 'ico-start glyphicon glyphicon-play';}else{echo 'ico-stop glyphicon glyphicon-stop';}?>"></span></td>
+										<td style="text-align: right;"><a class="link" href="javascript:ServiceAdmin('pure-ftpd','restart');">重启</a> | 
+											<?php if($ConfigInfo['pure-ftpd']['status']){ ?>
+												<a class="link" href="javascript:ServiceAdmin('pure-ftpd','stop');">停止</a></td>
+											<?php }else{ ?>
+												<a class="link" href="javascript:ServiceAdmin('pure-ftpd','start');">启动</a></td>
+											<?php } ?>
+									</tr>
+									<?php foreach($ConfigInfo['php'] as $key=>$value){ if(!$value['setup']) continue; ?>
+									<tr>
+										<td>PHP版本：<?php echo $key; ?> </td>
+										<td><a class="link" href="javascript:GetConfigFile('<?php echo $key; ?>');">修改</a>
+											<?php if(trim($ConfigInfo['web']['version']) != '2.2.31'){ ?>
+											 | <a class="link" href="javascript:ServiceAdmin('php-fpm-<?php echo $key; ?>','reload');">重载</a> | 
+											<a class="link" href="javascript:GetPHPStatus('<?php echo $key; ?>');">负载状态</a></td>
+										<td><span class="<?php if($value['status']){ echo 'ico-start glyphicon glyphicon-play';}else{echo 'ico-stop glyphicon glyphicon-stop';}?>"></span></td>
+										<td style="text-align: right;"><a class="link" href="javascript:ServiceAdmin('php-fpm-<?php echo $key; ?>','restart');">重启</a>
+											<?php if($value['status']){ ?>
+												<!-- | <a class="link" href="javascript:ServiceAdmin('php-fpm-<?php echo $key; ?>','stop');">停止</a></td>-->
+											<?php }else{ ?>
+												 | <a class="link" href="javascript:ServiceAdmin('php-fpm-<?php echo $key; ?>','start');">启动</a></td>
+											<?php } ?>
+											
+											<?php }else{ ?>
+												<td>php_mod</td>
+												<td></td>
+											<?php } ?>
+									</tr>
+									<?php } ?>
+									<tr>
+										<td>日志文件</td>
+										<td><a class="link" href="javascript:openPath('/www/wwwlogs');">/www/wwwlogs</a></td>
+										<td id="logSize"></td>
+										<td style="text-align: right;"><a class="link"  href="javascript:CloseLogs();">清空</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<script type="text/javascript" src="/public/js/highcharts.js"></script>
+		<script type="text/javascript" src="/public/js/web.js"></script>
+		<script type="text/javascript" src="/public/js/ftp.js"></script>
+		<script type="text/javascript" src="/public/js/data.js"></script>
+		<script type="text/javascript" src="/public/js/server.js"></script>
+		<script type="text/javascript">
+			setCookie('phpmodel','<?php echo $_SESSION["phpmodel"]; ?>');
+			setCookie('serverType','<?php echo $_SESSION["server_type"]; ?>');
+			setCookie('uploadSize','<?php echo intval(ini_get("upload_max_filesize"))*1024*1024; ?>');
+			checkConfig();
+			//检查配置
+			function checkConfig(){
+				$.get('/config.php?action=ServiceAdmin&name='+getCookie('serverType')+'&type=test',function(rdata){
+					if(rdata.status) return;
+					layer.open({
+						type:1,
+						title:'检测到配置文件错误!',
+						area: '600px', 
+						shadeClose:false,
+						closeBtn:2,
+						content:'<div class="setchmod zun-form-new">'
+								+'<p style="padding: 0 20px 10px;line-height: 24px;">'+rdata.msg+'</p>'
+								+'<p style="font-weight:bold;margin-left: 24px;margin-top: 20px;">注意：</p><ul style="padding: 0 20px 10px;margin-top: 3px;" class="help-info-text">'
+								+'============================================================================'
+								+'<li>请根据以上错误信息排除配置文件错误！</li>'
+								+'<li>配置文件有错误的情况下，您添加的站点、域名将无法生效！</li>'
+								+'<li>排除配置错误之前请不要重启服务器或apache/nginx，这会导致您的Web服务无法启动！</li>'
+								+'<li>若您无法排除错误，请附上错误信息到我们官方论坛发贴求助;<a href="http://www.bt.cn/bbs" target="_blank" style="color:#20a53a"> >>点击求助</a></li>'
+								+'</ul>'
+								+'<div class="submit-btn">'
+								+'<button type="button" class="btn btn-danger btn-sm btn-title" onclick="layer.closeAll()">知道了</button>'
+							    +'</div>'
+								+'</div>'
+					});
+				});
+			}
+			
+			
+			function getInfo() {
+				var loadT = layer.load({
+					shade: true,
+					shadeClose: false
+				});
+				$.get("/Ajax.php?action=GetSystemTotal", function(info) {
+					$("#memory").html(parseInt((info.memTotal-info.memRealUsed))+'/'+info.memTotal+' (MB)');
+					$("#left").html(Math.floor(info.memRealUsed / (info.memTotal / 100)));
+					$("#info").html(info.system);
+					$("#running").html(info.time);
+					$("#core").html(info.cpuNum + " 核心");
+					$("#state").html(info.cpuRealUsed);
+					layer.close(loadT);
+					setImg();
+				});
+			}
+		
+			getInfo();
+			
+			function getNet(){
+				var up;
+				var down;
+				$.ajax({
+					type:"get",
+					url:"/Ajax.php?action=GetNetTotal",
+					async:true,
+					success:function(net){
+						$("#InterfaceSpeed").html("接口速率： 1.0Gbps");
+						$("#upSpeed").html(net.up+ ' KB');
+						$("#downSpeed").html(net.down+' KB');
+						$("#downAll").html(net.downTotal);
+						$("#upAll").html(net.upTotal);
+						setCookie("upNet",net.up);
+						setCookie("downNet",net.down);
+					}
+				});
+				//var result = Number(getCookie("upNet"));
+				//return result;
+			}
+		
+			$(document).ready(function() {                                                  
+				Highcharts.setOptions({                                                     
+					global: {                                                               
+						useUTC: false                                                       
+					}                                                                       
+				});                                                                         
+																							
+				var chart;                                                                  
+				$('#NetImg').highcharts({                                                
+					chart: {                                                                
+						type: 'areaspline',                                                     
+						animation: Highcharts.svg, // don't animate in old IE               
+						//marginRight: 10,
+						events: {                                                           
+							load: function() {                            														        
+								var series = this.series[0];
+								var series1 = this.series[1];
+								
+								setInterval(function() {
+									getNet();								
+									var x = (new Date()).getTime(), // 时间         
+										y = Number(getCookie("upNet")), //取回流量数据
+										z = Number(getCookie("downNet")); //取回流量数据
+									series1.addPoint([x, z], true, true);				
+									series.addPoint([x, y], true, true);									
+								}, 3000);                                                   
+							}                                                               
+						}                                                                   
+					}, 
+					colors: ['#ff8c00','#1e90ff'],
+					title: {                                                                
+						text: '接口流量实时',
+						style: {"color":"#666"}
+					},                                                                      
+					xAxis: {                                                                
+						type: 'datetime',                                                   
+						tickPixelInterval: 100,
+						gridLineColor: '#eeeeee',//纵向网格线颜色
+						gridLineWidth: 1 //纵向网格线宽度
+					},                                                                      
+					yAxis: {                                                                
+						title: {                                                            
+							text: '带宽 KB/S',
+							style: {"color":"#666"}
+						},                                                                  
+						plotLines: [{                                                       
+							value: 0,                                                       
+							width: 0,                                                       
+							color: '#eeeeee'                                                
+						}],
+						gridLineDashStyle:'Dash',
+						gridLineColor: '#ddd',//横向网格线颜色
+						gridLineWidth: 1//横向网格线宽度
+					},                                                                      
+					tooltip: {
+						shared: true,
+						borderColor:"#cccccc"
+					},                                                                      
+					plotOptions: {
+						areaspline: {
+							fillOpacity: 0.46
+						}
+					},
+					legend: {
+						borderWidth: 0
+					},
+					series: [{                                                              
+						name: '上行',
+						marker:{
+							radius: 0,
+							lineColor: "#ff8c00",
+							lineWidth:2
+						},
+						data: (function() {
+							var data = [],
+								time = (new Date()).getTime(),
+								i;
+							for (i = -16; i <= 0; i++){
+								data.push({                                                 
+									x: time + i * 1000,                                     
+									y: null                       
+								});                                                         
+							}                                                              
+							return data;                                              
+						})()                                                            
+					},{                                                              
+						name: '下行',
+						marker:{
+							radius: 0,
+							lineColor: "#1e90ff",
+							lineWidth:1
+						},
+						data: (function() {                                                                          
+							var data1 = [],                                                  
+								time1 = (new Date()).getTime(),                              
+								i;                                                          							
+							for (i = -16; i <= 0; i++){
+								data1.push({                                                 
+									x: time1 + i * 1000,                                     
+									z: null                       
+								});                                                         
+							}                                                              
+							return data1;                                                    
+						})()                                                          
+					}]                                                                       
+				});                                                                         
+			});
+			
+			function setImg() {
+				$('.circle').each(function(index, el) {
+					var num = $(this).find('span').text() * 3.6;
+					if (num <= 180) {
+						$(this).find('.left').css('transform', "rotate(0deg)");
+						$(this).find('.right').css('transform', "rotate(" + num + "deg)");
+					} else {
+						$(this).find('.right').css('transform', "rotate(180deg)");
+						$(this).find('.left').css('transform', "rotate(" + (num - 180) + "deg)");
+					};
+				});
+			
+			}
+			setImg();
+			
+			
+			//检查更新
+			$(function(){
+				$.get('index.php?action=update',function(rdata){
+					if(rdata.status == false) return;
+					if(rdata.version != undefined){
+						$("#toUpdate").html('<a href="javascript:updateMsg();">立即更新</a>');
+						return;
+					}
+					layer.msg(rdata.msg,{icon:1});
+				});
+			});
+			
+			
+			function updateMsg(){
+				window.open("http://www.bt.cn/bbs/forum.php?mod=forumdisplay&fid=36");
+				$.get('index.php?action=update',function(rdata){
+					layer.open({
+						type:1,
+						title:'升级到['+rdata.version+']',
+						area: '400px', 
+						shadeClose:false,
+						closeBtn:2,
+						content:'<div class="setchmod zun-form-new">'
+								+'<p style="padding: 0 20px 10px;line-height: 24px;">'+rdata.updateMsg+'</p>'
+								+'<div class="submit-btn">'
+								+'<button type="button" class="btn btn-danger btn-sm btn-title" onclick="layer.closeAll()">取消</button>'
+								+'<button type="button" class="btn btn-success btn-sm btn-title" onclick="updateVersion(\''+rdata.version+'\')" >立即升级</button>'
+							    +'</div>'
+								+'</div>'
+					});
+				});
+			}
+			
+			//开始升级
+			function updateVersion(version){
+				var loadT = layer.msg('正在升级面板..',{icon:16,time:10000});
+				$.get('index.php?action=update&toUpdate=yes',function(rdata){
+					layer.closeAll();
+					layer.msg(rdata.msg,{icon:rdata.status?1:5});
+					if(rdata.status){
+						$("#btversion").html(version);
+						$("#toUpdate").html('');
+					}
+				});
+			}
+			
+			//更新日志
+			function openLog(){
+				layer.open({
+				type: 1,
+				area: ['682px','462px'],
+				title: '版本更新',
+				closeBtn: 2,
+				shift: 5,
+				shadeClose: false,
+				content: '<div class="DrawRecordCon"></div>'	
+				})
+				$.get('http://www.bt.cn/Api/getUpdateLogs',function(rdata){
+					var body = '';
+					for(var i=0;i<rdata.length;i++){
+						body += '<div class="DrawRecord DrawRecordlist">\
+								<div class="DrawRecordL">'+rdata[i].addtime+'<i></i></div>\
+								<div class="DrawRecordR">\
+									<h3>'+rdata[i].title+'</h3>\
+									<p>'+rdata[i].body+'</p>\
+								</div>\
+							</div>'
+					}
+					$(".DrawRecordCon").html(body);
+				},'jsonp');
+			}
+			
+			//清理日志
+			function CloseLogs(){
+				$.get('Ajax.php?action=CloseLogs',function(rdata){
+					$("#logSize").html(rdata);
+					layer.msg('已清理!',{icon:1});
+				});
+			}
+			
+			$(function(){
+				$.get('Ajax.php?action=GetDirSize&path=/www/wwwlogs',function(rdata){
+					$("#logSize").html(rdata);
+				});
+				
+				//取当前面板PHP版本
+				$.get('/site.php?action=GetPHPVersion',function(rdata){
+					var php_version='';
+					var nowphpinfo = '<?php echo PHP_VERSION; ?>';
+					nowphpinfo  = nowphpinfo.replace(/\./g,'');
+					nowphpinfo  = nowphpinfo.substr(0,2);
+					for(var i=rdata.length-1;i>=0;i--){
+						if(rdata[i].version == nowphpinfo){
+							php_version += "<option value='"+rdata[i].version+"' selected='true'>"+rdata[i].name+"</option>";
+						}
+						else{
+							php_version += "<option value='"+rdata[i].version+"'>"+rdata[i].name+"</option>";
+						}
+					}
+					$("#phpinfo").html(php_version);
+				});
+			});
+			
+			
+			//设置面板PHP版本
+			function SetPanelPHPVersion(){
+				var version = $("#phpinfo").val();
+				$.get('/index.php?action=SetPanelPHPVersion&version='+version,function(rdata){
+					layer.msg(rdata.msg,{icon:1});
+				}).error(function(){
+					layer.msg('已切换',{icon:5});
+				});
+			}
+			
+			//重启服务器
+			function ReBoot(){
+				layer.confirm('<a style="color:red">注意，若您的服务器是一个容器，请取消</a>，继续吗？',{icon:3},function(){
+					layer.msg('正在处理...',{icon:16,time:0});
+					$.get('/index.php?action=ReBoot',function(rdata){
+						layer.closeAll();
+						layer.msg(rdata.msg,{icon:1});
+					}).error(function(){
+						layer.msg('正在重启服务器，请稍等几分钟再刷新页面!',{icon:1});
+					});
+				});
+			}
+			
+		</script>

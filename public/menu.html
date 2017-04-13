@@ -1,0 +1,34 @@
+	<?php
+		function GetHover($name){		
+			return (($_SERVER['SCRIPT_NAME'] == $name)?'current':'');
+		}	
+	?>
+<div class="bt-warp">
+<div class="header">
+	<div class="logo pull-left">
+		<img src="/public/images/logo.png" alt="<?php echo $_SESSION['brand']; ?>">
+		<span><?php echo $_SESSION['product']; ?></span>
+	</div>
+	<ul class="menu pull-right">
+		<li><a href="http://jq.qq.com/?_wv=1027&amp;k=2KHkeeJ" target="_blank">意见反馈</a></li>
+		<li><a href="http://www.bt.cn/help" target="_blank">帮助中心</a></li>
+		<li><a href="javascript:setPassword();" title="修改用户密码">密码</a></li>
+		<li><a href="/login.php?dologin"><i class="icon-bell-off"></i><em>退出</em></a></li>
+	</ul>
+	<span id="defaultPath" style="display: none;"><?php echo $_SESSION['config']['sites_path']; ?></span>
+</div>
+<div id="container" class="container-fluid">
+	<div class="sidebar-scroll">
+		<h3 class="mypcip" onclick="location='index.php'"><i class="icon-book"></i><span><?php echo $_SESSION['serverip']; ?></span></h3>
+		<ul class="sub">
+			<li class="<?php echo GetHover('/index.php'); ?>"> <a class="menu_home" href="/index.php">服务器状态</a></li>
+			<li class="<?php echo GetHover('/site.php'); ?>"><a class="menu_web" href="/site.php">网站</a></li>
+			<li class="<?php echo GetHover('/ftp.php'); ?>"><a class="menu_ftp" href="/ftp.php">FTP</a></li>
+			<li class="<?php echo GetHover('/database.php'); ?>"><a class="menu_data" href="/database.php">数据库</a></li>
+			<li class="<?php echo GetHover('/firewall.php'); ?>"><a class="menu_firewall" href="/firewall.php">系统安全</a></li>
+			<li class="<?php echo GetHover('/crontab.php'); ?>"><a class="menu_day" href="/crontab.php">计划任务</a></li>
+			<li class="<?php echo GetHover('/files.php'); ?>"><a class="menu_folder" href="/files.php">文件管理</a></li>
+			<li class="<?php echo GetHover('/config.php'); ?>"><a class="menu_set" href="/config.php">面板设置</a></li>
+			<li><a class="menu_exit" href="javascript:;" id="dologin">退出面板</a></li>
+		</ul>
+	</div>

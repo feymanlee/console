@@ -1,0 +1,253 @@
+			<div class="main-content">
+				<div class="container-fluid">
+					<div class="pos-ser">
+						<div class="position">
+							<a href="/index.php">首页</a>/<span>系统安全</span>
+						</div>
+						<div class="search">
+							<form target="hid" onsubmit='getLogs(1,$("#SearchValue").prop("value"))'>
+								<input type="text" id="SearchValue" class="ser-text" placeholder="搜索日志" />
+								<button type="button" class="ser-sub"onclick='getLogs(1,$("#SearchValue").prop("value"))'></button>
+							</form>
+							<iframe name='hid' id="hid" style="display:none"></iframe>
+						</div>
+					</div>
+					<div class="safe container-fluid" style="overflow: hidden; margin-bottom: 15px;">
+						<div class="safe-screen pull-left">
+							<form>
+								<div class="ss-text">
+									<em>SSH服务状态：</em>
+									<select name="in_safe" id="in_safe" class="ss-input-select">
+										<option value="true" <?php if($ssh['status'] == 'true') echo 'selected'; ?> >启用</option>
+										<option value="false"<?php if($ssh['status'] != 'true') echo 'selected'; ?> >禁用</option>
+									</select>
+									<button onclick='SetMstscStatus(<?php if($ssh['status'] == 'true') {echo '1';}else{echo '0';} ?>)' class="btn btn-default btn-sm" type="button">确定</button>
+								</div>
+							</form>
+						</div>
+						
+						<div class="safe-port pull-left">
+								<div class="ss-text">
+									<em>SSH端口：</em>
+									<input type="text" class="sp-text" id="mstscPort" value="<?php echo trim($ssh['port']); ?>" <?php if($ssh['status'] != 'true') echo 'disabled'; ?> >
+								</div>
+								<div class="ss-text">
+									<button onclick='mstsc($("#mstscPort").prop("value"))' class="btn btn-default btn-sm" type="button" <?php if($ssh['status'] != 'true') echo 'disabled'; ?> >更改</button>
+								</div>
+						</div>
+						<div class="safe-port pull-left" style="padding-left:50px; border-left:#ccc 1px solid; margin-right:0">
+							<div class="ss-text">
+								<?php if($_SESSION['config']['ping'] == 'true'){ ?>
+									<button type="button" class="btn btn-warning btn-xs" style="display: inline-block;float: none;margin: 0 0 0 3px;padding: 0 8px;width: auto;" onclick="ping(0)">禁ping</button>
+								<?php }else{ ?>
+									<button type="button" class="btn btn-warning btn-xs" style="display: inline-block;float: none;margin: 0 0 0 3px;padding: 0 8px;width: auto;" onclick="ping(1)">解禁ping</button>
+								<?php } ?>
+							</div>
+						</div>
+						
+						
+					</div>
+					<div class="white-black-ip">
+						<div class="black-ip">
+							<div class="def-log">
+								<div class="def-log-title">
+									<h3 class="dlt-h3">
+										防火墙</h3>
+									<input type="text" class="dlt-text" style="width: 60px;" id="AcceptPort" placeholder="端口">
+									<input type="text" class="dlt-text" id="Ps" placeholder="备注/说明">
+									<button onclick="AddAcceptPort()" class="btn btn-default btn-sm" type="button">放行</button>
+								</div>
+								<div class="divtable">
+									<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table table-hover">
+										<thead>
+										<tr>
+											<th>编号</th>
+											<th>端口</th>
+											<th>添加时间</th>
+											<th>说明</th>
+											<th width="50px" class="text-right">操作</th>
+										</tr>
+										</thead>
+										<tbody id="firewallBody"></tbody>
+									</table>
+									<div class="dataTables_paginate paging_bootstrap pagination">
+										<ul id="firewallPage" class="page"></ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="white-black-ip">
+						<div class="black-ip">
+							<div class="def-log">
+								<div class="def-log-title">
+									<h3 class="dlt-h3">
+										操作日志</h3>
+								</div>
+								<div class="divtable">
+									<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table table-hover">
+										<thead>
+										<tr>
+											<th>编号</th>
+											<th>操作类型</th>
+											<th>详情</th>
+											<th>操作时间</th>
+										</tr>
+										</thead>
+										<tbody id="logsBody"></tbody>
+									</table>
+									<div class="dataTables_paginate paging_bootstrap pagination">
+										<ul id="logsPage" class="page"></ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> 
+		<script type="text/javascript">
+			$(function(){
+				$( "#spinner1" ).spinner({min:0});
+				$( "#spinner2" ).spinner({min:0});
+				$( "#spinner3" ).spinner({min:0});
+				$('.tacticsNum').mouseover(function(){
+					var titletips = $(this).attr("data-title");
+				    layer.tips(titletips, this, {
+					    tips: [1, '#3c8dbc'],
+					    time:0
+					})
+				})
+				$('.tacticsNum').mouseout(function(){
+					$(".layui-layer-tips").remove();
+				})
+			});
+			ShowAccept(1);
+			//设置远程服务状态
+			function SetMstscStatus(status){
+				status = $("#in_safe").val()=='true'?0:1;
+				
+				var msg = status==1?'停用SSH服务的同时也将注销所有已登陆用户,继续吗？':'确定启用SSH服务吗？';
+				layer.confirm(msg,{title:'警告',icon:7},function(index){
+					if(index > 0){
+						layer.msg('正在处理……',{icon:16,time:20000});
+						$.get('/firewall.php?action=SetSshStatus&status='+status,function(rdata){
+							layer.closeAll();
+							layer.msg(rdata.msg,{icon:rdata.status?1:2});
+							refresh();
+						})
+					}
+				})
+			}
+			
+			/**
+			 * 取回数据
+			 * @param {Int} page  分页号
+			 */
+			function ShowAccept(page,search) {
+				search = search == undefined ? '':search;
+				var loadT = layer.load();
+				$.get('/Ajax.php?action=getData&tab=firewall&tojs=ShowAccept&limit=10&p=' + page+"&search="+search, function(data) {
+					layer.close(loadT);
+					var Body = '';
+					for (var i = 0; i < data.data.length; i++) {
+						Body += "<tr>\
+										<td><em class='dlt-num'>" + data.data[i].id + "</em></td>\
+										<td>" + data.data[i].port + "</td>\
+										<td>" + data.data[i].addtime + "</td>\
+										<td>" + data.data[i].ps + "</td>\
+										<td class='text-right'><a href='javascript:;' class='link' onclick=\"DelAcceptPort(" + data.data[i].id + ",'" + data.data[i].port + "')\">删除</a></td>\
+									</tr>";
+					}
+					$("#firewallBody").html(Body);
+					$("#firewallPage").html(data.page);
+				})
+			}
+			
+			//添加放行
+			function AddAcceptPort(){
+				var port = $("#AcceptPort").val();
+				var ps = $("#Ps").val();
+				if(isNaN(port) == true || port < 1 || port >= 65535){
+					layer.msg("请填写正确的端口!",{icon:2});
+					$("#AcceptPort").focus();
+					return;
+				}
+				
+				if(ps.length < 1){
+					layer.msg("备注/说明 不能为空!",{icon:2});
+					$("#Ps").focus();
+					return;
+				}
+				layer.load();
+				$.get('/firewall.php?action=AddAcceptPort&port='+port+"&ps="+ps,function(rdata){
+					layer.closeAll();
+					if(rdata.status == true || rdata.status == 'true'){
+						layer.msg("已成功放行: "+port+" 端口!",{icon:1});
+						ShowAccept(1);
+					}else{
+						layer.msg('防火墙连接失败,请检查是否启用 Fiewalld',{icon:2});
+					}
+					
+					$("#AcceptPort").attr('value',"");
+					$("#Ps").attr('value',"");
+				})
+				
+			}
+			
+			//删除放行
+			function DelAcceptPort(id, port) {
+				if(port == '888'){
+					layer.msg("抱歉，不能删除WEB面板专用端口!", {icon: 5});
+					return;
+				}
+				layer.confirm("您真的要删除"+port+"端口的放行吗？", {
+					title: '删除端口施行'
+				}, function(index) {
+					if (index > 0) {
+						var loadT = layer.load({
+							shade: true,
+							shadeClose: false
+						});
+						$.get("/firewall.php?action=DelAcceptPort&id=" + id + "&port=" + port, function(ret) {
+							if (ret.status == true || ret.status == "true") {
+								layer.msg("删除成功", {
+									icon: 1
+								});
+								ShowAccept(1);
+							} else {
+								layer.msg("删除失败!", {
+									icon: 5
+								});
+							}
+							layer.close(loadT);
+						});
+					}
+				});
+			}
+		</script>
+		<script type="text/javascript">
+		getLogs();
+		/**
+		 * 取回数据
+		 * @param {Int} page  分页号
+		 */
+		function getLogs(page,search) {
+			search = search == undefined ? '':search;
+			var loadT = layer.load();
+			$.get('/Ajax.php?action=getData&tab=logs&tojs=getLogs&limit=10&p=' + page+"&search="+search, function(data) {
+				layer.close(loadT);
+				var Body = '';
+				for (var i = 0; i < data.data.length; i++) {
+					Body += "<tr>\
+									<td><em class='dlt-num'>" + data.data[i].id + "</em></td>\
+									<td>" + data.data[i].type + "</td>\
+									<td>" + data.data[i].log + "</td>\
+									<td>" + data.data[i].addtime + "</td>\
+								</tr>";
+				}
+				$("#logsBody").html(Body);
+				$("#logsPage").html(data.page);
+			})
+		}
+		</script>
