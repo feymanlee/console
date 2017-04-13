@@ -39,25 +39,25 @@ class PMA_Menu_Test extends PHPUnit_Framework_TestCase
         if (!defined('PMA_IS_WINDOWS')) {
             define('PMA_IS_WINDOWS', false);
         }
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['server'] = 0;
-        $GLOBALS['cfg']['ServerDefault'] = 1;
-        $GLOBALS['cfg']['Server']['verbose'] = 'verbose host';
+        $GLOBALS['cfg']['Server']['DisableIS']      = false;
+        $GLOBALS['server']                          = 0;
+        $GLOBALS['cfg']['ServerDefault']            = 1;
+        $GLOBALS['cfg']['Server']['verbose']        = 'verbose host';
         $GLOBALS['cfg']['TableNavigationLinksMode'] = 'both';
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
-        $GLOBALS['pmaThemePath'] = $_SESSION['PMA_Theme']->getPath();
-        $GLOBALS['pmaThemeImage'] = 'theme/';
-        $GLOBALS['cfg']['DefaultTabServer'] = 'main.php';
-        $GLOBALS['cfg']['DefaultTabDatabase'] = 'db_structure.php';
-        $GLOBALS['cfg']['DefaultTabTable'] = 'sql.php';
-        $GLOBALS['cfg']['OBGzip'] = false;
-        $GLOBALS['cfg']['NaturalOrder'] = true;
-        $GLOBALS['cfg']['TabsMode'] = 'both';
-        $GLOBALS['cfg']['DBG']['sql'] = false;
-        $GLOBALS['PMA_PHP_SELF'] = PMA_getenv('PHP_SELF');
-        $GLOBALS['server'] = 'server';
-        $GLOBALS['db'] = 'pma_test';
-        $GLOBALS['table'] = 'table1';
+        $_SESSION['PMA_Theme']                      = new PMA_Theme();
+        $GLOBALS['pmaThemePath']                    = $_SESSION['PMA_Theme']->getPath();
+        $GLOBALS['pmaThemeImage']                   = 'theme/';
+        $GLOBALS['cfg']['DefaultTabServer']         = 'main.php';
+        $GLOBALS['cfg']['DefaultTabDatabase']       = 'db_structure.php';
+        $GLOBALS['cfg']['DefaultTabTable']          = 'sql.php';
+        $GLOBALS['cfg']['OBGzip']                   = false;
+        $GLOBALS['cfg']['NaturalOrder']             = true;
+        $GLOBALS['cfg']['TabsMode']                 = 'both';
+        $GLOBALS['cfg']['DBG']['sql']               = false;
+        $GLOBALS['PMA_PHP_SELF']                    = PMA_getenv('PHP_SELF');
+        $GLOBALS['server']                          = 'server';
+        $GLOBALS['db']                              = 'pma_test';
+        $GLOBALS['table']                           = 'table1';
     }
 
     /**

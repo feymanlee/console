@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -24,7 +24,7 @@ define('PMA_PDF_FONT', 'DejaVuSans');
 class PMA_PDF extends TCPDF
 {
     var $footerset;
-    var $Alias = array();
+    var $Alias = [];
 
     /**
      * Constructs PDF and configures standard parameters.
@@ -41,7 +41,7 @@ class PMA_PDF extends TCPDF
      * @access public
      */
     public function __construct($orientation = 'P', $unit = 'mm', $format = 'A4',
-        $unicode = true, $encoding = 'UTF-8', $diskcache = false, $pdfa=false
+        $unicode = true, $encoding = 'UTF-8', $diskcache = false, $pdfa = false
     ) {
         parent::__construct(
             $orientation, $unit, $format, $unicode,
@@ -51,7 +51,7 @@ class PMA_PDF extends TCPDF
         $this->AddFont('DejaVuSans', '', 'dejavusans.php');
         $this->AddFont('DejaVuSans', 'B', 'dejavusansb.php');
         $this->SetFont(PMA_PDF_FONT, '', 14);
-        $this->setFooterFont(array(PMA_PDF_FONT, '', 14));
+        $this->setFooterFont([PMA_PDF_FONT, '', 14]);
     }
 
     /**
@@ -68,7 +68,7 @@ class PMA_PDF extends TCPDF
             $this->Cell(
                 0, 6,
                 __('Page number:') . ' '
-                . $this->getAliasNumPage() . '/' .  $this->getAliasNbPages(),
+                . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(),
                 'T', 0, 'C'
             );
             $this->Cell(0, 6, PMA_Util::localisedDate(), 0, 1, 'R');
@@ -89,7 +89,7 @@ class PMA_PDF extends TCPDF
      */
     function SetAlias($name, $value)
     {
-        $name = TCPDF_FONTS::UTF8ToUTF16BE(
+        $name               = TCPDF_FONTS::UTF8ToUTF16BE(
             $name, false, true, $this->CurrentFont
         );
         $this->Alias[$name] = TCPDF_FONTS::UTF8ToUTF16BE(
@@ -142,7 +142,8 @@ class PMA_PDF extends TCPDF
         PMA_downloadHeader(
             $filename,
             'application/pdf',
-            /*overload*/mb_strlen($pdfData)
+            /*overload*/
+            mb_strlen($pdfData)
         );
         echo $pdfData;
     }

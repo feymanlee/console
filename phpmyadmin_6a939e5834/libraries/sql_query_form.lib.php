@@ -10,7 +10,7 @@
  * @usedby  tbl_tracking.php
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -42,7 +42,7 @@ function PMA_getHtmlForSqlQueryForm(
     $query = true, $display_tab = false, $delimiter = ';'
 ) {
     $html = '';
-    if (! $display_tab) {
+    if (!$display_tab) {
         $display_tab = 'full';
     }
     // query to show
@@ -57,22 +57,22 @@ function PMA_getHtmlForSqlQueryForm(
         $enctype = '';
     }
 
-    $table  = '';
-    $db     = '';
+    $table = '';
+    $db    = '';
     if (! /*overload*/mb_strlen($GLOBALS['db'])) {
         // prepare for server related
-        $goto   = empty($GLOBALS['goto']) ?
-                    'server_sql.php' : $GLOBALS['goto'];
+        $goto = empty($GLOBALS['goto']) ?
+            'server_sql.php' : $GLOBALS['goto'];
     } elseif (! /*overload*/mb_strlen($GLOBALS['table'])) {
         // prepare for db related
-        $db     = $GLOBALS['db'];
-        $goto   = empty($GLOBALS['goto']) ?
-                    'db_sql.php' : $GLOBALS['goto'];
+        $db   = $GLOBALS['db'];
+        $goto = empty($GLOBALS['goto']) ?
+            'db_sql.php' : $GLOBALS['goto'];
     } else {
-        $table  = $GLOBALS['table'];
-        $db     = $GLOBALS['db'];
-        $goto   = empty($GLOBALS['goto']) ?
-                    'tbl_sql.php' : $GLOBALS['goto'];
+        $table = $GLOBALS['table'];
+        $db    = $GLOBALS['db'];
+        $goto  = empty($GLOBALS['goto']) ?
+            'tbl_sql.php' : $GLOBALS['goto'];
     }
 
     // start output
@@ -144,25 +144,25 @@ function PMA_getHtmlForSqlQueryFormInsert(
     }
 
     $locking = '';
-    $height = $GLOBALS['cfg']['TextareaRows'] * 2;
+    $height  = $GLOBALS['cfg']['TextareaRows'] * 2;
 
-    $fields_list    = array();
+    $fields_list = [];
     if (! /*overload*/mb_strlen($GLOBALS['db'])) {
         // prepare for server related
         $legend = sprintf(
             __('Run SQL query/queries on server %s'),
             '&quot;' . htmlspecialchars(
-                ! empty($GLOBALS['cfg']['Servers'][$GLOBALS['server']]['verbose'])
-                ? $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['verbose']
-                : $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['host']
+                !empty($GLOBALS['cfg']['Servers'][$GLOBALS['server']]['verbose'])
+                    ? $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['verbose']
+                    : $GLOBALS['cfg']['Servers'][$GLOBALS['server']]['host']
             ) . '&quot;'
         );
     } elseif (! /*overload*/mb_strlen($GLOBALS['table'])) {
         // prepare for db related
-        $db     = $GLOBALS['db'];
+        $db = $GLOBALS['db'];
         // if you want navigation:
         $tmp_db_link = '<a href="' . $GLOBALS['cfg']['DefaultTabDatabase']
-            . PMA_URL_getCommon(array('db' => $db)) . '"';
+            . PMA_URL_getCommon(['db' => $db]) . '"';
         $tmp_db_link .= '>'
             . htmlspecialchars($db) . '</a>';
         // else use
@@ -174,8 +174,8 @@ function PMA_getHtmlForSqlQueryFormInsert(
             );
         }
     } else {
-        $db     = $GLOBALS['db'];
-        $table  = $GLOBALS['table'];
+        $db    = $GLOBALS['db'];
+        $table = $GLOBALS['table'];
         // Get the list and number of fields
         // we do a try_query here, because we could be in the query window,
         // trying to synchronize and the table has not yet been created
@@ -184,7 +184,7 @@ function PMA_getHtmlForSqlQueryFormInsert(
         );
 
         $tmp_tbl_link = '<a href="' . $GLOBALS['cfg']['DefaultTabTable']
-            . PMA_URL_getCommon(array('db' => $db, 'table' => $table)) . '"';
+            . PMA_URL_getCommon(['db' => $db, 'table' => $table]) . '"';
         $tmp_tbl_link .= '>' . htmlspecialchars($db)
             . '.' . htmlspecialchars($table) . '</a>';
         // else use
@@ -252,7 +252,8 @@ function PMA_getHtmlForSqlQueryFormInsert(
             $html .= '<option value="'
                 . PMA_Util::backquote(htmlspecialchars($field['Field'])) . '"';
             if (isset($field['Field'])
-                && /*overload*/mb_strlen($field['Field'])
+                && /*overload*/
+                mb_strlen($field['Field'])
                 && isset($field['Comment'])
             ) {
                 $html .= ' title="' . htmlspecialchars($field['Comment']) . '"';
@@ -354,11 +355,11 @@ function PMA_getHtmlForSqlQueryFormInsert(
 function PMA_getHtmlForSqlQueryFormBookmark()
 {
     $bookmark_list = PMA_Bookmark_getList($GLOBALS['db']);
-    if (! $bookmark_list || count($bookmark_list) < 1) {
+    if (!$bookmark_list || count($bookmark_list) < 1) {
         return null;
     }
 
-    $html  = '<fieldset id="fieldsetBookmarkOptions">';
+    $html = '<fieldset id="fieldsetBookmarkOptions">';
     $html .= '<legend>';
     $html .= __('Bookmarked SQL query') . '</legend>' . "\n";
     $html .= '<div class="formelement">';
@@ -414,7 +415,7 @@ function PMA_getHtmlForSqlQueryFormUpload()
 {
     global $timeout_passed, $local_import_file;
 
-    $errors = array();
+    $errors = [];
 
     // we allow only SQL here
     $matcher = '@\.sql(\.(' . PMA_supportedDecompressions() . '))?$@';
@@ -423,15 +424,15 @@ function PMA_getHtmlForSqlQueryFormUpload()
         $files = PMA_getFileSelectOptions(
             PMA_Util::userDir($GLOBALS['cfg']['UploadDir']), $matcher,
             (isset($timeout_passed) && $timeout_passed && isset($local_import_file))
-            ? $local_import_file
-            : ''
+                ? $local_import_file
+                : ''
         );
     } else {
         $files = '';
     }
 
     // start output
-    $html  = '<fieldset id="">';
+    $html = '<fieldset id="">';
     $html .= '<legend>';
     $html .= __('Browse your computer:') . '</legend>';
     $html .= '<div class="formelement">';
@@ -475,4 +476,5 @@ function PMA_getHtmlForSqlQueryFormUpload()
 
     return $html;
 }
+
 ?>

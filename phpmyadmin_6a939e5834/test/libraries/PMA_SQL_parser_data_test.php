@@ -33,7 +33,7 @@ class PMA_SQLParser_Data_Test extends PHPUnit_Framework_TestCase
         $copy = $array;
         sort($copy);
         $difference = array_diff_assoc($array, $copy);
-        $this->assertEquals($difference, array());
+        $this->assertEquals($difference, []);
     }
 
     /**

@@ -22,25 +22,25 @@ PMA_Response::getInstance()->disable();
 header('Content-type: application/json; charset=UTF-8');
 
 $versionInformation = new VersionInformation();
-$versionDetails = $versionInformation->getLatestVersion();
+$versionDetails     = $versionInformation->getLatestVersion();
 
 if (empty($versionDetails)) {
-    echo json_encode(array());
+    echo json_encode([]);
 } else {
     $latestCompatible = $versionInformation->getLatestCompatibleVersion(
         $versionDetails->releases
     );
-    $version = '';
-    $date = '';
+    $version          = '';
+    $date             = '';
     if ($latestCompatible != null) {
         $version = $latestCompatible['version'];
-        $date = $latestCompatible['date'];
+        $date    = $latestCompatible['date'];
     }
     echo json_encode(
-        array(
-            'version' => (! empty($version) ? $version : ''),
-            'date' => (! empty($date) ? $date : ''),
-        )
+        [
+            'version' => (!empty($version) ? $version : ''),
+            'date'    => (!empty($date) ? $date : ''),
+        ]
     );
 }
 

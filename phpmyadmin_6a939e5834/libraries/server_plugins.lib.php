@@ -8,7 +8,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -23,7 +23,7 @@ if (! defined('PHPMYADMIN')) {
  */
 function PMA_getPluginAndModuleInfo($plugins, $modules)
 {
-    $html  = '<script type="text/javascript">';
+    $html = '<script type="text/javascript">';
     $html .= 'pma_theme_image = "' . $GLOBALS['pmaThemeImage'] . '"';
     $html .= '</script>';
     $html .= '<div id="pluginsTabs">';
@@ -34,6 +34,7 @@ function PMA_getPluginAndModuleInfo($plugins, $modules)
     $html .= PMA_getPluginTab($plugins);
     $html .= PMA_getModuleTab($modules);
     $html .= '</div>';
+
     return $html;
 }
 
@@ -46,12 +47,13 @@ function PMA_getPluginAndModuleInfo($plugins, $modules)
  */
 function PMA_getPluginTab($plugins)
 {
-    $html  = '<div id="plugins_plugins">';
+    $html = '<div id="plugins_plugins">';
     $html .= '<div id="sectionlinks">';
 
     foreach ($plugins as $plugin_type => $plugin_list) {
         $key = 'plugins-'
-            . preg_replace('/[^a-z]/', '', /*overload*/mb_strtolower($plugin_type));
+            . preg_replace('/[^a-z]/', '', /*overload*/
+                mb_strtolower($plugin_type));
         $html .= '<a href="#' . $key . '">'
             . htmlspecialchars($plugin_type) . '</a>' . "\n";
     }
@@ -61,16 +63,17 @@ function PMA_getPluginTab($plugins)
 
     foreach ($plugins as $plugin_type => $plugin_list) {
         $key = 'plugins-'
-            . preg_replace('/[^a-z]/', '', /*overload*/mb_strtolower($plugin_type));
+            . preg_replace('/[^a-z]/', '', /*overload*/
+                mb_strtolower($plugin_type));
         sort($plugin_list);
 
         $html .= '<table class="data_full_width" id="' . $key . '">';
         $html .= '<caption class="tblHeaders">';
         $html .= '<a class="top" href="#serverinfo">';
-        $html .=  __('Begin');
-        $html .=  PMA_Util::getImage('s_asc.png');
+        $html .= __('Begin');
+        $html .= PMA_Util::getImage('s_asc.png');
         $html .= '</a>';
-        $html .=  htmlspecialchars($plugin_type);
+        $html .= htmlspecialchars($plugin_type);
         $html .= '</caption>';
         $html .= '<thead>';
         $html .= '<tr>';
@@ -78,7 +81,7 @@ function PMA_getPluginTab($plugins)
         $html .= '<th>' . __('Module') . '</th>';
         $html .= '<th>' . __('Library') . '</th>';
         $html .= '<th>' . __('Version') . '</th>';
-        $html .= '<th>' .  __('Author') . '</th>';
+        $html .= '<th>' . __('Author') . '</th>';
         $html .= '<th>' . __('License') . '</th>';
         $html .= '</tr>';
         $html .= '</thead>';
@@ -90,6 +93,7 @@ function PMA_getPluginTab($plugins)
         $html .= '</table>';
     }
     $html .= '</div>';
+
     return $html;
 }
 
@@ -102,7 +106,7 @@ function PMA_getPluginTab($plugins)
  */
 function PMA_getPluginList($plugin_list)
 {
-    $html = "";
+    $html    = "";
     $odd_row = false;
     foreach ($plugin_list as $plugin) {
         $odd_row = !$odd_row;
@@ -115,6 +119,7 @@ function PMA_getPluginList($plugin_list)
         $html .= '<td>' . htmlspecialchars($plugin['module_license']) . '</td>';
         $html .= '</tr>';
     }
+
     return $html;
 }
 
@@ -127,7 +132,7 @@ function PMA_getPluginList($plugin_list)
  */
 function PMA_getModuleTab($modules)
 {
-    $html  = '<div id="plugins_modules">';
+    $html = '<div id="plugins_modules">';
     $html .= '<table class="data_full_width">';
     $html .= '<thead>';
     $html .= '<tr>';
@@ -145,6 +150,7 @@ function PMA_getModuleTab($modules)
     $html .= '</tbody>';
     $html .= '</table>';
     $html .= '</div>';
+
     return $html;
 }
 
@@ -157,22 +163,22 @@ function PMA_getModuleTab($modules)
  */
 function PMA_getModuleList($modules)
 {
-    $html = "";
+    $html    = "";
     $odd_row = false;
     foreach ($modules as $module_name => $module) {
         $odd_row = !$odd_row;
         $html .= '<tr class="noclick ' . ($odd_row ? 'odd' : 'even') . '">';
         $html .= '<th rowspan="2">' . htmlspecialchars($module_name) . '</th>';
         $html .= '<td>' . htmlspecialchars($module['info']['module_description'])
-            .    '</td>';
+            . '</td>';
         $html .= '<td>' . htmlspecialchars($module['info']['module_library'])
-            .    '</td>';
+            . '</td>';
         $html .= '<td>' . htmlspecialchars($module['info']['module_version'])
-            .    '</td>';
+            . '</td>';
         $html .= '<td>' . htmlspecialchars($module['info']['module_author'])
-            .    '</td>';
+            . '</td>';
         $html .= '<td>' . htmlspecialchars($module['info']['module_license'])
-            .    '</td>';
+            . '</td>';
         $html .= '</tr>';
         $html .= '<tr class="noclick ' . ($odd_row ? 'odd' : 'even') . '">';
         $html .= '<td colspan="5">';
@@ -189,7 +195,7 @@ function PMA_getModuleList($modules)
                     . htmlspecialchars($plugin_list[$i]['plugin_name']);
                 if (!$plugin_list[$i]['is_active']) {
                     $html .= ' <small class="attention">' . __('disabled')
-                        .    '</small>';
+                        . '</small>';
                 }
             }
             $html .= '</td>';
@@ -201,6 +207,7 @@ function PMA_getModuleList($modules)
         $html .= '</td>';
         $html .= '</tr>';
     }
+
     return $html;
 }
 

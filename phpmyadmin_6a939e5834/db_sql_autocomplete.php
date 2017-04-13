@@ -8,8 +8,8 @@
 
 require_once 'libraries/common.inc.php';
 
-$db = isset($_POST['db']) ? $_POST['db'] : $GLOBALS['db'];
-$sql_autocomplete = array();
+$db               = isset($_POST['db']) ? $_POST['db'] : $GLOBALS['db'];
+$sql_autocomplete = [];
 
 if ($db) {
     $tableNames = $GLOBALS['dbi']->getTables($db);

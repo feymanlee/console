@@ -24,7 +24,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -44,7 +44,7 @@ $is_create_table_priv = true;
  */
 function PMA_getHtmlForCreateTable($db)
 {
-    $html  = '<form id="create_table_form_minimal" method="post" '
+    $html = '<form id="create_table_form_minimal" method="post" '
         . 'action="tbl_create.php">';
     $html .= '<fieldset>';
     $html .= '<legend>';

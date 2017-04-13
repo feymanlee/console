@@ -4,7 +4,7 @@
  ** Test for PMA_Util::expandUserString from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -31,12 +31,12 @@ class PMA_ExpandUserString_Test extends PHPUnit_Framework_TestCase
     {
         $GLOBALS['PMA_Config'] = new PMA_Config();
         $GLOBALS['PMA_Config']->enableBc();
-        $GLOBALS['cfg'] = array(
-            'Server' => array(
-                'host' => 'host&',
+        $GLOBALS['cfg']   = [
+            'Server' => [
+                'host'    => 'host&',
                 'verbose' => 'verbose',
-                ));
-        $GLOBALS['db'] = 'database';
+            ]];
+        $GLOBALS['db']    = 'database';
         $GLOBALS['table'] = 'table';
     }
 
@@ -86,13 +86,13 @@ class PMA_ExpandUserString_Test extends PHPUnit_Framework_TestCase
      */
     public function provider()
     {
-        return array(
-            array('@SERVER@', 'host&'),
-            array('@VSERVER@', 'verbose'),
-            array('@DATABASE@', 'database'),
-            array('@TABLE@', 'table'),
-            array('@IGNORE@', '@IGNORE@'),
-            array('@PHPMYADMIN@', 'phpMyAdmin PMA_VERSION'),
-            );
+        return [
+            ['@SERVER@', 'host&'],
+            ['@VSERVER@', 'verbose'],
+            ['@DATABASE@', 'database'],
+            ['@TABLE@', 'table'],
+            ['@IGNORE@', '@IGNORE@'],
+            ['@PHPMYADMIN@', 'phpMyAdmin PMA_VERSION'],
+        ];
     }
 }

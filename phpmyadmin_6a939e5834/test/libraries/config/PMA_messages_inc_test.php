@@ -35,13 +35,13 @@ class PMA_MessagesIncTest extends PHPUnit_Framework_TestCase
      */
     function testMessages()
     {
-        $strConfigAllowArbitraryServer_name = '';
-        $strConfigAllowThirdPartyFraming_name = '';
-        $strConfigblowfish_secret_name = '';
+        $strConfigAllowArbitraryServer_name              = '';
+        $strConfigAllowThirdPartyFraming_name            = '';
+        $strConfigblowfish_secret_name                   = '';
         $strConfigExport_htmlword_structure_or_data_name = '';
-        $strConfigForm_TableStructure = '';
-        $strConfigSQLQuery_Explain_name = '';
-        $strConfigSendErrorReports_name = '';
+        $strConfigForm_TableStructure                    = '';
+        $strConfigSQLQuery_Explain_name                  = '';
+        $strConfigSendErrorReports_name                  = '';
 
         include_once 'libraries/config/messages.inc.php';
 
@@ -75,4 +75,5 @@ class PMA_MessagesIncTest extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

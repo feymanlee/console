@@ -31,39 +31,39 @@ require_once 'libraries/sqlparser.lib.php';
  */
 class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
 {
-    private $_columnData = array(
-        array(
-            'col_name' => "id", "col_type" => 'integer',
-            'col_length' => 0, 'col_isNull' => 0, 'col_extra' => 'UNSIGNED,auto_increment',
-            'col_default' => 1
-        ),
-        array('col_name' => "col1", 'col_type' => 'varchar',
-            'col_length' => 100, 'col_isNull' => 1, 'col_extra' => 'BINARY',
-            'col_default' => 1
-        ),
-        array(
-            'col_name' => "col2", 'col_type' => 'DATETIME',
-            'col_length' => 0, 'col_isNull' => 1, 'col_extra' => 'on update CURRENT_TIMESTAMP',
-            'col_default' => 'CURRENT_TIMESTAMP'
-        )
-    );
+    private $_columnData = [
+        [
+            'col_name'    => "id", "col_type" => 'integer',
+            'col_length'  => 0, 'col_isNull' => 0, 'col_extra' => 'UNSIGNED,auto_increment',
+            'col_default' => 1,
+        ],
+        ['col_name'    => "col1", 'col_type' => 'varchar',
+         'col_length'  => 100, 'col_isNull' => 1, 'col_extra' => 'BINARY',
+         'col_default' => 1,
+        ],
+        [
+            'col_name'    => "col2", 'col_type' => 'DATETIME',
+            'col_length'  => 0, 'col_isNull' => 1, 'col_extra' => 'on update CURRENT_TIMESTAMP',
+            'col_default' => 'CURRENT_TIMESTAMP',
+        ],
+    ];
 
-    private $_modifiedColumnData = array(
-        array(
-            'col_name' => "id", "col_type" => 'integer',
-            'col_length' => 0, 'col_isNull' => 0, 'col_extra' => 'auto_increment',
-            'col_default' => 1, 'col_attribute' => 'UNSIGNED'
-        ),
-        array('col_name' => "col1", 'col_type' => 'varchar',
-            'col_length' => 100, 'col_isNull' => 1, 'col_extra' => '',
-            'col_default' => 1, 'col_attribute' => 'BINARY'
-        ),
-        array(
-            'col_name' => "col2", 'col_type' => 'DATETIME',
-            'col_length' => 0, 'col_isNull' => 1, 'col_extra' => '',
-            'col_default' => 'CURRENT_TIMESTAMP', 'col_attribute' => 'on update CURRENT_TIMESTAMP'
-        )
-    );
+    private $_modifiedColumnData = [
+        [
+            'col_name'    => "id", "col_type" => 'integer',
+            'col_length'  => 0, 'col_isNull' => 0, 'col_extra' => 'auto_increment',
+            'col_default' => 1, 'col_attribute' => 'UNSIGNED',
+        ],
+        ['col_name'    => "col1", 'col_type' => 'varchar',
+         'col_length'  => 100, 'col_isNull' => 1, 'col_extra' => '',
+         'col_default' => 1, 'col_attribute' => 'BINARY',
+        ],
+        [
+            'col_name'    => "col2", 'col_type' => 'DATETIME',
+            'col_length'  => 0, 'col_isNull' => 1, 'col_extra' => '',
+            'col_default' => 'CURRENT_TIMESTAMP', 'col_attribute' => 'on update CURRENT_TIMESTAMP',
+        ],
+    ];
 
     /**
      * prepares environment for tests
@@ -72,32 +72,32 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $GLOBALS['PMA_Types'] = new PMA_Types_MySQL();
-        $GLOBALS['cfg']['Server']['user'] = 'pma_user';
+        $GLOBALS['PMA_Types']                  = new PMA_Types_MySQL();
+        $GLOBALS['cfg']['Server']['user']      = 'pma_user';
         $GLOBALS['cfg']['Server']['DisableIS'] = true;
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['cfg']['ServerDefault'] = "PMA_server";
-        $GLOBALS['cfg']['ActionLinksMode'] = 'icons';
-        $GLOBALS['pmaThemeImage'] = 'image';
-        $GLOBALS['cfg']['CharEditing'] = '';
-        $GLOBALS['cfg']['LimitChars'] = 50;
-        $GLOBALS['db'] = 'PMA_db';
-        $GLOBALS['table'] = 'PMA_table';
+        $GLOBALS['cfg']['MaxRows']             = 10;
+        $GLOBALS['cfg']['ServerDefault']       = "PMA_server";
+        $GLOBALS['cfg']['ActionLinksMode']     = 'icons';
+        $GLOBALS['pmaThemeImage']              = 'image';
+        $GLOBALS['cfg']['CharEditing']         = '';
+        $GLOBALS['cfg']['LimitChars']          = 50;
+        $GLOBALS['db']                         = 'PMA_db';
+        $GLOBALS['table']                      = 'PMA_table';
 
         //$_SESSION
-        $GLOBALS['server'] = 1;
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
-        $_SESSION['relation'][1] = array(
+        $GLOBALS['server']       = 1;
+        $_SESSION['PMA_Theme']   = PMA_Theme::load('./themes/pmahomme');
+        $_SESSION['PMA_Theme']   = new PMA_Theme();
+        $_SESSION['relation'][1] = [
             'central_columnswork' => true,
-            'relwork' => 1,
-            'db' => 'phpmyadmin',
-            'relation' => 'relation',
-            'central_columns' => 'pma_central_columns'
-        );
+            'relwork'             => 1,
+            'db'                  => 'phpmyadmin',
+            'relation'            => 'relation',
+            'central_columns'     => 'pma_central_columns',
+        ];
 
         // mock DBI
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi            = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $GLOBALS['dbi'] = $dbi;
@@ -110,23 +110,23 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
             ->method('getColumns')
             ->will(
                 $this->returnValue(
-                    array(
-                        "id"=>array("Type"=>"integer", "Null"=>"NO"),
-                        "col1"=>array("Type"=>'varchar(100)', "Null"=>"YES"),
-                        "col2"=>array("Type"=>'DATETIME', "Null"=>"NO")
-                    )
+                    [
+                        "id"   => ["Type" => "integer", "Null" => "NO"],
+                        "col1" => ["Type" => 'varchar(100)', "Null" => "YES"],
+                        "col2" => ["Type" => 'DATETIME', "Null" => "NO"],
+                    ]
                 )
             );
         $dbi->expects($this->any())
             ->method('getColumnNames')
-            ->will($this->returnValue(array("id", "col1", "col2")));
+            ->will($this->returnValue(["id", "col1", "col2"]));
         $dbi->expects($this->any())
             ->method('tryQuery')
             ->will($this->returnValue(true));
         $dbi->expects($this->any())
             ->method('getTables')
             ->will(
-                $this->returnValue(array("PMA_table", "PMA_table1", "PMA_table2"))
+                $this->returnValue(["PMA_table", "PMA_table1", "PMA_table2"])
             );
 
     }
@@ -139,11 +139,11 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
     public function testPMACentralColumnsGetParams()
     {
         $this->assertSame(
-            array(
-                'user' => 'pma_user',
-                'db' => 'phpmyadmin',
-                'table' => 'pma_central_columns'
-            ),
+            [
+                'user'  => 'pma_user',
+                'db'    => 'phpmyadmin',
+                'table' => 'pma_central_columns',
+            ],
             PMA_centralColumnsGetParams()
         );
     }
@@ -192,7 +192,7 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
             ->method('fetchResult')
             ->with("SELECT count(db_name) FROM `pma_central_columns` WHERE db_name = 'phpmyadmin';", null, null, $GLOBALS['controllink'])
             ->will(
-                $this->returnValue(array(3))
+                $this->returnValue([3])
             );
 
         $this->assertEquals(
@@ -208,11 +208,11 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMASyncUniqueColumns()
     {
-        $_REQUEST['db'] = 'PMA_db';
+        $_REQUEST['db']    = 'PMA_db';
         $_REQUEST['table'] = 'PMA_table';
 
         $this->assertTrue(
-            PMA_syncUniqueColumns(array('PMA_table'))
+            PMA_syncUniqueColumns(['PMA_table'])
         );
     }
 
@@ -223,7 +223,7 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMADeleteColumnsFromList()
     {
-        $_REQUEST['db'] = 'PMA_db';
+        $_REQUEST['db']    = 'PMA_db';
         $_REQUEST['table'] = 'PMA_table';
 
         // when column exists in the central column list
@@ -231,27 +231,27 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
             ->method('fetchResult')
             ->with("SELECT col_name FROM `pma_central_columns` WHERE db_name = 'PMA_db' AND col_name IN ('col1');", null, null, $GLOBALS['controllink'])
             ->will(
-                $this->returnValue(array('col1'))
+                $this->returnValue(['col1'])
             );
 
         $GLOBALS['dbi']->expects($this->at(4))
             ->method('tryQuery')
             ->with("DELETE FROM `pma_central_columns` WHERE db_name = 'PMA_db' AND col_name IN ('col1');", $GLOBALS['controllink'])
             ->will(
-                $this->returnValue(array('col1'))
+                $this->returnValue(['col1'])
             );
 
         $this->assertTrue(
-            PMA_deleteColumnsFromList(array("col1"), false)
+            PMA_deleteColumnsFromList(["col1"], false)
         );
 
         // when column does not exist in the central column list
         $this->assertInstanceOf(
-            'PMA_Message', PMA_deleteColumnsFromList(array('column1'), false)
+            'PMA_Message', PMA_deleteColumnsFromList(['column1'], false)
         );
 
         $this->assertInstanceOf(
-            'PMA_Message', PMA_deleteColumnsFromList(array('PMA_table'))
+            'PMA_Message', PMA_deleteColumnsFromList(['PMA_table'])
         );
     }
 
@@ -273,7 +273,7 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
                 $this->returnValue('PMA_table=CREATE table `PMA_table` (id integer)')
             );
         $this->assertTrue(
-            PMA_makeConsistentWithList("phpmyadmin", array('PMA_table'))
+            PMA_makeConsistentWithList("phpmyadmin", ['PMA_table'])
         );
     }
 
@@ -284,17 +284,17 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetCentralColumnsFromTable()
     {
-        $db = 'PMA_db';
+        $db    = 'PMA_db';
         $table = 'PMA_table';
 
         $GLOBALS['dbi']->expects($this->at(3))
             ->method('fetchResult')
             ->with("SELECT col_name FROM `pma_central_columns` WHERE db_name = 'PMA_db' AND col_name IN ('id','col1','col2');", null, null, $GLOBALS['controllink'])
             ->will(
-                $this->returnValue(array('id','col1'))
+                $this->returnValue(['id', 'col1'])
             );
         $this->assertEquals(
-            array("id", "col1"),
+            ["id", "col1"],
             PMA_getCentralColumnsFromTable($db, $table)
         );
     }
@@ -306,7 +306,7 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetCentralColumnsFromTableWithAllFields()
     {
-        $db = 'PMA_db';
+        $db    = 'PMA_db';
         $table = 'PMA_table';
 
         $GLOBALS['dbi']->expects($this->at(3))
@@ -330,12 +330,12 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
     {
         $this->assertTrue(
             PMA_updateOneColumn(
-                "phpmyadmin", "", "", "", "","", "", "", "", ""
+                "phpmyadmin", "", "", "", "", "", "", "", "", ""
             )
         );
         $this->assertTrue(
             PMA_updateOneColumn(
-                "phpmyadmin", "col1", "", "", "","", "", "", "", ""
+                "phpmyadmin", "col1", "", "", "", "", "", "", "", ""
             )
         );
     }
@@ -406,15 +406,15 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHTMLforCentralColumnsTableRow()
     {
-        $row = array(
-            'col_name'=>'col_test',
-            'col_type'=>'int',
-            'col_length'=>12,
-            'col_collation'=>'utf8_general_ci',
-            'col_isNull'=>1,
-            'col_extra'=> '',
-            'col_attribute'=>''
-        );
+        $row    = [
+            'col_name'      => 'col_test',
+            'col_type'      => 'int',
+            'col_length'    => 12,
+            'col_collation' => 'utf8_general_ci',
+            'col_isNull'    => 1,
+            'col_extra'     => '',
+            'col_attribute' => '',
+        ];
         $result = PMA_getHTMLforCentralColumnsTableRow($row, false, 1, 'phpmyadmin');
         $this->assertContains(
             '<tr',
@@ -438,30 +438,33 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
         );
         $this->assertContains(
             PMA_getHtmlForColumnDefault(
-                1, 6, 0, /*overload*/mb_strtoupper($row['col_type']), '',
-                array('DefaultType'=>'NONE')
+                1, 6, 0, /*overload*/
+                mb_strtoupper($row['col_type']), '',
+                ['DefaultType' => 'NONE']
             ),
             $result
         );
         $row['col_default'] = 100;
-        $result_1 = PMA_getHTMLforCentralColumnsTableRow(
+        $result_1           = PMA_getHTMLforCentralColumnsTableRow(
             $row, false, 1, 'phpmyadmin'
         );
         $this->assertContains(
             PMA_getHtmlForColumnDefault(
-                1, 6, 0, /*overload*/mb_strtoupper($row['col_type']), '',
-                array('DefaultType'=>'USER_DEFINED', 'DefaultValue'=>100)
+                1, 6, 0, /*overload*/
+                mb_strtoupper($row['col_type']), '',
+                ['DefaultType' => 'USER_DEFINED', 'DefaultValue' => 100]
             ),
             $result_1
         );
         $row['col_default'] = 'CURRENT_TIMESTAMP';
-        $result_2 = PMA_getHTMLforCentralColumnsTableRow(
+        $result_2           = PMA_getHTMLforCentralColumnsTableRow(
             $row, false, 1, 'phpmyadmin'
         );
         $this->assertContains(
             PMA_getHtmlForColumnDefault(
-                1, 6, 0, /*overload*/mb_strtoupper($row['col_type']), '',
-                array('DefaultType'=>'CURRENT_TIMESTAMP')
+                1, 6, 0, /*overload*/
+                mb_strtoupper($row['col_type']), '',
+                ['DefaultType' => 'CURRENT_TIMESTAMP']
             ),
             $result_2
         );
@@ -571,7 +574,7 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHTMLforTableDropdown()
     {
-        $db = 'PMA_db';
+        $db     = 'PMA_db';
         $result = PMA_getHTMLforTableDropdown($db);
         $this->assertContains(
             '<select name="table-select" id="table-select"',
@@ -590,9 +593,9 @@ class PMA_Central_Columns_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHTMLforColumnDropdown()
     {
-        $db = 'PMA_db';
+        $db           = 'PMA_db';
         $selected_tbl = 'PMA_table';
-        $result = PMA_getHTMLforColumnDropdown($db, $selected_tbl);
+        $result       = PMA_getHTMLforColumnDropdown($db, $selected_tbl);
         $this->assertEquals(
             '<option value="id">id</option><option value="col1">col1</option><option value="col2">col2</option>',
             $result

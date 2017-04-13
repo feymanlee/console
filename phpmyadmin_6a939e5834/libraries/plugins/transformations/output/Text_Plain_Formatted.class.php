@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage Formatted
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -42,4 +42,5 @@ class Text_Plain_Formatted extends FormattedTransformationsPlugin
         return "Plain";
     }
 }
+
 ?>

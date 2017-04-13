@@ -130,7 +130,7 @@ class PMA_SeleniumDbTriggersTest extends PMA_SeleniumBase
         // test trigger
         $this->dbQuery("INSERT INTO `test_table` (val) VALUES (1);");
         $result = $this->dbQuery("SELECT val FROM `test_table2`;");
-        $row = $result->fetch_assoc();
+        $row    = $result->fetch_assoc();
         $this->assertEquals(3, $row['val']);
     }
 
@@ -168,7 +168,7 @@ class PMA_SeleniumDbTriggersTest extends PMA_SeleniumBase
         // test trigger
         $this->dbQuery("INSERT INTO `test_table` (val) VALUES (1);");
         $result = $this->dbQuery("SELECT val FROM `test_table2`;");
-        $row = $result->fetch_assoc();
+        $row    = $result->fetch_assoc();
         $this->assertEquals(12, $row['val']);
     }
 

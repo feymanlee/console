@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -35,9 +35,9 @@ $GLOBALS['OpenDocumentNS']
 function PMA_createOpenDocument($mime, $data)
 {
     $zipfile = new ZipFile();
-    $zipfile -> addFile($mime, 'mimetype');
-    $zipfile -> addFile($data, 'content.xml');
-    $zipfile -> addFile(
+    $zipfile->addFile($mime, 'mimetype');
+    $zipfile->addFile($data, 'content.xml');
+    $zipfile->addFile(
         '<?xml version="1.0" encoding="UTF-8"?' . '>'
         . '<office:document-meta '
         . 'xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" '
@@ -53,7 +53,7 @@ function PMA_createOpenDocument($mime, $data)
         . '</office:document-meta>',
         'meta.xml'
     );
-    $zipfile -> addFile(
+    $zipfile->addFile(
         '<?xml version="1.0" encoding="UTF-8"?' . '>'
         . '<office:document-styles ' . $GLOBALS['OpenDocumentNS']
         . 'office:version="1.0">'
@@ -151,7 +151,7 @@ function PMA_createOpenDocument($mime, $data)
         . '</office:document-styles>',
         'styles.xml'
     );
-    $zipfile -> addFile(
+    $zipfile->addFile(
         '<?xml version="1.0" encoding="UTF-8"?' . '>'
         . '<manifest:manifest'
         . ' xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0">'
@@ -166,6 +166,8 @@ function PMA_createOpenDocument($mime, $data)
         . '</manifest:manifest>',
         'META-INF/manifest.xml'
     );
-    return $zipfile -> file();
+
+    return $zipfile->file();
 }
+
 ?>

@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -29,11 +29,11 @@ abstract class TableStats
     protected $tableDimension;
 
     public $displayfield;
-    public $fields = array();
-    public $primary = array();
+    public $fields  = [];
+    public $primary = [];
     public $x, $y;
 
-    public $width = 0;
+    public $width      = 0;
     public $heightCell = 0;
 
     protected $offline;
@@ -59,10 +59,10 @@ abstract class TableStats
         $this->pageNumber = $pageNumber;
         $this->tableName  = $tableName;
 
-        $this->showKeys   = $showKeys;
-        $this->tableDimension   = $tableDimension;
+        $this->showKeys       = $showKeys;
+        $this->tableDimension = $tableDimension;
 
-        $this->offline    = $offline;
+        $this->offline = $offline;
 
         // checks whether the table exists
         // and loads fields
@@ -82,17 +82,17 @@ abstract class TableStats
      */
     protected function validateTableAndLoadFields()
     {
-        $sql = 'DESCRIBE ' . PMA_Util::backquote($this->tableName);
+        $sql    = 'DESCRIBE ' . PMA_Util::backquote($this->tableName);
         $result = $GLOBALS['dbi']->tryQuery(
             $sql, null, PMA_DatabaseInterface::QUERY_STORE
         );
-        if (! $result || ! $GLOBALS['dbi']->numRows($result)) {
+        if (!$result || !$GLOBALS['dbi']->numRows($result)) {
             $this->showMissingTableError();
         }
 
         if ($this->showKeys) {
-            $indexes = PMA_Index::getFromTable($this->tableName, $this->db);
-            $all_columns = array();
+            $indexes     = PMA_Index::getFromTable($this->tableName, $this->db);
+            $all_columns = [];
             foreach ($indexes as $index) {
                 $all_columns = array_merge(
                     $all_columns,
@@ -124,8 +124,8 @@ abstract class TableStats
     {
         foreach ($_REQUEST['t_h'] as $key => $value) {
             if ($this->db . '.' . $this->tableName == $key) {
-                $this->x = (double) $_REQUEST['t_x'][$key];
-                $this->y = (double) $_REQUEST['t_y'][$key];
+                $this->x = (double)$_REQUEST['t_x'][$key];
+                $this->y = (double)$_REQUEST['t_y'][$key];
                 break;
             }
         }
@@ -170,10 +170,11 @@ abstract class TableStats
     protected function getTitle()
     {
         return ($this->tableDimension
-            ? sprintf('%.0fx%0.f', $this->width, $this->heightCell)
-            : ''
-        )
-        . ' ' . $this->tableName;
+                ? sprintf('%.0fx%0.f', $this->width, $this->heightCell)
+                : ''
+            )
+            . ' ' . $this->tableName;
     }
 }
+
 ?>

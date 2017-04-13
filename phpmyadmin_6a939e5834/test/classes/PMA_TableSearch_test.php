@@ -43,43 +43,43 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
          * SET these to avoid undefined index error
          */
         $_SESSION['PMA_Theme'] = new PMA_Theme();
-        $_POST['zoom_submit'] = 'zoom';
+        $_POST['zoom_submit']  = 'zoom';
 
-        $GLOBALS['server'] = 1;
-        $GLOBALS['PMA_PHP_SELF'] = 'index.php';
-        $GLOBALS['pmaThemeImage'] = 'themes/dot.gif';
+        $GLOBALS['server']          = 1;
+        $GLOBALS['PMA_PHP_SELF']    = 'index.php';
+        $GLOBALS['pmaThemeImage']   = 'themes/dot.gif';
         $GLOBALS['is_ajax_request'] = false;
-        $GLOBALS['cfgRelation'] = PMA_getRelationsParam();
-        $GLOBALS['PMA_Types'] = new PMA_Types_MySQL();
+        $GLOBALS['cfgRelation']     = PMA_getRelationsParam();
+        $GLOBALS['PMA_Types']       = new PMA_Types_MySQL();
 
-        $GLOBALS['cfg']['ServerDefault'] = 1;
-        $GLOBALS['cfg']['maxRowPlotLimit'] = 500;
+        $GLOBALS['cfg']['ServerDefault']       = 1;
+        $GLOBALS['cfg']['maxRowPlotLimit']     = 500;
         $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['cfg']['ServerDefault'] = 1;
-        $GLOBALS['cfg']['ActionLinksMode'] = 'both';
-        $GLOBALS['cfg']['ForeignKeyMaxLimit'] = 100;
+        $GLOBALS['cfg']['ServerDefault']       = 1;
+        $GLOBALS['cfg']['ActionLinksMode']     = 'both';
+        $GLOBALS['cfg']['ForeignKeyMaxLimit']  = 100;
         $GLOBALS['cfg']['InitialSlidersState'] = 'closed';
-        $GLOBALS['cfg']['MaxRows'] = 25;
-        $GLOBALS['cfg']['TabsMode'] = 'text';
+        $GLOBALS['cfg']['MaxRows']             = 25;
+        $GLOBALS['cfg']['TabsMode']            = 'text';
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $columns =array(
-            array(
-                'Field' => 'Field1',
-                'Type' => 'Type1',
-                'Null' => 'Null1',
+        $columns = [
+            [
+                'Field'     => 'Field1',
+                'Type'      => 'Type1',
+                'Null'      => 'Null1',
                 'Collation' => 'Collation1',
-            ),
-            array(
-                'Field' => 'Field2',
-                'Type' => 'Type2',
-                'Null' => 'Null2',
+            ],
+            [
+                'Field'     => 'Field2',
+                'Type'      => 'Type2',
+                'Null'      => 'Null2',
                 'Collation' => 'Collation2',
-            )
-        );
+            ],
+        ];
         $dbi->expects($this->any())->method('getColumns')
             ->will($this->returnValue($columns));
 
@@ -92,7 +92,7 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
         PRIMARY KEY (`id`),
         KEY `foreign_field` (`foreign_db`,`foreign_table`)
         ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin "
-        . "COMMENT='Bookmarks'";
+            . "COMMENT='Bookmarks'";
 
         $dbi->expects($this->any())->method('fetchValue')
             ->will($this->returnValue($show_create_table));
@@ -120,7 +120,7 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $tableSearch = new PMA_TableSearch("PMA", "PMA_BookMark", "normal");
-        $columNames = $tableSearch->getColumnNames();
+        $columNames  = $tableSearch->getColumnNames();
         $this->assertEquals(
             'Field1',
             $columNames[0]
@@ -141,8 +141,8 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
     {
         //$this->_searchType == 'zoom'
         $tableSearch = new PMA_TableSearch("PMA", "PMA_BookMark", "zoom");
-        $url_goto = "http://phpmyadmin.net";
-        $form = $tableSearch->getSelectionForm($url_goto);
+        $url_goto    = "http://phpmyadmin.net";
+        $form        = $tableSearch->getSelectionForm($url_goto);
         $this->assertContains(
             '<fieldset id="fieldset_zoom_search">',
             $form
@@ -154,8 +154,8 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
 
         //$this->_searchType == 'normal'
         $tableSearch = new PMA_TableSearch("PMA", "PMA_BookMark", "normal");
-        $url_goto = "http://phpmyadmin.net";
-        $form = $tableSearch->getSelectionForm($url_goto);
+        $url_goto    = "http://phpmyadmin.net";
+        $form        = $tableSearch->getSelectionForm($url_goto);
         $this->assertContains(
             '<fieldset id="fieldset_table_search">',
             $form
@@ -167,8 +167,8 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
 
         //$this->_searchType == 'replace'
         $tableSearch = new PMA_TableSearch("PMA", "PMA_BookMark", "replace");
-        $url_goto = "http://phpmyadmin.net";
-        $form = $tableSearch->getSelectionForm($url_goto);
+        $url_goto    = "http://phpmyadmin.net";
+        $form        = $tableSearch->getSelectionForm($url_goto);
         $this->assertContains(
             '<fieldset id="fieldset_find_replace">',
             $form
@@ -187,7 +187,7 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
     public function testGetSecondaryTabs()
     {
         $tableSearch = new PMA_TableSearch("PMA", "PMA_BookMark", "zoom");
-        $html = $tableSearch->getSecondaryTabs();
+        $html        = $tableSearch->getSecondaryTabs();
         $this->assertContains(
             '<ul id="topmenu2">',
             $html
@@ -215,9 +215,9 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
     public function testGetZoomResultsForm()
     {
         $tableSearch = new PMA_TableSearch("PMA", "PMA_BookMark", "zoom");
-        $goto = "http://phpmyadmin.net";
-        $data = array("PMAA" => "abc");
-        $html = $tableSearch->getZoomResultsForm($goto, $data);
+        $goto        = "http://phpmyadmin.net";
+        $data        = ["PMAA" => "abc"];
+        $html        = $tableSearch->getZoomResultsForm($goto, $data);
         $this->assertContains(
             '<legend>' . __('Browse/Edit the points') . '</legend>',
             $html
@@ -238,16 +238,16 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
     {
         $tableSearch = new PMA_TableSearch("PMA", "PMA_BookMark", "zoom");
         $columnIndex = 0;
-        $find = "Field";
+        $find        = "Field";
         $replaceWith = "Column";
-        $useRegex = false;
-        $charSet = "UTF-8";
+        $useRegex    = false;
+        $charSet     = "UTF-8";
         $tableSearch->replace(
             $columnIndex, $find, $replaceWith, $useRegex, $charSet
         );
 
         $sql_query = $GLOBALS['sql_query'];
-        $result = "UPDATE `PMA`.`PMA_BookMark` SET `Field1` = "
+        $result    = "UPDATE `PMA`.`PMA_BookMark` SET `Field1` = "
             . "REPLACE(`Field1`, 'Field', 'Column') "
             . "WHERE `Field1` LIKE '%Field%' COLLATE UTF-8_bin";
         $this->assertEquals(
@@ -264,7 +264,7 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
     public function testGetSearchAndReplaceHTML()
     {
         $tableSearch = new PMA_TableSearch("PMA", "PMA_BookMark", "zoom");
-        $html = $tableSearch->_getSearchAndReplaceHTML();
+        $html        = $tableSearch->_getSearchAndReplaceHTML();
         $this->assertContains(
             __('Find:'),
             $html
@@ -284,26 +284,26 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
     public function testGetReplacePreview()
     {
 
-        $value = array(
-                'value',
-                'replace_value',
-                'count'
-        );
+        $value = [
+            'value',
+            'replace_value',
+            'count',
+        ];
 
         $dbi = $GLOBALS['dbi'];
 
         $dbi->expects($this->once())
             ->method('fetchResult')
-            ->will($this->returnValue(array($value)));
+            ->will($this->returnValue([$value]));
 
         $GLOBALS['dbi'] = $dbi;
 
         $tableSearch = new PMA_TableSearch("PMA", "PMA_BookMark", "zoom");
         $columnIndex = 0;
-        $find = "Field";
+        $find        = "Field";
         $replaceWith = "Column";
-        $useRegex = false;
-        $charSet = "UTF-8";
+        $useRegex    = false;
+        $charSet     = "UTF-8";
 
         $html = $tableSearch->getReplacePreview(
             $columnIndex,
@@ -355,16 +355,16 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
      */
     public function testBuildSqlQueryw()
     {
-        $_POST['distinct'] = true;
-        $_POST['zoom_submit'] = true;
-        $_POST['table'] = "PMA";
-        $_POST['orderByColumn'] = "name";
-        $_POST['order'] = "asc";
+        $_POST['distinct']          = true;
+        $_POST['zoom_submit']       = true;
+        $_POST['table']             = "PMA";
+        $_POST['orderByColumn']     = "name";
+        $_POST['order']             = "asc";
         $_POST['customWhereClause'] = "name='pma'";
 
         $tableSearch = new PMA_TableSearch("PMA", "PMA_BookMark", "zoom");
 
-        $sql = $tableSearch->buildSqlQuery();
+        $sql    = $tableSearch->buildSqlQuery();
         $result = "SELECT DISTINCT *  FROM `PMA` WHERE name='pma' "
             . "ORDER BY `name` asc";
 
@@ -374,23 +374,23 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
         );
 
         unset($_POST['customWhereClause']);
-        $sql = $tableSearch->buildSqlQuery();
+        $sql    = $tableSearch->buildSqlQuery();
         $result = "SELECT DISTINCT *  FROM `PMA` ORDER BY `name` asc";
         $this->assertEquals(
             $result,
             $sql
         );
 
-        $_POST['criteriaValues'] = array(
+        $_POST['criteriaValues']           = [
             'value1',
             'value2',
             'value3',
             'value4',
             'value5',
             'value6',
-            'value7,value8'
-        );
-        $_POST['criteriaColumnNames'] = array(
+            'value7,value8',
+        ];
+        $_POST['criteriaColumnNames']      = [
             'name',
             'id',
             'index',
@@ -398,17 +398,17 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
             'index3',
             'index4',
             'index5',
-        );
-        $_POST['criteriaColumnTypes'] = array(
+        ];
+        $_POST['criteriaColumnTypes']      = [
             'varchar',
             'int',
             'enum',
             'type1',
             'type2',
             'type3',
-            'type4'
-        );
-        $_POST['criteriaColumnCollations'] = array(
+            'type4',
+        ];
+        $_POST['criteriaColumnCollations'] = [
             "char1",
             "char2",
             "char3",
@@ -416,18 +416,18 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
             "char5",
             "char6",
             "char7",
-        );
-        $_POST['criteriaColumnOperators'] = array(
+        ];
+        $_POST['criteriaColumnOperators']  = [
             "!=",
             ">",
             "IS NULL",
             "LIKE %...%",
             "REGEXP ^...$",
             "IN (...)",
-            "BETWEEN"
-        );
+            "BETWEEN",
+        ];
 
-        $sql = $tableSearch->buildSqlQuery();
+        $sql    = $tableSearch->buildSqlQuery();
         $result = "SELECT DISTINCT *  FROM `PMA` WHERE `name` != 'value1'"
             . " AND `id` > value2 AND `index` IS NULL AND `index2` LIKE '%value4%'"
             . " AND `index3` REGEXP ^value5$ AND `index4` IN (value6) AND `index5`"
@@ -438,4 +438,5 @@ class PMA_TableSearch_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

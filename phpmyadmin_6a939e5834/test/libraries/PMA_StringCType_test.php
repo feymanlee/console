@@ -61,10 +61,10 @@ class PMA_StringCType_Test extends PHPUnit_Framework_TestCase
      */
     public function isAlnumData()
     {
-        return array(
-            array(true, "AbCd1zyZ9"),
-            array(false, "foo!#bar")
-        );
+        return [
+            [true, "AbCd1zyZ9"],
+            [false, "foo!#bar"],
+        ];
     }
 
     /**
@@ -92,10 +92,10 @@ class PMA_StringCType_Test extends PHPUnit_Framework_TestCase
      */
     public function isAlphaData()
     {
-        return array(
-            array(true, "kJW"),
-            array(false, "k12"),
-        );
+        return [
+            [true, "kJW"],
+            [false, "k12"],
+        ];
     }
 
     /**
@@ -123,11 +123,11 @@ class PMA_StringCType_Test extends PHPUnit_Framework_TestCase
      */
     public function isDigitData()
     {
-        return array(
-            array(false, "kJW"),
-            array(false, "?.foo!#21"),
-            array(true, "12"),
-        );
+        return [
+            [false, "kJW"],
+            [false, "?.foo!#21"],
+            [true, "12"],
+        ];
     }
 
     /**
@@ -155,11 +155,11 @@ class PMA_StringCType_Test extends PHPUnit_Framework_TestCase
      */
     public function isUpperData()
     {
-        return array(
-            array(true, "ABCD"),
-            array(false, "AbCD"),
-            array(false, "ABCD12!3")
-        );
+        return [
+            [true, "ABCD"],
+            [false, "AbCD"],
+            [false, "ABCD12!3"],
+        ];
     }
 
     /**
@@ -187,11 +187,11 @@ class PMA_StringCType_Test extends PHPUnit_Framework_TestCase
      */
     public function isLowerData()
     {
-        return array(
-            array(true, "abcd"),
-            array(false, "aBcd"),
-            array(false, "abcd12!3")
-        );
+        return [
+            [true, "abcd"],
+            [false, "aBcd"],
+            [false, "abcd12!3"],
+        ];
     }
 
     /**
@@ -219,12 +219,12 @@ class PMA_StringCType_Test extends PHPUnit_Framework_TestCase
      */
     public function isSpaceData()
     {
-        return array(
-            array(true, " "),
-            array(false, '\n\r\t'),
-            array(true, "\n\r\t"),
-            array(false, "\ntest"),
-        );
+        return [
+            [true, " "],
+            [false, '\n\r\t'],
+            [true, "\n\r\t"],
+            [false, "\ntest"],
+        ];
     }
 
     /**
@@ -252,12 +252,13 @@ class PMA_StringCType_Test extends PHPUnit_Framework_TestCase
      */
     public function isHexDigitData()
     {
-        return array(
-            array(true, "AB10BC99"),
-            array(false, "AR1012"),
-            array(true, "ab12bc99")
-        );
+        return [
+            [true, "AB10BC99"],
+            [false, "AR1012"],
+            [true, "ab12bc99"],
+        ];
     }
 
 }
+
 ?>

@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage ImageLink
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -42,4 +42,5 @@ class Text_Plain_Imagelink extends TextImageLinkTransformationsPlugin
         return "Plain";
     }
 }
+
 ?>

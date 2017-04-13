@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage Formatted
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -43,7 +43,7 @@ abstract class FormattedTransformationsPlugin extends TransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         return '<iframe srcdoc="'
             . strtr($buffer, '"', '\'')
@@ -64,4 +64,5 @@ abstract class FormattedTransformationsPlugin extends TransformationsPlugin
         return "Formatted";
     }
 }
+
 ?>

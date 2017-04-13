@@ -103,12 +103,12 @@ function PMA_getHtmlForActionLinks($current_table, $table_is_view, $tbl_url_quer
         }
     }
 
-    return array($browse_table,
+    return [$browse_table,
         $search_table,
         $browse_table_label,
         $empty_table,
-        $tracking_icon
-    );
+        $tracking_icon,
+    ];
 }
 
 /**
@@ -121,7 +121,7 @@ function PMA_getHtmlForActionLinks($current_table, $table_is_view, $tbl_url_quer
  */
 function PMA_getTableDropQueryAndMessage($table_is_view, $current_table)
 {
-    $drop_query = 'DROP '
+    $drop_query   = 'DROP '
         . (($table_is_view || $current_table['ENGINE'] == null) ? 'VIEW' : 'TABLE')
         . ' ' . PMA_Util::backquote(
             $current_table['TABLE_NAME']
@@ -136,7 +136,8 @@ function PMA_getTableDropQueryAndMessage($table_is_view, $current_table)
             htmlspecialchars($current_table['TABLE_NAME'])
         )
     );
-    return array($drop_query, $drop_message);
+
+    return [$drop_query, $drop_message];
 }
 
 /**
@@ -184,14 +185,14 @@ function PMA_getHtmlBodyForTableSummary($num_tables, $server_slave_status,
 
     $row_count_sum = PMA_Util::formatNumber($sum_entries, 0);
     // If a table shows approximate rows count, display update-all-real-count anchor.
-    $row_sum_url = array();
+    $row_sum_url = [];
     if (isset($approx_rows)) {
-        $row_sum_url = array(
+        $row_sum_url = [
             'ajax_request'       => true,
             'db'                 => $GLOBALS['db'],
             'real_row_count'     => 'true',
-            'real_row_count_all' => 'true'
-        );
+            'real_row_count_all' => 'true',
+        ];
     }
     $cell_text = ($approx_rows)
         ? '<a href="db_structure.php' . PMA_URL_getCommon($row_sum_url)
@@ -207,7 +208,7 @@ function PMA_getHtmlBodyForTableSummary($num_tables, $server_slave_status,
             0,
             1
         );
-        $html_output .=  '<th class="center">' . "\n"
+        $html_output .= '<th class="center">' . "\n"
             . '<dfn title="'
             . sprintf(
                 __('%s is the default storage engine on this MySQL server.'),
@@ -217,7 +218,7 @@ function PMA_getHtmlBodyForTableSummary($num_tables, $server_slave_status,
         // we got a case where $db_collation was empty
         $html_output .= '<th>' . "\n";
 
-        if (! empty($db_collation)) {
+        if (!empty($db_collation)) {
             $html_output .= '<dfn title="'
                 . PMA_getCollationDescr($db_collation)
                 . ' (' . __('Default') . ')">'
@@ -430,7 +431,7 @@ function PMA_getTimeForCreateUpdateCheck($current_table, $time_label, $time_all)
         null,
         true
     );
-    $time = isset($showtable[$time_label])
+    $time      = isset($showtable[$time_label])
         ? $showtable[$time_label]
         : false;
 
@@ -438,7 +439,8 @@ function PMA_getTimeForCreateUpdateCheck($current_table, $time_label, $time_all)
     if ($time && (!$time_all || $time < $time_all)) {
         $time_all = $time;
     }
-    return array($time, $time_all);
+
+    return [$time, $time_all];
 }
 
 /**
@@ -476,15 +478,15 @@ function PMA_getTimeForCreateUpdateCheck($current_table, $time_label, $time_all)
  */
 function PMA_getHtmlForStructureTableRow(
     $curr, $odd_row, $table_is_view, $current_table,
-    $browse_table_label, $tracking_icon,$server_slave_status,
+    $browse_table_label, $tracking_icon, $server_slave_status,
     $browse_table, $tbl_url_query, $search_table,
-    $db_is_system_schema,$titles, $empty_table, $drop_query, $drop_message,
+    $db_is_system_schema, $titles, $empty_table, $drop_query, $drop_message,
     $collation, $formatted_size, $unit, $overhead, $create_time, $update_time,
-    $check_time,$is_show_stats, $ignored, $do, $colspan_for_structure
+    $check_time, $is_show_stats, $ignored, $do, $colspan_for_structure
 ) {
     global $db;
     $html_output = '<tr class="' . ($odd_row ? 'odd' : 'even');
-    $odd_row = ! $odd_row;
+    $odd_row     = !$odd_row;
     $html_output .= ($table_is_view ? ' is_view' : '')
         . '" id="row_tbl_' . $curr . '">';
 
@@ -495,7 +497,7 @@ function PMA_getHtmlForStructureTableRow(
 
     $html_output .= '<th>'
         . $browse_table_label
-        . (! empty($tracking_icon) ? $tracking_icon : '')
+        . (!empty($tracking_icon) ? $tracking_icon : '')
         . '</th>';
 
     if ($server_slave_status) {
@@ -521,7 +523,7 @@ function PMA_getHtmlForStructureTableRow(
         . $titles['Structure'] . '</a></td>';
     $html_output .= '<td class="center">' . $search_table . '</td>';
 
-    if (! $db_is_system_schema) {
+    if (!$db_is_system_schema) {
         $html_output .= PMA_getHtmlForInsertEmptyDropActionLinks(
             $tbl_url_query, $table_is_view,
             $titles, $empty_table, $current_table, $drop_query, $drop_message
@@ -536,7 +538,7 @@ function PMA_getHtmlForStructureTableRow(
     $approx_rows = false;
     if (isset($current_table['TABLE_ROWS'])
         && ($current_table['ENGINE'] != null
-        || $table_is_view)
+            || $table_is_view)
     ) {
         list($html_view_table, $approx_rows) = PMA_getHtmlForNotNullEngineViewTable(
             $table_is_view, $current_table, $collation, $is_show_stats,
@@ -554,7 +556,7 @@ function PMA_getHtmlForStructureTableRow(
     } // end if (isset($current_table['TABLE_ROWS'])) else
     $html_output .= '</tr>';
 
-    return array($html_output, $odd_row, $approx_rows);
+    return [$html_output, $odd_row, $approx_rows];
 }
 
 /**
@@ -609,7 +611,7 @@ function PMA_getHtmlForInsertEmptyDropActionLinks($tbl_url_query, $table_is_view
 function PMA_getHtmlForShowStats($tbl_url_query, $formatted_size,
     $unit, $overhead
 ) {
-     $html_output = '<td class="value tbl_size"><a '
+    $html_output = '<td class="value tbl_size"><a '
         . 'href="tbl_structure.php' . $tbl_url_query . '#showusage" >'
         . '<span>' . $formatted_size . '</span> '
         . '<span class="unit">' . $unit . '</span>'
@@ -635,23 +637,24 @@ function PMA_getHtmlForStructureTimes($create_time, $update_time, $check_time)
         $html_output .= '<td class="value tbl_creation">'
             . ($create_time
                 ? PMA_Util::localisedDate(strtotime($create_time))
-                : '-' )
+                : '-')
             . '</td>';
     } // end if
     if ($GLOBALS['cfg']['ShowDbStructureLastUpdate']) {
         $html_output .= '<td class="value tbl_last_update">'
             . ($update_time
                 ? PMA_Util::localisedDate(strtotime($update_time))
-                : '-' )
+                : '-')
             . '</td>';
     } // end if
     if ($GLOBALS['cfg']['ShowDbStructureLastCheck']) {
         $html_output .= '<td class="value tbl_last_check">'
             . ($check_time
                 ? PMA_Util::localisedDate(strtotime($check_time))
-                : '-' )
+                : '-')
             . '</td>';
     }
+
     return $html_output;
 }
 
@@ -676,8 +679,8 @@ function PMA_getHtmlForNotNullEngineViewTable($table_is_view, $current_table,
     $collation, $is_show_stats, $tbl_url_query, $formatted_size, $unit,
     $overhead, $create_time, $update_time, $check_time
 ) {
-    $html_output = '';
-    $row_count_pre = '';
+    $html_output      = '';
+    $row_count_pre    = '';
     $show_superscript = '';
     if ($table_is_view) {
         // Drizzle views use FunctionEngine, and the only place where they are
@@ -685,7 +688,7 @@ function PMA_getHtmlForNotNullEngineViewTable($table_is_view, $current_table,
         if ($current_table['TABLE_ROWS'] >= $GLOBALS['cfg']['MaxExactCountViews']
             && $current_table['ENGINE'] != 'FunctionEngine'
         ) {
-            $row_count_pre = '~';
+            $row_count_pre    = '~';
             $show_superscript = PMA_Util::showHint(
                 PMA_sanitize(
                     sprintf(
@@ -697,15 +700,15 @@ function PMA_getHtmlForNotNullEngineViewTable($table_is_view, $current_table,
             );
         }
     } elseif ($current_table['ENGINE'] == 'InnoDB'
-        && (! $current_table['COUNTED'])
+        && (!$current_table['COUNTED'])
     ) {
         // InnoDB table: we did not get an accurate row count
-        $row_count_pre = '~';
+        $row_count_pre    = '~';
         $show_superscript = '';
     }
 
     // Set a flag if there are approximate row counts on page.
-    if (! empty($row_count_pre)) {
+    if (!empty($row_count_pre)) {
         $approx_rows = true;
     } else {
         // this happens for information_schema, performance_schema,
@@ -716,15 +719,15 @@ function PMA_getHtmlForNotNullEngineViewTable($table_is_view, $current_table,
     $row_count = $row_count_pre
         . PMA_Util::formatNumber($current_table['TABLE_ROWS'], 0);
     // URL parameters to fetch the real row count.
-    $real_count_url = array(
+    $real_count_url = [
         'ajax_request'   => true,
         'db'             => $GLOBALS['db'],
         'table'          => $current_table['TABLE_NAME'],
-        'real_row_count' => 'true'
-    );
+        'real_row_count' => 'true',
+    ];
     // Content to be appended into 'tbl_rows' cell.
     // If row count is approximate, display it as an anchor to get real count.
-    $cell_text = (! empty($row_count_pre))
+    $cell_text = (!empty($row_count_pre))
         ? '<a href="db_structure.php' . PMA_URL_getCommon($real_count_url)
         . '" class="ajax real_row_count">' . $row_count . '</a>'
         : $row_count;
@@ -736,12 +739,14 @@ function PMA_getHtmlForNotNullEngineViewTable($table_is_view, $current_table,
 
     if (!($GLOBALS['cfg']['PropertiesNumColumns'] > 1)) {
         $html_output .= '<td class="nowrap">'
-            . ( ! empty($current_table['ENGINE'])
+            . (!empty($current_table['ENGINE'])
                 ? $current_table['ENGINE']
                 : ($table_is_view ? __('View') : '')
             )
             . '</td>';
-        if (/*overload*/mb_strlen($collation)) {
+        if (/*overload*/
+        mb_strlen($collation)
+        ) {
             $html_output .= '<td class="nowrap">' . $collation . '</td>';
         }
     }
@@ -756,7 +761,7 @@ function PMA_getHtmlForNotNullEngineViewTable($table_is_view, $current_table,
         $create_time, $update_time, $check_time
     );
 
-    return array($html_output, $approx_rows);
+    return [$html_output, $approx_rows];
 }
 
 /**
@@ -775,6 +780,7 @@ function PMA_getHtmlForViewTable($is_show_stats)
         $html_output .= '<td class="value">-</td>'
             . '<td class="value">-</td>';
     }
+
     return $html_output;
 }
 
@@ -857,7 +863,7 @@ function PMA_tableHeader($db_is_system_schema = false, $replication = false)
         $html_output .= '<th>'
             . PMA_sortableTableHeader(__('Size'), 'size', 'DESC')
             . '</th>' . "\n"
-        // larger values are more interesting so default sort order is DESC
+            // larger values are more interesting so default sort order is DESC
             . '<th>'
             . PMA_sortableTableHeader(__('Overhead'), 'overhead', 'DESC')
             . '</th>' . "\n";
@@ -905,7 +911,7 @@ function PMA_tableHeader($db_is_system_schema = false, $replication = false)
 function PMA_sortableTableHeader($title, $sort, $initial_sort_order = 'ASC')
 {
     // Set some defaults
-    $requested_sort = 'table';
+    $requested_sort       = 'table';
     $requested_sort_order = $future_sort_order = $initial_sort_order;
 
     // If the user requested a sort
@@ -917,8 +923,8 @@ function PMA_sortableTableHeader($title, $sort, $initial_sort_order = 'ASC')
         }
     }
 
-    $order_img = '';
-    $order_link_params = array();
+    $order_img                  = '';
+    $order_link_params          = [];
     $order_link_params['title'] = __('Sort');
 
     // If this column was requested to be sorted.
@@ -926,16 +932,16 @@ function PMA_sortableTableHeader($title, $sort, $initial_sort_order = 'ASC')
         if ($requested_sort_order == 'ASC') {
             $future_sort_order = 'DESC';
             // current sort order is ASC
-            $order_img  = ' ' . PMA_Util::getImage(
-                's_asc.png',
-                __('Ascending'),
-                array('class' => 'sort_arrow', 'title' => '')
-            );
+            $order_img = ' ' . PMA_Util::getImage(
+                    's_asc.png',
+                    __('Ascending'),
+                    ['class' => 'sort_arrow', 'title' => '']
+                );
             $order_img .= ' ' . PMA_Util::getImage(
-                's_desc.png',
-                __('Descending'),
-                array('class' => 'sort_arrow hide', 'title' => '')
-            );
+                    's_desc.png',
+                    __('Descending'),
+                    ['class' => 'sort_arrow hide', 'title' => '']
+                );
             // but on mouse over, show the reverse order (DESC)
             $order_link_params['onmouseover'] = "$('.sort_arrow').toggle();";
             // on mouse out, show current sort order (ASC)
@@ -943,16 +949,16 @@ function PMA_sortableTableHeader($title, $sort, $initial_sort_order = 'ASC')
         } else {
             $future_sort_order = 'ASC';
             // current sort order is DESC
-            $order_img  = ' ' . PMA_Util::getImage(
-                's_asc.png',
-                __('Ascending'),
-                array('class' => 'sort_arrow hide', 'title' => '')
-            );
+            $order_img = ' ' . PMA_Util::getImage(
+                    's_asc.png',
+                    __('Ascending'),
+                    ['class' => 'sort_arrow hide', 'title' => '']
+                );
             $order_img .= ' ' . PMA_Util::getImage(
-                's_desc.png',
-                __('Descending'),
-                array('class' => 'sort_arrow', 'title' => '')
-            );
+                    's_desc.png',
+                    __('Descending'),
+                    ['class' => 'sort_arrow', 'title' => '']
+                );
             // but on mouse over, show the reverse order (ASC)
             $order_link_params['onmouseover'] = "$('.sort_arrow').toggle();";
             // on mouse out, show current sort order (DESC)
@@ -960,16 +966,16 @@ function PMA_sortableTableHeader($title, $sort, $initial_sort_order = 'ASC')
         }
     }
 
-    $_url_params = array(
-        'db' => $_REQUEST['db'],
-        'pos' => 0, // We set the position back to 0 every time they sort.
-        'sort' => $sort,
+    $_url_params = [
+        'db'         => $_REQUEST['db'],
+        'pos'        => 0, // We set the position back to 0 every time they sort.
+        'sort'       => $sort,
         'sort_order' => $future_sort_order,
-    );
-    if (PMA_isValid($_REQUEST['tbl_type'], array('view', 'table'))) {
+    ];
+    if (PMA_isValid($_REQUEST['tbl_type'], ['view', 'table'])) {
         $_url_params['tbl_type'] = $_REQUEST['tbl_type'];
     }
-    if (! empty($_REQUEST['tbl_group'])) {
+    if (!empty($_REQUEST['tbl_group'])) {
         $_url_params['tbl_group'] = $_REQUEST['tbl_group'];
     }
 
@@ -992,9 +998,9 @@ function PMA_sortableTableHeader($title, $sort, $initial_sort_order = 'ASC')
 function PMA_getAliasAndTrueName($tooltip_aliasname, $current_table,
     $tooltip_truename
 ) {
-    $alias = (! empty($tooltip_aliasname)
-            && isset($tooltip_aliasname[$current_table['TABLE_NAME']])
-        )
+    $alias    = (!empty($tooltip_aliasname)
+        && isset($tooltip_aliasname[$current_table['TABLE_NAME']])
+    )
         ? str_replace(
             ' ', '&nbsp;',
             htmlspecialchars($tooltip_truename[$current_table['TABLE_NAME']])
@@ -1003,9 +1009,9 @@ function PMA_getAliasAndTrueName($tooltip_aliasname, $current_table,
             ' ', '&nbsp;',
             htmlspecialchars($current_table['TABLE_NAME'])
         );
-    $truename = (! empty($tooltip_truename)
-            && isset($tooltip_truename[$current_table['TABLE_NAME']])
-        )
+    $truename = (!empty($tooltip_truename)
+        && isset($tooltip_truename[$current_table['TABLE_NAME']])
+    )
         ? str_replace(
             ' ', '&nbsp;',
             htmlspecialchars($tooltip_truename[$current_table['TABLE_NAME']])
@@ -1015,7 +1021,7 @@ function PMA_getAliasAndTrueName($tooltip_aliasname, $current_table,
             htmlspecialchars($current_table['TABLE_NAME'])
         );
 
-    return array($alias, $truename);
+    return [$alias, $truename];
 }
 
 /**
@@ -1029,20 +1035,20 @@ function PMA_getAliasAndTrueName($tooltip_aliasname, $current_table,
 function PMA_getServerSlaveStatus($server_slave_status, $truename)
 {
     $ignored = false;
-    $do = false;
+    $do      = false;
     include_once 'libraries/replication.inc.php';
 
     if (!$server_slave_status) {
-        return array($do, $ignored);
+        return [$do, $ignored];
     }
 
-    $nbServSlaveDoDb = count($GLOBALS['replication_info']['slave']['Do_DB']);
+    $nbServSlaveDoDb      = count($GLOBALS['replication_info']['slave']['Do_DB']);
     $nbServSlaveIgnoreDb
-        = count($GLOBALS['replication_info']['slave']['Ignore_DB']);
+                          = count($GLOBALS['replication_info']['slave']['Ignore_DB']);
     $searchDoDBInTruename = array_search(
         $truename, $GLOBALS['replication_info']['slave']['Do_DB']
     );
-    $searchDoDBInDB = array_search(
+    $searchDoDBInDB       = array_search(
         $GLOBALS['db'], $GLOBALS['replication_info']['slave']['Do_DB']
     );
     if (strlen($searchDoDBInTruename) > 0
@@ -1053,8 +1059,9 @@ function PMA_getServerSlaveStatus($server_slave_status, $truename)
     }
     foreach ($GLOBALS['replication_info']['slave']['Wild_Do_Table'] as $db_table) {
         $table_part = PMA_extractDbOrTable($db_table, 'table');
-        $pattern = "@^"
-            . /*overload*/mb_substr($table_part, 0, -1)
+        $pattern    = "@^"
+            . /*overload*/
+            mb_substr($table_part, 0, -1)
             . "@";
         if (($GLOBALS['db'] == PMA_extractDbOrTable($db_table, 'db'))
             && (preg_match($pattern, $truename))
@@ -1063,7 +1070,7 @@ function PMA_getServerSlaveStatus($server_slave_status, $truename)
         }
     }
 
-    $searchDb = array_search(
+    $searchDb    = array_search(
         $GLOBALS['db'],
         $GLOBALS['replication_info']['slave']['Ignore_DB']
     );
@@ -1076,10 +1083,11 @@ function PMA_getServerSlaveStatus($server_slave_status, $truename)
     }
     foreach (
         $GLOBALS['replication_info']['slave']['Wild_Ignore_Table'] as $db_table
-        ) {
+    ) {
         $table_part = PMA_extractDbOrTable($db_table, 'table');
-        $pattern = "@^"
-            . /*overload*/mb_substr($table_part, 0, -1)
+        $pattern    = "@^"
+            . /*overload*/
+            mb_substr($table_part, 0, -1)
             . "@";
         if (($GLOBALS['db'] == PMA_extractDbOrTable($db_table))
             && (preg_match($pattern, $truename))
@@ -1088,7 +1096,7 @@ function PMA_getServerSlaveStatus($server_slave_status, $truename)
         }
     }
 
-    return array($do, $ignored);
+    return [$do, $ignored];
 }
 
 /**
@@ -1108,63 +1116,63 @@ function PMA_getServerSlaveStatus($server_slave_status, $truename)
 function PMA_getStuffForEngineTypeTable($current_table, $db_is_system_schema,
     $is_show_stats, $table_is_view, $sum_size, $overhead_size
 ) {
-    $formatted_size = '-';
-    $unit = '';
+    $formatted_size     = '-';
+    $unit               = '';
     $formatted_overhead = '';
-    $overhead_unit = '';
+    $overhead_unit      = '';
 
-    switch ( $current_table['ENGINE']) {
+    switch ($current_table['ENGINE']) {
         // MyISAM, ISAM or Heap table: Row count, data size and index size
         // are accurate; data size is accurate for ARCHIVE
-    case 'MyISAM' :
-    case 'ISAM' :
-    case 'HEAP' :
-    case 'MEMORY' :
-    case 'ARCHIVE' :
-    case 'Aria' :
-    case 'Maria' :
-        list($current_table, $formatted_size, $unit, $formatted_overhead,
-        $overhead_unit, $overhead_size, $sum_size) = PMA_getValuesForAriaTable(
-            $db_is_system_schema, $current_table, $is_show_stats,
-            $sum_size, $overhead_size, $formatted_size, $unit,
-            $formatted_overhead, $overhead_unit
-        );
-        break;
-    case 'InnoDB' :
-    case 'PBMS' :
-        // InnoDB table: Row count is not accurate but data and index sizes are.
-        // PBMS table in Drizzle: TABLE_ROWS is taken from table cache,
-        // so it may be unavailable
-        list($current_table, $formatted_size, $unit, $sum_size)
-            = PMA_getValuesForInnodbTable($current_table, $is_show_stats, $sum_size);
-        //$display_rows                   =  ' - ';
-        break;
-    // Mysql 5.0.x (and lower) uses MRG_MyISAM
-    // and MySQL 5.1.x (and higher) uses MRG_MYISAM
-    // Both are aliases for MERGE
-    case 'MRG_MyISAM' :
-    case 'MRG_MYISAM' :
-    case 'MERGE' :
-    case 'BerkeleyDB' :
-        // Merge or BerkleyDB table: Only row count is accurate.
-        if ($is_show_stats) {
-            $formatted_size =  ' - ';
-            $unit          =  '';
-        }
-        break;
+        case 'MyISAM' :
+        case 'ISAM' :
+        case 'HEAP' :
+        case 'MEMORY' :
+        case 'ARCHIVE' :
+        case 'Aria' :
+        case 'Maria' :
+            list($current_table, $formatted_size, $unit, $formatted_overhead,
+                $overhead_unit, $overhead_size, $sum_size) = PMA_getValuesForAriaTable(
+                $db_is_system_schema, $current_table, $is_show_stats,
+                $sum_size, $overhead_size, $formatted_size, $unit,
+                $formatted_overhead, $overhead_unit
+            );
+            break;
+        case 'InnoDB' :
+        case 'PBMS' :
+            // InnoDB table: Row count is not accurate but data and index sizes are.
+            // PBMS table in Drizzle: TABLE_ROWS is taken from table cache,
+            // so it may be unavailable
+            list($current_table, $formatted_size, $unit, $sum_size)
+                = PMA_getValuesForInnodbTable($current_table, $is_show_stats, $sum_size);
+            //$display_rows                   =  ' - ';
+            break;
+        // Mysql 5.0.x (and lower) uses MRG_MyISAM
+        // and MySQL 5.1.x (and higher) uses MRG_MYISAM
+        // Both are aliases for MERGE
+        case 'MRG_MyISAM' :
+        case 'MRG_MYISAM' :
+        case 'MERGE' :
+        case 'BerkeleyDB' :
+            // Merge or BerkleyDB table: Only row count is accurate.
+            if ($is_show_stats) {
+                $formatted_size = ' - ';
+                $unit           = '';
+            }
+            break;
         // for a view, the ENGINE is sometimes reported as null,
         // or on some servers it's reported as "SYSTEM VIEW"
-    case null :
-    case 'SYSTEM VIEW' :
-    case 'FunctionEngine' :
-        // possibly a view, do nothing
-        break;
-    default :
-        // Unknown table type.
-        if ($is_show_stats) {
-            $formatted_size =  __('unknown');
-            $unit          =  '';
-        }
+        case null :
+        case 'SYSTEM VIEW' :
+        case 'FunctionEngine' :
+            // possibly a view, do nothing
+            break;
+        default :
+            // Unknown table type.
+            if ($is_show_stats) {
+                $formatted_size = __('unknown');
+                $unit           = '';
+            }
     } // end switch
 
     if ($current_table['TABLE_TYPE'] == 'VIEW'
@@ -1175,12 +1183,12 @@ function PMA_getStuffForEngineTypeTable($current_table, $db_is_system_schema,
             $GLOBALS['db'], $current_table['TABLE_NAME'],
             true, true
         );
-        $table_is_view = true;
+        $table_is_view               = true;
     }
 
-    return array($current_table, $formatted_size, $unit, $formatted_overhead,
-        $overhead_unit, $overhead_size, $table_is_view, $sum_size
-    );
+    return [$current_table, $formatted_size, $unit, $formatted_overhead,
+        $overhead_unit, $overhead_size, $table_is_view, $sum_size,
+    ];
 }
 
 /**
@@ -1222,15 +1230,16 @@ function PMA_getValuesForAriaTable($db_is_system_schema, $current_table,
             // would transform 6.1MiB into 6,224.6KiB
             list($formatted_overhead, $overhead_unit)
                 = PMA_Util::formatByteDown(
-                    $current_table['Data_free'], 4,
-                    (($current_table['Data_free'] > 0) ? 1 : 0)
-                );
+                $current_table['Data_free'], 4,
+                (($current_table['Data_free'] > 0) ? 1 : 0)
+            );
             $overhead_size += $current_table['Data_free'];
         }
     }
-    return array($current_table, $formatted_size, $unit, $formatted_overhead,
-        $overhead_unit, $overhead_size, $sum_size
-    );
+
+    return [$current_table, $formatted_size, $unit, $formatted_overhead,
+        $overhead_unit, $overhead_size, $sum_size,
+    ];
 }
 
 /**
@@ -1248,10 +1257,10 @@ function PMA_getValuesForInnodbTable($current_table, $is_show_stats, $sum_size)
     $formatted_size = $unit = '';
 
     if (($current_table['ENGINE'] == 'InnoDB'
-        && $current_table['TABLE_ROWS'] < $GLOBALS['cfg']['MaxExactCount'])
+            && $current_table['TABLE_ROWS'] < $GLOBALS['cfg']['MaxExactCount'])
         || !isset($current_table['TABLE_ROWS'])
     ) {
-        $current_table['COUNTED'] = true;
+        $current_table['COUNTED']    = true;
         $current_table['TABLE_ROWS'] = PMA_Table::countRecords(
             $GLOBALS['db'], $current_table['TABLE_NAME'],
             true, false
@@ -1262,14 +1271,14 @@ function PMA_getValuesForInnodbTable($current_table, $is_show_stats, $sum_size)
 
     // Drizzle doesn't provide data and index length, check for null
     if ($is_show_stats && $current_table['Data_length'] !== null) {
-        $tblsize =  $current_table['Data_length'] + $current_table['Index_length'];
+        $tblsize = $current_table['Data_length'] + $current_table['Index_length'];
         $sum_size += $tblsize;
         list($formatted_size, $unit) = PMA_Util::formatByteDown(
             $tblsize, 3, (($tblsize > 0) ? 1 : 0)
         );
     }
 
-    return array($current_table, $formatted_size, $unit, $sum_size);
+    return [$current_table, $formatted_size, $unit, $sum_size];
 }
 
 /**
@@ -1301,7 +1310,7 @@ function PMA_getHtmlForTableStructureHeader(
         . '<th>' . __('Extra') . '</th>';
 
     /* see tbl_structure.js, function moreOptsMenuResize() */
-    if (! $db_is_system_schema && ! $tbl_is_view) {
+    if (!$db_is_system_schema && !$tbl_is_view) {
         $colspan = 9;
         if (PMA_DRIZZLE) {
             $colspan -= 2;
@@ -1377,7 +1386,7 @@ function PMA_getHtmlTableStructureRow($row, $rownum,
         (empty($field_charset)
             ? ''
             : '<dfn title="' . PMA_getCollationDescr($field_charset) . '">'
-                . $field_charset . '</dfn>'
+            . $field_charset . '</dfn>'
         )
         . '</td>';
 
@@ -1400,7 +1409,8 @@ function PMA_getHtmlTableStructureRow($row, $rownum,
     $html_output .= '</td>';
 
     $html_output .= '<td class="nowrap">'
-        . /*overload*/mb_strtoupper($row['Extra']) . '</td>';
+        . /*overload*/
+        mb_strtoupper($row['Extra']) . '</td>';
 
     $html_output .= PMA_getHtmlForDropColumn(
         $tbl_is_view, $db_is_system_schema,
@@ -1429,7 +1439,7 @@ function PMA_getHtmlForDropColumn($tbl_is_view, $db_is_system_schema,
 ) {
     $html_output = '';
 
-    if (! $tbl_is_view && ! $db_is_system_schema) {
+    if (!$tbl_is_view && !$db_is_system_schema) {
         $html_output .= '<td class="edit center">'
             . '<a class="change_column_anchor ajax"'
             . ' href="tbl_structure.php'
@@ -1481,7 +1491,7 @@ function PMA_getHtmlForCheckAllTableColumn($pmaThemeImage, $text_dir,
         __('Browse'), 'b_browse.png', 'browse'
     );
 
-    if (! $tbl_is_view && ! $db_is_system_schema) {
+    if (!$tbl_is_view && !$db_is_system_schema) {
         $html_output .= PMA_Util::getButtonOrImage(
             'submit_mult', 'mult_submit change_columns_anchor ajax',
             'submit_mult_change', __('Change'), 'b_edit.png', 'change'
@@ -1505,7 +1515,7 @@ function PMA_getHtmlForCheckAllTableColumn($pmaThemeImage, $text_dir,
             );
         }
 
-        if ((! empty($tbl_storage_engine) && $tbl_storage_engine == 'MYISAM')
+        if ((!empty($tbl_storage_engine) && $tbl_storage_engine == 'MYISAM')
             || PMA_MYSQL_INT_VERSION >= 50705
         ) {
             $html_output .= PMA_Util::getButtonOrImage(
@@ -1513,10 +1523,10 @@ function PMA_getHtmlForCheckAllTableColumn($pmaThemeImage, $text_dir,
                 __('Spatial'), 'b_spatial.png', 'spatial'
             );
         }
-        if (! empty($tbl_storage_engine)
+        if (!empty($tbl_storage_engine)
             && ($tbl_storage_engine == 'MYISAM'
-            || $tbl_storage_engine == 'ARIA'
-            || $tbl_storage_engine == 'MARIA')
+                || $tbl_storage_engine == 'ARIA'
+                || $tbl_storage_engine == 'MARIA')
         ) {
             $html_output .= PMA_Util::getButtonOrImage(
                 'submit_mult', 'mult_submit', 'submit_mult_fulltext',
@@ -1538,6 +1548,7 @@ function PMA_getHtmlForCheckAllTableColumn($pmaThemeImage, $text_dir,
             );
         }
     }
+
     return $html_output;
 }
 
@@ -1578,24 +1589,24 @@ function PMA_getHtmlForEditView($url_params)
         . " FROM `INFORMATION_SCHEMA`.`VIEWS`"
         . " WHERE TABLE_SCHEMA='" . PMA_Util::sqlAddSlashes($GLOBALS['db']) . "'"
         . " AND TABLE_NAME='" . PMA_Util::sqlAddSlashes($GLOBALS['table']) . "';";
-    $item = $GLOBALS['dbi']->fetchSingleRow($query);
+    $item  = $GLOBALS['dbi']->fetchSingleRow($query);
 
-    $query = "SHOW CREATE TABLE " . PMA_Util::backquote($GLOBALS['db'])
+    $query      = "SHOW CREATE TABLE " . PMA_Util::backquote($GLOBALS['db'])
         . "." . PMA_Util::backquote($GLOBALS['table']);
     $createView = $GLOBALS['dbi']->fetchValue($query, 0, 'Create View');
     // get algorithm from $createView of the form CREATE ALGORITHM=<ALGORITHM> DE...
-    $parts = explode(" ", substr($createView, 17));
+    $parts             = explode(" ", substr($createView, 17));
     $item['ALGORITHM'] = $parts[0];
 
-    $view = array(
-        'operation' => 'alter',
-        'definer' => $item['DEFINER'],
+    $view = [
+        'operation'    => 'alter',
+        'definer'      => $item['DEFINER'],
         'sql_security' => $item['SECURITY_TYPE'],
-        'name' => $GLOBALS['table'],
-        'as' => $item['VIEW_DEFINITION'],
-        'with' => $item['CHECK_OPTION'],
-        'algorithm' => $item['ALGORITHM'],
-    );
+        'name'         => $GLOBALS['table'],
+        'as'           => $item['VIEW_DEFINITION'],
+        'with'         => $item['CHECK_OPTION'],
+        'algorithm'    => $item['ALGORITHM'],
+    ];
     $url  = 'view_create.php' . PMA_URL_getCommon($url_params) . '&amp;';
     $url .= implode(
         '&amp;',
@@ -1611,6 +1622,7 @@ function PMA_getHtmlForEditView($url_params)
         $url,
         PMA_Util::getIcon('b_edit.png', __('Edit view'), true)
     );
+
     return $html_output;
 }
 
@@ -1632,7 +1644,7 @@ function PMA_getHtmlForOptionalActionLinks($url_query, $tbl_is_view,
         . PMA_Util::getIcon('b_print.png', __('Print view'), true)
         . '</a>';
 
-    if (! $tbl_is_view && ! $db_is_system_schema) {
+    if (!$tbl_is_view && !$db_is_system_schema) {
         if (!PMA_DRIZZLE) {
             $html_output .= '<a href="sql.php' . $url_query
                 . '&amp;session_max_rows=all&amp;sql_query=' . urlencode(
@@ -1660,7 +1672,7 @@ function PMA_getHtmlForOptionalActionLinks($url_query, $tbl_is_view,
             . '</a>';
     }
 
-    if ($tbl_is_view && ! $db_is_system_schema) {
+    if ($tbl_is_view && !$db_is_system_schema) {
         if (PMA_Tracker::isActive()) {
             $html_output .= '<a href="tbl_tracking.php' . $url_query . '">'
                 . PMA_Util::getIcon('eye.png', __('Track view'), true)
@@ -1683,11 +1695,11 @@ function PMA_getHtmlForAddColumn($columns_list)
     $html_output = '<form method="post" action="tbl_addfield.php" '
         . 'id="addColumns" name="addColumns" '
         . 'onsubmit="return checkFormElementInRange('
-            . 'this, \'num_fields\', \'' . str_replace(
-                '\'',
-                '\\\'',
-                __('You have to add at least one column.')
-            ) . '\', 1)'
+        . 'this, \'num_fields\', \'' . str_replace(
+            '\'',
+            '\\\'',
+            __('You have to add at least one column.')
+        ) . '\', 1)'
         . '">';
 
     $html_output .= PMA_URL_getHiddenInputs(
@@ -1695,7 +1707,7 @@ function PMA_getHtmlForAddColumn($columns_list)
         $GLOBALS['table']
     );
     if (PMA_Util::showIcons('ActionLinksMode')) {
-        $html_output .=PMA_Util::getImage(
+        $html_output .= PMA_Util::getImage(
             'b_insrow.png',
             __('Add column')
         );
@@ -1712,9 +1724,9 @@ function PMA_getHtmlForAddColumn($columns_list)
         . 'onchange="checkFirst()">';
 
     $column_selector .= '<option '
-            . 'value="first" data-pos = "first">'
-            . __('at beginning of table')
-            . '</option>';
+        . 'value="first" data-pos = "first">'
+        . __('at beginning of table')
+        . '</option>';
     $cols_count = count($columns_list);
     foreach ($columns_list as $one_column_name) {
         //by default select the last column (add column at the end of the table)
@@ -1727,9 +1739,9 @@ function PMA_getHtmlForAddColumn($columns_list)
                 . 'value="' . htmlspecialchars($one_column_name) . '">';
         }
         $column_selector .= sprintf(
-            __('after %s'),
-            htmlspecialchars($one_column_name)
-        )
+                __('after %s'),
+                htmlspecialchars($one_column_name)
+            )
             . '</option>';
     }
     $column_selector .= '</select>';
@@ -1821,7 +1833,7 @@ function PMA_getHtmlForRowStatsTableRow($odd_row, $name, $value)
 function getHtmlForRowStatsTable($showtable, $tbl_collation,
     $is_innodb, $mergetable, $avg_size, $avg_unit
 ) {
-    $odd_row = false;
+    $odd_row     = false;
     $html_output = '<table id="tablerowstats" class="data">';
     $html_output .= '<caption class="tblHeaders">'
         . __('Row statistics') . '</caption>';
@@ -1840,7 +1852,7 @@ function getHtmlForRowStatsTable($showtable, $tbl_collation,
         );
         $odd_row = !$odd_row;
     }
-    if (! empty($showtable['Create_options'])) {
+    if (!empty($showtable['Create_options'])) {
         if ($showtable['Create_options'] == 'partitioned') {
             $value = __('partitioned');
         } else {
@@ -1873,10 +1885,10 @@ function getHtmlForRowStatsTable($showtable, $tbl_collation,
     ) {
         list($avg_row_length_value, $avg_row_length_unit)
             = PMA_Util::formatByteDown(
-                $showtable['Avg_row_length'],
-                6,
-                1
-            );
+            $showtable['Avg_row_length'],
+            6,
+            1
+        );
         $html_output .= PMA_getHtmlForRowStatsTableRow(
             $odd_row,
             __('Row length'),
@@ -1930,7 +1942,7 @@ function getHtmlForRowStatsTable($showtable, $tbl_collation,
         );
     }
     $html_output .= '</tbody>'
-    . '</table>';
+        . '</table>';
 
     return $html_output;
 }
@@ -1972,11 +1984,11 @@ function PMA_getHtmlForActionRowInStructureTable($type, $tbl_storage_engine,
         $html_output .= '<a rel="samepage" class="ajax add_key';
         if ($hasLinkClass) {
             $html_output .= ' add_primary_key_anchor"';
-        } else if ($action=='Index') {
+        } else if ($action == 'Index') {
             $html_output .= ' add_index_anchor"';
-        } else if ($action=='Unique') {
+        } else if ($action == 'Unique') {
             $html_output .= ' add_unique_anchor"';
-        } else if ($action=='Spatial') {
+        } else if ($action == 'Spatial') {
             $html_output .= ' add_spatial_anchor"';
         } else {
             $html_output .= '"';
@@ -2017,13 +2029,15 @@ function PMA_getHtmlForFullTextAction($tbl_storage_engine, $type, $url_query,
     $row, $titles
 ) {
     $html_output = '<li class="fulltext nowrap">';
-    if (! empty($tbl_storage_engine)
+    if (!empty($tbl_storage_engine)
         && ($tbl_storage_engine == 'MYISAM'
-        || $tbl_storage_engine == 'ARIA'
-        || $tbl_storage_engine == 'MARIA'
-        || ($tbl_storage_engine == 'INNODB' && PMA_MYSQL_INT_VERSION >= 50604))
-        && (/*overload*/mb_strpos($type, 'text') !== false
-        || /*overload*/mb_strpos($type, 'char') !== false)
+            || $tbl_storage_engine == 'ARIA'
+            || $tbl_storage_engine == 'MARIA'
+            || ($tbl_storage_engine == 'INNODB' && PMA_MYSQL_INT_VERSION >= 50604))
+        && (/*overload*/
+            mb_strpos($type, 'text') !== false
+            || /*overload*/
+            mb_strpos($type, 'char') !== false)
     ) {
         $html_output .= '<a rel="samepage" class="ajax add_key add_fulltext_anchor" '
             . 'href="tbl_structure.php' . $url_query
@@ -2046,6 +2060,7 @@ function PMA_getHtmlForFullTextAction($tbl_storage_engine, $type, $url_query,
         $html_output .= $titles['NoIdxFulltext'];
     }
     $html_output .= '</li>';
+
     return $html_output;
 }
 
@@ -2124,16 +2139,16 @@ function PMA_getHtmlForActionsInTableStructure($type, $tbl_storage_engine,
         'Index', $titles, $row, false
     );
     if (!PMA_DRIZZLE) {
-        $spatial_types = array(
+        $spatial_types = [
             'geometry', 'point', 'linestring', 'polygon', 'multipoint',
-            'multilinestring', 'multipolygon', 'geomtrycollection'
-        );
+            'multilinestring', 'multipolygon', 'geomtrycollection',
+        ];
         $html_output .= PMA_getHtmlForActionRowInStructureTable(
             $type, $tbl_storage_engine,
             'spatial nowrap',
-            ! (in_array($type, $spatial_types)
+            !(in_array($type, $spatial_types)
                 && ('MYISAM' == $tbl_storage_engine
-                || PMA_MYSQL_INT_VERSION >= 50705)
+                    || PMA_MYSQL_INT_VERSION >= 50705)
             ),
             false, $url_query, $primary, 'ADD SPATIAL',
             __('An index has been added on %s.'), 'Spatial',
@@ -2155,25 +2170,26 @@ function PMA_getHtmlForActionsInTableStructure($type, $tbl_storage_engine,
                 '<a href="#" onclick=$("input:checkbox").prop("checked",false);'
                 . '$("#checkbox_row_' . $rownum . '").prop("checked",true);'
                 . '$("button[value=remove_from_central_columns]").click();>'
-            . PMA_Util::getIcon(
-                'centralColumns_delete.png',
-                __('Remove from central columns')
-            )
-            . '</a>';
+                . PMA_Util::getIcon(
+                    'centralColumns_delete.png',
+                    __('Remove from central columns')
+                )
+                . '</a>';
         } else {
             $html_output .=
                 '<a href="#" onclick=$("input:checkbox").prop("checked",false);'
                 . '$("#checkbox_row_' . $rownum . '").prop("checked",true);'
                 . '$("button[value=add_to_central_columns]").click();>'
-            . PMA_Util::getIcon(
-                'centralColumns_add.png',
-                __('Add to central columns')
-            )
-            . '</a>';
+                . PMA_Util::getIcon(
+                    'centralColumns_add.png',
+                    __('Add to central columns')
+                )
+                . '</a>';
         }
         $html_output .= '</li>';
     }
     $html_output .= '</ul></td>';
+
     return $html_output;
 }
 
@@ -2184,38 +2200,38 @@ function PMA_getHtmlForActionsInTableStructure($type, $tbl_storage_engine,
  */
 function PMA_getHiddenTitlesArray()
 {
-    $hidden_titles = array();
+    $hidden_titles                   = [];
     $hidden_titles['DistinctValues'] = PMA_Util::getIcon(
         'b_browse.png', __('Distinct values'), true
     );
-    $hidden_titles['Primary'] = PMA_Util::getIcon(
+    $hidden_titles['Primary']        = PMA_Util::getIcon(
         'b_primary.png', __('Add primary key'), true
     );
-    $hidden_titles['NoPrimary'] = PMA_Util::getIcon(
+    $hidden_titles['NoPrimary']      = PMA_Util::getIcon(
         'bd_primary.png', __('Add primary key'), true
     );
-    $hidden_titles['Index'] = PMA_Util::getIcon(
+    $hidden_titles['Index']          = PMA_Util::getIcon(
         'b_index.png', __('Add index'), true
     );
-    $hidden_titles['NoIndex'] = PMA_Util::getIcon(
+    $hidden_titles['NoIndex']        = PMA_Util::getIcon(
         'bd_index.png', __('Add index'), true
     );
-    $hidden_titles['Unique'] = PMA_Util::getIcon(
+    $hidden_titles['Unique']         = PMA_Util::getIcon(
         'b_unique.png', __('Add unique index'), true
     );
-    $hidden_titles['NoUnique'] = PMA_Util::getIcon(
+    $hidden_titles['NoUnique']       = PMA_Util::getIcon(
         'bd_unique.png', __('Add unique index'), true
     );
-    $hidden_titles['Spatial'] = PMA_Util::getIcon(
+    $hidden_titles['Spatial']        = PMA_Util::getIcon(
         'b_spatial.png', __('Add SPATIAL index'), true
     );
-    $hidden_titles['NoSpatial'] = PMA_Util::getIcon(
+    $hidden_titles['NoSpatial']      = PMA_Util::getIcon(
         'bd_spatial.png', __('Add SPATIAL index'), true
     );
-    $hidden_titles['IdxFulltext'] = PMA_Util::getIcon(
+    $hidden_titles['IdxFulltext']    = PMA_Util::getIcon(
         'b_ftext.png', __('Add FULLTEXT index'), true
     );
-    $hidden_titles['NoIdxFulltext'] = PMA_Util::getIcon(
+    $hidden_titles['NoIdxFulltext']  = PMA_Util::getIcon(
         'bd_ftext.png', __('Add FULLTEXT index'), true
     );
 
@@ -2229,35 +2245,35 @@ function PMA_getHiddenTitlesArray()
  */
 function PMA_getActionTitlesArray()
 {
-    $titles = array();
+    $titles = [];
     $titles['Change']
-        = PMA_Util::getIcon('b_edit.png', __('Change'));
+            = PMA_Util::getIcon('b_edit.png', __('Change'));
     $titles['Drop']
-        = PMA_Util::getIcon('b_drop.png', __('Drop'));
+            = PMA_Util::getIcon('b_drop.png', __('Drop'));
     $titles['NoDrop']
-        = PMA_Util::getIcon('b_drop.png', __('Drop'));
+            = PMA_Util::getIcon('b_drop.png', __('Drop'));
     $titles['Primary']
-        = PMA_Util::getIcon('b_primary.png', __('Primary'));
+            = PMA_Util::getIcon('b_primary.png', __('Primary'));
     $titles['Index']
-        = PMA_Util::getIcon('b_index.png', __('Index'));
+            = PMA_Util::getIcon('b_index.png', __('Index'));
     $titles['Unique']
-        = PMA_Util::getIcon('b_unique.png', __('Unique'));
+            = PMA_Util::getIcon('b_unique.png', __('Unique'));
     $titles['Spatial']
-        = PMA_Util::getIcon('b_spatial.png', __('Spatial'));
+            = PMA_Util::getIcon('b_spatial.png', __('Spatial'));
     $titles['IdxFulltext']
-        = PMA_Util::getIcon('b_ftext.png', __('Fulltext'));
+            = PMA_Util::getIcon('b_ftext.png', __('Fulltext'));
     $titles['NoPrimary']
-        = PMA_Util::getIcon('bd_primary.png', __('Primary'));
+            = PMA_Util::getIcon('bd_primary.png', __('Primary'));
     $titles['NoIndex']
-        = PMA_Util::getIcon('bd_index.png', __('Index'));
+            = PMA_Util::getIcon('bd_index.png', __('Index'));
     $titles['NoUnique']
-        = PMA_Util::getIcon('bd_unique.png', __('Unique'));
+            = PMA_Util::getIcon('bd_unique.png', __('Unique'));
     $titles['NoSpatial']
-        = PMA_Util::getIcon('bd_spatial.png', __('Spatial'));
+            = PMA_Util::getIcon('bd_spatial.png', __('Spatial'));
     $titles['NoIdxFulltext']
-        = PMA_Util::getIcon('bd_ftext.png', __('Fulltext'));
+            = PMA_Util::getIcon('bd_ftext.png', __('Fulltext'));
     $titles['DistinctValues']
-        = PMA_Util::getIcon('b_browse.png', __('Distinct values'));
+            = PMA_Util::getIcon('b_browse.png', __('Distinct values'));
 
     return $titles;
 }
@@ -2301,7 +2317,7 @@ function PMA_getHtmlForDisplayTableStats($showtable, $table_info_num_rows,
 
     // this is to display for example 261.2 MiB instead of 268k KiB
     $max_digits = 3;
-    $decimals = 1;
+    $decimals   = 1;
     list($data_size, $data_unit) = PMA_Util::formatByteDown(
         $showtable['Data_length'], $max_digits, $decimals
     );
@@ -2311,7 +2327,7 @@ function PMA_getHtmlForDisplayTableStats($showtable, $table_info_num_rows,
         );
     }
     // InnoDB returns a huge value in Data_free, do not use it
-    if (! $is_innodb
+    if (!$is_innodb
         && isset($showtable['Data_free'])
         && $showtable['Data_free'] > 0
     ) {
@@ -2344,11 +2360,11 @@ function PMA_getHtmlForDisplayTableStats($showtable, $table_info_num_rows,
     // Displays them
     $odd_row = false;
 
-    $html_output .=  '<fieldset>'
+    $html_output .= '<fieldset>'
         . '<legend>' . __('Information') . '</legend>'
         . '<a id="showusage"></a>';
 
-    if (! $tbl_is_view && ! $db_is_system_schema) {
+    if (!$tbl_is_view && !$db_is_system_schema) {
         $html_output .= '<table id="tablespaceusage" class="data">'
             . '<caption class="tblHeaders">' . __('Space usage') . '</caption>'
             . '<tbody>';
@@ -2382,9 +2398,9 @@ function PMA_getHtmlForDisplayTableStats($showtable, $table_info_num_rows,
         // Optimize link if overhead
         if (isset($free_size) && !PMA_DRIZZLE
             && ($tbl_storage_engine == 'MYISAM'
-            || $tbl_storage_engine == 'ARIA'
-            || $tbl_storage_engine == 'MARIA'
-            || $tbl_storage_engine == 'BDB')
+                || $tbl_storage_engine == 'ARIA'
+                || $tbl_storage_engine == 'MARIA'
+                || $tbl_storage_engine == 'BDB')
         ) {
             $html_output .= PMA_getHtmlForOptimizeLink($url_query);
         }
@@ -2429,18 +2445,18 @@ function PMA_displayHtmlForColumnChange($db, $table, $selected, $action)
     /**
      * @todo optimize in case of multiple fields to modify
      */
-    $fields_meta = array();
+    $fields_meta = [];
     for ($i = 0; $i < $selected_cnt; $i++) {
         $fields_meta[] = $GLOBALS['dbi']->getColumns(
             $db, $table, $selected[$i], true
         );
     }
-    $num_fields  = count($fields_meta);
+    $num_fields = count($fields_meta);
     // set these globals because tbl_columns_definition_form.inc.php
     // verifies them
     // @todo: refactor tbl_columns_definition_form.inc.php so that it uses
     // function params
-    $GLOBALS['action'] = 'tbl_structure.php';
+    $GLOBALS['action']     = 'tbl_structure.php';
     $GLOBALS['num_fields'] = $num_fields;
 
     // Get more complete field information.
@@ -2462,7 +2478,7 @@ function PMA_displayHtmlForColumnChange($db, $table, $selected, $action)
         . PMA_Util::backquote($table),
         0, 1
     );
-    $analyzed_sql = PMA_SQP_analyze(PMA_SQP_parse($show_create_table));
+    $analyzed_sql      = PMA_SQP_analyze(PMA_SQP_parse($show_create_table));
     unset($show_create_table);
     /**
      * Form for changing properties.
@@ -2482,10 +2498,10 @@ function PMA_columnNeedsAlterTable($i)
 {
     // these two fields are checkboxes so might not be part of the
     // request; therefore we define them to avoid notices below
-    if (! isset($_REQUEST['field_null'][$i])) {
+    if (!isset($_REQUEST['field_null'][$i])) {
         $_REQUEST['field_null'][$i] = 'NO';
     }
-    if (! isset($_REQUEST['field_extra'][$i])) {
+    if (!isset($_REQUEST['field_extra'][$i])) {
         $_REQUEST['field_extra'][$i] = '';
     }
 
@@ -2500,7 +2516,7 @@ function PMA_columnNeedsAlterTable($i)
         || $_REQUEST['field_name'][$i] != $_REQUEST['field_orig'][$i]
         || $_REQUEST['field_null'][$i] != $_REQUEST['field_null_orig'][$i]
         || $_REQUEST['field_type'][$i] != $_REQUEST['field_type_orig'][$i]
-        || ! empty($_REQUEST['field_move_to'][$i])
+        || !empty($_REQUEST['field_move_to'][$i])
     ) {
         return true;
     } else {
@@ -2519,52 +2535,54 @@ function PMA_columnNeedsAlterTable($i)
  */
 function PMA_updateColumns($db, $table)
 {
-    $err_url = 'tbl_structure.php' . PMA_URL_getCommon(
-        array(
-            'db' => $db, 'table' => $table
-        )
-    );
+    $err_url    = 'tbl_structure.php' . PMA_URL_getCommon(
+            [
+                'db' => $db, 'table' => $table,
+            ]
+        );
     $regenerate = false;
-    $field_cnt = count($_REQUEST['field_name']);
-    $changes = array();
-    $pmatable = new PMA_Table($table, $db);
+    $field_cnt  = count($_REQUEST['field_name']);
+    $changes    = [];
+    $pmatable   = new PMA_Table($table, $db);
 
     for ($i = 0; $i < $field_cnt; $i++) {
         if (PMA_columnNeedsAlterTable($i)) {
             $changes[] = 'CHANGE ' . PMA_Table::generateAlter(
-                isset($_REQUEST['field_orig'][$i])
-                ? $_REQUEST['field_orig'][$i]
-                : '',
-                $_REQUEST['field_name'][$i],
-                $_REQUEST['field_type'][$i],
-                $_REQUEST['field_length'][$i],
-                $_REQUEST['field_attribute'][$i],
-                isset($_REQUEST['field_collation'][$i])
-                ? $_REQUEST['field_collation'][$i]
-                : '',
-                isset($_REQUEST['field_null'][$i])
-                ? $_REQUEST['field_null'][$i]
-                : 'NOT NULL',
-                $_REQUEST['field_default_type'][$i],
-                $_REQUEST['field_default_value'][$i],
-                isset($_REQUEST['field_extra'][$i])
-                ? $_REQUEST['field_extra'][$i]
-                : false,
-                isset($_REQUEST['field_comments'][$i])
-                ? $_REQUEST['field_comments'][$i]
-                : '',
-                isset($_REQUEST['field_move_to'][$i])
-                ? $_REQUEST['field_move_to'][$i]
-                : ''
-            );
+                    isset($_REQUEST['field_orig'][$i])
+                        ? $_REQUEST['field_orig'][$i]
+                        : '',
+                    $_REQUEST['field_name'][$i],
+                    $_REQUEST['field_type'][$i],
+                    $_REQUEST['field_length'][$i],
+                    $_REQUEST['field_attribute'][$i],
+                    isset($_REQUEST['field_collation'][$i])
+                        ? $_REQUEST['field_collation'][$i]
+                        : '',
+                    isset($_REQUEST['field_null'][$i])
+                        ? $_REQUEST['field_null'][$i]
+                        : 'NOT NULL',
+                    $_REQUEST['field_default_type'][$i],
+                    $_REQUEST['field_default_value'][$i],
+                    isset($_REQUEST['field_extra'][$i])
+                        ? $_REQUEST['field_extra'][$i]
+                        : false,
+                    isset($_REQUEST['field_comments'][$i])
+                        ? $_REQUEST['field_comments'][$i]
+                        : '',
+                    isset($_REQUEST['field_move_to'][$i])
+                        ? $_REQUEST['field_move_to'][$i]
+                        : ''
+                );
 
             // find the remembered sort expression
             $sorted_col = $pmatable->getUiProp(PMA_Table::PROP_SORTED_COLUMN);
             // if the old column name is part of the remembered sort expression
-            if (/*overload*/mb_strpos(
-                $sorted_col,
-                PMA_Util::backquote($_REQUEST['field_orig'][$i])
-            ) !== false) {
+            if (/*overload*/
+                mb_strpos(
+                    $sorted_col,
+                    PMA_Util::backquote($_REQUEST['field_orig'][$i])
+                ) !== false
+            ) {
                 // delete the whole remembered sort expression
                 $pmatable->removeUiProp(PMA_Table::PROP_SORTED_COLUMN);
             }
@@ -2588,7 +2606,7 @@ function PMA_updateColumns($db, $table)
 
         // To allow replication, we first select the db to use
         // and then run queries on this db.
-        if (! $GLOBALS['dbi']->selectDb($db)) {
+        if (!$GLOBALS['dbi']->selectDb($db)) {
             PMA_Util::mysqlDie(
                 $GLOBALS['dbi']->getError(),
                 'USE ' . PMA_Util::backquote($db) . ';',
@@ -2605,7 +2623,7 @@ function PMA_updateColumns($db, $table)
             PMA_previewSQL(count($changes) > 0 ? $sql_query : '');
         }
 
-        $result    = $GLOBALS['dbi']->tryQuery($sql_query);
+        $result = $GLOBALS['dbi']->tryQuery($sql_query);
 
         if ($result !== false) {
             $message = PMA_Message::success(
@@ -2650,7 +2668,8 @@ function PMA_updateColumns($db, $table)
     ) {
         foreach ($_REQUEST['field_mimetype'] as $fieldindex => $mimetype) {
             if (isset($_REQUEST['field_name'][$fieldindex])
-                && /*overload*/mb_strlen(
+                && /*overload*/
+                mb_strlen(
                     $_REQUEST['field_name'][$fieldindex]
                 )
             ) {
@@ -2665,6 +2684,7 @@ function PMA_updateColumns($db, $table)
             }
         }
     }
+
     return $regenerate;
 }
 
@@ -2683,9 +2703,9 @@ function PMA_moveColumns($db, $table)
     /*
      * load the definitions for all columns
      */
-    $columns = $GLOBALS['dbi']->getColumnsFull($db, $table);
+    $columns      = $GLOBALS['dbi']->getColumnsFull($db, $table);
     $column_names = array_keys($columns);
-    $changes = array();
+    $changes      = [];
 
     // move columns from first to last
     for ($i = 0, $l = count($_REQUEST['move_columns']); $i < $l; $i++) {
@@ -2696,7 +2716,7 @@ function PMA_moveColumns($db, $table)
         }
 
         // it is not, let's move it to index $i
-        $data = $columns[$column];
+        $data                 = $columns[$column];
         $extracted_columnspec = PMA_Util::extractColumnSpec($data['Type']);
         if (isset($data['Extra'])
             && $data['Extra'] == 'on update CURRENT_TIMESTAMP'
@@ -2712,28 +2732,29 @@ function PMA_moveColumns($db, $table)
         }
         $default_type
             = $data['Null'] === 'YES' && $data['Default'] === null
-                ? 'NULL'
-                : ($current_timestamp
-                    ? 'CURRENT_TIMESTAMP'
-                    : ($data['Default'] === null
-                        ? 'NONE'
-                        : 'USER_DEFINED'));
+            ? 'NULL'
+            : ($current_timestamp
+                ? 'CURRENT_TIMESTAMP'
+                : ($data['Default'] === null
+                    ? 'NONE'
+                    : 'USER_DEFINED'));
 
         $changes[] = 'CHANGE ' . PMA_Table::generateAlter(
-            $column,
-            $column,
-            /*overload*/mb_strtoupper($extracted_columnspec['type']),
-            $extracted_columnspec['spec_in_brackets'],
-            $extracted_columnspec['attribute'],
-            isset($data['Collation']) ? $data['Collation'] : '',
-            $data['Null'] === 'YES' ? 'NULL' : 'NOT NULL',
-            $default_type,
-            $current_timestamp ? '' : $data['Default'],
-            isset($data['Extra']) && $data['Extra'] !== '' ? $data['Extra'] : false,
-            isset($data['COLUMN_COMMENT']) && $data['COLUMN_COMMENT'] !== ''
-            ? $data['COLUMN_COMMENT'] : false,
-            $i === 0 ? '-first' : $column_names[$i - 1]
-        );
+                $column,
+                $column,
+                /*overload*/
+                mb_strtoupper($extracted_columnspec['type']),
+                $extracted_columnspec['spec_in_brackets'],
+                $extracted_columnspec['attribute'],
+                isset($data['Collation']) ? $data['Collation'] : '',
+                $data['Null'] === 'YES' ? 'NULL' : 'NOT NULL',
+                $default_type,
+                $current_timestamp ? '' : $data['Default'],
+                isset($data['Extra']) && $data['Extra'] !== '' ? $data['Extra'] : false,
+                isset($data['COLUMN_COMMENT']) && $data['COLUMN_COMMENT'] !== ''
+                    ? $data['COLUMN_COMMENT'] : false,
+                $i === 0 ? '-first' : $column_names[$i - 1]
+            );
         // update current column_names array, first delete old position
         for ($j = 0, $ll = count($column_names); $j < $ll; $j++) {
             if ($column_names[$j] == $column) {
@@ -2775,9 +2796,9 @@ function PMA_moveColumns($db, $table)
  * @return array $columns_with_unique_index  An array of columns with unique index,
  *                                            with $column name as the array key
  */
-function PMA_getColumnsWithUniqueIndex($db ,$table)
+function PMA_getColumnsWithUniqueIndex($db, $table)
 {
-    $columns_with_unique_index = array();
+    $columns_with_unique_index = [];
     foreach (PMA_Index::getFromTable($table, $db) as $index) {
         if ($index->isUnique() && $index->getChoice() == 'UNIQUE') {
             $columns = $index->getColumns();
@@ -2786,6 +2807,7 @@ function PMA_getColumnsWithUniqueIndex($db ,$table)
             }
         }
     }
+
     return $columns_with_unique_index;
 }
 
@@ -2840,16 +2862,16 @@ function PMA_displayTableBrowseForSelectedColumns($db, $table, $goto,
     $pmaThemeImage
 ) {
     $GLOBALS['active_page'] = 'sql.php';
-    $sql_query = '';
+    $sql_query              = '';
     foreach ($_REQUEST['selected_fld'] as $sval) {
         if ($sql_query == '') {
             $sql_query .= 'SELECT ' . PMA_Util::backquote($sval);
         } else {
-            $sql_query .=  ', ' . PMA_Util::backquote($sval);
+            $sql_query .= ', ' . PMA_Util::backquote($sval);
         }
     }
     $sql_query .= ' FROM ' . PMA_Util::backquote($db)
-    . '.' . PMA_Util::backquote($table);
+        . '.' . PMA_Util::backquote($table);
 
     // Parse and analyze the query
     include_once 'libraries/parse_analyze.inc.php';
@@ -2875,11 +2897,12 @@ function PMA_checkFavoriteTable($db, $current_table)
 {
     foreach (
         $_SESSION['tmpval']['favorite_tables'][$GLOBALS['server']] as $key => $value
-        ) {
+    ) {
         if ($value['db'] == $db && $value['table'] == $current_table) {
             return true;
         }
     }
+
     return false;
 }
 
@@ -2894,28 +2917,28 @@ function PMA_checkFavoriteTable($db, $current_table)
  */
 function PMA_getHtmlForFavoriteAnchor($db, $current_table, $titles)
 {
-    $html_output  = '<a ';
+    $html_output = '<a ';
     $html_output .= 'id="' . md5($current_table['TABLE_NAME'])
         . '_favorite_anchor" ';
     $html_output .= 'class="ajax favorite_table_anchor';
 
     // Check if current table is already in favorite list.
     $already_favorite = PMA_checkFavoriteTable($db, $current_table['TABLE_NAME']);
-    $fav_params = array('db' => $db,
-        'ajax_request' => true,
-        'favorite_table' => $current_table['TABLE_NAME'],
-        (($already_favorite?'remove':'add') . '_favorite') => true
-    );
-    $fav_url = 'db_structure.php' . PMA_URL_getCommon($fav_params);
+    $fav_params       = ['db'                                                   => $db,
+                         'ajax_request'                                         => true,
+                         'favorite_table'                                       => $current_table['TABLE_NAME'],
+                         (($already_favorite ? 'remove' : 'add') . '_favorite') => true,
+    ];
+    $fav_url          = 'db_structure.php' . PMA_URL_getCommon($fav_params);
     $html_output .= '" ';
     $html_output .= 'href="' . $fav_url
         . '" title="' . ($already_favorite ? __("Remove from Favorites")
-        : __("Add to Favorites"))
+            : __("Add to Favorites"))
         . '" data-favtargets="'
         . md5($db . "." . $current_table['TABLE_NAME'])
         . '" >'
         . (!$already_favorite ? $titles['NoFavorite']
-        : $titles['Favorite']) . '</a>';
+            : $titles['Favorite']) . '</a>';
 
     return $html_output;
 }
@@ -2933,7 +2956,7 @@ function PMA_addRemoveFavoriteTables($db)
     if (isset($_REQUEST['favorite_tables'])) {
         $favorite_tables = json_decode($_REQUEST['favorite_tables'], true);
     } else {
-        $favorite_tables = array();
+        $favorite_tables = [];
     }
     // Required to keep each user's preferences separate.
     $user = sha1($GLOBALS['cfg']['Server']['user']);
@@ -2943,10 +2966,10 @@ function PMA_addRemoveFavoriteTables($db)
         PMA_synchronizeFavoriteTables($fav_instance, $user, $favorite_tables);
         exit;
     }
-    $changes = true;
-    $msg = '';
-    $titles = PMA_Util::buildActionTitles();
-    $favorite_table = $_REQUEST['favorite_table'];
+    $changes          = true;
+    $msg              = '';
+    $titles           = PMA_Util::buildActionTitles();
+    $favorite_table   = $_REQUEST['favorite_table'];
     $already_favorite = PMA_checkFavoriteTable($db, $favorite_table);
 
     if (isset($_REQUEST['remove_favorite'])) {
@@ -2958,7 +2981,7 @@ function PMA_addRemoveFavoriteTables($db)
         if (!$already_favorite) {
             if (count($fav_instance->getTables()) == $GLOBALS['cfg']['NumFavoriteTables']) {
                 $changes = false;
-                $msg = '<div class="error"><img src="themes/dot.gif" '
+                $msg     = '<div class="error"><img src="themes/dot.gif" '
                     . 'title="" alt="" class="icon ic_s_error" />'
                     . __("Favorite List is full!")
                     . '</div>';
@@ -2970,7 +2993,7 @@ function PMA_addRemoveFavoriteTables($db)
     }
 
     $favorite_tables[$user] = $fav_instance->getTables();
-    $ajax_response = PMA_Response::getInstance();
+    $ajax_response          = PMA_Response::getInstance();
     $ajax_response->addJSON(
         'changes',
         $changes
@@ -2991,7 +3014,7 @@ function PMA_addRemoveFavoriteTables($db)
         $ajax_response->addJSON(
             'anchor',
             PMA_getHtmlForFavoriteAnchor(
-                $db, array('TABLE_NAME' => $favorite_table), $titles
+                $db, ['TABLE_NAME' => $favorite_table], $titles
             )
         );
     } else {
@@ -3076,7 +3099,7 @@ function PMA_getHtmlShowCreate($db, $db_objects)
         // Check if current object is a View or Table.
         $isView = PMA_Table::isView($db, $object);
         if ($isView) {
-            $row_class = ($odd1) ? 'odd' : 'even';
+            $row_class   = ($odd1) ? 'odd' : 'even';
             $create_data = PMA_getShowCreate($db, $object, 'view');
             $views .= '<tr class="' . $row_class . '">'
                 . '<td><strong>'
@@ -3086,9 +3109,9 @@ function PMA_getHtmlShowCreate($db, $db_objects)
                 . PMA_mimeDefaultFunction($create_data['Create View'])
                 . '</td>'
                 . '</tr>';
-            $odd1 = ! $odd1;
+            $odd1 = !$odd1;
         } else {
-            $row_class = ($odd2) ? 'odd' : 'even';
+            $row_class   = ($odd2) ? 'odd' : 'even';
             $create_data = PMA_getShowCreate($db, $object, 'table');
             $tables .= '<tr class="' . $row_class . '">'
                 . '<td><strong>'
@@ -3098,17 +3121,17 @@ function PMA_getHtmlShowCreate($db, $db_objects)
                 . PMA_mimeDefaultFunction($create_data['Create Table'])
                 . '</td>'
                 . '</tr>';
-            $odd2 = ! $odd2;
+            $odd2 = !$odd2;
         }
     }
     // Prepare table header for each type of object.
-    if (! empty($tables)) {
-        $title = __('Tables');
+    if (!empty($tables)) {
+        $title  = __('Tables');
         $tables = sprintf($output_table, $title, 'Table', 'Table')
             . $tables
             . '</tbody></table></fieldset>';
     }
-    if (! empty($views)) {
+    if (!empty($views)) {
         $title = __('Views');
         $views = sprintf($output_table, $title, 'View', 'View')
             . $views
@@ -3133,16 +3156,16 @@ function PMA_getShowCreate($db, $db_object, $type = 'table')
 {
     // 'SHOW CREATE' SQL query for specific type of DB object.
     switch ($type) {
-    case 'table':
-        $sql_query = 'SHOW CREATE TABLE ' . PMA_Util::backquote($db) . '.'
-            . PMA_Util::backquote($db_object);
-        break;
-    case 'view':
-        $sql_query = 'SHOW CREATE VIEW ' . PMA_Util::backquote($db) . '.'
-            . PMA_Util::backquote($db_object);
-        break;
-    default:
-        $sql_query = '';
+        case 'table':
+            $sql_query = 'SHOW CREATE TABLE ' . PMA_Util::backquote($db) . '.'
+                . PMA_Util::backquote($db_object);
+            break;
+        case 'view':
+            $sql_query = 'SHOW CREATE VIEW ' . PMA_Util::backquote($db) . '.'
+                . PMA_Util::backquote($db_object);
+            break;
+        default:
+            $sql_query = '';
     }
     // Execute the query.
     $result = $GLOBALS['dbi']->fetchSingleRow($sql_query);
@@ -3164,7 +3187,7 @@ function PMA_getRealRowCountTable($db, $table)
     $sql_query = 'SELECT COUNT(*) AS ' . PMA_Util::backquote('row_count')
         . ' FROM ' . PMA_Util::backquote($db) . '.'
         . PMA_Util::backquote($table);
-    $result = $GLOBALS['dbi']->fetchSingleRow($sql_query);
+    $result    = $GLOBALS['dbi']->fetchSingleRow($sql_query);
     $row_count = $result['row_count'];
 
     return $row_count;
@@ -3181,13 +3204,13 @@ function PMA_getRealRowCountTable($db, $table)
 function PMA_getRealRowCountDb($db, $tables)
 {
     // Array to store the results.
-    $row_count_all = array();
+    $row_count_all = [];
     // Iterate over each table and fetch real row count.
     foreach ($tables as $key => $table) {
         $row_count = PMA_getRealRowCountTable($db, $table['TABLE_NAME']);
         array_push(
             $row_count_all,
-            array('table' => $table['TABLE_NAME'], 'row_count' => $row_count)
+            ['table' => $table['TABLE_NAME'], 'row_count' => $row_count]
         );
     }
 
@@ -3212,6 +3235,7 @@ function PMA_handleRealRowCountRequest()
             'real_row_count_all',
             json_encode($real_row_count_all)
         );
+
         return true;
     }
     // Get the real row count for the table.
@@ -3222,6 +3246,7 @@ function PMA_handleRealRowCountRequest()
     // Format the number.
     $real_row_count = PMA_Util::formatNumber($real_row_count, 0);
     $ajax_response->addJSON('real_row_count', $real_row_count);
+
     return true;
 }
 
@@ -3258,8 +3283,8 @@ function PMA_getStructureSecondaryTabs($tbl_storage_engine)
     if ($cfgRelation['relwork']
         || PMA_Util::isForeignKeySupported(strtoupper($tbl_storage_engine))
     ) {
-        $url_params = array();
-        $url_params['db'] = $GLOBALS['db'];
+        $url_params          = [];
+        $url_params['db']    = $GLOBALS['db'];
         $url_params['table'] = $GLOBALS['table'];
 
         $html_output .= '<ul id="topmenu2">';
@@ -3269,6 +3294,7 @@ function PMA_getStructureSecondaryTabs($tbl_storage_engine)
         $html_output .= '</ul>';
         $html_output .= '<div class="clearfloat"></div>';
     }
+
     return $html_output;
 }
 
@@ -3281,18 +3307,19 @@ function PMA_getStructureSecondaryTabs($tbl_storage_engine)
  */
 function PMA_getStructureSubTabs()
 {
-    $subtabs = array();
+    $subtabs = [];
 
     $subtabs['structure']['icon'] = 'b_props';
     $subtabs['structure']['link'] = 'tbl_structure.php';
     $subtabs['structure']['text'] = __('Table structure');
-    $subtabs['structure']['id'] = 'table_strucuture_id';
+    $subtabs['structure']['id']   = 'table_strucuture_id';
 
     $subtabs['relation']['icon'] = 'b_relations';
     $subtabs['relation']['link'] = 'tbl_relation.php';
     $subtabs['relation']['text'] = __('Relation view');
-    $subtabs['relation']['id'] = 'table_relation_id';
+    $subtabs['relation']['id']   = 'table_relation_id';
 
     return $subtabs;
 }
+
 ?>

@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -16,7 +16,7 @@ require_once 'OptionsPropertyItem.class.php';
  * Parents group property items and provides methods to manage groups of
  * properties.
  *
- * @todo modify descriptions if needed, when the options are integrated
+ * @todo    modify descriptions if needed, when the options are integrated
  * @package PhpMyAdmin
  */
 abstract class OptionsPropertyGroup extends OptionsPropertyItem
@@ -38,7 +38,7 @@ abstract class OptionsPropertyGroup extends OptionsPropertyItem
      */
     public function addProperty($property)
     {
-        if (! $this->getProperties() == null
+        if (!$this->getProperties() == null
             && in_array($property, $this->getProperties(), true)
         ) {
             return;
@@ -58,7 +58,7 @@ abstract class OptionsPropertyGroup extends OptionsPropertyItem
     {
         $this->_properties = array_diff(
             $this->getProperties(),
-            array($property)
+            [$property]
         );
     }
 
@@ -96,4 +96,5 @@ abstract class OptionsPropertyGroup extends OptionsPropertyItem
         return count($this->_properties);
     }
 }
+
 ?>

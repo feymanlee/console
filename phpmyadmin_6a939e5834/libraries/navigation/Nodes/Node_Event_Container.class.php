@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Navigation
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -24,28 +24,28 @@ class Node_Event_Container extends Node
     public function __construct()
     {
         parent::__construct(__('Events'), Node::CONTAINER);
-        $this->icon  = PMA_Util::getImage('b_events.png', '');
-        $this->links = array(
+        $this->icon      = PMA_Util::getImage('b_events.png', '');
+        $this->links     = [
             'text' => 'db_events.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%1$s&amp;token=' . $_SESSION[' PMA_token '],
+                . '&amp;db=%1$s&amp;token=' . $_SESSION[' PMA_token '],
             'icon' => 'db_events.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%1$s&amp;token=' . $_SESSION[' PMA_token '],
-        );
+                . '&amp;db=%1$s&amp;token=' . $_SESSION[' PMA_token '],
+        ];
         $this->real_name = 'events';
 
-        $new        = PMA_NodeFactory::getInstance(
+        $new          = PMA_NodeFactory::getInstance(
             'Node', _pgettext('Create new event', 'New')
         );
-        $new->isNew = true;
-        $new->icon  = PMA_Util::getImage('b_event_add.png', '');
-        $new->links = array(
+        $new->isNew   = true;
+        $new->icon    = PMA_Util::getImage('b_event_add.png', '');
+        $new->links   = [
             'text' => 'db_events.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%2$s&amp;token=' . $_SESSION[' PMA_token ']
-                    . '&add_item=1',
+                . '&amp;db=%2$s&amp;token=' . $_SESSION[' PMA_token ']
+                . '&add_item=1',
             'icon' => 'db_events.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%2$s&amp;token=' . $_SESSION[' PMA_token ']
-                    . '&add_item=1',
-        );
+                . '&amp;db=%2$s&amp;token=' . $_SESSION[' PMA_token ']
+                . '&add_item=1',
+        ];
         $new->classes = 'new_event italics';
         $this->addChild($new);
     }

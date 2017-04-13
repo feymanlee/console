@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Navigation
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -23,7 +23,7 @@ abstract class Node_DatabaseChild extends Node
      */
     public function getHtmlForControlButtons()
     {
-        $ret = '';
+        $ret         = '';
         $cfgRelation = PMA_getRelationsParam();
         if (isset($cfgRelation['navwork']) && $cfgRelation['navwork']) {
             $db   = $this->realParent()->real_name;
@@ -39,6 +39,7 @@ abstract class Node_DatabaseChild extends Node
                 . PMA_Util::getImage('lightbulb_off.png', __('Hide'))
                 . '</a></span>';
         }
+
         return $ret;
     }
 
@@ -49,4 +50,5 @@ abstract class Node_DatabaseChild extends Node
      */
     protected abstract function getItemType();
 }
+
 ?>

@@ -27,7 +27,7 @@ class PMA_GetLinks_Test extends PHPUnit_Framework_TestCase
      */
     function setUp()
     {
-        $GLOBALS['server'] = 99;
+        $GLOBALS['server']               = 99;
         $GLOBALS['cfg']['ServerDefault'] = 0;
     }
 
@@ -53,14 +53,14 @@ class PMA_GetLinks_Test extends PHPUnit_Framework_TestCase
      */
     public function providerLinkURL()
     {
-        return array(
-            array('https://wiki.phpmyadmin.net',
-             './url.php?url=https%3A%2F%2Fwiki.phpmyadmin.net'),
-            array('https://wiki.phpmyadmin.net',
-             './url.php?url=https%3A%2F%2Fwiki.phpmyadmin.net'),
-            array('wiki.phpmyadmin.net', 'wiki.phpmyadmin.net'),
-            array('index.php?db=phpmyadmin', 'index.php?db=phpmyadmin')
-        );
+        return [
+            ['https://wiki.phpmyadmin.net',
+                './url.php?url=https%3A%2F%2Fwiki.phpmyadmin.net'],
+            ['https://wiki.phpmyadmin.net',
+                './url.php?url=https%3A%2F%2Fwiki.phpmyadmin.net'],
+            ['wiki.phpmyadmin.net', 'wiki.phpmyadmin.net'],
+            ['index.php?db=phpmyadmin', 'index.php?db=phpmyadmin'],
+        ];
     }
 
     /**

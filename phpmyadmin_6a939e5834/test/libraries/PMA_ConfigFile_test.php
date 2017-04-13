@@ -39,9 +39,9 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $GLOBALS['server'] = 1;
-        $GLOBALS['cfg']['AvailableCharsets'] = array();
-        $this->object = new ConfigFile();
+        $GLOBALS['server']                   = 1;
+        $GLOBALS['cfg']['AvailableCharsets'] = [];
+        $this->object                        = new ConfigFile();
     }
 
     /**
@@ -70,13 +70,13 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array(),
+            [],
             $this->object->getConfig()
         );
 
         // Check environment state
         $this->assertEquals(
-            array(),
+            [],
             $_SESSION["ConfigFile1"]
         );
 
@@ -98,11 +98,11 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
         $default_simple_value = $this->object->getDefault(
             self::SIMPLE_KEY_WITH_DEFAULT_VALUE
         );
-        $default_host = $this->object->getDefault('Servers/1/host');
-        $default_config = array(
+        $default_host         = $this->object->getDefault('Servers/1/host');
+        $default_config       = [
             self::SIMPLE_KEY_WITH_DEFAULT_VALUE => $default_simple_value,
-            'Servers/1/host' => $default_host,
-            'Servers/2/host' => $default_host);
+            'Servers/1/host'                    => $default_host,
+            'Servers/2/host'                    => $default_host];
 
         /**
          * Case 1: set default value, key should not be persisted
@@ -132,7 +132,7 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
          */
         $this->object->set('Servers/2/host', $default_host);
         $this->assertEquals(
-            array('Servers' => array(2 => array('host' => $default_host))),
+            ['Servers' => [2 => ['host' => $default_host]]],
             $this->object->getConfig()
         );
     }
@@ -148,13 +148,13 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
         /**
          * Case 1: filter should not allow to set b
          */
-        $this->object->setAllowedKeys(array('a', 'c'));
+        $this->object->setAllowedKeys(['a', 'c']);
         $this->object->set('a', 1);
         $this->object->set('b', 2);
         $this->object->set('c', 3);
 
         $this->assertEquals(
-            array('a' => 1, 'c' => 3),
+            ['a' => 1, 'c' => 3],
             $this->object->getConfig()
         );
 
@@ -165,7 +165,7 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
         $this->object->set('b', 2);
 
         $this->assertEquals(
-            array('a' => 1, 'b' => 2, 'c' => 3),
+            ['a' => 1, 'b' => 2, 'c' => 3],
             $this->object->getConfig()
         );
     }
@@ -179,21 +179,21 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
     public function testConfigReadMapping()
     {
         $this->object->setCfgUpdateReadMapping(
-            array(
+            [
                 'Servers/value1' => 'Servers/1/value1',
-                'Servers/value2' => 'Servers/1/value2'
-            )
+                'Servers/value2' => 'Servers/1/value2',
+            ]
         );
         $this->object->set('Servers/1/passthrough1', 1);
         $this->object->set('Servers/1/passthrough2', 2);
-        $this->object->updateWithGlobalConfig(array('Servers/value1' => 3));
+        $this->object->updateWithGlobalConfig(['Servers/value1' => 3]);
 
         $this->assertEquals(
-            array('Servers' => array(
-                1 => array(
+            ['Servers' => [
+                1 => [
                     'passthrough1' => 1,
                     'passthrough2' => 2,
-                    'value1' => 3))),
+                    'value1'       => 3]]],
             $this->object->getConfig()
         );
         $this->assertEquals(
@@ -227,14 +227,14 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
     public function testSetConfigData()
     {
         $this->object->set('abc', 'should be deleted by setConfigData');
-        $this->object->setConfigData(array('a' => 'b'));
+        $this->object->setConfigData(['a' => 'b']);
 
         $this->assertEquals(
-            array('a' => 'b'),
+            ['a' => 'b'],
             $this->object->getConfig()
         );
         $this->assertEquals(
-            array('a' => 'b'),
+            ['a' => 'b'],
             $this->object->getConfigArray()
         );
     }
@@ -247,7 +247,7 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
      */
     public function testBasicSetUsage()
     {
-        $default_host = $this->object->getDefault('Servers/1/host');
+        $default_host    = $this->object->getDefault('Servers/1/host');
         $nondefault_host = $default_host . '.abc';
 
         $this->object->set('Servers/4/host', $nondefault_host);
@@ -271,8 +271,8 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
             $this->object->get('key not excist')
         );
         $this->assertEquals(
-            array(1),
-            $this->object->get('key not excist', array(1))
+            [1],
+            $this->object->get('key not excist', [1])
         );
         $default = new stdClass();
         $this->assertInstanceOf(
@@ -312,7 +312,7 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
 
         // values are not written when they are the same as in config.inc.php
         $this->object = new ConfigFile(
-            array(self::SIMPLE_KEY_WITH_DEFAULT_VALUE => $default_value)
+            [self::SIMPLE_KEY_WITH_DEFAULT_VALUE => $default_value]
         );
         $this->object->set(self::SIMPLE_KEY_WITH_DEFAULT_VALUE, $default_value);
         $this->assertEmpty($this->object->getConfig());
@@ -320,12 +320,12 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
         // but if config.inc.php differs from config.default.php,
         // allow to overwrite with value from config.default.php
         $config_inc_php_value = $default_value . 'suffix';
-        $this->object = new ConfigFile(
-            array(self::SIMPLE_KEY_WITH_DEFAULT_VALUE => $config_inc_php_value)
+        $this->object         = new ConfigFile(
+            [self::SIMPLE_KEY_WITH_DEFAULT_VALUE => $config_inc_php_value]
         );
         $this->object->set(self::SIMPLE_KEY_WITH_DEFAULT_VALUE, $default_value);
         $this->assertEquals(
-            array(self::SIMPLE_KEY_WITH_DEFAULT_VALUE => $default_value),
+            [self::SIMPLE_KEY_WITH_DEFAULT_VALUE => $default_value],
             $this->object->getConfig()
         );
     }
@@ -353,7 +353,7 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
             $localhost_value, $flat_default_config['Servers/1/host']
         );
 
-        $cfg = array();
+        $cfg = [];
         include './libraries/config.default.php';
         // verify that $cfg read from config.default.php is valid
         $this->assertGreaterThanOrEqual(100, count($cfg));
@@ -370,10 +370,10 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
     {
         $this->object->set('key', 'value');
         $this->object->set('key2', 'value');
-        $this->object->updateWithGlobalConfig(array('key' => 'ABC'));
+        $this->object->updateWithGlobalConfig(['key' => 'ABC']);
 
         $this->assertEquals(
-            array('key' => 'ABC', 'key2' => 'value'),
+            ['key' => 'ABC', 'key2' => 'value'],
             $this->object->getConfig()
         );
     }
@@ -405,7 +405,7 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetDbEntry()
     {
-        $cfg_db = array();
+        $cfg_db = [];
         include './libraries/config.values.php';
         // verify that $cfg_db read from config.values.php is valid
         $this->assertGreaterThanOrEqual(20, count($cfg_db));
@@ -416,8 +416,8 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
         );
         $this->assertNull($this->object->getDbEntry('no such key'));
         $this->assertEquals(
-            array(1),
-            $this->object->getDbEntry('no such key', array(1))
+            [1],
+            $this->object->getDbEntry('no such key', [1])
         );
     }
 
@@ -453,11 +453,11 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
             $this->object->get('ServerDefault')
         );
         $this->assertEquals(
-            array('Servers' => array(1 => array('x' => 1), 2 => array('x' => 4))),
+            ['Servers' => [1 => ['x' => 1], 2 => ['x' => 4]]],
             $this->object->getConfig()
         );
         $this->assertEquals(
-            array('Servers/1/x' => 1, 'Servers/2/x' => 4),
+            ['Servers/1/x' => 1, 'Servers/2/x' => 4],
             $this->object->getConfigArray()
         );
     }
@@ -474,7 +474,7 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
         $this->object->set('Servers/2/x', 'b');
 
         $this->assertEquals(
-            array(1 => array('x' => 'a'), 2 => array('x' => 'b')),
+            [1 => ['x' => 'a'], 2 => ['x' => 'b']],
             $this->object->getServers()
         );
     }
@@ -493,17 +493,17 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
         );
 
         $this->object->updateWithGlobalConfig(
-            array(
-                'Servers' => array(
-                    1 => array(
-                        "auth_type" => "config",
-                        "user" => "testUser",
+            [
+                'Servers' => [
+                    1 => [
+                        "auth_type"    => "config",
+                        "user"         => "testUser",
                         "connect_type" => "tcp",
-                        "host" => "example.com",
-                        "port" => "21"
-                    )
-                )
-            )
+                        "host"         => "example.com",
+                        "port"         => "21",
+                    ],
+                ],
+            ]
         );
         $this->assertEquals(
             "mysqli://testUser:***@example.com:21",
@@ -511,19 +511,19 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
         );
 
         $this->object->updateWithGlobalConfig(
-            array(
-                'Servers' => array(
-                    1 => array(
-                        "auth_type" => "config",
-                        "user" => "testUser",
+            [
+                'Servers' => [
+                    1 => [
+                        "auth_type"    => "config",
+                        "user"         => "testUser",
                         "connect_type" => "socket",
-                        "host" => "example.com",
-                        "port" => "21",
-                        "nopassword" => "yes",
-                        "socket" => "123"
-                    )
-                )
-            )
+                        "host"         => "example.com",
+                        "port"         => "21",
+                        "nopassword"   => "yes",
+                        "socket"       => "123",
+                    ],
+                ],
+            ]
         );
         $this->assertEquals(
             "mysqli://testUser@123",
@@ -576,19 +576,20 @@ class PMA_ConfigFile_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetConfigArray()
     {
-        $this->object->setPersistKeys(array(self::SIMPLE_KEY_WITH_DEFAULT_VALUE));
-        $this->object->set('Array/test', array('x', 'y'));
+        $this->object->setPersistKeys([self::SIMPLE_KEY_WITH_DEFAULT_VALUE]);
+        $this->object->set('Array/test', ['x', 'y']);
         $default_value = $this->object->getDefault(
             self::SIMPLE_KEY_WITH_DEFAULT_VALUE
         );
 
         $this->assertEquals(
-            array(
+            [
                 self::SIMPLE_KEY_WITH_DEFAULT_VALUE => $default_value,
-                'Array/test' => array('x', 'y')
-            ),
+                'Array/test'                        => ['x', 'y'],
+            ],
             $this->object->getConfigArray()
         );
     }
 }
+
 ?>

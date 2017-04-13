@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Navigation
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -28,11 +28,11 @@ class PMA_NavigationHeader
             $GLOBALS['url_query'] = PMA_URL_getCommon();
         }
         $link_url = PMA_URL_getCommon(
-            array(
-                'ajax_request' => true
-            )
+            [
+                'ajax_request' => true,
+            ]
         );
-        $class = ' class="list_container';
+        $class    = ' class="list_container';
         if ($GLOBALS['cfg']['NavigationLinkWithMainPanel']) {
             $class .= ' synced';
         }
@@ -40,7 +40,7 @@ class PMA_NavigationHeader
             $class .= ' highlight';
         }
         $class .= '"';
-        $buffer  = '<div id="pma_navigation">';
+        $buffer = '<div id="pma_navigation">';
         $buffer .= '<div id="pma_navigation_resizer"></div>';
         $buffer .= '<div id="pma_navigation_collapser"></div>';
         $buffer .= '<div id="pma_navigation_content">';
@@ -55,13 +55,14 @@ class PMA_NavigationHeader
         $buffer .= PMA_Util::getImage(
             'ajax_clock_small.gif',
             __('Loading…'),
-            array(
+            [
                 'style' => 'visibility: hidden; display:none',
-                'class' => 'throbber'
-            )
+                'class' => 'throbber',
+            ]
         );
         $buffer .= '</div>'; // pma_navigation_header
         $buffer .= '<div id="pma_navigation_tree"' . $class . '>';
+
         return $buffer;
     }
 
@@ -77,6 +78,7 @@ class PMA_NavigationHeader
         // display Logo, depending on $GLOBALS['cfg']['NavigationDisplayLogo']
         if (!$GLOBALS['cfg']['NavigationDisplayLogo']) {
             $retval .= '<!-- LOGO END -->';
+
             return $retval;
         }
 
@@ -96,25 +98,25 @@ class PMA_NavigationHeader
             // prevent XSS, see PMASA-2013-9
             // if link has protocol, allow only http and https
             if (preg_match('/^[a-z]+:/i', $logo_link)
-                && ! preg_match('/^https?:/i', $logo_link)
+                && !preg_match('/^https?:/i', $logo_link)
             ) {
                 $logo_link = 'index.php';
             }
             $retval .= '    <a href="' . $logo_link;
             switch ($GLOBALS['cfg']['NavigationLogoLinkWindow']) {
-            case 'new':
-                $retval .= '" target="_blank"';
-                break;
-            case 'main':
-                // do not add our parameters for an external link
-                $host = parse_url(
-                    $GLOBALS['cfg']['NavigationLogoLink'], PHP_URL_HOST
-                );
-                if (empty($host)) {
-                    $retval .= PMA_URL_getCommon() . '"';
-                } else {
+                case 'new':
                     $retval .= '" target="_blank"';
-                }
+                    break;
+                case 'main':
+                    // do not add our parameters for an external link
+                    $host = parse_url(
+                        $GLOBALS['cfg']['NavigationLogoLink'], PHP_URL_HOST
+                    );
+                    if (empty($host)) {
+                        $retval .= PMA_URL_getCommon() . '"';
+                    } else {
+                        $retval .= '" target="_blank"';
+                    }
             }
             $retval .= '>';
             $retval .= $logo;
@@ -125,6 +127,7 @@ class PMA_NavigationHeader
         $retval .= '</div>';
 
         $retval .= '<!-- LOGO END -->';
+
         return $retval;
     }
 
@@ -140,7 +143,7 @@ class PMA_NavigationHeader
         $showIcon = true;
         $showText = false;
 
-        $retval  = '<!-- LINKS START -->';
+        $retval = '<!-- LINKS START -->';
         $retval .= '<div id="navipanellinks">';
         $retval .= PMA_Util::getNavigationLink(
             'index.php' . PMA_URL_getCommon(),
@@ -153,7 +156,7 @@ class PMA_NavigationHeader
         if ($GLOBALS['server'] != 0) {
             // Logout for advanced authentication
             if ($GLOBALS['cfg']['Server']['auth_type'] != 'config') {
-                $link  = 'index.php' . $GLOBALS['url_query'];
+                $link = 'index.php' . $GLOBALS['url_query'];
                 $link .= '&amp;old_usr=' . urlencode($GLOBALS['PHP_AUTH_USER']);
                 $retval .= PMA_Util::getNavigationLink(
                     $link,
@@ -196,6 +199,7 @@ class PMA_NavigationHeader
         );
         $retval .= '</div>';
         $retval .= '<!-- LINKS ENDS -->';
+
         return $retval;
     }
 
@@ -217,7 +221,9 @@ class PMA_NavigationHeader
             $retval .= '</div>';
             $retval .= '<!-- SERVER CHOICE END -->';
         }
+
         return $retval;
     }
 }
+
 ?>

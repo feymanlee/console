@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage SQL
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -23,9 +23,9 @@ class Text_Plain_Json extends TransformationsPlugin
 {
     public function __construct()
     {
-        if (! empty($GLOBALS['cfg']['CodemirrorEnable'])) {
+        if (!empty($GLOBALS['cfg']['CodemirrorEnable'])) {
             $response = PMA_Response::getInstance();
-            $scripts = $response->getHeader()->getScripts();
+            $scripts  = $response->getHeader()->getScripts();
             $scripts->addFile('codemirror/lib/codemirror.js');
             $scripts->addFile('codemirror/mode/javascript/javascript.js');
             $scripts->addFile('codemirror/addon/runmode/runmode.js');
@@ -54,7 +54,7 @@ class Text_Plain_Json extends TransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         return '<code class="json"><pre>' . "\n"
             . htmlspecialchars($buffer) . "\n"
@@ -93,4 +93,5 @@ class Text_Plain_Json extends TransformationsPlugin
         return "JSON";
     }
 }
+
 ?>

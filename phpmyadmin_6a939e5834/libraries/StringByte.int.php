@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Defines a set of specialized string functions.
  *
@@ -170,4 +171,5 @@ interface PMA_StringByte
      */
     public function chr($ascii);
 }
+
 ?>

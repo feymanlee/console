@@ -8,15 +8,16 @@
  * @subpackage XML
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
 /**
  * We need way to disable external XML entities processing.
  */
-if (! function_exists('libxml_disable_entity_loader')) {
+if (!function_exists('libxml_disable_entity_loader')) {
     $GLOBALS['skip_import'] = true;
+
     return;
 }
 
@@ -54,7 +55,7 @@ class ImportXml extends ImportPlugin
         $importPluginProperties->setText(__('XML'));
         $importPluginProperties->setExtension('xml');
         $importPluginProperties->setMimeType('text/xml');
-        $importPluginProperties->setOptions(array());
+        $importPluginProperties->setOptions([]);
         $importPluginProperties->setOptionsText(__('Options'));
 
         $this->properties = $importPluginProperties;
@@ -69,15 +70,15 @@ class ImportXml extends ImportPlugin
     {
         global $error, $timeout_passed, $finished, $db;
 
-        $i = 0;
-        $len = 0;
+        $i      = 0;
+        $len    = 0;
         $buffer = "";
 
         /**
          * Read in the file via PMA_importGetNextChunk so that
          * it can process compressed files
          */
-        while (! ($finished && $i >= $len) && ! $error && ! $timeout_passed) {
+        while (!($finished && $i >= $len) && !$error && !$timeout_passed) {
             $data = PMA_importGetNextChunk();
             if ($data === false) {
                 /* subtract data we didn't handle yet and stop processing */
@@ -122,23 +123,24 @@ class ImportXml extends ImportPlugin
             )->display();
             unset($xml);
             $GLOBALS['finished'] = false;
+
             return;
         }
 
         /**
          * Table accumulator
          */
-        $tables = array();
+        $tables = [];
         /**
          * Row accumulator
          */
-        $rows = array();
+        $rows = [];
 
         /**
          * Temp arrays
          */
-        $tempRow = array();
-        $tempCells = array();
+        $tempRow   = [];
+        $tempCells = [];
 
         /**
          * CREATE code included (by default: no)
@@ -157,19 +159,19 @@ class ImportXml extends ImportPlugin
             ->{'structure_schemas'}->{'database'};
 
         if ($db_attr instanceof SimpleXMLElement) {
-            $db_attr = $db_attr->attributes();
-            $db_name = (string)$db_attr['name'];
+            $db_attr   = $db_attr->attributes();
+            $db_name   = (string)$db_attr['name'];
             $collation = (string)$db_attr['collation'];
-            $charset = (string)$db_attr['charset'];
+            $charset   = (string)$db_attr['charset'];
         } else {
             /**
              * If the structure section is not present
              * get the database name from the data section
              */
-            $db_attr = $xml->children()->attributes();
-            $db_name = (string)$db_attr['name'];
+            $db_attr   = $xml->children()->attributes();
+            $db_name   = (string)$db_attr['name'];
             $collation = null;
-            $charset = null;
+            $charset   = null;
         }
 
         /**
@@ -184,6 +186,7 @@ class ImportXml extends ImportPlugin
             )->display();
             unset($xml);
             $GLOBALS['finished'] = false;
+
             return;
         }
 
@@ -196,7 +199,7 @@ class ImportXml extends ImportPlugin
              */
             $struct = $xml->children($namespaces['pma']);
 
-            $create = array();
+            $create = [];
 
             foreach ($struct as $val1) {
                 foreach ($val1 as $val2) {
@@ -206,7 +209,7 @@ class ImportXml extends ImportPlugin
                      * @todo    Generating a USE here blocks importing of a table
                      *          into another database.
                      */
-                    $attrs = $val2->attributes();
+                    $attrs    = $val2->attributes();
                     $create[] = "USE "
                         . PMA_Util::backquote(
                             $attrs["name"]
@@ -216,7 +219,7 @@ class ImportXml extends ImportPlugin
                         /**
                          * Remove the extra cosmetic spacing
                          */
-                        $val3 = str_replace("                ", "", (string)$val3);
+                        $val3     = str_replace("                ", "", (string)$val3);
                         $create[] = $val3;
                     }
                 }
@@ -246,28 +249,28 @@ class ImportXml extends ImportPlugin
 
                 $isInTables = false;
                 for ($i = 0; $i < count($tables); ++$i) {
-                    if (! strcmp($tables[$i][TBL_NAME], (string)$tbl_attr['name'])) {
+                    if (!strcmp($tables[$i][TBL_NAME], (string)$tbl_attr['name'])) {
                         $isInTables = true;
                         break;
                     }
                 }
 
                 if ($isInTables == false) {
-                    $tables[] = array((string)$tbl_attr['name']);
+                    $tables[] = [(string)$tbl_attr['name']];
                 }
 
                 foreach ($v1 as $v2) {
                     $row_attr = $v2->attributes();
-                    if (! array_search((string)$row_attr['name'], $tempRow)) {
+                    if (!array_search((string)$row_attr['name'], $tempRow)) {
                         $tempRow[] = (string)$row_attr['name'];
                     }
                     $tempCells[] = (string)$v2;
                 }
 
-                $rows[] = array((string)$tbl_attr['name'], $tempRow, $tempCells);
+                $rows[] = [(string)$tbl_attr['name'], $tempRow, $tempCells];
 
-                $tempRow = array();
-                $tempCells = array();
+                $tempRow   = [];
+                $tempCells = [];
             }
 
             unset($tempRow);
@@ -280,8 +283,8 @@ class ImportXml extends ImportPlugin
             $num_tbls = count($tables);
             for ($i = 0; $i < $num_tbls; ++$i) {
                 for ($j = 0; $j < count($rows); ++$j) {
-                    if (! strcmp($tables[$i][TBL_NAME], $rows[$j][TBL_NAME])) {
-                        if (! isset($tables[$i][COL_NAMES])) {
+                    if (!strcmp($tables[$i][TBL_NAME], $rows[$j][TBL_NAME])) {
+                        if (!isset($tables[$i][COL_NAMES])) {
                             $tables[$i][] = $rows[$j][COL_NAMES];
                         }
 
@@ -292,8 +295,8 @@ class ImportXml extends ImportPlugin
 
             unset($rows);
 
-            if (! $struct_present) {
-                $analyses = array();
+            if (!$struct_present) {
+                $analyses = [];
 
                 $len = count($tables);
                 for ($i = 0; $i < $len; ++$i) {
@@ -314,9 +317,9 @@ class ImportXml extends ImportPlugin
              * Set values to NULL if they were not present
              * to maintain PMA_buildSQL() call integrity
              */
-            if (! isset($analyses)) {
+            if (!isset($analyses)) {
                 $analyses = null;
-                if (! $struct_present) {
+                if (!$struct_present) {
                     $create = null;
                 }
             }
@@ -340,17 +343,17 @@ class ImportXml extends ImportPlugin
         if (strlen($db)) {
             /* Override the database name in the XML file, if one is selected */
             $db_name = $db;
-            $options = array('create_db' => false);
+            $options = ['create_db' => false];
         } else {
             if ($db_name === null) {
                 $db_name = 'XML_DB';
             }
 
             /* Set database collation/charset */
-            $options = array(
+            $options = [
                 'db_collation' => $collation,
                 'db_charset'   => $charset,
-            );
+            ];
         }
 
         /* Created and execute necessary SQL statements from data */

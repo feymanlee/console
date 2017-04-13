@@ -42,6 +42,7 @@ if (!@function_exists('mb_strlen')) {
         if (null === $length) {
             $length = 2147483647;
         }
+
         return substr($string, $start, $length);
     }
 
@@ -88,6 +89,7 @@ if (!@function_exists('mb_strlen')) {
         ) {
             return false;
         }
+
         return stripos($haystack, $needle, $offset);
     }
 
@@ -121,6 +123,7 @@ if (!@function_exists('mb_strlen')) {
         ) {
             return false;
         }
+
         return strripos($haystack, $needle, $offset);
     }
 
@@ -208,8 +211,8 @@ if (!@function_exists('mb_ord')) {
      */
     function mb_preg_strpos($pattern, $subject, $offset = 0)
     {
-        $matches = array();
-        $bFind = preg_match(
+        $matches = [];
+        $bFind   = preg_match(
             $pattern, $subject, $matches, PREG_OFFSET_CAPTURE, $offset
         );
         if (1 !== $bFind) {

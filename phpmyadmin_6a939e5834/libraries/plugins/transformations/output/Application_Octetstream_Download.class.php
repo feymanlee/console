@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage Download
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 /* Get the download transformations interface */
@@ -41,4 +41,5 @@ class Application_Octetstream_Download extends DownloadTransformationsPlugin
         return "OctetStream";
     }
 }
+
 ?>

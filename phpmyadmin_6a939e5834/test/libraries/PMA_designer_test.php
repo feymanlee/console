@@ -30,21 +30,21 @@ class PMA_DesginerTest extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $GLOBALS['server'] = 1;
-        $GLOBALS['cfg']['ServerDefault'] = 1;
-        $GLOBALS['cfg']['PDFPageSizes'] = array('A3', 'A4');
+        $GLOBALS['server']                    = 1;
+        $GLOBALS['cfg']['ServerDefault']      = 1;
+        $GLOBALS['cfg']['PDFPageSizes']       = ['A3', 'A4'];
         $GLOBALS['cfg']['PDFDefaultPageSize'] = 'A4';
 
-        $_SESSION = array(
-            'relation' => array(
-                '1' => array(
-                    'db' => 'pmadb',
+        $_SESSION = [
+            'relation'    => [
+                '1' => [
+                    'db'        => 'pmadb',
                     'pdf_pages' => 'pdf_pages',
-                    'pdfwork' => true
-                )
-            ),
-            ' PMA_token ' => 'token'
-        );
+                    'pdfwork'   => true,
+                ],
+            ],
+            ' PMA_token ' => 'token',
+        ];
     }
 
     /**
@@ -75,14 +75,14 @@ class PMA_DesginerTest extends PHPUnit_Framework_TestCase
             ->method('fetchAssoc')
             ->with('dummyRS')
             ->will(
-                $this->returnValue(array('page_nr' => '1', 'page_descr' => 'page1'))
+                $this->returnValue(['page_nr' => '1', 'page_descr' => 'page1'])
             );
 
         $dbi->expects($this->at(2))
             ->method('fetchAssoc')
             ->with('dummyRS')
             ->will(
-                $this->returnValue(array('page_nr' => '2', 'page_descr' => 'page2'))
+                $this->returnValue(['page_nr' => '2', 'page_descr' => 'page2'])
             );
 
         $dbi->expects($this->at(3))
@@ -106,10 +106,10 @@ class PMA_DesginerTest extends PHPUnit_Framework_TestCase
         $result = PMA_getPageIdsAndNames($db);
 
         $this->assertEquals(
-            array(
+            [
                 '1' => 'page1',
-                '2' => 'page2'
-            ),
+                '2' => 'page2',
+            ],
             $result
         );
     }
@@ -121,7 +121,7 @@ class PMA_DesginerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetHtmlForEditOrDeletePages()
     {
-        $db = 'db';
+        $db        = 'db';
         $operation = 'edit';
         $this->_mockDatabaseInteraction($db);
 
@@ -184,7 +184,7 @@ class PMA_DesginerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetHtmlForSchemaExport()
     {
-        $db = 'db';
+        $db   = 'db';
         $page = 2;
 
         $result = PMA_getHtmlForSchemaExport($db, $page);
@@ -223,4 +223,5 @@ class PMA_DesginerTest extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

@@ -25,12 +25,12 @@ class Node_Table_Container_Test extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $GLOBALS['server'] = 0;
+        $GLOBALS['server']                              = 0;
         $GLOBALS['cfg']['NavigationTreeEnableGrouping'] = true;
-        $GLOBALS['cfg']['NavigationTreeDbSeparator'] = '_';
+        $GLOBALS['cfg']['NavigationTreeDbSeparator']    = '_';
         $GLOBALS['cfg']['NavigationTreeTableSeparator'] = '__';
-        $GLOBALS['cfg']['NavigationTreeTableLevel'] = 1;
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
+        $GLOBALS['cfg']['NavigationTreeTableLevel']     = 1;
+        $_SESSION['PMA_Theme']                          = PMA_Theme::load('./themes/pmahomme');
     }
 
 
@@ -54,4 +54,5 @@ class Node_Table_Container_Test extends PHPUnit_Framework_TestCase
         $this->assertContains('tableContainer', $parent->classes);
     }
 }
+
 ?>

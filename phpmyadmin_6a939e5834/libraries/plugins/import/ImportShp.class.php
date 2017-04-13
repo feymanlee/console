@@ -6,13 +6,14 @@
  * @package    PhpMyAdmin-Import
  * @subpackage ESRI_Shape
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
 // Drizzle does not support GIS data types
 if (PMA_DRIZZLE) {
     $GLOBALS['skip_import'] = true;
+
     return;
 }
 
@@ -53,7 +54,7 @@ class ImportShp extends ImportPlugin
         $importPluginProperties = new ImportPluginProperties();
         $importPluginProperties->setText(__('ESRI Shape File'));
         $importPluginProperties->setExtension('shp');
-        $importPluginProperties->setOptions(array());
+        $importPluginProperties->setOptions([]);
         $importPluginProperties->setOptionsText(__('Options'));
 
         $this->properties = $importPluginProperties;
@@ -67,7 +68,7 @@ class ImportShp extends ImportPlugin
     public function doImport()
     {
         global $db, $error, $finished, $compression,
-            $import_file, $local_import_file, $message;
+               $import_file, $local_import_file, $message;
 
         $GLOBALS['finished'] = false;
 
@@ -77,7 +78,7 @@ class ImportShp extends ImportPlugin
         if ($compression == 'application/zip'
             && PMA_getNoOfFilesInZip($import_file) > 1
         ) {
-            $zip_content =  PMA_getZipContents($import_file, '/^.*\.shp$/i');
+            $zip_content            = PMA_getZipContents($import_file, '/^.*\.shp$/i');
             $GLOBALS['import_text'] = $zip_content['data'];
         }
 
@@ -87,7 +88,7 @@ class ImportShp extends ImportPlugin
             // If we can extract the zip archive to 'TempDir'
             // and use the files in it for import
             if ($compression == 'application/zip'
-                && ! empty($GLOBALS['cfg']['TempDir'])
+                && !empty($GLOBALS['cfg']['TempDir'])
                 && is_writable($GLOBALS['cfg']['TempDir'])
             ) {
                 $dbf_file_name = PMA_findFileFromZipArchive(
@@ -96,40 +97,42 @@ class ImportShp extends ImportPlugin
                 // If the corresponding .dbf file is in the zip archive
                 if ($dbf_file_name) {
                     // Extract the .dbf file and point to it.
-                    $extracted =  PMA_zipExtract(
+                    $extracted = PMA_zipExtract(
                         $import_file,
                         $dbf_file_name
                     );
                     if ($extracted !== false) {
                         $dbf_file_path = realpath($GLOBALS['cfg']['TempDir'])
                             . (PMA_IS_WINDOWS ? '\\' : '/') . PMA_sanitizeFilename($dbf_file_name, true);
-                        $handle = fopen($dbf_file_path, 'wb');
+                        $handle        = fopen($dbf_file_path, 'wb');
                         if ($handle !== false) {
                             fwrite($handle, $extracted);
                             fclose($handle);
                             $temp_dbf_file = true;
                             // Replace the .dbf with .*, as required
                             // by the bsShapeFiles library.
-                            $file_name = substr(
-                                $dbf_file_path, 0, strlen($dbf_file_path) - 4
-                            ) . '.*';
+                            $file_name     = substr(
+                                    $dbf_file_path, 0, strlen($dbf_file_path) - 4
+                                ) . '.*';
                             $shp->FileName = $file_name;
                         }
                     }
                 }
-            } elseif (! empty($local_import_file)
-                && ! empty($GLOBALS['cfg']['UploadDir'])
+            } elseif (!empty($local_import_file)
+                && !empty($GLOBALS['cfg']['UploadDir'])
                 && $compression == 'none'
             ) {
                 // If file is in UploadDir, use .dbf file in the same UploadDir
                 // to load extra data.
                 // Replace the .shp with .*,
                 // so the bsShapeFiles library correctly locates .dbf file.
-                $file_name = /*overload*/mb_substr(
-                    $import_file,
-                    0,
-                    /*overload*/mb_strlen($import_file) - 4
-                ) . '.*';
+                $file_name     = /*overload*/
+                    mb_substr(
+                        $import_file,
+                        0,
+                        /*overload*/
+                        mb_strlen($import_file) - 4
+                    ) . '.*';
                 $shp->FileName = $file_name;
             }
         }
@@ -145,15 +148,16 @@ class ImportShp extends ImportPlugin
         // Load data
         $shp->loadFromFile('');
         if ($shp->lastError != "") {
-            $error = true;
+            $error   = true;
             $message = PMA_Message::error(
                 __('There was an error importing the ESRI shape file: "%s".')
             );
             $message->addParam($shp->lastError);
+
             return;
         }
 
-        $esri_types = array(
+        $esri_types = [
             0  => 'Null Shape',
             1  => 'Point',
             3  => 'PolyLine',
@@ -168,49 +172,50 @@ class ImportShp extends ImportPlugin
             25 => 'PolygonM',
             28 => 'MultiPointM',
             31 => 'MultiPatch',
-        );
+        ];
 
         switch ($shp->shapeType) {
-        // ESRI Null Shape
-        case 0:
-            break;
-        // ESRI Point
-        case 1:
-            $gis_type = 'point';
-            break;
-        // ESRI PolyLine
-        case 3:
-            $gis_type = 'multilinestring';
-            break;
-        // ESRI Polygon
-        case 5:
-            $gis_type = 'multipolygon';
-            break;
-        // ESRI MultiPoint
-        case 8:
-            $gis_type = 'multipoint';
-            break;
-        default:
-            $error = true;
-            if (! isset($esri_types[$shp->shapeType])) {
-                $message = PMA_Message::error(
-                    __(
-                        'You tried to import an invalid file or the imported file'
-                        . ' contains invalid data!'
-                    )
-                );
-            } else {
-                $message = PMA_Message::error(
-                    __('MySQL Spatial Extension does not support ESRI type "%s".')
-                );
-                $message->addParam($esri_types[$shp->shapeType]);
-            }
-            return;
+            // ESRI Null Shape
+            case 0:
+                break;
+            // ESRI Point
+            case 1:
+                $gis_type = 'point';
+                break;
+            // ESRI PolyLine
+            case 3:
+                $gis_type = 'multilinestring';
+                break;
+            // ESRI Polygon
+            case 5:
+                $gis_type = 'multipolygon';
+                break;
+            // ESRI MultiPoint
+            case 8:
+                $gis_type = 'multipoint';
+                break;
+            default:
+                $error = true;
+                if (!isset($esri_types[$shp->shapeType])) {
+                    $message = PMA_Message::error(
+                        __(
+                            'You tried to import an invalid file or the imported file'
+                            . ' contains invalid data!'
+                        )
+                    );
+                } else {
+                    $message = PMA_Message::error(
+                        __('MySQL Spatial Extension does not support ESRI type "%s".')
+                    );
+                    $message->addParam($esri_types[$shp->shapeType]);
+                }
+
+                return;
         }
 
         if (isset($gis_type)) {
             include_once './libraries/gis/GIS_Factory.class.php';
-            $gis_obj =  PMA_GIS_Factory::factory($gis_type);
+            $gis_obj = PMA_GIS_Factory::factory($gis_type);
         } else {
             $gis_obj = null;
         }
@@ -219,11 +224,11 @@ class ImportShp extends ImportPlugin
         // If .dbf file is loaded, the number of extra data columns
         $num_data_cols = isset($shp->DBFHeader) ? count($shp->DBFHeader) : 0;
 
-        $rows = array();
-        $col_names = array();
+        $rows      = [];
+        $col_names = [];
         if ($num_rows != 0) {
             foreach ($shp->records as $record) {
-                $tempRow = array();
+                $tempRow = [];
                 if ($gis_obj == null) {
                     $tempRow[] = null;
                 } else {
@@ -235,7 +240,7 @@ class ImportShp extends ImportPlugin
                     foreach ($shp->DBFHeader as $c) {
                         $cell = trim($record->DBFData[$c[0]]);
 
-                        if (! strcmp($cell, '')) {
+                        if (!strcmp($cell, '')) {
                             $cell = 'NULL';
                         }
 
@@ -247,10 +252,11 @@ class ImportShp extends ImportPlugin
         }
 
         if (count($rows) == 0) {
-            $error = true;
+            $error   = true;
             $message = PMA_Message::error(
                 __('The imported file does not contain any data!')
             );
+
             return;
         }
 
@@ -262,26 +268,31 @@ class ImportShp extends ImportPlugin
         }
 
         // Set table name based on the number of tables
-        if (/*overload*/mb_strlen($db)) {
-            $result = $GLOBALS['dbi']->fetchResult('SHOW TABLES');
+        if (/*overload*/
+        mb_strlen($db)
+        ) {
+            $result     = $GLOBALS['dbi']->fetchResult('SHOW TABLES');
             $table_name = 'TABLE ' . (count($result) + 1);
         } else {
             $table_name = 'TBL_NAME';
         }
-        $tables = array(array($table_name, $col_names, $rows));
+        $tables = [[$table_name, $col_names, $rows]];
 
         // Use data from shape file to chose best-fit MySQL types for each column
-        $analyses = array();
+        $analyses   = [];
         $analyses[] = PMA_analyzeTable($tables[0]);
 
-        $table_no = 0; $spatial_col = 0;
-        $analyses[$table_no][TYPES][$spatial_col] = GEOMETRY;
+        $table_no                                        = 0;
+        $spatial_col                                     = 0;
+        $analyses[$table_no][TYPES][$spatial_col]        = GEOMETRY;
         $analyses[$table_no][FORMATTEDSQL][$spatial_col] = true;
 
         // Set database name to the currently selected one, if applicable
-        if (/*overload*/mb_strlen($db)) {
+        if (/*overload*/
+        mb_strlen($db)
+        ) {
             $db_name = $db;
-            $options = array('create_db' => false);
+            $options = ['create_db' => false];
         } else {
             $db_name = 'SHP_DB';
             $options = null;
@@ -295,7 +306,7 @@ class ImportShp extends ImportPlugin
         unset($analyses);
 
         $finished = true;
-        $error = false;
+        $error    = false;
 
         // Commit any possible data in buffers
         PMA_importRunQuery();
@@ -324,6 +335,7 @@ class ImportShp extends ImportPlugin
         }
         $result = substr($buffer, 0, $length);
         $buffer = substr($buffer, $length);
+
         return $result;
     }
 }

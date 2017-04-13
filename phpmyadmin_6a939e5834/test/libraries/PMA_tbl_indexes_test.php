@@ -39,33 +39,33 @@ class PMA_TblIndexTest extends PHPUnit_Framework_TestCase
         /**
          * SET these to avoid undefined index error
          */
-        $GLOBALS['server'] = 1;
+        $GLOBALS['server']                 = 1;
         $GLOBALS['cfg']['Server']['pmadb'] = '';
-        $GLOBALS['pmaThemeImage'] = 'theme/';
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['ShowHint'] = true;
+        $GLOBALS['pmaThemeImage']          = 'theme/';
+        $GLOBALS['cfg']['ServerDefault']   = "server";
+        $GLOBALS['cfg']['ShowHint']        = true;
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $indexs = array(
-            array(
-                "Schema" => "Schema1",
-                "Key_name"=>"Key_name1",
-                "Column_name"=>"Column_name1"
-            ),
-            array(
-                "Schema" => "Schema2",
-                "Key_name"=>"Key_name2",
-                "Column_name"=>"Column_name2"
-            ),
-            array(
-                "Schema" => "Schema3",
-                "Key_name"=>"Key_name3",
-                "Column_name"=>"Column_name3"
-            ),
-        );
+        $indexs = [
+            [
+                "Schema"      => "Schema1",
+                "Key_name"    => "Key_name1",
+                "Column_name" => "Column_name1",
+            ],
+            [
+                "Schema"      => "Schema2",
+                "Key_name"    => "Key_name2",
+                "Column_name" => "Column_name2",
+            ],
+            [
+                "Schema"      => "Schema3",
+                "Key_name"    => "Key_name3",
+                "Column_name" => "Column_name3",
+            ],
+        ];
 
         $dbi->expects($this->any())->method('getTableIndexes')
             ->will($this->returnValue($indexs));
@@ -85,7 +85,7 @@ class PMA_TblIndexTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetSqlQueryForIndexCreateOrEdit()
     {
-        $db = "pma_db";
+        $db    = "pma_db";
         $table = "pma_table";
         $index = new PMA_Index();
         $error = false;
@@ -121,7 +121,7 @@ class PMA_TblIndexTest extends PHPUnit_Framework_TestCase
 
         $_REQUEST['create_index'] = true;
         $_REQUEST['added_fields'] = 2;
-        $add_fields = PMA_getNumberOfFieldsForForm($index);
+        $add_fields               = PMA_getNumberOfFieldsForForm($index);
         $this->assertEquals(
             $_REQUEST['added_fields'],
             $add_fields
@@ -136,50 +136,50 @@ class PMA_TblIndexTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetFormParameters()
     {
-        $db = "pma_db";
+        $db    = "pma_db";
         $table = "pma_table";
 
         $form_params = PMA_getFormParameters($db, $table);
-        $expect = array(
-            'db' => $db,
+        $expect      = [
+            'db'    => $db,
             'table' => $table,
-        );
+        ];
         $this->assertEquals(
             $expect,
             $form_params
         );
 
         $_REQUEST['index'] = "index";
-        $form_params = PMA_getFormParameters($db, $table);
-        $expect = array(
-            'db' => $db,
-            'table' => $table,
+        $form_params       = PMA_getFormParameters($db, $table);
+        $expect            = [
+            'db'        => $db,
+            'table'     => $table,
             'old_index' => $_REQUEST['index'],
-        );
+        ];
         $this->assertEquals(
             $expect,
             $form_params
         );
 
         $_REQUEST['old_index'] = "old_index";
-        $form_params = PMA_getFormParameters($db, $table);
-        $expect = array(
-            'db' => $db,
-            'table' => $table,
+        $form_params           = PMA_getFormParameters($db, $table);
+        $expect                = [
+            'db'        => $db,
+            'table'     => $table,
             'old_index' => $_REQUEST['old_index'],
-        );
+        ];
         $this->assertEquals(
             $expect,
             $form_params
         );
 
         $_REQUEST['create_index'] = "create_index";
-        $form_params = PMA_getFormParameters($db, $table);
-        $expect = array(
-            'db' => $db,
-            'table' => $table,
+        $form_params              = PMA_getFormParameters($db, $table);
+        $expect                   = [
+            'db'           => $db,
+            'table'        => $table,
             'create_index' => 1,
-        );
+        ];
         $this->assertEquals(
             $expect,
             $form_params
@@ -194,14 +194,14 @@ class PMA_TblIndexTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForIndexForm()
     {
-        $fields = array("field_name" => "field_type");
-        $index = new PMA_Index();
-        $form_params = array(
-            'db' => 'db',
-            'table' => 'table',
+        $fields      = ["field_name" => "field_type"];
+        $index       = new PMA_Index();
+        $form_params = [
+            'db'           => 'db',
+            'table'        => 'table',
             'create_index' => 1,
-        );
-        $add_fields = 3;
+        ];
+        $add_fields  = 3;
 
         $html = PMA_getHtmlForIndexForm($fields, $index, $form_params, $add_fields);
 
@@ -270,4 +270,5 @@ class PMA_TblIndexTest extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

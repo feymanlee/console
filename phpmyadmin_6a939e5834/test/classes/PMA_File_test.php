@@ -26,9 +26,9 @@ class PMA_File_Test extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $GLOBALS['cfg']['BZipDump'] = true;
-        $GLOBALS['cfg']['GZipDump'] = true;
-        $GLOBALS['cfg']['ZipDump'] = true;
+        $GLOBALS['cfg']['BZipDump']    = true;
+        $GLOBALS['cfg']['GZipDump']    = true;
+        $GLOBALS['cfg']['ZipDump']     = true;
         $GLOBALS['charset_conversion'] = false;
     }
 
@@ -70,11 +70,12 @@ class PMA_File_Test extends PHPUnit_Framework_TestCase
      */
     public function compressedFiles()
     {
-        return array(
-            array('./test/test_data/test.gz', 'application/gzip'),
-            array('./test/test_data/test.bz2', 'application/bzip2'),
-            array('./test/test_data/test.zip', 'application/zip'),
-            );
+        return [
+            ['./test/test_data/test.gz', 'application/gzip'],
+            ['./test/test_data/test.bz2', 'application/bzip2'],
+            ['./test/test_data/test.zip', 'application/zip'],
+        ];
     }
 }
+
 ?>

@@ -39,11 +39,11 @@ ul.resizable-menu ul {
     display: none;
     border: 1px #ddd solid;
     z-index: 2;
-    <?php echo $right; ?>: 0;
+<?php echo $right; ?>: 0;
 }
 
 ul.resizable-menu li:hover {
-    <?php echo $_SESSION['PMA_Theme']->getCssGradient('ffffff', 'e5e5e5'); ?>
+<?php echo $_SESSION['PMA_Theme']->getCssGradient('ffffff', 'e5e5e5'); ?>
 }
 
 ul.resizable-menu li:hover ul,

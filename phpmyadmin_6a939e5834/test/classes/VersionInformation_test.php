@@ -2,9 +2,9 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /**
  * Tests for methods in VersionInformation class
-*
-* @package PhpMyAdmin-test
-*/
+ *
+ * @package PhpMyAdmin-test
+ */
 
 require_once 'libraries/Util.class.php';
 /*
@@ -29,28 +29,28 @@ class VersionInformationTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_releases = array();
+        $this->_releases = [];
 
-        $release = new stdClass();
-        $release->date = "2015-09-08";
-        $release->php_versions = ">=5.3,<7.1";
-        $release->version = "4.4.14.1";
+        $release                 = new stdClass();
+        $release->date           = "2015-09-08";
+        $release->php_versions   = ">=5.3,<7.1";
+        $release->version        = "4.4.14.1";
         $release->mysql_versions = ">=5.5";
-        $this->_releases[] = $release;
+        $this->_releases[]       = $release;
 
-        $release = new stdClass();
-        $release->date = "2015-09-09";
-        $release->php_versions = ">=5.3,<7.0";
-        $release->version = "4.4.13.3";
+        $release                 = new stdClass();
+        $release->date           = "2015-09-09";
+        $release->php_versions   = ">=5.3,<7.0";
+        $release->version        = "4.4.13.3";
         $release->mysql_versions = ">=5.5";
-        $this->_releases[] = $release;
+        $this->_releases[]       = $release;
 
-        $release = new stdClass();
-        $release->date = "2015-05-13";
-        $release->php_versions = ">=5.2,<5.3";
-        $release->version = "4.0.10.10";
+        $release                 = new stdClass();
+        $release->date           = "2015-05-13";
+        $release->php_versions   = ">=5.2,<5.3";
+        $release->version        = "4.0.10.10";
         $release->mysql_versions = ">=5.0";
-        $this->_releases[] = $release;
+        $this->_releases[]       = $release;
     }
 
     /**
@@ -99,27 +99,27 @@ class VersionInformationTest extends PHPUnit_Framework_TestCase
      */
     public function dataVersions()
     {
-        return array(
-            array('1.0.0', 1000050),
-            array('2.0.0.2-dev', 2000002),
-            array('3.4.2.1', 3040251),
-            array('3.4.2-dev3', 3040203),
-            array('3.4.2-dev', 3040200),
-            array('3.4.2-pl', 3040260),
-            array('3.4.2-pl3', 3040263),
-            array('4.4.2-rc22', 4040252),
-            array('4.4.2-rc', 4040230),
-            array('4.4.22-beta22', 4042242),
-            array('4.4.22-beta', 4042220),
-            array('4.4.21-alpha22', 4042132),
-            array('4.4.20-alpha', 4042010),
-            array('4.40.20-alpha-dev', 4402010),
-            array('4.4a', 4000050),
-            array('4.4.4-test', 4040400),
-            array('4.1.0', 4010050),
-            array('4.0.1.3', 4000153),
-            array('4.1-dev', 4010000),
-        );
+        return [
+            ['1.0.0', 1000050],
+            ['2.0.0.2-dev', 2000002],
+            ['3.4.2.1', 3040251],
+            ['3.4.2-dev3', 3040203],
+            ['3.4.2-dev', 3040200],
+            ['3.4.2-pl', 3040260],
+            ['3.4.2-pl3', 3040263],
+            ['4.4.2-rc22', 4040252],
+            ['4.4.2-rc', 4040230],
+            ['4.4.22-beta22', 4042242],
+            ['4.4.22-beta', 4042220],
+            ['4.4.21-alpha22', 4042132],
+            ['4.4.20-alpha', 4042010],
+            ['4.40.20-alpha-dev', 4402010],
+            ['4.4a', 4000050],
+            ['4.4.4-test', 4040400],
+            ['4.1.0', 4010050],
+            ['4.0.1.3', 4000153],
+            ['4.1-dev', 4010000],
+        ];
     }
 
     /**
@@ -129,18 +129,18 @@ class VersionInformationTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLatestCompatibleVersionWithSingleServer()
     {
-        $GLOBALS['cfg']['Servers'] = array(
-            array()
-        );
+        $GLOBALS['cfg']['Servers'] = [
+            [],
+        ];
 
         $mockVersionInfo = $this->getMockBuilder('VersionInformation')
-            ->setMethods(array('evaluateVersionCondition'))
+            ->setMethods(['evaluateVersionCondition'])
             ->getMock();
 
         $mockVersionInfo->expects($this->at(0))
-           ->method('evaluateVersionCondition')
-           ->with('PHP', '>=5.3')
-           ->will($this->returnValue(true));
+            ->method('evaluateVersionCondition')
+            ->with('PHP', '>=5.3')
+            ->will($this->returnValue(true));
 
         $mockVersionInfo->expects($this->at(1))
             ->method('evaluateVersionCondition')
@@ -165,19 +165,19 @@ class VersionInformationTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLaestCompatibleVersionWithMultipleServers()
     {
-        $GLOBALS['cfg']['Servers'] = array(
-            array(),
-            array()
-        );
+        $GLOBALS['cfg']['Servers'] = [
+            [],
+            [],
+        ];
 
         $mockVersionInfo = $this->getMockBuilder('VersionInformation')
-            ->setMethods(array('evaluateVersionCondition'))
+            ->setMethods(['evaluateVersionCondition'])
             ->getMock();
 
         $mockVersionInfo->expects($this->at(0))
-           ->method('evaluateVersionCondition')
-           ->with('PHP', '>=5.3')
-           ->will($this->returnValue(true));
+            ->method('evaluateVersionCondition')
+            ->with('PHP', '>=5.3')
+            ->will($this->returnValue(true));
 
         $mockVersionInfo->expects($this->at(1))
             ->method('evaluateVersionCondition')
@@ -196,19 +196,19 @@ class VersionInformationTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLaestCompatibleVersionWithOldPHPVersion()
     {
-        $GLOBALS['cfg']['Servers'] = array(
-            array(),
-            array()
-        );
+        $GLOBALS['cfg']['Servers'] = [
+            [],
+            [],
+        ];
 
         $mockVersionInfo = $this->getMockBuilder('VersionInformation')
-            ->setMethods(array('evaluateVersionCondition'))
+            ->setMethods(['evaluateVersionCondition'])
             ->getMock();
 
         $mockVersionInfo->expects($this->at(0))
-           ->method('evaluateVersionCondition')
-           ->with('PHP', '>=5.3')
-           ->will($this->returnValue(false));
+            ->method('evaluateVersionCondition')
+            ->with('PHP', '>=5.3')
+            ->will($this->returnValue(false));
 
         $mockVersionInfo->expects($this->at(1))
             ->method('evaluateVersionCondition')
@@ -238,12 +238,12 @@ class VersionInformationTest extends PHPUnit_Framework_TestCase
     public function testEvaluateVersionCondition()
     {
         $mockVersionInfo = $this->getMockBuilder('VersionInformation')
-            ->setMethods(array('getPHPVersion'))
+            ->setMethods(['getPHPVersion'])
             ->getMock();
 
         $mockVersionInfo->expects($this->any())
-           ->method('getPHPVersion')
-           ->will($this->returnValue('5.2.4'));
+            ->method('getPHPVersion')
+            ->will($this->returnValue('5.2.4'));
 
         $this->assertTrue($mockVersionInfo->evaluateVersionCondition('PHP', '<=5.3'));
         $this->assertTrue($mockVersionInfo->evaluateVersionCondition('PHP', '<5.3'));

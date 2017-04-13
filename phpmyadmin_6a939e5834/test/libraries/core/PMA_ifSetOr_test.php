@@ -26,8 +26,8 @@ class PMA_IfSetOr_Test extends PHPUnit_Framework_TestCase
     public function testVarSet()
     {
         $default = 'foo';
-        $in = 'bar';
-        $out = PMA_ifSetOr($in, $default);
+        $in      = 'bar';
+        $out     = PMA_ifSetOr($in, $default);
         $this->assertEquals($in, $out);
     }
 
@@ -39,8 +39,8 @@ class PMA_IfSetOr_Test extends PHPUnit_Framework_TestCase
     public function testVarSetWrongType()
     {
         $default = 'foo';
-        $in = 'bar';
-        $out = PMA_ifSetOr($in, $default, 'boolean');
+        $in      = 'bar';
+        $out     = PMA_ifSetOr($in, $default, 'boolean');
         $this->assertEquals($out, $default);
     }
 
@@ -70,4 +70,5 @@ class PMA_IfSetOr_Test extends PHPUnit_Framework_TestCase
     }
 
 }
+
 ?>

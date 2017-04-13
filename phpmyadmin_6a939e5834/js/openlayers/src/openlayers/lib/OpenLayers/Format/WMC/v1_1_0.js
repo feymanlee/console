@@ -14,13 +14,13 @@
  * Differences between 1.1.0 and 1.0.0:
  *     - 1.1.0 Layers have optional sld:MinScaleDenominator and
  *       sld:MaxScaleDenominator
- * 
+ *
  * Inherits from:
  *  - <OpenLayers.Format.WMC.v1>
  */
 OpenLayers.Format.WMC.v1_1_0 = OpenLayers.Class(
-    OpenLayers.Format.WMC.v1, {
-    
+  OpenLayers.Format.WMC.v1, {
+
     /**
      * Constant: VERSION
      * {String} 1.1.0
@@ -43,10 +43,10 @@ OpenLayers.Format.WMC.v1_1_0 = OpenLayers.Class(
      * options - {Object} An optional object whose properties will be set on
      *     this instance.
      */
-    initialize: function(options) {
-        OpenLayers.Format.WMC.v1.prototype.initialize.apply(
-            this, [options]
-        );
+    initialize: function (options) {
+      OpenLayers.Format.WMC.v1.prototype.initialize.apply(
+        this, [options]
+      );
     },
 
     /**
@@ -57,11 +57,11 @@ OpenLayers.Format.WMC.v1_1_0 = OpenLayers.Class(
      * layerContext - {Object} An object representing a layer.
      * node - {Element} An element node.
      */
-    read_sld_MinScaleDenominator: function(layerContext, node) {
-        var minScaleDenominator = parseFloat(this.getChildValue(node));
-        if (minScaleDenominator > 0) {
-            layerContext.maxScale = minScaleDenominator;
-        }
+    read_sld_MinScaleDenominator: function (layerContext, node) {
+      var minScaleDenominator = parseFloat(this.getChildValue(node));
+      if (minScaleDenominator > 0) {
+        layerContext.maxScale = minScaleDenominator;
+      }
     },
 
     /**
@@ -72,8 +72,8 @@ OpenLayers.Format.WMC.v1_1_0 = OpenLayers.Class(
      * layerContext - {Object} An object representing a layer.
      * node - {Element} An element node.
      */
-    read_sld_MaxScaleDenominator: function(layerContext, node) {
-        layerContext.minScale = parseFloat(this.getChildValue(node));
+    read_sld_MaxScaleDenominator: function (layerContext, node) {
+      layerContext.minScale = parseFloat(this.getChildValue(node));
     },
 
     /**
@@ -87,41 +87,41 @@ OpenLayers.Format.WMC.v1_1_0 = OpenLayers.Class(
      * Returns:
      * {Element} A WMC Layer element node.
      */
-    write_wmc_Layer: function(context) {
-        var node = OpenLayers.Format.WMC.v1.prototype.write_wmc_Layer.apply(
-            this, [context]
+    write_wmc_Layer: function (context) {
+      var node = OpenLayers.Format.WMC.v1.prototype.write_wmc_Layer.apply(
+        this, [context]
+      );
+
+      // min/max scale denominator elements go before the 4th element in v1
+      if (context.maxScale) {
+        var minSD = this.createElementNS(
+          this.namespaces.sld, "sld:MinScaleDenominator"
         );
-        
-        // min/max scale denominator elements go before the 4th element in v1
-        if(context.maxScale) {
-            var minSD = this.createElementNS(
-                this.namespaces.sld, "sld:MinScaleDenominator"
-            );
-            minSD.appendChild(this.createTextNode(context.maxScale.toPrecision(16)));
-            node.appendChild(minSD);
-        }
-        
-        if(context.minScale) {
-            var maxSD = this.createElementNS(
-                this.namespaces.sld, "sld:MaxScaleDenominator"
-            );
-            maxSD.appendChild(this.createTextNode(context.minScale.toPrecision(16)));
-            node.appendChild(maxSD);
-        }
+        minSD.appendChild(this.createTextNode(context.maxScale.toPrecision(16)));
+        node.appendChild(minSD);
+      }
 
-        // optional FormatList element
-        node.appendChild(this.write_wmc_FormatList(context));
+      if (context.minScale) {
+        var maxSD = this.createElementNS(
+          this.namespaces.sld, "sld:MaxScaleDenominator"
+        );
+        maxSD.appendChild(this.createTextNode(context.minScale.toPrecision(16)));
+        node.appendChild(maxSD);
+      }
 
-        // optional StyleList element
-        node.appendChild(this.write_wmc_StyleList(context));
-        
-        // OpenLayers specific properties go in an Extension element
-        node.appendChild(this.write_wmc_LayerExtension(context));
-        
-        return node;
-        
+      // optional FormatList element
+      node.appendChild(this.write_wmc_FormatList(context));
+
+      // optional StyleList element
+      node.appendChild(this.write_wmc_StyleList(context));
+
+      // OpenLayers specific properties go in an Extension element
+      node.appendChild(this.write_wmc_LayerExtension(context));
+
+      return node;
+
     },
 
-    CLASS_NAME: "OpenLayers.Format.WMC.v1_1_0" 
+    CLASS_NAME: "OpenLayers.Format.WMC.v1_1_0"
 
-});
+  });

@@ -55,8 +55,7 @@ class Environment_Test extends PHPUnit_Framework_TestCase
                 $pdo->errorCode(),
                 'Error trying to show tables for database'
             );
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $this->markTestSkipped("Error: " . $e->getMessage());
         }
 
@@ -69,4 +68,5 @@ class Environment_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals(5, $version_parts[1]);
     }
 }
+
 ?>

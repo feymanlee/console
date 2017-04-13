@@ -42,33 +42,33 @@ class PMA_MultSubmits_Test extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         //$GLOBALS
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['RememberSorting'] = true;
-        $GLOBALS['cfg']['SQP'] = array();
+        $GLOBALS['cfg']['MaxRows']                     = 10;
+        $GLOBALS['cfg']['ServerDefault']               = "server";
+        $GLOBALS['cfg']['RememberSorting']             = true;
+        $GLOBALS['cfg']['SQP']                         = [];
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
-        $GLOBALS['cfg']['ShowSQL'] = true;
-        $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['server'] = 0;
-        $GLOBALS['cfg']['ActionLinksMode'] = "both";
-        $GLOBALS['pmaThemeImage'] = 'image';
+        $GLOBALS['cfg']['ShowSQL']                     = true;
+        $GLOBALS['cfg']['TableNavigationLinksMode']    = 'icons';
+        $GLOBALS['cfg']['LimitChars']                  = 100;
+        $GLOBALS['cfg']['Server']['DisableIS']         = false;
+        $GLOBALS['server']                             = 0;
+        $GLOBALS['cfg']['ActionLinksMode']             = "both";
+        $GLOBALS['pmaThemeImage']                      = 'image';
 
         //_SESSION
-        $_SESSION['relation'][$GLOBALS['server']] = array(
+        $_SESSION['relation'][$GLOBALS['server']] = [
             'table_coords' => "table_name",
-            'displaywork' => 'displaywork',
-            'db' => "information_schema",
-            'table_info' => 'table_info',
-            'relwork' => 'relwork',
-            'commwork' => 'commwork',
-            'displaywork' => 'displaywork',
-            'pdfwork' => 'pdfwork',
-            'column_info' => 'column_info',
-            'relation' => 'relation',
-            'relwork' => 'relwork',
-        );
+            'displaywork'  => 'displaywork',
+            'db'           => "information_schema",
+            'table_info'   => 'table_info',
+            'relwork'      => 'relwork',
+            'commwork'     => 'commwork',
+            'displaywork'  => 'displaywork',
+            'pdfwork'      => 'pdfwork',
+            'column_info'  => 'column_info',
+            'relation'     => 'relation',
+            'relwork'      => 'relwork',
+        ];
 
         //$_SESSION
         $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
@@ -93,9 +93,9 @@ class PMA_MultSubmits_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForReplacePrefixTable()
     {
-        $what = 'replace_prefix_tbl';
-        $action = 'delete_row';
-        $_url_params = array('url_query'=>'PMA_original_url_query');
+        $what        = 'replace_prefix_tbl';
+        $action      = 'delete_row';
+        $_url_params = ['url_query' => 'PMA_original_url_query'];
 
         //Call the test function
         $html = PMA_getHtmlForReplacePrefixTable($what, $action, $_url_params);
@@ -134,8 +134,8 @@ class PMA_MultSubmits_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForAddPrefixTable()
     {
-        $action = 'delete_row';
-        $_url_params = array('url_query'=>'PMA_original_url_query');
+        $action      = 'delete_row';
+        $_url_params = ['url_query' => 'PMA_original_url_query'];
 
         //Call the test function
         $html = PMA_getHtmlForAddPrefixTable($action, $_url_params);
@@ -174,10 +174,10 @@ class PMA_MultSubmits_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForOtherActions()
     {
-        $what = 'replace_prefix_tbl';
-        $action = 'delete_row';
-        $_url_params = array('url_query'=>'PMA_original_url_query');
-        $full_query = 'select column from PMA_table';
+        $what        = 'replace_prefix_tbl';
+        $action      = 'delete_row';
+        $_url_params = ['url_query' => 'PMA_original_url_query'];
+        $full_query  = 'select column from PMA_table';
 
         //Call the test function
         $html = PMA_getHtmlForOtherActions(
@@ -222,15 +222,15 @@ class PMA_MultSubmits_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetUrlParams()
     {
-        $what = 'row_delete';
-        $reload = true;
-        $action = 'db_delete_row';
-        $db = "PMA_db";
-        $table = "PMA_table";
-        $selected = array(
-            "index1" => "table1"
-        );
-        $views = null;
+        $what               = 'row_delete';
+        $reload             = true;
+        $action             = 'db_delete_row';
+        $db                 = "PMA_db";
+        $table              = "PMA_table";
+        $selected           = [
+            "index1" => "table1",
+        ];
+        $views              = null;
         $original_sql_query = "original_sql_query";
         $original_url_query = "original_url_query";
 
@@ -247,7 +247,7 @@ class PMA_MultSubmits_Test extends PHPUnit_Framework_TestCase
             $_url_params['db']
         );
         $this->assertEquals(
-            array('DELETE FROM `PMA_db`.`PMA_table` WHERE table1 LIMIT 1;'),
+            ['DELETE FROM `PMA_db`.`PMA_table` WHERE table1 LIMIT 1;'],
             $_url_params['selected']
         );
         $this->assertEquals(
@@ -267,25 +267,25 @@ class PMA_MultSubmits_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetQueryStrFromSelected()
     {
-        $query_type = 'row_delete';
-        $db = "PMA_db";
-        $table = "PMA_table";
-        $selected = array(
-            "table1", "table2"
-        );
-        $views = null;
-        $primary = null;
+        $query_type  = 'row_delete';
+        $db          = "PMA_db";
+        $table       = "PMA_table";
+        $selected    = [
+            "table1", "table2",
+        ];
+        $views       = null;
+        $primary     = null;
         $from_prefix = "from_prefix";
-        $to_prefix = "to_prefix";
+        $to_prefix   = "to_prefix";
 
-        $_REQUEST['pos'] = 1000;
-        $_SESSION['tmpval']['pos'] = 1000;
+        $_REQUEST['pos']                = 1000;
+        $_SESSION['tmpval']['pos']      = 1000;
         $_SESSION['tmpval']['max_rows'] = 25;
 
         list(
             $result, $rebuild_database_list, $reload_ret,
             $run_parts, $use_sql, $sql_query, $sql_query_views
-        ) = PMA_getQueryStrFromSelected(
+            ) = PMA_getQueryStrFromSelected(
             $query_type, $selected, $db, $table, $views,
             $primary, $from_prefix, $to_prefix
         );
@@ -318,7 +318,7 @@ class PMA_MultSubmits_Test extends PHPUnit_Framework_TestCase
         list(
             $result, $rebuild_database_list, $reload_ret,
             $run_parts, $use_sql, $sql_query, $sql_query_views
-        ) = PMA_getQueryStrFromSelected(
+            ) = PMA_getQueryStrFromSelected(
             $query_type, $selected, $db, $table, $views,
             $primary, $from_prefix, $to_prefix
         );
@@ -344,19 +344,19 @@ class PMA_MultSubmits_Test extends PHPUnit_Framework_TestCase
     public function testPMAGetDataForSubmitMult()
     {
         $submit_mult = "index";
-        $db = "PMA_db";
-        $table = "PMA_table";
-        $selected = array(
-            "table1", "table2"
-        );
-        $action = 'db_delete_row';
+        $db          = "PMA_db";
+        $table       = "PMA_table";
+        $selected    = [
+            "table1", "table2",
+        ];
+        $action      = 'db_delete_row';
 
         list(
             $what, $query_type, $is_unset_submit_mult, $mult_btn, $centralColsError
-        )
+            )
             = PMA_getDataForSubmitMult(
-                $submit_mult, $db, $table, $selected, $action
-            );
+            $submit_mult, $db, $table, $selected, $action
+        );
 
         //validate 1: $what
         $this->assertEquals(
@@ -392,10 +392,10 @@ class PMA_MultSubmits_Test extends PHPUnit_Framework_TestCase
 
         list(
             $what, $query_type, $is_unset_submit_mult, $mult_btn, $centralColsError
-        )
+            )
             = PMA_getDataForSubmitMult(
-                $submit_mult, $db, $table, $selected, $action
-            );
+            $submit_mult, $db, $table, $selected, $action
+        );
 
         //validate 1: $what
         $this->assertEquals(
@@ -435,20 +435,20 @@ class PMA_MultSubmits_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetQueryFromSelected()
     {
-        $what = "drop_tbl";
-        $db = "PMA_db";
-        $table = "PMA_table";
-        $selected = array(
-            "table1", "table2"
-        );
-        $views = array(
-            "table1", "table2"
-        );
+        $what     = "drop_tbl";
+        $db       = "PMA_db";
+        $table    = "PMA_table";
+        $selected = [
+            "table1", "table2",
+        ];
+        $views    = [
+            "table1", "table2",
+        ];
 
         list($full_query, $reload, $full_query_views)
             = PMA_getQueryFromSelected(
-                $what, $db, $table, $selected, $views
-            );
+            $what, $db, $table, $selected, $views
+        );
 
         //validate 1: $full_query
         $this->assertContains(
@@ -472,8 +472,8 @@ class PMA_MultSubmits_Test extends PHPUnit_Framework_TestCase
 
         list($full_query, $reload, $full_query_views)
             = PMA_getQueryFromSelected(
-                $what, $db, $table, $selected, $views
-            );
+            $what, $db, $table, $selected, $views
+        );
 
         //validate 1: $full_query
         $this->assertContains(

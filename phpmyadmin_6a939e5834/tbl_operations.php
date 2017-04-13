@@ -61,11 +61,11 @@ require 'libraries/tbl_info.inc.php';
 
 // define some variables here, for improved syntax in the conditionals
 $is_myisam_or_aria = $is_isam = $is_innodb = $is_berkeleydb = false;
-$is_aria = $is_pbxt = false;
+$is_aria           = $is_pbxt = false;
 // set initial value of these variables, based on the current table engine
 list($is_myisam_or_aria, $is_innodb, $is_isam,
     $is_berkeleydb, $is_aria, $is_pbxt
-) = PMA_setGlobalVariablesForEngine($tbl_storage_engine);
+    ) = PMA_setGlobalVariablesForEngine($tbl_storage_engine);
 
 if ($is_aria) {
     // the value for transactional can be implicit
@@ -79,8 +79,8 @@ if ($is_aria) {
     $page_checksum = (isset($page_checksum)) ? $page_checksum : '';
 }
 
-$reread_info = false;
-$table_alters = array();
+$reread_info  = false;
+$table_alters = [];
 
 /** @var PMA_String $pmaString */
 $pmaString = $GLOBALS['PMA_String'];
@@ -105,30 +105,32 @@ if (isset($_REQUEST['table_maintenance'])) {
  * Updates table comment, type and options if required
  */
 if (isset($_REQUEST['submitoptions'])) {
-    $_message = '';
-    $warning_messages = array();
+    $_message         = '';
+    $warning_messages = [];
 
     if (isset($_REQUEST['new_name'])) {
         if ($pma_table->rename($_REQUEST['new_name'])) {
             $_message .= $pma_table->getLastMessage();
-            $result = true;
+            $result           = true;
             $GLOBALS['table'] = $pma_table->getName();
-            $reread_info = true;
-            $reload = true;
+            $reread_info      = true;
+            $reload           = true;
         } else {
             $_message .= $pma_table->getLastError();
             $result = false;
         }
     }
 
-    if (! empty($_REQUEST['new_tbl_storage_engine'])
-        && /*overload*/mb_strtolower($_REQUEST['new_tbl_storage_engine']) !== /*overload*/mb_strtolower($tbl_storage_engine)
+    if (!empty($_REQUEST['new_tbl_storage_engine'])
+        && /*overload*/
+        mb_strtolower($_REQUEST['new_tbl_storage_engine']) !== /*overload*/
+        mb_strtolower($tbl_storage_engine)
     ) {
         $new_tbl_storage_engine = $_REQUEST['new_tbl_storage_engine'];
         // reset the globals for the new engine
         list($is_myisam_or_aria, $is_innodb, $is_isam,
             $is_berkeleydb, $is_aria, $is_pbxt
-        ) = PMA_setGlobalVariablesForEngine($new_tbl_storage_engine);
+            ) = PMA_setGlobalVariablesForEngine($new_tbl_storage_engine);
 
         if ($is_aria) {
             $transactional = (isset($transactional) && $transactional == '0')
@@ -153,12 +155,12 @@ if (isset($_REQUEST['submitoptions'])) {
     );
 
     if (count($table_alters) > 0) {
-        $sql_query      = 'ALTER TABLE '
+        $sql_query = 'ALTER TABLE '
             . PMA_Util::backquote($GLOBALS['table']);
-        $sql_query     .= "\r\n" . implode("\r\n", $table_alters);
-        $sql_query     .= ';';
-        $result        .= $GLOBALS['dbi']->query($sql_query) ? true : false;
-        $reread_info    = true;
+        $sql_query .= "\r\n" . implode("\r\n", $table_alters);
+        $sql_query .= ';';
+        $result .= $GLOBALS['dbi']->query($sql_query) ? true : false;
+        $reread_info = true;
         unset($table_alters);
         $warning_messages = PMA_getWarningMessagesArray();
     }
@@ -166,7 +168,7 @@ if (isset($_REQUEST['submitoptions'])) {
 /**
  * Reordering the table has been requested by the user
  */
-if (isset($_REQUEST['submitorderby']) && ! empty($_REQUEST['order_field'])) {
+if (isset($_REQUEST['submitorderby']) && !empty($_REQUEST['order_field'])) {
     list($sql_query, $result) = PMA_getQueryAndResultForReorderingTable();
 } // end if
 
@@ -176,7 +178,7 @@ if (isset($_REQUEST['submitorderby']) && ! empty($_REQUEST['order_field'])) {
 $sql_query = '';
 
 if (isset($_REQUEST['submit_partition'])
-    && ! empty($_REQUEST['partition_operation'])
+    && !empty($_REQUEST['partition_operation'])
 ) {
     list($sql_query, $result) = PMA_getQueryAndResultForPartition();
 } // end if
@@ -184,8 +186,8 @@ if (isset($_REQUEST['submit_partition'])
 if ($reread_info) {
     // to avoid showing the old value (for example the AUTO_INCREMENT) after
     // a change, clear the cache
-    PMA_Table::$cache = array();
-    $page_checksum = $checksum = $delay_key_write = 0;
+    PMA_Table::$cache = [];
+    $page_checksum    = $checksum = $delay_key_write = 0;
     include 'libraries/tbl_info.inc.php';
 }
 unset($reread_info);
@@ -215,7 +217,7 @@ if (isset($result) && empty($message_to_show)) {
             exit;
         }
     }
-    if (! empty($warning_messages)) {
+    if (!empty($warning_messages)) {
         $_message = new PMA_Message;
         $_message->addMessages($warning_messages);
         $_message->isError(true);
@@ -236,7 +238,7 @@ if (isset($result) && empty($message_to_show)) {
 
 $url_params['goto']
     = $url_params['back']
-        = 'tbl_operations.php';
+    = 'tbl_operations.php';
 
 /**
  * Get columns names
@@ -262,7 +264,7 @@ if ($tbl_storage_engine == 'INNODB') {
         if ($name == 'PRIMARY') {
             $hideOrderTable = true;
             break;
-        } elseif (! $idx->getNonUnique()) {
+        } elseif (!$idx->getNonUnique()) {
             $notNull = true;
             foreach ($idx->getColumns() as $column) {
                 if ($column->getNull()) {
@@ -277,7 +279,7 @@ if ($tbl_storage_engine == 'INNODB') {
         }
     }
 }
-if (! $hideOrderTable) {
+if (!$hideOrderTable) {
     $response->addHTML(PMA_getHtmlForOrderTheTable($columns));
 }
 
@@ -286,8 +288,12 @@ if (! $hideOrderTable) {
  */
 $response->addHTML(PMA_getHtmlForMoveTable());
 
-if (/*overload*/mb_strstr($show_comment, '; InnoDB free') === false) {
-    if (/*overload*/mb_strstr($show_comment, 'InnoDB free') === false) {
+if (/*overload*/
+    mb_strstr($show_comment, '; InnoDB free') === false
+) {
+    if (/*overload*/
+        mb_strstr($show_comment, 'InnoDB free') === false
+    ) {
         // only user entered comment
         $comment = $show_comment;
     } else {
@@ -336,38 +342,38 @@ $response->addHTML(
     )
 );
 
-if (! (isset($db_is_system_schema) && $db_is_system_schema)) {
-    $truncate_table_url_params = array();
-    $drop_table_url_params = array();
+if (!(isset($db_is_system_schema) && $db_is_system_schema)) {
+    $truncate_table_url_params = [];
+    $drop_table_url_params     = [];
 
-    if (! $tbl_is_view
-        && ! (isset($db_is_system_schema) && $db_is_system_schema)
+    if (!$tbl_is_view
+        && !(isset($db_is_system_schema) && $db_is_system_schema)
     ) {
-        $this_sql_query = 'TRUNCATE TABLE '
+        $this_sql_query            = 'TRUNCATE TABLE '
             . PMA_Util::backquote($GLOBALS['table']);
         $truncate_table_url_params = array_merge(
             $url_params,
-            array(
-                'sql_query' => $this_sql_query,
-                'goto' => 'tbl_structure.php',
-                'reload' => '1',
+            [
+                'sql_query'       => $this_sql_query,
+                'goto'            => 'tbl_structure.php',
+                'reload'          => '1',
                 'message_to_show' => sprintf(
                     __('Table %s has been emptied.'),
                     htmlspecialchars($table)
                 ),
-            )
+            ]
         );
     }
-    if (! (isset($db_is_system_schema) && $db_is_system_schema)) {
-        $this_sql_query = 'DROP TABLE '
+    if (!(isset($db_is_system_schema) && $db_is_system_schema)) {
+        $this_sql_query        = 'DROP TABLE '
             . PMA_Util::backquote($GLOBALS['table']);
         $drop_table_url_params = array_merge(
             $url_params,
-            array(
-                'sql_query' => $this_sql_query,
-                'goto' => 'db_operations.php',
-                'reload' => '1',
-                'purge' => '1',
+            [
+                'sql_query'       => $this_sql_query,
+                'goto'            => 'db_operations.php',
+                'reload'          => '1',
+                'purge'           => '1',
                 'message_to_show' => sprintf(
                     ($tbl_is_view
                         ? __('View %s has been dropped.')
@@ -377,8 +383,8 @@ if (! (isset($db_is_system_schema) && $db_is_system_schema)) {
                 ),
                 // table name is needed to avoid running
                 // PMA_relationsCleanupDatabase() on the whole db later
-                'table' => $GLOBALS['table'],
-            )
+                'table'           => $GLOBALS['table'],
+            ]
         );
     }
     $response->addHTML(
@@ -392,7 +398,7 @@ if (! (isset($db_is_system_schema) && $db_is_system_schema)) {
 if (PMA_Partition::havePartitioning()) {
     $partition_names = PMA_Partition::getPartitionNames($db, $table);
     // show the Partition maintenance section only if we detect a partition
-    if (! is_null($partition_names[0])) {
+    if (!is_null($partition_names[0])) {
         $response->addHTML(
             PMA_getHtmlForPartitionMaintenance($partition_names, $url_params)
         );
@@ -406,7 +412,7 @@ unset($partition_names);
 // so I assume that if the current table is InnoDB, I don't display
 // this choice (InnoDB maintains integrity by itself)
 
-if ($cfgRelation['relwork'] && ! $is_innodb) {
+if ($cfgRelation['relwork'] && !$is_innodb) {
     $GLOBALS['dbi']->selectDb($GLOBALS['db']);
     $foreign = PMA_getForeigners($GLOBALS['db'], $GLOBALS['table'], '', 'internal');
 

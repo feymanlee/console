@@ -30,9 +30,9 @@ $export_page_title = __('View dump (schema) of table');
 // When we have some query, we need to remove LIMIT from that and possibly
 // generate WHERE clause (if we are asked to export specific rows)
 
-if (! empty($sql_query)) {
+if (!empty($sql_query)) {
     // Parse query so we can work with tokens
-    $parsed_sql = PMA_SQP_parse($sql_query);
+    $parsed_sql   = PMA_SQP_parse($sql_query);
     $analyzed_sql = PMA_SQP_analyze($parsed_sql);
 
     // Need to generate WHERE clause?
@@ -45,8 +45,8 @@ if (! empty($sql_query)) {
             // a single table. So we can safely assume that there is only one
             // table in 'table_ref' array.
             $temp_sql_array = preg_split('/\bfrom\b/i', $sql_query);
-            $sql_query = $temp_sql_array[0] . 'FROM ';
-            if (! empty($analyzed_sql[0]['table_ref'][0]['db'])) {
+            $sql_query      = $temp_sql_array[0] . 'FROM ';
+            if (!empty($analyzed_sql[0]['table_ref'][0]['db'])) {
                 $sql_query .= PMA_Util::backquote(
                     $analyzed_sql[0]['table_ref'][0]['db']
                 );
@@ -60,9 +60,9 @@ if (! empty($sql_query)) {
 
         // Regular expressions which can appear in sql query,
         // before the sql segment which remains as it is.
-        $regex_array = array(
-            '/\bwhere\b/i', '/\bgroup by\b/i', '/\bhaving\b/i', '/\border by\b/i'
-        );
+        $regex_array = [
+            '/\bwhere\b/i', '/\bgroup by\b/i', '/\bhaving\b/i', '/\border by\b/i',
+        ];
 
         $first_occurring_regex = PMA_Util::getFirstOccurringRegularExpression(
             $regex_array, $sql_query
@@ -74,9 +74,9 @@ if (! empty($sql_query)) {
         // the result set from a query such as
         // "SELECT `id`, `name` FROM `customers` WHERE id NOT IN
         //  ( SELECT id FROM companies WHERE name LIKE '%u%')"
-        if (! is_null($first_occurring_regex)) {
+        if (!is_null($first_occurring_regex)) {
             $temp_sql_array = preg_split($first_occurring_regex, $sql_query);
-            $sql_query = $temp_sql_array[0];
+            $sql_query      = $temp_sql_array[0];
         }
         unset($first_occurring_regex, $temp_sql_array);
 

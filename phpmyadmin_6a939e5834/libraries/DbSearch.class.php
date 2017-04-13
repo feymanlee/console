@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -94,16 +94,16 @@ class PMA_DbSearch
     {
         $this->_tables_names_only = $GLOBALS['dbi']->getTables($this->_db);
 
-        $this->_searchTypes = array(
+        $this->_searchTypes = [
             '1' => __('at least one of the words'),
             '2' => __('all words'),
             '3' => __('the exact phrase'),
             '4' => __('as regular expression'),
-        );
+        ];
 
         if (empty($_REQUEST['criteriaSearchType'])
-            || ! is_string($_REQUEST['criteriaSearchType'])
-            || ! array_key_exists(
+            || !is_string($_REQUEST['criteriaSearchType'])
+            || !array_key_exists(
                 $_REQUEST['criteriaSearchType'],
                 $this->_searchTypes
             )
@@ -111,13 +111,13 @@ class PMA_DbSearch
             $this->_criteriaSearchType = 1;
             unset($_REQUEST['submit_search']);
         } else {
-            $this->_criteriaSearchType = (int) $_REQUEST['criteriaSearchType'];
+            $this->_criteriaSearchType = (int)$_REQUEST['criteriaSearchType'];
             $this->_searchTypeDescription
-                = $this->_searchTypes[$_REQUEST['criteriaSearchType']];
+                                       = $this->_searchTypes[$_REQUEST['criteriaSearchType']];
         }
 
         if (empty($_REQUEST['criteriaSearchString'])
-            || ! is_string($_REQUEST['criteriaSearchString'])
+            || !is_string($_REQUEST['criteriaSearchString'])
         ) {
             $this->_criteriaSearchString = '';
             unset($_REQUEST['submit_search']);
@@ -125,9 +125,9 @@ class PMA_DbSearch
             $this->_criteriaSearchString = $_REQUEST['criteriaSearchString'];
         }
 
-        $this->_criteriaTables = array();
+        $this->_criteriaTables = [];
         if (empty($_REQUEST['criteriaTables'])
-            || ! is_array($_REQUEST['criteriaTables'])
+            || !is_array($_REQUEST['criteriaTables'])
         ) {
             unset($_REQUEST['submit_search']);
         } else {
@@ -137,7 +137,7 @@ class PMA_DbSearch
         }
 
         if (empty($_REQUEST['criteriaColumnName'])
-            || ! is_string($_REQUEST['criteriaColumnName'])
+            || !is_string($_REQUEST['criteriaColumnName'])
         ) {
             unset($this->_criteriaColumnName);
         } else {
@@ -175,14 +175,14 @@ class PMA_DbSearch
         // Gets where clause for the query
         $where_clause = $this->_getWhereClause($table);
         // Builds complete queries
-        $sql = array();
+        $sql                   = [];
         $sql['select_columns'] = $sqlstr_select . ' * ' . $sqlstr_from
             . $where_clause;
         // here, I think we need to still use the COUNT clause, even for
         // VIEWs, anyway we have a WHERE clause that should limit results
-        $sql['select_count']  = $sqlstr_select . ' COUNT(*) AS `count`'
+        $sql['select_count'] = $sqlstr_select . ' COUNT(*) AS `count`'
             . $sqlstr_from . $where_clause;
-        $sql['delete']        = $sqlstr_delete . $sqlstr_from . $where_clause;
+        $sql['delete']       = $sqlstr_delete . $sqlstr_from . $where_clause;
 
         return $sql;
     }
@@ -197,11 +197,11 @@ class PMA_DbSearch
     private function _getWhereClause($table)
     {
         // Columns to select
-        $allColumns = $GLOBALS['dbi']->getColumns($GLOBALS['db'], $table);
-        $likeClauses = array();
+        $allColumns  = $GLOBALS['dbi']->getColumns($GLOBALS['db'], $table);
+        $likeClauses = [];
         // Based on search type, decide like/regex & '%'/''
-        $like_or_regex   = (($this->_criteriaSearchType == 4) ? 'REGEXP' : 'LIKE');
-        $automatic_wildcard   = (($this->_criteriaSearchType < 3) ? '%' : '');
+        $like_or_regex      = (($this->_criteriaSearchType == 4) ? 'REGEXP' : 'LIKE');
+        $automatic_wildcard = (($this->_criteriaSearchType < 3) ? '%' : '');
         // For "as regular expression" (search option 4), LIKE won't be used
         // Usage example: If user is searching for a literal $ in a regexp search,
         // he should enter \$ as the value.
@@ -211,26 +211,29 @@ class PMA_DbSearch
         );
         // Extract search words or pattern
         $search_words = (($this->_criteriaSearchType > 2)
-            ? array($criteriaSearchStringEscaped)
+            ? [$criteriaSearchStringEscaped]
             : explode(' ', $criteriaSearchStringEscaped));
 
         foreach ($search_words as $search_word) {
             // Eliminates empty values
-            if (/*overload*/mb_strlen($search_word) === 0) {
+            if (/*overload*/
+                mb_strlen($search_word) === 0
+            ) {
                 continue;
             }
-            $likeClausesPerColumn = array();
+            $likeClausesPerColumn = [];
             // for each column in the table
             foreach ($allColumns as $column) {
-                if (! isset($this->_criteriaColumnName)
-                    || /*overload*/mb_strlen($this->_criteriaColumnName) == 0
+                if (!isset($this->_criteriaColumnName)
+                    || /*overload*/
+                    mb_strlen($this->_criteriaColumnName) == 0
                     || $column['Field'] == $this->_criteriaColumnName
                 ) {
                     // Drizzle has no CONVERT and all text columns are UTF-8
-                    $column = ((PMA_DRIZZLE)
+                    $column                 = ((PMA_DRIZZLE)
                         ? PMA_Util::backquote($column['Field'])
                         : 'CONVERT(' . PMA_Util::backquote($column['Field'])
-                            . ' USING utf8)');
+                        . ' USING utf8)');
                     $likeClausesPerColumn[] = $column . ' ' . $like_or_regex . ' '
                         . "'"
                         . $automatic_wildcard . $search_word . $automatic_wildcard
@@ -242,8 +245,8 @@ class PMA_DbSearch
             }
         } // end for
         // Use 'OR' if 'at least one word' is to be searched, else use 'AND'
-        $implode_str  = ($this->_criteriaSearchType == 1 ? ' OR ' : ' AND ');
-        if ( empty($likeClauses)) {
+        $implode_str = ($this->_criteriaSearchType == 1 ? ' OR ' : ' AND ');
+        if (empty($likeClauses)) {
             // this could happen when the "inside column" does not exist
             // in any selected tables
             $where_clause = ' WHERE FALSE';
@@ -252,6 +255,7 @@ class PMA_DbSearch
                 . implode(') ' . $implode_str . ' (', $likeClauses)
                 . ')';
         }
+
         return $where_clause;
     }
 
@@ -275,7 +279,7 @@ class PMA_DbSearch
             . '</caption>';
 
         $num_search_result_total = 0;
-        $odd_row = true;
+        $odd_row                 = true;
         // For each table selected as search criteria
         foreach ($this->_criteriaTables as $each_table) {
             // Gets the SQL statements
@@ -287,7 +291,7 @@ class PMA_DbSearch
             $html_output .= $this->_getResultsRow(
                 $each_table, $newsearchsqls, $odd_row, $res_cnt
             );
-            $odd_row = ! $odd_row;
+            $odd_row = !$odd_row;
         } // end for
         $html_output .= '</table>';
         // Displays total number of matches
@@ -303,6 +307,7 @@ class PMA_DbSearch
             );
             $html_output .= '</p>';
         }
+
         return $html_output;
     }
 
@@ -319,13 +324,13 @@ class PMA_DbSearch
      */
     private function _getResultsRow($each_table, $newsearchsqls, $odd_row, $res_cnt)
     {
-        $this_url_params = array(
-            'db'    => $GLOBALS['db'],
-            'table' => $each_table,
-            'goto'  => 'db_sql.php',
-            'pos'   => 0,
+        $this_url_params = [
+            'db'              => $GLOBALS['db'],
+            'table'           => $each_table,
+            'goto'            => 'db_sql.php',
+            'pos'             => 0,
             'is_js_confirmed' => 0,
-        );
+        ];
         // Start forming search results row
         $html_output = '<tr class="noclick ' . ($odd_row ? 'odd' : 'even') . '">';
         // Displays results count for a table
@@ -341,20 +346,20 @@ class PMA_DbSearch
         // Displays browse/delete link if result count > 0
         if ($res_cnt > 0) {
             $this_url_params['sql_query'] = $newsearchsqls['select_columns'];
-            $browse_result_path = 'sql.php' . PMA_URL_getCommon($this_url_params);
+            $browse_result_path           = 'sql.php' . PMA_URL_getCommon($this_url_params);
             $html_output .= '<td><a name="browse_search" class="ajax" href="'
                 . $browse_result_path . '" onclick="loadResult(\''
                 . $browse_result_path . '\',\''
                 . PMA_escapeJsString(htmlspecialchars($each_table)) . '\',\''
                 . PMA_URL_getCommon(
-                    array(
-                        'db' => $GLOBALS['db'], 'table' => $each_table
-                    )
+                    [
+                        'db' => $GLOBALS['db'], 'table' => $each_table,
+                    ]
                 ) . '\''
                 . ');return false;" >'
                 . __('Browse') . '</a></td>';
             $this_url_params['sql_query'] = $newsearchsqls['delete'];
-            $delete_result_path = 'sql.php' . PMA_URL_getCommon($this_url_params);
+            $delete_result_path           = 'sql.php' . PMA_URL_getCommon($this_url_params);
             $html_output .= '<td><a name="delete_search" class="ajax" href="'
                 . $delete_result_path . '" onclick="deleteResult(\''
                 . $delete_result_path . '\' , \''
@@ -369,6 +374,7 @@ class PMA_DbSearch
                 . '<td>&nbsp;</td>';
         }// end if else
         $html_output .= '</tr>';
+
         return $html_output;
     }
 
@@ -401,7 +407,7 @@ class PMA_DbSearch
         $html_output .= '<tr>';
         $html_output .= '<td class="right vtop">' . __('Find:') . '</td>';
         $html_output .= '<td>';
-        $choices = array(
+        $choices = [
             '1' => __('at least one of the words')
                 . PMA_Util::showHint(
                     __('Words are separated by a space character (" ").')
@@ -412,8 +418,8 @@ class PMA_DbSearch
                 ),
             '3' => __('the exact phrase'),
             '4' => __('as regular expression') . ' '
-                . PMA_Util::showMySQLDocu('Regexp')
-        );
+                . PMA_Util::showMySQLDocu('Regexp'),
+        ];
         // 4th parameter set to true to add line breaks
         // 5th parameter set to false to avoid htmlspecialchars() escaping
         // in the label since we have some HTML in some labels
@@ -456,7 +462,7 @@ class PMA_DbSearch
         $html_output .= '<td class="right">' . __('Inside column:') . '</td>';
         $html_output .= '<td><input type="text" name="criteriaColumnName" size="60"'
             . 'value="'
-            . (! empty($this->_criteriaColumnName)
+            . (!empty($this->_criteriaColumnName)
                 ? htmlspecialchars($this->_criteriaColumnName)
                 : '')
             . '" /></td>';
@@ -498,6 +504,7 @@ class PMA_DbSearch
         $html_output .= '</div>';
         $html_output .= '<!--  toggle query box link-->';
         $html_output .= '<a id="togglequerybox"></a>';
+
         return $html_output;
     }
 }

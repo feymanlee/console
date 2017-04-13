@@ -68,20 +68,20 @@ class PMA_StringReader_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestRead()
     {
-        return array(
-            array(
+        return [
+            [
                 4,
-                'samp'
-            ),
-            array(
+                'samp',
+            ],
+            [
                 6,
-                'sample'
-            ),
-            array(
+                'sample',
+            ],
+            [
                 9,
-                'sample st'
-            )
-        );
+                'sample st',
+            ],
+        ];
     }
 
     /**

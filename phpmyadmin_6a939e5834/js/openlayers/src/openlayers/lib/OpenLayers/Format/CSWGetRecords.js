@@ -14,15 +14,15 @@
  * Returns:
  * {<OpenLayers.Format>} A CSWGetRecords format of the given version.
  */
-OpenLayers.Format.CSWGetRecords = function(options) {
-    options = OpenLayers.Util.applyDefaults(
-        options, OpenLayers.Format.CSWGetRecords.DEFAULTS
-    );
-    var cls = OpenLayers.Format.CSWGetRecords["v"+options.version.replace(/\./g, "_")];
-    if(!cls) {
-        throw "Unsupported CSWGetRecords version: " + options.version;
-    }
-    return new cls(options);
+OpenLayers.Format.CSWGetRecords = function (options) {
+  options = OpenLayers.Util.applyDefaults(
+    options, OpenLayers.Format.CSWGetRecords.DEFAULTS
+  );
+  var cls = OpenLayers.Format.CSWGetRecords["v" + options.version.replace(/\./g, "_")];
+  if (!cls) {
+    throw "Unsupported CSWGetRecords version: " + options.version;
+  }
+  return new cls(options);
 };
 
 /**
@@ -30,5 +30,5 @@ OpenLayers.Format.CSWGetRecords = function(options) {
  * {Object} Default properties for the CSWGetRecords format.
  */
 OpenLayers.Format.CSWGetRecords.DEFAULTS = {
-    "version": "2.0.2"
+  "version": "2.0.2"
 };

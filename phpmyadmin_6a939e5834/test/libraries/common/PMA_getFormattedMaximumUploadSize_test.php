@@ -4,7 +4,7 @@
  ** Test for PMA_Util::getFormattedMaximumUploadSize from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -17,7 +17,7 @@ require_once 'libraries/php-gettext/gettext.inc';
  ** Test for PMA_Util::getFormattedMaximumUploadSize from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_GetFormattedMaximumUploadSize_Test extends PHPUnit_Framework_TestCase
 {
@@ -29,15 +29,15 @@ class PMA_GetFormattedMaximumUploadSize_Test extends PHPUnit_Framework_TestCase
      */
     public function dataProvider()
     {
-        return array(
-            array(10, __('B'), "10"),
-            array(100, __('B'), "100"),
-            array(1024, __('B'), "1,024"),
-            array(102400, __('KiB'), "100"),
-            array(10240000, __('MiB'), "10"),
-            array(2147483648, __('MiB'), "2,048"),
-            array(21474836480, __('GiB'), "20")
-        );
+        return [
+            [10, __('B'), "10"],
+            [100, __('B'), "100"],
+            [1024, __('B'), "1,024"],
+            [102400, __('KiB'), "100"],
+            [10240000, __('MiB'), "10"],
+            [2147483648, __('MiB'), "2,048"],
+            [21474836480, __('GiB'), "20"],
+        ];
     }
 
     /**

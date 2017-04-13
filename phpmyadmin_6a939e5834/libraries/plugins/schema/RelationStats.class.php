@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -25,10 +25,10 @@ abstract class RelationStats
      * Defines properties
      */
     public $xSrc, $ySrc;
-    public $srcDir ;
-    public $destDir;
-    public $xDest, $yDest;
-    public $wTick;
+    public        $srcDir;
+    public        $destDir;
+    public        $xDest, $yDest;
+    public        $wTick;
 
     /**
      * The constructor
@@ -80,7 +80,7 @@ abstract class RelationStats
             $this->xDest   = $dest_pos[1];
             $this->destDir = 1;
         }
-        $this->ySrc   = $src_pos[2];
+        $this->ySrc  = $src_pos[2];
         $this->yDest = $dest_pos[2];
     }
 
@@ -97,12 +97,14 @@ abstract class RelationStats
     private function _getXy($table, $column)
     {
         $pos = array_search($column, $table->fields);
+
         // x_left, x_right, y
-        return array(
+        return [
             $table->x,
             $table->x + $table->width,
-            $table->y + ($pos + 1.5) * $table->heightCell
-        );
+            $table->y + ($pos + 1.5) * $table->heightCell,
+        ];
     }
 }
+
 ?>

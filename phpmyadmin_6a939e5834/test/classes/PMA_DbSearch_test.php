@@ -39,11 +39,11 @@ class PMA_DbSearch_Test extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new PMA_DbSearch('pma_test');
-        $GLOBALS['server'] = 0;
+        $this->object                    = new PMA_DbSearch('pma_test');
+        $GLOBALS['server']               = 0;
         $GLOBALS['cfg']['ServerDefault'] = 1;
-        $GLOBALS['cfg']['ShowHint'] = true;
-        $GLOBALS['db'] = 'pma';
+        $GLOBALS['cfg']['ShowHint']      = true;
+        $GLOBALS['db']                   = 'pma';
     }
 
     /**
@@ -68,9 +68,10 @@ class PMA_DbSearch_Test extends PHPUnit_Framework_TestCase
      */
     private function _callProtectedFunction($name, $params)
     {
-        $class = new ReflectionClass('PMA_DbSearch');
+        $class  = new ReflectionClass('PMA_DbSearch');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
+
         return $method->invokeArgs($this->object, $params);
     }
 
@@ -89,20 +90,20 @@ class PMA_DbSearch_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->any())
             ->method('getColumns')
             ->with('pma', 'table1')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $GLOBALS['dbi'] = $dbi;
 
         $this->assertEquals(
-            array (
+            [
                 'select_columns' => 'SELECT *  FROM `pma`.`table1` WHERE FALSE',
-                'select_count' => 'SELECT COUNT(*) AS `count` FROM `pma`.`table1` ' .
+                'select_count'   => 'SELECT COUNT(*) AS `count` FROM `pma`.`table1` ' .
                     'WHERE FALSE',
-                'delete' => 'DELETE FROM `pma`.`table1` WHERE FALSE'
-            ),
+                'delete'         => 'DELETE FROM `pma`.`table1` WHERE FALSE',
+            ],
             $this->_callProtectedFunction(
                 '_getSearchSqls',
-                array('table1')
+                ['table1']
             )
         );
     }
@@ -141,7 +142,7 @@ class PMA_DbSearch_Test extends PHPUnit_Framework_TestCase
             $output,
             $this->_callProtectedFunction(
                 '_getResultsRow',
-                array($each_table, $newsearchsqls, $odd_row, 2)
+                [$each_table, $newsearchsqls, $odd_row, 2]
             )
         );
     }
@@ -153,16 +154,16 @@ class PMA_DbSearch_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestGetResultsRow()
     {
-        return array(
-            array(
+        return [
+            [
                 'table1',
-                array(
+                [
                     'SELECT *  FROM `pma`.`table1` WHERE FALSE',
                     'SELECT COUNT(*) AS `count` FROM `pma`.`table1` WHERE FALSE',
-                    'select_count' => 2,
+                    'select_count'   => 2,
                     'select_columns' => 'column1',
-                    'delete' => 'column2'
-                ),
+                    'delete'         => 'column2',
+                ],
                 true,
                 '<tr class="noclick odd"><td>2 matches in <strong>table1</strong>'
                 . '</td><td><a name="browse_search" class="ajax" '
@@ -186,9 +187,9 @@ class PMA_DbSearch_Test extends PHPUnit_Framework_TestCase
                 . 'confirmed=0&amp;sql_query=column2&amp;server=0&amp;lang=en'
                 . '&amp;collation_connection=utf-8&amp;'
                 . 'token=token\' , \'Delete the matches for the table1 table?\');'
-                . 'return false;">Delete</a></td></tr>'
-            )
-        );
+                . 'return false;">Delete</a></td></tr>',
+            ],
+        ];
     }
 
     /**
@@ -198,7 +199,7 @@ class PMA_DbSearch_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetSelectionForm()
     {
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
+        $_SESSION['PMA_Theme']    = new PMA_Theme();
         $GLOBALS['pmaThemeImage'] = 'themes/dot.gif';
         $this->assertEquals(
             '<a id="db_search"></a><form id="db_search_form" class="ajax" '
@@ -269,7 +270,7 @@ class PMA_DbSearch_Test extends PHPUnit_Framework_TestCase
             . '<a id="togglequerybox"></a>',
             $this->_callProtectedFunction(
                 'getResultDivs',
-                array()
+                []
             )
         );
     }

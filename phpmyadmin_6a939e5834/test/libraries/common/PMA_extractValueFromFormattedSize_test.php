@@ -4,7 +4,7 @@
  ** Test for PMA_Util::extractValueFromFormattedSize from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  ** Test for PMA_Util::extractValueFromFormattedSize from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_ExtractValueFromFormattedSize_Test extends PHPUnit_Framework_TestCase
 {
@@ -45,11 +45,11 @@ class PMA_ExtractValueFromFormattedSize_Test extends PHPUnit_Framework_TestCase
      */
     public function provider()
     {
-        return array(
-            array(100, -1),
-            array("10GB", 10737418240),
-            array("15MB", 15728640),
-            array("256K", 262144)
-        );
+        return [
+            [100, -1],
+            ["10GB", 10737418240],
+            ["15MB", 15728640],
+            ["256K", 262144],
+        ];
     }
 }

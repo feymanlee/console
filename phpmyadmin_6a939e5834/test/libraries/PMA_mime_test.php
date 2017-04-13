@@ -44,23 +44,23 @@ class PMA_MIME_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestDetectMIME()
     {
-        return array(
-            array(
+        return [
+            [
                 'pma',
-                'application/octet-stream'
-            ),
-            array(
+                'application/octet-stream',
+            ],
+            [
                 'GIF',
-                'image/gif'
-            ),
-            array(
+                'image/gif',
+            ],
+            [
                 "\x89PNG",
-                'image/png'
-            ),
-            array(
+                'image/png',
+            ],
+            [
                 chr(0xff) . chr(0xd8),
-                'image/jpeg'
-            ),
-        );
+                'image/jpeg',
+            ],
+        ];
     }
 }

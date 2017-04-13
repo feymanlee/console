@@ -13,10 +13,10 @@ require_once 'libraries/browse_foreigners.lib.php';
 /**
  * Sets globals from $_REQUEST
  */
-$request_params = array(
+$request_params = [
     'data',
-    'field'
-);
+    'field',
+];
 
 foreach ($request_params as $one_request_param) {
     if (isset($_REQUEST[$one_request_param])) {
@@ -24,7 +24,7 @@ foreach ($request_params as $one_request_param) {
     }
 }
 
-PMA_Util::checkParameters(array('db', 'table', 'field'));
+PMA_Util::checkParameters(['db', 'table', 'field']);
 
 $response = PMA_Response::getInstance();
 $response->getFooter()->setMinimal();
@@ -36,8 +36,8 @@ $header->setBodyId('body_browse_foreigners');
  * Displays the frame
  */
 
-$cfgRelation = PMA_getRelationsParam();
-$foreigners  = ($cfgRelation['relwork'] ? PMA_getForeigners($db, $table) : false);
+$cfgRelation   = PMA_getRelationsParam();
+$foreigners    = ($cfgRelation['relwork'] ? PMA_getForeigners($db, $table) : false);
 $foreign_limit = PMA_getForeignLimit(
     isset($_REQUEST['foreign_showAll']) ? $_REQUEST['foreign_showAll'] : null
 );
@@ -45,8 +45,8 @@ $foreign_limit = PMA_getForeignLimit(
 $foreignData = PMA_getForeignData(
     $foreigners, $_REQUEST['field'], true,
     isset($_REQUEST['foreign_filter'])
-    ? $_REQUEST['foreign_filter']
-    : '',
+        ? $_REQUEST['foreign_filter']
+        : '',
     isset($foreign_limit) ? $foreign_limit : null
 );
 

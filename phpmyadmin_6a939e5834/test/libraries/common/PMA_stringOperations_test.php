@@ -4,7 +4,7 @@
  * Test for several string operations
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  * Test for several string operations
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_StringOperations_Test extends PHPUnit_Framework_TestCase
 {
@@ -53,13 +53,13 @@ class PMA_StringOperations_Test extends PHPUnit_Framework_TestCase
      */
     public function flipStringDataProvider()
     {
-        return array(
-            array('test', "t<br />\ne<br />\ns<br />\nt"),
-            array(
+        return [
+            ['test', "t<br />\ne<br />\ns<br />\nt"],
+            [
                 'te&nbsp;;st',
-                "t<br />\ne<br />\n&nbsp;<br />\n;<br />\ns<br />\nt"
-            )
-        );
+                "t<br />\ne<br />\n&nbsp;<br />\n;<br />\ns<br />\nt",
+            ],
+        ];
     }
 
     /**
@@ -85,10 +85,10 @@ class PMA_StringOperations_Test extends PHPUnit_Framework_TestCase
      */
     public function userDirDataProvider()
     {
-        return array(
-            array('/var/pma_tmp/%u/', "/var/pma_tmp/root/"),
-            array('/home/%u/pma', "/home/root/pma/")
-        );
+        return [
+            ['/var/pma_tmp/%u/', "/var/pma_tmp/root/"],
+            ['/home/%u/pma', "/home/root/pma/"],
+        ];
     }
 
     /**
@@ -116,11 +116,11 @@ class PMA_StringOperations_Test extends PHPUnit_Framework_TestCase
      */
     public function replaceBinaryContentsDataProvider()
     {
-        return array(
-            array("\x000", '\00'),
-            array("\x08\x0a\x0d\x1atest", '\b\n\r\Ztest'),
-            array("\ntest", '\ntest')
-        );
+        return [
+            ["\x000", '\00'],
+            ["\x08\x0a\x0d\x1atest", '\b\n\r\Ztest'],
+            ["\ntest", '\ntest'],
+        ];
     }
 
     /**
@@ -148,12 +148,12 @@ class PMA_StringOperations_Test extends PHPUnit_Framework_TestCase
      */
     public function duplicateFirstNewlineDataProvider()
     {
-        return array(
-            array('test', 'test'),
-            array("\r\ntest", "\n\r\ntest"),
-            array("\ntest", "\ntest"),
-            array("\n\r\ntest", "\n\r\ntest")
-        );
+        return [
+            ['test', 'test'],
+            ["\r\ntest", "\n\r\ntest"],
+            ["\ntest", "\ntest"],
+            ["\n\r\ntest", "\n\r\ntest"],
+        ];
     }
 
     /**
@@ -174,4 +174,5 @@ class PMA_StringOperations_Test extends PHPUnit_Framework_TestCase
     }
 
 }
+
 ?>

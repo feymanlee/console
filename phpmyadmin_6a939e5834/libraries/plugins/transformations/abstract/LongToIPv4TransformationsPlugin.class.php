@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage LongToIPv4
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -42,7 +42,7 @@ abstract class LongToIPv4TransformationsPlugin extends TransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         if ($buffer < 0 || $buffer > 4294967295) {
             return htmlspecialchars($buffer);
@@ -65,4 +65,5 @@ abstract class LongToIPv4TransformationsPlugin extends TransformationsPlugin
         return "Long To IPv4";
     }
 }
+
 ?>

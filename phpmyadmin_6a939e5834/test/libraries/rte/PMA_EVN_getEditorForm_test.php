@@ -29,9 +29,9 @@ class PMA_EVN_GetEditorForm_Test extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $GLOBALS['tear_down']['server'] = false;
-        if (! isset($GLOBALS['cfg']['ServerDefault'])) {
+        if (!isset($GLOBALS['cfg']['ServerDefault'])) {
             $GLOBALS['cfg']['ServerDefault'] = '';
-            $GLOBALS['tear_down']['server'] = true;
+            $GLOBALS['tear_down']['server']  = true;
         }
     }
 
@@ -75,7 +75,7 @@ class PMA_EVN_GetEditorForm_Test extends PHPUnit_Framework_TestCase
      */
     public function provider_add()
     {
-        $data = array(
+        $data = [
             'item_name'           => '',
             'item_type'           => 'ONE TIME',
             'item_type_toggle'    => 'RECURRING',
@@ -89,51 +89,51 @@ class PMA_EVN_GetEditorForm_Test extends PHPUnit_Framework_TestCase
             'item_definition'     => '',
             'item_preserve'       => '',
             'item_comment'        => '',
-            'item_definer'        => ''
-        );
+            'item_definer'        => '',
+        ];
 
-        return array(
-            array(
+        return [
+            [
                 $data,
-                "<input name='add_item'"
-            ),
-            array(
+                "<input name='add_item'",
+            ],
+            [
                 $data,
-                "<input type='text' name='item_name'"
-            ),
-            array(
+                "<input type='text' name='item_name'",
+            ],
+            [
                 $data,
-                "<select name='item_status'"
-            ),
-            array(
+                "<select name='item_status'",
+            ],
+            [
                 $data,
-                "<input name='item_type'"
-            ),
-            array(
+                "<input name='item_type'",
+            ],
+            [
                 $data,
-                "<input type='text' name='item_execute_at'"
-            ),
-            array(
+                "<input type='text' name='item_execute_at'",
+            ],
+            [
                 $data,
-                "<input type='text' name='item_ends'"
-            ),
-            array(
+                "<input type='text' name='item_ends'",
+            ],
+            [
                 $data,
-                "<textarea name='item_definition'"
-            ),
-            array(
+                "<textarea name='item_definition'",
+            ],
+            [
                 $data,
-                "<input type='text' name='item_definer'"
-            ),
-            array(
+                "<input type='text' name='item_definer'",
+            ],
+            [
                 $data,
-                "<input type='text' name='item_comment'"
-            ),
-            array(
+                "<input type='text' name='item_comment'",
+            ],
+            [
                 $data,
-                "<input type='submit' name='editor_process_add'"
-            )
-        );
+                "<input type='submit' name='editor_process_add'",
+            ],
+        ];
     }
 
     /**
@@ -163,7 +163,7 @@ class PMA_EVN_GetEditorForm_Test extends PHPUnit_Framework_TestCase
      */
     public function provider_edit()
     {
-        $data = array(
+        $data = [
             'item_name'           => 'foo',
             'item_type'           => 'RECURRING',
             'item_type_toggle'    => 'ONE TIME',
@@ -177,51 +177,51 @@ class PMA_EVN_GetEditorForm_Test extends PHPUnit_Framework_TestCase
             'item_definition'     => 'SET @A=1;',
             'item_preserve'       => '',
             'item_comment'        => '',
-            'item_definer'        => ''
-        );
+            'item_definer'        => '',
+        ];
 
-        return array(
-            array(
+        return [
+            [
                 $data,
-                "<input name='edit_item'"
-            ),
-            array(
+                "<input name='edit_item'",
+            ],
+            [
                 $data,
-                "<input type='text' name='item_name'"
-            ),
-            array(
+                "<input type='text' name='item_name'",
+            ],
+            [
                 $data,
-                "<select name='item_status'"
-            ),
-            array(
+                "<select name='item_status'",
+            ],
+            [
                 $data,
-                "<input name='item_type'"
-            ),
-            array(
+                "<input name='item_type'",
+            ],
+            [
                 $data,
-                "<input type='text' name='item_execute_at'"
-            ),
-            array(
+                "<input type='text' name='item_execute_at'",
+            ],
+            [
                 $data,
-                "<input type='text' name='item_ends'"
-            ),
-            array(
+                "<input type='text' name='item_ends'",
+            ],
+            [
                 $data,
-                "<textarea name='item_definition'"
-            ),
-            array(
+                "<textarea name='item_definition'",
+            ],
+            [
                 $data,
-                "<input type='text' name='item_definer'"
-            ),
-            array(
+                "<input type='text' name='item_definer'",
+            ],
+            [
                 $data,
-                "<input type='text' name='item_comment'"
-            ),
-            array(
+                "<input type='text' name='item_comment'",
+            ],
+            [
                 $data,
-                "<input type='submit' name='editor_process_edit'"
-            )
-        );
+                "<input type='submit' name='editor_process_edit'",
+            ],
+        ];
     }
 
     /**
@@ -251,7 +251,7 @@ class PMA_EVN_GetEditorForm_Test extends PHPUnit_Framework_TestCase
      */
     public function provider_ajax()
     {
-        $data = array(
+        $data = [
             'item_name'           => '',
             'item_type'           => 'RECURRING',
             'item_type_toggle'    => 'ONE TIME',
@@ -265,23 +265,24 @@ class PMA_EVN_GetEditorForm_Test extends PHPUnit_Framework_TestCase
             'item_definition'     => '',
             'item_preserve'       => '',
             'item_comment'        => '',
-            'item_definer'        => ''
-        );
+            'item_definer'        => '',
+        ];
 
-        return array(
-            array(
+        return [
+            [
                 $data,
-                "<select name='item_type'"
-            ),
-            array(
+                "<select name='item_type'",
+            ],
+            [
                 $data,
-                "<input type='hidden' name='editor_process_edit'"
-            ),
-            array(
+                "<input type='hidden' name='editor_process_edit'",
+            ],
+            [
                 $data,
-                "<input type='hidden' name='ajax_request'"
-            )
-        );
+                "<input type='hidden' name='ajax_request'",
+            ],
+        ];
     }
 }
+
 ?>

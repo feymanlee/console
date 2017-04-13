@@ -4,7 +4,7 @@
  * Tests for PMA_Util::pow() function from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  * Tests for PMA_Util::pow() function from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_Pow_Test extends PHPUnit_Framework_TestCase
 {
@@ -131,4 +131,5 @@ class PMA_Pow_Test extends PHPUnit_Framework_TestCase
         }
     }
 }
+
 ?>

@@ -22,9 +22,9 @@ $response = PMA_Response::getInstance();
 $response->getHeader()->sendHttpHeaders();
 $response->disable();
 
-if (! PMA_isValid($_GET['url'])
-    || ! preg_match('/^https?:\/\/[^\n\r]*$/', $_GET['url'])
-    || ! PMA_isAllowedDomain($_GET['url'])
+if (!PMA_isValid($_GET['url'])
+    || !preg_match('/^https?:\/\/[^\n\r]*$/', $_GET['url'])
+    || !PMA_isAllowedDomain($_GET['url'])
 ) {
     header('Location: ' . $cfg['PmaAbsoluteUri']);
 } else {

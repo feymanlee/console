@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -13,8 +13,8 @@ if (! defined('PHPMYADMIN')) {
  *
  */
 $GLOBALS['unparsed_sql'] = $sql_query;
-$parsed_sql = PMA_SQP_parse($sql_query);
-$analyzed_sql = PMA_SQP_analyze($parsed_sql);
+$parsed_sql              = PMA_SQP_parse($sql_query);
+$analyzed_sql            = PMA_SQP_analyze($parsed_sql);
 
 // for bug 780516: now that we use case insensitive preg_match
 // or flags from the analyser, do not put back the reformatted query
@@ -90,27 +90,27 @@ if (isset($analyzed_sql[0]['queryflags']['is_procedure'])
 }
 
 // aggregates all the results into one array
-$analyzed_sql_results = array(
-    "parsed_sql" => $parsed_sql,
-    "analyzed_sql" => $analyzed_sql,
-    "reload" => $reload,
+$analyzed_sql_results = [
+    "parsed_sql"    => $parsed_sql,
+    "analyzed_sql"  => $analyzed_sql,
+    "reload"        => $reload,
     "drop_database" => $drop_database,
-    "is_explain" => $is_explain,
-    "is_delete" => $is_delete,
-    "is_affected" => $is_affected,
-    "is_replace" => $is_replace,
-    "is_insert" => $is_insert,
-    "is_maint" => $is_maint,
-    "is_show" => $is_show,
-    "is_analyse" => $is_analyse,
-    "is_export" => $is_export,
-    "is_group" => $is_group,
-    "is_func" => $is_func,
-    "is_count" => $is_count,
-    "is_select" => $is_select,
-    "is_procedure" => $is_procedure,
-    "is_subquery" => $is_subquery
-);
+    "is_explain"    => $is_explain,
+    "is_delete"     => $is_delete,
+    "is_affected"   => $is_affected,
+    "is_replace"    => $is_replace,
+    "is_insert"     => $is_insert,
+    "is_maint"      => $is_maint,
+    "is_show"       => $is_show,
+    "is_analyse"    => $is_analyse,
+    "is_export"     => $is_export,
+    "is_group"      => $is_group,
+    "is_func"       => $is_func,
+    "is_count"      => $is_count,
+    "is_select"     => $is_select,
+    "is_procedure"  => $is_procedure,
+    "is_subquery"   => $is_subquery,
+];
 
 
 // If the query is a Select, extract the db and table names and modify
@@ -130,15 +130,16 @@ if ($is_select) {
         $table = $analyzed_sql[0]['table_ref'][0]['table_true_name'];
     }
     if (isset($analyzed_sql[0]['table_ref'][0]['db'])
-        && /*overload*/mb_strlen($analyzed_sql[0]['table_ref'][0]['db'])
+        && /*overload*/
+        mb_strlen($analyzed_sql[0]['table_ref'][0]['db'])
     ) {
-        $db    = $analyzed_sql[0]['table_ref'][0]['db'];
+        $db = $analyzed_sql[0]['table_ref'][0]['db'];
     } else {
         $db = $prev_db;
     }
     // Don't change reload, if we already decided to reload in import
     if (empty($reload) && empty($GLOBALS['is_ajax_request'])) {
-        $reload  = ($db == $prev_db) ? 0 : 1;
+        $reload = ($db == $prev_db) ? 0 : 1;
     }
 }
 ?>

@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage ImageUpload
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -43,4 +43,5 @@ class Image_JPEG_Upload extends ImageUploadTransformationsPlugin
         return "JPEG";
     }
 }
+
 ?>

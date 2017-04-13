@@ -4,142 +4,141 @@
 var ctrlKeyHistory = 0;
 
 /**
-  * Allows moving around inputs/select by Ctrl+arrows
-  *
-  * @param object   event data
-  */
-function onKeyDownArrowsHandler(e)
-{
-    e = e || window.event;
+ * Allows moving around inputs/select by Ctrl+arrows
+ *
+ * @param object   event data
+ */
+function onKeyDownArrowsHandler(e) {
+  e = e || window.event;
 
-    var o = (e.srcElement || e.target);
-    if (!o) {
-        return;
-    }
-    if (o.tagName != "TEXTAREA" && o.tagName != "INPUT" && o.tagName != "SELECT") {
-        return;
-    }
-    if ((e.which != 17) && (e.which != 37) && (e.which != 38) && (e.which != 39) && (e.which !=40)) {
-        return;
-    }
-    if (!o.id) {
-        return;
-    }
+  var o = (e.srcElement || e.target);
+  if (!o) {
+    return;
+  }
+  if (o.tagName != "TEXTAREA" && o.tagName != "INPUT" && o.tagName != "SELECT") {
+    return;
+  }
+  if ((e.which != 17) && (e.which != 37) && (e.which != 38) && (e.which != 39) && (e.which != 40)) {
+    return;
+  }
+  if (!o.id) {
+    return;
+  }
 
-    if (e.type == "keyup") {
-        if (e.which==17) {
-            ctrlKeyHistory = 0;
-        }
-        return;
+  if (e.type == "keyup") {
+    if (e.which == 17) {
+      ctrlKeyHistory = 0;
     }
-    else if (e.type == "keydown") {
-        if (e.which == 17) {
-            ctrlKeyHistory = 1;
-        }
+    return;
+  }
+  else if (e.type == "keydown") {
+    if (e.which == 17) {
+      ctrlKeyHistory = 1;
     }
+  }
 
-    if (ctrlKeyHistory != 1) {
-        return;
-    }
+  if (ctrlKeyHistory != 1) {
+    return;
+  }
 
-    e.preventDefault();
+  e.preventDefault();
 
-    var pos = o.id.split("_");
-    if (pos[0] != "field" || typeof pos[2] == "undefined") {
-        return;
-    }
+  var pos = o.id.split("_");
+  if (pos[0] != "field" || typeof pos[2] == "undefined") {
+    return;
+  }
 
-    var x = pos[2], y = pos[1];
+  var x = pos[2], y = pos[1];
 
-    var nO = null;
+  var nO = null;
 
-    switch (e.keyCode) {
+  switch (e.keyCode) {
     case 38:
-        // up
-        y--;
-        break;
+      // up
+      y--;
+      break;
     case 40:
-        // down
-        y++;
-        break;
+      // down
+      y++;
+      break;
     case 37:
-        // left
-        x--;
-        break;
+      // left
+      x--;
+      break;
     case 39:
-        // right
-        x++;
-        break;
+      // right
+      x++;
+      break;
     default:
-        return;
-    }
+      return;
+  }
 
-    var is_firefox = navigator.userAgent.toLowerCase().indexOf("firefox/") > -1;
+  var is_firefox = navigator.userAgent.toLowerCase().indexOf("firefox/") > -1;
 
-    var id = "field_" + y + "_" + x;
+  var id = "field_" + y + "_" + x;
+  nO = document.getElementById(id);
+  if (!nO) {
+    id = "field_" + y + "_" + x + "_0";
     nO = document.getElementById(id);
-    if (! nO) {
-        id = "field_" + y + "_" + x + "_0";
-        nO = document.getElementById(id);
+  }
+
+  // skip non existent fields
+  if (!nO) {
+    return;
+  }
+
+  // for firefox select tag
+  var lvalue = o.selectedIndex;
+  var nOvalue = nO.selectedIndex;
+
+  nO.focus();
+
+  if (is_firefox) {
+    var ffcheck = 0;
+    var ffversion;
+    for (ffversion = 3; ffversion < 25; ffversion++) {
+      var is_firefox_v_24 = navigator.userAgent.toLowerCase().indexOf('firefox/' + ffversion) > -1;
+      if (is_firefox_v_24) {
+        ffcheck = 1;
+        break;
+      }
     }
-
-    // skip non existent fields
-    if (! nO) {
-        return;
+    if (ffcheck == 1) {
+      if (e.which == 38 || e.which == 37) {
+        nOvalue++;
+      }
+      else if (e.which == 40 || e.which == 39) {
+        nOvalue--;
+      }
+      nO.selectedIndex = nOvalue;
     }
-
-    // for firefox select tag
-    var lvalue = o.selectedIndex;
-    var nOvalue = nO.selectedIndex;
-
-    nO.focus();
-
-    if (is_firefox) {
-        var ffcheck = 0;
-        var ffversion;
-        for (ffversion = 3 ; ffversion < 25 ; ffversion++) {
-            var is_firefox_v_24 = navigator.userAgent.toLowerCase().indexOf('firefox/'+ffversion) > -1;
-            if (is_firefox_v_24) {
-                ffcheck = 1;
-                break;
-            }
-        }
-        if (ffcheck == 1) {
-            if (e.which == 38 || e.which == 37) {
-                nOvalue++;
-            }
-            else if (e.which == 40 || e.which == 39) {
-                nOvalue--;
-            }
-            nO.selectedIndex=nOvalue;
-        }
-        else {
-            if (e.which == 38 || e.which == 37) {
-                lvalue++;
-            }
-            else if (e.which == 40 || e.which == 39) {
-                lvalue--;
-            }
-            o.selectedIndex=lvalue;
-        }
+    else {
+      if (e.which == 38 || e.which == 37) {
+        lvalue++;
+      }
+      else if (e.which == 40 || e.which == 39) {
+        lvalue--;
+      }
+      o.selectedIndex = lvalue;
     }
+  }
 
-    if (nO.tagName != 'SELECT') {
-        nO.select();
-    }
-    e.returnValue = false;
+  if (nO.tagName != 'SELECT') {
+    nO.select();
+  }
+  e.returnValue = false;
 }
 
 AJAX.registerTeardown('keyhandler.js', function () {
-    $(document).off('keydown keyup', '#table_columns');
-    $(document).off('keydown keyup', 'table.insertRowTable');
+  $(document).off('keydown keyup', '#table_columns');
+  $(document).off('keydown keyup', 'table.insertRowTable');
 });
 
 AJAX.registerOnload('keyhandler.js', function () {
-    $(document).on('keydown keyup', '#table_columns', function (event) {
-        onKeyDownArrowsHandler(event.originalEvent);
-    });
-    $(document).on('keydown keyup', 'table.insertRowTable', function (event) {
-        onKeyDownArrowsHandler(event.originalEvent);
-    });
+  $(document).on('keydown keyup', '#table_columns', function (event) {
+    onKeyDownArrowsHandler(event.originalEvent);
+  });
+  $(document).on('keydown keyup', 'table.insertRowTable', function (event) {
+    onKeyDownArrowsHandler(event.originalEvent);
+  });
 });

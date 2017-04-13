@@ -25,19 +25,19 @@ class PMA_IsValid_Test extends PHPUnit_Framework_TestCase
      */
     public static function providerNoVarTypeProvider()
     {
-        return array(
-            array(0, false, 0),
-            array(0, false, 1),
-            array(1, false, null),
-            array(1.1, false, null),
-            array('', false, null),
-            array(' ', false, null),
-            array('0', false, null),
-            array('string', false, null),
-            array(array(), false, null),
-            array(array(1, 2, 3), false, null),
-            array(true, false, null),
-            array(false, false, null));
+        return [
+            [0, false, 0],
+            [0, false, 1],
+            [1, false, null],
+            [1.1, false, null],
+            ['', false, null],
+            [' ', false, null],
+            ['0', false, null],
+            ['string', false, null],
+            [[], false, null],
+            [[1, 2, 3], false, null],
+            [true, false, null],
+            [false, false, null]];
     }
 
     /**
@@ -194,7 +194,7 @@ class PMA_IsValid_Test extends PHPUnit_Framework_TestCase
      */
     public function testNotScalarArray()
     {
-        $var = array('test');
+        $var = ['test'];
         $this->assertFalse(PMA_isValid($var, 'scalar'));
     }
 
@@ -261,7 +261,7 @@ class PMA_IsValid_Test extends PHPUnit_Framework_TestCase
     public function testValueInArray()
     {
         $var = 'a';
-        $this->assertTrue(PMA_isValid($var, array('a', 'b',)));
+        $this->assertTrue(PMA_isValid($var, ['a', 'b',]));
     }
 
     /**
@@ -272,7 +272,7 @@ class PMA_IsValid_Test extends PHPUnit_Framework_TestCase
     public function testValueNotInArray()
     {
         $var = 'c';
-        $this->assertFalse(PMA_isValid($var, array('a', 'b',)));
+        $this->assertFalse(PMA_isValid($var, ['a', 'b',]));
     }
 
     /**
@@ -282,7 +282,7 @@ class PMA_IsValid_Test extends PHPUnit_Framework_TestCase
      */
     public function testNumericIdentical()
     {
-        $var = 1;
+        $var     = 1;
         $compare = 1;
         $this->assertTrue(PMA_isValid($var, 'identic', $compare));
 
@@ -290,7 +290,7 @@ class PMA_IsValid_Test extends PHPUnit_Framework_TestCase
         $compare += 2;
         $this->assertFalse(PMA_isValid($var, 'identic', $compare));
 
-        $var = 1;
+        $var     = 1;
         $compare = '1';
         $this->assertFalse(PMA_isValid($var, 'identic', $compare));
     }
@@ -302,14 +302,14 @@ class PMA_IsValid_Test extends PHPUnit_Framework_TestCase
      */
     public function providerSimilarType()
     {
-        return array(
-            array(1, 1),
-            array(1.5, 1.5),
-            array(true, true),
-            array('string', "string"),
-            array(array(1, 2, 3.4), array(1, 2, 3.4)),
-            array(array(1, '2', '3.4', 5, 'text'), array('1', '2', 3.4,'5'))
-        );
+        return [
+            [1, 1],
+            [1.5, 1.5],
+            [true, true],
+            ['string', "string"],
+            [[1, 2, 3.4], [1, 2, 3.4]],
+            [[1, '2', '3.4', 5, 'text'], ['1', '2', 3.4, '5']],
+        ];
     }
 
     /**

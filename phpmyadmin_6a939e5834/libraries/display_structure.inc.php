@@ -12,7 +12,7 @@ require_once 'libraries/structure.lib.php';
 require_once 'libraries/index.lib.php';
 require_once 'libraries/tbl_info.inc.php';
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -26,7 +26,7 @@ if ($GLOBALS['cfg']['HideStructureActions'] === true) {
 }
 
 $html_form = '<form method="post" action="tbl_structure.php" name="fieldsForm" '
-. 'id="fieldsForm" class="ajax' . $HideStructureActions . '">';
+    . 'id="fieldsForm" class="ajax' . $HideStructureActions . '">';
 
 $response->addHTML($html_form);
 $response->addHTML(PMA_URL_getHiddenInputs($db, $table));
@@ -57,8 +57,8 @@ $response->addHTML('<tbody>');
 // table body
 
 // prepare comments
-$comments_map = array();
-$mime_map = array();
+$comments_map = [];
+$mime_map     = [];
 
 if ($GLOBALS['cfg']['ShowPropertyComments']) {
     include_once 'libraries/transformations.lib.php';
@@ -69,33 +69,33 @@ if ($GLOBALS['cfg']['ShowPropertyComments']) {
 }
 require_once 'libraries/central_columns.lib.php';
 $central_list = PMA_getCentralColumnsFromTable($db, $table);
-$rownum    = 0;
-$columns_list = array();
-$save_row  = array();
-$odd_row   = true;
+$rownum       = 0;
+$columns_list = [];
+$save_row     = [];
+$odd_row      = true;
 foreach ($fields as $row) {
     $save_row[] = $row;
     $rownum++;
-    $columns_list[]   = $row['Field'];
+    $columns_list[] = $row['Field'];
 
-    $type             = $row['Type'];
+    $type                 = $row['Type'];
     $extracted_columnspec = PMA_Util::extractColumnSpec($row['Type']);
 
     if ('set' == $extracted_columnspec['type']
         || 'enum' == $extracted_columnspec['type']
     ) {
-        $type_nowrap  = '';
+        $type_nowrap = '';
     } else {
-        $type_nowrap  = ' class="nowrap"';
+        $type_nowrap = ' class="nowrap"';
     }
-    $type         = $extracted_columnspec['print_type'];
+    $type = $extracted_columnspec['print_type'];
     if (empty($type)) {
-        $type     = ' ';
+        $type = ' ';
     }
 
     $field_charset = '';
     if ($extracted_columnspec['can_contain_collation']
-        && ! empty($row['Collation'])
+        && !empty($row['Collation'])
     ) {
         $field_charset = $row['Collation'];
     }
@@ -107,7 +107,7 @@ foreach ($fields as $row) {
         && isset($mime_map[$row['Field']]['mimetype'])
     ) {
         $type_mime = '<br />MIME: '
-        . str_replace('_', '/', $mime_map[$row['Field']]['mimetype']);
+            . str_replace('_', '/', $mime_map[$row['Field']]['mimetype']);
     } else {
         $type_mime = '';
     }
@@ -119,7 +119,7 @@ foreach ($fields as $row) {
     if (isset($analyzed_sql[0]['create_table_fields'][$row['Field']])) {
         $tempField = $analyzed_sql[0]['create_table_fields'][$row['Field']];
     } else {
-        $tempField = array();
+        $tempField = [];
     }
 
     // MySQL 4.1.2+ TIMESTAMP options
@@ -131,7 +131,7 @@ foreach ($fields as $row) {
     // here, we have a TIMESTAMP that SHOW FULL COLUMNS reports as having the
     // NULL attribute, but SHOW CREATE TABLE says the contrary. Believe
     // the latter.
-    if (! empty($tempField['type'])
+    if (!empty($tempField['type'])
         && $tempField['type'] == 'TIMESTAMP'
         && $tempField['timestamp_not_null']
     ) {
@@ -139,7 +139,7 @@ foreach ($fields as $row) {
     }
 
 
-    if (! isset($row['Default'])) {
+    if (!isset($row['Default'])) {
         if ($row['Null'] == 'YES') {
             $row['Default'] = '<i>NULL</i>';
         }
@@ -147,16 +147,16 @@ foreach ($fields as $row) {
         $row['Default'] = htmlspecialchars($row['Default']);
     }
 
-    $field_encoded = urlencode($row['Field']);
-    $field_name    = htmlspecialchars($row['Field']);
+    $field_encoded        = urlencode($row['Field']);
+    $field_name           = htmlspecialchars($row['Field']);
     $displayed_field_name = $field_name;
 
     // underline commented fields and display a hover-title (CSS only)
 
     if (isset($comments_map[$row['Field']])) {
         $displayed_field_name = '<span class="commented_column" title="'
-        . htmlspecialchars($comments_map[$row['Field']]) . '">'
-        . $field_name . '</span>';
+            . htmlspecialchars($comments_map[$row['Field']]) . '">'
+            . $field_name . '</span>';
     }
 
     if ($primary && $primary->hasColumn($field_name)) {
@@ -165,10 +165,10 @@ foreach ($fields as $row) {
         );
     }
     $response->addHTML(
-        '<tr class="' . ($odd_row ? 'odd': 'even') . '">'
+        '<tr class="' . ($odd_row ? 'odd' : 'even') . '">'
     );
-    $odd_row = !$odd_row;
-    $isInCentralColumns = in_array($row['Field'], $central_list)?true:false;
+    $odd_row            = !$odd_row;
+    $isInCentralColumns = in_array($row['Field'], $central_list) ? true : false;
     $response->addHTML(
         PMA_getHtmlTableStructureRow(
             $row, $rownum, $displayed_field_name,
@@ -178,7 +178,7 @@ foreach ($fields as $row) {
         )
     );
 
-    if (! $tbl_is_view && ! $db_is_system_schema) {
+    if (!$tbl_is_view && !$db_is_system_schema) {
         $response->addHTML(
             PMA_getHtmlForActionsInTableStructure(
                 $type, $tbl_storage_engine, $primary,
@@ -227,7 +227,7 @@ $response->addHTML(
 
 $response->addHTML('</div>');
 
-if (! $tbl_is_view && ! $db_is_system_schema) {
+if (!$tbl_is_view && !$db_is_system_schema) {
     $response->addHTML('<br />');
     $response->addHTML(PMA_getHtmlForAddColumn($columns_list));
 }
@@ -236,9 +236,9 @@ if (! $tbl_is_view && ! $db_is_system_schema) {
  * Displays indexes
  */
 
-if (! $tbl_is_view
-    && ! $db_is_system_schema
-    && 'ARCHIVE' !=  $tbl_storage_engine
+if (!$tbl_is_view
+    && !$db_is_system_schema
+    && 'ARCHIVE' != $tbl_storage_engine
 ) {
     //return the list of index
     $response->addJSON(

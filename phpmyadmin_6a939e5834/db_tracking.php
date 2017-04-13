@@ -54,7 +54,7 @@ if (isset($_REQUEST['delete_tracking']) && isset($_REQUEST['table'])) {
 
 } elseif (isset($_REQUEST['submit_mult'])) {
 
-    if (! empty($_REQUEST['selected_tbl'])) {
+    if (!empty($_REQUEST['selected_tbl'])) {
         if ($_REQUEST['submit_mult'] == 'delete_tracking') {
 
             foreach ($_REQUEST['selected_tbl'] as $table) {
@@ -99,36 +99,36 @@ $cfgRelation = PMA_getRelationsParam();
 
 // Prepare statement to get HEAD version
 $all_tables_query = ' SELECT table_name, MAX(version) as version FROM ' .
-     PMA_Util::backquote($cfgRelation['db']) . '.' .
-     PMA_Util::backquote($cfgRelation['tracking']) .
-     ' WHERE db_name = \'' . PMA_Util::sqlAddSlashes($_REQUEST['db']) . '\' ' .
-     ' GROUP BY table_name' .
-     ' ORDER BY table_name ASC';
+    PMA_Util::backquote($cfgRelation['db']) . '.' .
+    PMA_Util::backquote($cfgRelation['tracking']) .
+    ' WHERE db_name = \'' . PMA_Util::sqlAddSlashes($_REQUEST['db']) . '\' ' .
+    ' GROUP BY table_name' .
+    ' ORDER BY table_name ASC';
 
 $all_tables_result = PMA_queryAsControlUser($all_tables_query);
 
 // If a HEAD version exists
 if ($GLOBALS['dbi']->numRows($all_tables_result) > 0) {
     ?>
-    <div id="tracked_tables">
-    <h3><?php echo __('Tracked tables');?></h3>
+  <div id="tracked_tables">
+    <h3><?php echo __('Tracked tables'); ?></h3>
 
     <form method="post" action="db_tracking.php" name="trackedForm"
-        id="trackedForm" class="ajax">
+          id="trackedForm" class="ajax">
     <?php
     echo PMA_URL_getHiddenInputs($GLOBALS['db'])
     ?>
-    <table id="versions" class="data">
+      <table id="versions" class="data">
     <thead>
     <tr>
         <th></th>
-        <th><?php echo __('Table');?></th>
-        <th><?php echo __('Last version');?></th>
-        <th><?php echo __('Created');?></th>
-        <th><?php echo __('Updated');?></th>
-        <th><?php echo __('Status');?></th>
-        <th><?php echo __('Action');?></th>
-        <th><?php echo __('Show');?></th>
+        <th><?php echo __('Table'); ?></th>
+        <th><?php echo __('Last version'); ?></th>
+        <th><?php echo __('Created'); ?></th>
+        <th><?php echo __('Updated'); ?></th>
+        <th><?php echo __('Status'); ?></th>
+        <th><?php echo __('Action'); ?></th>
+        <th><?php echo __('Show'); ?></th>
     </tr>
     </thead>
     <tbody>
@@ -136,101 +136,101 @@ if ($GLOBALS['dbi']->numRows($all_tables_result) > 0) {
 
     // Print out information about versions
 
-    $delete = PMA_Util::getIcon('b_drop.png', __('Delete tracking'));
-    $versions = PMA_Util::getIcon('b_versions.png', __('Versions'));
-    $report = PMA_Util::getIcon('b_report.png', __('Tracking report'));
+    $delete    = PMA_Util::getIcon('b_drop.png', __('Delete tracking'));
+    $versions  = PMA_Util::getIcon('b_versions.png', __('Versions'));
+    $report    = PMA_Util::getIcon('b_report.png', __('Tracking report'));
     $structure = PMA_Util::getIcon('b_props.png', __('Structure snapshot'));
 
     $style = 'odd';
     while ($one_result = $GLOBALS['dbi']->fetchArray($all_tables_result)) {
-        list($table_name, $version_number) = $one_result;
-        $table_query = ' SELECT * FROM ' .
-             PMA_Util::backquote($cfgRelation['db']) . '.' .
-             PMA_Util::backquote($cfgRelation['tracking']) .
-             ' WHERE `db_name` = \'' . PMA_Util::sqlAddSlashes($_REQUEST['db'])
-             . '\' AND `table_name`  = \'' . PMA_Util::sqlAddSlashes($table_name)
-             . '\' AND `version` = \'' . $version_number . '\'';
+    list($table_name, $version_number) = $one_result;
+    $table_query = ' SELECT * FROM ' .
+        PMA_Util::backquote($cfgRelation['db']) . '.' .
+        PMA_Util::backquote($cfgRelation['tracking']) .
+        ' WHERE `db_name` = \'' . PMA_Util::sqlAddSlashes($_REQUEST['db'])
+        . '\' AND `table_name`  = \'' . PMA_Util::sqlAddSlashes($table_name)
+        . '\' AND `version` = \'' . $version_number . '\'';
 
-        $table_result = PMA_queryAsControlUser($table_query);
-        $version_data = $GLOBALS['dbi']->fetchArray($table_result);
+    $table_result = PMA_queryAsControlUser($table_query);
+    $version_data = $GLOBALS['dbi']->fetchArray($table_result);
 
-        $tmp_link = 'tbl_tracking.php' . $url_query . '&amp;table='
-            . htmlspecialchars($version_data['table_name']);
-        $delete_link = 'db_tracking.php' . $url_query . '&amp;table='
-            . htmlspecialchars($version_data['table_name'])
-            . '&amp;delete_tracking=true&amp';
-        $checkbox_id = "selected_tbl_"
-            . htmlspecialchars($version_data['table_name']);
-        ?>
-        <tr class="noclick <?php echo $style;?>">
+    $tmp_link    = 'tbl_tracking.php' . $url_query . '&amp;table='
+        . htmlspecialchars($version_data['table_name']);
+    $delete_link = 'db_tracking.php' . $url_query . '&amp;table='
+        . htmlspecialchars($version_data['table_name'])
+        . '&amp;delete_tracking=true&amp';
+    $checkbox_id = "selected_tbl_"
+        . htmlspecialchars($version_data['table_name']);
+    ?>
+    <tr class="noclick <?php echo $style; ?>">
             <td class="center">
                 <input type="checkbox" name="selected_tbl[]"
-                class="checkall" id="<?php echo $checkbox_id;?>"
-                value="<?php echo htmlspecialchars($version_data['table_name']);?>"/>
+                       class="checkall" id="<?php echo $checkbox_id; ?>"
+                       value="<?php echo htmlspecialchars($version_data['table_name']); ?>"/>
             </td>
             <th>
-                <label for="<?php echo $checkbox_id;?>">
-                    <?php echo htmlspecialchars($version_data['table_name']);?>
+                <label for="<?php echo $checkbox_id; ?>">
+                    <?php echo htmlspecialchars($version_data['table_name']); ?>
                 </label>
             </th>
-            <td class="right"><?php echo $version_data['version'];?></td>
-            <td><?php echo $version_data['date_created'];?></td>
-            <td><?php echo $version_data['date_updated'];?></td>
+            <td class="right"><?php echo $version_data['version']; ?></td>
+            <td><?php echo $version_data['date_created']; ?></td>
+            <td><?php echo $version_data['date_updated']; ?></td>
             <td>
             <?php
-                $state = PMA_getVersionStatus($version_data);
-                $options = array(
-                    0 => array(
-                        'label' => __('not active'),
-                        'value' => 'deactivate_now',
-                        'selected' => ($state != 'active')
-                    ),
-                    1 => array(
-                        'label' => __('active'),
-                        'value' => 'activate_now',
-                        'selected' => ($state == 'active')
-                    )
-                );
-                echo PMA_Util::toggleButton(
-                    $tmp_link . '&amp;version=' . $version_data['version'],
-                    'toggle_activation',
-                    $options,
-                    null
-                );
+            $state   = PMA_getVersionStatus($version_data);
+            $options = [
+                0 => [
+                    'label'    => __('not active'),
+                    'value'    => 'deactivate_now',
+                    'selected' => ($state != 'active'),
+                ],
+                1 => [
+                    'label'    => __('active'),
+                    'value'    => 'activate_now',
+                    'selected' => ($state == 'active'),
+                ],
+            ];
+            echo PMA_Util::toggleButton(
+                $tmp_link . '&amp;version=' . $version_data['version'],
+                'toggle_activation',
+                $options,
+                null
+            );
             ?>
             </td>
             <td>
-            <a class="delete_tracking_anchor ajax" href="<?php echo $delete_link;?>" >
+            <a class="delete_tracking_anchor ajax" href="<?php echo $delete_link; ?>">
             <?php echo $delete; ?></a>
-        <?php
-        echo '</td>'
-            . '<td>'
-            . '<a href="' . $tmp_link . '">' . $versions . '</a>'
-            . '&nbsp;&nbsp;'
-            . '<a href="' . $tmp_link . '&amp;report=true&amp;version='
-            . $version_data['version'] . '">' . $report . '</a>'
-            . '&nbsp;&nbsp;'
-            . '<a href="' . $tmp_link . '&amp;snapshot=true&amp;version='
-            . $version_data['version'] . '">' . $structure . '</a>'
-            . '</td>'
-            . '</tr>';
-        if ($style == 'even') {
-            $style = 'odd';
-        } else {
-            $style = 'even';
-        }
-    }
-    unset($tmp_link);
-    ?>
+                <?php
+                echo '</td>'
+                    . '<td>'
+                    . '<a href="' . $tmp_link . '">' . $versions . '</a>'
+                    . '&nbsp;&nbsp;'
+                    . '<a href="' . $tmp_link . '&amp;report=true&amp;version='
+                    . $version_data['version'] . '">' . $report . '</a>'
+                    . '&nbsp;&nbsp;'
+                    . '<a href="' . $tmp_link . '&amp;snapshot=true&amp;version='
+                    . $version_data['version'] . '">' . $structure . '</a>'
+                    . '</td>'
+                    . '</tr>';
+                if ($style == 'even') {
+                    $style = 'odd';
+                } else {
+                    $style = 'even';
+                }
+                }
+                unset($tmp_link);
+                ?>
     </tbody>
     </table>
-    <?php
-    echo PMA_Util::getWithSelected($pmaThemeImage, $text_dir, "trackedForm");
-    echo PMA_Util::getButtonOrImage(
-        'submit_mult', 'mult_submit', 'submit_mult_delete_tracking',
-        __('Delete tracking'), 'b_drop.png', 'delete_tracking'
-    );
-    ?>
+        <?php
+        echo PMA_Util::getWithSelected($pmaThemeImage, $text_dir, "trackedForm");
+        echo PMA_Util::getButtonOrImage(
+            'submit_mult', 'mult_submit', 'submit_mult_delete_tracking',
+            __('Delete tracking'), 'b_drop.png', 'delete_tracking'
+        );
+        ?>
     </form>
     </div>
     <?php
@@ -241,7 +241,7 @@ $sep = $GLOBALS['cfg']['NavigationTreeTableSeparator'];
 // Get list of tables
 $table_list = PMA_Util::getTableList($GLOBALS['db']);
 
-$my_tables = array();
+$my_tables = [];
 
 // For each table try to get the tracking version
 foreach ($table_list as $key => $value) {
@@ -274,8 +274,8 @@ foreach ($table_list as $key => $value) {
 // If untracked tables exist
 if (count($my_tables) > 0) {
     ?>
-    <h3><?php echo __('Untracked tables');?></h3>
-    <form method="post" action="db_tracking.php" name="untrackedForm"
+  <h3><?php echo __('Untracked tables'); ?></h3>
+  <form method="post" action="db_tracking.php" name="untrackedForm"
         id="untrackedForm" class="ajax">
     <?php
     echo PMA_URL_getHiddenInputs($GLOBALS['db'])
@@ -284,8 +284,8 @@ if (count($my_tables) > 0) {
     <thead>
     <tr>
         <th></th>
-        <th style="width: 300px"><?php echo __('Table');?></th>
-        <th><?php echo __('Action');?></th>
+        <th style="width: 300px"><?php echo __('Table'); ?></th>
+        <th><?php echo __('Action'); ?></th>
     </tr>
     </thead>
     <tbody>
@@ -303,18 +303,18 @@ if (count($my_tables) > 0) {
             $my_link .= PMA_Util::getIcon('eye.png', __('Track table'));
             $my_link .= '</a>';
             ?>
-            <tr class="noclick <?php echo $style;?>">
+          <tr class="noclick <?php echo $style; ?>">
             <td class="center">
                 <input type="checkbox" name="selected_tbl[]"
-                    class="checkall" id="<?php echo $checkbox_id;?>"
-                    value="<?php echo htmlspecialchars($tablename);?>"/>
+                       class="checkall" id="<?php echo $checkbox_id; ?>"
+                       value="<?php echo htmlspecialchars($tablename); ?>"/>
             </td>
             <th>
-                <label for="<?php echo $checkbox_id;?>">
-                    <?php echo htmlspecialchars($tablename);?>
+                <label for="<?php echo $checkbox_id; ?>">
+                    <?php echo htmlspecialchars($tablename); ?>
                 </label>
             </th>
-            <td><?php echo $my_link;?></td>
+            <td><?php echo $my_link; ?></td>
             </tr>
             <?php
             if ($style == 'even') {
@@ -327,13 +327,13 @@ if (count($my_tables) > 0) {
     ?>
     </tbody>
     </table>
-    <?php
-    echo PMA_Util::getWithSelected($pmaThemeImage, $text_dir, "untrackedForm");
-    echo PMA_Util::getButtonOrImage(
-        'submit_mult', 'mult_submit', 'submit_mult_track',
-        __('Track table'), 'eye.png', 'track'
-    );
-    ?>
+      <?php
+      echo PMA_Util::getWithSelected($pmaThemeImage, $text_dir, "untrackedForm");
+      echo PMA_Util::getButtonOrImage(
+          'submit_mult', 'mult_submit', 'submit_mult_track',
+          __('Track table'), 'eye.png', 'track'
+      );
+      ?>
     </form>
     <?php
 }

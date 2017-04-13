@@ -7,7 +7,7 @@
  * @package    PhpMyAdmin-Import
  * @subpackage ESRI_Shape
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -64,7 +64,7 @@ class PMA_ShapeFile extends ShapeFile
         ImportShp::readFromBuffer(4);
         $this->shapeType = loadData("V", ImportShp::readFromBuffer(4));
 
-        $this->boundingBox = array();
+        $this->boundingBox         = [];
         $this->boundingBox["xmin"] = loadData("d", ImportShp::readFromBuffer(8));
         $this->boundingBox["ymin"] = loadData("d", ImportShp::readFromBuffer(8));
         $this->boundingBox["xmax"] = loadData("d", ImportShp::readFromBuffer(8));
@@ -99,4 +99,5 @@ class PMA_ShapeFile extends ShapeFile
         }
     }
 }
+
 ?>

@@ -73,11 +73,11 @@ class PMA_Message
      *
      * @var array
      */
-    static public $level = array (
+    static public $level = [
         PMA_Message::SUCCESS => 'success',
         PMA_Message::NOTICE  => 'notice',
         PMA_Message::ERROR   => 'error',
-    );
+    ];
 
     /**
      * The message number
@@ -125,7 +125,7 @@ class PMA_Message
      * @access  protected
      * @var     array
      */
-    protected $params = array();
+    protected $params = [];
 
     /**
      * holds additional messages
@@ -133,7 +133,7 @@ class PMA_Message
      * @access  protected
      * @var     array
      */
-    protected $addedMessages = array();
+    protected $addedMessages = [];
 
     /**
      * Constructor
@@ -145,7 +145,7 @@ class PMA_Message
      *                          constant definitions above
      */
     public function __construct($string = '', $number = PMA_Message::NOTICE,
-        $params = array(), $sanitize = PMA_Message::SANITIZE_NONE
+        $params = [], $sanitize = PMA_Message::SANITIZE_NONE
     ) {
         $this->setString($string, $sanitize & PMA_Message::SANITIZE_STRING);
         $this->setNumber($number);
@@ -235,6 +235,7 @@ class PMA_Message
     {
         $r = new PMA_Message('', $type);
         $r->setMessage($message);
+
         return $r;
     }
 
@@ -254,6 +255,7 @@ class PMA_Message
             _ngettext('%1$d row affected.', '%1$d rows affected.', $rows)
         );
         $message->addParam($rows);
+
         return $message;
     }
 
@@ -273,6 +275,7 @@ class PMA_Message
             _ngettext('%1$d row deleted.', '%1$d rows deleted.', $rows)
         );
         $message->addParam($rows);
+
         return $message;
     }
 
@@ -292,6 +295,7 @@ class PMA_Message
             _ngettext('%1$d row inserted.', '%1$d rows inserted.', $rows)
         );
         $message->addParam($rows);
+
         return $message;
     }
 
@@ -501,7 +505,9 @@ class PMA_Message
      */
     public function addMessage($message, $separator = ' ')
     {
-        if (/*overload*/mb_strlen($separator)) {
+        if (/*overload*/
+        mb_strlen($separator)
+        ) {
             $this->addedMessages[] = $separator;
         }
 
@@ -628,11 +634,15 @@ class PMA_Message
     {
         $message = $this->message;
 
-        if (0 === /*overload*/mb_strlen($message)) {
+        if (0 === /*overload*/
+            mb_strlen($message)
+        ) {
             $string = $this->getString();
             if (isset($GLOBALS[$string])) {
                 $message = $GLOBALS[$string];
-            } elseif (0 === /*overload*/mb_strlen($string)) {
+            } elseif (0 === /*overload*/
+                mb_strlen($string)
+            ) {
                 $message = '';
             } else {
                 $message = $string;
@@ -656,10 +666,10 @@ class PMA_Message
     }
 
     /**
-    * Returns only message string without image & other HTML.
-    *
-    * @return string
-    */
+     * Returns only message string without image & other HTML.
+     *
+     * @return string
+     */
     public function getOnlyMessage()
     {
         return $this->message;
@@ -715,6 +725,7 @@ class PMA_Message
     public function getDisplay()
     {
         $this->isDisplayed(true);
+
         return '<div class="' . $this->getLevel() . '">'
             . $this->getMessage() . '</div>';
     }
@@ -752,8 +763,10 @@ class PMA_Message
             $image = 's_notice.png';
         }
         $message = PMA_Message::notice(PMA_Util::getImage($image)) . " " . $message;
+
         return $message;
 
     }
 }
+
 ?>

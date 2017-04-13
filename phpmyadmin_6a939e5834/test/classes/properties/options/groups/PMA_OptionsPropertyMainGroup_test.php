@@ -7,6 +7,7 @@
  */
 
 require_once 'libraries/properties/options/groups/OptionsPropertyMainGroup.class.php';
+
 /**
  * tests for OptionsPropertyMainGroup class
  *
@@ -50,4 +51,5 @@ class PMA_OptionsPropertyMainGroup_Test extends PHPUnit_Framework_TestCase
     }
 
 }
+
 ?>

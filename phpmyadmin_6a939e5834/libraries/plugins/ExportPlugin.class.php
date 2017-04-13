@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -37,14 +37,14 @@ abstract class ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    abstract public function exportHeader ();
+    abstract public function exportHeader();
 
     /**
      * Outputs export footer
      *
      * @return bool Whether it succeeded
      */
-    abstract public function exportFooter ();
+    abstract public function exportFooter();
 
     /**
      * Outputs database header
@@ -54,7 +54,7 @@ abstract class ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    abstract public function exportDBHeader ($db, $db_alias = '');
+    abstract public function exportDBHeader($db, $db_alias = '');
 
     /**
      * Outputs database footer
@@ -63,7 +63,7 @@ abstract class ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    abstract public function exportDBFooter ($db);
+    abstract public function exportDBFooter($db);
 
     /**
      * Outputs CREATE DATABASE statement
@@ -75,7 +75,7 @@ abstract class ExportPlugin
      */
     abstract public function exportDBCreate($db, $db_alias = '');
 
-     /**
+    /**
      * Outputs the content of a table
      *
      * @param string $db        database name
@@ -87,8 +87,8 @@ abstract class ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    abstract public function exportData (
-        $db, $table, $crlf, $error_url, $sql_query, $aliases = array()
+    abstract public function exportData(
+        $db, $table, $crlf, $error_url, $sql_query, $aliases = []
     );
 
     /**
@@ -104,7 +104,7 @@ abstract class ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportRoutines($db, $aliases = array())
+    public function exportRoutines($db, $aliases = [])
     {
         ;
     }
@@ -117,7 +117,7 @@ abstract class ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportEvents($db, $aliases = array())
+    public function exportEvents($db, $aliases = [])
     {
         ;
     }
@@ -155,7 +155,7 @@ abstract class ExportPlugin
         $comments = false,
         $mime = false,
         $dates = false,
-        $aliases = array()
+        $aliases = []
     ) {
         ;
     }
@@ -170,7 +170,7 @@ abstract class ExportPlugin
      *
      * @return string resulting definition
      */
-    public function getTableDefStandIn($db, $view, $crlf, $aliases = array())
+    public function getTableDefStandIn($db, $view, $crlf, $aliases = [])
     {
         ;
     }
@@ -259,9 +259,9 @@ abstract class ExportPlugin
     public function getAlias($aliases, $id, $type = 'dbtblcol', $db = '', $tbl = '')
     {
         if (!empty($db) && isset($aliases[$db])) {
-            $aliases = array(
-                $db => $aliases[$db]
-            );
+            $aliases = [
+                $db => $aliases[$db],
+            ];
         }
         // search each database
         foreach ($aliases as $db_key => $db) {
@@ -275,9 +275,9 @@ abstract class ExportPlugin
                 continue;
             }
             if (!empty($tbl) && isset($db['tables'][$tbl])) {
-                $db['tables'] = array(
-                    $tbl => $db['tables'][$tbl]
-                );
+                $db['tables'] = [
+                    $tbl => $db['tables'][$tbl],
+                ];
             }
             // search each of its tables
             foreach ($db['tables'] as $table_key => $table) {
@@ -301,6 +301,7 @@ abstract class ExportPlugin
                 }
             }
         }
+
         return '';
     }
 
@@ -318,9 +319,9 @@ abstract class ExportPlugin
      * @return string the Relation string
      */
     public function getRelationString(
-        $res_rel, $field_name, $db, $aliases = array()
+        $res_rel, $field_name, $db, $aliases = []
     ) {
-        $relation = '';
+        $relation  = '';
         $foreigner = PMA_searchColumnInForeigners($res_rel, $field_name);
         if ($foreigner) {
             $ftable = $foreigner['foreign_table'];
@@ -333,7 +334,9 @@ abstract class ExportPlugin
             }
             $relation = $ftable . ' (' . $ffield . ')';
         }
+
         return $relation;
     }
 }
+
 ?>

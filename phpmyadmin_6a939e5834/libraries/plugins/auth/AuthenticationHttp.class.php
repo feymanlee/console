@@ -7,7 +7,7 @@
  * @package    PhpMyAdmin-Authentication
  * @subpackage HTTP
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -55,11 +55,11 @@ class AuthenticationHttp extends AuthenticationPlugin
     public function authForm()
     {
         /* Perform logout to custom URL */
-        if (! empty($_REQUEST['old_usr'])
-            && ! empty($GLOBALS['cfg']['Server']['LogoutURL'])
+        if (!empty($_REQUEST['old_usr'])
+            && !empty($GLOBALS['cfg']['Server']['LogoutURL'])
         ) {
             PMA_sendHeaderLocation($GLOBALS['cfg']['Server']['LogoutURL']);
-            if (! defined('TESTSUITE')) {
+            if (!defined('TESTSUITE')) {
                 exit;
             } else {
                 return false;
@@ -78,7 +78,7 @@ class AuthenticationHttp extends AuthenticationPlugin
         }
         // remove non US-ASCII to respect RFC2616
         $realm_message = preg_replace('/[^\x20-\x7e]/i', '', $realm_message);
-        header('WWW-Authenticate: Basic realm="' . $realm_message .  '"');
+        header('WWW-Authenticate: Basic realm="' . $realm_message . '"');
         header('HTTP/1.0 401 Unauthorized');
         if (php_sapi_name() !== 'cgi-fcgi') {
             header('status: 401 Unauthorized');
@@ -107,7 +107,7 @@ class AuthenticationHttp extends AuthenticationPlugin
             include CUSTOM_FOOTER_FILE;
         }
 
-        if (! defined('TESTSUITE')) {
+        if (!defined('TESTSUITE')) {
             exit;
         } else {
             return false;
@@ -117,19 +117,19 @@ class AuthenticationHttp extends AuthenticationPlugin
     /**
      * Gets advanced authentication settings
      *
-     * @global  string $PHP_AUTH_USER   the username if register_globals is on
-     * @global  string $PHP_AUTH_PW     the password if register_globals is on
-     * @global  array                   the array of server variables if
-     *                                  register_globals is off
-     * @global  array                   the array of environment variables if
-     *                                  register_globals is off
-     * @global  string                  the username for the ? server
-     * @global  string                  the password for the ? server
-     * @global  string                  the username for the WebSite Professional
-     *                                  server
-     * @global  string                  the password for the WebSite Professional
-     *                                  server
-     * @global  string                  the username of the user who logs out
+     * @global  string $PHP_AUTH_USER          the username if register_globals is on
+     * @global  string $PHP_AUTH_PW            the password if register_globals is on
+     * @global         array                   the array of server variables if
+     *                                         register_globals is off
+     * @global         array                   the array of environment variables if
+     *                                         register_globals is off
+     * @global         string                  the username for the ? server
+     * @global         string                  the password for the ? server
+     * @global         string                  the username for the WebSite Professional
+     *                                         server
+     * @global         string                  the password for the WebSite Professional
+     *                                         server
+     * @global         string                  the username of the user who logs out
      *
      * @return boolean   whether we get authentication settings or not
      */
@@ -183,11 +183,11 @@ class AuthenticationHttp extends AuthenticationPlugin
         // (do not use explode() because a user might have a colon in his password
         if (strcmp(substr($PHP_AUTH_USER, 0, 6), 'Basic ') == 0) {
             $usr_pass = base64_decode(substr($PHP_AUTH_USER, 6));
-            if (! empty($usr_pass)) {
+            if (!empty($usr_pass)) {
                 $colon = strpos($usr_pass, ':');
                 if ($colon) {
                     $PHP_AUTH_USER = substr($usr_pass, 0, $colon);
-                    $PHP_AUTH_PW = substr($usr_pass, $colon + 1);
+                    $PHP_AUTH_PW   = substr($usr_pass, $colon + 1);
                 }
                 unset($colon);
             }
@@ -196,12 +196,12 @@ class AuthenticationHttp extends AuthenticationPlugin
 
         // User logged out -> ensure the new username is not the same
         $old_usr = isset($_REQUEST['old_usr']) ? $_REQUEST['old_usr'] : '';
-        if (! empty($old_usr)
+        if (!empty($old_usr)
             && (isset($PHP_AUTH_USER) && $old_usr == $PHP_AUTH_USER)
         ) {
             $PHP_AUTH_USER = '';
             // -> delete user's choices that were stored in session
-            if (! defined('TESTSUITE')) {
+            if (!defined('TESTSUITE')) {
                 session_destroy();
             }
         }
@@ -217,11 +217,11 @@ class AuthenticationHttp extends AuthenticationPlugin
     /**
      * Set the user and password after last checkings if required
      *
-     * @global  array   $cfg           the valid servers settings
-     * @global  integer $server        the id of the current server
-     * @global  array                  the current server settings
-     * @global  string  $PHP_AUTH_USER the current username
-     * @global  string  $PHP_AUTH_PW   the current password
+     * @global  array   $cfg                   the valid servers settings
+     * @global  integer $server                the id of the current server
+     * @global          array                  the current server settings
+     * @global  string  $PHP_AUTH_USER         the current username
+     * @global  string  $PHP_AUTH_PW           the current password
      *
      * @return boolean   always true
      */
@@ -237,7 +237,7 @@ class AuthenticationHttp extends AuthenticationPlugin
             for ($i = 1; $i <= $servers_cnt; $i++) {
                 if (isset($cfg['Servers'][$i])
                     && ($cfg['Servers'][$i]['host'] == $cfg['Server']['host']
-                    && $cfg['Servers'][$i]['user'] == $PHP_AUTH_USER)
+                        && $cfg['Servers'][$i]['user'] == $PHP_AUTH_USER)
                 ) {
                     $server        = $i;
                     $cfg['Server'] = $cfg['Servers'][$i];
@@ -272,6 +272,7 @@ class AuthenticationHttp extends AuthenticationPlugin
             PMA_fatalError($error);
         } else {
             $this->authForm();
+
             return true;
         }
     }
@@ -281,7 +282,7 @@ class AuthenticationHttp extends AuthenticationPlugin
      *
      * @param string $password New password to set
      *
-     * @return void 
+     * @return void
      */
     public function handlePasswordChange($password)
     {

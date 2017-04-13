@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Schema
  * @subpackage Dia
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -65,10 +65,10 @@ class SchemaDia extends SchemaPlugin
         $leaf->setName("orientation");
         $leaf->setText(__('Orientation'));
         $leaf->setValues(
-            array(
+            [
                 'L' => __('Landscape'),
                 'P' => __('Portrait'),
-            )
+            ]
         );
         $specificOptions->addProperty($leaf);
 
@@ -93,10 +93,11 @@ class SchemaDia extends SchemaPlugin
      */
     private function _getPaperSizeArray()
     {
-        $ret = array();
+        $ret = [];
         foreach ($GLOBALS['cfg']['PDFPageSizes'] as $val) {
             $ret[$val] = $val;
         }
+
         return $ret;
     }
 
@@ -114,4 +115,5 @@ class SchemaDia extends SchemaPlugin
         $export->showOutput();
     }
 }
+
 ?>

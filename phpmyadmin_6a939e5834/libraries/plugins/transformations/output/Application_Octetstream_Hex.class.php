@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage Hex
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -42,4 +42,5 @@ class Application_Octetstream_Hex extends HexTransformationsPlugin
         return "OctetStream";
     }
 }
+
 ?>

@@ -44,14 +44,14 @@ if (is_readable($filename)) {
  */
 $changelog = htmlspecialchars($changelog);
 
-$tracker_url = 'https://sourceforge.net/support/tracker.php?aid=\\1';
-$tracker_url_bug = 'https://sourceforge.net/p/phpmyadmin/bugs/\\1/';
-$tracker_url_rfe = 'https://sourceforge.net/p/phpmyadmin/feature-requests/\\1/';
+$tracker_url       = 'https://sourceforge.net/support/tracker.php?aid=\\1';
+$tracker_url_bug   = 'https://sourceforge.net/p/phpmyadmin/bugs/\\1/';
+$tracker_url_rfe   = 'https://sourceforge.net/p/phpmyadmin/feature-requests/\\1/';
 $tracker_url_patch = 'https://sourceforge.net/p/phpmyadmin/patches/\\1/';
-$github_url = 'https://github.com/phpmyadmin/phpmyadmin/';
-$faq_url = 'https://docs.phpmyadmin.net/en/latest/faq.html';
+$github_url        = 'https://github.com/phpmyadmin/phpmyadmin/';
+$faq_url           = 'https://docs.phpmyadmin.net/en/latest/faq.html';
 
-$replaces = array(
+$replaces = [
     '@(http://[./a-zA-Z0-9.-_-]*[/a-zA-Z0-9_])@'
     => '<a href="\\1">\\1</a>',
 
@@ -128,17 +128,17 @@ $replaces = array(
     '/(    ### )(.*)/'
     => '\\1<b>\\2</b>',
 
-);
+];
 
 header('Content-type: text/html; charset=utf-8');
 ?>
 <!DOCTYPE HTML>
 <html lang="en" dir="ltr">
 <head>
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <title>phpMyAdmin - ChangeLog</title>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
 </head>
 <body>
 <h1>phpMyAdmin - ChangeLog</h1>
@@ -149,9 +149,9 @@ echo '</pre>';
 ?>
 <script type="text/javascript">
 var links = document.getElementsByTagName("a");
-for(var i = 0; i < links.length; i++) {
-    links[i].target = "_blank";
-    links[i].rel = "noopener noreferrer";
+for (var i = 0; i < links.length; i++) {
+  links[i].target = "_blank";
+  links[i].rel = "noopener noreferrer";
 }
 </script>
 </body>

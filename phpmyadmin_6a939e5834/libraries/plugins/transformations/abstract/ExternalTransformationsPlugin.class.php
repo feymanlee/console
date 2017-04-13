@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage External
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -50,9 +50,9 @@ abstract class ExternalTransformationsPlugin extends TransformationsPlugin
      *
      * @return bool
      */
-    public function applyTransformationNoWrap($options = array())
+    public function applyTransformationNoWrap($options = [])
     {
-        if (! isset($options[3]) || $options[3] == '') {
+        if (!isset($options[3]) || $options[3] == '') {
             $nowrap = true;
         } elseif ($options[3] == '1' || $options[3] == 1) {
             $nowrap = true;
@@ -72,13 +72,13 @@ abstract class ExternalTransformationsPlugin extends TransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         // possibly use a global transform and feed it with special options
 
         // further operations on $buffer using the $options[] array.
 
-        $allowed_programs = array();
+        $allowed_programs = [];
 
         //
         // WARNING:
@@ -101,7 +101,7 @@ abstract class ExternalTransformationsPlugin extends TransformationsPlugin
 
         $options = $this->getOptions(
             $options,
-            array(0, '-f /dev/null -i -wrap -q', 1, 1)
+            [0, '-f /dev/null -i -wrap -q', 1, 1]
         );
 
         if (isset($allowed_programs[$options[0]])) {
@@ -111,12 +111,12 @@ abstract class ExternalTransformationsPlugin extends TransformationsPlugin
         }
 
         // needs PHP >= 4.3.0
-        $newstring = '';
-        $descriptorspec = array(
-            0 => array("pipe", "r"),
-            1 => array("pipe", "w")
-        );
-        $process = proc_open($program . ' ' . $options[1], $descriptorspec, $pipes);
+        $newstring      = '';
+        $descriptorspec = [
+            0 => ["pipe", "r"],
+            1 => ["pipe", "w"],
+        ];
+        $process        = proc_open($program . ' ' . $options[1], $descriptorspec, $pipes);
         if (is_resource($process)) {
             fwrite($pipes[0], $buffer);
             fclose($pipes[0]);
@@ -152,4 +152,5 @@ abstract class ExternalTransformationsPlugin extends TransformationsPlugin
         return "External";
     }
 }
+
 ?>

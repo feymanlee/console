@@ -8,7 +8,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -80,7 +80,7 @@ function PMA_getHtmlForCollationCurrentCharset(
     $mysqlDefaultColl, $mysqlCollAvailable
 ) {
     $odd_row = true;
-    $html = '';
+    $html    = '';
     foreach ($mysqlColl[$currCharset] as $current_collation) {
 
         $html .= '<tr class="'
@@ -95,6 +95,8 @@ function PMA_getHtmlForCollationCurrentCharset(
             . '</tr>' . "\n";
         $odd_row = !$odd_row;
     }
+
     return $html;
 }
+
 ?>

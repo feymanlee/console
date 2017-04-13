@@ -57,7 +57,7 @@ class PMA_SeleniumExportTest extends PMA_SeleniumBase
      * @return void
      * @dataProvider exportDataProvider
      *
-     * @group large
+     * @group        large
      */
     public function testServerImport($plugin, $expected)
     {
@@ -78,7 +78,7 @@ class PMA_SeleniumExportTest extends PMA_SeleniumBase
      * @return void
      * @dataProvider exportDataProvider
      *
-     * @group large
+     * @group        large
      */
     public function testDbExport($plugin, $expected)
     {
@@ -105,7 +105,7 @@ class PMA_SeleniumExportTest extends PMA_SeleniumBase
      * @return void
      * @dataProvider exportDataProvider
      *
-     * @group large
+     * @group        large
      */
     public function testTableExport($plugin, $expected)
     {
@@ -128,24 +128,24 @@ class PMA_SeleniumExportTest extends PMA_SeleniumBase
      */
     public function exportDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'CSV',
-                array('"1","2"')
-            ),
-            array(
+                ['"1","2"'],
+            ],
+            [
                 'SQL',
-                array(
+                [
                     "CREATE TABLE IF NOT EXISTS `test_table`",
                     "INSERT INTO `test_table` (`id`, `val`) VALUES",
-                    "(1, 2);"
-                )
-            ),
-            array(
+                    "(1, 2);",
+                ],
+            ],
+            [
                 'JSON',
-                array('[{"id":"1","val":"2"}]')
-            )
-        );
+                ['[{"id":"1","val":"2"}]'],
+            ],
+        ];
     }
 
     /**

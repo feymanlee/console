@@ -12,9 +12,9 @@ require_once 'libraries/ServerStatusData.class.php';
 require_once 'libraries/server_status_variables.lib.php';
 
 if (PMA_DRIZZLE) {
-    $GLOBALS['replication_info'] = array();
+    $GLOBALS['replication_info']                     = [];
     $GLOBALS['replication_info']['master']['status'] = false;
-    $GLOBALS['replication_info']['slave']['status'] = false;
+    $GLOBALS['replication_info']['slave']['status']  = false;
 } else {
     include_once 'libraries/replication.inc.php';
     include_once 'libraries/replication_gui.lib.php';
@@ -24,11 +24,11 @@ if (PMA_DRIZZLE) {
  * flush status variables if requested
  */
 if (isset($_REQUEST['flush'])) {
-    $_flush_commands = array(
+    $_flush_commands = [
         'STATUS',
         'TABLES',
         'QUERY CACHE',
-    );
+    ];
 
     if (in_array($_REQUEST['flush'], $_flush_commands)) {
         $GLOBALS['dbi']->query('FLUSH ' . $_REQUEST['flush'] . ';');

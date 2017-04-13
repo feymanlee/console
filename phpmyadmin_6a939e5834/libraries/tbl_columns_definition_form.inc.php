@@ -6,7 +6,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -15,23 +15,23 @@ if (! defined('PHPMYADMIN')) {
  */
 require_once './libraries/Util.class.php';
 
-PMA_Util::checkParameters(array('server', 'db', 'table', 'action', 'num_fields'));
+PMA_Util::checkParameters(['server', 'db', 'table', 'action', 'num_fields']);
 
 /**
  * Initialize to avoid code execution path warnings
  */
 
-if (! isset($num_fields)) {
+if (!isset($num_fields)) {
     $num_fields = 0;
 }
-if (! isset($mime_map)) {
+if (!isset($mime_map)) {
     $mime_map = null;
 }
-if (! isset($columnMeta)) {
-    $columnMeta = array();
+if (!isset($columnMeta)) {
+    $columnMeta = [];
 }
-if (! isset($content_cells)) {
-    $content_cells = array();
+if (!isset($content_cells)) {
+    $content_cells = [];
 }
 
 
@@ -69,7 +69,7 @@ if (isset($fields_meta)) {
 }
 
 if ($cfgRelation['mimework'] && $GLOBALS['cfg']['BrowseMIME']) {
-    $mime_map = PMA_getMIME($db, $table);
+    $mime_map       = PMA_getMIME($db, $table);
     $available_mime = PMA_getAvailableMIMEtypes();
 }
 
@@ -91,7 +91,7 @@ if (isset($_REQUEST['submit_num_fields'])) {
     $regenerate = 1;
 }
 
-$foreigners = PMA_getForeigners($db, $table, '', 'foreign');
+$foreigners       = PMA_getForeigners($db, $table, '', 'foreign');
 $child_references = null;
 // From MySQL 5.6.6 onwards columns with foreign keys can be renamed.
 // Hence, no need to get child references
@@ -99,19 +99,19 @@ if (PMA_MYSQL_INT_VERSION < 50606) {
     $child_references = PMA_getChildReferences($db, $table);
 }
 for ($columnNumber = 0; $columnNumber < $num_fields; $columnNumber++) {
-    if (! empty($regenerate)) {
+    if (!empty($regenerate)) {
         list($columnMeta, $submit_length, $submit_attribute,
             $submit_default_current_timestamp, $comments_map, $mime_map)
-                = PMA_handleRegeneration(
-                    $columnNumber,
-                    isset($available_mime) ? $mime_map : null,
-                    $comments_map, $mime_map
-                );
+            = PMA_handleRegeneration(
+            $columnNumber,
+            isset($available_mime) ? $mime_map : null,
+            $comments_map, $mime_map
+        );
     } elseif (isset($fields_meta[$columnNumber])) {
         $columnMeta = PMA_getColumnMetaForDefault(
             $fields_meta[$columnNumber],
             isset($analyzed_sql[0]['create_table_fields']
-            [$fields_meta[$columnNumber]['Field']]['default_value'])
+                [$fields_meta[$columnNumber]['Field']]['default_value'])
         );
     }
 
@@ -121,22 +121,24 @@ for ($columnNumber = 0; $columnNumber < $num_fields; $columnNumber++) {
             $columnMeta['Default']
                 = PMA_Util::convertBitDefaultValue($columnMeta['Default']);
         }
-        $type = $extracted_columnspec['type'];
+        $type   = $extracted_columnspec['type'];
         $length = $extracted_columnspec['spec_in_brackets'];
     } else {
         // creating a column
-        $columnMeta['Type'] = '';
-        $type        = '';
-        $length = '';
-        $extracted_columnspec = array();
+        $columnMeta['Type']   = '';
+        $type                 = '';
+        $length               = '';
+        $extracted_columnspec = [];
     }
 
     // some types, for example longtext, are reported as
     // "longtext character set latin7" when their charset and / or collation
     // differs from the ones of the corresponding database.
-    $tmp = /*overload*/mb_strpos($type, 'character set');
+    $tmp = /*overload*/
+        mb_strpos($type, 'character set');
     if ($tmp) {
-        $type = /*overload*/mb_substr($type, 0, $tmp - 1);
+        $type = /*overload*/
+            mb_substr($type, 0, $tmp - 1);
     }
     // rtrim the type, for cases like "float unsigned"
     $type = rtrim($type);
@@ -169,16 +171,17 @@ for ($columnNumber = 0; $columnNumber < $num_fields; $columnNumber++) {
     }
 
     $content_cells[$columnNumber] = PMA_getHtmlForColumnAttributes(
-        $columnNumber, isset($columnMeta) ? $columnMeta : array(),
-        /*overload*/mb_strtoupper($type), $length_values_input_size, $length,
+        $columnNumber, isset($columnMeta) ? $columnMeta : [],
+        /*overload*/
+        mb_strtoupper($type), $length_values_input_size, $length,
         isset($default_current_timestamp) ? $default_current_timestamp : null,
         isset($extracted_columnspec) ? $extracted_columnspec : null,
         isset($submit_attribute) ? $submit_attribute : null,
         isset($analyzed_sql) ? $analyzed_sql : null,
         $comments_map, isset($fields_meta) ? $fields_meta : null, $is_backup,
-        isset($move_columns) ? $move_columns : array(), $cfgRelation,
-        isset($available_mime) ? $available_mime : array(),
-        isset($mime_map) ? $mime_map : array()
+        isset($move_columns) ? $move_columns : [], $cfgRelation,
+        isset($available_mime) ? $available_mime : [],
+        isset($mime_map) ? $mime_map : []
     );
 } // end for
 $html = PMA_getHtmlForTableCreateOrAddField(
@@ -187,8 +190,8 @@ $html = PMA_getHtmlForTableCreateOrAddField(
 
 unset($_form_params);
 $response = PMA_Response::getInstance();
-$header = $response->getHeader();
-$scripts = $header->getScripts();
+$header   = $response->getHeader();
+$scripts  = $header->getScripts();
 $scripts->addFile('jquery/jquery.uitablefilter.js');
 $scripts->addFile('indexes.js');
 $response->addHTML($html);

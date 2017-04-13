@@ -22,11 +22,11 @@
  * @package PhpMyAdmin-Setup
  */
 
-$forms = array();
-$forms['_config.php'] = array(
+$forms                                    = [];
+$forms['_config.php']                     = [
     'DefaultLang',
-    'ServerDefault');
-$forms['Servers']['Server'] = array('Servers' => array(1 => array(
+    'ServerDefault'];
+$forms['Servers']['Server']               = ['Servers' => [1 => [
     'verbose',
     'host',
     'port',
@@ -34,21 +34,21 @@ $forms['Servers']['Server'] = array('Servers' => array(1 => array(
     'ssl',
     'connect_type',
     'compress',
-    'nopassword')));
-$forms['Servers']['Server_auth'] = array('Servers' => array(1 => array(
+    'nopassword']]];
+$forms['Servers']['Server_auth']          = ['Servers' => [1 => [
     'auth_type',
     ':group:' . __('Config authentication'),
-        'user',
-        'password',
-        ':group:end',
+    'user',
+    'password',
+    ':group:end',
     ':group:' . __('HTTP authentication'),
-        'auth_http_realm',
-        ':group:end',
+    'auth_http_realm',
+    ':group:end',
     ':group:' . __('Signon authentication'),
-        'SignonSession',
-        'SignonURL',
-        'LogoutURL')));
-$forms['Servers']['Server_config'] = array('Servers' => array(1 => array(
+    'SignonSession',
+    'SignonURL',
+    'LogoutURL']]];
+$forms['Servers']['Server_config']        = ['Servers' => [1 => [
     'only_db',
     'hide_db',
     'AllowRoot',
@@ -56,49 +56,49 @@ $forms['Servers']['Server_config'] = array('Servers' => array(1 => array(
     'DisableIS',
     'AllowDeny/order',
     'AllowDeny/rules',
-    'SessionTimeZone')));
-$forms['Servers']['Server_pmadb'] = array('Servers' => array(1 => array(
-    'pmadb' => 'phpmyadmin',
+    'SessionTimeZone']]];
+$forms['Servers']['Server_pmadb']         = ['Servers' => [1 => [
+    'pmadb'            => 'phpmyadmin',
     'controlhost',
     'controlport',
     'controluser',
     'controlpass',
-    'bookmarktable' => 'pma__bookmark',
-    'relation' => 'pma__relation',
-    'userconfig' => 'pma__userconfig',
-    'users' => 'pma__users',
-    'usergroups' => 'pma__usergroups',
+    'bookmarktable'    => 'pma__bookmark',
+    'relation'         => 'pma__relation',
+    'userconfig'       => 'pma__userconfig',
+    'users'            => 'pma__users',
+    'usergroups'       => 'pma__usergroups',
     'navigationhiding' => 'pma__navigationhiding',
-    'table_info' => 'pma__table_info',
-    'column_info' => 'pma__column_info',
-    'history' => 'pma__history',
-    'recent' => 'pma__recent',
-    'favorite' => 'pma__favorite',
-    'table_uiprefs' => 'pma__table_uiprefs',
-    'tracking' => 'pma__tracking',
-    'table_coords' => 'pma__table_coords',
-    'pdf_pages' => 'pma__pdf_pages',
-    'savedsearches' => 'pma__savedsearches',
-    'central_columns' => 'pma__central_columns',
-    'MaxTableUiprefs' => 100)));
-$forms['Servers']['Server_tracking'] = array('Servers' => array(1 => array(
+    'table_info'       => 'pma__table_info',
+    'column_info'      => 'pma__column_info',
+    'history'          => 'pma__history',
+    'recent'           => 'pma__recent',
+    'favorite'         => 'pma__favorite',
+    'table_uiprefs'    => 'pma__table_uiprefs',
+    'tracking'         => 'pma__tracking',
+    'table_coords'     => 'pma__table_coords',
+    'pdf_pages'        => 'pma__pdf_pages',
+    'savedsearches'    => 'pma__savedsearches',
+    'central_columns'  => 'pma__central_columns',
+    'MaxTableUiprefs'  => 100]]];
+$forms['Servers']['Server_tracking']      = ['Servers' => [1 => [
     'tracking_version_auto_create',
     'tracking_default_statements',
     'tracking_add_drop_view',
     'tracking_add_drop_table',
     'tracking_add_drop_database',
-)));
-$forms['Features']['Import_export'] = array(
+]]];
+$forms['Features']['Import_export']       = [
     'UploadDir',
     'SaveDir',
     'RecodingEngine' => ':group',
-        'IconvExtraParams',
-        ':group:end',
+    'IconvExtraParams',
+    ':group:end',
     'ZipDump',
     'GZipDump',
     'BZipDump',
-    'CompressOnFly');
-$forms['Features']['Security'] = array(
+    'CompressOnFly'];
+$forms['Features']['Security']            = [
     'blowfish_secret',
     'ForceSSL',
     'CheckConfigurationPermissions',
@@ -111,21 +111,21 @@ $forms['Features']['Security'] = array(
     'LoginCookieStore',
     'LoginCookieDeleteAll',
     'CaptchaLoginPublicKey',
-    'CaptchaLoginPrivateKey');
-$forms['Features']['Page_titles'] = array(
+    'CaptchaLoginPrivateKey'];
+$forms['Features']['Page_titles']         = [
     'TitleDefault',
     'TitleTable',
     'TitleDatabase',
-    'TitleServer');
-$forms['Features']['Warnings'] = array(
+    'TitleServer'];
+$forms['Features']['Warnings']            = [
     'ServerLibraryDifference_DisableWarning',
     'PmaNoRelation_DisableWarning',
     'SuhosinDisableWarning',
-    'LoginCookieValidityDisableWarning');
-$forms['Features']['Developer'] = array(
+    'LoginCookieValidityDisableWarning'];
+$forms['Features']['Developer']           = [
     'UserprefsDeveloperTab',
-    'DBG/sql');
-$forms['Features']['Other_core_settings'] = array(
+    'DBG/sql'];
+$forms['Features']['Other_core_settings'] = [
     'NaturalOrder',
     'InitialSlidersState',
     'MaxDbList',
@@ -145,9 +145,9 @@ $forms['Features']['Other_core_settings'] = array(
     'ProxyUser',
     'ProxyPass',
     'AllowThirdPartyFraming',
-    'ZeroConf'
-);
-$forms['Sql_queries']['Sql_queries'] = array(
+    'ZeroConf',
+];
+$forms['Sql_queries']['Sql_queries']      = [
     'ShowSQL',
     'Confirm',
     'QueryHistoryDB',
@@ -155,13 +155,13 @@ $forms['Sql_queries']['Sql_queries'] = array(
     'IgnoreMultiSubmitErrors',
     'MaxCharactersInDisplayedSQL',
     'RetainQueryBox',
-    'CodemirrorEnable');
-$forms['Sql_queries']['Sql_box'] = array('SQLQuery' => array(
+    'CodemirrorEnable'];
+$forms['Sql_queries']['Sql_box']          = ['SQLQuery' => [
     'Edit',
     'Explain',
     'ShowAsPHP',
-    'Refresh'));
-$forms['Navi_panel']['Navi_panel'] = array(
+    'Refresh']];
+$forms['Navi_panel']['Navi_panel']        = [
     'ShowDatabasesNavigationAsTree',
     'NavigationLinkWithMainPanel',
     'NavigationDisplayLogo',
@@ -174,31 +174,31 @@ $forms['Navi_panel']['Navi_panel'] = array(
     'NavigationTreeEnableExpansion',
     'NavigationTreeDisplayItemFilterMinimum',
     'NumRecentTables',
-    'NumFavoriteTables'
-);
-$forms['Navi_panel']['Navi_servers'] = array(
+    'NumFavoriteTables',
+];
+$forms['Navi_panel']['Navi_servers']      = [
     'NavigationDisplayServers',
-    'DisplayServersList');
-$forms['Navi_panel']['Navi_databases'] = array(
-    'NavigationTreeDbSeparator');
-$forms['Navi_panel']['Navi_tables'] = array(
+    'DisplayServersList'];
+$forms['Navi_panel']['Navi_databases']    = [
+    'NavigationTreeDbSeparator'];
+$forms['Navi_panel']['Navi_tables']       = [
     'NavigationTreeDefaultTabTable',
     'NavigationTreeDefaultTabTable2',
     'NavigationTreeTableSeparator',
     'NavigationTreeTableLevel',
-);
-$forms['Main_panel']['Startup'] = array(
+];
+$forms['Main_panel']['Startup']           = [
     'ShowCreateDb',
     'ShowStats',
     'ShowServerInfo',
-    'ShowChgPassword');
-$forms['Main_panel']['DbStructure'] = array(
+    'ShowChgPassword'];
+$forms['Main_panel']['DbStructure']       = [
     'ShowDbStructureCreation',
     'ShowDbStructureLastUpdate',
-    'ShowDbStructureLastCheck');
-$forms['Main_panel']['TableStructure'] = array(
-    'HideStructureActions');
-$forms['Main_panel']['Browse'] = array(
+    'ShowDbStructureLastCheck'];
+$forms['Main_panel']['TableStructure']    = [
+    'HideStructureActions'];
+$forms['Main_panel']['Browse']            = [
     'TableNavigationLinksMode',
     'ShowAll',
     'MaxRows',
@@ -212,8 +212,8 @@ $forms['Main_panel']['Browse'] = array(
     'RowActionLinks',
     'TablePrimaryKeyOrder',
     'RememberSorting',
-    'RelationalDisplay');
-$forms['Main_panel']['Edit'] = array(
+    'RelationalDisplay'];
+$forms['Main_panel']['Edit']              = [
     'ProtectBinary',
     'ShowFunctionFields',
     'ShowFieldTypesInDataEditView',
@@ -227,154 +227,154 @@ $forms['Main_panel']['Edit'] = array(
     'LongtextDoubleTextarea',
     'InsertRows',
     'ForeignKeyDropdownOrder',
-    'ForeignKeyMaxLimit');
-$forms['Main_panel']['Tabs'] = array(
+    'ForeignKeyMaxLimit'];
+$forms['Main_panel']['Tabs']              = [
     'TabsMode',
     'ActionLinksMode',
     'DefaultTabServer',
     'DefaultTabDatabase',
-    'DefaultTabTable'
-);
-$forms['Import']['Import_defaults'] = array('Import' => array(
+    'DefaultTabTable',
+];
+$forms['Import']['Import_defaults']       = ['Import' => [
     'format',
     'charset',
     'allow_interrupt',
-    'skip_queries'));
-$forms['Import']['Sql'] = array('Import' => array(
+    'skip_queries']];
+$forms['Import']['Sql']                   = ['Import' => [
     'sql_compatibility',
-    'sql_no_auto_value_on_zero'));
-$forms['Import']['Csv'] = array('Import' => array(
+    'sql_no_auto_value_on_zero']];
+$forms['Import']['Csv']                   = ['Import' => [
     ':group:' . __('CSV'),
-        'csv_replace',
-        'csv_ignore',
-        'csv_terminated',
-        'csv_enclosed',
-        'csv_escaped',
-        'csv_col_names',
-        ':group:end',
+    'csv_replace',
+    'csv_ignore',
+    'csv_terminated',
+    'csv_enclosed',
+    'csv_escaped',
+    'csv_col_names',
+    ':group:end',
     ':group:' . __('CSV using LOAD DATA'),
-        'ldi_replace',
-        'ldi_ignore',
-        'ldi_terminated',
-        'ldi_enclosed',
-        'ldi_escaped',
-        'ldi_local_option',
-        ':group:end'));
-$forms['Import']['Open_Document'] = array('Import' => array(
+    'ldi_replace',
+    'ldi_ignore',
+    'ldi_terminated',
+    'ldi_enclosed',
+    'ldi_escaped',
+    'ldi_local_option',
+    ':group:end']];
+$forms['Import']['Open_Document']         = ['Import' => [
     ':group:' . __('OpenDocument Spreadsheet'),
-        'ods_col_names',
-        'ods_empty_rows',
-        'ods_recognize_percentages',
-        'ods_recognize_currency'));
-$forms['Export']['Export_defaults'] = array('Export' => array(
+    'ods_col_names',
+    'ods_empty_rows',
+    'ods_recognize_percentages',
+    'ods_recognize_currency']];
+$forms['Export']['Export_defaults']       = ['Export' => [
     'method',
     ':group:' . __('Quick'),
-        'quick_export_onserver',
-        'quick_export_onserver_overwrite',
-        ':group:end',
+    'quick_export_onserver',
+    'quick_export_onserver_overwrite',
+    ':group:end',
     ':group:' . __('Custom'),
-        'format',
-        'compression',
-        'charset',
-        'asfile' => ':group',
-            'onserver',
-            'onserver_overwrite',
-            ':group:end',
-        'remember_file_template',
-        'file_template_table',
-        'file_template_database',
-        'file_template_server'));
-$forms['Export']['Sql'] = array('Export' => array(
-    'sql_include_comments' => ':group',
-        'sql_dates',
-        'sql_relation',
-        'sql_mime',
-        ':group:end',
+    'format',
+    'compression',
+    'charset',
+    'asfile' => ':group',
+    'onserver',
+    'onserver_overwrite',
+    ':group:end',
+    'remember_file_template',
+    'file_template_table',
+    'file_template_database',
+    'file_template_server']];
+$forms['Export']['Sql']                   = ['Export' => [
+    'sql_include_comments'        => ':group',
+    'sql_dates',
+    'sql_relation',
+    'sql_mime',
+    ':group:end',
     'sql_use_transaction',
     'sql_disable_fk',
     'sql_views_as_tables',
     'sql_compatibility',
     ':group:' . __('Database export options'),
-        'sql_drop_database',
-        'sql_structure_or_data',
-        ':group:end',
+    'sql_drop_database',
+    'sql_structure_or_data',
+    ':group:end',
     ':group:' . __('Structure'),
-        'sql_drop_table',
-        'sql_procedure_function',
-        'sql_create_table',
-        'sql_create_view',
-        'sql_create_trigger',
-        'sql_create_table_statements' => ':group',
-            'sql_if_not_exists',
-            'sql_auto_increment',
-            ':group:end',
-        'sql_backquotes',
-        ':group:end',
+    'sql_drop_table',
+    'sql_procedure_function',
+    'sql_create_table',
+    'sql_create_view',
+    'sql_create_trigger',
+    'sql_create_table_statements' => ':group',
+    'sql_if_not_exists',
+    'sql_auto_increment',
+    ':group:end',
+    'sql_backquotes',
+    ':group:end',
     ':group:' . __('Data'),
-        'sql_delayed',
-        'sql_ignore',
-        'sql_type',
-        'sql_insert_syntax',
-        'sql_max_query_size',
-        'sql_hex_for_binary',
-        'sql_utc_time'));
-$forms['Export']['CodeGen'] = array('Export' => array(
-    'codegen_format'));
-$forms['Export']['Csv'] = array('Export' => array(
+    'sql_delayed',
+    'sql_ignore',
+    'sql_type',
+    'sql_insert_syntax',
+    'sql_max_query_size',
+    'sql_hex_for_binary',
+    'sql_utc_time']];
+$forms['Export']['CodeGen']               = ['Export' => [
+    'codegen_format']];
+$forms['Export']['Csv']                   = ['Export' => [
     ':group:' . __('CSV'),
-        'csv_separator',
-        'csv_enclosed',
-        'csv_escaped',
-        'csv_terminated',
-        'csv_null',
-        'csv_removeCRLF',
-        'csv_columns',
-        ':group:end',
+    'csv_separator',
+    'csv_enclosed',
+    'csv_escaped',
+    'csv_terminated',
+    'csv_null',
+    'csv_removeCRLF',
+    'csv_columns',
+    ':group:end',
     ':group:' . __('CSV for MS Excel'),
-        'excel_null',
-        'excel_removeCRLF',
-        'excel_columns',
-        'excel_edition'));
-$forms['Export']['Latex'] = array('Export' => array(
+    'excel_null',
+    'excel_removeCRLF',
+    'excel_columns',
+    'excel_edition']];
+$forms['Export']['Latex']                 = ['Export' => [
     'latex_caption',
     'latex_structure_or_data',
     ':group:' . __('Structure'),
-        'latex_structure_caption',
-        'latex_structure_continued_caption',
-        'latex_structure_label',
-        'latex_relation',
-        'latex_comments',
-        'latex_mime',
-        ':group:end',
+    'latex_structure_caption',
+    'latex_structure_continued_caption',
+    'latex_structure_label',
+    'latex_relation',
+    'latex_comments',
+    'latex_mime',
+    ':group:end',
     ':group:' . __('Data'),
-        'latex_columns',
-        'latex_data_caption',
-        'latex_data_continued_caption',
-        'latex_data_label',
-        'latex_null'));
-$forms['Export']['Microsoft_Office'] = array('Export' => array(
+    'latex_columns',
+    'latex_data_caption',
+    'latex_data_continued_caption',
+    'latex_data_label',
+    'latex_null']];
+$forms['Export']['Microsoft_Office']      = ['Export' => [
     ':group:' . __('Microsoft Word 2000'),
-        'htmlword_structure_or_data',
-        'htmlword_null',
-        'htmlword_columns'));
-$forms['Export']['Open_Document'] = array('Export' => array(
+    'htmlword_structure_or_data',
+    'htmlword_null',
+    'htmlword_columns']];
+$forms['Export']['Open_Document']         = ['Export' => [
     ':group:' . __('OpenDocument Spreadsheet'),
-        'ods_columns',
-        'ods_null',
-        ':group:end',
+    'ods_columns',
+    'ods_null',
+    ':group:end',
     ':group:' . __('OpenDocument Text'),
-        'odt_structure_or_data',
-        ':group:' . __('Structure'),
-            'odt_relation',
-            'odt_comments',
-            'odt_mime',
-            ':group:end',
-        ':group:' . __('Data'),
-            'odt_columns',
-            'odt_null'));
-$forms['Export']['Texy'] = array('Export' => array(
+    'odt_structure_or_data',
+    ':group:' . __('Structure'),
+    'odt_relation',
+    'odt_comments',
+    'odt_mime',
+    ':group:end',
+    ':group:' . __('Data'),
+    'odt_columns',
+    'odt_null']];
+$forms['Export']['Texy']                  = ['Export' => [
     'texytext_structure_or_data',
     ':group:' . __('Data'),
-        'texytext_null',
-        'texytext_columns'));
+    'texytext_null',
+    'texytext_columns']];
 ?>

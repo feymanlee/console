@@ -18,7 +18,7 @@ $scripts->addFile('export.js');
 
 // $sub_part is also used in db_info.inc.php to see if we are coming from
 // db_export.php, in which case we don't obey $cfg['MaxTableList']
-$sub_part  = '_export';
+$sub_part = '_export';
 require_once 'libraries/db_common.inc.php';
 $url_query .= '&amp;goto=db_export.php';
 require_once 'libraries/db_info.inc.php';
@@ -34,7 +34,7 @@ if ($num_tables < 1) {
     exit;
 } // end if
 
-$multi_values  = '<div>';
+$multi_values = '<div>';
 $multi_values .= '<a href="#"';
 $multi_values .= ' onclick="setSelectOptions(\'dump\', \'table_select[]\', true);'
     . ' return false;">';
@@ -79,7 +79,7 @@ foreach ($tables as $each_table) {
     } else {
         $is_selected = ' selected="selected"';
     }
-    $table_html   = htmlspecialchars($each_table['Name']);
+    $table_html = htmlspecialchars($each_table['Name']);
     $multi_values .= '                <option value="' . $table_html . '"'
         . $is_selected . '>'
         . str_replace(' ', '&nbsp;', $table_html) . '</option>' . "\n";

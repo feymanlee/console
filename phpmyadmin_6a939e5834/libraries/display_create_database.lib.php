@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -39,7 +39,7 @@ if ($is_create_db_priv) {
         true
     );
 
-    if (! empty($dbstats)) {
+    if (!empty($dbstats)) {
         $html .= '<input type="hidden" name="dbstats" value="1" />';
     }
 
@@ -55,7 +55,7 @@ if ($is_create_db_priv) {
         . PMA_Util::getImage(
             's_error2.png',
             '',
-            array('hspace' => 2, 'border' => 0, 'align' => 'middle')
+            ['hspace' => 2, 'border' => 0, 'align' => 'middle']
         )
         . '' . __('No Privileges') . '</span>';
 } // end create db form or message

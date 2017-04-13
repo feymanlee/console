@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -33,4 +33,5 @@ interface UploadInterface
      */
     public static function getUploadStatus($id);
 }
+
 ?>

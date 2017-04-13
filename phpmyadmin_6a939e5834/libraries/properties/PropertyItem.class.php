@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -46,4 +46,5 @@ abstract class PropertyItem
         return null;
     }
 }
+
 ?>

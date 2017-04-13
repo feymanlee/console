@@ -38,8 +38,8 @@ class PMA_Error_Handler_Test extends PHPUnit_Framework_TestCase
         $this->object = new PMA_Error_Handler();
 
         $GLOBALS['pmaThemeImage'] = 'image';
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
+        $_SESSION['PMA_Theme']    = PMA_Theme::load('./themes/pmahomme');
+        $_SESSION['PMA_Theme']    = new PMA_Theme();
     }
 
     /**
@@ -64,9 +64,10 @@ class PMA_Error_Handler_Test extends PHPUnit_Framework_TestCase
      */
     private function _callProtectedFunction($name, $params)
     {
-        $class = new ReflectionClass('PMA_Error_Handler');
+        $class  = new ReflectionClass('PMA_Error_Handler');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
+
         return $method->invokeArgs($this->object, $params);
     }
 
@@ -77,24 +78,24 @@ class PMA_Error_Handler_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestHandleError()
     {
-        return array(
-            array(
+        return [
+            [
                 E_RECOVERABLE_ERROR,
                 'Compile Error',
                 'error.txt',
                 12,
                 'Compile Error',
                 '',
-            ),
-            array(
+            ],
+            [
                 E_USER_NOTICE,
                 'User notice',
                 'error.txt',
                 12,
                 'User notice',
                 'User notice',
-            )
-        );
+            ],
+        ];
     }
 
     /**
@@ -166,11 +167,11 @@ class PMA_Error_Handler_Test extends PHPUnit_Framework_TestCase
     public function testCheckSavedErrors()
     {
 
-        $_SESSION['errors'] = array();
+        $_SESSION['errors'] = [];
 
         $this->_callProtectedFunction(
             'checkSavedErrors',
-            array()
+            []
         );
         $this->assertTrue(!isset($_SESSION['errors']));
     }
@@ -185,8 +186,8 @@ class PMA_Error_Handler_Test extends PHPUnit_Framework_TestCase
     public function testCountErrors()
     {
 
-        $err = array();
-        $err[] = new PMA_Error('256', 'Compile Error', 'error.txt', 15);
+        $err        = [];
+        $err[]      = new PMA_Error('256', 'Compile Error', 'error.txt', 15);
         $errHandler = $this->getMock('PMA_Error_Handler');
         $errHandler->expects($this->any())
             ->method('getErrors')
@@ -206,8 +207,8 @@ class PMA_Error_Handler_Test extends PHPUnit_Framework_TestCase
     public function testCountUserErrors()
     {
 
-        $err = array();
-        $err[] = new PMA_Error('256', 'Compile Error', 'error.txt', 15);
+        $err        = [];
+        $err[]      = new PMA_Error('256', 'Compile Error', 'error.txt', 15);
         $errHandler = $this->getMock('PMA_Error_Handler');
         $errHandler->expects($this->any())
             ->method('countErrors', 'getErrors')

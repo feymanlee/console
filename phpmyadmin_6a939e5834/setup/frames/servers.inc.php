@@ -20,9 +20,9 @@ require_once './setup/lib/form_processing.lib.php';
 require './libraries/config/setup.forms.php';
 
 $mode = isset($_GET['mode']) ? $_GET['mode'] : null;
-$id = PMA_isValid($_GET['id'], 'numeric') ? $_GET['id'] : null;
+$id   = PMA_isValid($_GET['id'], 'numeric') ? $_GET['id'] : null;
 
-$cf = $GLOBALS['ConfigFile'];
+$cf            = $GLOBALS['ConfigFile'];
 $server_exists = !empty($id) && $cf->get("Servers/$id") !== null;
 
 if ($mode == 'edit' && $server_exists) {
@@ -37,7 +37,7 @@ if ($mode == 'edit' && $server_exists) {
     // handled by process_formset()
 } else {
     $page_title = __('Add a new server');
-    $id = 0;
+    $id         = 0;
 }
 if (isset($page_title)) {
     echo '<h2>' . $page_title . '</h2>';

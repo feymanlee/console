@@ -39,24 +39,24 @@ class PMA_ServerReplication_Test extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         //$_REQUEST
-        $_REQUEST['log'] = "index1";
-        $_REQUEST['pos'] = 3;
+        $_REQUEST['log']        = "index1";
+        $_REQUEST['pos']        = 3;
         $_REQUEST['mr_adduser'] = "mr_adduser";
 
         //$GLOBALS
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['RememberSorting'] = true;
-        $GLOBALS['cfg']['SQP'] = array();
+        $GLOBALS['cfg']['MaxRows']                     = 10;
+        $GLOBALS['cfg']['ServerDefault']               = "server";
+        $GLOBALS['cfg']['RememberSorting']             = true;
+        $GLOBALS['cfg']['SQP']                         = [];
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
-        $GLOBALS['cfg']['ShowSQL'] = true;
-        $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
-        $GLOBALS['cfg']['DBG']['sql'] = false;
-        $GLOBALS['cfg']['ShowHint'] = true;
+        $GLOBALS['cfg']['ShowSQL']                     = true;
+        $GLOBALS['cfg']['TableNavigationLinksMode']    = 'icons';
+        $GLOBALS['cfg']['LimitChars']                  = 100;
+        $GLOBALS['cfg']['DBG']['sql']                  = false;
+        $GLOBALS['cfg']['ShowHint']                    = true;
 
-        $GLOBALS['table'] = "table";
-        $GLOBALS['url_params'] = array();
+        $GLOBALS['table']         = "table";
+        $GLOBALS['url_params']    = [];
         $GLOBALS['pmaThemeImage'] = 'image';
 
         //$_SESSION
@@ -65,21 +65,21 @@ class PMA_ServerReplication_Test extends PHPUnit_Framework_TestCase
 
         //Mock DBI
 
-        $slave_host = array(
-            array('Server_id'=>'Server_id1', 'Host'=>'Host1'),
-            array('Server_id'=>'Server_id2', 'Host'=>'Host2'),
-        );
+        $slave_host = [
+            ['Server_id' => 'Server_id1', 'Host' => 'Host1'],
+            ['Server_id' => 'Server_id2', 'Host' => 'Host2'],
+        ];
 
-        $fetchResult = array(
-            array(
+        $fetchResult = [
+            [
                 "SHOW SLAVE HOSTS",
                 null,
                 null,
                 null,
                 0,
-                $slave_host
-            ),
-        );
+                $slave_host,
+            ],
+        ];
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
@@ -88,13 +88,13 @@ class PMA_ServerReplication_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->any())->method('fetchResult')
             ->will($this->returnValueMap($fetchResult));
 
-        $fields_info = array(
-            "Host" => array(
+        $fields_info = [
+            "Host" => [
                 "Field" => "host",
-                "Type" => "char(60)",
-                "Null" => "NO",
-            )
-        );
+                "Type"  => "char(60)",
+                "Null"  => "NO",
+            ],
+        ];
         $dbi->expects($this->any())->method('getColumns')
             ->will($this->returnValue($fields_info));
 
@@ -113,8 +113,8 @@ class PMA_ServerReplication_Test extends PHPUnit_Framework_TestCase
         global $master_variables_oks;
         global $strReplicationStatus_master;
 
-        $master_variables_alerts = null;
-        $master_variables_oks = null;
+        $master_variables_alerts     = null;
+        $master_variables_oks        = null;
         $strReplicationStatus_master = null;
 
         //Call the test function

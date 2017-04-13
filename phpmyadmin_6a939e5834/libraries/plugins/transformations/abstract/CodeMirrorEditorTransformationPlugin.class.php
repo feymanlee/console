@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Transformations
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -28,7 +28,7 @@ abstract class CodeMirrorEditorTransformationsPlugin extends IOTransformationsPl
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         return $buffer;
     }
@@ -50,15 +50,17 @@ abstract class CodeMirrorEditorTransformationsPlugin extends IOTransformationsPl
         $column, $row_id, $column_name_appendix, $options, $value, $text_dir
     ) {
         $html = '';
-        if (! empty($value)) {
+        if (!empty($value)) {
             $html = '<input type="hidden" name="fields_prev' . $column_name_appendix
-            . '" value="' . htmlspecialchars($value) . '"/>';
+                . '" value="' . htmlspecialchars($value) . '"/>';
         }
         $class = 'transform_' . strtolower(static::getName()) . '_editor';
         $html .= '<textarea name="fields' . $column_name_appendix . '"'
             . ' dir="' . $text_dir . '" class="' . $class . '">'
             . htmlspecialchars($value) . '</textarea>';
+
         return $html;
     }
 }
+
 ?>

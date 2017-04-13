@@ -56,17 +56,17 @@ class ImportShp_Test extends PHPUnit_Framework_TestCase
         }
 
         //setting
-        $GLOBALS['plugin_param'] = 'table';
-        $GLOBALS['finished'] = false;
-        $GLOBALS['read_limit'] = 100000000;
-        $GLOBALS['offset'] = 0;
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['cfg']['ServerDefault'] = 0;
+        $GLOBALS['plugin_param']                 = 'table';
+        $GLOBALS['finished']                     = false;
+        $GLOBALS['read_limit']                   = 100000000;
+        $GLOBALS['offset']                       = 0;
+        $GLOBALS['cfg']['Server']['DisableIS']   = false;
+        $GLOBALS['cfg']['ServerDefault']         = 0;
         $GLOBALS['cfg']['AllowUserDropDatabase'] = false;
-        $GLOBALS['import_file'] = 'test/test_data/timezone.shp.zip';
+        $GLOBALS['import_file']                  = 'test/test_data/timezone.shp.zip';
 
         //Mock DBI
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi            = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $GLOBALS['dbi'] = $dbi;
@@ -76,13 +76,13 @@ class ImportShp_Test extends PHPUnit_Framework_TestCase
 
         /**
          * Load interface for zip extension.
-        */
+         */
         include_once 'libraries/zip_extension.lib.php';
-        $result = PMA_getZipContents($GLOBALS['import_file']);
-        $GLOBALS['import_text'] = $result["data"];
-        $GLOBALS['compression'] = 'application/zip';
+        $result                   = PMA_getZipContents($GLOBALS['import_file']);
+        $GLOBALS['import_text']   = $result["data"];
+        $GLOBALS['compression']   = 'application/zip';
         $GLOBALS['read_multiply'] = 10;
-        $GLOBALS['import_type'] = 'ods';
+        $GLOBALS['import_type']   = 'ods';
         $GLOBALS['import_handle'] = @fopen($GLOBALS['import_file'], 'r');
     }
 
@@ -117,7 +117,7 @@ class ImportShp_Test extends PHPUnit_Framework_TestCase
             $properties->getExtension()
         );
         $this->assertEquals(
-            array(),
+            [],
             $properties->getOptions()
         );
         $this->assertEquals(

@@ -27,10 +27,11 @@ require './libraries/config/setup.forms.php';
  */
 function loadConfig($config_file_path)
 {
-    $cfg = array();
+    $cfg = [];
     if (file_exists($config_file_path)) {
         include $config_file_path;
     }
+
     return $cfg;
 }
 

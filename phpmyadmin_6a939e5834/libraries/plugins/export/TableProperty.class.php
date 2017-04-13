@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Export
  * @subpackage CodeGen
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -67,12 +67,12 @@ class TableProperty
      */
     function __construct($row)
     {
-        $this->name = trim($row[0]);
-        $this->type = trim($row[1]);
-        $this->nullable = trim($row[2]);
-        $this->key = trim($row[3]);
+        $this->name         = trim($row[0]);
+        $this->type         = trim($row[1]);
+        $this->nullable     = trim($row[2]);
+        $this->key          = trim($row[3]);
         $this->defaultValue = trim($row[4]);
-        $this->ext = trim($row[5]);
+        $this->ext          = trim($row[5]);
     }
 
     /**
@@ -82,10 +82,13 @@ class TableProperty
      */
     function getPureType()
     {
-        $pos = /*overload*/mb_strpos($this->type, "(");
+        $pos = /*overload*/
+            mb_strpos($this->type, "(");
         if ($pos > 0) {
-            return /*overload*/mb_substr($this->type, 0, $pos);
+            return /*overload*/
+                mb_substr($this->type, 0, $pos);
         }
+
         return $this->type;
     }
 
@@ -109,37 +112,54 @@ class TableProperty
         return $this->key == "PRI" || $this->key == "UNI" ? "true" : "false";
     }
 
-     /**
+    /**
      * Gets the .NET primitive type
      *
      * @return string type
      */
     function getDotNetPrimitiveType()
     {
-        if (/*overload*/mb_strpos($this->type, "int") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "int") === 0
+        ) {
             return "int";
         }
-        if (/*overload*/mb_strpos($this->type, "longtext") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "longtext") === 0
+        ) {
             return "string";
         }
-        if (/*overload*/mb_strpos($this->type, "long") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "long") === 0
+        ) {
             return "long";
         }
-        if (/*overload*/mb_strpos($this->type, "char") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "char") === 0
+        ) {
             return "string";
         }
-        if (/*overload*/mb_strpos($this->type, "varchar") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "varchar") === 0
+        ) {
             return "string";
         }
-        if (/*overload*/mb_strpos($this->type, "text") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "text") === 0
+        ) {
             return "string";
         }
-        if (/*overload*/mb_strpos($this->type, "tinyint") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "tinyint") === 0
+        ) {
             return "bool";
         }
-        if (/*overload*/mb_strpos($this->type, "datetime") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "datetime") === 0
+        ) {
             return "DateTime";
         }
+
         return "unknown";
     }
 
@@ -150,30 +170,47 @@ class TableProperty
      */
     function getDotNetObjectType()
     {
-        if (/*overload*/mb_strpos($this->type, "int") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "int") === 0
+        ) {
             return "Int32";
         }
-        if (/*overload*/mb_strpos($this->type, "longtext") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "longtext") === 0
+        ) {
             return "String";
         }
-        if (/*overload*/mb_strpos($this->type, "long") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "long") === 0
+        ) {
             return "Long";
         }
-        if (/*overload*/mb_strpos($this->type, "char") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "char") === 0
+        ) {
             return "String";
         }
-        if (/*overload*/mb_strpos($this->type, "varchar") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "varchar") === 0
+        ) {
             return "String";
         }
-        if (/*overload*/mb_strpos($this->type, "text") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "text") === 0
+        ) {
             return "String";
         }
-        if (/*overload*/mb_strpos($this->type, "tinyint") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "tinyint") === 0
+        ) {
             return "Boolean";
         }
-        if (/*overload*/mb_strpos($this->type, "datetime") === 0) {
+        if (/*overload*/
+            mb_strpos($this->type, "datetime") === 0
+        ) {
             return "DateTime";
         }
+
         return "Unknown";
     }
 
@@ -184,11 +221,14 @@ class TableProperty
      */
     function getIndexName()
     {
-        if (/*overload*/mb_strlen($this->key) > 0) {
+        if (/*overload*/
+            mb_strlen($this->key) > 0
+        ) {
             return "index=\""
                 . htmlspecialchars($this->name, ENT_COMPAT, 'UTF-8')
                 . "\"";
         }
+
         return "";
     }
 
@@ -199,7 +239,7 @@ class TableProperty
      */
     function isPK()
     {
-        return $this->key=="PRI";
+        return $this->key == "PRI";
     }
 
     /**
@@ -216,6 +256,7 @@ class TableProperty
             ExportCodegen::cgMakeIdentifier($this->name, false),
             $text
         );
+
         return $this->format($text);
     }
 
@@ -238,6 +279,7 @@ class TableProperty
             $this->getIndexName(),
             $text
         );
+
         return $this->format($text);
     }
 
@@ -280,7 +322,9 @@ class TableProperty
             $this->isUnique(),
             $text
         );
+
         return $text;
     }
 }
+
 ?>

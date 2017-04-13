@@ -6,7 +6,7 @@
  * @package PhpMyAdmin-GIS
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -38,7 +38,7 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
     public static function singleton()
     {
         if (!isset(self::$_instance)) {
-            $class = __CLASS__;
+            $class           = __CLASS__;
             self::$_instance = new $class;
         }
 
@@ -56,12 +56,15 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
     public function scaleRow($spatial)
     {
         // Trim to remove leading 'POINT(' and trailing ')'
-        $point = /*overload*/mb_substr(
-            $spatial,
-            6,
-            /*overload*/mb_strlen($spatial) - 7
-        );
-        return $this->setMinMax($point, array());
+        $point = /*overload*/
+            mb_substr(
+                $spatial,
+                6,
+                /*overload*/
+                mb_strlen($spatial) - 7
+            );
+
+        return $this->setMinMax($point, []);
     }
 
     /**
@@ -81,17 +84,22 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
     ) {
         // allocate colors
         $black = imagecolorallocate($image, 0, 0, 0);
-        $red   = hexdec(/*overload*/mb_substr($point_color, 1, 2));
-        $green = hexdec(/*overload*/mb_substr($point_color, 3, 2));
-        $blue  = hexdec(/*overload*/mb_substr($point_color, 4, 2));
+        $red   = hexdec(/*overload*/
+            mb_substr($point_color, 1, 2));
+        $green = hexdec(/*overload*/
+            mb_substr($point_color, 3, 2));
+        $blue  = hexdec(/*overload*/
+            mb_substr($point_color, 4, 2));
         $color = imagecolorallocate($image, $red, $green, $blue);
 
         // Trim to remove leading 'POINT(' and trailing ')'
-        $point = /*overload*/mb_substr(
-            $spatial,
-            6,
-            /*overload*/mb_strlen($spatial) - 7
-        );
+        $point      = /*overload*/
+            mb_substr(
+                $spatial,
+                6,
+                /*overload*/
+                mb_strlen($spatial) - 7
+            );
         $points_arr = $this->extractPoints($point, $scale_data);
 
         // draw a small circle to mark the point
@@ -107,6 +115,7 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
                 );
             }
         }
+
         return $image;
     }
 
@@ -126,17 +135,22 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
         $scale_data, $pdf
     ) {
         // allocate colors
-        $red   = hexdec(/*overload*/mb_substr($point_color, 1, 2));
-        $green = hexdec(/*overload*/mb_substr($point_color, 3, 2));
-        $blue  = hexdec(/*overload*/mb_substr($point_color, 4, 2));
-        $line  = array('width' => 1.25, 'color' => array($red, $green, $blue));
+        $red   = hexdec(/*overload*/
+            mb_substr($point_color, 1, 2));
+        $green = hexdec(/*overload*/
+            mb_substr($point_color, 3, 2));
+        $blue  = hexdec(/*overload*/
+            mb_substr($point_color, 4, 2));
+        $line  = ['width' => 1.25, 'color' => [$red, $green, $blue]];
 
         // Trim to remove leading 'POINT(' and trailing ')'
-        $point = /*overload*/mb_substr(
-            $spatial,
-            6,
-            /*overload*/mb_strlen($spatial) - 7
-        );
+        $point      = /*overload*/
+            mb_substr(
+                $spatial,
+                6,
+                /*overload*/
+                mb_strlen($spatial) - 7
+            );
         $points_arr = $this->extractPoints($point, $scale_data);
 
         // draw a small circle to mark the point
@@ -151,6 +165,7 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
                 $pdf->Cell(0, 0, trim($label));
             }
         }
+
         return $pdf;
     }
 
@@ -167,21 +182,23 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
      */
     public function prepareRowAsSvg($spatial, $label, $point_color, $scale_data)
     {
-        $point_options = array(
-            'name'        => $label,
-            'id'          => $label . rand(),
-            'class'       => 'point vector',
-            'fill'        => 'white',
-            'stroke'      => $point_color,
-            'stroke-width'=> 2,
-        );
+        $point_options = [
+            'name'         => $label,
+            'id'           => $label . rand(),
+            'class'        => 'point vector',
+            'fill'         => 'white',
+            'stroke'       => $point_color,
+            'stroke-width' => 2,
+        ];
 
         // Trim to remove leading 'POINT(' and trailing ')'
-        $point = /*overload*/mb_substr(
-            $spatial,
-            6,
-            /*overload*/mb_strlen($spatial) - 7
-        );
+        $point      = /*overload*/
+            mb_substr(
+                $spatial,
+                6,
+                /*overload*/
+                mb_strlen($spatial) - 7
+            );
         $points_arr = $this->extractPoints($point, $scale_data);
 
         $row = '';
@@ -213,7 +230,7 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
     public function prepareRowAsOl($spatial, $srid, $label,
         $point_color, $scale_data
     ) {
-        $style_options = array(
+        $style_options = [
             'pointRadius'  => 3,
             'fillColor'    => '#ffffff',
             'strokeColor'  => $point_color,
@@ -221,18 +238,20 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
             'label'        => $label,
             'labelYOffset' => -8,
             'fontSize'     => 10,
-        );
+        ];
         if ($srid == 0) {
             $srid = 4326;
         }
         $result = $this->getBoundsForOl($srid, $scale_data);
 
         // Trim to remove leading 'POINT(' and trailing ')'
-        $point = /*overload*/mb_substr(
-            $spatial,
-            6,
-            /*overload*/mb_strlen($spatial) - 7
-        );
+        $point      = /*overload*/
+            mb_substr(
+                $spatial,
+                6,
+                /*overload*/
+                mb_strlen($spatial) - 7
+            );
         $points_arr = $this->extractPoints($point, null);
 
         if ($points_arr[0][0] != '' && $points_arr[0][1] != '') {
@@ -240,6 +259,7 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
                 . $this->getPointForOpenLayers($points_arr[0], $srid) . ', null, '
                 . json_encode($style_options) . '));';
         }
+
         return $result;
     }
 
@@ -255,14 +275,14 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
      */
     public function generateWkt($gis_data, $index, $empty = '')
     {
-         return 'POINT('
-             . ((isset($gis_data[$index]['POINT']['x'])
-                 && trim($gis_data[$index]['POINT']['x']) != '')
-             ? $gis_data[$index]['POINT']['x'] : '')
-             . ' '
-             . ((isset($gis_data[$index]['POINT']['y'])
-                 && trim($gis_data[$index]['POINT']['y']) != '')
-             ? $gis_data[$index]['POINT']['y'] : '') . ')';
+        return 'POINT('
+            . ((isset($gis_data[$index]['POINT']['x'])
+                && trim($gis_data[$index]['POINT']['x']) != '')
+                ? $gis_data[$index]['POINT']['x'] : '')
+            . ' '
+            . ((isset($gis_data[$index]['POINT']['y'])
+                && trim($gis_data[$index]['POINT']['y']) != '')
+                ? $gis_data[$index]['POINT']['y'] : '') . ')';
     }
 
     /**
@@ -276,7 +296,7 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
     public function getShape($row_data)
     {
         return 'POINT(' . (isset($row_data['x']) ? $row_data['x'] : '')
-             . ' ' . (isset($row_data['y']) ? $row_data['y'] : '') . ')';
+            . ' ' . (isset($row_data['y']) ? $row_data['y'] : '') . ')';
     }
 
     /**
@@ -290,19 +310,21 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
      */
     public function generateParams($value, $index = -1)
     {
-        $params = array();
+        $params = [];
         if ($index == -1) {
-            $index = 0;
-            $data = PMA_GIS_Geometry::generateParams($value);
+            $index          = 0;
+            $data           = PMA_GIS_Geometry::generateParams($value);
             $params['srid'] = $data['srid'];
-            $wkt = $data['wkt'];
+            $wkt            = $data['wkt'];
         } else {
             $params[$index]['gis_type'] = 'POINT';
-            $wkt = $value;
+            $wkt                        = $value;
         }
 
         // Trim to remove leading 'POINT(' and trailing ')'
-        $point = /*overload*/mb_substr($wkt, 6, /*overload*/mb_strlen($wkt) - 7);
+        $point      = /*overload*/
+            mb_substr($wkt, 6, /*overload*/
+                mb_strlen($wkt) - 7);
         $points_arr = $this->extractPoints($point, null);
 
         $params[$index]['POINT']['x'] = $points_arr[0][0];
@@ -311,4 +333,5 @@ class PMA_GIS_Point extends PMA_GIS_Geometry
         return $params;
     }
 }
+
 ?>

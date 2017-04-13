@@ -5,35 +5,35 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
 /**
  * Generates text with hidden inputs.
  *
- * @param string|array $db     optional database name
- *                             (can also be an array of parameters)
- * @param string       $table  optional table name
- * @param int          $indent indenting level
- * @param string|array $skip   do not generate a hidden field for this parameter
- *                             (can be an array of strings)
+ * @param string|array $db      optional database name
+ *                              (can also be an array of parameters)
+ * @param string       $table   optional table name
+ * @param int          $indent  indenting level
+ * @param string|array $skip    do not generate a hidden field for this parameter
+ *                              (can be an array of strings)
  *
- * @see PMA_URL_getCommon()
+ * @see     PMA_URL_getCommon()
  *
  * @return string   string with input fields
  *
- * @global  string   the current language
- * @global  string   the current conversion charset
- * @global  string   the current connection collation
- * @global  string   the current server
- * @global  array    the configuration array
- * @global  boolean  whether recoding is allowed or not
+ * @global             string   the current language
+ * @global             string   the current conversion charset
+ * @global             string   the current connection collation
+ * @global             string   the current server
+ * @global             array    the configuration array
+ * @global             boolean  whether recoding is allowed or not
  *
  * @access  public
  */
 function PMA_URL_getHiddenInputs($db = '', $table = '',
-    $indent = 0, $skip = array()
+    $indent = 0, $skip = []
 ) {
     if (is_array($db)) {
         $params  =& $db;
@@ -42,32 +42,36 @@ function PMA_URL_getHiddenInputs($db = '', $table = '',
         $indent  =& $_indent;
         $skip    =& $_skip;
     } else {
-        $params = array();
-        if (/*overload*/mb_strlen($db)) {
+        $params = [];
+        if (/*overload*/
+        mb_strlen($db)
+        ) {
             $params['db'] = $db;
         }
-        if (/*overload*/mb_strlen($table)) {
+        if (/*overload*/
+        mb_strlen($table)
+        ) {
             $params['table'] = $table;
         }
     }
 
-    if (! empty($GLOBALS['server'])
+    if (!empty($GLOBALS['server'])
         && $GLOBALS['server'] != $GLOBALS['cfg']['ServerDefault']
     ) {
         $params['server'] = $GLOBALS['server'];
     }
-    if (empty($_COOKIE['pma_lang']) && ! empty($GLOBALS['lang'])) {
+    if (empty($_COOKIE['pma_lang']) && !empty($GLOBALS['lang'])) {
         $params['lang'] = $GLOBALS['lang'];
     }
     if (empty($_COOKIE['pma_collation_connection'])
-        && ! empty($GLOBALS['collation_connection'])
+        && !empty($GLOBALS['collation_connection'])
     ) {
         $params['collation_connection'] = $GLOBALS['collation_connection'];
     }
 
     $params['token'] = $_SESSION[' PMA_token '];
 
-    if (! is_array($skip)) {
+    if (!is_array($skip)) {
         if (isset($params[$skip])) {
             unset($params[$skip]);
         }
@@ -117,7 +121,7 @@ function PMA_getHiddenFields($values, $pre = '')
     $fields = '';
 
     foreach ($values as $name => $value) {
-        if (! empty($pre)) {
+        if (!empty($pre)) {
             $name = $pre . '[' . $name . ']';
         }
 
@@ -171,24 +175,24 @@ function PMA_getHiddenFields($values, $pre = '')
  * @return string   string with URL parameters
  * @access  public
  */
-function PMA_URL_getCommon($params = array(), $encode = 'html', $divider = '?')
+function PMA_URL_getCommon($params = [], $encode = 'html', $divider = '?')
 {
     $separator = PMA_URL_getArgSeparator();
 
     // avoid overwriting when creating navi panel links to servers
     if (isset($GLOBALS['server'])
         && $GLOBALS['server'] != $GLOBALS['cfg']['ServerDefault']
-        && ! isset($params['server'])
-        && ! defined('PMA_SETUP')
+        && !isset($params['server'])
+        && !defined('PMA_SETUP')
     ) {
         $params['server'] = $GLOBALS['server'];
     }
 
-    if (empty($_COOKIE['pma_lang']) && ! empty($GLOBALS['lang'])) {
+    if (empty($_COOKIE['pma_lang']) && !empty($GLOBALS['lang'])) {
         $params['lang'] = $GLOBALS['lang'];
     }
     if (empty($_COOKIE['pma_collation_connection'])
-        && ! empty($GLOBALS['collation_connection'])
+        && !empty($GLOBALS['collation_connection'])
     ) {
         $params['collation_connection'] = $GLOBALS['collation_connection'];
     }
@@ -217,7 +221,7 @@ function PMA_URL_getCommon($params = array(), $encode = 'html', $divider = '?')
  * we do not use arg_separator.output to avoid problems with &amp; and &
  *
  * @param string $encode whether to encode separator or not,
- * currently 'none' or 'html'
+ *                       currently 'none' or 'html'
  *
  * @return string  character used for separating url parts usually ; or &
  * @access  public
@@ -233,9 +237,13 @@ function PMA_URL_getArgSeparator($encode = 'none')
         // (see http://www.w3.org/TR/1999/REC-html401-19991224/appendix
         // /notes.html#h-B.2.2)
         $arg_separator = ini_get('arg_separator.input');
-        if (/*overload*/mb_strpos($arg_separator, ';') !== false) {
+        if (/*overload*/
+            mb_strpos($arg_separator, ';') !== false
+        ) {
             $separator = ';';
-        } elseif (/*overload*/mb_strlen($arg_separator) > 0) {
+        } elseif (/*overload*/
+            mb_strlen($arg_separator) > 0
+        ) {
             $separator = $arg_separator{0};
         } else {
             $separator = '&';
@@ -244,12 +252,12 @@ function PMA_URL_getArgSeparator($encode = 'none')
     }
 
     switch ($encode) {
-    case 'html':
-        return $html_separator;
-    case 'text' :
-    case 'none' :
-    default :
-        return $separator;
+        case 'html':
+            return $html_separator;
+        case 'text' :
+        case 'none' :
+        default :
+            return $separator;
     }
 }
 

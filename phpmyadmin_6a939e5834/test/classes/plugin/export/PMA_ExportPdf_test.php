@@ -15,11 +15,12 @@ require_once 'libraries/php-gettext/gettext.inc';
 require_once 'libraries/config.default.php';
 require_once 'libraries/properties/options/items/MessageOnlyPropertyItem.class.php';
 require_once 'export.php';
+
 /**
  * tests for ExportPdf class
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_ExportPdf_Test extends PHPUnit_Framework_TestCase
 {
@@ -32,13 +33,13 @@ class PMA_ExportPdf_Test extends PHPUnit_Framework_TestCase
      */
     function setup()
     {
-        $GLOBALS['server'] = 0;
-        $GLOBALS['output_kanji_conversion'] = false;
+        $GLOBALS['server']                    = 0;
+        $GLOBALS['output_kanji_conversion']   = false;
         $GLOBALS['output_charset_conversion'] = false;
-        $GLOBALS['buffer_needed'] = false;
-        $GLOBALS['asfile'] = true;
-        $GLOBALS['save_on_server'] = false;
-        $this->object = new ExportPdf();
+        $GLOBALS['buffer_needed']             = false;
+        $GLOBALS['asfile']                    = true;
+        $GLOBALS['save_on_server']            = false;
+        $this->object                         = new ExportPdf();
     }
 
     /**
@@ -108,7 +109,7 @@ class PMA_ExportPdf_Test extends PHPUnit_Framework_TestCase
         );
 
         $generalOptionsArray = $options->getProperties();
-        $generalOptions = $generalOptionsArray[0];
+        $generalOptions      = $generalOptionsArray[0];
 
         $this->assertInstanceOf(
             'OptionsPropertyMainGroup',
@@ -256,11 +257,11 @@ class PMA_ExportPdf_Test extends PHPUnit_Framework_TestCase
         $pdf->expects($this->once())
             ->method('setAttributes')
             ->with(
-                array(
+                [
                     'currentDb' => 'db', 'currentTable' => 'table',
-                    'dbAlias' => 'db', 'tableAlias' => 'table',
-                    'aliases' => array()
-                )
+                    'dbAlias'   => 'db', 'tableAlias' => 'table',
+                    'aliases'   => [],
+                ]
             );
 
         $pdf->expects($this->once())
@@ -320,4 +321,5 @@ class PMA_ExportPdf_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

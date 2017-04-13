@@ -37,8 +37,8 @@ $response->addHTML(
     PMA_getHtmlForSqlQueryForm(
         true, false,
         isset($_REQUEST['delimiter'])
-        ? htmlspecialchars($_REQUEST['delimiter'])
-        : ';'
+            ? htmlspecialchars($_REQUEST['delimiter'])
+            : ';'
     )
 );
 

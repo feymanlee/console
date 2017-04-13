@@ -38,31 +38,31 @@ class PMA_Eps_Relation_Schema_Test extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $_REQUEST['page_number'] = 33;
-        $_REQUEST['eps_show_color'] = true;
-        $_REQUEST['eps_show_keys'] = true;
-        $_REQUEST['eps_orientation'] = 'orientation';
-        $_REQUEST['eps_show_table_dimension'] = true;
+        $_REQUEST['page_number']               = 33;
+        $_REQUEST['eps_show_color']            = true;
+        $_REQUEST['eps_show_keys']             = true;
+        $_REQUEST['eps_orientation']           = 'orientation';
+        $_REQUEST['eps_show_table_dimension']  = true;
         $_REQUEST['eps_all_tables_same_width'] = true;
-        $_REQUEST['t_h'] = array('information_schema.files' => 1);
-        $_REQUEST['t_x'] = array('information_schema.files' => 0);
-        $_REQUEST['t_y'] = array('information_schema.files' => 0);
+        $_REQUEST['t_h']                       = ['information_schema.files' => 1];
+        $_REQUEST['t_x']                       = ['information_schema.files' => 0];
+        $_REQUEST['t_y']                       = ['information_schema.files' => 0];
 
-        $GLOBALS['server'] = 1;
-        $GLOBALS['controllink'] = null;
-        $GLOBALS['db'] = 'information_schema';
-        $GLOBALS['cfg']['ServerDefault'] = 1;
+        $GLOBALS['server']                        = 1;
+        $GLOBALS['controllink']                   = null;
+        $GLOBALS['db']                            = 'information_schema';
+        $GLOBALS['cfg']['ServerDefault']          = 1;
         $GLOBALS['cfg']['Server']['table_coords'] = "table_name";
 
         //_SESSION
-        $_SESSION['relation'][$GLOBALS['server']] = array(
+        $_SESSION['relation'][$GLOBALS['server']] = [
             'table_coords' => "table_name",
-            'displaywork' => 'displaywork',
-            'db' => "information_schema",
-            'table_info' => 'table_info',
-            'relwork' => 'relwork',
-            'relation' => 'relation'
-        );
+            'displaywork'  => 'displaywork',
+            'db'           => "information_schema",
+            'table_info'   => 'table_info',
+            'relwork'      => 'relwork',
+            'relation'     => 'relation',
+        ];
         PMA_getRelationsParam();
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
@@ -81,15 +81,15 @@ class PMA_Eps_Relation_Schema_Test extends PHPUnit_Framework_TestCase
             ->method('tryQuery')
             ->will($this->returnValue("executed_1"));
 
-        $fetchArrayReturn = array(
+        $fetchArrayReturn = [
             //table name in information_schema_relations
-            'table_name' => 'CHARACTER_SETS'
-        );
+            'table_name' => 'CHARACTER_SETS',
+        ];
 
-        $fetchArrayReturn2 = array(
+        $fetchArrayReturn2 = [
             //table name in information_schema_relations
-            'table_name' => 'COLLATIONS'
-        );
+            'table_name' => 'COLLATIONS',
+        ];
 
         $dbi->expects($this->at(2))
             ->method('fetchAssoc')
@@ -101,15 +101,15 @@ class PMA_Eps_Relation_Schema_Test extends PHPUnit_Framework_TestCase
             ->method('fetchAssoc')
             ->will($this->returnValue(false));
 
-        $getIndexesResult = array(
-            array(
-                'Table' => 'pma_tbl',
-                'Field' => 'field1',
-                'Key' => 'PRIMARY',
-                'Key_name' => "Key_name",
-                'Column_name' => "Column_name"
-            )
-        );
+        $getIndexesResult = [
+            [
+                'Table'       => 'pma_tbl',
+                'Field'       => 'field1',
+                'Key'         => 'PRIMARY',
+                'Key_name'    => "Key_name",
+                'Column_name' => "Column_name",
+            ],
+        ];
         $dbi->expects($this->any())->method('getTableIndexes')
             ->will($this->returnValue($getIndexesResult));
 

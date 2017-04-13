@@ -20,8 +20,8 @@ $scripts->addFile('export.js');
 
 $export_page_title = __('View dump (schema) of databases') . "\n";
 
-$select_item = isset($tmp_select)? $tmp_select : '';
-$multi_values  = PMA_getHtmlForExportSelectOptions($select_item);
+$select_item  = isset($tmp_select) ? $tmp_select : '';
+$multi_values = PMA_getHtmlForExportSelectOptions($select_item);
 
 $export_type = 'server';
 require_once 'libraries/display_export.inc.php';

@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage SQL
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -42,4 +42,5 @@ class Text_Octetstream_Sql extends SQLTransformationsPlugin
         return "Octetstream";
     }
 }
+
 ?>

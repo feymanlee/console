@@ -20,7 +20,7 @@ require_once 'libraries/relation.lib.php';
  * Tests for libraries/relation.lib.php
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_Relation_Test extends PHPUnit_Framework_TestCase
 {
@@ -33,15 +33,15 @@ class PMA_Relation_Test extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $GLOBALS['server'] = 1;
-        $GLOBALS['cfg']['Server']['user'] = 'root';
-        $GLOBALS['cfg']['Server']['pmadb'] = 'phpmyadmin';
+        $GLOBALS['server']                        = 1;
+        $GLOBALS['cfg']['Server']['user']         = 'root';
+        $GLOBALS['cfg']['Server']['pmadb']        = 'phpmyadmin';
         $_SESSION['relation'][$GLOBALS['server']] = "PMA_relation";
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
-        $_SESSION['relation'] = array();
+        $_SESSION['PMA_Theme']                    = new PMA_Theme();
+        $_SESSION['relation']                     = [];
 
-        $GLOBALS['pmaThemePath'] = $_SESSION['PMA_Theme']->getPath();
-        $GLOBALS['pmaThemeImage'] = 'theme/';
+        $GLOBALS['pmaThemePath']         = $_SESSION['PMA_Theme']->getPath();
+        $GLOBALS['pmaThemeImage']        = 'theme/';
         $GLOBALS['cfg']['ServerDefault'] = 0;
 
         include_once 'libraries/relation.lib.php';
@@ -151,7 +151,7 @@ class PMA_Relation_Test extends PHPUnit_Framework_TestCase
         );
 
         $relationsPara['db'] = false;
-        $retval = PMA_getRelationsParamDiagnostic($relationsPara);
+        $retval              = PMA_getRelationsParamDiagnostic($relationsPara);
 
         $result = __('General relation features');
         $this->assertContains(
@@ -177,21 +177,21 @@ class PMA_Relation_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetDisplayField()
     {
-        $db = 'information_schema';
+        $db    = 'information_schema';
         $table = 'CHARACTER_SETS';
         $this->assertEquals(
             'DESCRIPTION',
             PMA_getDisplayField($db, $table)
         );
 
-        $db = 'information_schema';
+        $db    = 'information_schema';
         $table = 'TABLES';
         $this->assertEquals(
             'TABLE_COMMENT',
             PMA_getDisplayField($db, $table)
         );
 
-        $db = 'information_schema';
+        $db    = 'information_schema';
         $table = 'PMA';
         $this->assertEquals(
             false,
@@ -208,24 +208,24 @@ class PMA_Relation_Test extends PHPUnit_Framework_TestCase
     public function testPMAGetComments()
     {
         $GLOBALS['cfg']['ServerDefault'] = 0;
-        $_SESSION['relation'] = array();
+        $_SESSION['relation']            = [];
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $getColumnsResult = array(
-                array(
-                        'Field' => 'field1',
-                        'Type' => 'int(11)',
-                        'Comment' => 'Comment1'
-                ),
-                array(
-                        'Field' => 'field2',
-                        'Type' => 'text',
-                        'Comment' => 'Comment1'
-                )
-        );
+        $getColumnsResult = [
+            [
+                'Field'   => 'field1',
+                'Type'    => 'int(11)',
+                'Comment' => 'Comment1',
+            ],
+            [
+                'Field'   => 'field2',
+                'Type'    => 'text',
+                'Comment' => 'Comment1',
+            ],
+        ];
         $dbi->expects($this->any())->method('getColumns')
             ->will($this->returnValue($getColumnsResult));
 
@@ -233,17 +233,17 @@ class PMA_Relation_Test extends PHPUnit_Framework_TestCase
 
         $db = 'information_schema';
         $this->assertEquals(
-            array(''),
+            [''],
             PMA_getComments($db)
         );
 
-        $db = 'information_schema';
+        $db    = 'information_schema';
         $table = 'TABLES';
         $this->assertEquals(
-            array(
+            [
                 'field1' => 'Comment1',
-                'field2' => 'Comment1'
-            ),
+                'field2' => 'Comment1',
+            ],
             PMA_getComments($db, $table)
         );
     }
@@ -269,7 +269,7 @@ class PMA_Relation_Test extends PHPUnit_Framework_TestCase
             ->will($this->onConsecutiveCalls(true, false));
         $GLOBALS['dbi'] = $dbi;
 
-        $GLOBALS['cfg']['Server']['pmadb'] = 'pmadb';
+        $GLOBALS['cfg']['Server']['pmadb']       = 'pmadb';
         $GLOBALS['cfg']['Server']['column_info'] = 'column_info';
 
         // Case 1
@@ -294,34 +294,34 @@ class PMA_Relation_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMASearchColumnInForeigners()
     {
-        $foreigners = array(
-            'value' => array(
-                  'master_field' => 'value',
-                  'foreign_db' => 'GSoC14',
-                  'foreign_table' => 'test',
-                  'foreign_field' => 'value'
-            ),
-            'foreign_keys_data' => array(
-                0 => array(
-                    'constraint' => 'ad',
-                    'index_list' => array('id', 'value'),
-                    'ref_db_name' => 'GSoC14',
+        $foreigners = [
+            'value'             => [
+                'master_field'  => 'value',
+                'foreign_db'    => 'GSoC14',
+                'foreign_table' => 'test',
+                'foreign_field' => 'value',
+            ],
+            'foreign_keys_data' => [
+                0 => [
+                    'constraint'     => 'ad',
+                    'index_list'     => ['id', 'value'],
+                    'ref_db_name'    => 'GSoC14',
                     'ref_table_name' => 'table_1',
-                    'ref_index_list' => array('id', 'value'),
-                    'on_delete' => 'CASCADE',
-                    'on_update' => 'CASCADE'
-                )
-            )
-        );
+                    'ref_index_list' => ['id', 'value'],
+                    'on_delete'      => 'CASCADE',
+                    'on_update'      => 'CASCADE',
+                ],
+            ],
+        ];
 
-        $foreigner = PMA_searchColumnInForeigners($foreigners, 'id');
-        $expected = array();
+        $foreigner                 = PMA_searchColumnInForeigners($foreigners, 'id');
+        $expected                  = [];
         $expected['foreign_field'] = 'id';
-        $expected['foreign_db'] = 'GSoC14';
+        $expected['foreign_db']    = 'GSoC14';
         $expected['foreign_table'] = 'table_1';
-        $expected['constraint'] = 'ad';
-        $expected['on_delete'] = 'CASCADE';
-        $expected['on_update'] = 'CASCADE';
+        $expected['constraint']    = 'ad';
+        $expected['on_delete']     = 'CASCADE';
+        $expected['on_update']     = 'CASCADE';
 
         $this->assertEquals(
             $expected,

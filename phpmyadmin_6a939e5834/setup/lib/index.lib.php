@@ -17,13 +17,13 @@ if (!defined('PHPMYADMIN')) {
  */
 function PMA_messagesBegin()
 {
-    if (! isset($_SESSION['messages']) || !is_array($_SESSION['messages'])) {
-        $_SESSION['messages'] = array('error' => array(), 'notice' => array());
+    if (!isset($_SESSION['messages']) || !is_array($_SESSION['messages'])) {
+        $_SESSION['messages'] = ['error' => [], 'notice' => []];
     } else {
         // reset message states
         foreach ($_SESSION['messages'] as &$messages) {
             foreach ($messages as &$msg) {
-                $msg['fresh'] = false;
+                $msg['fresh']  = false;
                 $msg['active'] = false;
             }
         }
@@ -42,12 +42,12 @@ function PMA_messagesBegin()
  */
 function PMA_messagesSet($type, $msgId, $title, $message)
 {
-    $fresh = ! isset($_SESSION['messages'][$type][$msgId]);
-    $_SESSION['messages'][$type][$msgId] = array(
-        'fresh' => $fresh,
-        'active' => true,
-        'title' => $title,
-        'message' => $message);
+    $fresh                               = !isset($_SESSION['messages'][$type][$msgId]);
+    $_SESSION['messages'][$type][$msgId] = [
+        'fresh'   => $fresh,
+        'active'  => true,
+        'title'   => $title,
+        'message' => $message];
 }
 
 /**
@@ -58,7 +58,7 @@ function PMA_messagesSet($type, $msgId, $title, $message)
 function PMA_messagesEnd()
 {
     foreach ($_SESSION['messages'] as &$messages) {
-        $remove_ids = array();
+        $remove_ids = [];
         foreach ($messages as $id => &$msg) {
             if ($msg['active'] == false) {
                 $remove_ids[] = $id;
@@ -77,7 +77,7 @@ function PMA_messagesEnd()
  */
 function PMA_messagesShowHtml()
 {
-    $old_ids = array();
+    $old_ids = [];
     foreach ($_SESSION['messages'] as $type => $messages) {
         foreach ($messages as $id => $msg) {
             echo '<div class="' . $type . '" id="' . $id . '">'
@@ -109,7 +109,7 @@ function PMA_versionCheck()
 
     // Fetch data
     $versionInformation = new VersionInformation();
-    $version_data = $versionInformation->getLatestVersion();
+    $version_data       = $versionInformation->getLatestVersion();
 
     if (empty($version_data)) {
         PMA_messagesSet(
@@ -121,14 +121,15 @@ function PMA_versionCheck()
                 . 'Maybe you\'re offline or the upgrade server does not respond.'
             )
         );
+
         return;
     }
 
-    $releases = $version_data->releases;
+    $releases         = $version_data->releases;
     $latestCompatible = $versionInformation->getLatestCompatibleVersion($releases);
     if ($latestCompatible != null) {
         $version = $latestCompatible['version'];
-        $date = $latestCompatible['date'];
+        $date    = $latestCompatible['date'];
     } else {
         return;
     }
@@ -141,6 +142,7 @@ function PMA_versionCheck()
             __('Version check'),
             __('Got invalid version string from server')
         );
+
         return;
     }
 
@@ -154,12 +156,13 @@ function PMA_versionCheck()
             __('Version check'),
             __('Unparsable version string')
         );
+
         return;
     }
 
     if ($version_upstream > $version_local) {
         $version = htmlspecialchars($version);
-        $date = htmlspecialchars($date);
+        $date    = htmlspecialchars($date);
         PMA_messagesSet(
             'notice',
             $message_id,
@@ -196,8 +199,8 @@ function PMA_versionCheck()
  */
 function PMA_checkConfigRw(&$is_readable, &$is_writable, &$file_exists)
 {
-    $file_path = $GLOBALS['ConfigFile']->getFilePath();
-    $file_dir = dirname($file_path);
+    $file_path   = $GLOBALS['ConfigFile']->getFilePath();
+    $file_dir    = dirname($file_path);
     $is_readable = true;
     $is_writable = is_dir($file_dir);
     if (SETUP_DIR_WRITABLE) {

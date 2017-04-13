@@ -31,19 +31,19 @@ class PMA_ServerUserGroupsTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $GLOBALS['cfg']['ServerDefault'] = 1;
+        $GLOBALS['cfg']['ServerDefault']   = 1;
         $GLOBALS['cfg']['ActionLinksMode'] = 'both';
 
-        $GLOBALS['server'] = 1;
-        $_SESSION['relation'][$GLOBALS['server']] = array(
-            'db' => 'pmadb',
-            'users' => 'users',
-            'usergroups' => 'usergroups'
-        );
+        $GLOBALS['server']                        = 1;
+        $_SESSION['relation'][$GLOBALS['server']] = [
+            'db'         => 'pmadb',
+            'users'      => 'users',
+            'usergroups' => 'usergroups',
+        ];
 
         $GLOBALS['pmaThemeImage'] = 'image';
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
+        $_SESSION['PMA_Theme']    = PMA_Theme::load('./themes/pmahomme');
+        $_SESSION['PMA_Theme']    = new PMA_Theme();
     }
 
     /**
@@ -78,7 +78,7 @@ class PMA_ServerUserGroupsTest extends PHPUnit_Framework_TestCase
             $html
         );
         $url_tag = '<a href="server_user_groups.php'
-            . PMA_URL_getCommon(array('addUserGroup' => 1));
+            . PMA_URL_getCommon(['addUserGroup' => 1]);
         $this->assertContains(
             $url_tag,
             $html
@@ -111,11 +111,11 @@ class PMA_ServerUserGroupsTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will(
                 $this->returnValue(
-                    array(
+                    [
                         'usergroup' => 'usergroup',
-                        'tab' => 'server_sql',
-                        'allowed' => 'Y'
-                    )
+                        'tab'       => 'server_sql',
+                        'allowed'   => 'Y',
+                    ]
                 )
             );
         $dbi->expects($this->at(3))
@@ -133,9 +133,9 @@ class PMA_ServerUserGroupsTest extends PHPUnit_Framework_TestCase
         );
         $url_tag = '<a class="" href="server_user_groups.php'
             . PMA_URL_getCommon(
-                array(
-                    'viewUsers'=>1, 'userGroup'=>htmlspecialchars('usergroup')
-                )
+                [
+                    'viewUsers' => 1, 'userGroup' => htmlspecialchars('usergroup'),
+                ]
             );
         $this->assertContains(
             $url_tag,
@@ -143,10 +143,10 @@ class PMA_ServerUserGroupsTest extends PHPUnit_Framework_TestCase
         );
         $url_tag = '<a class="" href="server_user_groups.php'
             . PMA_URL_getCommon(
-                array(
-                    'editUserGroup'=>1,
-                    'userGroup'=>htmlspecialchars('usergroup')
-                )
+                [
+                    'editUserGroup' => 1,
+                    'userGroup'     => htmlspecialchars('usergroup'),
+                ]
             );
         $this->assertContains(
             $url_tag,
@@ -154,10 +154,10 @@ class PMA_ServerUserGroupsTest extends PHPUnit_Framework_TestCase
         );
         $url_tag = '<a class="deleteUserGroup ajax" href="server_user_groups.php'
             . PMA_URL_getCommon(
-                array(
-                    'deleteUserGroup'=> 1,
-                    'userGroup'=>htmlspecialchars('usergroup')
-                )
+                [
+                    'deleteUserGroup' => 1,
+                    'userGroup'       => htmlspecialchars('usergroup'),
+                ]
             );
         $this->assertContains(
             $url_tag,
@@ -172,7 +172,7 @@ class PMA_ServerUserGroupsTest extends PHPUnit_Framework_TestCase
      */
     public function testDeleteUserGroup()
     {
-        $userDelQuery = "DELETE FROM `pmadb`.`users`"
+        $userDelQuery    = "DELETE FROM `pmadb`.`users`"
             . " WHERE `usergroup`='ug'";
         $userGrpDelQuery = "DELETE FROM `pmadb`.`usergroups`"
             . " WHERE `usergroup`='ug'";
@@ -211,7 +211,7 @@ class PMA_ServerUserGroupsTest extends PHPUnit_Framework_TestCase
 
         $expectedQuery = "SELECT * FROM `pmadb`.`usergroups`"
             . " WHERE `usergroup`='ug'";
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi           = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $dbi->expects($this->once())
@@ -223,11 +223,11 @@ class PMA_ServerUserGroupsTest extends PHPUnit_Framework_TestCase
             ->withAnyParameters()
             ->will(
                 $this->returnValue(
-                    array(
+                    [
                         'usergroup' => 'ug',
-                        'tab' => 'server_sql',
-                        'allowed' => 'Y'
-                    )
+                        'tab'       => 'server_sql',
+                        'allowed'   => 'Y',
+                    ]
                 )
             );
         $dbi->expects($this->at(2))
@@ -264,4 +264,5 @@ class PMA_ServerUserGroupsTest extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -14,7 +14,7 @@ if (! defined('PHPMYADMIN')) {
  *
  * @package PhpMyAdmin
  *
- * @todo use stristr instead of strstr
+ * @todo    use stristr instead of strstr
  */
 class PMA_Tracker
 {
@@ -29,12 +29,12 @@ class PMA_Tracker
      *
      * @var array
      */
-    static private $_tracking_set_flags = array(
-        'UPDATE','REPLACE','INSERT','DELETE','TRUNCATE','CREATE DATABASE',
-        'ALTER DATABASE','DROP DATABASE','CREATE TABLE','ALTER TABLE',
-        'RENAME TABLE','DROP TABLE','CREATE INDEX','DROP INDEX',
-        'CREATE VIEW','ALTER VIEW','DROP VIEW'
-    );
+    static private $_tracking_set_flags = [
+        'UPDATE', 'REPLACE', 'INSERT', 'DELETE', 'TRUNCATE', 'CREATE DATABASE',
+        'ALTER DATABASE', 'DROP DATABASE', 'CREATE TABLE', 'ALTER TABLE',
+        'RENAME TABLE', 'DROP TABLE', 'CREATE INDEX', 'DROP INDEX',
+        'CREATE VIEW', 'ALTER VIEW', 'DROP VIEW',
+    ];
 
     /**
      * Actually enables tracking. This needs to be done after all
@@ -58,17 +58,17 @@ class PMA_Tracker
      */
     static public function isActive()
     {
-        if (! self::$enabled) {
+        if (!self::$enabled) {
             return false;
         }
         /* We need to avoid attempt to track any queries
          * from PMA_getRelationsParam
          */
         self::$enabled = false;
-        $cfgRelation = PMA_getRelationsParam();
+        $cfgRelation   = PMA_getRelationsParam();
         /* Restore original state */
         self::$enabled = true;
-        if (! $cfgRelation['trackingwork']) {
+        if (!$cfgRelation['trackingwork']) {
             return false;
         }
 
@@ -91,14 +91,16 @@ class PMA_Tracker
      */
     static protected function getTableName($string)
     {
-        if (/*overload*/mb_strstr($string, '.')) {
-            $temp = explode('.', $string);
+        if (/*overload*/
+        mb_strstr($string, '.')
+        ) {
+            $temp      = explode('.', $string);
             $tablename = $temp[1];
         } else {
             $tablename = $string;
         }
 
-        $str = explode("\n", $tablename);
+        $str       = explode("\n", $tablename);
         $tablename = $str[0];
 
         $tablename = str_replace(';', '', $tablename);
@@ -121,24 +123,24 @@ class PMA_Tracker
      */
     static public function isTracked($dbname, $tablename)
     {
-        if (! self::$enabled) {
+        if (!self::$enabled) {
             return false;
         }
         /* We need to avoid attempt to track any queries
          * from PMA_getRelationsParam
          */
         self::$enabled = false;
-        $cfgRelation = PMA_getRelationsParam();
+        $cfgRelation   = PMA_getRelationsParam();
         /* Restore original state */
         self::$enabled = true;
-        if (! $cfgRelation['trackingwork']) {
+        if (!$cfgRelation['trackingwork']) {
             return false;
         }
 
         $sql_query = " SELECT tracking_active FROM " . self::_getTrackingTable() .
-        " WHERE db_name = '" . PMA_Util::sqlAddSlashes($dbname) . "' " .
-        " AND table_name = '" . PMA_Util::sqlAddSlashes($tablename) . "' " .
-        " ORDER BY version DESC";
+            " WHERE db_name = '" . PMA_Util::sqlAddSlashes($dbname) . "' " .
+            " AND table_name = '" . PMA_Util::sqlAddSlashes($tablename) . "' " .
+            " ORDER BY version DESC";
 
         $row = $GLOBALS['dbi']->fetchArray(PMA_queryAsControlUser($sql_query));
 
@@ -191,10 +193,10 @@ class PMA_Tracker
             "export",
             "sql",
             'libraries/plugins/export/',
-            array(
-                'export_type' => $export_type,
+            [
+                'export_type'  => $export_type,
                 'single_table' => false,
-            )
+            ]
         );
 
         $sql_backquotes = true;
@@ -213,13 +215,13 @@ class PMA_Tracker
 
         $indexes = $GLOBALS['dbi']->getTableIndexes($dbname, $tablename);
 
-        $snapshot = array('COLUMNS' => $columns, 'INDEXES' => $indexes);
+        $snapshot = ['COLUMNS' => $columns, 'INDEXES' => $indexes];
         $snapshot = serialize($snapshot);
 
         // Get DROP TABLE / DROP VIEW and CREATE TABLE SQL statements
         $sql_backquotes = true;
 
-        $create_sql  = "";
+        $create_sql = "";
 
         if ($GLOBALS['cfg']['Server']['tracking_add_drop_table'] == true
             && $is_view == false
@@ -242,18 +244,18 @@ class PMA_Tracker
         // Save version
 
         $sql_query = "/*NOTRACK*/\n" .
-        "INSERT INTO " . self::_getTrackingTable() . " (" .
-        "db_name, " .
-        "table_name, " .
-        "version, " .
-        "date_created, " .
-        "date_updated, " .
-        "schema_snapshot, " .
-        "schema_sql, " .
-        "data_sql, " .
-        "tracking " .
-        ") " .
-        "values (
+            "INSERT INTO " . self::_getTrackingTable() . " (" .
+            "db_name, " .
+            "table_name, " .
+            "version, " .
+            "date_created, " .
+            "date_updated, " .
+            "schema_snapshot, " .
+            "schema_sql, " .
+            "data_sql, " .
+            "tracking " .
+            ") " .
+            "values (
         '" . PMA_Util::sqlAddSlashes($dbname) . "',
         '" . PMA_Util::sqlAddSlashes($tablename) . "',
         '" . PMA_Util::sqlAddSlashes($version) . "',
@@ -263,7 +265,7 @@ class PMA_Tracker
         '" . PMA_Util::sqlAddSlashes($create_sql) . "',
         '" . PMA_Util::sqlAddSlashes("\n") . "',
         '" . PMA_Util::sqlAddSlashes(self::_transformTrackingSet($tracking_set))
-        . "' )";
+            . "' )";
 
         $result = PMA_queryAsControlUser($sql_query);
 
@@ -327,7 +329,7 @@ class PMA_Tracker
                 = $GLOBALS['cfg']['Server']['tracking_default_statements'];
         }
 
-        $create_sql  = "";
+        $create_sql = "";
 
         if ($GLOBALS['cfg']['Server']['tracking_add_drop_database'] == true) {
             $create_sql .= self::getLogComment()
@@ -338,18 +340,18 @@ class PMA_Tracker
 
         // Save version
         $sql_query = "/*NOTRACK*/\n" .
-        "INSERT INTO " . self::_getTrackingTable() . " (" .
-        "db_name, " .
-        "table_name, " .
-        "version, " .
-        "date_created, " .
-        "date_updated, " .
-        "schema_snapshot, " .
-        "schema_sql, " .
-        "data_sql, " .
-        "tracking " .
-        ") " .
-        "values (
+            "INSERT INTO " . self::_getTrackingTable() . " (" .
+            "db_name, " .
+            "table_name, " .
+            "version, " .
+            "date_created, " .
+            "date_updated, " .
+            "schema_snapshot, " .
+            "schema_sql, " .
+            "data_sql, " .
+            "tracking " .
+            ") " .
+            "values (
         '" . PMA_Util::sqlAddSlashes($dbname) . "',
         '" . PMA_Util::sqlAddSlashes('') . "',
         '" . PMA_Util::sqlAddSlashes($version) . "',
@@ -359,13 +361,12 @@ class PMA_Tracker
         '" . PMA_Util::sqlAddSlashes($create_sql) . "',
         '" . PMA_Util::sqlAddSlashes("\n") . "',
         '" . PMA_Util::sqlAddSlashes(self::_transformTrackingSet($tracking_set))
-        . "' )";
+            . "' )";
 
         $result = PMA_queryAsControlUser($sql_query);
 
         return $result;
     }
-
 
 
     /**
@@ -385,10 +386,10 @@ class PMA_Tracker
     ) {
 
         $sql_query = " UPDATE " . self::_getTrackingTable() .
-        " SET `tracking_active` = '" . $new_state . "' " .
-        " WHERE `db_name` = '" . PMA_Util::sqlAddSlashes($dbname) . "' " .
-        " AND `table_name` = '" . PMA_Util::sqlAddSlashes($tablename) . "' " .
-        " AND `version` = '" . PMA_Util::sqlAddSlashes($version) . "' ";
+            " SET `tracking_active` = '" . $new_state . "' " .
+            " WHERE `db_name` = '" . PMA_Util::sqlAddSlashes($dbname) . "' " .
+            " AND `table_name` = '" . PMA_Util::sqlAddSlashes($tablename) . "' " .
+            " AND `version` = '" . PMA_Util::sqlAddSlashes($version) . "' ";
 
         $result = PMA_queryAsControlUser($sql_query);
 
@@ -418,7 +419,7 @@ class PMA_Tracker
         } else {
             return false;
         }
-        $date  = date('Y-m-d H:i:s');
+        $date = date('Y-m-d H:i:s');
 
         $new_data_processed = '';
         if (is_array($new_data)) {
@@ -431,10 +432,10 @@ class PMA_Tracker
         }
 
         $sql_query = " UPDATE " . self::_getTrackingTable() .
-        " SET `" . $save_to . "` = '" . $new_data_processed . "' " .
-        " WHERE `db_name` = '" . PMA_Util::sqlAddSlashes($dbname) . "' " .
-        " AND `table_name` = '" . PMA_Util::sqlAddSlashes($tablename) . "' " .
-        " AND `version` = '" . PMA_Util::sqlAddSlashes($version) . "' ";
+            " SET `" . $save_to . "` = '" . $new_data_processed . "' " .
+            " WHERE `db_name` = '" . PMA_Util::sqlAddSlashes($dbname) . "' " .
+            " AND `table_name` = '" . PMA_Util::sqlAddSlashes($tablename) . "' " .
+            " AND `version` = '" . PMA_Util::sqlAddSlashes($version) . "' ";
 
         $result = PMA_queryAsControlUser($sql_query);
 
@@ -490,8 +491,8 @@ class PMA_Tracker
     static public function getVersion($dbname, $tablename, $statement = null)
     {
         $sql_query = " SELECT MAX(version) FROM " . self::_getTrackingTable() .
-        " WHERE `db_name` = '" . PMA_Util::sqlAddSlashes($dbname) . "' " .
-        " AND `table_name` = '" . PMA_Util::sqlAddSlashes($tablename) . "' ";
+            " WHERE `db_name` = '" . PMA_Util::sqlAddSlashes($dbname) . "' " .
+            " AND `table_name` = '" . PMA_Util::sqlAddSlashes($tablename) . "' ";
 
         if ($statement != "") {
             if (PMA_DRIZZLE) {
@@ -499,10 +500,11 @@ class PMA_Tracker
                     . self::_transformTrackingSet($statement) . ' <> 0';
             } else {
                 $sql_query .= " AND FIND_IN_SET('"
-                    . $statement . "',tracking) > 0" ;
+                    . $statement . "',tracking) > 0";
             }
         }
         $row = $GLOBALS['dbi']->fetchArray(PMA_queryAsControlUser($sql_query));
+
         return isset($row[0])
             ? $row[0]
             : -1;
@@ -525,7 +527,7 @@ class PMA_Tracker
     {
         $sql_query = " SELECT * FROM " . self::_getTrackingTable() .
             " WHERE `db_name` = '" . PMA_Util::sqlAddSlashes($dbname) . "' ";
-        if (! empty($tablename)) {
+        if (!empty($tablename)) {
             $sql_query .= " AND `table_name` = '"
                 . PMA_Util::sqlAddSlashes($tablename) . "' ";
         }
@@ -535,58 +537,66 @@ class PMA_Tracker
         $mixed = $GLOBALS['dbi']->fetchAssoc(PMA_queryAsControlUser($sql_query));
 
         // Parse log
-        $log_schema_entries = explode('# log ',  $mixed['schema_sql']);
-        $log_data_entries   = explode('# log ',  $mixed['data_sql']);
+        $log_schema_entries = explode('# log ', $mixed['schema_sql']);
+        $log_data_entries   = explode('# log ', $mixed['data_sql']);
 
         $ddl_date_from = $date = date('Y-m-d H:i:s');
 
-        $ddlog = array();
-        $i = 0;
+        $ddlog = [];
+        $i     = 0;
 
         // Iterate tracked data definition statements
         // For each log entry we want to get date, username and statement
         foreach ($log_schema_entries as $log_entry) {
             if (trim($log_entry) != '') {
-                $date      = /*overload*/mb_substr($log_entry, 0, 19);
-                $username  = /*overload*/mb_substr(
-                    $log_entry, 20, /*overload*/mb_strpos($log_entry, "\n") - 20
-                );
+                $date     = /*overload*/
+                    mb_substr($log_entry, 0, 19);
+                $username = /*overload*/
+                    mb_substr(
+                        $log_entry, 20, /*overload*/
+                        mb_strpos($log_entry, "\n") - 20
+                    );
                 if ($i == 0) {
                     $ddl_date_from = $date;
                 }
-                $statement = rtrim(/*overload*/mb_strstr($log_entry, "\n"));
+                $statement = rtrim(/*overload*/
+                    mb_strstr($log_entry, "\n"));
 
-                $ddlog[] = array( 'date' => $date,
-                                  'username'=> $username,
-                                  'statement' => $statement );
+                $ddlog[] = ['date'      => $date,
+                            'username'  => $username,
+                            'statement' => $statement];
                 $i++;
             }
         }
 
-        $date_from = $ddl_date_from;
+        $date_from   = $ddl_date_from;
         $ddl_date_to = $date;
 
         $dml_date_from = $date_from;
 
-        $dmlog = array();
-        $i = 0;
+        $dmlog = [];
+        $i     = 0;
 
         // Iterate tracked data manipulation statements
         // For each log entry we want to get date, username and statement
         foreach ($log_data_entries as $log_entry) {
             if (trim($log_entry) != '') {
-                $date      = /*overload*/mb_substr($log_entry, 0, 19);
-                $username  = /*overload*/mb_substr(
-                    $log_entry, 20, /*overload*/mb_strpos($log_entry, "\n") - 20
-                );
+                $date     = /*overload*/
+                    mb_substr($log_entry, 0, 19);
+                $username = /*overload*/
+                    mb_substr(
+                        $log_entry, 20, /*overload*/
+                        mb_strpos($log_entry, "\n") - 20
+                    );
                 if ($i == 0) {
                     $dml_date_from = $date;
                 }
-                $statement = rtrim(/*overload*/mb_strstr($log_entry, "\n"));
+                $statement = rtrim(/*overload*/
+                    mb_strstr($log_entry, "\n"));
 
-                $dmlog[] = array( 'date' => $date,
-                                  'username' => $username,
-                                  'statement' => $statement );
+                $dmlog[] = ['date'      => $date,
+                            'username'  => $username,
+                            'statement' => $statement];
                 $i++;
             }
         }
@@ -594,7 +604,7 @@ class PMA_Tracker
         $dml_date_to = $date;
 
         // Define begin and end of date range for both logs
-        $data = array();
+        $data = [];
         if (strtotime($ddl_date_from) <= strtotime($dml_date_from)) {
             $data['date_from'] = $ddl_date_from;
         } else {
@@ -645,12 +655,15 @@ class PMA_Tracker
 
         $tokens = explode(" ", $query);
         foreach ($tokens as $key => $value) {
-            $tokens[$key] = /*overload*/mb_strtoupper($value);
+            $tokens[$key] = /*overload*/
+                mb_strtoupper($value);
         }
 
         // Parse USE statement, need it for SQL dump imports
-        if (/*overload*/mb_substr($query, 0, 4) == 'USE ') {
-            $prefix = explode('USE ', $query);
+        if (/*overload*/
+            mb_substr($query, 0, 4) == 'USE '
+        ) {
+            $prefix        = explode('USE ', $query);
             $GLOBALS['db'] = self::getTableName($prefix[1]);
         }
 
@@ -658,7 +671,7 @@ class PMA_Tracker
          * DDL statements
          */
 
-        $result         = array();
+        $result         = [];
         $result['type'] = 'DDL';
 
         // Parse CREATE VIEW statement
@@ -670,179 +683,181 @@ class PMA_Tracker
 
             $index = array_search('VIEW', $tokens);
 
-            $result['tablename'] = /*overload*/mb_strtolower(
-                self::getTableName($tokens[$index + 1])
-            );
+            $result['tablename'] = /*overload*/
+                mb_strtolower(
+                    self::getTableName($tokens[$index + 1])
+                );
         }
 
         // Parse ALTER VIEW statement
         if (in_array('ALTER', $tokens) == true
             && in_array('VIEW', $tokens) == true
             && in_array('AS', $tokens) == true
-            && ! isset($result['identifier'])
+            && !isset($result['identifier'])
         ) {
             $result['identifier'] = 'ALTER VIEW';
 
             $index = array_search('VIEW', $tokens);
 
-            $result['tablename'] = /*overload*/mb_strtolower(
-                self::getTableName($tokens[$index + 1])
-            );
+            $result['tablename'] = /*overload*/
+                mb_strtolower(
+                    self::getTableName($tokens[$index + 1])
+                );
         }
 
         // Parse DROP VIEW statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 10) == 'DROP VIEW '
         ) {
             $result['identifier'] = 'DROP VIEW';
 
-            $prefix  = explode('DROP VIEW ', $query);
-            $str = str_replace('IF EXISTS', '', $prefix[1]);
+            $prefix              = explode('DROP VIEW ', $query);
+            $str                 = str_replace('IF EXISTS', '', $prefix[1]);
             $result['tablename'] = self::getTableName($str);
         }
 
         // Parse CREATE DATABASE statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 15) == 'CREATE DATABASE'
         ) {
             $result['identifier'] = 'CREATE DATABASE';
-            $str = str_replace('CREATE DATABASE', '', $query);
-            $str = str_replace('IF NOT EXISTS', '', $str);
+            $str                  = str_replace('CREATE DATABASE', '', $query);
+            $str                  = str_replace('IF NOT EXISTS', '', $str);
 
             $prefix = explode('DEFAULT ', $str);
 
             $result['tablename'] = '';
-            $GLOBALS['db'] = self::getTableName($prefix[0]);
+            $GLOBALS['db']       = self::getTableName($prefix[0]);
         }
 
         // Parse ALTER DATABASE statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 14) == 'ALTER DATABASE'
         ) {
             $result['identifier'] = 'ALTER DATABASE';
-            $result['tablename'] = '';
+            $result['tablename']  = '';
         }
 
         // Parse DROP DATABASE statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 13) == 'DROP DATABASE'
         ) {
             $result['identifier'] = 'DROP DATABASE';
-            $str = str_replace('DROP DATABASE', '', $query);
-            $str = str_replace('IF EXISTS', '', $str);
-            $GLOBALS['db'] = self::getTableName($str);
-            $result['tablename'] = '';
+            $str                  = str_replace('DROP DATABASE', '', $query);
+            $str                  = str_replace('IF EXISTS', '', $str);
+            $GLOBALS['db']        = self::getTableName($str);
+            $result['tablename']  = '';
         }
 
         // Parse CREATE TABLE statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 12) == 'CREATE TABLE'
         ) {
             $result['identifier'] = 'CREATE TABLE';
-            $query   = str_replace('IF NOT EXISTS', '', $query);
-            $prefix  = explode('CREATE TABLE ', $query);
-            $suffix  = explode('(', $prefix[1]);
-            $result['tablename'] = self::getTableName($suffix[0]);
+            $query                = str_replace('IF NOT EXISTS', '', $query);
+            $prefix               = explode('CREATE TABLE ', $query);
+            $suffix               = explode('(', $prefix[1]);
+            $result['tablename']  = self::getTableName($suffix[0]);
         }
 
         // Parse ALTER TABLE statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 12) == 'ALTER TABLE '
         ) {
             $result['identifier'] = 'ALTER TABLE';
 
-            $prefix  = explode('ALTER TABLE ', $query);
-            $suffix  = explode(' ', $prefix[1]);
-            $result['tablename']  = self::getTableName($suffix[0]);
+            $prefix              = explode('ALTER TABLE ', $query);
+            $suffix              = explode(' ', $prefix[1]);
+            $result['tablename'] = self::getTableName($suffix[0]);
         }
 
         // Parse DROP TABLE statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 11) == 'DROP TABLE '
         ) {
             $result['identifier'] = 'DROP TABLE';
 
-            $prefix  = explode('DROP TABLE ', $query);
-            $str = str_replace('IF EXISTS', '', $prefix[1]);
+            $prefix              = explode('DROP TABLE ', $query);
+            $str                 = str_replace('IF EXISTS', '', $prefix[1]);
             $result['tablename'] = self::getTableName($str);
         }
 
         // Parse CREATE INDEX statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && (substr($query, 0, 12) == 'CREATE INDEX'
-            || substr($query, 0, 19) == 'CREATE UNIQUE INDEX'
-            || substr($query, 0, 20) == 'CREATE SPATIAL INDEX')
+                || substr($query, 0, 19) == 'CREATE UNIQUE INDEX'
+                || substr($query, 0, 20) == 'CREATE SPATIAL INDEX')
         ) {
-             $result['identifier'] = 'CREATE INDEX';
-             $prefix = explode('ON ', $query);
-             $suffix = explode('(', $prefix[1]);
-             $result['tablename'] = self::getTableName($suffix[0]);
+            $result['identifier'] = 'CREATE INDEX';
+            $prefix               = explode('ON ', $query);
+            $suffix               = explode('(', $prefix[1]);
+            $result['tablename']  = self::getTableName($suffix[0]);
         }
 
         // Parse DROP INDEX statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 10) == 'DROP INDEX'
         ) {
-             $result['identifier'] = 'DROP INDEX';
-             $prefix = explode('ON ', $query);
-             $result['tablename'] = self::getTableName($prefix[1]);
+            $result['identifier'] = 'DROP INDEX';
+            $prefix               = explode('ON ', $query);
+            $result['tablename']  = self::getTableName($prefix[1]);
         }
 
         // Parse RENAME TABLE statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 13) == 'RENAME TABLE '
         ) {
-            $result['identifier'] = 'RENAME TABLE';
-            $prefix = explode('RENAME TABLE ', $query);
-            $names  = explode(' TO ', $prefix[1]);
-            $result['tablename']      = self::getTableName($names[0]);
-            $result["tablename_after_rename"]  = self::getTableName($names[1]);
+            $result['identifier']             = 'RENAME TABLE';
+            $prefix                           = explode('RENAME TABLE ', $query);
+            $names                            = explode(' TO ', $prefix[1]);
+            $result['tablename']              = self::getTableName($names[0]);
+            $result["tablename_after_rename"] = self::getTableName($names[1]);
         }
 
         /*
          * DML statements
          */
 
-        if (! isset($result['identifier'])) {
-            $result["type"]       = 'DML';
+        if (!isset($result['identifier'])) {
+            $result["type"] = 'DML';
         }
         // Parse UPDATE statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 6) == 'UPDATE'
         ) {
             $result['identifier'] = 'UPDATE';
-            $prefix  = explode('UPDATE ', $query);
-            $suffix  = explode(' ', $prefix[1]);
-            $result['tablename'] = self::getTableName($suffix[0]);
+            $prefix               = explode('UPDATE ', $query);
+            $suffix               = explode(' ', $prefix[1]);
+            $result['tablename']  = self::getTableName($suffix[0]);
         }
 
         // Parse INSERT INTO statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 11) == 'INSERT INTO'
         ) {
             $result['identifier'] = 'INSERT';
-            $prefix  = explode('INSERT INTO', $query);
-            $suffix  = explode('(', $prefix[1]);
-            $result['tablename'] = self::getTableName($suffix[0]);
+            $prefix               = explode('INSERT INTO', $query);
+            $suffix               = explode('(', $prefix[1]);
+            $result['tablename']  = self::getTableName($suffix[0]);
         }
 
         // Parse DELETE statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 6) == 'DELETE'
         ) {
             $result['identifier'] = 'DELETE';
-            $prefix  = explode('FROM ', $query);
-            $suffix  = explode(' ', $prefix[1]);
-            $result['tablename'] = self::getTableName($suffix[0]);
+            $prefix               = explode('FROM ', $query);
+            $suffix               = explode(' ', $prefix[1]);
+            $result['tablename']  = self::getTableName($suffix[0]);
         }
 
         // Parse TRUNCATE statement
-        if (! isset($result['identifier'])
+        if (!isset($result['identifier'])
             && substr($query, 0, 8) == 'TRUNCATE'
         ) {
             $result['identifier'] = 'TRUNCATE';
-            $prefix  = explode('TRUNCATE', $query);
-            $result['tablename'] = self::getTableName($prefix[1]);
+            $prefix               = explode('TRUNCATE', $query);
+            $result['tablename']  = self::getTableName($prefix[1]);
         }
 
         return $result;
@@ -861,11 +876,13 @@ class PMA_Tracker
     static public function handleQuery($query)
     {
         // If query is marked as untouchable, leave
-        if (/*overload*/mb_strstr($query, "/*NOTRACK*/")) {
+        if (/*overload*/
+        mb_strstr($query, "/*NOTRACK*/")
+        ) {
             return;
         }
 
-        if (! (substr($query, -1) == ';')) {
+        if (!(substr($query, -1) == ';')) {
             $query = $query . ";\n";
         }
         // Get some information about query
@@ -893,17 +910,17 @@ class PMA_Tracker
                 // Create the version
 
                 switch ($result['identifier']) {
-                case 'CREATE TABLE':
-                    self::createVersion($dbname, $result['tablename'], '1');
-                    break;
-                case 'CREATE VIEW':
-                    self::createVersion(
-                        $dbname, $result['tablename'], '1', '', true
-                    );
-                    break;
-                case 'CREATE DATABASE':
-                    self::createDatabaseVersion($dbname, '1', $query);
-                    break;
+                    case 'CREATE TABLE':
+                        self::createVersion($dbname, $result['tablename'], '1');
+                        break;
+                    case 'CREATE VIEW':
+                        self::createVersion(
+                            $dbname, $result['tablename'], '1', '', true
+                        );
+                        break;
+                    case 'CREATE DATABASE':
+                        self::createDatabaseVersion($dbname, '1', $query);
+                        break;
                 } // end switch
             }
 
@@ -916,7 +933,7 @@ class PMA_Tracker
                 } else {
                     $save_to = '';
                 }
-                $date  = date('Y-m-d H:i:s');
+                $date = date('Y-m-d H:i:s');
 
                 // Cut off `dbname`. from query
                 $query = preg_replace(
@@ -926,7 +943,7 @@ class PMA_Tracker
                 );
 
                 // Add log information
-                $query = self::getLogComment() . $query ;
+                $query = self::getLogComment() . $query;
 
                 // Mark it as untouchable
                 $sql_query = " /*NOTRACK*/\n"
@@ -950,11 +967,11 @@ class PMA_Tracker
                 //     3. the statements
                 // we want to track
                 $sql_query .=
-                " WHERE FIND_IN_SET('" . $result['identifier'] . "',tracking) > 0" .
-                " AND `db_name` = '" . PMA_Util::sqlAddSlashes($dbname) . "' " .
-                " AND `table_name` = '"
-                . PMA_Util::sqlAddSlashes($result['tablename']) . "' " .
-                " AND `version` = '" . PMA_Util::sqlAddSlashes($version) . "' ";
+                    " WHERE FIND_IN_SET('" . $result['identifier'] . "',tracking) > 0" .
+                    " AND `db_name` = '" . PMA_Util::sqlAddSlashes($dbname) . "' " .
+                    " AND `table_name` = '"
+                    . PMA_Util::sqlAddSlashes($result['tablename']) . "' " .
+                    " AND `version` = '" . PMA_Util::sqlAddSlashes($version) . "' ";
 
                 PMA_queryAsControlUser($sql_query);
             }
@@ -979,11 +996,11 @@ class PMA_Tracker
         // init conversion array (key 3 doesn't exist in calculated array)
         if (isset(self::$_tracking_set_flags[3])) {
             // initialize flags
-            $set = self::$_tracking_set_flags;
-            $array = array();
+            $set   = self::$_tracking_set_flags;
+            $array = [];
             for ($i = 0, $nb = count($set); $i < $nb; $i++) {
-                $flag = 1 << $i;
-                $array[$flag] = $set[$i];
+                $flag            = 1 << $i;
+                $array[$flag]    = $set[$i];
                 $array[$set[$i]] = $flag;
             }
             self::$_tracking_set_flags = $array;
@@ -991,10 +1008,10 @@ class PMA_Tracker
 
         if (is_numeric($tracking_set)) {
             // int > string conversion
-            $aflags = array();
+            $aflags = [];
             // count/2 - conversion table has both int > string
             // and string > int values
-            for ($i = 0, $nb = count(self::$_tracking_set_flags)/2; $i < $nb; $i++) {
+            for ($i = 0, $nb = count(self::$_tracking_set_flags) / 2; $i < $nb; $i++) {
                 $flag = 1 << $i;
                 if ($tracking_set & $flag) {
                     $aflags[] = self::$_tracking_set_flags[$flag];
@@ -1023,8 +1040,10 @@ class PMA_Tracker
     private static function _getTrackingTable()
     {
         $cfgRelation = PMA_getRelationsParam();
+
         return PMA_Util::backquote($cfgRelation['db'])
             . '.' . PMA_Util::backquote($cfgRelation['tracking']);
     }
 }
+
 ?>

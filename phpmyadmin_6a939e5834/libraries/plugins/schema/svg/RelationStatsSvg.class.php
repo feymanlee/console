@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -47,29 +47,29 @@ class Relation_Stats_Svg extends RelationStats
      *
      * @param boolean $showColor Whether to use one color per relation or not
      *
-     * @global object $svg The current SVG image document
+     * @global object $svg       The current SVG image document
      *
      * @return void
      * @access public
      *
-     * @see PMA_SVG
+     * @see    PMA_SVG
      */
     public function relationDraw($showColor)
     {
         global $svg;
 
         if ($showColor) {
-            $listOfColors = array(
+            $listOfColors = [
                 'red',
                 'grey',
                 'black',
                 'yellow',
                 'green',
                 'cyan',
-                '    orange'
-            );
+                '    orange',
+            ];
             shuffle($listOfColors);
-            $color =  $listOfColors[0];
+            $color = $listOfColors[0];
         } else {
             $color = 'black';
         }
@@ -116,4 +116,5 @@ class Relation_Stats_Svg extends RelationStats
         );
     }
 }
+
 ?>

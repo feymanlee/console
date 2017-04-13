@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -44,10 +44,10 @@ function PMA_getLanguageSelectorHtml($use_fieldset = false, $show_doc = true)
     if (count($GLOBALS['available_languages']) > 1) {
         $retval .= '<form method="get" action="index.php" class="disableAjax">';
 
-        $_form_params = array(
-            'db' => $GLOBALS['db'],
+        $_form_params = [
+            'db'    => $GLOBALS['db'],
             'table' => $GLOBALS['table'],
-        );
+        ];
         $retval .= PMA_URL_getHiddenInputs($_form_params);
 
         // For non-English, display "Language" with emphasis because it's
@@ -92,6 +92,7 @@ function PMA_getLanguageSelectorHtml($use_fieldset = false, $show_doc = true)
 
         $retval .= '</form>';
     }
+
     return $retval;
 }
 

@@ -8,7 +8,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -19,7 +19,7 @@ if (! defined('PHPMYADMIN')) {
  */
 function PMA_getHtmlForAdvisor()
 {
-    $output  = '<a href="#openAdvisorInstructions">';
+    $output = '<a href="#openAdvisorInstructions">';
     $output .= PMA_Util::getIcon('b_help.png', __('Instructions'));
     $output .= '</a>';
     $output .= '<div id="statustabs_advisor"></div>';

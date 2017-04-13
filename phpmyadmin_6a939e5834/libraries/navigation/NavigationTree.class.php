@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Navigation
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -26,14 +26,14 @@ class PMA_NavigationTree
      *            This does not include nodes created after the grouping
      *            of nodes has been performed
      */
-    private $_aPath = array();
+    private $_aPath = [];
 
     /**
      * @var array The virtual paths to all expanded nodes in the tree
      *            This includes nodes created after the grouping of
      *            nodes has been performed
      */
-    private $_vPath = array();
+    private $_vPath = [];
 
     /**
      * @var int Position in the list of databases,
@@ -46,26 +46,26 @@ class PMA_NavigationTree
      *          the second level of the navigation tree. These may be
      *          tables, views, functions, procedures or events.
      */
-    private $_pos2_name = array();
+    private $_pos2_name = [];
 
     /**
      * @var int The positions of nodes in the lists of tables, views,
      *          routines or events used for pagination
      */
-    private $_pos2_value = array();
+    private $_pos2_value = [];
 
     /**
      * @var int The names of the type of items that are being paginated
      *          on the second level of the navigation tree.
      *          These may be columns or indexes
      */
-    private $_pos3_name = array();
+    private $_pos3_name = [];
 
     /**
      * @var int The positions of nodes in the lists of columns or indexes
      *          used for pagination
      */
-    private $_pos3_value = array();
+    private $_pos3_value = [];
 
     /**
      * @var string The search clause to use in SQL queries for
@@ -94,9 +94,9 @@ class PMA_NavigationTree
     {
         // Save the position at which we are in the database list
         if (isset($_REQUEST['pos'])) {
-            $this->_pos = (int) $_REQUEST['pos'];
+            $this->_pos = (int)$_REQUEST['pos'];
         }
-        if (! isset($this->_pos)) {
+        if (!isset($this->_pos)) {
             $this->_pos = $this->_getNavigationDbPos();
         }
         // Get the active node
@@ -111,13 +111,13 @@ class PMA_NavigationTree
         } else if (isset($_REQUEST['n0_aPath'])) {
             $count = 0;
             while (isset($_REQUEST['n' . $count . '_aPath'])) {
-                $this->_aPath[$count] = $this->_parsePath(
+                $this->_aPath[$count]      = $this->_parsePath(
                     $_REQUEST['n' . $count . '_aPath']
                 );
-                $index = 'n' . $count . '_pos2_';
+                $index                     = 'n' . $count . '_pos2_';
                 $this->_pos2_name[$count]  = $_REQUEST[$index . 'name'];
                 $this->_pos2_value[$count] = $_REQUEST[$index . 'value'];
-                $index = 'n' . $count . '_pos3_';
+                $index                     = 'n' . $count . '_pos3_';
                 if (isset($_REQUEST[$index])) {
                     $this->_pos3_name[$count]  = $_REQUEST[$index . 'name'];
                     $this->_pos3_value[$count] = $_REQUEST[$index . 'value'];
@@ -143,12 +143,12 @@ class PMA_NavigationTree
             $this->_searchClause2 = $_REQUEST['searchClause2'];
         }
         // Initialise the tree by creating a root node
-        $node = PMA_NodeFactory::getInstance('Node_Database_Container', 'root');
+        $node        = PMA_NodeFactory::getInstance('Node_Database_Container', 'root');
         $this->_tree = $node;
         if ($GLOBALS['cfg']['NavigationTreeEnableGrouping']
             && $GLOBALS['cfg']['ShowDatabasesNavigationAsTree']
         ) {
-            $this->_tree->separator = $GLOBALS['cfg']['NavigationTreeDbSeparator'];
+            $this->_tree->separator       = $GLOBALS['cfg']['NavigationTreeDbSeparator'];
             $this->_tree->separator_depth = 10000;
         }
     }
@@ -169,8 +169,8 @@ class PMA_NavigationTree
         /*
          * @todo describe a scenario where this code is executed
          */
-        if (! $GLOBALS['cfg']['Server']['DisableIS']) {
-            $query  = "SELECT (COUNT(DB_first_level) DIV %d) * %d ";
+        if (!$GLOBALS['cfg']['Server']['DisableIS']) {
+            $query = "SELECT (COUNT(DB_first_level) DIV %d) * %d ";
             $query .= "from ( ";
             $query .= " SELECT distinct SUBSTRING_INDEX(SCHEMA_NAME, ";
             $query .= " '" . PMA_Util::sqlAddSlashes($GLOBALS['cfg']['NavigationTreeDbSeparator']) . "', 1) ";
@@ -191,7 +191,7 @@ class PMA_NavigationTree
             return $retval;
         }
 
-        $prefixMap = array();
+        $prefixMap = [];
         if ($GLOBALS['dbs_to_test'] === false) {
             $handle = $GLOBALS['dbi']->tryQuery("SHOW DATABASES");
             if ($handle !== false) {
@@ -212,9 +212,9 @@ class PMA_NavigationTree
                 }
             }
         } else {
-            $databases = array();
+            $databases = [];
             foreach ($GLOBALS['dbs_to_test'] as $db) {
-                $query = "SHOW DATABASES LIKE '" . $db . "'";
+                $query  = "SHOW DATABASES LIKE '" . $db . "'";
                 $handle = $GLOBALS['dbi']->tryQuery($query);
                 if ($handle === false) {
                     continue;
@@ -241,8 +241,9 @@ class PMA_NavigationTree
             }
         }
 
-        $navItems = (int) $GLOBALS['cfg']['FirstLevelNavigationItems'];
-        $retval = floor((count($prefixMap) / $navItems)) * $navItems;
+        $navItems = (int)$GLOBALS['cfg']['FirstLevelNavigationItems'];
+        $retval   = floor((count($prefixMap) / $navItems)) * $navItems;
+
         return $retval;
     }
 
@@ -259,6 +260,7 @@ class PMA_NavigationTree
         foreach ($path as $key => $value) {
             $path[$key] = base64_decode($value);
         }
+
         return $path;
     }
 
@@ -272,7 +274,7 @@ class PMA_NavigationTree
         $retval = $this->_tree;
 
         // Add all databases unconditionally
-        $data = $this->_tree->getData(
+        $data         = $this->_tree->getData(
             'databases',
             $this->_pos,
             $this->_searchClause
@@ -297,6 +299,7 @@ class PMA_NavigationTree
                 isset($this->_pos3_value[$key]) ? $this->_pos3_value[$key] : ''
             );
         }
+
         return $retval;
     }
 
@@ -324,7 +327,7 @@ class PMA_NavigationTree
         }
 
         array_shift($path); // remove 'root'
-        $db = $this->_tree->getChild($path[0]);
+        $db     = $this->_tree->getChild($path[0]);
         $retval = $db;
 
         if ($db === false) {
@@ -336,7 +339,7 @@ class PMA_NavigationTree
         array_shift($path); // remove db
 
         if ((count($path) <= 0
-            || !array_key_exists($path[0], $containers))
+                || !array_key_exists($path[0], $containers))
             && count($containers) != 1
         ) {
             return $retval;
@@ -360,38 +363,38 @@ class PMA_NavigationTree
             );
             foreach ($dbData as $item) {
                 switch ($container->real_name) {
-                case 'events':
-                    $node = PMA_NodeFactory::getInstance(
-                        'Node_Event',
-                        $item
-                    );
-                    break;
-                case 'functions':
-                    $node = PMA_NodeFactory::getInstance(
-                        'Node_Function',
-                        $item
-                    );
-                    break;
-                case 'procedures':
-                    $node = PMA_NodeFactory::getInstance(
-                        'Node_Procedure',
-                        $item
-                    );
-                    break;
-                case 'tables':
-                    $node = PMA_NodeFactory::getInstance(
-                        'Node_Table',
-                        $item
-                    );
-                    break;
-                case 'views':
-                    $node = PMA_NodeFactory::getInstance(
-                        'Node_View',
-                        $item
-                    );
-                    break;
-                default:
-                    break;
+                    case 'events':
+                        $node = PMA_NodeFactory::getInstance(
+                            'Node_Event',
+                            $item
+                        );
+                        break;
+                    case 'functions':
+                        $node = PMA_NodeFactory::getInstance(
+                            'Node_Function',
+                            $item
+                        );
+                        break;
+                    case 'procedures':
+                        $node = PMA_NodeFactory::getInstance(
+                            'Node_Procedure',
+                            $item
+                        );
+                        break;
+                    case 'tables':
+                        $node = PMA_NodeFactory::getInstance(
+                            'Node_Table',
+                            $item
+                        );
+                        break;
+                    case 'views':
+                        $node = PMA_NodeFactory::getInstance(
+                            'Node_View',
+                            $item
+                        );
+                        break;
+                    default:
+                        break;
                 }
                 if (isset($node)) {
                     if ($type2 == $container->real_name) {
@@ -403,6 +406,7 @@ class PMA_NavigationTree
         }
         if (count($path) > 1 && $path[0] != 'tables') {
             $retval = false;
+
             return $retval;
         }
 
@@ -427,7 +431,7 @@ class PMA_NavigationTree
             $container->addChild($node);
             $table = $container->getChild($path[0], true);
         }
-        $retval = $table;
+        $retval     = $table;
         $containers = $this->_addTableContainers(
             $table,
             $pos2,
@@ -442,33 +446,33 @@ class PMA_NavigationTree
         }
 
         $container = $table->getChild($path[0], true);
-        $retval = $container;
+        $retval    = $container;
         $tableData = $table->getData(
             $container->real_name,
             $pos3
         );
         foreach ($tableData as $item) {
             switch ($container->real_name) {
-            case 'indexes':
-                $node = PMA_NodeFactory::getInstance(
-                    'Node_Index',
-                    $item
-                );
-                break;
-            case 'columns':
-                $node = PMA_NodeFactory::getInstance(
-                    'Node_Column',
-                    $item
-                );
-                break;
-            case 'triggers':
-                $node = PMA_NodeFactory::getInstance(
-                    'Node_Trigger',
-                    $item
-                );
-                break;
-            default:
-                break;
+                case 'indexes':
+                    $node = PMA_NodeFactory::getInstance(
+                        'Node_Index',
+                        $item
+                    );
+                    break;
+                case 'columns':
+                    $node = PMA_NodeFactory::getInstance(
+                        'Node_Column',
+                        $item
+                    );
+                    break;
+                case 'triggers':
+                    $node = PMA_NodeFactory::getInstance(
+                        'Node_Trigger',
+                        $item
+                    );
+                    break;
+                default:
+                    break;
             }
             if (isset($node)) {
                 $node->pos2 = $container->parent->pos2;
@@ -478,6 +482,7 @@ class PMA_NavigationTree
                 $container->addChild($node);
             }
         }
+
         return $retval;
     }
 
@@ -500,7 +505,7 @@ class PMA_NavigationTree
      */
     private function _addTableContainers($table, $pos2, $type3, $pos3)
     {
-        $retval = array();
+        $retval = [];
         if ($table->hasChildren(true) == 0) {
             if ($table->getPresence('columns')) {
                 $retval['columns'] = PMA_NodeFactory::getInstance(
@@ -533,6 +538,7 @@ class PMA_NavigationTree
                 $retval[$node->real_name] = $node;
             }
         }
+
         return $retval;
     }
 
@@ -553,7 +559,7 @@ class PMA_NavigationTree
      */
     private function _addDbContainers($db, $type, $pos2)
     {
-        $retval = array();
+        $retval = [];
         if ($db->hasChildren(true) == 0) {
             if ($db->getPresence('tables')) {
                 $retval['tables'] = PMA_NodeFactory::getInstance(
@@ -595,6 +601,7 @@ class PMA_NavigationTree
                 $retval[$node->real_name] = $node;
             }
         }
+
         return $retval;
     }
 
@@ -610,7 +617,7 @@ class PMA_NavigationTree
      */
     public function groupTree($node = null)
     {
-        if (! isset($node)) {
+        if (!isset($node)) {
             $node = $this->_tree;
         }
         $this->groupNode($node);
@@ -629,25 +636,27 @@ class PMA_NavigationTree
     public function groupNode($node)
     {
         if ($node->type != Node::CONTAINER
-            || ! $GLOBALS['cfg']['NavigationTreeEnableExpansion']
+            || !$GLOBALS['cfg']['NavigationTreeEnableExpansion']
         ) {
             return;
         }
 
-        $separators = array();
+        $separators = [];
         if (is_array($node->separator)) {
             $separators = $node->separator;
         } else if (strlen($node->separator)) {
             $separators[] = $node->separator;
         }
-        $prefixes = array();
+        $prefixes = [];
         if ($node->separator_depth > 0) {
             foreach ($node->children as $child) {
                 $prefix_pos = false;
                 foreach ($separators as $separator) {
-                    $sep_pos = /*overload*/mb_strpos($child->name, $separator);
+                    $sep_pos = /*overload*/
+                        mb_strpos($child->name, $separator);
                     if ($sep_pos != false
-                        && $sep_pos != /*overload*/mb_strlen($child->name)
+                        && $sep_pos != /*overload*/
+                        mb_strlen($child->name)
                         && $sep_pos != 0
                         && ($prefix_pos == false || $sep_pos < $prefix_pos)
                     ) {
@@ -655,8 +664,9 @@ class PMA_NavigationTree
                     }
                 }
                 if ($prefix_pos !== false) {
-                    $prefix = /*overload*/mb_substr($child->name, 0, $prefix_pos);
-                    if (! isset($prefixes[$prefix])) {
+                    $prefix = /*overload*/
+                        mb_substr($child->name, 0, $prefix_pos);
+                    if (!isset($prefixes[$prefix])) {
                         $prefixes[$prefix] = 1;
                     } else {
                         $prefixes[$prefix]++;
@@ -679,7 +689,7 @@ class PMA_NavigationTree
         foreach ($prefixes as $key => $value) {
             if ($value == 1) {
                 unset($prefixes[$key]);
-            } else if ($value > 500 && ! $this->_largeGroupWarning) {
+            } else if ($value > 500 && !$this->_largeGroupWarning) {
                 trigger_error(
                     __(
                         'There are large item groups in navigation panel which '
@@ -692,51 +702,54 @@ class PMA_NavigationTree
             }
         }
         if (count($prefixes)) {
-            $groups = array();
+            $groups = [];
             foreach ($prefixes as $key => $value) {
-                $groups[$key] = new Node(
+                $groups[$key]                  = new Node(
                     $key,
                     Node::CONTAINER,
                     true
                 );
-                $groups[$key]->separator = $node->separator;
+                $groups[$key]->separator       = $node->separator;
                 $groups[$key]->separator_depth = $node->separator_depth - 1;
-                $groups[$key]->icon = PMA_Util::getImage(
+                $groups[$key]->icon            = PMA_Util::getImage(
                     'b_group.png'
                 );
-                $groups[$key]->pos2 = $node->pos2;
-                $groups[$key]->pos3 = $node->pos3;
+                $groups[$key]->pos2            = $node->pos2;
+                $groups[$key]->pos3            = $node->pos3;
                 if ($node instanceof Node_Table_Container
                     || $node instanceof Node_View_Container
                 ) {
-                    $tblGroup = '&amp;tbl_group=' . urlencode($key);
-                    $groups[$key]->links = array(
+                    $tblGroup            = '&amp;tbl_group=' . urlencode($key);
+                    $groups[$key]->links = [
                         'text' => $node->links['text'] . $tblGroup,
-                        'icon' => $node->links['icon'] . $tblGroup
-                    );
+                        'icon' => $node->links['icon'] . $tblGroup,
+                    ];
                 }
                 $node->addChild($groups[$key]);
                 foreach ($separators as $separator) {
                     $separatorLength = strlen($separator);
                     // FIXME: this could be more efficient
                     foreach ($node->children as $child) {
-                        $keySeparatorLength = /*overload*/mb_strlen($key)
+                        $keySeparatorLength = /*overload*/
+                            mb_strlen($key)
                             + $separatorLength;
-                        $name_substring = /*overload*/mb_substr(
-                            $child->name,
-                            0,
-                            $keySeparatorLength
-                        );
+                        $name_substring     = /*overload*/
+                            mb_substr(
+                                $child->name,
+                                0,
+                                $keySeparatorLength
+                            );
                         if (($name_substring != $key . $separator
-                            && $child->name != $key)
+                                && $child->name != $key)
                             || $child->type != Node::OBJECT
                         ) {
                             continue;
                         }
-                        $class = get_class($child);
+                        $class     = get_class($child);
                         $new_child = PMA_NodeFactory::getInstance(
                             $class,
-                            /*overload*/mb_substr(
+                            /*overload*/
+                            mb_substr(
                                 $child->name,
                                 $keySeparatorLength
                             )
@@ -749,10 +762,10 @@ class PMA_NavigationTree
                         }
 
                         $new_child->real_name = $child->real_name;
-                        $new_child->icon = $child->icon;
-                        $new_child->links = $child->links;
-                        $new_child->pos2 = $child->pos2;
-                        $new_child->pos3 = $child->pos3;
+                        $new_child->icon      = $child->icon;
+                        $new_child->links     = $child->links;
+                        $new_child->pos2      = $child->pos2;
+                        $new_child->pos3      = $child->pos3;
                         $groups[$key]->addChild($new_child);
                         foreach ($child->children as $elm) {
                             $new_child->addChild($elm);
@@ -777,7 +790,7 @@ class PMA_NavigationTree
     public function renderState()
     {
         $this->_buildPath();
-        $retval  = $this->_quickWarp();
+        $retval = $this->_quickWarp();
         $retval .= '<div class="clearfloat"></div>';
         $retval .= '<ul>';
         $retval .= $this->_fastFilterHtml($this->_tree);
@@ -790,9 +803,9 @@ class PMA_NavigationTree
         $this->groupTree();
         $retval .= "<div id='pma_navigation_tree_content'><ul>";
         $children = $this->_tree->children;
-        usort($children, array('PMA_NavigationTree', 'sortNode'));
+        usort($children, ['PMA_NavigationTree', 'sortNode']);
         $this->_setVisibility();
-        for ($i=0, $nbChildren = count($children); $i < $nbChildren; $i++) {
+        for ($i = 0, $nbChildren = count($children); $i < $nbChildren; $i++) {
             if ($i == 0) {
                 $retval .= $this->_renderNode($children[0], true, 'first');
             } else if ($i + 1 != $nbChildren) {
@@ -802,6 +815,7 @@ class PMA_NavigationTree
             }
         }
         $retval .= "</ul></div>";
+
         return $retval;
     }
 
@@ -818,8 +832,8 @@ class PMA_NavigationTree
             $retval = false;
         } else {
             $this->groupTree();
-            $retval  = "<div class='list_container' style='display: none;'>";
-            if (! empty($this->_searchClause) || ! empty($this->_searchClause2)) {
+            $retval = "<div class='list_container' style='display: none;'>";
+            if (!empty($this->_searchClause) || !empty($this->_searchClause2)) {
                 $retval .= "<ul class='search_results'>";
             } else {
                 $retval .= "<ul>";
@@ -827,8 +841,8 @@ class PMA_NavigationTree
             $listContent = $this->_fastFilterHtml($node);
             $listContent .= $this->_getPageSelector($node);
             $children = $node->children;
-            usort($children, array('PMA_NavigationTree', 'sortNode'));
-            for ($i=0, $nbChildren = count($children); $i < $nbChildren; $i++) {
+            usort($children, ['PMA_NavigationTree', 'sortNode']);
+            for ($i = 0, $nbChildren = count($children); $i < $nbChildren; $i++) {
                 if ($i + 1 != $nbChildren) {
                     $listContent .= $this->_renderNode($children[$i], true);
                 } else {
@@ -837,7 +851,7 @@ class PMA_NavigationTree
             }
             $retval .= $listContent;
             $retval .= "</ul>";
-            if (! $GLOBALS['cfg']['ShowDatabasesNavigationAsTree']) {
+            if (!$GLOBALS['cfg']['ShowDatabasesNavigationAsTree']) {
                 $retval .= "<span class='hide loaded_db'>";
                 $parents = $node->parents(true);
                 $retval .= urlencode($parents[0]->real_name);
@@ -851,9 +865,9 @@ class PMA_NavigationTree
             $retval .= "</div>";
         }
 
-        if (! empty($this->_searchClause) || ! empty($this->_searchClause2)) {
+        if (!empty($this->_searchClause) || !empty($this->_searchClause2)) {
             $results = 0;
-            if (! empty($this->_searchClause2)) {
+            if (!empty($this->_searchClause2)) {
                 if (is_object($node->realParent())) {
                     $results = $node->realParent()->getPresence(
                         $node->real_name,
@@ -879,6 +893,7 @@ class PMA_NavigationTree
                 $results
             );
         }
+
         return $retval;
     }
 
@@ -910,6 +925,7 @@ class PMA_NavigationTree
             $retval .= $node->pos3;
             $retval .= "</span>";
         }
+
         return $retval;
     }
 
@@ -927,7 +943,7 @@ class PMA_NavigationTree
         foreach ($tree as $path) {
             $match = true;
             foreach ($paths as $key => $part) {
-                if (! isset($path[$key]) || $part != $path[$key]) {
+                if (!isset($path[$key]) || $part != $path[$key]) {
                     $match = false;
                     break;
                 }
@@ -936,6 +952,7 @@ class PMA_NavigationTree
                 break;
             }
         }
+
         return $match;
     }
 
@@ -955,30 +972,30 @@ class PMA_NavigationTree
         if ($node->hasSiblings()
             || $node->realParent() === false
         ) {
-            if (   $node->type == Node::CONTAINER
+            if ($node->type == Node::CONTAINER
                 && count($node->children) == 0
                 && $GLOBALS['is_ajax_request'] != true
             ) {
                 return '';
             }
             $retval .= '<li class="' . trim($class . ' ' . $node->classes) . '">';
-            $sterile = array(
+            $sterile    = [
                 'events',
                 'triggers',
                 'functions',
                 'procedures',
                 'views',
                 'columns',
-                'indexes'
-            );
+                'indexes',
+            ];
             $parentName = '';
-            $parents = $node->parents(false, true);
+            $parents    = $node->parents(false, true);
             if (count($parents)) {
                 $parentName = $parents[0]->real_name;
             }
             // if node name itself is in sterile, then allow
             if ($node->is_group
-                || (! in_array($parentName, $sterile) && ! $node->isNew)
+                || (!in_array($parentName, $sterile) && !$node->isNew)
                 || (in_array($node->real_name, $sterile))
             ) {
                 $retval .= "<div class='block'>";
@@ -1014,7 +1031,7 @@ class PMA_NavigationTree
                 $retval .= "</div>";
             } else {
                 $retval .= "<div class='block'>";
-                $iClass  = '';
+                $iClass = '';
                 if ($class == 'first') {
                     $iClass = " class='first'";
                 }
@@ -1024,14 +1041,14 @@ class PMA_NavigationTree
             }
 
             $linkClass = '';
-            $haveAjax = array(
+            $haveAjax  = [
                 'functions',
                 'procedures',
                 'events',
                 'triggers',
-                'indexes'
-            );
-            $parent = $node->parents(false, true);
+                'indexes',
+            ];
+            $parent    = $node->parents(false, true);
             $isNewView = $parent[0]->real_name == 'views' && $node->isNew == true;
             if ($parent[0]->type == Node::CONTAINER
                 && (in_array($parent[0]->real_name, $haveAjax) || $isNewView)
@@ -1047,10 +1064,10 @@ class PMA_NavigationTree
 
             if (isset($node->links['icon']) && !empty($node->links['icon'])) {
                 $iconLinks = $node->links['icon'];
-                $icons = $node->icon;
+                $icons     = $node->icon;
                 if (!is_array($iconLinks)) {
-                    $iconLinks = array($iconLinks);
-                    $icons = array($icons);
+                    $iconLinks = [$iconLinks];
+                    $icons     = [$icons];
                 }
 
                 if (count($icons) > 1) {
@@ -1061,7 +1078,7 @@ class PMA_NavigationTree
             $retval .= "<div class='block " . $divClass . "'>";
 
             if (isset($node->links['icon']) && !empty($node->links['icon'])) {
-                $args = array();
+                $args = [];
                 foreach ($node->parents(true) as $parent) {
                     $args[] = urlencode($parent->real_name);
                 }
@@ -1081,11 +1098,11 @@ class PMA_NavigationTree
             $retval .= "</div>";
 
             if (isset($node->links['text'])) {
-                $args = array();
+                $args = [];
                 foreach ($node->parents(true) as $parent) {
                     $args[] = urlencode($parent->real_name);
                 }
-                $link = vsprintf($node->links['text'], $args);
+                $link  = vsprintf($node->links['text'], $args);
                 $title = empty($node->links['title']) ? '' : $node->links['title'];
                 if ($node->type == Node::CONTAINER) {
                     $retval .= "&nbsp;<a class='hover_show_full' href='$link'>";
@@ -1108,7 +1125,7 @@ class PMA_NavigationTree
             $wrap = true;
         } else {
             $node->visible = true;
-            $wrap = false;
+            $wrap          = false;
             $retval .= $this->_getPaginationParamsHtml($node);
         }
 
@@ -1118,10 +1135,10 @@ class PMA_NavigationTree
                 $hide = " style='display: none;'";
             }
             $children = $node->children;
-            usort($children, array('PMA_NavigationTree', 'sortNode'));
-            $buffer = '';
+            usort($children, ['PMA_NavigationTree', 'sortNode']);
+            $buffer      = '';
             $extra_class = '';
-            for ($i=0, $nbChildren = count($children); $i < $nbChildren; $i++) {
+            for ($i = 0, $nbChildren = count($children); $i < $nbChildren; $i++) {
                 if ($i + 1 == $nbChildren) {
                     $extra_class = ' last';
                 }
@@ -1131,7 +1148,7 @@ class PMA_NavigationTree
                     $children[$i]->classes . $extra_class
                 );
             }
-            if (! empty($buffer)) {
+            if (!empty($buffer)) {
                 if ($wrap) {
                     $retval .= "<div$hide class='list_container'><ul>";
                 }
@@ -1146,6 +1163,7 @@ class PMA_NavigationTree
         if ($node->hasSiblings()) {
             $retval .= "</li>";
         }
+
         return $retval;
     }
 
@@ -1157,26 +1175,26 @@ class PMA_NavigationTree
     public function renderDbSelect()
     {
         $this->_buildPath();
-        $retval  = $this->_quickWarp();
+        $retval                = $this->_quickWarp();
         $this->_tree->is_group = false;
         $retval .= '<div id="pma_navigation_select_database">';
         // Provide for pagination in database select
         $retval .= PMA_Util::getListNavigator(
             $this->_tree->getPresence('databases', ''),
             $this->_pos,
-            array('server' => $GLOBALS['server']),
+            ['server' => $GLOBALS['server']],
             'navigation.php',
             'frame_navigation',
             $GLOBALS['cfg']['FirstLevelNavigationItems'],
             'pos',
-            array('dbselector')
+            ['dbselector']
         );
         $children = $this->_tree->children;
         array_shift($children);
-        $url_params = array(
-            'token' => $_SESSION[' PMA_token '],
-            'server' => $GLOBALS['server']
-        );
+        $url_params = [
+            'token'  => $_SESSION[' PMA_token '],
+            'server' => $GLOBALS['server'],
+        ];
         $retval .= '<div id="pma_navigation_db_select">';
         $retval .= '<form action="db_structure.php">';
         $retval .= PMA_getHiddenFields($url_params);
@@ -1185,7 +1203,7 @@ class PMA_NavigationTree
             . '(' . __('Databases') . ') ...</option>' . "\n";
         $selected = $GLOBALS['db'];
         foreach ($children as $node) {
-            $paths  = $node->getPaths();
+            $paths = $node->getPaths();
             if (isset($node->links['text'])) {
                 $title = empty($node->links['title']) ? '' : $node->links['title'];
                 $retval .= '<option value="'
@@ -1210,6 +1228,7 @@ class PMA_NavigationTree
         $retval .= __('Please select a database.');
         $retval .= '</div>';
         $retval .= '</div>';
+
         return $retval;
     }
 
@@ -1226,7 +1245,7 @@ class PMA_NavigationTree
                 $child = $node->getChild($value);
                 if ($child !== false) {
                     $child->visible = true;
-                    $node = $child;
+                    $node           = $child;
                 }
             }
         }
@@ -1243,15 +1262,15 @@ class PMA_NavigationTree
     {
         $retval = '';
         $filter_db_min
-            = (int) $GLOBALS['cfg']['NavigationTreeDisplayDbFilterMinimum'];
+                = (int)$GLOBALS['cfg']['NavigationTreeDisplayDbFilterMinimum'];
         $filter_item_min
-            = (int) $GLOBALS['cfg']['NavigationTreeDisplayItemFilterMinimum'];
+                = (int)$GLOBALS['cfg']['NavigationTreeDisplayItemFilterMinimum'];
         if ($node === $this->_tree
             && $this->_tree->getPresence() >= $filter_db_min
         ) {
-            $url_params = array(
-                'pos' => 0
-            );
+            $url_params = [
+                'pos' => 0,
+            ];
             $retval .= '<li class="fast_filter db_fast_filter">';
             $retval .= '<form class="ajax fast_filter">';
             $retval .= PMA_getHiddenFields($url_params);
@@ -1271,22 +1290,22 @@ class PMA_NavigationTree
             $retval .= "</form>";
             $retval .= "</li>";
         } else if (($node->type == Node::CONTAINER
-            && (   $node->real_name == 'tables'
-            || $node->real_name == 'views'
-            || $node->real_name == 'functions'
-            || $node->real_name == 'procedures'
-            || $node->real_name == 'events'))
+                && ($node->real_name == 'tables'
+                    || $node->real_name == 'views'
+                    || $node->real_name == 'functions'
+                    || $node->real_name == 'procedures'
+                    || $node->real_name == 'events'))
             && method_exists($node->realParent(), 'getPresence')
             && $node->realParent()->getPresence($node->real_name) >= $filter_item_min
         ) {
-            $paths = $node->getPaths();
-            $url_params = array(
-                'pos' => $this->_pos,
-                'aPath' => $paths['aPath'],
-                'vPath' => $paths['vPath'],
-                'pos2_name' => $node->real_name,
-                'pos2_value' => 0
-            );
+            $paths      = $node->getPaths();
+            $url_params = [
+                'pos'        => $this->_pos,
+                'aPath'      => $paths['aPath'],
+                'vPath'      => $paths['vPath'],
+                'pos2_name'  => $node->real_name,
+                'pos2_value' => 0,
+            ];
             $retval .= "<li class='fast_filter'>";
             $retval .= "<form class='ajax fast_filter'>";
             $retval .= PMA_getHiddenFields($url_params);
@@ -1305,6 +1324,7 @@ class PMA_NavigationTree
             $retval .= "</form>";
             $retval .= "</li>";
         }
+
         return $retval;
     }
 
@@ -1320,7 +1340,7 @@ class PMA_NavigationTree
         $showIcon = true;
         $showText = false;
 
-        $retval  = '<!-- CONTROLS START -->';
+        $retval = '<!-- CONTROLS START -->';
         $retval .= '<li id="navigation_controls_outer">';
         $retval .= '<div id="navigation_controls">';
         $retval .= PMA_Util::getNavigationLink(
@@ -1332,10 +1352,10 @@ class PMA_NavigationTree
             'pma_navigation_collapse'
         );
         $syncImage = 's_unlink.png';
-        $title = __('Link with main panel');
+        $title     = __('Link with main panel');
         if ($GLOBALS['cfg']['NavigationLinkWithMainPanel']) {
             $syncImage = 's_link.png';
-            $title = __('Unlink from main panel');
+            $title     = __('Unlink from main panel');
         }
         $retval .= PMA_Util::getNavigationLink(
             '#',
@@ -1348,6 +1368,7 @@ class PMA_NavigationTree
         $retval .= '</div>';
         $retval .= '</li>';
         $retval .= '<!-- CONTROLS ENDS -->';
+
         return $retval;
     }
 
@@ -1363,31 +1384,31 @@ class PMA_NavigationTree
     {
         $retval = '';
         if ($node === $this->_tree) {
-             $retval .= PMA_Util::getListNavigator(
-                 $this->_tree->getPresence('databases', $this->_searchClause),
-                 $this->_pos,
-                 array('server' => $GLOBALS['server']),
-                 'navigation.php',
-                 'frame_navigation',
-                 $GLOBALS['cfg']['FirstLevelNavigationItems'],
-                 'pos',
-                 array('dbselector')
-             );
-        } else if ($node->type == Node::CONTAINER && ! $node->is_group) {
+            $retval .= PMA_Util::getListNavigator(
+                $this->_tree->getPresence('databases', $this->_searchClause),
+                $this->_pos,
+                ['server' => $GLOBALS['server']],
+                'navigation.php',
+                'frame_navigation',
+                $GLOBALS['cfg']['FirstLevelNavigationItems'],
+                'pos',
+                ['dbselector']
+            );
+        } else if ($node->type == Node::CONTAINER && !$node->is_group) {
             $paths = $node->getPaths();
 
-            $level = isset($paths['aPath_clean'][4]) ? 3 : 2;
-            $_url_params = array(
-                'aPath' => $paths['aPath'],
-                'vPath' => $paths['vPath'],
-                'pos' => $this->_pos,
-                'server' => $GLOBALS['server'],
-                'pos2_name' => $paths['aPath_clean'][2]
-            );
+            $level       = isset($paths['aPath_clean'][4]) ? 3 : 2;
+            $_url_params = [
+                'aPath'     => $paths['aPath'],
+                'vPath'     => $paths['vPath'],
+                'pos'       => $this->_pos,
+                'server'    => $GLOBALS['server'],
+                'pos2_name' => $paths['aPath_clean'][2],
+            ];
             if ($level == 3) {
-                $pos = $node->pos3;
+                $pos                       = $node->pos3;
                 $_url_params['pos2_value'] = $node->pos2;
-                $_url_params['pos3_name'] = $paths['aPath_clean'][4];
+                $_url_params['pos3_name']  = $paths['aPath_clean'][4];
             } else {
                 $pos = $node->pos2;
             }
@@ -1405,6 +1426,7 @@ class PMA_NavigationTree
                 'pos' . $level . '_value'
             );
         }
+
         return $retval;
     }
 
@@ -1437,7 +1459,7 @@ class PMA_NavigationTree
      */
     private function _quickWarp()
     {
-        $retval  = '<div class="pma_quick_warp">';
+        $retval = '<div class="pma_quick_warp">';
         if ($GLOBALS['cfg']['NumRecentTables'] > 0) {
             $retval .= PMA_RecentFavoriteTable::getInstance('recent')->getHtml();
         }
@@ -1446,7 +1468,9 @@ class PMA_NavigationTree
         }
         $retval .= '<div class="clearfloat"></div>';
         $retval .= '</div>';
+
         return $retval;
     }
 }
+
 ?>

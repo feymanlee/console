@@ -36,7 +36,7 @@ class PMA_Scripts_Test extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->object = new PMA_Scripts();
-        if (! defined('PMA_USR_BROWSER_AGENT')) {
+        if (!defined('PMA_USR_BROWSER_AGENT')) {
             define('PMA_USR_BROWSER_AGENT', 'MOZILLA');
         }
     }
@@ -63,9 +63,10 @@ class PMA_Scripts_Test extends PHPUnit_Framework_TestCase
      */
     private function _callPrivateFunction($name, $params)
     {
-        $class = new ReflectionClass('PMA_Scripts');
+        $class  = new ReflectionClass('PMA_Scripts');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
+
         return $method->invokeArgs($this->object, $params);
     }
 
@@ -84,15 +85,15 @@ class PMA_Scripts_Test extends PHPUnit_Framework_TestCase
             . 'scripts%5B%5D=common.js"></script>',
             $this->_callPrivateFunction(
                 '_includeFiles',
-                array(
-                    array(
-                        array(
-                            'has_onload' => false,
-                            'filename' => 'common.js',
-                            'conditional_ie' => false
-                        )
-                    )
-                )
+                [
+                    [
+                        [
+                            'has_onload'     => false,
+                            'filename'       => 'common.js',
+                            'conditional_ie' => false,
+                        ],
+                    ],
+                ]
             )
         );
     }
@@ -143,7 +144,7 @@ $(function() {});
         );
     }
 
-     /**
+    /**
      * test for getFiles
      *
      * @return void
@@ -155,10 +156,10 @@ $(function() {});
 
         $this->object->addFile('common.js');
         $this->assertEquals(
-            array(
-                array('name' => 'codemirror/lib/codemirror.js', 'fire' => 0),
-                array('name' => 'common.js', 'fire' => 1)
-            ),
+            [
+                ['name' => 'codemirror/lib/codemirror.js', 'fire' => 0],
+                ['name' => 'common.js', 'fire' => 1],
+            ],
             $this->object->getFiles()
         );
     }
@@ -173,22 +174,22 @@ $(function() {});
         // Assert empty _files property of
         // PMA_Scripts
         $this->assertAttributeEquals(
-            array(),
+            [],
             '_files',
             $this->object
         );
 
         // Add one script file
-        $file = 'common.js';
-        $hash = 'd7716810d825f4b55d18727c3ccb24e6';
-        $_files = array(
-            $hash => array(
-                'has_onload' => 1,
-                'filename' => 'common.js',
+        $file   = 'common.js';
+        $hash   = 'd7716810d825f4b55d18727c3ccb24e6';
+        $_files = [
+            $hash => [
+                'has_onload'     => 1,
+                'filename'       => 'common.js',
                 'conditional_ie' => false,
-                'before_statics' => false
-            )
-        );
+                'before_statics' => false,
+            ],
+        ];
         $this->object->addFile($file);
         $this->assertAttributeEquals(
             $_files,
@@ -214,25 +215,25 @@ $(function() {});
      */
     public function testAddFiles()
     {
-        $filenames = array(
+        $filenames = [
             'common.js',
             'sql.js',
             'common.js',
-        );
-        $_files = array(
-            'd7716810d825f4b55d18727c3ccb24e6' => array(
-                'has_onload' => 1,
-                'filename' => 'common.js',
+        ];
+        $_files    = [
+            'd7716810d825f4b55d18727c3ccb24e6' => [
+                'has_onload'     => 1,
+                'filename'       => 'common.js',
                 'conditional_ie' => true,
-                'before_statics' => false
-            ),
-            '347a57484fcd6ea6d8a125e6e1d31f78' => array(
-                'has_onload' => 1,
-                'filename' => 'sql.js',
+                'before_statics' => false,
+            ],
+            '347a57484fcd6ea6d8a125e6e1d31f78' => [
+                'has_onload'     => 1,
+                'filename'       => 'sql.js',
                 'conditional_ie' => true,
-                'before_statics' => false
-            ),
-        );
+                'before_statics' => false,
+            ],
+        ];
         $this->object->addFiles($filenames, true);
         $this->assertAttributeEquals(
             $_files,

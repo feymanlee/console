@@ -38,16 +38,16 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
     {
         $GLOBALS['PMA_Config'] = new PMA_Config;
         $GLOBALS['PMA_Config']->enableBc();
-        $GLOBALS['server'] = 0;
-        $GLOBALS['lang'] = "en";
-        $GLOBALS['text_dir'] = "ltr";
-        $GLOBALS['available_languages'] = array(
-            "en" => array("English", "US-ENGLISH"),
-            "ch" => array("Chinese", "TW-Chinese")
-        );
-        $GLOBALS['token_provided'] = true;
-        $GLOBALS['token_mismatch'] = false;
-        $this->object = new AuthenticationHttp();
+        $GLOBALS['server']              = 0;
+        $GLOBALS['lang']                = "en";
+        $GLOBALS['text_dir']            = "ltr";
+        $GLOBALS['available_languages'] = [
+            "en" => ["English", "US-ENGLISH"],
+            "ch" => ["Chinese", "TW-Chinese"],
+        ];
+        $GLOBALS['token_provided']      = true;
+        $GLOBALS['token_mismatch']      = false;
+        $this->object                   = new AuthenticationHttp();
     }
 
     /**
@@ -67,13 +67,13 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
      */
     public function testAuth()
     {
-        if (! defined('PMA_TEST_HEADERS')) {
+        if (!defined('PMA_TEST_HEADERS')) {
             $this->markTestSkipped(
                 'Cannot redefine constant/function - missing runkit extension'
             );
         }
 
-        $_REQUEST['old_usr'] = '1';
+        $_REQUEST['old_usr']                   = '1';
         $GLOBALS['cfg']['Server']['LogoutURL'] = 'http://phpmyadmin.net/logout';
 
         $this->assertFalse(
@@ -92,7 +92,7 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
         // mock footer
         $mockFooter = $this->getMockBuilder('PMA_Footer')
             ->disableOriginalConstructor()
-            ->setMethods(array('setMinimal'))
+            ->setMethods(['setMinimal'])
             ->getMock();
 
         $mockFooter->expects($this->once())
@@ -104,7 +104,7 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
         $mockHeader = $this->getMockBuilder('PMA_Header')
             ->disableOriginalConstructor()
             ->setMethods(
-                array('setBodyId', 'setTitle', 'disableMenuAndConsole', 'addHTML')
+                ['setBodyId', 'setTitle', 'disableMenuAndConsole', 'addHTML']
             )
             ->getMock();
 
@@ -123,7 +123,7 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
         // set mocked headers and footers
         $mockResponse = $this->getMockBuilder('PMA_Response')
             ->disableOriginalConstructor()
-            ->setMethods(array('getHeader', 'getFooter', 'addHTML'))
+            ->setMethods(['getHeader', 'getFooter', 'addHTML'])
             ->getMock();
 
         $mockResponse->expects($this->once())
@@ -144,8 +144,8 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
         $attrInstance->setAccessible(true);
         $attrInstance->setValue($mockResponse);
 
-        $GLOBALS['header'] = array();
-        $_REQUEST['old_usr'] = '';
+        $GLOBALS['header']                   = [];
+        $_REQUEST['old_usr']                 = '';
         $GLOBALS['cfg']['Server']['verbose'] = 'verboseMessagê';
 
         $this->assertFalse(
@@ -153,11 +153,11 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array(
+            [
                 'WWW-Authenticate: Basic realm="phpMyAdmin verboseMessag"',
                 'HTTP/1.0 401 Unauthorized',
-                'status: 401 Unauthorized'
-            ),
+                'status: 401 Unauthorized',
+            ],
             $GLOBALS['header']
         );
 
@@ -165,37 +165,37 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
 
         // case 3
 
-        $GLOBALS['header'] = array();
+        $GLOBALS['header']                   = [];
         $GLOBALS['cfg']['Server']['verbose'] = '';
-        $GLOBALS['cfg']['Server']['host'] = 'hòst';
+        $GLOBALS['cfg']['Server']['host']    = 'hòst';
         $this->assertFalse(
             $this->object->auth()
         );
 
         $this->assertEquals(
-            array(
+            [
                 'WWW-Authenticate: Basic realm="phpMyAdmin hst"',
                 'HTTP/1.0 401 Unauthorized',
-                'status: 401 Unauthorized'
-            ),
+                'status: 401 Unauthorized',
+            ],
             $GLOBALS['header']
         );
 
         // case 4
 
-        $GLOBALS['header'] = array();
-        $GLOBALS['cfg']['Server']['host'] = '';
+        $GLOBALS['header']                           = [];
+        $GLOBALS['cfg']['Server']['host']            = '';
         $GLOBALS['cfg']['Server']['auth_http_realm'] = 'rêäealmmessage';
         $this->assertFalse(
             $this->object->auth()
         );
 
         $this->assertEquals(
-            array(
+            [
                 'WWW-Authenticate: Basic realm="realmmessage"',
                 'HTTP/1.0 401 Unauthorized',
-                'status: 401 Unauthorized'
-            ),
+                'status: 401 Unauthorized',
+            ],
             $GLOBALS['header']
         );
     }
@@ -219,7 +219,7 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
         $expectedReturn, $expectedUser, $expectedPass, $old_usr = ''
     ) {
         $GLOBALS['PHP_AUTH_USER'] = '';
-        $GLOBALS['PHP_AUTH_PW'] = '';
+        $GLOBALS['PHP_AUTH_PW']   = '';
 
         $_SERVER[$userIndex] = $user;
         $_SERVER[$passIndex] = $pass;
@@ -252,8 +252,8 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
      */
     public function authCheckProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'Basic ' . base64_encode('foo:bar'),
                 'pswd',
                 'PHP_AUTH_USER',
@@ -261,45 +261,45 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
                 false,
                 '',
                 'bar',
-                'foo'
-            ),
-            array(
+                'foo',
+            ],
+            [
                 'Basic ' . base64_encode('foobar'),
                 'pswd',
                 'REMOTE_USER',
                 'REMOTE_PASSWORD',
                 true,
                 'Basic Zm9vYmFy',
-                'pswd'
-            ),
-            array(
+                'pswd',
+            ],
+            [
                 'Basic ' . base64_encode('foobar:'),
                 'pswd',
                 'AUTH_USER',
                 'AUTH_PASSWORD',
                 true,
                 'foobar',
-                false
-            ),
-            array(
+                false,
+            ],
+            [
                 'Basic ' . base64_encode(':foobar'),
                 'pswd',
                 'HTTP_AUTHORIZATION',
                 'AUTH_PASSWORD',
                 true,
                 'Basic OmZvb2Jhcg==',
-                'pswd'
-            ),
-            array(
+                'pswd',
+            ],
+            [
                 'BasicTest',
                 'pswd',
                 'Authorization',
                 'AUTH_PASSWORD',
                 true,
                 'BasicTest',
-                'pswd'
-            ),
-        );
+                'pswd',
+            ],
+        ];
     }
 
     /**
@@ -311,9 +311,9 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
     {
         // case 1
 
-        $GLOBALS['PHP_AUTH_USER'] = 'testUser';
-        $GLOBALS['PHP_AUTH_PW'] = 'testPass';
-        $GLOBALS['server'] = 2;
+        $GLOBALS['PHP_AUTH_USER']         = 'testUser';
+        $GLOBALS['PHP_AUTH_PW']           = 'testPass';
+        $GLOBALS['server']                = 2;
         $GLOBALS['cfg']['Server']['user'] = 'testUser';
 
         $this->assertTrue(
@@ -344,30 +344,30 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
         );
 
         // case 2
-        $GLOBALS['PHP_AUTH_USER'] = 'testUser';
-        $GLOBALS['PHP_AUTH_PW'] = 'testPass';
-        $GLOBALS['cfg']['Servers'][1] = array(
+        $GLOBALS['PHP_AUTH_USER']     = 'testUser';
+        $GLOBALS['PHP_AUTH_PW']       = 'testPass';
+        $GLOBALS['cfg']['Servers'][1] = [
             'host' => 'a',
             'user' => 'testUser',
-            'foo' => 'bar'
-        );
+            'foo'  => 'bar',
+        ];
 
-        $GLOBALS['cfg']['Server']= array(
+        $GLOBALS['cfg']['Server'] = [
             'host' => 'a',
-            'user' => 'user2'
-        );
+            'user' => 'user2',
+        ];
 
         $this->assertTrue(
             $this->object->authSetUser()
         );
 
         $this->assertEquals(
-            array(
-                'user' => 'testUser',
+            [
+                'user'     => 'testUser',
                 'password' => 'testPass',
-                'host' => 'a',
-                'foo' => 'bar'
-            ),
+                'host'     => 'a',
+                'foo'      => 'bar',
+            ],
             $GLOBALS['cfg']['Server']
         );
 
@@ -377,30 +377,30 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
         );
 
         // case 3
-        $GLOBALS['server'] = 3;
-        $GLOBALS['PHP_AUTH_USER'] = 'testUser';
-        $GLOBALS['PHP_AUTH_PW'] = 'testPass';
-        $GLOBALS['cfg']['Servers'][1] = array(
+        $GLOBALS['server']            = 3;
+        $GLOBALS['PHP_AUTH_USER']     = 'testUser';
+        $GLOBALS['PHP_AUTH_PW']       = 'testPass';
+        $GLOBALS['cfg']['Servers'][1] = [
             'host' => 'a',
             'user' => 'testUsers',
-            'foo' => 'bar'
-        );
+            'foo'  => 'bar',
+        ];
 
-        $GLOBALS['cfg']['Server']= array(
+        $GLOBALS['cfg']['Server'] = [
             'host' => 'a',
-            'user' => 'user2'
-        );
+            'user' => 'user2',
+        ];
 
         $this->assertTrue(
             $this->object->authSetUser()
         );
 
         $this->assertEquals(
-            array(
-                'user' => 'testUser',
+            [
+                'user'     => 'testUser',
                 'password' => 'testPass',
-                'host' => 'a'
-            ),
+                'host'     => 'a',
+            ],
             $GLOBALS['cfg']['Server']
         );
 
@@ -436,7 +436,7 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
             ->method('getError')
             ->will($this->returnValue(null));
 
-        $GLOBALS['dbi'] = $dbi;
+        $GLOBALS['dbi']   = $dbi;
         $GLOBALS['errno'] = 31;
 
         ob_start();
@@ -450,14 +450,14 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
 
         $this->object = $this->getMockBuilder('AuthenticationHttp')
             ->disableOriginalConstructor()
-            ->setMethods(array('authForm'))
+            ->setMethods(['authForm'])
             ->getMock();
 
         $this->object->expects($this->exactly(2))
             ->method('authForm');
         // case 2
         $GLOBALS['cfg']['Server']['host'] = 'host';
-        $GLOBALS['errno'] = 1045;
+        $GLOBALS['errno']                 = 1045;
 
         $this->assertTrue(
             $this->object->authFails()
@@ -470,4 +470,5 @@ class PMA_AuthenticationHttp_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

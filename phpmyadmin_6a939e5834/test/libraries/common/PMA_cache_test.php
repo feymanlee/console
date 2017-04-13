@@ -4,7 +4,7 @@
  * Test for caching data in session
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  * Test for caching data in session
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_Cache_Test extends PHPUnit_Framework_TestCase
 {
@@ -134,4 +134,5 @@ class PMA_Cache_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

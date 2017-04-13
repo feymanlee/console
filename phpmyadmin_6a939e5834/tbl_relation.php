@@ -5,11 +5,11 @@
  *
  * includes phpMyAdmin relations and InnoDB relations
  *
- * @todo fix name handling: currently names with dots (.) are not properly handled
+ * @todo    fix name handling: currently names with dots (.) are not properly handled
  * for internal relations (but foreign keys relations are correct)
- * @todo foreign key constraints require both fields being of equal type and size
- * @todo check foreign fields to be from same type and size, all other makes no sense
- * @todo if above todos are fullfilled we can add all fields meet requirements
+ * @todo    foreign key constraints require both fields being of equal type and size
+ * @todo    check foreign fields to be from same type and size, all other makes no sense
+ * @todo    if above todos are fullfilled we can add all fields meet requirements
  * in the select dropdown
  * @package PhpMyAdmin
  */
@@ -32,8 +32,8 @@ if (isset($_REQUEST['getDropdownValues'])
     PMA_sendHtmlForTableOrColumnDropdownList();
 }
 
-$header   = $response->getHeader();
-$scripts  = $header->getScripts();
+$header  = $response->getHeader();
+$scripts = $header->getScripts();
 $scripts->addFile('tbl_relation.js');
 $scripts->addFile('indexes.js');
 
@@ -42,12 +42,12 @@ $scripts->addFile('indexes.js');
  */
 require_once 'libraries/tbl_info.inc.php';
 
-$options_array = array(
+$options_array = [
     'CASCADE'   => 'CASCADE',
     'SET_NULL'  => 'SET NULL',
     'NO_ACTION' => 'NO ACTION',
     'RESTRICT'  => 'RESTRICT',
-);
+];
 
 /**
  * Gets the relation settings
@@ -64,7 +64,7 @@ if (PMA_Util::isForeignKeySupported($tbl_storage_engine)) {
     $existrel_foreign = PMA_getForeigners($db, $table, '', 'foreign');
 }
 if ($cfgRelation['displaywork']) {
-    $disp     = PMA_getDisplayField($db, $table);
+    $disp = PMA_getDisplayField($db, $table);
 } else {
     $disp = '';
 }
@@ -121,7 +121,7 @@ if (isset($_POST['destination_foreign_db'])
 }
 
 if ($cfgRelation['displaywork']) {
-    $disp     = PMA_getDisplayField($db, $table);
+    $disp = PMA_getDisplayField($db, $table);
 }
 
 
@@ -141,8 +141,8 @@ $columns = $GLOBALS['dbi']->getColumns($db, $table);
 // common form
 $html_output .= PMA_getHtmlForCommonForm(
     $db, $table, $columns, $cfgRelation, $tbl_storage_engine,
-    isset($existrel) ? $existrel : array(),
-    isset($existrel_foreign) ? $existrel_foreign['foreign_keys_data'] : array(),
+    isset($existrel) ? $existrel : [],
+    isset($existrel_foreign) ? $existrel_foreign['foreign_keys_data'] : [],
     $options_array
 );
 

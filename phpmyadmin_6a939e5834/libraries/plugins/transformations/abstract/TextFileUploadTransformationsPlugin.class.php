@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage TextFileUpload
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -44,7 +44,7 @@ abstract class TextFileUploadTransformationsPlugin extends IOTransformationsPlug
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         return $buffer;
     }
@@ -74,6 +74,7 @@ abstract class TextFileUploadTransformationsPlugin extends IOTransformationsPlug
         }
         $html .= '<input type="file" name="fields_upload'
             . $column_name_appendix . '"/>';
+
         return $html;
     }
 
@@ -90,4 +91,5 @@ abstract class TextFileUploadTransformationsPlugin extends IOTransformationsPlug
         return "Text file upload";
     }
 }
+
 ?>

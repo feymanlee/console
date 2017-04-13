@@ -6,7 +6,7 @@
  * @package PhpMyAdmin
  *
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -54,14 +54,14 @@ function PMA_escapeJsString($string)
         '@</script@i', '</\' + \'script',
         strtr(
             $string,
-            array(
+            [
                 "\000" => '',
-                '\\' => '\\\\',
-                '\'' => '\\\'',
-                '"' => '\"',
-                "\n" => '\n',
-                "\r" => '\r'
-            )
+                '\\'   => '\\\\',
+                '\''   => '\\\'',
+                '"'    => '\"',
+                "\n"   => '\n',
+                "\r"   => '\r',
+            ]
         )
     );
 }
@@ -115,6 +115,7 @@ function PMA_getJsValue($key, $value, $escape = true)
     } else {
         $result .= PMA_formatJsVal($value) . ";\n";
     }
+
     return $result;
 }
 

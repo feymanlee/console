@@ -1,4 +1,4 @@
-	<?php
+<?php
 		function GetHover($name){		
 			return (($_SERVER['SCRIPT_NAME'] == $name)?'current':'');
 		}	
@@ -19,7 +19,8 @@
 </div>
 <div id="container" class="container-fluid">
 	<div class="sidebar-scroll">
-		<h3 class="mypcip" onclick="location='index.php'"><i class="icon-book"></i><span><?php echo $_SESSION['serverip']; ?></span></h3>
+		<h3 class="mypcip" onclick="location='index.php'"><i
+                class="icon-book"></i><span><?php echo $_SESSION['serverip']; ?></span></h3>
 		<ul class="sub">
 			<li class="<?php echo GetHover('/index.php'); ?>"> <a class="menu_home" href="/index.php">服务器状态</a></li>
 			<li class="<?php echo GetHover('/site.php'); ?>"><a class="menu_web" href="/site.php">网站</a></li>

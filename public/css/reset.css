@@ -1,76 +1,85 @@
 @charset "utf-8";
 /* CSS Document */
-body{
-	font-family:"微软雅黑", Arial, Helvetica, sans-serif;
-	font-size:12px;
+body {
+    font-family: "微软雅黑", Arial, Helvetica, sans-serif;
+    font-size: 12px;
 }
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {    
-    margin:0;   
-    padding:0;  
-	list-style:none;
-} 
-body img{
-  border:none;
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
-a{
- color:#000;
- border:0;
- text-decoration:none;
+
+body img {
+    border: none;
 }
-a:hover{
-  text-decoration:none;
+
+a {
+    color: #000;
+    border: 0;
+    text-decoration: none;
 }
+
+a:hover {
+    text-decoration: none;
+}
+
 a:link {
-	-webkit-tap-highlight-color: rgba(0,0,0,0);	/*禁止链接高亮*/
-	-webkit-touch-callout: none;					/*禁止链接长按弹出选项菜单*/
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /*禁止链接高亮*/
+    -webkit-touch-callout: none; /*禁止链接长按弹出选项菜单*/
 }
 
 /*合并边线,边线空间至零.*/
-table { 
-     border-collapse:collapse;   
-     border-spacing:0;
-     font-size: 12px;
-} 
-/*清除边线*/
-fieldset,img {    
-     border:0;   
-} 
-ol,ul { 
-     list-style:none;   
-} 
-caption { 
-     text-align:left;   
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 12px;
 }
+
+/*清除边线*/
+fieldset, img {
+    border: 0;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+caption {
+    text-align: left;
+}
+
 /*
 h1,h2,h3,h4,h5,h6 { 
      font-size:100%;   
      font-weight:normal;   
 }*/
 .hidden-xs {
-  color: #5E5E5E;
-  border: 1px solid #EEEEEE;
-  display: block;
-  padding: 3px 5px;
-  line-height: 1.1;
-  border-radius: 4px
- }
-
-
-.clear{
-	clear:both;
-	float:none;
-	display:block;
-	font-size:0px;
-	height:0px;
-	line-height:0px;
+    color: #5E5E5E;
+    border: 1px solid #EEEEEE;
+    display: block;
+    padding: 3px 5px;
+    line-height: 1.1;
+    border-radius: 4px
 }
 
-.help-info-text{
-	color: #666;
+.clear {
+    clear: both;
+    float: none;
+    display: block;
+    font-size: 0px;
+    height: 0px;
+    line-height: 0px;
+}
+
+.help-info-text {
+    color: #666;
     line-height: 24px;
     margin-left: 5px;
     margin-top: 15px;
 }
+
 .help-info-text > li {
     list-style: disc inside;
 }

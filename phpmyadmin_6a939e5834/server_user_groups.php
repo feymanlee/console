@@ -11,7 +11,7 @@ require_once 'libraries/server_users.lib.php';
 require_once 'libraries/server_user_groups.lib.php';
 
 PMA_getRelationsParam();
-if (! $GLOBALS['cfgRelation']['menuswork']) {
+if (!$GLOBALS['cfgRelation']['menuswork']) {
     exit;
 }
 
@@ -23,7 +23,7 @@ $scripts->addFile('server_user_groups.js');
 /**
  * Only allowed to superuser
  */
-if (! $GLOBALS['is_superuser']) {
+if (!$GLOBALS['is_superuser']) {
     $response->addHTML(PMA_Message::error(__('No Privileges'))->getDisplay());
     exit;
 }
@@ -34,21 +34,21 @@ $response->addHTML(PMA_getHtmlForSubMenusOnUsersPage('server_user_groups.php'));
 /**
  * Delete user group
  */
-if (! empty($_REQUEST['deleteUserGroup'])) {
+if (!empty($_REQUEST['deleteUserGroup'])) {
     PMA_deleteUserGroup($_REQUEST['userGroup']);
 }
 
 /**
  * Add a new user group
  */
-if (! empty($_REQUEST['addUserGroupSubmit'])) {
+if (!empty($_REQUEST['addUserGroupSubmit'])) {
     PMA_editUserGroup($_REQUEST['userGroup'], true);
 }
 
 /**
  * Update a user group
  */
-if (! empty($_REQUEST['editUserGroupSubmit'])) {
+if (!empty($_REQUEST['editUserGroupSubmit'])) {
     PMA_editUserGroup($_REQUEST['userGroup']);
 }
 

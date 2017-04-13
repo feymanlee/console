@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage ImageLink
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -43,14 +43,15 @@ abstract class TextImageLinkTransformationsPlugin extends TransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
-        $url = (isset($options[0]) ? $options[0] : '') . $buffer;
+        $url    = (isset($options[0]) ? $options[0] : '') . $buffer;
         $parsed = parse_url($url);
         /* Do not allow javascript links */
-        if (! isset($parsed['scheme']) || ! in_array(strtolower($parsed['scheme']), array('http', 'https', 'ftp', 'mailto'))) {
+        if (!isset($parsed['scheme']) || !in_array(strtolower($parsed['scheme']), ['http', 'https', 'ftp', 'mailto'])) {
             return htmlspecialchars($url);
         }
+
         return '<a href="' . htmlspecialchars($url)
             . '" rel="noopener noreferrer" target="_blank"><img src="' . htmlspecialchars($url)
             . '" border="0" width="' . (isset($options[1]) ? intval($options[1]) : 100)
@@ -72,4 +73,5 @@ abstract class TextImageLinkTransformationsPlugin extends TransformationsPlugin
         return "Image Link";
     }
 }
+
 ?>

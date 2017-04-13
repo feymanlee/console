@@ -4,7 +4,7 @@
  * Test for PMA_Config class
  *
  * @package PhpMyAdmin-test
- * @group current
+ * @group   current
  */
 
 /*
@@ -48,10 +48,10 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new PMA_Config;
-        $GLOBALS['server'] = 0;
+        $this->object                = new PMA_Config;
+        $GLOBALS['server']           = 0;
         $_SESSION['is_git_revision'] = true;
-        $GLOBALS['PMA_Config'] = new PMA_Config(CONFIG_FILE);
+        $GLOBALS['PMA_Config']       = new PMA_Config(CONFIG_FILE);
 
         //for testing file permissions
         $this->permTestObj = new PMA_Config("./config.sample.inc.php");
@@ -211,104 +211,104 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function userAgentProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'Opera/9.80 (X11; Linux x86_64; U; pl) Presto/2.7.62 Version/11.00',
                 'Linux',
                 'OPERA',
                 '9.80',
-            ),
-            array(
+            ],
+            [
                 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en-US) AppleWebKit/'
                 . '528.16 OmniWeb/622.8.0.112941',
                 'Mac',
                 'OMNIWEB',
                 '622',
-            ),
-            array(
+            ],
+            [
                 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1)',
                 'Win',
                 'IE',
                 '8.0',
-            ),
-            array(
+            ],
+            [
                 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)',
                 'Win',
                 'IE',
                 '9.0',
-            ),
-            array(
+            ],
+            [
                 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Win64; x64; '
                 . 'Trident/6.0)',
                 'Win',
                 'IE',
                 '10.0',
-            ),
-            array(
+            ],
+            [
                 'Mozilla/5.0 (IE 11.0; Windows NT 6.3; Trident/7.0; .NET4.0E; '
                 . '.NET4.0C; rv:11.0) like Gecko',
                 'Win',
                 'IE',
                 '11.0',
-            ),
-            array(
+            ],
+            [
                 'Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; .NET4.0E; '
                 . '.NET4.0C; .NET CLR 3.5.30729; .NET CLR 2.0.50727; '
                 . '.NET CLR 3.0.30729; InfoPath.3; rv:11.0) like Gecko',
                 'Win',
                 'IE',
                 '11.0',
-            ),
-            array(
+            ],
+            [
                 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.22 (KHTML, '
                 . 'like Gecko) Chrome/25.0.1364.172 Safari/537.22',
                 'Win',
                 'CHROME',
                 '25.0.1364.172',
-            ),
-            array(
+            ],
+            [
                 'Mozilla/5.0 (Unknown; U; Unix BSD/SYSV system; C -) '
                 . 'AppleWebKit/527+ (KHTML, like Gecko, Safari/419.3) Arora/0.10.2',
                 'Unix',
                 'SAFARI',
                 '5.0.419',
-            ),
-            array(
+            ],
+            [
                 'Mozilla/5.0 (Windows; U; Win95; en-US; rv:1.9b) Gecko/20031208',
                 'Win',
                 'GECKO',
                 '1.9',
-            ),
-            array(
+            ],
+            [
                 'Mozilla/5.0 (compatible; Konqueror/4.5; NetBSD 5.0.2; X11; '
                 . 'amd64; en_US) KHTML/4.5.4 (like Gecko)',
                 'Other',
                 'KONQUEROR',
-            ),
-            array(
+            ],
+            [
                 'Mozilla/5.0 (X11; Linux x86_64; rv:5.0) Gecko/20100101 Firefox/5.0',
                 'Linux',
                 'FIREFOX',
                 '5.0',
-            ),
-            array(
+            ],
+            [
                 'Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 '
                 . 'Firefox/12.0',
                 'Linux',
                 'FIREFOX',
                 '12.0',
-            ),
+            ],
             /**
              * @todo Is this version really expected?
              */
-            array(
+            [
                 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.4+ (KHTML, like G'
                 . 'ecko) Version/5.0 Safari/535.4+ SUSE/12.1 (3.2.1) Epiphany/3.2.1',
                 'Linux',
                 'SAFARI',
                 '5.0',
-            ),
-        );
+            ],
+        ];
 
     }
 
@@ -344,7 +344,9 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
         if (@function_exists('gd_info')) {
             $this->object->checkGd2();
             $gd_nfo = gd_info();
-            if (/*overload*/mb_strstr($gd_nfo["GD Version"], '2.')) {
+            if (/*overload*/
+            mb_strstr($gd_nfo["GD Version"], '2.')
+            ) {
                 $this->assertEquals(
                     1,
                     $this->object->get('PMA_IS_GD2'),
@@ -366,7 +368,9 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
         ob_end_clean();
 
         if (preg_match('@GD Version[[:space:]]*\(.*\)@', $a, $v)) {
-            if (/*overload*/mb_strstr($v, '2.')) {
+            if (/*overload*/
+            mb_strstr($v, '2.')
+            ) {
                 $this->assertEquals(
                     1,
                     $this->object->get('PMA_IS_GD2'),
@@ -408,16 +412,16 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function serverNames()
     {
-        return array(
-            array(
+        return [
+            [
                 "Microsoft-IIS 7.0",
                 1,
-            ),
-            array(
+            ],
+            [
                 "Apache/2.2.17",
                 0,
-            ),
-        );
+            ],
+        ];
     }
 
 
@@ -462,20 +466,20 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
         $php_int_ver = 0;
         $php_str_ver = phpversion();
 
-        $match = array();
+        $match = [];
         preg_match(
             '@([0-9]{1,2}).([0-9]{1,2}).([0-9]{1,2})@',
             phpversion(),
             $match
         );
-        if (isset($match) && ! empty($match[1])) {
-            if (! isset($match[2])) {
+        if (isset($match) && !empty($match[1])) {
+            if (!isset($match[2])) {
                 $match[2] = 0;
             }
-            if (! isset($match[3])) {
+            if (!isset($match[3])) {
                 $match[3] = 0;
             }
-            $php_int_ver = (int) sprintf(
+            $php_int_ver = (int)sprintf(
                 '%d%02d%02d',
                 $match[1],
                 $match[2],
@@ -623,7 +627,7 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      *
-     * @depends testCheckPmaAbsoluteUriEmpty
+     * @depends      testCheckPmaAbsoluteUriEmpty
      * @dataProvider absoluteUris
      */
     public function testCheckPmaAbsoluteUri($real, $expected)
@@ -640,28 +644,28 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function absoluteUris()
     {
-        return array(
-            array(
+        return [
+            [
                 'http://localhost/phpmyadmin/',
                 'http://localhost/phpmyadmin/',
-            ),
-            array(
+            ],
+            [
                 'http://localhost/phpmyadmin',
                 'http://localhost/phpmyadmin/',
-            ),
-            array(
+            ],
+            [
                 'localhost/phpmyadmin/',
                 'http://localhost/phpmyadmin/',
-            ),
-            array(
+            ],
+            [
                 'http://user:pwd@localhost/phpmyadmin/index.php',
                 "http://user:pwd@localhost/phpmyadmin/index.php/",
-            ),
-            array(
+            ],
+            [
                 'https://user:pwd@localhost/phpmyadmin/index.php',
                 "https://user:pwd@localhost/phpmyadmin/index.php/",
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -673,9 +677,9 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testCheckPmaAbsoluteUriScheme()
     {
-        $_SERVER['HTTP_HOST'] = 'localhost';
-        $_SERVER['HTTP_SCHEME'] = 'http';
-        $_SERVER['HTTPS'] = 'off';
+        $_SERVER['HTTP_HOST']    = 'localhost';
+        $_SERVER['HTTP_SCHEME']  = 'http';
+        $_SERVER['HTTPS']        = 'off';
         $GLOBALS['PMA_PHP_SELF'] = 'index.php';
 
         $this->object->set('PmaAbsoluteUri', '');
@@ -746,7 +750,7 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
 
         $_SERVER['REQUEST_URI'] = 'localhost/phpmyadmin/index.php';
         $_SERVER['HTTP_SCHEME'] = 'https';
-        $_SERVER['HTTPS'] = 'on';
+        $_SERVER['HTTPS']       = 'on';
         $this->assertTrue($this->object->detectHttps());
     }
 
@@ -773,13 +777,13 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
      * @depends testCheckWebServer
      * @depends testLoadDefaults
      *
-     * @group large
+     * @group   large
      */
     public function testEnableBc()
     {
         $this->object->enableBc();
 
-        $defines = array(
+        $defines = [
             'PMA_VERSION',
             'PMA_THEME_VERSION',
             'PMA_THEME_GENERATION',
@@ -790,8 +794,8 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
             'PMA_IS_GD2',
             'PMA_USR_OS',
             'PMA_USR_BROWSER_VER',
-            'PMA_USR_BROWSER_AGENT'
-            );
+            'PMA_USR_BROWSER_AGENT',
+        ];
 
         foreach ($defines as $define) {
             $this->assertTrue(defined($define));
@@ -822,16 +826,16 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function cookieUris()
     {
-        return array(
-            array(
+        return [
+            [
                 'http://example.net/phpmyadmin/',
                 '/phpmyadmin/',
-            ),
-            array(
+            ],
+            [
                 'http://example.net/',
                 '/',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -860,20 +864,20 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function configPaths()
     {
-        return array(
-            array(
+        return [
+            [
                 './test/test_data/config.inc.php',
                 true,
-            ),
-            array(
+            ],
+            [
                 './test/test_data/config-nonexisting.inc.php',
                 false,
-            ),
-            array(
+            ],
+            [
                 './libraries/config.default.php',
                 true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -1073,24 +1077,25 @@ class PMA_ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function sslUris()
     {
-        return array(
-            array(
+        return [
+            [
                 'http://server.foo/path/',
-                'https://server.foo:443/path/'
-            ),
-            array(
+                'https://server.foo:443/path/',
+            ],
+            [
                 'http://server.foo:80/path/',
-                'https://server.foo:443/path/'
-            ),
-            array(
+                'https://server.foo:443/path/',
+            ],
+            [
                 'http://server.foo.bar:123/path/',
-                'https://server.foo.bar:443/path/'
-            ),
-            array(
+                'https://server.foo.bar:443/path/',
+            ],
+            [
                 'http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/',
-                'https://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:443/'
-            ),
-            );
+                'https://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:443/',
+            ],
+        ];
     }
 }
+
 ?>

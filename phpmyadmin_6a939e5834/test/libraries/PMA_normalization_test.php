@@ -38,23 +38,23 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $GLOBALS['cfg']['LimitChars'] = 50;
-        $GLOBALS['PMA_Types'] = new PMA_Types_MySQL();
-        $GLOBALS['cfg']['ServerDefault'] = "PMA_server";
-        $GLOBALS['pmaThemeImage'] = 'image';
-        $GLOBALS['cfg']['ShowHint'] = true;
-        $GLOBALS['cfg']['CharEditing'] = '';
+        $GLOBALS['cfg']['LimitChars']      = 50;
+        $GLOBALS['PMA_Types']              = new PMA_Types_MySQL();
+        $GLOBALS['cfg']['ServerDefault']   = "PMA_server";
+        $GLOBALS['pmaThemeImage']          = 'image';
+        $GLOBALS['cfg']['ShowHint']        = true;
+        $GLOBALS['cfg']['CharEditing']     = '';
         $GLOBALS['cfg']['ActionLinksMode'] = 'icons';
-        $GLOBALS['db'] = 'PMA_db';
-        $GLOBALS['table'] = 'PMA_table';
-        $GLOBALS['server'] = 1;
+        $GLOBALS['db']                     = 'PMA_db';
+        $GLOBALS['table']                  = 'PMA_table';
+        $GLOBALS['server']                 = 1;
 
         //$_SESSION
         $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
         $_SESSION['PMA_Theme'] = new PMA_Theme();
 
         //mock DBI
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi            = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $GLOBALS['dbi'] = $dbi;
@@ -66,29 +66,29 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
             ->method('getColumns')
             ->will(
                 $this->returnValue(
-                    array(
-                        "id"=>array("Type"=>"integer"),
-                        "col1"=>array("Type"=>'varchar(100)'),
-                        "col2"=>array("Type"=>'DATETIME')
-                    )
+                    [
+                        "id"   => ["Type" => "integer"],
+                        "col1" => ["Type" => 'varchar(100)'],
+                        "col2" => ["Type" => 'DATETIME'],
+                    ]
                 )
             );
         $dbi->expects($this->any())
             ->method('getColumnNames')
-            ->will($this->returnValue(array("id", "col1", "col2")));
-        $map = array(
-          array('PMA_db', 'PMA_table1', null, array()),
-          array(
-            'PMA_db', 'PMA_table', null,
-            array(array('Key_name'=>'PRIMARY', 'Column_name'=>'id'))
-          ),
-          array(
-              'PMA_db', 'PMA_table2', null,
-              array(array('Key_name'=>'PRIMARY', 'Column_name'=>'id'),
-                array('Key_name'=>'PRIMARY', 'Column_name'=>'col1')
-             )
-          ),
-        );
+            ->will($this->returnValue(["id", "col1", "col2"]));
+        $map = [
+            ['PMA_db', 'PMA_table1', null, []],
+            [
+                'PMA_db', 'PMA_table', null,
+                [['Key_name' => 'PRIMARY', 'Column_name' => 'id']],
+            ],
+            [
+                'PMA_db', 'PMA_table2', null,
+                [['Key_name' => 'PRIMARY', 'Column_name' => 'id'],
+                    ['Key_name' => 'PRIMARY', 'Column_name' => 'col1'],
+                ],
+            ],
+        ];
         $dbi->expects($this->any())
             ->method('getTableIndexes')
             ->will($this->returnValueMap($map));
@@ -97,7 +97,7 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $dbi->expects($this->any())
             ->method('fetchResult')
-            ->will($this->returnValue(array(0)));
+            ->will($this->returnValue([0]));
 
     }
 
@@ -108,8 +108,8 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForColumnsList()
     {
-        $db = "PMA_db";
-        $table= "PMA_table";
+        $db    = "PMA_db";
+        $table = "PMA_table";
         $this->assertContains(
             '<option value="id">id [ integer ]</option>',
             PMA_getHtmlForColumnsList($table, $db)
@@ -127,10 +127,10 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForCreateNewColumn()
     {
-        $db = "PMA_db";
-        $table= "PMA_table";
+        $db         = "PMA_db";
+        $table      = "PMA_table";
         $num_fields = 1;
-        $result = PMA_getHtmlForCreateNewColumn($num_fields, $db, $table);
+        $result     = PMA_getHtmlForCreateNewColumn($num_fields, $db, $table);
         $this->assertContains(
             '<table id="table_columns"',
             $result
@@ -144,10 +144,10 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlFor1NFStep1()
     {
-        $db = "PMA_db";
-        $table= "PMA_table";
+        $db           = "PMA_db";
+        $table        = "PMA_table";
         $normalizedTo = '1nf';
-        $result = PMA_getHtmlFor1NFStep1($db, $table, $normalizedTo);
+        $result       = PMA_getHtmlFor1NFStep1($db, $table, $normalizedTo);
         $this->assertContains(
             "<h3 class='center'>"
             . __('First step of normalization (1NF)') . "</h3>",
@@ -163,12 +163,12 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
             '<h4',
             $result
         );
-            
+
         $this->assertContains(
             '<p',
             $result
         );
-            
+
         $this->assertContains(
             "<select id='selectNonAtomicCol'",
             $result
@@ -189,8 +189,8 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlContentsFor1NFStep2()
     {
-        $db = "PMA_db";
-        $table= "PMA_table1";
+        $db     = "PMA_db";
+        $table  = "PMA_table1";
         $result = PMA_getHtmlContentsFor1NFStep2($db, $table);
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('legendText', $result);
@@ -219,8 +219,8 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlContentsFor1NFStep4()
     {
-        $db = "PMA_db";
-        $table= "PMA_table";
+        $db     = "PMA_db";
+        $table  = "PMA_table";
         $result = PMA_getHtmlContentsFor1NFStep4($db, $table);
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('legendText', $result);
@@ -245,8 +245,8 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlContentsFor1NFStep3()
     {
-        $db = "PMA_db";
-        $table= "PMA_table";
+        $db     = "PMA_db";
+        $table  = "PMA_table";
         $result = PMA_getHtmlContentsFor1NFStep3($db, $table);
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('legendText', $result);
@@ -263,7 +263,7 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
             '<input type="submit" id="moveRepeatingGroup"',
             $result['extra']
         );
-        $this->assertEquals(json_encode(array('id')), $result['primary_key']);
+        $this->assertEquals(json_encode(['id']), $result['primary_key']);
     }
 
     /**
@@ -273,8 +273,8 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlFor2NFstep1()
     {
-        $db = "PMA_db";
-        $table= "PMA_table";
+        $db     = "PMA_db";
+        $table  = "PMA_table";
         $result = PMA_getHtmlFor2NFstep1($db, $table);
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('legendText', $result);
@@ -303,9 +303,9 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForNewTables2NF()
     {
-        $table= "PMA_table";
-        $partialDependencies = array('col1'=>array('col2'));
-        $result = PMA_getHtmlForNewTables2NF($partialDependencies, $table);
+        $table               = "PMA_table";
+        $partialDependencies = ['col1' => ['col2']];
+        $result              = PMA_getHtmlForNewTables2NF($partialDependencies, $table);
         $this->assertContains(
             '<input type="text" name="col1"',
             $result
@@ -319,21 +319,21 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMACreateNewTablesFor2NF()
     {
-        $table= "PMA_table";
-        $db = 'PMA_db';
-        $tablesName = new stdClass();
-        $tablesName->id = 'PMA_table';
-        $tablesName->col1 = 'PMA_table1';
-        $partialDependencies = array('id'=>array('col2'));
-        $result = PMA_createNewTablesFor2NF(
+        $table               = "PMA_table";
+        $db                  = 'PMA_db';
+        $tablesName          = new stdClass();
+        $tablesName->id      = 'PMA_table';
+        $tablesName->col1    = 'PMA_table1';
+        $partialDependencies = ['id' => ['col2']];
+        $result              = PMA_createNewTablesFor2NF(
             $partialDependencies, $tablesName, $table, $db
         );
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('legendText', $result);
         $this->assertArrayHasKey('headText', $result);
         $this->assertArrayHasKey('queryError', $result);
-        $partialDependencies = array('id'=>array('col2'), 'col1'=>array('col2'));
-        $result1 = PMA_createNewTablesFor2NF(
+        $partialDependencies = ['id' => ['col2'], 'col1' => ['col2']];
+        $result1             = PMA_createNewTablesFor2NF(
             $partialDependencies, $tablesName, $table, $db
         );
         $this->assertArrayHasKey('extra', $result1);
@@ -348,38 +348,38 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForNewTables3NF()
     {
-        $tables= array("PMA_table"=>array('col1'));
-        $db = 'PMA_db';
-        $dependencies = new stdClass();
-        $dependencies->col1 = array('col2');
-        $result = PMA_getHtmlForNewTables3NF($dependencies, $tables, $db);
+        $tables             = ["PMA_table" => ['col1']];
+        $db                 = 'PMA_db';
+        $dependencies       = new stdClass();
+        $dependencies->col1 = ['col2'];
+        $result             = PMA_getHtmlForNewTables3NF($dependencies, $tables, $db);
         $this->assertEquals(
-            array(
-                'html' => '',
-                'newTables' => array()
-                ), $result
+            [
+                'html'      => '',
+                'newTables' => [],
+            ], $result
         );
-        $tables= array("PMA_table"=>array('col1', 'PMA_table'));
-        $dependencies->PMA_table = array('col4', 'col5');
-        $result1 = PMA_getHtmlForNewTables3NF($dependencies, $tables, $db);
+        $tables                  = ["PMA_table" => ['col1', 'PMA_table']];
+        $dependencies->PMA_table = ['col4', 'col5'];
+        $result1                 = PMA_getHtmlForNewTables3NF($dependencies, $tables, $db);
         $this->assertInternalType('array', $result1);
         $this->assertContains(
             '<input type="text" name="PMA_table"',
             $result1['html']
         );
         $this->assertEquals(
-            array(
-                'PMA_table' => array (
-                    'PMA_table' => array (
-                        'pk' => 'col1',
-                        'nonpk' => 'col2'
-                    ),
-                    'table2' => array (
-                        'pk' => 'id',
-                        'nonpk' => 'col4, col5'
-                    )
-                )
-            ), $result1['newTables']
+            [
+                'PMA_table' => [
+                    'PMA_table' => [
+                        'pk'    => 'col1',
+                        'nonpk' => 'col2',
+                    ],
+                    'table2'    => [
+                        'pk'    => 'id',
+                        'nonpk' => 'col4, col5',
+                    ],
+                ],
+            ], $result1['newTables']
         );
     }
 
@@ -390,23 +390,23 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMACreateNewTablesFor3NF()
     {
-        $db = 'PMA_db';
-        $cols = new stdClass();
-        $cols->pk = 'id';
-        $cols->nonpk = 'col1, col2';
-        $cols1 = new stdClass();
-        $cols1->pk = 'col2';
+        $db           = 'PMA_db';
+        $cols         = new stdClass();
+        $cols->pk     = 'id';
+        $cols->nonpk  = 'col1, col2';
+        $cols1        = new stdClass();
+        $cols1->pk    = 'col2';
         $cols1->nonpk = 'col3, col4';
-        $newTables = array('PMA_table'=>array('PMA_table'=>$cols, 'table1'=>$cols1));
-        $result = PMA_createNewTablesFor3NF(
+        $newTables    = ['PMA_table' => ['PMA_table' => $cols, 'table1' => $cols1]];
+        $result       = PMA_createNewTablesFor3NF(
             $newTables, $db
         );
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('legendText', $result);
         $this->assertArrayHasKey('headText', $result);
         $this->assertArrayHasKey('queryError', $result);
-        $newTables1 = array();
-        $result1 = PMA_createNewTablesFor3NF(
+        $newTables1 = [];
+        $result1    = PMA_createNewTablesFor3NF(
             $newTables1, $db
         );
         $this->assertArrayHasKey('queryError', $result1);
@@ -422,12 +422,12 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
     public function testPMAMoveRepeatingGroup()
     {
         $repeatingColumns = 'col1, col2';
-        $primary_columns = 'id,col1';
-        $newTable = 'PMA_newTable';
-        $newColumn = 'PMA_newCol';
-        $table= "PMA_table";
-        $db = 'PMA_db';
-        $result = PMA_moveRepeatingGroup(
+        $primary_columns  = 'id,col1';
+        $newTable         = 'PMA_newTable';
+        $newColumn        = 'PMA_newCol';
+        $table            = "PMA_table";
+        $db               = 'PMA_db';
+        $result           = PMA_moveRepeatingGroup(
             $repeatingColumns, $primary_columns, $newTable, $newColumn, $table, $db
         );
         $this->assertInternalType('array', $result);
@@ -445,8 +445,8 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlFor3NFstep1()
     {
-        $db = "PMA_db";
-        $tables= array("PMA_table");
+        $db     = "PMA_db";
+        $tables = ["PMA_table"];
         $result = PMA_getHtmlFor3NFstep1($db, $tables);
         $this->assertInternalType('array', $result);
         $this->assertArrayHasKey('legendText', $result);
@@ -462,7 +462,7 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
             '<input type="checkbox" name="pd" value="col1"',
             $result['extra']
         );
-        $result1 = PMA_getHtmlFor3NFstep1($db, array("PMA_table2"));
+        $result1 = PMA_getHtmlFor3NFstep1($db, ["PMA_table2"]);
         $this->assertEquals(
             '', $result1['subText']
         );
@@ -478,16 +478,16 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
         $result = PMA_getHtmlForNormalizetable();
         $this->assertContains(
             '<form method="post" action="normalization.php"'
-                . ' name="normalize" id="normalizeTable"',
+            . ' name="normalize" id="normalizeTable"',
             $result
         );
         $this->assertContains(
             '<input type="hidden" name="step1" value="1">', $result
         );
-        $choices = array(
+        $choices = [
             '1nf' => __('First step of normalization (1NF)'),
-            '2nf'      => __('Second step of normalization (1NF+2NF)'),
-            '3nf'  => __('Third step of normalization (1NF+2NF+3NF)'));
+            '2nf' => __('Second step of normalization (1NF+2NF)'),
+            '3nf' => __('Third step of normalization (1NF+2NF+3NF)')];
 
         $html_tmp = PMA_Util::getRadioFields(
             'normalizeTo', $choices, '1nf', true
@@ -502,8 +502,8 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAFindPartialDependencies()
     {
-        $table= "PMA_table2";
-        $db = 'PMA_db';
+        $table  = "PMA_table2";
+        $db     = 'PMA_db';
         $result = PMA_findPartialDependencies($table, $db);
         $this->assertContains(
             '<div class="dependencies_box"',
@@ -519,10 +519,10 @@ class PMA_Normalization_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetAllCombinationPartialKeys()
     {
-        $primaryKey = array('id', 'col1', 'col2');
-        $result = PMA_getAllCombinationPartialKeys($primaryKey);
+        $primaryKey = ['id', 'col1', 'col2'];
+        $result     = PMA_getAllCombinationPartialKeys($primaryKey);
         $this->assertEquals(
-            array('', 'id', 'col1', 'col1,id', 'col2', 'col2,id', 'col2,col1'),
+            ['', 'id', 'col1', 'col1,id', 'col2', 'col2,id', 'col2,col1'],
             $result
         );
     }

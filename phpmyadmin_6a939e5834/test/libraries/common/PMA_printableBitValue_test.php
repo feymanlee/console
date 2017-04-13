@@ -4,7 +4,7 @@
  * Test PMA_Util::printableBitValue function
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  * Test PMA_Util::printableBitValue function
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_PrintableBitValueTest extends PHPUnit_Framework_TestCase
 {
@@ -28,14 +28,14 @@ class PMA_PrintableBitValueTest extends PHPUnit_Framework_TestCase
      */
     public function printableBitValueDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 '20131009',
                 64,
-                '0000000000000000000000000000000000000001001100110010110011000001'
-            ),
-            array('5', 32, '00000000000000000000000000000101')
-        );
+                '0000000000000000000000000000000000000001001100110010110011000001',
+            ],
+            ['5', 32, '00000000000000000000000000000101'],
+        ];
     }
 
     /**
@@ -56,4 +56,5 @@ class PMA_PrintableBitValueTest extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

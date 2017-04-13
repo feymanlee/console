@@ -18,7 +18,7 @@ require_once 'libraries/tbl_gis_visualization.lib.php';
 
 $response = PMA_Response::getInstance();
 // Throw error if no sql query is set
-if (! isset($sql_query) || $sql_query == '') {
+if (!isset($sql_query) || $sql_query == '') {
     $response->isSuccess(false);
     $response->addHTML(
         PMA_Message::error(__('No SQL query was set to fetch data.'))
@@ -32,7 +32,8 @@ $result = $GLOBALS['dbi']->tryQuery($sql_query);
 $meta = $GLOBALS['dbi']->getFieldsMeta($result);
 
 // Find the candidate fields for label column and spatial column
-$labelCandidates = array(); $spatialCandidates = array();
+$labelCandidates   = [];
+$spatialCandidates = [];
 foreach ($meta as $column_meta) {
     if ($column_meta->type == 'geometry') {
         $spatialCandidates[] = $column_meta->name;
@@ -42,38 +43,38 @@ foreach ($meta as $column_meta) {
 }
 
 // Get settings if any posted
-$visualizationSettings = array();
+$visualizationSettings = [];
 if (PMA_isValid($_REQUEST['visualizationSettings'], 'array')) {
     $visualizationSettings = $_REQUEST['visualizationSettings'];
 }
 
-if (! isset($visualizationSettings['labelColumn']) && isset($labelCandidates[0])) {
+if (!isset($visualizationSettings['labelColumn']) && isset($labelCandidates[0])) {
     $visualizationSettings['labelColumn'] = '';
 }
 
 // If spatial column is not set, use first geometric column as spatial column
-if (! isset($visualizationSettings['spatialColumn'])) {
+if (!isset($visualizationSettings['spatialColumn'])) {
     $visualizationSettings['spatialColumn'] = $spatialCandidates[0];
 }
 
 // Convert geometric columns from bytes to text.
-$modified_query = PMA_GIS_modifyQuery($sql_query, $visualizationSettings);
+$modified_query  = PMA_GIS_modifyQuery($sql_query, $visualizationSettings);
 $modified_result = $GLOBALS['dbi']->tryQuery($modified_query);
 
-$data = array();
+$data = [];
 while ($row = $GLOBALS['dbi']->fetchAssoc($modified_result)) {
     $data[] = $row;
 }
 
 if (isset($_REQUEST['saveToFile'])) {
     $response->disable();
-    $file_name = $visualizationSettings['spatialColumn'];
+    $file_name   = $visualizationSettings['spatialColumn'];
     $save_format = $_REQUEST['fileFormat'];
     PMA_GIS_saveToFile($data, $visualizationSettings, $save_format, $file_name);
     exit();
 }
 
-$header = $response->getHeader();
+$header  = $response->getHeader();
 $scripts = $header->getScripts();
 $scripts->addFile('openlayers/OpenLayers.js');
 $scripts->addFile('jquery/jquery.svg.js');
@@ -81,7 +82,7 @@ $scripts->addFile('tbl_gis_visualization.js');
 $scripts->addFile('OpenStreetMap.js');
 
 // If all the rows contain SRID, use OpenStreetMaps on the initial loading.
-if (! isset($_REQUEST['displayVisualization'])) {
+if (!isset($_REQUEST['displayVisualization'])) {
     $visualizationSettings['choice'] = 'useBaseLayer';
     foreach ($data as $row) {
         if ($row['srid'] == 0) {
@@ -93,7 +94,7 @@ if (! isset($_REQUEST['displayVisualization'])) {
 
 $svg_support = (PMA_USR_BROWSER_AGENT == 'IE' && PMA_USR_BROWSER_VER <= 8)
     ? false : true;
-$format = $svg_support ? 'svg' : 'png';
+$format      = $svg_support ? 'svg' : 'png';
 
 // get the chart and settings after chart generation
 $visualization = PMA_GIS_visualizationResults(

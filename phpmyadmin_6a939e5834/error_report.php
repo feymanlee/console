@@ -10,7 +10,7 @@ require_once 'libraries/error_report.lib.php';
 require_once 'libraries/user_preferences.lib.php';
 
 if (!isset($_REQUEST['exception_type'])
-    ||!in_array($_REQUEST['exception_type'], array('js', 'php'))
+    || !in_array($_REQUEST['exception_type'], ['js', 'php'])
 ) {
     die('Oops, something went wrong!!');
 }
@@ -19,7 +19,7 @@ $response = PMA_Response::getInstance();
 
 if (isset($_REQUEST['send_error_report'])
     && ($_REQUEST['send_error_report'] == true
-    || $_REQUEST['send_error_report'] == '1')
+        || $_REQUEST['send_error_report'] == '1')
 ) {
     if ($_REQUEST['exception_type'] == 'php') {
         /**
@@ -31,18 +31,18 @@ if (isset($_REQUEST['send_error_report'])
         if (isset($_SESSION['prev_error_subm_time'])
             && isset($_SESSION['error_subm_count'])
             && $_SESSION['error_subm_count'] >= 3
-            && ($_SESSION['prev_error_subm_time']-time()) <= 3000
+            && ($_SESSION['prev_error_subm_time'] - time()) <= 3000
         ) {
             $_SESSION['error_subm_count'] = 0;
-            $_SESSION['prev_errors'] = '';
-             $response = PMA_Response::getInstance();
+            $_SESSION['prev_errors']      = '';
+            $response                     = PMA_Response::getInstance();
             $response->addJSON('_stopErrorReportLoop', '1');
         } else {
             $_SESSION['prev_error_subm_time'] = time();
-            $_SESSION['error_subm_count'] = (
-                (isset($_SESSION['error_subm_count']))
-                    ? ($_SESSION['error_subm_count']+1)
-                    : (0)
+            $_SESSION['error_subm_count']     = (
+            (isset($_SESSION['error_subm_count']))
+                ? ($_SESSION['error_subm_count'] + 1)
+                : (0)
             );
         }
     }
@@ -54,14 +54,14 @@ if (isset($_REQUEST['send_error_report'])
             $success = false;
         } else {
             $decoded_response = json_decode($server_response, true);
-            $success = !empty($decoded_response) ?
+            $success          = !empty($decoded_response) ?
                 $decoded_response["success"] : false;
         }
 
         /* Message to show to the user */
         if ($success) {
             if ((isset($_REQUEST['automatic'])
-                && $_REQUEST['automatic'] === "true")
+                    && $_REQUEST['automatic'] === "true")
                 || $GLOBALS['cfg']['SendErrorReports'] == 'always'
             ) {
                 $msg = __(
@@ -73,14 +73,14 @@ if (isset($_REQUEST['send_error_report'])
             }
         } else {
             $msg = __(
-                'An error has been detected and an error report has been '
-                . 'generated but failed to be sent.'
-            )
-            . ' '
-            . __(
-                'If you experience any '
-                . 'problems please submit a bug report manually.'
-            );
+                    'An error has been detected and an error report has been '
+                    . 'generated but failed to be sent.'
+                )
+                . ' '
+                . __(
+                    'If you experience any '
+                    . 'problems please submit a bug report manually.'
+                );
         }
         $msg .= ' ' . __('You may want to refresh the page.');
 
@@ -100,8 +100,8 @@ if (isset($_REQUEST['send_error_report'])
             }
         } elseif ($_REQUEST['exception_type'] == 'php') {
             $jsCode = 'PMA_ajaxShowMessage("<div class=\"error\">'
-                    . $msg
-                    . '</div>", false);';
+                . $msg
+                . '</div>", false);';
             $response->getFooter()->getScripts()->addCode($jsCode);
         }
 
@@ -117,7 +117,7 @@ if (isset($_REQUEST['send_error_report'])
             PMA_persistOption("SendErrorReports", "always", "ask");
         }
     }
-} elseif (! empty($_REQUEST['get_settings'])) {
+} elseif (!empty($_REQUEST['get_settings'])) {
     $response->addJSON('report_setting', $GLOBALS['cfg']['SendErrorReports']);
 } else {
     if ($_REQUEST['exception_type'] == 'js') {

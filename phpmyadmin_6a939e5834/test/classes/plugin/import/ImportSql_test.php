@@ -47,18 +47,18 @@ class ImportSql_Test extends PHPUnit_Framework_TestCase
         $this->object = new ImportSql();
 
         //setting
-        $GLOBALS['finished'] = false;
-        $GLOBALS['read_limit'] = 100000000;
-        $GLOBALS['offset'] = 0;
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['cfg']['ServerDefault'] = 0;
+        $GLOBALS['finished']                     = false;
+        $GLOBALS['read_limit']                   = 100000000;
+        $GLOBALS['offset']                       = 0;
+        $GLOBALS['cfg']['Server']['DisableIS']   = false;
+        $GLOBALS['cfg']['ServerDefault']         = 0;
         $GLOBALS['cfg']['AllowUserDropDatabase'] = false;
 
-        $GLOBALS['import_file'] = 'test/test_data/pma_bookmark.sql';
-        $GLOBALS['import_text'] = 'ImportSql_Test';
-        $GLOBALS['compression'] = 'none';
+        $GLOBALS['import_file']   = 'test/test_data/pma_bookmark.sql';
+        $GLOBALS['import_text']   = 'ImportSql_Test';
+        $GLOBALS['compression']   = 'none';
         $GLOBALS['read_multiply'] = 10;
-        $GLOBALS['import_type'] = 'Xml';
+        $GLOBALS['import_type']   = 'Xml';
         $GLOBALS['import_handle'] = @fopen($GLOBALS['import_file'], 'r');
     }
 
@@ -88,7 +88,7 @@ class ImportSql_Test extends PHPUnit_Framework_TestCase
         $sql_query_disabled = false;
 
         //Mock DBI
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi            = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $GLOBALS['dbi'] = $dbi;

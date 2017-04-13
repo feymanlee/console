@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -23,8 +23,8 @@ function PMA_selectServer($not_only_options, $omit_fieldset)
 
     // Show as list?
     if ($not_only_options) {
-        $list = $GLOBALS['cfg']['DisplayServersList'];
-        $not_only_options =! $list;
+        $list             = $GLOBALS['cfg']['DisplayServersList'];
+        $not_only_options = !$list;
     } else {
         $list = false;
     }
@@ -32,9 +32,9 @@ function PMA_selectServer($not_only_options, $omit_fieldset)
     if ($not_only_options) {
         $retval .= '<form method="post" action="'
             . $GLOBALS['cfg']['DefaultTabServer'] . '" class="disableAjax">';
-        $retval .= PMA_getHiddenFields(array('token' => $_SESSION[' PMA_token ']));
+        $retval .= PMA_getHiddenFields(['token' => $_SESSION[' PMA_token ']]);
 
-        if (! $omit_fieldset) {
+        if (!$omit_fieldset) {
             $retval .= '<fieldset>';
         }
         $retval .= '<label for="select_server">'
@@ -52,7 +52,7 @@ function PMA_selectServer($not_only_options, $omit_fieldset)
             continue;
         }
 
-        if (!empty($GLOBALS['server']) && (int) $GLOBALS['server'] === (int) $key) {
+        if (!empty($GLOBALS['server']) && (int)$GLOBALS['server'] === (int)$key) {
             $selected = 1;
         } else {
             $selected = 0;
@@ -65,8 +65,8 @@ function PMA_selectServer($not_only_options, $omit_fieldset)
                 $label .= ':' . $server['port'];
             }
         }
-        if (! empty($server['only_db'])) {
-            if (! is_array($server['only_db'])) {
+        if (!empty($server['only_db'])) {
+            if (!is_array($server['only_db'])) {
                 $label .= ' - ' . $server['only_db'];
                 // try to avoid displaying a too wide selector
             } elseif (count($server['only_db']) < 4) {
@@ -85,7 +85,7 @@ function PMA_selectServer($not_only_options, $omit_fieldset)
 
                 $retval .= '<a class="disableAjax item" href="'
                     . $GLOBALS['cfg']['DefaultTabServer']
-                    . PMA_URL_getCommon(array('server' => $key))
+                    . PMA_URL_getCommon(['server' => $key])
                     . '" >' . htmlspecialchars($label) . '</a>';
             }
             $retval .= '</li>';
@@ -98,7 +98,7 @@ function PMA_selectServer($not_only_options, $omit_fieldset)
 
     if ($not_only_options) {
         $retval .= '</select>';
-        if (! $omit_fieldset) {
+        if (!$omit_fieldset) {
             $retval .= '</fieldset>';
         }
         $retval .= '</form>';
@@ -108,4 +108,5 @@ function PMA_selectServer($not_only_options, $omit_fieldset)
 
     return $retval;
 }
+
 ?>

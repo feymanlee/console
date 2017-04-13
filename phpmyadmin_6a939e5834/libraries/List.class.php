@@ -5,14 +5,14 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
 /**
  * Generic list class
  *
- * @todo add caching
+ * @todo    add caching
  * @abstract
  * @package PhpMyAdmin
  * @since   phpMyAdmin 2.9.10
@@ -36,7 +36,7 @@ abstract class PMA_List extends ArrayObject
      *                               ArrayIterator is the default class used.
      */
     public function __construct(
-        $array = array(), $flags = 0, $iterator_class = "ArrayIterator"
+        $array = [], $flags = 0, $iterator_class = "ArrayIterator"
     ) {
         parent::__construct($array, $flags, $iterator_class);
     }
@@ -61,7 +61,7 @@ abstract class PMA_List extends ArrayObject
     {
         $this_elements = $this->getArrayCopy();
         foreach (func_get_args() as $result) {
-            if (! in_array($result, $this_elements)) {
+            if (!in_array($result, $this_elements)) {
                 return false;
             }
         }
@@ -119,4 +119,5 @@ abstract class PMA_List extends ArrayObject
      */
     abstract public function build();
 }
+
 ?>

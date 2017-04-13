@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -35,38 +35,39 @@ $GLOBALS['is_superuser'] = $GLOBALS['dbi']->isSuperuser();
 function PMA_analyseShowGrant()
 {
     if (PMA_Util::cacheExists('is_create_db_priv')) {
-        $GLOBALS['is_create_db_priv'] = PMA_Util::cacheGet(
+        $GLOBALS['is_create_db_priv']              = PMA_Util::cacheGet(
             'is_create_db_priv'
         );
-        $GLOBALS['is_process_priv'] = PMA_Util::cacheGet(
+        $GLOBALS['is_process_priv']                = PMA_Util::cacheGet(
             'is_process_priv'
         );
-        $GLOBALS['is_reload_priv'] = PMA_Util::cacheGet(
+        $GLOBALS['is_reload_priv']                 = PMA_Util::cacheGet(
             'is_reload_priv'
         );
-        $GLOBALS['db_to_create'] = PMA_Util::cacheGet(
+        $GLOBALS['db_to_create']                   = PMA_Util::cacheGet(
             'db_to_create'
         );
         $GLOBALS['dbs_where_create_table_allowed'] = PMA_Util::cacheGet(
             'dbs_where_create_table_allowed'
         );
-        $GLOBALS['dbs_to_test'] = PMA_Util::cacheGet(
+        $GLOBALS['dbs_to_test']                    = PMA_Util::cacheGet(
             'dbs_to_test'
         );
+
         return;
     }
 
     // defaults
-    $GLOBALS['is_create_db_priv']  = false;
-    $GLOBALS['is_process_priv']    = true;
-    $GLOBALS['is_reload_priv']     = false;
-    $GLOBALS['db_to_create']       = '';
-    $GLOBALS['dbs_where_create_table_allowed'] = array();
-    $GLOBALS['dbs_to_test']        = $GLOBALS['dbi']->getSystemSchemas();
+    $GLOBALS['is_create_db_priv']              = false;
+    $GLOBALS['is_process_priv']                = true;
+    $GLOBALS['is_reload_priv']                 = false;
+    $GLOBALS['db_to_create']                   = '';
+    $GLOBALS['dbs_where_create_table_allowed'] = [];
+    $GLOBALS['dbs_to_test']                    = $GLOBALS['dbi']->getSystemSchemas();
 
     $rs_usr = $GLOBALS['dbi']->tryQuery('SHOW GRANTS');
 
-    if (! $rs_usr) {
+    if (!$rs_usr) {
         return;
     }
 
@@ -75,18 +76,23 @@ function PMA_analyseShowGrant()
 
     while ($row = $GLOBALS['dbi']->fetchRow($rs_usr)) {
         // extract db from GRANT ... ON *.* or GRANT ... ON db.*
-        $db_name_offset = /*overload*/mb_strpos($row[0], ' ON ') + 4;
-        $show_grants_dbname = /*overload*/mb_substr(
-            $row[0], $db_name_offset,
-            /*overload*/mb_strpos($row[0], '.', $db_name_offset) - $db_name_offset
-        );
+        $db_name_offset     = /*overload*/
+            mb_strpos($row[0], ' ON ') + 4;
+        $show_grants_dbname = /*overload*/
+            mb_substr(
+                $row[0], $db_name_offset,
+                /*overload*/
+                mb_strpos($row[0], '.', $db_name_offset) - $db_name_offset
+            );
         $show_grants_dbname = PMA_Util::unQuote($show_grants_dbname, '`');
 
-        $show_grants_str    = /*overload*/mb_substr(
-            $row[0],
-            6,
-            (/*overload*/mb_strpos($row[0], ' ON ') - 6)
-        );
+        $show_grants_str = /*overload*/
+            mb_substr(
+                $row[0],
+                6,
+                (/*overload*/
+                    mb_strpos($row[0], ' ON ') - 6)
+            );
 
         if ($show_grants_dbname == '*') {
             if ($show_grants_str != 'USAGE') {
@@ -111,9 +117,9 @@ function PMA_analyseShowGrant()
         ) {
             if ($show_grants_dbname == '*') {
                 // a global CREATE privilege
-                $GLOBALS['is_create_db_priv'] = true;
-                $GLOBALS['is_reload_priv'] = true;
-                $GLOBALS['db_to_create']   = '';
+                $GLOBALS['is_create_db_priv']                = true;
+                $GLOBALS['is_reload_priv']                   = true;
+                $GLOBALS['db_to_create']                     = '';
                 $GLOBALS['dbs_where_create_table_allowed'][] = '*';
                 // @todo we should not break here, cause GRANT ALL *.*
                 // could be revoked by a later rule like GRANT SELECT ON db.*
@@ -131,23 +137,24 @@ function PMA_analyseShowGrant()
 
                 // does this db exist?
                 if ((preg_match('/' . $re0 . '%|_/', $show_grants_dbname)
-                    && ! preg_match('/\\\\%|\\\\_/', $show_grants_dbname))
-                    || (! $GLOBALS['dbi']->tryQuery(
-                        'USE ' .  preg_replace(
-                            '/' . $re1 . '(%|_)/', '\\1\\3', $dbname_to_test
+                        && !preg_match('/\\\\%|\\\\_/', $show_grants_dbname))
+                    || (!$GLOBALS['dbi']->tryQuery(
+                            'USE ' . preg_replace(
+                                '/' . $re1 . '(%|_)/', '\\1\\3', $dbname_to_test
+                            )
                         )
-                    )
-                    && /*overload*/mb_substr($GLOBALS['dbi']->getError(), 1, 4) != 1044)
+                        && /*overload*/
+                        mb_substr($GLOBALS['dbi']->getError(), 1, 4) != 1044)
                 ) {
                     /**
                      * Do not handle the underscore wildcard
                      * (this case must be rare anyway)
                      */
-                    $GLOBALS['db_to_create'] = preg_replace(
-                        '/' . $re0 . '%/',     '\\1',
+                    $GLOBALS['db_to_create']      = preg_replace(
+                        '/' . $re0 . '%/', '\\1',
                         $show_grants_dbname
                     );
-                    $GLOBALS['db_to_create'] = preg_replace(
+                    $GLOBALS['db_to_create']      = preg_replace(
                         '/' . $re1 . '(%|_)/', '\\1\\3',
                         $GLOBALS['db_to_create']
                     );
@@ -157,8 +164,8 @@ function PMA_analyseShowGrant()
                      * @todo collect $GLOBALS['db_to_create'] into an array,
                      * to display a drop-down in the "Create database" dialog
                      */
-                     // we don't break, we want all possible databases
-                     //break;
+                    // we don't break, we want all possible databases
+                    //break;
                 } // end if
             } // end elseif
         } // end if
@@ -184,12 +191,12 @@ if (!PMA_DRIZZLE) {
 } else {
     // todo: for simple_user_policy only database with user's login can be created
     // (unless logged in as root)
-    $GLOBALS['is_create_db_priv'] = $GLOBALS['is_superuser'];
-    $GLOBALS['is_process_priv']   = false;
-    $GLOBALS['is_reload_priv']    = false;
-    $GLOBALS['db_to_create']      = '';
-    $GLOBALS['dbs_where_create_table_allowed'] = array('*');
-    $GLOBALS['dbs_to_test']       = false;
+    $GLOBALS['is_create_db_priv']              = $GLOBALS['is_superuser'];
+    $GLOBALS['is_process_priv']                = false;
+    $GLOBALS['is_reload_priv']                 = false;
+    $GLOBALS['db_to_create']                   = '';
+    $GLOBALS['dbs_where_create_table_allowed'] = ['*'];
+    $GLOBALS['dbs_to_test']                    = false;
 }
 
 ?>

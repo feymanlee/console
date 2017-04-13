@@ -7,7 +7,7 @@
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -20,7 +20,8 @@ function PMA_shutdownDuringExport()
 {
     $a = error_get_last();
     if ($a != null
-        && /*overload*/mb_strpos($a['message'], "execution time")
+        && /*overload*/
+        mb_strpos($a['message'], "execution time")
     ) {
         //write in partially downloaded file for future reference of user
         print_r($a);
@@ -58,10 +59,10 @@ function PMA_gzencodeNeeded()
         && PMA_USR_BROWSER_VER >= 43; // see bug #4942
 
     if (@function_exists('gzencode')
-        && ((! @ini_get('zlib.output_compression')
-        && ! PMA_isGzHandlerEnabled())
-        || $GLOBALS['save_on_server']
-        || $chromeAndGreaterThan43)
+        && ((!@ini_get('zlib.output_compression')
+                && !PMA_isGzHandlerEnabled())
+            || $GLOBALS['save_on_server']
+            || $chromeAndGreaterThan43)
     ) {
         return true;
     } else {
@@ -96,7 +97,8 @@ function PMA_exportOutputHandler($line)
         $dump_buffer .= $line;
         if ($GLOBALS['onfly_compression']) {
 
-            $dump_buffer_len += /*overload*/mb_strlen($line);
+            $dump_buffer_len += /*overload*/
+                mb_strlen($line);
 
             if ($dump_buffer_len > $GLOBALS['memory_limit']) {
                 if ($GLOBALS['output_charset_conversion']) {
@@ -122,12 +124,13 @@ function PMA_exportOutputHandler($line)
                             __('Insufficient space to save the file %s.')
                         );
                         $GLOBALS['message']->addParam($save_filename);
+
                         return false;
                     }
                 } else {
                     echo $dump_buffer;
                 }
-                $dump_buffer = '';
+                $dump_buffer     = '';
                 $dump_buffer_len = 0;
             }
         } else {
@@ -146,17 +149,20 @@ function PMA_exportOutputHandler($line)
                     $line
                 );
             }
-            if ($GLOBALS['save_on_server'] && /*overload*/mb_strlen($line) > 0) {
+            if ($GLOBALS['save_on_server'] && /*overload*/
+                mb_strlen($line) > 0
+            ) {
                 $write_result = @fwrite($GLOBALS['file_handle'], $line);
                 // Here, use strlen rather than mb_strlen to get the length
                 // in bytes to compare against the number of bytes written.
-                if (! $write_result
+                if (!$write_result
                     || $write_result != strlen($line)
                 ) {
                     $GLOBALS['message'] = PMA_Message::error(
                         __('Insufficient space to save the file %s.')
                     );
                     $GLOBALS['message']->addParam($save_filename);
+
                     return false;
                 }
                 $time_now = time();
@@ -173,6 +179,7 @@ function PMA_exportOutputHandler($line)
             echo htmlspecialchars($line);
         }
     }
+
     return true;
 } // end of the 'PMA_exportOutputHandler()' function
 
@@ -201,6 +208,7 @@ function PMA_getHtmlForDisplayedExportFooter($back_button)
         . '.height($body.height() - 100);' . "\n"
         . '//]]>' . "\n"
         . '</script>' . "\n";
+
     return $html;
 }
 
@@ -211,9 +219,9 @@ function PMA_getHtmlForDisplayedExportFooter($back_button)
  */
 function PMA_getMemoryLimitForExport()
 {
-    $memory_limit = trim(@ini_get('memory_limit'));
+    $memory_limit     = trim(@ini_get('memory_limit'));
     $memory_limit_num = (int)substr($memory_limit, 0, -1);
-    $lowerLastChar = strtolower(substr($memory_limit, -1));
+    $lowerLastChar    = strtolower(substr($memory_limit, -1));
     // 2 MB as default
     if (empty($memory_limit) || '-1' == $memory_limit) {
         $memory_limit = 2 * 1024 * 1024;
@@ -236,6 +244,7 @@ function PMA_getMemoryLimitForExport()
 
     // Some memory is needed for compression, assume 1/3
     $memory_limit /= 8;
+
     return $memory_limit;
 }
 
@@ -255,7 +264,7 @@ function PMA_getExportFilenameAndMimetype(
     $filename_template
 ) {
     if ($export_type == 'server') {
-        if (! empty($remember_template)) {
+        if (!empty($remember_template)) {
             $GLOBALS['PMA_Config']->setUserValue(
                 'pma_server_filename_template',
                 'Export/file_template_server',
@@ -263,7 +272,7 @@ function PMA_getExportFilenameAndMimetype(
             );
         }
     } elseif ($export_type == 'database') {
-        if (! empty($remember_template)) {
+        if (!empty($remember_template)) {
             $GLOBALS['PMA_Config']->setUserValue(
                 'pma_db_filename_template',
                 'Export/file_template_database',
@@ -271,7 +280,7 @@ function PMA_getExportFilenameAndMimetype(
             );
         }
     } else {
-        if (! empty($remember_template)) {
+        if (!empty($remember_template)) {
             $GLOBALS['PMA_Config']->setUserValue(
                 'pma_table_filename_template',
                 'Export/file_template_table',
@@ -287,28 +296,35 @@ function PMA_getExportFilenameAndMimetype(
     // Grab basic dump extension and mime type
     // Check if the user already added extension;
     // get the substring where the extension would be if it was included
-    $extension_start_pos = /*overload*/mb_strlen($filename) - /*overload*/mb_strlen(
-        $export_plugin->getProperties()->getExtension()
-    ) - 1;
-    $user_extension = /*overload*/mb_substr(
-        $filename, $extension_start_pos, /*overload*/mb_strlen($filename)
-    );
-    $required_extension = "." . $export_plugin->getProperties()->getExtension();
-    if (/*overload*/mb_strtolower($user_extension) != $required_extension) {
-        $filename  .= $required_extension;
+    $extension_start_pos = /*overload*/
+        mb_strlen($filename) - /*overload*/
+        mb_strlen(
+            $export_plugin->getProperties()->getExtension()
+        ) - 1;
+    $user_extension      = /*overload*/
+        mb_substr(
+            $filename, $extension_start_pos, /*overload*/
+            mb_strlen($filename)
+        );
+    $required_extension  = "." . $export_plugin->getProperties()->getExtension();
+    if (/*overload*/
+        mb_strtolower($user_extension) != $required_extension
+    ) {
+        $filename .= $required_extension;
     }
-    $mime_type  = $export_plugin->getProperties()->getMimeType();
+    $mime_type = $export_plugin->getProperties()->getMimeType();
 
     // If dump is going to be compressed, set correct mime_type and add
     // compression to extension
     if ($compression == 'gzip') {
-        $filename  .= '.gz';
+        $filename .= '.gz';
         $mime_type = 'application/x-gzip';
     } elseif ($compression == 'zip') {
-        $filename  .= '.zip';
+        $filename .= '.zip';
         $mime_type = 'application/zip';
     }
-    return array($filename, $mime_type);
+
+    return [$filename, $mime_type];
 }
 
 /**
@@ -322,15 +338,15 @@ function PMA_getExportFilenameAndMimetype(
 function PMA_openExportFile($filename, $quick_export)
 {
     $file_handle = null;
-    $message = '';
+    $message     = '';
 
     $save_filename = PMA_Util::userDir($GLOBALS['cfg']['SaveDir'])
         . preg_replace('@[/\\\\]@', '_', $filename);
 
     if (file_exists($save_filename)
-        && ((! $quick_export && empty($_REQUEST['onserverover']))
-        || ($quick_export
-        && $_REQUEST['quick_export_onserverover'] != 'saveitover'))
+        && ((!$quick_export && empty($_REQUEST['onserverover']))
+            || ($quick_export
+                && $_REQUEST['quick_export_onserverover'] != 'saveitover'))
     ) {
         $message = PMA_Message::error(
             __(
@@ -339,7 +355,7 @@ function PMA_openExportFile($filename, $quick_export)
             )
         );
         $message->addParam($save_filename);
-    } elseif (is_file($save_filename) && ! is_writable($save_filename)) {
+    } elseif (is_file($save_filename) && !is_writable($save_filename)) {
         $message = PMA_Message::error(
             __(
                 'The web server does not have permission '
@@ -347,7 +363,7 @@ function PMA_openExportFile($filename, $quick_export)
             )
         );
         $message->addParam($save_filename);
-    } elseif (! $file_handle = @fopen($save_filename, 'w')) {
+    } elseif (!$file_handle = @fopen($save_filename, 'w')) {
         $message = PMA_Message::error(
             __(
                 'The web server does not have permission '
@@ -356,7 +372,8 @@ function PMA_openExportFile($filename, $quick_export)
         );
         $message->addParam($save_filename);
     }
-    return array($save_filename, $message, $file_handle);
+
+    return [$save_filename, $message, $file_handle];
 }
 
 /**
@@ -374,21 +391,23 @@ function PMA_closeExportFile($file_handle, $dump_buffer, $save_filename)
     fclose($file_handle);
     // Here, use strlen rather than mb_strlen to get the length
     // in bytes to compare against the number of bytes written.
-    if (/*overload*/mb_strlen($dump_buffer) > 0
-        && (! $write_result || $write_result != strlen($dump_buffer))
+    if (/*overload*/
+        mb_strlen($dump_buffer) > 0
+        && (!$write_result || $write_result != strlen($dump_buffer))
     ) {
         $message = new PMA_Message(
             __('Insufficient space to save the file %s.'),
             PMA_Message::ERROR,
-            array($save_filename)
+            [$save_filename]
         );
     } else {
         $message = new PMA_Message(
             __('Dump has been saved to file %s.'),
             PMA_Message::SUCCESS,
-            array($save_filename)
+            [$save_filename]
         );
     }
+
     return $message;
 }
 
@@ -414,6 +433,7 @@ function PMA_compressExport($dump_buffer, $compression, $filename)
         // without the optional parameter level because it bugs
         $dump_buffer = gzencode($dump_buffer);
     }
+
     return $dump_buffer;
 }
 
@@ -438,13 +458,13 @@ function PMA_getHtmlForDisplayedExportHeader($export_type, $db, $table)
     if ($export_type == 'server') {
         $back_button .= 'server_export.php' . PMA_URL_getCommon();
     } elseif ($export_type == 'database') {
-        $back_button .= 'db_export.php' . PMA_URL_getCommon(array('db' => $db));
+        $back_button .= 'db_export.php' . PMA_URL_getCommon(['db' => $db]);
     } else {
         $back_button .= 'tbl_export.php' . PMA_URL_getCommon(
-            array(
-                'db' => $db, 'table' => $table
-            )
-        );
+                [
+                    'db' => $db, 'table' => $table,
+                ]
+            );
     }
 
     // Convert the multiple select elements from an array to a string
@@ -468,7 +488,7 @@ function PMA_getHtmlForDisplayedExportHeader($export_type, $db, $table)
         . '<textarea name="sqldump" cols="50" rows="30" '
         . 'id="textSQLDUMP" wrap="OFF">';
 
-    return array($html, $back_button);
+    return [$html, $back_button];
 }
 
 /**
@@ -493,14 +513,15 @@ function PMA_exportServer(
     $export_type, $do_relation, $do_comments, $do_mime, $do_dates,
     $aliases
 ) {
-    if (! empty($db_select)) {
+    if (!empty($db_select)) {
         $tmp_select = implode($db_select, '|');
         $tmp_select = '|' . $tmp_select . '|';
     }
     // Walk over databases
     foreach ($GLOBALS['pma']->databases as $current_db) {
         if (isset($tmp_select)
-            && /*overload*/mb_strpos(' ' . $tmp_select, '|' . $current_db . '|')
+            && /*overload*/
+            mb_strpos(' ' . $tmp_select, '|' . $current_db . '|')
         ) {
             $tables = $GLOBALS['dbi']->getTables($current_db);
             PMA_exportDatabase(
@@ -537,15 +558,16 @@ function PMA_exportDatabase(
 ) {
     $db_alias = !empty($aliases[$db]['alias'])
         ? $aliases[$db]['alias'] : '';
-    if (! $export_plugin->exportDBHeader($db, $db_alias)) {
+    if (!$export_plugin->exportDBHeader($db, $db_alias)) {
         return;
     }
-    if (! $export_plugin->exportDBCreate($db, $db_alias)) {
+    if (!$export_plugin->exportDBCreate($db, $db_alias)) {
         return;
     }
 
     if (method_exists($export_plugin, 'exportRoutines')
-        && /*overload*/mb_strpos(
+        && /*overload*/
+        mb_strpos(
             $GLOBALS['sql_structure_or_data'],
             'structure'
         ) !== false
@@ -554,7 +576,7 @@ function PMA_exportDatabase(
         $export_plugin->exportRoutines($db, $aliases);
     }
 
-    $views = array();
+    $views = [];
 
     foreach ($tables as $table) {
         // if this is a view, collect it for later;
@@ -572,11 +594,12 @@ function PMA_exportDatabase(
             if ($is_view) {
 
                 if (isset($GLOBALS['sql_create_view'])) {
-                    if (! $export_plugin->exportStructure(
+                    if (!$export_plugin->exportStructure(
                         $db, $table, $crlf, $err_url, 'stand_in',
                         $export_type, $do_relation, $do_comments,
                         $do_mime, $do_dates, $aliases
-                    )) {
+                    )
+                    ) {
                         break 1;
                     }
                 }
@@ -601,11 +624,12 @@ function PMA_exportDatabase(
                     }
                 }
 
-                if (! $export_plugin->exportStructure(
+                if (!$export_plugin->exportStructure(
                     $db, $table, $crlf, $err_url, 'create_table',
                     $export_type, $do_relation, $do_comments,
                     $do_mime, $do_dates, $aliases
-                )) {
+                )
+                ) {
                     break 1;
                 }
 
@@ -614,27 +638,29 @@ function PMA_exportDatabase(
         }
         // if this is a view or a merge table, don't export data
         if (($whatStrucOrData == 'data'
-            || $whatStrucOrData == 'structure_and_data')
-            && ! ($is_view || PMA_Table::isMerge($db, $table))
+                || $whatStrucOrData == 'structure_and_data')
+            && !($is_view || PMA_Table::isMerge($db, $table))
         ) {
-            $local_query  = 'SELECT * FROM ' . PMA_Util::backquote($db)
+            $local_query = 'SELECT * FROM ' . PMA_Util::backquote($db)
                 . '.' . PMA_Util::backquote($table);
-            if (! $export_plugin->exportData(
+            if (!$export_plugin->exportData(
                 $db, $table, $crlf, $err_url, $local_query, $aliases
-            )) {
+            )
+            ) {
                 break 1;
             }
         }
         // now export the triggers (needs to be done after the data because
         // triggers can modify already imported tables)
         if (isset($GLOBALS['sql_create_trigger']) && ($whatStrucOrData == 'structure'
-            || $whatStrucOrData == 'structure_and_data')
+                || $whatStrucOrData == 'structure_and_data')
         ) {
-            if (! $export_plugin->exportStructure(
+            if (!$export_plugin->exportStructure(
                 $db, $table, $crlf, $err_url, 'triggers',
                 $export_type, $do_relation, $do_comments,
                 $do_mime, $do_dates, $aliases
-            )) {
+            )
+            ) {
                 break 1;
             }
         }
@@ -647,11 +673,12 @@ function PMA_exportDatabase(
             if ($whatStrucOrData == 'structure'
                 || $whatStrucOrData == 'structure_and_data'
             ) {
-                if (! $export_plugin->exportStructure(
+                if (!$export_plugin->exportStructure(
                     $db, $view, $crlf, $err_url, 'create_view',
                     $export_type, $do_relation, $do_comments,
                     $do_mime, $do_dates, $aliases
-                )) {
+                )
+                ) {
                     break 1;
                 }
             }
@@ -659,12 +686,12 @@ function PMA_exportDatabase(
 
     }
 
-    if (! $export_plugin->exportDBFooter($db, $db_alias)) {
+    if (!$export_plugin->exportDBFooter($db, $db_alias)) {
         return;
     }
 
     if (($GLOBALS['sql_structure_or_data'] == 'structure'
-        || $GLOBALS['sql_structure_or_data'] == 'structure_and_data')
+            || $GLOBALS['sql_structure_or_data'] == 'structure_and_data')
         && isset($GLOBALS['sql_procedure_function'])
     ) {
         $export_plugin->exportEvents($db, $aliases);
@@ -700,7 +727,7 @@ function PMA_exportTable(
 ) {
     $db_alias = !empty($aliases[$db]['alias'])
         ? $aliases[$db]['alias'] : '';
-    if (! $export_plugin->exportDBHeader($db, $db_alias)) {
+    if (!$export_plugin->exportDBHeader($db, $db_alias)) {
         return;
     }
     if (isset($allrows)
@@ -708,11 +735,11 @@ function PMA_exportTable(
         && $limit_to > 0
         && $limit_from >= 0
     ) {
-        $add_query  = ' LIMIT '
-                    . (($limit_from > 0) ? $limit_from . ', ' : '')
-                    . $limit_to;
+        $add_query = ' LIMIT '
+            . (($limit_from > 0) ? $limit_from . ', ' : '')
+            . $limit_to;
     } else {
-        $add_query  = '';
+        $add_query = '';
     }
 
     $is_view = PMA_Table::isView($db, $table);
@@ -723,22 +750,24 @@ function PMA_exportTable(
         if ($is_view) {
 
             if (isset($GLOBALS['sql_create_view'])) {
-                if (! $export_plugin->exportStructure(
+                if (!$export_plugin->exportStructure(
                     $db, $table, $crlf, $err_url, 'create_view',
                     $export_type, $do_relation, $do_comments,
                     $do_mime, $do_dates, $aliases
-                )) {
+                )
+                ) {
                     return;
                 }
             }
 
         } else if (isset($GLOBALS['sql_create_table'])) {
 
-            if (! $export_plugin->exportStructure(
+            if (!$export_plugin->exportStructure(
                 $db, $table, $crlf, $err_url, 'create_table',
                 $export_type, $do_relation, $do_comments,
                 $do_mime, $do_dates, $aliases
-            )) {
+            )
+            ) {
                 return;
             }
 
@@ -749,41 +778,43 @@ function PMA_exportTable(
     // for example, a PDF report
     // if it is a merge table, no data is exported
     if (($whatStrucOrData == 'data'
-        || $whatStrucOrData == 'structure_and_data')
-        && ! PMA_Table::isMerge($db, $table)
+            || $whatStrucOrData == 'structure_and_data')
+        && !PMA_Table::isMerge($db, $table)
     ) {
-        if (! empty($sql_query)) {
+        if (!empty($sql_query)) {
             // only preg_replace if needed
-            if (! empty($add_query)) {
+            if (!empty($add_query)) {
                 // remove trailing semicolon before adding a LIMIT
                 $sql_query = preg_replace('%;\s*$%', '', $sql_query);
             }
             $local_query = $sql_query . $add_query;
             $GLOBALS['dbi']->selectDb($db);
         } else {
-            $local_query  = 'SELECT * FROM ' . PMA_Util::backquote($db)
+            $local_query = 'SELECT * FROM ' . PMA_Util::backquote($db)
                 . '.' . PMA_Util::backquote($table) . $add_query;
         }
-        if (! $export_plugin->exportData(
+        if (!$export_plugin->exportData(
             $db, $table, $crlf, $err_url, $local_query, $aliases
-        )) {
+        )
+        ) {
             return;
         }
     }
     // now export the triggers (needs to be done after the data because
     // triggers can modify already imported tables)
     if (isset($GLOBALS['sql_create_trigger']) && ($whatStrucOrData == 'structure'
-        || $whatStrucOrData == 'structure_and_data')
+            || $whatStrucOrData == 'structure_and_data')
     ) {
-        if (! $export_plugin->exportStructure(
+        if (!$export_plugin->exportStructure(
             $db, $table, $crlf, $err_url, 'triggers',
             $export_type, $do_relation, $do_comments,
             $do_mime, $do_dates, $aliases
-        )) {
+        )
+        ) {
             return;
         }
     }
-    if (! $export_plugin->exportDBFooter($db, $db_alias)) {
+    if (!$export_plugin->exportDBFooter($db, $db_alias)) {
         return;
     }
 }
@@ -853,7 +884,7 @@ function PMA_mergeAliases($aliases1, $aliases2)
             if (!isset($tbl['columns'])) {
                 continue;
             }
-            foreach ($tbl['columns'] as  $col => $col_as) {
+            foreach ($tbl['columns'] as $col => $col_as) {
                 if (isset($col_as) && is_array($col_as)) {
                     $val1 = $col_as[0];
                     $val2 = $col_as[1];
@@ -864,6 +895,8 @@ function PMA_mergeAliases($aliases1, $aliases2)
             };
         };
     }
+
     return $aliases;
 }
+
 ?>

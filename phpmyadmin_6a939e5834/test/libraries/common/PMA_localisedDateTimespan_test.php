@@ -4,7 +4,7 @@
  * Test for generating localised date or timespan expression
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -17,7 +17,7 @@ require_once 'libraries/php-gettext/gettext.inc';
  * Test for generating localised date or timespan expression
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_LocalisedDateTimespan_Test extends PHPUnit_Framework_TestCase
 {
@@ -43,8 +43,8 @@ class PMA_LocalisedDateTimespan_Test extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->tmpGlobals = $GLOBALS;
-        $this->tmpSession = $_SESSION;
+        $this->tmpGlobals  = $GLOBALS;
+        $this->tmpSession  = $_SESSION;
         $this->tmpTimezone = date_default_timezone_get();
         date_default_timezone_set('Europe/London');
     }
@@ -56,7 +56,7 @@ class PMA_LocalisedDateTimespan_Test extends PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $GLOBALS = $this->tmpGlobals;
+        $GLOBALS  = $this->tmpGlobals;
         $_SESSION = $this->tmpSession;
         date_default_timezone_set($this->tmpTimezone);
 
@@ -69,10 +69,10 @@ class PMA_LocalisedDateTimespan_Test extends PHPUnit_Framework_TestCase
      */
     public function localisedDateDataProvider()
     {
-        return array(
-            array(1227455558, '', 'Nov 23, 2008 at 03:52 PM'),
-            array(1227455558, '%Y-%m-%d %H:%M:%S %a', '2008-11-23 15:52:38 Sun')
-        );
+        return [
+            [1227455558, '', 'Nov 23, 2008 at 03:52 PM'],
+            [1227455558, '%Y-%m-%d %H:%M:%S %a', '2008-11-23 15:52:38 Sun'],
+        ];
     }
 
     /**
@@ -100,10 +100,10 @@ class PMA_LocalisedDateTimespan_Test extends PHPUnit_Framework_TestCase
      */
     public function timespanFormatDataProvider()
     {
-        return array(
-            array(1258, '0 days, 0 hours, 20 minutes and 58 seconds'),
-            array(821958, '9 days, 12 hours, 19 minutes and 18 seconds')
-        );
+        return [
+            [1258, '0 days, 0 hours, 20 minutes and 58 seconds'],
+            [821958, '9 days, 12 hours, 19 minutes and 18 seconds'],
+        ];
     }
 
     /**
@@ -125,4 +125,5 @@ class PMA_LocalisedDateTimespan_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

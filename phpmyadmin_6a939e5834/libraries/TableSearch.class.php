@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -91,15 +91,15 @@ class PMA_TableSearch
      */
     public function __construct($db, $table, $searchType)
     {
-        $this->_db = $db;
-        $this->_table = $table;
-        $this->_searchType = $searchType;
-        $this->_columnNames = array();
-        $this->_columnNullFlags = array();
-        $this->_columnTypes = array();
-        $this->_columnCollations = array();
-        $this->_geomColumnFlag = false;
-        $this->_foreigners = array();
+        $this->_db               = $db;
+        $this->_table            = $table;
+        $this->_searchType       = $searchType;
+        $this->_columnNames      = [];
+        $this->_columnNullFlags  = [];
+        $this->_columnTypes      = [];
+        $this->_columnCollations = [];
+        $this->_geomColumnFlag   = false;
+        $this->_foreigners       = [];
         // Loads table's information
         $this->_loadTableInfo();
     }
@@ -146,20 +146,21 @@ class PMA_TableSearch
             } else {
                 // strip the "BINARY" attribute, except if we find "BINARY(" because
                 // this would be a BINARY or VARBINARY column type
-                if (! preg_match('@BINARY[\(]@i', $type)) {
+                if (!preg_match('@BINARY[\(]@i', $type)) {
                     $type = preg_replace('@BINARY@i', '', $type);
                 }
                 $type = preg_replace('@ZEROFILL@i', '', $type);
                 $type = preg_replace('@UNSIGNED@i', '', $type);
-                $type = /*overload*/mb_strtolower($type);
+                $type = /*overload*/
+                    mb_strtolower($type);
             }
             if (empty($type)) {
                 $type = '&nbsp;';
             }
-            $this->_columnTypes[] = $type;
+            $this->_columnTypes[]     = $type;
             $this->_columnNullFlags[] = $row['Null'];
             $this->_columnCollations[]
-                = ! empty($row['Collation']) && $row['Collation'] != 'NULL'
+                                      = !empty($row['Collation']) && $row['Collation'] != 'NULL'
                 ? $row['Collation']
                 : '';
         } // end for
@@ -182,11 +183,11 @@ class PMA_TableSearch
         }
 
         return '<thead>
-            <tr>' . $func . '<th>' .  __('Column') . '</th>
-            <th>' .  __('Type') . '</th>
-            <th>' .  __('Collation') . '</th>
-            <th>' .  __('Operator') . '</th>
-            <th>' .  __('Value') . '</th>
+            <tr>' . $func . '<th>' . __('Column') . '</th>
+            <th>' . __('Type') . '</th>
+            <th>' . __('Collation') . '</th>
+            <th>' . __('Operator') . '</th>
+            <th>' . __('Value') . '</th>
             </tr>
             </thead>';
     }
@@ -200,22 +201,22 @@ class PMA_TableSearch
      */
     private function _getSubTabs()
     {
-        $subtabs = array();
-        $subtabs['search']['icon'] = 'b_search.png';
-        $subtabs['search']['text'] = __('Table search');
-        $subtabs['search']['link'] = 'tbl_select.php';
-        $subtabs['search']['id'] = 'tbl_search_id';
+        $subtabs                          = [];
+        $subtabs['search']['icon']        = 'b_search.png';
+        $subtabs['search']['text']        = __('Table search');
+        $subtabs['search']['link']        = 'tbl_select.php';
+        $subtabs['search']['id']          = 'tbl_search_id';
         $subtabs['search']['args']['pos'] = 0;
 
         $subtabs['zoom']['icon'] = 'b_props.png';
         $subtabs['zoom']['link'] = 'tbl_zoom_select.php';
         $subtabs['zoom']['text'] = __('Zoom search');
-        $subtabs['zoom']['id'] = 'zoom_search_id';
+        $subtabs['zoom']['id']   = 'zoom_search_id';
 
         $subtabs['replace']['icon'] = 'b_find_replace.png';
         $subtabs['replace']['link'] = 'tbl_find_replace.php';
         $subtabs['replace']['text'] = __('Find and replace');
-        $subtabs['replace']['id'] = 'find_replace_id';
+        $subtabs['replace']['id']   = 'find_replace_id';
 
         return $subtabs;
     }
@@ -240,10 +241,11 @@ class PMA_TableSearch
             $edit_str = PMA_Util::getIcon('b_edit.png', __('Edit/Insert'));
             $html_output .= '<span class="open_search_gis_editor">';
             $html_output .= PMA_Util::linkOrButton(
-                $edit_url, $edit_str, array(), false, false, '_blank'
+                $edit_url, $edit_str, [], false, false, '_blank'
             );
             $html_output .= '</span>';
         }
+
         return $html_output;
     }
 
@@ -266,7 +268,7 @@ class PMA_TableSearch
     ) {
         $html_output = '';
         if (is_array($foreignData['disp_row'])) {
-            $html_output .=  '<select name="criteriaValues[' . $column_index . ']"'
+            $html_output .= '<select name="criteriaValues[' . $column_index . ']"'
                 . ' id="' . $column_id . $column_index . '">';
             $html_output .= PMA_foreignDropdown(
                 $foreignData['disp_row'], $foreignData['foreign_field'],
@@ -280,7 +282,7 @@ class PMA_TableSearch
                 . ' name="criteriaValues[' . $column_index . ']" id="field_'
                 . md5($column_name) . '[' . $column_index . ']" class="textfield"'
                 . (isset($criteriaValues[$column_index])
-                    && is_string($criteriaValues[$column_index])
+                && is_string($criteriaValues[$column_index])
                     ? (' value="' . $criteriaValues[$column_index] . '"')
                     : '')
                 . ' />';
@@ -288,12 +290,13 @@ class PMA_TableSearch
             $html_output .= '<a class="ajax browse_foreign" href="'
                 . 'browse_foreigners.php'
                 . PMA_URL_getCommon(
-                    array('db' => $this->_db, 'table' => $this->_table)
+                    ['db' => $this->_db, 'table' => $this->_table]
                 )
                 . '&amp;field=' . urlencode($column_name) . '&amp;fieldkey='
                 . $column_index . '&amp;fromsearch=1"';
             $html_output .= '>' . str_replace("'", "\'", $titles['Browse']) . '</a>';
         }
+
         return $html_output;
     }
 
@@ -314,11 +317,12 @@ class PMA_TableSearch
     ) {
         $column_type = htmlspecialchars($column_type);
         $html_output = '';
-        $value = explode(
+        $value       = explode(
             ', ',
-            str_replace("'", '', /*overload*/mb_substr($column_type, 5, -1))
+            str_replace("'", '', /*overload*/
+                mb_substr($column_type, 5, -1))
         );
-        $cnt_value = count($value);
+        $cnt_value   = count($value);
 
         /*
          * Enum in edit mode   --> dropdown
@@ -327,7 +331,7 @@ class PMA_TableSearch
          * Set in search mode  --> input (skipped here, so the 'else'
          *                                 section would handle it)
          */
-        if ((strncasecmp($column_type, 'enum', 4) && ! $in_zoom_search_edit)
+        if ((strncasecmp($column_type, 'enum', 4) && !$in_zoom_search_edit)
             || (strncasecmp($column_type, 'set', 3) && $in_zoom_search_edit)
         ) {
             $html_output .= '<select name="criteriaValues[' . ($column_index)
@@ -352,6 +356,7 @@ class PMA_TableSearch
             }
         } // end for
         $html_output .= '</select>';
+
         return $html_output;
     }
 
@@ -377,9 +382,9 @@ class PMA_TableSearch
         $column_index, $titles, $foreignMaxLimit, $criteriaValues, $in_fbs = false,
         $in_zoom_search_edit = false
     ) {
-        $str = '';
+        $str         = '';
         $column_type = (string)$column_type;
-        $column_id = ($in_zoom_search_edit) ? 'edit_fieldID_' : 'fieldID_';
+        $column_id   = ($in_zoom_search_edit) ? 'edit_fieldID_' : 'fieldID_';
 
         // Get inputbox based on different column types
         // (Foreign key, geometrical, enum)
@@ -420,11 +425,12 @@ class PMA_TableSearch
                 . ' size="40" class="' . $the_class . '" id="'
                 . $column_id . $column_index . '"'
                 . (isset($criteriaValues[$column_index])
-                    && is_string($criteriaValues[$column_index])
+                && is_string($criteriaValues[$column_index])
                     ? (' value="' . $criteriaValues[$column_index] . '"')
                     : '')
                 . ' />';
         }
+
         return $str;
     }
 
@@ -438,7 +444,7 @@ class PMA_TableSearch
      */
     private function _getEnumWhereClause($criteriaValues, $func_type)
     {
-        if (! is_array($criteriaValues)) {
+        if (!is_array($criteriaValues)) {
             $criteriaValues = explode(',', $criteriaValues);
         }
         $enum_selected_count = count($criteriaValues);
@@ -481,13 +487,13 @@ class PMA_TableSearch
     private function _getGeomWhereClause($criteriaValues, $names,
         $func_type, $types, $geom_func = null
     ) {
-        $geom_unary_functions = array(
-            'IsEmpty' => 1,
+        $geom_unary_functions = [
+            'IsEmpty'  => 1,
             'IsSimple' => 1,
-            'IsRing' => 1,
+            'IsRing'   => 1,
             'IsClosed' => 1,
-        );
-        $where = '';
+        ];
+        $where                = '';
 
         // Get details about the geometry functions
         $geom_funcs = PMA_Util::getGISFunctions($types, true, false);
@@ -501,8 +507,9 @@ class PMA_TableSearch
             // If the function takes two parameters
             // create gis data from the criteria input
             $gis_data = PMA_Util::createGISData($criteriaValues);
-            $where = $geom_func . '(' . PMA_Util::backquote($names)
+            $where    = $geom_func . '(' . PMA_Util::backquote($names)
                 . ',' . $gis_data . ')';
+
             return $where;
         }
 
@@ -513,12 +520,13 @@ class PMA_TableSearch
             $where = $backquoted_name;
 
         } elseif (in_array($types, PMA_Util::getGISDatatypes())
-            && ! empty($criteriaValues)
+            && !empty($criteriaValues)
         ) {
             // create gis data from the criteria input
             $gis_data = PMA_Util::createGISData($criteriaValues);
-            $where = $backquoted_name . ' ' . $func_type . ' ' . $gis_data;
+            $where    = $backquoted_name . ' ' . $func_type . ' ' . $gis_data;
         }
+
         return $where;
     }
 
@@ -545,11 +553,11 @@ class PMA_TableSearch
         }
 
         $backquoted_name = PMA_Util::backquote($names);
-        $where = '';
+        $where           = '';
         if ($unaryFlag) {
             $where = $backquoted_name . ' ' . $func_type;
 
-        } elseif (strncasecmp($types, 'enum', 4) == 0 && ! empty($criteriaValues)) {
+        } elseif (strncasecmp($types, 'enum', 4) == 0 && !empty($criteriaValues)) {
             $where = $backquoted_name;
             $where .= $this->_getEnumWhereClause($criteriaValues, $func_type);
 
@@ -559,7 +567,8 @@ class PMA_TableSearch
             // strings to numbers and numbers to strings as necessary
             // during the comparison
             if (preg_match('@char|binary|blob|text|set|date|time|year@i', $types)
-                || /*overload*/mb_strpos(' ' . $func_type, 'LIKE')
+                || /*overload*/
+                mb_strpos(' ' . $func_type, 'LIKE')
             ) {
                 $quot = '\'';
             } else {
@@ -568,11 +577,11 @@ class PMA_TableSearch
 
             // LIKE %...%
             if ($func_type == 'LIKE %...%') {
-                $func_type = 'LIKE';
+                $func_type      = 'LIKE';
                 $criteriaValues = '%' . $criteriaValues . '%';
             }
             if ($func_type == 'REGEXP ^...$') {
-                $func_type = 'REGEXP';
+                $func_type      = 'REGEXP';
                 $criteriaValues = '^' . $criteriaValues . '$';
             }
 
@@ -588,6 +597,7 @@ class PMA_TableSearch
                     $where = $backquoted_name . ' ' . $func_type . ' ' . $quot
                         . PMA_Util::sqlAddSlashes($criteriaValues) . $quot;
                 }
+
                 return $where;
             }
             $func_type = str_replace(' (...)', '', $func_type);
@@ -604,7 +614,7 @@ class PMA_TableSearch
             foreach ($values as $key => &$value) {
                 if ('' === $value) {
                     $emptyKey = $key;
-                    $value = 'NULL';
+                    $value    = 'NULL';
                     continue;
                 }
                 $value = $quot . PMA_Util::sqlAddSlashes(trim($value))
@@ -619,7 +629,7 @@ class PMA_TableSearch
                 if (false !== $emptyKey) {
                     unset($values[$emptyKey]);
                 }
-                $wheres = array();
+                $wheres = [];
                 if (!empty($values)) {
                     $wheres[] = $backquoted_name . ' ' . $func_type
                         . ' (' . implode(',', $values) . ')';
@@ -655,7 +665,7 @@ class PMA_TableSearch
         // if all column names were selected to display, we do a 'SELECT *'
         // (more efficient and this helps prevent a problem in IE
         // if one of the rows is edited and we come back to the Select results)
-        if (isset($_POST['zoom_submit']) || ! empty($_POST['displayAllColumns'])) {
+        if (isset($_POST['zoom_submit']) || !empty($_POST['displayAllColumns'])) {
             $sql_query .= '* ';
         } else {
             $sql_query .= implode(
@@ -693,20 +703,20 @@ class PMA_TableSearch
 
         // If there are no search criteria set or no unary criteria operators,
         // return
-        if (! isset($_POST['criteriaValues'])
-            && ! isset($_POST['criteriaColumnOperators'])
+        if (!isset($_POST['criteriaValues'])
+            && !isset($_POST['criteriaColumnOperators'])
         ) {
             return '';
         }
 
         // else continue to form the where clause from column criteria values
-        $fullWhereClause = array();
+        $fullWhereClause = [];
         reset($_POST['criteriaColumnOperators']);
         while (list($column_index, $operator) = each(
             $_POST['criteriaColumnOperators']
         )) {
 
-            $unaryFlag =  $GLOBALS['PMA_Types']->isUnaryOperator($operator);
+            $unaryFlag     = $GLOBALS['PMA_Types']->isUnaryOperator($operator);
             $tmp_geom_func = isset($geom_func[$column_index])
                 ? $geom_func[$column_index] : null;
 
@@ -727,6 +737,7 @@ class PMA_TableSearch
         if ($fullWhereClause) {
             return ' WHERE ' . implode(' AND ', $fullWhereClause);
         }
+
         return '';
     }
 
@@ -742,7 +753,7 @@ class PMA_TableSearch
     {
         $html_output = '';
         // return if geometrical column is not present
-        if (! $this->_geomColumnFlag) {
+        if (!$this->_geomColumnFlag) {
             return $html_output;
         }
 
@@ -766,13 +777,14 @@ class PMA_TableSearch
             foreach ($funcs as $func_name => $func) {
                 $name = isset($func['display']) ? $func['display'] : $func_name;
                 $html_output .= '<option value="' . htmlspecialchars($name) . '">'
-                        . htmlspecialchars($name) . '</option>';
+                    . htmlspecialchars($name) . '</option>';
             }
             $html_output .= '</select>';
         } else {
             $html_output .= '&nbsp;';
         }
         $html_output .= '</td>';
+
         return $html_output;
     }
 
@@ -843,16 +855,17 @@ class PMA_TableSearch
                 . htmlspecialchars($each_field) . '</option>' . "\n";
         } // end for
         $html_output .= '</select>';
-        $choices = array(
-            'ASC' => __('Ascending'),
-            'DESC' => __('Descending')
-        );
+        $choices = [
+            'ASC'  => __('Ascending'),
+            'DESC' => __('Descending'),
+        ];
         $html_output .= PMA_Util::getRadioFields(
             'order', $choices, 'ASC', false, true, "formelement"
         );
         unset($choices);
 
         $html_output .= '</fieldset><br style="clear: both;"/></div>';
+
         return $html_output;
     }
 
@@ -898,12 +911,13 @@ class PMA_TableSearch
         $html_output .= '<td>';
         $html_output .= '<input type="number" name="maxPlotLimit"'
             . ' id="maxRowPlotLimit" required="required"'
-            . ' value="' . ((! empty($_POST['maxPlotLimit']))
+            . ' value="' . ((!empty($_POST['maxPlotLimit']))
                 ? htmlspecialchars($_POST['maxPlotLimit'])
                 : $GLOBALS['cfg']['maxRowPlotLimit'])
             . '" />';
         $html_output .= '</td></tr>';
         $html_output .= '</table>';
+
         return $html_output;
     }
 
@@ -920,15 +934,15 @@ class PMA_TableSearch
     {
         $selected_operator = (isset($_POST['criteriaColumnOperators'])
             ? $_POST['criteriaColumnOperators'][$search_index] : '');
-        $entered_value = (isset($_POST['criteriaValues'])
+        $entered_value     = (isset($_POST['criteriaValues'])
             ? $_POST['criteriaValues'] : '');
-        $titles = array(
+        $titles            = [
             'Browse' => PMA_Util::getIcon(
                 'b_browse.png', __('Browse foreign values')
-            )
-        );
+            ),
+        ];
         //Gets column's type and collation
-        $type = $this->_columnTypes[$column_index];
+        $type      = $this->_columnTypes[$column_index];
         $collation = $this->_columnCollations[$column_index];
         //Gets column's comparison operators depending on column type
         $func = '<select name="criteriaColumnOperators['
@@ -943,16 +957,17 @@ class PMA_TableSearch
         $foreignData = PMA_getForeignData(
             $this->_foreigners, $this->_columnNames[$column_index], false, '', ''
         );
-        $value =  $this->_getInputbox(
+        $value       = $this->_getInputbox(
             $foreignData, $this->_columnNames[$column_index], $type, $search_index,
             $titles, $GLOBALS['cfg']['ForeignKeyMaxLimit'], $entered_value
         );
-        return array(
-            'type' => $type,
+
+        return [
+            'type'      => $type,
             'collation' => $collation,
-            'func' => $func,
-            'value' => $value
-        );
+            'func'      => $func,
+            'value'     => $value,
+        ];
     }
 
     /**
@@ -963,7 +978,7 @@ class PMA_TableSearch
      */
     private function _getRowsNormal()
     {
-        $odd_row = true;
+        $odd_row     = true;
         $html_output = '';
         // for every column present in table
         for (
@@ -1019,9 +1034,9 @@ class PMA_TableSearch
      */
     private function _getRowsZoom()
     {
-        $odd_row = true;
+        $odd_row     = true;
         $html_output = '';
-        $type = $collation = $func = $value = array();
+        $type        = $collation = $func = $value = [];
         /**
          * Get already set search criteria (if any)
          */
@@ -1038,7 +1053,7 @@ class PMA_TableSearch
             $html_output .= '<tr class="noclick '
                 . ($odd_row ? 'odd' : 'even')
                 . '">';
-            $odd_row = ! $odd_row;
+            $odd_row = !$odd_row;
             //Select options for column names
             $html_output .= '<th><select name="criteriaColumnNames[]" id="'
                 . 'tableid_' . $i . '" >';
@@ -1063,15 +1078,15 @@ class PMA_TableSearch
             if (isset($_POST['criteriaColumnNames'])
                 && $_POST['criteriaColumnNames'][$i] != 'pma_null'
             ) {
-                $key = array_search(
+                $key           = array_search(
                     $_POST['criteriaColumnNames'][$i],
                     $this->_columnNames
                 );
-                $properties = $this->getColumnProperties($i, $key);
-                $type[$i] = $properties['type'];
+                $properties    = $this->getColumnProperties($i, $key);
+                $type[$i]      = $properties['type'];
                 $collation[$i] = $properties['collation'];
-                $func[$i] = $properties['func'];
-                $value[$i] = $properties['value'];
+                $func[$i]      = $properties['func'];
+                $value[$i]     = $properties['value'];
             }
             //Column type
             $html_output .= '<td>' . (isset($type[$i]) ? htmlspecialchars($type[$i]) : '') . '</td>';
@@ -1119,6 +1134,7 @@ class PMA_TableSearch
         }
 
         $html_output .= '</tbody></table>';
+
         return $html_output;
     }
 
@@ -1133,21 +1149,21 @@ class PMA_TableSearch
     private function _getFormTag($goto)
     {
         $html_output = '';
-        $scriptName = '';
-        $formId = '';
+        $scriptName  = '';
+        $formId      = '';
         switch ($this->_searchType) {
-        case 'normal' :
-            $scriptName = 'tbl_select.php';
-            $formId = 'tbl_search_form';
-            break;
-        case 'zoom' :
-            $scriptName = 'tbl_zoom_select.php';
-            $formId = 'zoom_search_form';
-            break;
-        case 'replace' :
-            $scriptName = 'tbl_find_replace.php';
-            $formId = 'find_replace_form';
-            break;
+            case 'normal' :
+                $scriptName = 'tbl_select.php';
+                $formId     = 'tbl_search_form';
+                break;
+            case 'zoom' :
+                $scriptName = 'tbl_zoom_select.php';
+                $formId     = 'zoom_search_form';
+                break;
+            case 'replace' :
+                $scriptName = 'tbl_find_replace.php';
+                $formId     = 'find_replace_form';
+                break;
         }
 
         $html_output .= '<form method="post" action="' . $scriptName . '" '
@@ -1169,8 +1185,8 @@ class PMA_TableSearch
      */
     public function getSecondaryTabs()
     {
-        $url_params = array();
-        $url_params['db'] = $this->_db;
+        $url_params          = [];
+        $url_params['db']    = $this->_db;
         $url_params['table'] = $this->_table;
 
         $html_output = '<ul id="topmenu2">';
@@ -1179,6 +1195,7 @@ class PMA_TableSearch
         }
         $html_output .= '</ul>';
         $html_output .= '<div class="clearfloat"></div>';
+
         return $html_output;
     }
 
@@ -1238,6 +1255,7 @@ class PMA_TableSearch
             . 'value="' . __('Go') . '" />';
         $html_output .= '</fieldset></form>';
         $html_output .= '<div id="sqlqueryresultsouter"></div>';
+
         return $html_output;
     }
 
@@ -1253,12 +1271,12 @@ class PMA_TableSearch
     public function getZoomResultsForm($goto, $data)
     {
         $html_output = '';
-        $titles = array(
+        $titles      = [
             'Browse' => PMA_Util::getIcon(
                 'b_browse.png',
                 __('Browse foreign values')
-            )
-        );
+            ),
+        ];
         $html_output .= '<form method="post" action="tbl_zoom_select.php"'
             . ' name="displayResultForm" id="zoom_display_form"'
             . ' class="ajax"' . '>';
@@ -1272,7 +1290,7 @@ class PMA_TableSearch
 
         //JSON encode the data(query result)
         $html_output .= '<center>';
-        if (isset($_POST['zoom_submit']) && ! empty($data)) {
+        if (isset($_POST['zoom_submit']) && !empty($data)) {
             $html_output .= '<div id="resizer">';
             $html_output .= '<center><a href="#" onclick="displayHelp();">'
                 . __('How to use') . '</a></center>';
@@ -1302,7 +1320,7 @@ class PMA_TableSearch
             $column_index < $nb;
             $column_index++
         ) {
-            $fieldpopup = $this->_columnNames[$column_index];
+            $fieldpopup  = $this->_columnNames[$column_index];
             $foreignData = PMA_getForeignData(
                 $this->_foreigners,
                 $fieldpopup,
@@ -1312,7 +1330,7 @@ class PMA_TableSearch
             );
             $html_output
                 .= '<tr class="noclick ' . ($odd_row ? 'odd' : 'even') . '">';
-            $odd_row = ! $odd_row;
+            $odd_row = !$odd_row;
             //Display column Names
             $html_output
                 .= '<th>' . htmlspecialchars($this->_columnNames[$column_index])
@@ -1320,10 +1338,10 @@ class PMA_TableSearch
             //Null checkbox if column can be null
             $html_output .= '<th>'
                 . (($this->_columnNullFlags[$column_index] == 'YES')
-                ? '<input type="checkbox" class="checkbox_null"'
+                    ? '<input type="checkbox" class="checkbox_null"'
                     . ' name="criteriaColumnNullFlags[' . $column_index . ']"'
                     . ' id="edit_fields_null_id_' . $column_index . '" />'
-                : '');
+                    : '');
             $html_output .= '</th>';
             //Column's Input box
             $html_output .= '<th>';
@@ -1338,6 +1356,7 @@ class PMA_TableSearch
         $html_output .= '</div>';
         $html_output .= '<input type="hidden" id="queryID" name="sql_query" />';
         $html_output .= '</form>';
+
         return $html_output;
     }
 
@@ -1348,7 +1367,7 @@ class PMA_TableSearch
      */
     function _getSearchAndReplaceHTML()
     {
-        $htmlOutput  = __('Find:')
+        $htmlOutput = __('Find:')
             . '<input type="text" value="" name="find" required />';
         $htmlOutput .= __('Replace with:')
             . '<input type="text" value="" name="replaceWith" required />';
@@ -1372,6 +1391,7 @@ class PMA_TableSearch
                 false,
                 'useRegex'
             );
+
         return $htmlOutput;
     }
 
@@ -1387,7 +1407,7 @@ class PMA_TableSearch
      */
     function _getRegexReplaceRows($columnIndex, $find, $replaceWith, $charSet)
     {
-        $column = $this->_columnNames[$columnIndex];
+        $column    = $this->_columnNames[$columnIndex];
         $sql_query = "SELECT "
             . PMA_Util::backquote($column) . ","
             . " 1," // to add an extra column that will have replaced value
@@ -1397,8 +1417,8 @@ class PMA_TableSearch
             . " WHERE " . PMA_Util::backquote($column)
             . " RLIKE '" . PMA_Util::sqlAddSlashes($find) . "' COLLATE "
             . $charSet . "_bin"; // here we
-            // change the collation of the 2nd operand to a case sensitive
-            // binary collation to make sure that the comparison is case sensitive
+        // change the collation of the 2nd operand to a case sensitive
+        // binary collation to make sure that the comparison is case sensitive
         $sql_query .= " GROUP BY " . PMA_Util::backquote($column)
             . " ORDER BY " . PMA_Util::backquote($column) . " ASC";
 
@@ -1406,19 +1426,19 @@ class PMA_TableSearch
 
         if (is_array($result)) {
             /* Iterate over possible delimiters to get one */
-            $delimiters = array('/', '@', '#', '~', '!', '$', '%', '^', '&', '_');
-            $found = false;
+            $delimiters = ['/', '@', '#', '~', '!', '$', '%', '^', '&', '_'];
+            $found      = false;
             for ($i = 0; $i < count($delimiters); $i++) {
                 if (strpos($find, $delimiters[$i]) === false) {
                     $found = true;
                     break;
                 }
             }
-            if (! $found) {
+            if (!$found) {
                 return false;
             }
             $find = $delimiters[$i] . $find . $delimiters[$i];
-            foreach ($result as $index=>$row) {
+            foreach ($result as $index => $row) {
                 $result[$index][1] = preg_replace(
                     $find,
                     $replaceWith,
@@ -1426,6 +1446,7 @@ class PMA_TableSearch
                 );
             }
         }
+
         return $result;
     }
 
@@ -1460,9 +1481,9 @@ class PMA_TableSearch
                 . "." . PMA_Util::backquote($this->_table)
                 . " WHERE " . PMA_Util::backquote($column)
                 . " LIKE '%" . $find . "%' COLLATE " . $charSet . "_bin"; // here we
-                // change the collation of the 2nd operand to a case sensitive
-                // binary collation to make sure that the comparison
-                // is case sensitive
+            // change the collation of the 2nd operand to a case sensitive
+            // binary collation to make sure that the comparison
+            // is case sensitive
             $sql_query .= " GROUP BY " . PMA_Util::backquote($column)
                 . " ORDER BY " . PMA_Util::backquote($column) . " ASC";
 
@@ -1496,9 +1517,9 @@ class PMA_TableSearch
         $odd = true;
         if (is_array($result)) {
             foreach ($result as $row) {
-                $val = $row[0];
+                $val      = $row[0];
                 $replaced = $row[1];
-                $count = $row[2];
+                $count    = $row[2];
 
                 $htmlOutput .= '<tr class="' . ($odd ? 'odd' : 'even') . '">';
                 $htmlOutput .= '<td class="right">' . htmlspecialchars($count)
@@ -1507,7 +1528,7 @@ class PMA_TableSearch
                 $htmlOutput .= '<td>' . htmlspecialchars($replaced) . '</td>';
                 $htmlOutput .= '</tr>';
 
-                $odd = ! $odd;
+                $odd = !$odd;
             }
         }
         $htmlOutput .= '</tbody>';
@@ -1520,6 +1541,7 @@ class PMA_TableSearch
         $htmlOutput .= '</fieldset>';
 
         $htmlOutput .= '</form>';
+
         return $htmlOutput;
     }
 
@@ -1555,9 +1577,9 @@ class PMA_TableSearch
                 . " WHERE " . PMA_Util::backquote($column)
                 . " RLIKE '" . PMA_Util::sqlAddSlashes($find) . "' COLLATE "
                 . $charSet . "_bin"; // here we
-                // change the collation of the 2nd operand to a case sensitive
-                // binary collation to make sure that the comparison
-                // is case sensitive
+            // change the collation of the 2nd operand to a case sensitive
+            // binary collation to make sure that the comparison
+            // is case sensitive
         } else {
             $sql_query = "UPDATE " . PMA_Util::backquote($this->_db)
                 . "." . PMA_Util::backquote($this->_table)
@@ -1568,9 +1590,9 @@ class PMA_TableSearch
                 . "')"
                 . " WHERE " . PMA_Util::backquote($column)
                 . " LIKE '%" . $find . "%' COLLATE " . $charSet . "_bin"; // here we
-                // change the collation of the 2nd operand to a case sensitive
-                // binary collation to make sure that the comparison
-                // is case sensitive
+            // change the collation of the 2nd operand to a case sensitive
+            // binary collation to make sure that the comparison
+            // is case sensitive
         }
         $GLOBALS['dbi']->query(
             $sql_query, null, PMA_DatabaseInterface::QUERY_STORE
@@ -1597,4 +1619,5 @@ class PMA_TableSearch
         return $result;
     }
 }
+
 ?>

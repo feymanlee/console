@@ -32,7 +32,7 @@ require_once 'libraries/relation.lib.php';
  * this class is for testing display_export.lib.php functions
  *
  * @package PhpMyAdmin-test
- * @group large
+ * @group   large
  */
 class PMA_DisplayExport_Test extends PHPUnit_Framework_TestCase
 {
@@ -44,32 +44,32 @@ class PMA_DisplayExport_Test extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         //$GLOBALS
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['cfg']['ExecTimeLimit'] = 300;
-        $GLOBALS['cfg']['ServerDefault'] = "PMA_server";
-        $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
-        $GLOBALS['cfg']['ActionLinksMode'] = 'icons';
-        $GLOBALS['cfg']['Server']['host'] = "localhost";
-        $GLOBALS['cfg']['Server']['user'] = "pma_user";
-        $GLOBALS['cfg']['ShowHint'] = true;
-        $GLOBALS['cfg']['ActionLinksMode'] = 'icons';
-        $GLOBALS['cfg']['ZipDump'] = true;
-        $GLOBALS['cfg']['GZipDump'] = false;
-        $GLOBALS['cfg']['BZipDump'] = false;
-        $GLOBALS['cfg']['Export']['asfile'] = true;
+        $GLOBALS['cfg']['MaxRows']                        = 10;
+        $GLOBALS['cfg']['ExecTimeLimit']                  = 300;
+        $GLOBALS['cfg']['ServerDefault']                  = "PMA_server";
+        $GLOBALS['cfg']['TableNavigationLinksMode']       = 'icons';
+        $GLOBALS['cfg']['LimitChars']                     = 100;
+        $GLOBALS['cfg']['ActionLinksMode']                = 'icons';
+        $GLOBALS['cfg']['Server']['host']                 = "localhost";
+        $GLOBALS['cfg']['Server']['user']                 = "pma_user";
+        $GLOBALS['cfg']['ShowHint']                       = true;
+        $GLOBALS['cfg']['ActionLinksMode']                = 'icons';
+        $GLOBALS['cfg']['ZipDump']                        = true;
+        $GLOBALS['cfg']['GZipDump']                       = false;
+        $GLOBALS['cfg']['BZipDump']                       = false;
+        $GLOBALS['cfg']['Export']['asfile']               = true;
         $GLOBALS['cfg']['Export']['file_template_server'] = "file_template_server";
-        $GLOBALS['PMA_PHP_SELF'] = PMA_getenv('PHP_SELF');
-        $GLOBALS['PMA_recoding_engine'] = "InnerDB";
-        $GLOBALS['server'] = 0;
+        $GLOBALS['PMA_PHP_SELF']                          = PMA_getenv('PHP_SELF');
+        $GLOBALS['PMA_recoding_engine']                   = "InnerDB";
+        $GLOBALS['server']                                = 0;
 
-        $GLOBALS['table'] = "table";
+        $GLOBALS['table']         = "table";
         $GLOBALS['pmaThemeImage'] = 'image';
-        $GLOBALS['db'] = "PMA";
+        $GLOBALS['db']            = "PMA";
 
         //$_SESSION
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
+        $_SESSION['PMA_Theme']                    = PMA_Theme::load('./themes/pmahomme');
+        $_SESSION['PMA_Theme']                    = new PMA_Theme();
         $_SESSION['relation'][$GLOBALS['server']] = "";
 
         $pmaconfig = $this->getMockBuilder('PMA_Config')
@@ -90,11 +90,11 @@ class PMA_DisplayExport_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForHiddenInput()
     {
-        $export_type = "server";
-        $db = "PMA";
-        $table = "PMA_test";
+        $export_type      = "server";
+        $db               = "PMA";
+        $table            = "PMA_test";
         $single_table_str = "PMA_single_str";
-        $sql_query_str = "sql_query_str";
+        $sql_query_str    = "sql_query_str";
 
         //Call the test function
         $html = PMA_getHtmlForHiddenInput(
@@ -131,26 +131,26 @@ class PMA_DisplayExport_Test extends PHPUnit_Framework_TestCase
     {
         global $cfg;
         $cfg['Export']['method'] = "XML";
-        $cfg['SaveDir'] = "/tmp";
+        $cfg['SaveDir']          = "/tmp";
 
-        $export_type = "server";
-        $db = "PMA";
-        $table = "PMA_test";
-        $multi_values_str = "multi_values_str";
-        $num_tables_str = "10";
-        $unlim_num_rows_str = "unlim_num_rows_str";
-        $single_table = "single_table";
+        $export_type                             = "server";
+        $db                                      = "PMA";
+        $table                                   = "PMA_test";
+        $multi_values_str                        = "multi_values_str";
+        $num_tables_str                          = "10";
+        $unlim_num_rows_str                      = "unlim_num_rows_str";
+        $single_table                            = "single_table";
         PMA_Table::$cache[$db][$table]['ENGINE'] = "MERGE";
 
-        $columns_info = array(
-            'test_column1' => array(
-                'COLUMN_NAME' => 'test_column1'
-            ),
-            'test_column2' => array(
-                'COLUMN_NAME' => 'test_column2'
-            )
-        );
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $columns_info = [
+            'test_column1' => [
+                'COLUMN_NAME' => 'test_column1',
+            ],
+            'test_column2' => [
+                'COLUMN_NAME' => 'test_column2',
+            ],
+        ];
+        $dbi          = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -163,10 +163,10 @@ class PMA_DisplayExport_Test extends PHPUnit_Framework_TestCase
         $export_list = PMA_getPlugins(
             "export",
             'libraries/plugins/export/',
-            array(
-                'export_type' => $export_type,
-                'single_table' => isset($single_table)
-            )
+            [
+                'export_type'  => $export_type,
+                'single_table' => isset($single_table),
+            ]
         );
 
         //Call the test function
@@ -288,18 +288,18 @@ class PMA_DisplayExport_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForAliasModalDialog()
     {
-        $columns_info = array(
-            'test\'_db' => array(
-                'test_<b>table' => array(
-                    'co"l1' => array(
-                        'COLUMN_NAME' => 'co"l1'
-                    ),
-                    'col<2' => array(
-                        'COLUMN_NAME' => 'col<2'
-                    )
-                )
-            )
-        );
+        $columns_info = [
+            'test\'_db' => [
+                'test_<b>table' => [
+                    'co"l1' => [
+                        'COLUMN_NAME' => 'co"l1',
+                    ],
+                    'col<2' => [
+                        'COLUMN_NAME' => 'col<2',
+                    ],
+                ],
+            ],
+        ];
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
@@ -338,8 +338,9 @@ class PMA_DisplayExport_Test extends PHPUnit_Framework_TestCase
             $html
         );
 
-        $name_attr =  'aliases[test\'_db][tables][test_&lt;b&gt;table][alias]';
-        $id_attr = /*overload*/mb_substr(md5($name_attr), 0, 12);
+        $name_attr = 'aliases[test\'_db][tables][test_&lt;b&gt;table][alias]';
+        $id_attr   = /*overload*/
+            mb_substr(md5($name_attr), 0, 12);
 
         $this->assertContains(
             '<input type="text" value="" name="' . $name_attr . '" '

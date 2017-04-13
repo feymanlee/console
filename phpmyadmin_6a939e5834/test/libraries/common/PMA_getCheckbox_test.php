@@ -4,7 +4,7 @@
  ** Test for PMA_Util::getCheckbox from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  ** Test for PMA_Util::getCheckbox from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_GetCheckboxTest extends PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class PMA_GetCheckboxTest extends PHPUnit_Framework_TestCase
      */
     function testGetCheckbox()
     {
-        $name = "test_display_html_checkbox";
+        $name  = "test_display_html_checkbox";
         $label = "text_label_for_checkbox";
 
         $this->assertEquals(
@@ -45,7 +45,7 @@ class PMA_GetCheckboxTest extends PHPUnit_Framework_TestCase
      */
     function testGetCheckboxChecked()
     {
-        $name = "test_display_html_checkbox";
+        $name  = "test_display_html_checkbox";
         $label = "text_label_for_checkbox";
 
         $this->assertEquals(
@@ -63,7 +63,7 @@ class PMA_GetCheckboxTest extends PHPUnit_Framework_TestCase
      */
     function testGetCheckboxOnclick()
     {
-        $name = "test_display_html_checkbox";
+        $name  = "test_display_html_checkbox";
         $label = "text_label_for_checkbox";
 
         $this->assertEquals(
@@ -81,7 +81,7 @@ class PMA_GetCheckboxTest extends PHPUnit_Framework_TestCase
      */
     function testGetCheckboxCheckedOnclick()
     {
-        $name = "test_display_html_checkbox";
+        $name  = "test_display_html_checkbox";
         $label = "text_label_for_checkbox";
 
         $this->assertEquals(

@@ -8,7 +8,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -78,18 +78,18 @@ function PMA_getLogInfo($url_params)
     /**
      * Need to find the real end of rows?
      */
-    if (! isset($_REQUEST['pos'])) {
+    if (!isset($_REQUEST['pos'])) {
         $pos = 0;
     } else {
         /* We need this to be a integer */
-        $pos = (int) $_REQUEST['pos'];
+        $pos = (int)$_REQUEST['pos'];
     }
 
     $sql_query = 'SHOW BINLOG EVENTS';
-    if (! empty($_REQUEST['log'])) {
+    if (!empty($_REQUEST['log'])) {
         $sql_query .= ' IN \'' . $_REQUEST['log'] . '\'';
     }
-    $sql_query .= ' LIMIT ' . $pos . ', ' . (int) $GLOBALS['cfg']['MaxRows'];
+    $sql_query .= ' LIMIT ' . $pos . ', ' . (int)$GLOBALS['cfg']['MaxRows'];
 
     /**
      * Sends the query
@@ -109,12 +109,12 @@ function PMA_getLogInfo($url_params)
     if (empty($_REQUEST['dontlimitchars'])) {
         $dontlimitchars = false;
     } else {
-        $dontlimitchars = true;
+        $dontlimitchars               = true;
         $url_params['dontlimitchars'] = 1;
     }
 
     //html output
-    $html  = PMA_Util::getMessage(PMA_Message::success(), $sql_query);
+    $html = PMA_Util::getMessage(PMA_Message::success(), $sql_query);
     $html .= '<table cellpadding="2" cellspacing="1" id="binlogTable">'
         . '<thead>'
         . '<tr>'
@@ -122,7 +122,7 @@ function PMA_getLogInfo($url_params)
 
     $html .= PMA_getNavigationRow($url_params, $pos, $num_rows, $dontlimitchars);
 
-    $html .=  '</td>'
+    $html .= '</td>'
         . '</tr>'
         . '<tr>'
         . '<th>' . __('Log name') . '</th>'
@@ -180,12 +180,12 @@ function PMA_getNavigationRow($url_params, $pos, $num_rows, $dontlimitchars)
     }
     if ($dontlimitchars) {
         unset($this_url_params['dontlimitchars']);
-        $tempTitle = __('Truncate Shown Queries');
+        $tempTitle   = __('Truncate Shown Queries');
         $tempImgMode = 'partial';
     } else {
         $this_url_params['dontlimitchars'] = 1;
-        $tempTitle = __('Show Full Queries');
-        $tempImgMode = 'full';
+        $tempTitle                         = __('Show Full Queries');
+        $tempImgMode                       = 'full';
     }
     $html .= '<a href="server_binlog.php' . PMA_URL_getCommon($this_url_params)
         . '" title="' . $tempTitle . '">'
@@ -195,7 +195,7 @@ function PMA_getNavigationRow($url_params, $pos, $num_rows, $dontlimitchars)
     // we do not now how much rows are in the binlog
     // so we can just force 'NEXT' button
     if ($num_rows >= $GLOBALS['cfg']['MaxRows']) {
-        $this_url_params = $url_params;
+        $this_url_params        = $url_params;
         $this_url_params['pos'] = $pos + $GLOBALS['cfg']['MaxRows'];
         $html .= ' - <a href="server_binlog.php'
             . PMA_URL_getCommon($this_url_params)
@@ -221,7 +221,7 @@ function PMA_getNavigationRow($url_params, $pos, $num_rows, $dontlimitchars)
  */
 function PMA_getAllLogItemInfo($result, $dontlimitchars)
 {
-    $html = "";
+    $html    = "";
     $odd_row = true;
     while ($value = $GLOBALS['dbi']->fetchAssoc($result)) {
         $html .= '<tr class="noclick ' . ($odd_row ? 'odd' : 'even') . '">'
@@ -231,13 +231,14 @@ function PMA_getAllLogItemInfo($result, $dontlimitchars)
             . '<td class="right">&nbsp;' . $value['Server_id'] . '&nbsp;</td>'
             . '<td class="right">&nbsp;'
             . (isset($value['Orig_log_pos'])
-            ? $value['Orig_log_pos'] : $value['End_log_pos'])
+                ? $value['Orig_log_pos'] : $value['End_log_pos'])
             . '&nbsp;</td>'
-            . '<td>&nbsp;' . PMA_Util::formatSql($value['Info'], ! $dontlimitchars)
+            . '<td>&nbsp;' . PMA_Util::formatSql($value['Info'], !$dontlimitchars)
             . '&nbsp;</td></tr>';
 
         $odd_row = !$odd_row;
     }
+
     return $html;
 }
 

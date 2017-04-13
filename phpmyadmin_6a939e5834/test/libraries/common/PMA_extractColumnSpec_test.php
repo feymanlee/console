@@ -4,7 +4,7 @@
  ** Test for PMA_Util::extractColumnSpec from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -53,112 +53,112 @@ class PMA_ExtractColumnSpec_Test extends PHPUnit_Framework_TestCase
      */
     public function provider()
     {
-        return array(
-            array(
+        return [
+            [
                 "SET('a','b')",
-                array(
-                    'type' => 'set',
-                    'print_type' => "set('a', 'b')",
-                    'binary' => false,
-                    'unsigned' => false,
-                    'zerofill' => false,
-                    'spec_in_brackets' => "'a','b'",
-                    'enum_set_values' => array('a', 'b'),
-                    'attribute' => ' ',
+                [
+                    'type'                  => 'set',
+                    'print_type'            => "set('a', 'b')",
+                    'binary'                => false,
+                    'unsigned'              => false,
+                    'zerofill'              => false,
+                    'spec_in_brackets'      => "'a','b'",
+                    'enum_set_values'       => ['a', 'b'],
+                    'attribute'             => ' ',
                     'can_contain_collation' => true,
-                    'displayed_type' => "set('a', 'b')"
-                ),
-            ),
-            array(
+                    'displayed_type'        => "set('a', 'b')",
+                ],
+            ],
+            [
                 "SET('\'a','b')",
-                array(
-                    'type' => 'set',
-                    'print_type' => "set('\'a', 'b')",
-                    'binary' => false,
-                    'unsigned' => false,
-                    'zerofill' => false,
-                    'spec_in_brackets' => "'\'a','b'",
-                    'enum_set_values' => array("'a", 'b'),
-                    'attribute' => ' ',
+                [
+                    'type'                  => 'set',
+                    'print_type'            => "set('\'a', 'b')",
+                    'binary'                => false,
+                    'unsigned'              => false,
+                    'zerofill'              => false,
+                    'spec_in_brackets'      => "'\'a','b'",
+                    'enum_set_values'       => ["'a", 'b'],
+                    'attribute'             => ' ',
                     'can_contain_collation' => true,
-                    'displayed_type' => "set('\'a', 'b')"
-                ),
-            ),
-            array(
+                    'displayed_type'        => "set('\'a', 'b')",
+                ],
+            ],
+            [
                 "SET('''a','b')",
-                array(
-                    'type' => 'set',
-                    'print_type' => "set('''a', 'b')",
-                    'binary' => false,
-                    'unsigned' => false,
-                    'zerofill' => false,
-                    'spec_in_brackets' => "'''a','b'",
-                    'enum_set_values' => array("'a", 'b'),
-                    'attribute' => ' ',
+                [
+                    'type'                  => 'set',
+                    'print_type'            => "set('''a', 'b')",
+                    'binary'                => false,
+                    'unsigned'              => false,
+                    'zerofill'              => false,
+                    'spec_in_brackets'      => "'''a','b'",
+                    'enum_set_values'       => ["'a", 'b'],
+                    'attribute'             => ' ',
                     'can_contain_collation' => true,
-                    'displayed_type' => "set('''a', 'b')"
-                ),
-            ),
-            array(
+                    'displayed_type'        => "set('''a', 'b')",
+                ],
+            ],
+            [
                 "ENUM('a&b', 'b''c\\'d', 'e\\\\f')",
-                array(
-                    'type' => 'enum',
-                    'print_type' => "enum('a&b', 'b''c\\'d', 'e\\\\f')",
-                    'binary' => false,
-                    'unsigned' => false,
-                    'zerofill' => false,
-                    'spec_in_brackets' => "'a&b', 'b''c\\'d', 'e\\\\f'",
-                    'enum_set_values' => array('a&b', 'b\'c\'d', 'e\\f'),
-                    'attribute' => ' ',
+                [
+                    'type'                  => 'enum',
+                    'print_type'            => "enum('a&b', 'b''c\\'d', 'e\\\\f')",
+                    'binary'                => false,
+                    'unsigned'              => false,
+                    'zerofill'              => false,
+                    'spec_in_brackets'      => "'a&b', 'b''c\\'d', 'e\\\\f'",
+                    'enum_set_values'       => ['a&b', 'b\'c\'d', 'e\\f'],
+                    'attribute'             => ' ',
                     'can_contain_collation' => true,
-                    'displayed_type' => "enum('a&amp;b', 'b''c\\'d', 'e\\\\f')"
-                ),
-            ),
-            array(
+                    'displayed_type'        => "enum('a&amp;b', 'b''c\\'d', 'e\\\\f')",
+                ],
+            ],
+            [
                 "INT UNSIGNED zerofill",
-                array(
-                    'type' => 'int',
-                    'print_type' => 'int',
-                    'binary' => false,
-                    'unsigned' => true,
-                    'zerofill' => true,
-                    'spec_in_brackets' => '',
-                    'enum_set_values' => array(),
-                    'attribute' => 'UNSIGNED ZEROFILL',
+                [
+                    'type'                  => 'int',
+                    'print_type'            => 'int',
+                    'binary'                => false,
+                    'unsigned'              => true,
+                    'zerofill'              => true,
+                    'spec_in_brackets'      => '',
+                    'enum_set_values'       => [],
+                    'attribute'             => 'UNSIGNED ZEROFILL',
                     'can_contain_collation' => false,
-                    'displayed_type' => "int"
-                ),
-            ),
-            array(
+                    'displayed_type'        => "int",
+                ],
+            ],
+            [
                 "VARCHAR(255)",
-                array(
-                    'type' => 'varchar',
-                    'print_type' => 'varchar(255)',
-                    'binary' => false,
-                    'unsigned' => false,
-                    'zerofill' => false,
-                    'spec_in_brackets' => '255',
-                    'enum_set_values' => array(),
-                    'attribute' => ' ',
+                [
+                    'type'                  => 'varchar',
+                    'print_type'            => 'varchar(255)',
+                    'binary'                => false,
+                    'unsigned'              => false,
+                    'zerofill'              => false,
+                    'spec_in_brackets'      => '255',
+                    'enum_set_values'       => [],
+                    'attribute'             => ' ',
                     'can_contain_collation' => true,
-                    'displayed_type' => "varchar(255)"
-                ),
-            ),
-            array(
+                    'displayed_type'        => "varchar(255)",
+                ],
+            ],
+            [
                 "VARBINARY(255)",
-                array(
-                    'type' => 'varbinary',
-                    'print_type' => 'varbinary(255)',
-                    'binary' => false,
-                    'unsigned' => false,
-                    'zerofill' => false,
-                    'spec_in_brackets' => '255',
-                    'enum_set_values' => array(),
-                    'attribute' => ' ',
+                [
+                    'type'                  => 'varbinary',
+                    'print_type'            => 'varbinary(255)',
+                    'binary'                => false,
+                    'unsigned'              => false,
+                    'zerofill'              => false,
+                    'spec_in_brackets'      => '255',
+                    'enum_set_values'       => [],
+                    'attribute'             => ' ',
                     'can_contain_collation' => false,
-                    'displayed_type' => "varbinary(255)"
-                ),
-            ),
-        );
+                    'displayed_type'        => "varbinary(255)",
+                ],
+            ],
+        ];
     }
 }

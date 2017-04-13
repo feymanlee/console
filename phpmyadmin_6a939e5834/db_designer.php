@@ -27,9 +27,10 @@ if (isset($_REQUEST['dialog'])) {
         );
     }
 
-    if (! empty($html)) {
+    if (!empty($html)) {
         $response->addHTML($html);
     }
+
     return;
 }
 
@@ -81,20 +82,21 @@ if (isset($_REQUEST['operation'])) {
         $response->isSuccess($success);
         $response->addJSON('message', $message);
     }
+
     return;
 }
 
-$script_display_field = PMA_getTablesInfo();
-$tab_column = PMA_getColumnsInfo();
-$script_tables = PMA_getScriptTabs();
+$script_display_field     = PMA_getTablesInfo();
+$tab_column               = PMA_getColumnsInfo();
+$script_tables            = PMA_getScriptTabs();
 $tables_pk_or_unique_keys = PMA_getPKOrUniqueKeys();
-$tables_all_keys = PMA_getAllKeys();
+$tables_all_keys          = PMA_getAllKeys();
 
-$display_page = -1;
+$display_page  = -1;
 $selected_page = null;
 
-if (! isset($_REQUEST['query'])) {
-    if (! empty($_REQUEST['page'])) {
+if (!isset($_REQUEST['query'])) {
+    if (!empty($_REQUEST['page'])) {
         $display_page = $_REQUEST['page'];
     } else {
         $display_page = PMA_getFirstPage($_REQUEST['db']);
@@ -103,20 +105,20 @@ if (! isset($_REQUEST['query'])) {
 if ($display_page != -1) {
     $selected_page = PMA_getPageName($display_page);
 }
-$tab_pos = PMA_getTablePositions($display_page);
+$tab_pos      = PMA_getTablePositions($display_page);
 $script_contr = PMA_getScriptContr();
 
-$params = array('lang' => $GLOBALS['lang']);
+$params = ['lang' => $GLOBALS['lang']];
 if (isset($_GET['db'])) {
     $params['db'] = $_GET['db'];
 }
 
 $response = PMA_Response::getInstance();
 $response->getFooter()->setMinimal();
-$header   = $response->getHeader();
+$header = $response->getHeader();
 $header->setBodyId('pmd_body');
 
-$scripts  = $header->getScripts();
+$scripts = $header->getScripts();
 $scripts->addFile('jquery/jquery.fullscreen.js');
 $scripts->addFile('pmd/designer_db.js');
 $scripts->addFile('pmd/designer_objects.js');

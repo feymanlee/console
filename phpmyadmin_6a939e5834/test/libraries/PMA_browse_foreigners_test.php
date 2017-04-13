@@ -79,8 +79,8 @@ class PMA_BrowseForeignersTest extends PHPUnit_Framework_TestCase
             PMA_getHtmlForShowAll(null)
         );
 
-        $foreignData = array();
-        $foreignData['disp_row'] = array();
+        $foreignData               = [];
+        $foreignData['disp_row']   = [];
         $GLOBALS['cfg']['ShowAll'] = false;
 
         $this->assertEquals(
@@ -89,7 +89,7 @@ class PMA_BrowseForeignersTest extends PHPUnit_Framework_TestCase
         );
 
         $GLOBALS['cfg']['ShowAll'] = true;
-        $foreignData['the_total'] = 0;
+        $foreignData['the_total']  = 0;
 
         $this->assertEquals(
             '',
@@ -118,9 +118,9 @@ class PMA_BrowseForeignersTest extends PHPUnit_Framework_TestCase
             PMA_getHtmlForGotoPage(null)
         );
 
-        $_REQUEST['pos'] = 15;
-        $foreignData = array();
-        $foreignData['disp_row'] = array();
+        $_REQUEST['pos']          = 15;
+        $foreignData              = [];
+        $foreignData['disp_row']  = [];
         $foreignData['the_total'] = 5;
 
         $this->assertEquals(
@@ -129,7 +129,7 @@ class PMA_BrowseForeignersTest extends PHPUnit_Framework_TestCase
         );
 
         $foreignData['the_total'] = 30;
-        $result = PMA_getHtmlForGotoPage($foreignData);
+        $result                   = PMA_getHtmlForGotoPage($foreignData);
 
         $this->assertStringStartsWith(
             'Page number:',
@@ -165,12 +165,12 @@ class PMA_BrowseForeignersTest extends PHPUnit_Framework_TestCase
      */
     function testGetHtmlForColumnElement()
     {
-        $cssClass = '';
-        $isSelected = false;
-        $keyname = '';
+        $cssClass    = '';
+        $isSelected  = false;
+        $keyname     = '';
         $description = 'foo';
-        $title = '';
-        $result = PMA_getHtmlForColumnElement(
+        $title       = '';
+        $result      = PMA_getHtmlForColumnElement(
             $cssClass, $isSelected, $keyname,
             $description, $title
         );
@@ -186,11 +186,11 @@ class PMA_BrowseForeignersTest extends PHPUnit_Framework_TestCase
             $result
         );
 
-        $cssClass = 'class="baz"';
+        $cssClass   = 'class="baz"';
         $isSelected = true;
-        $keyname = 'bar';
-        $title = 'foo';
-        $result = PMA_getHtmlForColumnElement(
+        $keyname    = 'bar';
+        $title      = 'foo';
+        $result     = PMA_getHtmlForColumnElement(
             $cssClass, $isSelected, $keyname,
             $description, $title
         );
@@ -220,17 +220,17 @@ class PMA_BrowseForeignersTest extends PHPUnit_Framework_TestCase
     function testGetDescriptionAndTitle()
     {
         $GLOBALS['cfg']['LimitChars'] = 30;
-        $desc = 'foobar<baz';
+        $desc                         = 'foobar<baz';
 
         $this->assertEquals(
-            array('foobar&lt;baz', ''),
+            ['foobar&lt;baz', ''],
             PMA_getDescriptionAndTitle($desc)
         );
 
         $GLOBALS['cfg']['LimitChars'] = 5;
 
         $this->assertEquals(
-            array('fooba...', 'foobar&lt;baz'),
+            ['fooba...', 'foobar&lt;baz'],
             PMA_getDescriptionAndTitle($desc)
         );
     }
@@ -242,16 +242,16 @@ class PMA_BrowseForeignersTest extends PHPUnit_Framework_TestCase
      */
     function testGetHtmlForRelationalFieldSelection()
     {
-        $db = '';
-        $table = '';
-        $field = 'foo';
-        $foreignData = array();
-        $foreignData['disp_row'] = '';
-        $fieldkey = 'bar';
-        $data = array();
-        $_REQUEST['rownumber'] = 1;
+        $db                         = '';
+        $table                      = '';
+        $field                      = 'foo';
+        $foreignData                = [];
+        $foreignData['disp_row']    = '';
+        $fieldkey                   = 'bar';
+        $data                       = [];
+        $_REQUEST['rownumber']      = 1;
         $_REQUEST['foreign_filter'] = '5';
-        $result = PMA_getHtmlForRelationalFieldSelection(
+        $result                     = PMA_getHtmlForRelationalFieldSelection(
             $db, $table, $field, $foreignData, $fieldkey, $data
         );
 
@@ -294,7 +294,7 @@ class PMA_BrowseForeignersTest extends PHPUnit_Framework_TestCase
 
         $this->assertContains(
             '<input type="text" name="foreign_filter" '
-             . 'id="input_foreign_filter" '
+            . 'id="input_foreign_filter" '
             . 'value="5" data-old="5" '
             . '/>',
             $result
@@ -315,10 +315,10 @@ class PMA_BrowseForeignersTest extends PHPUnit_Framework_TestCase
             $result
         );
 
-        $foreignData['disp_row'] = array();
-        $foreignData['the_total'] = 5;
+        $foreignData['disp_row']   = [];
+        $foreignData['the_total']  = 5;
         $GLOBALS['cfg']['ShowAll'] = false;
-        $result = PMA_getHtmlForRelationalFieldSelection(
+        $result                    = PMA_getHtmlForRelationalFieldSelection(
             $db, $table, $field, $foreignData, $fieldkey, $data
         );
 
@@ -334,4 +334,5 @@ class PMA_BrowseForeignersTest extends PHPUnit_Framework_TestCase
 
     }
 }
+
 ?>

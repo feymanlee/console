@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Export
  * @subpackage MediaWiki
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -69,11 +69,11 @@ class ExportMediawiki extends ExportPlugin
         $leaf = new RadioPropertyItem();
         $leaf->setName('structure_or_data');
         $leaf->setValues(
-            array(
-                'structure' => __('structure'),
-                'data' => __('data'),
-                'structure_and_data' => __('structure and data')
-            )
+            [
+                'structure'          => __('structure'),
+                'data'               => __('data'),
+                'structure_and_data' => __('structure and data'),
+            ]
         );
         $subgroup->setSubgroupHeader($leaf);
         $generalOptions->addProperty($subgroup);
@@ -102,7 +102,7 @@ class ExportMediawiki extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportHeader ()
+    public function exportHeader()
     {
         return true;
     }
@@ -112,7 +112,7 @@ class ExportMediawiki extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportFooter ()
+    public function exportFooter()
     {
         return true;
     }
@@ -125,7 +125,7 @@ class ExportMediawiki extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportDBHeader ($db, $db_alias = '')
+    public function exportDBHeader($db, $db_alias = '')
     {
         return true;
     }
@@ -137,7 +137,7 @@ class ExportMediawiki extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportDBFooter ($db)
+    public function exportDBFooter($db)
     {
         return true;
     }
@@ -189,77 +189,77 @@ class ExportMediawiki extends ExportPlugin
         $do_comments = false,
         $do_mime = false,
         $dates = false,
-        $aliases = array()
+        $aliases = []
     ) {
-        $db_alias = $db;
+        $db_alias    = $db;
         $table_alias = $table;
         $this->initAlias($aliases, $db_alias, $table_alias);
 
         $output = '';
-        switch($export_mode) {
-        case 'create_table':
-            $columns = $GLOBALS['dbi']->getColumns($db, $table);
-            $columns = array_values($columns);
-            $row_cnt = count($columns);
+        switch ($export_mode) {
+            case 'create_table':
+                $columns = $GLOBALS['dbi']->getColumns($db, $table);
+                $columns = array_values($columns);
+                $row_cnt = count($columns);
 
-            // Print structure comment
-            $output = $this->_exportComment(
-                "Table structure for "
-                . PMA_Util::backquote($table_alias)
-            );
+                // Print structure comment
+                $output = $this->_exportComment(
+                    "Table structure for "
+                    . PMA_Util::backquote($table_alias)
+                );
 
-            // Begin the table construction
-            $output .= "{| class=\"wikitable\" style=\"text-align:center;\""
-                     . $this->_exportCRLF();
-
-            // Add the table name
-            if (isset($GLOBALS['mediawiki_caption'])) {
-                $output .= "|+'''" . $table_alias . "'''" . $this->_exportCRLF();
-            }
-
-            // Add the table headers
-            if (isset($GLOBALS['mediawiki_headers'])) {
-                $output .= "|- style=\"background:#ffdead;\"" . $this->_exportCRLF();
-                $output .= "! style=\"background:#ffffff\" | "
+                // Begin the table construction
+                $output .= "{| class=\"wikitable\" style=\"text-align:center;\""
                     . $this->_exportCRLF();
-                for ($i = 0; $i < $row_cnt; ++$i) {
-                    $col_as = $columns[$i]['Field'];
-                    if (!empty($aliases[$db]['tables'][$table]['columns'][$col_as])
-                    ) {
-                        $col_as
-                            = $aliases[$db]['tables'][$table]['columns'][$col_as];
-                    }
-                    $output .= " | " . $col_as . $this->_exportCRLF();
+
+                // Add the table name
+                if (isset($GLOBALS['mediawiki_caption'])) {
+                    $output .= "|+'''" . $table_alias . "'''" . $this->_exportCRLF();
                 }
-            }
 
-            // Add the table structure
-            $output .= "|-" .  $this->_exportCRLF();
-            $output .= "! Type" . $this->_exportCRLF();
-            for ($i = 0; $i < $row_cnt; ++$i) {
-                $output .= " | " . $columns[$i]['Type'] . $this->_exportCRLF();
-            }
+                // Add the table headers
+                if (isset($GLOBALS['mediawiki_headers'])) {
+                    $output .= "|- style=\"background:#ffdead;\"" . $this->_exportCRLF();
+                    $output .= "! style=\"background:#ffffff\" | "
+                        . $this->_exportCRLF();
+                    for ($i = 0; $i < $row_cnt; ++$i) {
+                        $col_as = $columns[$i]['Field'];
+                        if (!empty($aliases[$db]['tables'][$table]['columns'][$col_as])
+                        ) {
+                            $col_as
+                                = $aliases[$db]['tables'][$table]['columns'][$col_as];
+                        }
+                        $output .= " | " . $col_as . $this->_exportCRLF();
+                    }
+                }
 
-            $output .= "|-" .  $this->_exportCRLF();
-            $output .= "! Null" . $this->_exportCRLF();
-            for ($i = 0; $i < $row_cnt; ++$i) {
-                $output .= " | " . $columns[$i]['Null'] . $this->_exportCRLF();
-            }
+                // Add the table structure
+                $output .= "|-" . $this->_exportCRLF();
+                $output .= "! Type" . $this->_exportCRLF();
+                for ($i = 0; $i < $row_cnt; ++$i) {
+                    $output .= " | " . $columns[$i]['Type'] . $this->_exportCRLF();
+                }
 
-            $output .= "|-" .  $this->_exportCRLF();
-            $output .= "! Default" . $this->_exportCRLF();
-            for ($i = 0; $i < $row_cnt; ++$i) {
-                $output .= " | " . $columns[$i]['Default'] . $this->_exportCRLF();
-            }
+                $output .= "|-" . $this->_exportCRLF();
+                $output .= "! Null" . $this->_exportCRLF();
+                for ($i = 0; $i < $row_cnt; ++$i) {
+                    $output .= " | " . $columns[$i]['Null'] . $this->_exportCRLF();
+                }
 
-            $output .= "|-" .  $this->_exportCRLF();
-            $output .= "! Extra" . $this->_exportCRLF();
-            for ($i = 0; $i < $row_cnt; ++$i) {
-                $output .= " | " . $columns[$i]['Extra'] . $this->_exportCRLF();
-            }
+                $output .= "|-" . $this->_exportCRLF();
+                $output .= "! Default" . $this->_exportCRLF();
+                for ($i = 0; $i < $row_cnt; ++$i) {
+                    $output .= " | " . $columns[$i]['Default'] . $this->_exportCRLF();
+                }
 
-            $output .= "|}" .  str_repeat($this->_exportCRLF(), 2);
-            break;
+                $output .= "|-" . $this->_exportCRLF();
+                $output .= "! Extra" . $this->_exportCRLF();
+                for ($i = 0; $i < $row_cnt; ++$i) {
+                    $output .= " | " . $columns[$i]['Extra'] . $this->_exportCRLF();
+                }
+
+                $output .= "|}" . str_repeat($this->_exportCRLF(), 2);
+                break;
         } // end switch
 
         return PMA_exportOutputHandler($output);
@@ -283,9 +283,9 @@ class ExportMediawiki extends ExportPlugin
         $crlf,
         $error_url,
         $sql_query,
-        $aliases = array()
+        $aliases = []
     ) {
-        $db_alias = $db;
+        $db_alias    = $db;
         $table_alias = $table;
         $this->initAlias($aliases, $db_alias, $table_alias);
 
@@ -311,7 +311,7 @@ class ExportMediawiki extends ExportPlugin
             $column_names = $GLOBALS['dbi']->getColumnNames($db, $table);
 
             // Add column names as table headers
-            if ( ! is_null($column_names) ) {
+            if (!is_null($column_names)) {
                 // Use '|-' for separating rows
                 $output .= "|-" . $this->_exportCRLF();
 
@@ -328,7 +328,7 @@ class ExportMediawiki extends ExportPlugin
         }
 
         // Get the table data from the database
-        $result = $GLOBALS['dbi']->query(
+        $result     = $GLOBALS['dbi']->query(
             $sql_query, null, PMA_DatabaseInterface::QUERY_UNBUFFERED
         );
         $fields_cnt = $GLOBALS['dbi']->numFields($result);
@@ -337,13 +337,14 @@ class ExportMediawiki extends ExportPlugin
             $output .= "|-" . $this->_exportCRLF();
 
             // Use '|' for separating table columns
-            for ($i = 0; $i < $fields_cnt; ++ $i) {
+            for ($i = 0; $i < $fields_cnt; ++$i) {
                 $output .= " | " . $row[$i] . "" . $this->_exportCRLF();
             }
         }
 
         // End table construction
         $output .= "|}" . str_repeat($this->_exportCRLF(), 2);
+
         return PMA_exportOutputHandler($output);
     }
 
@@ -359,8 +360,8 @@ class ExportMediawiki extends ExportPlugin
         // see http://www.mediawiki.org/wiki/Help:Formatting
         $comment = $this->_exportCRLF();
         $comment .= '<!--' . $this->_exportCRLF();
-        $comment .= htmlspecialchars($text)  . $this->_exportCRLF();
-        $comment .= '-->'  . str_repeat($this->_exportCRLF(), 2);
+        $comment .= htmlspecialchars($text) . $this->_exportCRLF();
+        $comment .= '-->' . str_repeat($this->_exportCRLF(), 2);
 
         return $comment;
     }
@@ -376,4 +377,5 @@ class ExportMediawiki extends ExportPlugin
         return "\n";
     }
 }
+
 ?>

@@ -14,11 +14,12 @@ require_once 'libraries/Config.class.php';
 require_once 'libraries/php-gettext/gettext.inc';
 require_once 'libraries/config.default.php';
 require_once 'export.php';
+
 /**
  * tests for ExportPhparray class
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_ExportPhparray_Test extends PHPUnit_Framework_TestCase
 {
@@ -31,13 +32,13 @@ class PMA_ExportPhparray_Test extends PHPUnit_Framework_TestCase
      */
     function setup()
     {
-        $GLOBALS['server'] = 0;
-        $GLOBALS['output_kanji_conversion'] = false;
+        $GLOBALS['server']                    = 0;
+        $GLOBALS['output_kanji_conversion']   = false;
         $GLOBALS['output_charset_conversion'] = false;
-        $GLOBALS['buffer_needed'] = false;
-        $GLOBALS['asfile'] = true;
-        $GLOBALS['save_on_server'] = false;
-        $this->object = new ExportPhparray();
+        $GLOBALS['buffer_needed']             = false;
+        $GLOBALS['asfile']                    = true;
+        $GLOBALS['save_on_server']            = false;
+        $this->object                         = new ExportPhparray();
     }
 
     /**
@@ -103,7 +104,7 @@ class PMA_ExportPhparray_Test extends PHPUnit_Framework_TestCase
         );
 
         $generalOptionsArray = $options->getProperties();
-        $generalOptions = $generalOptionsArray[0];
+        $generalOptions      = $generalOptionsArray[0];
 
         $this->assertInstanceOf(
             'OptionsPropertyMainGroup',
@@ -237,7 +238,7 @@ class PMA_ExportPhparray_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(4))
             ->method('fetchRow')
             ->with(true)
-            ->will($this->returnValue(array(1, 'a')));
+            ->will($this->returnValue([1, 'a']));
 
         $dbi->expects($this->at(5))
             ->method('fetchRow')
@@ -256,7 +257,7 @@ class PMA_ExportPhparray_Test extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             "\n" . '/* `db`.`table` */' . "\n" .
-            '$table = array('  . "\n" .
+            '$table = array(' . "\n" .
             '  array(\'c1\' => 1,\'\' => \'a\')' . "\n" .
             ');' . "\n",
             $result
@@ -298,4 +299,5 @@ class PMA_ExportPhparray_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

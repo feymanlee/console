@@ -37,22 +37,22 @@ class PMA_DisplayCreateTable_Test extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         //$GLOBALS
-        $GLOBALS['server'] = 0;
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['cfg']['ServerDefault'] = "PMA_server";
+        $GLOBALS['server']                          = 0;
+        $GLOBALS['cfg']['MaxRows']                  = 10;
+        $GLOBALS['cfg']['ServerDefault']            = "PMA_server";
         $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
-        $GLOBALS['cfg']['ActionLinksMode'] = 'icons';
-        $GLOBALS['cfg']['Server']['host'] = "localhost";
-        $GLOBALS['cfg']['Server']['user'] = "pma_user";
-        $GLOBALS['cfg']['ShowHint'] = true;
-        $GLOBALS['cfg']['ActionLinksMode'] = 'icons';
-        $GLOBALS['PMA_PHP_SELF'] = "server_privileges.php";
-        $GLOBALS['pmaThemeImage'] = 'image';
+        $GLOBALS['cfg']['LimitChars']               = 100;
+        $GLOBALS['cfg']['ActionLinksMode']          = 'icons';
+        $GLOBALS['cfg']['Server']['host']           = "localhost";
+        $GLOBALS['cfg']['Server']['user']           = "pma_user";
+        $GLOBALS['cfg']['ShowHint']                 = true;
+        $GLOBALS['cfg']['ActionLinksMode']          = 'icons';
+        $GLOBALS['PMA_PHP_SELF']                    = "server_privileges.php";
+        $GLOBALS['pmaThemeImage']                   = 'image';
 
         //$_SESSION
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
+        $_SESSION['PMA_Theme']                    = PMA_Theme::load('./themes/pmahomme');
+        $_SESSION['PMA_Theme']                    = new PMA_Theme();
         $_SESSION['relation'][$GLOBALS['server']] = "relation";
     }
 

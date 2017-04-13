@@ -18,19 +18,19 @@
  *        ogc:PropertyIsNotEqualelements.
  *  - writes matchCase attribute from comparison filters of type EQUAL_TO and
  *        type NOT_EQUAL_TO.
- * 
+ *
  * Inherits from:
  *  - <OpenLayers.Format.Filter.v1>
  */
 OpenLayers.Format.Filter.v1_1_0 = OpenLayers.Class(
-    OpenLayers.Format.GML.v3, OpenLayers.Format.Filter.v1, {
-    
+  OpenLayers.Format.GML.v3, OpenLayers.Format.Filter.v1, {
+
     /**
      * Constant: VERSION
      * {String} 1.1.0
      */
     VERSION: "1.1.0",
-    
+
     /**
      * Property: schemaLocation
      * {String} http://www.opengis.net/ogc/filter/1.1.0/filter.xsd
@@ -46,10 +46,10 @@ OpenLayers.Format.Filter.v1_1_0 = OpenLayers.Class(
      * options - {Object} An optional object whose properties will be set on
      *     this instance.
      */
-    initialize: function(options) {
-        OpenLayers.Format.GML.v3.prototype.initialize.apply(
-            this, [options]
-        );
+    initialize: function (options) {
+      OpenLayers.Format.GML.v3.prototype.initialize.apply(
+        this, [options]
+      );
     },
 
     /**
@@ -61,39 +61,39 @@ OpenLayers.Format.Filter.v1_1_0 = OpenLayers.Class(
      *     from the parent.
      */
     readers: {
-        "ogc": OpenLayers.Util.applyDefaults({
-            "PropertyIsEqualTo": function(node, obj) {
-                var matchCase = node.getAttribute("matchCase");
-                var filter = new OpenLayers.Filter.Comparison({
-                    type: OpenLayers.Filter.Comparison.EQUAL_TO,
-                    matchCase: !(matchCase === "false" || matchCase === "0")
-                });
-                this.readChildNodes(node, filter);
-                obj.filters.push(filter);
-            },
-            "PropertyIsNotEqualTo": function(node, obj) {
-                var matchCase = node.getAttribute("matchCase");
-                var filter = new OpenLayers.Filter.Comparison({
-                    type: OpenLayers.Filter.Comparison.NOT_EQUAL_TO,
-                    matchCase: !(matchCase === "false" || matchCase === "0")
-                });
-                this.readChildNodes(node, filter);
-                obj.filters.push(filter);
-            },
-            "PropertyIsLike": function(node, obj) {
-                var filter = new OpenLayers.Filter.Comparison({
-                    type: OpenLayers.Filter.Comparison.LIKE
-                });
-                this.readChildNodes(node, filter);
-                var wildCard = node.getAttribute("wildCard");
-                var singleChar = node.getAttribute("singleChar");
-                var esc = node.getAttribute("escapeChar");
-                filter.value2regex(wildCard, singleChar, esc);
-                obj.filters.push(filter);
-            }
-        }, OpenLayers.Format.Filter.v1.prototype.readers["ogc"]),
-        "gml": OpenLayers.Format.GML.v3.prototype.readers["gml"],
-        "feature": OpenLayers.Format.GML.v3.prototype.readers["feature"]        
+      "ogc": OpenLayers.Util.applyDefaults({
+        "PropertyIsEqualTo": function (node, obj) {
+          var matchCase = node.getAttribute("matchCase");
+          var filter = new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.EQUAL_TO,
+            matchCase: !(matchCase === "false" || matchCase === "0")
+          });
+          this.readChildNodes(node, filter);
+          obj.filters.push(filter);
+        },
+        "PropertyIsNotEqualTo": function (node, obj) {
+          var matchCase = node.getAttribute("matchCase");
+          var filter = new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.NOT_EQUAL_TO,
+            matchCase: !(matchCase === "false" || matchCase === "0")
+          });
+          this.readChildNodes(node, filter);
+          obj.filters.push(filter);
+        },
+        "PropertyIsLike": function (node, obj) {
+          var filter = new OpenLayers.Filter.Comparison({
+            type: OpenLayers.Filter.Comparison.LIKE
+          });
+          this.readChildNodes(node, filter);
+          var wildCard = node.getAttribute("wildCard");
+          var singleChar = node.getAttribute("singleChar");
+          var esc = node.getAttribute("escapeChar");
+          filter.value2regex(wildCard, singleChar, esc);
+          obj.filters.push(filter);
+        }
+      }, OpenLayers.Format.Filter.v1.prototype.readers["ogc"]),
+      "gml": OpenLayers.Format.GML.v3.prototype.readers["gml"],
+      "feature": OpenLayers.Format.GML.v3.prototype.readers["feature"]
     },
 
     /**
@@ -103,50 +103,51 @@ OpenLayers.Format.Filter.v1_1_0 = OpenLayers.Class(
      *     node names they produce.
      */
     writers: {
-        "ogc": OpenLayers.Util.applyDefaults({
-            "PropertyIsEqualTo": function(filter) {
-                var node = this.createElementNSPlus("ogc:PropertyIsEqualTo", {
-                    attributes: {matchCase: filter.matchCase}
-                });
-                // no ogc:expression handling for now
-                this.writeNode("PropertyName", filter, node);
-                this.writeNode("Literal", filter.value, node);
-                return node;
-            },
-            "PropertyIsNotEqualTo": function(filter) {
-                var node = this.createElementNSPlus("ogc:PropertyIsNotEqualTo", {
-                    attributes: {matchCase: filter.matchCase}
-                });
-                // no ogc:expression handling for now
-                this.writeNode("PropertyName", filter, node);
-                this.writeNode("Literal", filter.value, node);
-                return node;
-            },
-            "PropertyIsLike": function(filter) {
-                var node = this.createElementNSPlus("ogc:PropertyIsLike", {
-                    attributes: {
-                        wildCard: "*", singleChar: ".", escapeChar: "!"
-                    }
-                });
-                // no ogc:expression handling for now
-                this.writeNode("PropertyName", filter, node);
-                // convert regex string to ogc string
-                this.writeNode("Literal", filter.regex2value(), node);
-                return node;
-            },
-            "BBOX": function(filter) {
-                var node = this.createElementNSPlus("ogc:BBOX");
-                this.writeNode("PropertyName", filter, node);
-                var box = this.writeNode("gml:Envelope", filter.value);
-                if(filter.projection) {
-                    box.setAttribute("srsName", filter.projection);
-                }
-                node.appendChild(box); 
-                return node;
-            }}, OpenLayers.Format.Filter.v1.prototype.writers["ogc"]),
-            
-        "gml": OpenLayers.Format.GML.v3.prototype.writers["gml"],
-        "feature": OpenLayers.Format.GML.v3.prototype.writers["feature"]
+      "ogc": OpenLayers.Util.applyDefaults({
+        "PropertyIsEqualTo": function (filter) {
+          var node = this.createElementNSPlus("ogc:PropertyIsEqualTo", {
+            attributes: {matchCase: filter.matchCase}
+          });
+          // no ogc:expression handling for now
+          this.writeNode("PropertyName", filter, node);
+          this.writeNode("Literal", filter.value, node);
+          return node;
+        },
+        "PropertyIsNotEqualTo": function (filter) {
+          var node = this.createElementNSPlus("ogc:PropertyIsNotEqualTo", {
+            attributes: {matchCase: filter.matchCase}
+          });
+          // no ogc:expression handling for now
+          this.writeNode("PropertyName", filter, node);
+          this.writeNode("Literal", filter.value, node);
+          return node;
+        },
+        "PropertyIsLike": function (filter) {
+          var node = this.createElementNSPlus("ogc:PropertyIsLike", {
+            attributes: {
+              wildCard: "*", singleChar: ".", escapeChar: "!"
+            }
+          });
+          // no ogc:expression handling for now
+          this.writeNode("PropertyName", filter, node);
+          // convert regex string to ogc string
+          this.writeNode("Literal", filter.regex2value(), node);
+          return node;
+        },
+        "BBOX": function (filter) {
+          var node = this.createElementNSPlus("ogc:BBOX");
+          this.writeNode("PropertyName", filter, node);
+          var box = this.writeNode("gml:Envelope", filter.value);
+          if (filter.projection) {
+            box.setAttribute("srsName", filter.projection);
+          }
+          node.appendChild(box);
+          return node;
+        }
+      }, OpenLayers.Format.Filter.v1.prototype.writers["ogc"]),
+
+      "gml": OpenLayers.Format.GML.v3.prototype.writers["gml"],
+      "feature": OpenLayers.Format.GML.v3.prototype.writers["feature"]
     },
 
     /**
@@ -161,22 +162,22 @@ OpenLayers.Format.Filter.v1_1_0 = OpenLayers.Class(
      * Returns:
      * {DOMElement} The created XML element.
      */
-    writeSpatial: function(filter, name) {
-        var node = this.createElementNSPlus("ogc:"+name);
-        this.writeNode("PropertyName", filter, node);
-        var child;
-        if(filter.value instanceof OpenLayers.Geometry) {
-            child = this.writeNode("feature:_geometry", filter.value).firstChild;
-        } else {
-            child = this.writeNode("gml:Envelope", filter.value);
-        }
-        if(filter.projection) {
-            child.setAttribute("srsName", filter.projection);
-        }
-        node.appendChild(child);
-        return node;
+    writeSpatial: function (filter, name) {
+      var node = this.createElementNSPlus("ogc:" + name);
+      this.writeNode("PropertyName", filter, node);
+      var child;
+      if (filter.value instanceof OpenLayers.Geometry) {
+        child = this.writeNode("feature:_geometry", filter.value).firstChild;
+      } else {
+        child = this.writeNode("gml:Envelope", filter.value);
+      }
+      if (filter.projection) {
+        child.setAttribute("srsName", filter.projection);
+      }
+      node.appendChild(child);
+      return node;
     },
 
-    CLASS_NAME: "OpenLayers.Format.Filter.v1_1_0" 
+    CLASS_NAME: "OpenLayers.Format.Filter.v1_1_0"
 
-});
+  });

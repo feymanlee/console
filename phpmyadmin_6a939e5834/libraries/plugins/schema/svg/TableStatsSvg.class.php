@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -42,11 +42,11 @@ class Table_Stats_Svg extends TableStats
      * @param boolean $offline          Whether the coordinates are sent
      *                                  from the browser
      *
-     * @global object  $svg         The current SVG image document
+     * @global object $svg              The current SVG image document
      *
      * @access private
      *
-     * @see PMA_SVG, Table_Stats_Svg::Table_Stats_setWidth,
+     * @see    PMA_SVG, Table_Stats_Svg::Table_Stats_setWidth,
      *       Table_Stats_Svg::Table_Stats_setHeight
      */
     function __construct(
@@ -89,14 +89,14 @@ class Table_Stats_Svg extends TableStats
      * @param string  $font     The font size
      * @param integer $fontSize The font size
      *
-     * @global object $svg The current SVG image document
+     * @global object $svg      The current SVG image document
      *
      * @return void
      * @access private
      *
-     * @see PMA_SVG
+     * @see    PMA_SVG
      */
-    private function _setWidthTable($font,$fontSize)
+    private function _setWidthTable($font, $fontSize)
     {
         foreach ($this->fields as $field) {
             $this->width = max(
@@ -128,7 +128,7 @@ class Table_Stats_Svg extends TableStats
     function _setHeightTable($fontSize)
     {
         $this->heightCell = $fontSize + 4;
-        $this->height = (count($this->fields) + 1) * $this->heightCell;
+        $this->height     = (count($this->fields) + 1) * $this->heightCell;
     }
 
     /**
@@ -136,12 +136,12 @@ class Table_Stats_Svg extends TableStats
      *
      * @param boolean $showColor Whether to display color
      *
-     * @global object $svg The current SVG image document
+     * @global object $svg       The current SVG image document
      *
      * @access public
      * @return void
      *
-     * @see PMA_SVG,PMA_SVG::printElement
+     * @see    PMA_SVG,PMA_SVG::printElement
      */
     public function tableDraw($showColor)
     {
@@ -152,12 +152,12 @@ class Table_Stats_Svg extends TableStats
             $this->heightCell, null, 'fill:red;stroke:black;'
         );
         $svg->printElement(
-            'text', $this->x + 5, $this->y+ 14, $this->width, $this->heightCell,
+            'text', $this->x + 5, $this->y + 14, $this->width, $this->heightCell,
             $this->getTitle(), 'fill:none;stroke:black;'
         );
         foreach ($this->fields as $field) {
             $this->currentCell += $this->heightCell;
-            $fillColor    = 'none';
+            $fillColor = 'none';
             if ($showColor) {
                 if (in_array($field, $this->primary)) {
                     $fillColor = '#0c0';
@@ -177,4 +177,5 @@ class Table_Stats_Svg extends TableStats
         }
     }
 }
+
 ?>

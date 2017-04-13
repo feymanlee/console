@@ -25,7 +25,7 @@ $scripts->addFile('jquery/jquery-ui-timepicker-addon.js');
 require 'libraries/db_common.inc.php';
 
 // If config variable $GLOBALS['cfg']['Usedbsearch'] is on false : exit.
-if (! $GLOBALS['cfg']['UseDbSearch']) {
+if (!$GLOBALS['cfg']['UseDbSearch']) {
     PMA_Util::mysqlDie(
         __('Access denied!'), '', false, $err_url
     );
@@ -37,7 +37,7 @@ $url_params['goto'] = 'db_search.php';
 $db_search = new PMA_DbSearch($GLOBALS['db']);
 
 // Display top links if we are not in an Ajax request
-if ( $GLOBALS['is_ajax_request'] != true) {
+if ($GLOBALS['is_ajax_request'] != true) {
     include 'libraries/db_info.inc.php';
 }
 

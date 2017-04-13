@@ -23,13 +23,13 @@ session_name($session_name);
 /* Was data posted? */
 if (isset($_POST['user'])) {
     /* Store there credentials */
-    $_SESSION['PMA_single_signon_user'] = $_POST['user'];
+    $_SESSION['PMA_single_signon_user']     = $_POST['user'];
     $_SESSION['PMA_single_signon_password'] = $_POST['password'];
-    $_SESSION['PMA_single_signon_host'] = $_POST['host'];
-    $_SESSION['PMA_single_signon_port'] = $_POST['port'];
+    $_SESSION['PMA_single_signon_host']     = $_POST['host'];
+    $_SESSION['PMA_single_signon_port']     = $_POST['port'];
     /* Update another field of server configuration */
-    $_SESSION['PMA_single_signon_cfgupdate'] = array('verbose' => 'Signon test');
-    $id = session_id();
+    $_SESSION['PMA_single_signon_cfgupdate'] = ['verbose' => 'Signon test'];
+    $id                                      = session_id();
     /* Close that session */
     @session_write_close();
     /* Redirect to phpMyAdmin (should use absolute URL here!) */
@@ -39,12 +39,12 @@ if (isset($_POST['user'])) {
     header('Content-Type: text/html; charset=utf-8');
     echo '<?xml version="1.0" encoding="utf-8"?>' . "\n";
     ?>
-    <!DOCTYPE HTML>
-    <html lang="en" dir="ltr">
+  <!DOCTYPE HTML>
+  <html lang="en" dir="ltr">
     <head>
-    <link rel="icon" href="../favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
-    <meta charset="utf-8" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
+    <meta charset="utf-8"/>
     <title>phpMyAdmin single signon example</title>
     </head>
     <body>
@@ -56,13 +56,13 @@ if (isset($_POST['user'])) {
     }
     ?>
     <form action="signon.php" method="post">
-    Username: <input type="text" name="user" /><br />
-    Password: <input type="password" name="password" /><br />
+    Username: <input type="text" name="user"/><br/>
+    Password: <input type="password" name="password"/><br/>
     Host: (will use the one from config.inc.php by default)
-    <input type="text" name="host" /><br />
+    <input type="text" name="host"/><br/>
     Port: (will use the one from config.inc.php by default)
-    <input type="text" name="port" /><br />
-    <input type="submit" />
+    <input type="text" name="port"/><br/>
+    <input type="submit"/>
     </form>
     </body>
     </html>

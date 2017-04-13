@@ -6,7 +6,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -17,38 +17,38 @@ if (! defined('PHPMYADMIN')) {
  */
 function PMA_getColumnOrder()
 {
-    $column_order = array();
-    $column_order['DEFAULT_COLLATION_NAME'] = array(
-        'disp_name' => __('Collation'),
+    $column_order                           = [];
+    $column_order['DEFAULT_COLLATION_NAME'] = [
+        'disp_name'            => __('Collation'),
         'description_function' => 'PMA_getCollationDescr',
-        'format'    => 'string',
-        'footer'    => PMA_getServerCollation(),
-    );
-    $column_order['SCHEMA_TABLES'] = array(
+        'format'               => 'string',
+        'footer'               => PMA_getServerCollation(),
+    ];
+    $column_order['SCHEMA_TABLES']          = [
         'disp_name' => __('Tables'),
         'format'    => 'number',
         'footer'    => 0,
-    );
-    $column_order['SCHEMA_TABLE_ROWS'] = array(
+    ];
+    $column_order['SCHEMA_TABLE_ROWS']      = [
         'disp_name' => __('Rows'),
         'format'    => 'number',
         'footer'    => 0,
-    );
-    $column_order['SCHEMA_DATA_LENGTH'] = array(
+    ];
+    $column_order['SCHEMA_DATA_LENGTH']     = [
         'disp_name' => __('Data'),
         'format'    => 'byte',
         'footer'    => 0,
-    );
-    $column_order['SCHEMA_INDEX_LENGTH'] = array(
+    ];
+    $column_order['SCHEMA_INDEX_LENGTH']    = [
         'disp_name' => __('Indexes'),
         'format'    => 'byte',
         'footer'    => 0,
-    );
-    $column_order['SCHEMA_LENGTH'] = array(
+    ];
+    $column_order['SCHEMA_LENGTH']          = [
         'disp_name' => __('Total'),
         'format'    => 'byte',
         'footer'    => 0,
-    );
+    ];
     // At this point we were preparing the display of Overhead using DATA_FREE
     // but its content does not represent the real overhead in the case
     // of InnoDB
@@ -87,17 +87,17 @@ function PMA_buildHtmlForDb(
         $out .= ' /></td>';
     }
     $out .= '<td class="name">'
-           . '<a href="' . $GLOBALS['cfg']['DefaultTabDatabase']
-           . $url_query . '&amp;db='
-           . urlencode($current['SCHEMA_NAME']) . '" title="'
-           . sprintf(
-               __('Jump to database'),
-               htmlspecialchars($current['SCHEMA_NAME'])
-           )
-           . '">'
-           . ' ' . htmlspecialchars($current['SCHEMA_NAME'])
-           . '</a>'
-           . '</td>';
+        . '<a href="' . $GLOBALS['cfg']['DefaultTabDatabase']
+        . $url_query . '&amp;db='
+        . urlencode($current['SCHEMA_NAME']) . '" title="'
+        . sprintf(
+            __('Jump to database'),
+            htmlspecialchars($current['SCHEMA_NAME'])
+        )
+        . '">'
+        . ' ' . htmlspecialchars($current['SCHEMA_NAME'])
+        . '</a>'
+        . '</td>';
 
     foreach ($column_order as $stat_name => $stat) {
         if (array_key_exists($stat_name, $current)) {
@@ -140,17 +140,20 @@ function PMA_buildHtmlForDb(
                 $current["SCHEMA_NAME"],
                 $replication_info[$type]['Ignore_DB']
             );
-            if (/*overload*/mb_strlen($key) > 0) {
-                $out .= PMA_Util::getIcon('s_cancel.png',  __('Not replicated'));
+            if (/*overload*/
+                mb_strlen($key) > 0
+            ) {
+                $out .= PMA_Util::getIcon('s_cancel.png', __('Not replicated'));
             } else {
                 $key = array_search(
                     $current["SCHEMA_NAME"], $replication_info[$type]['Do_DB']
                 );
 
-                if (/*overload*/mb_strlen($key) > 0
+                if (/*overload*/
+                    mb_strlen($key) > 0
                     || (isset($replication_info[$type]['Do_DB'][0])
-                    && $replication_info[$type]['Do_DB'][0] == ""
-                    && count($replication_info[$type]['Do_DB']) == 1)
+                        && $replication_info[$type]['Do_DB'][0] == ""
+                        && count($replication_info[$type]['Do_DB']) == 1)
                 ) {
                     // if ($key != null) did not work for index "0"
                     $out .= PMA_Util::getIcon('s_success.png', __('Replicated'));
@@ -163,22 +166,24 @@ function PMA_buildHtmlForDb(
 
     if ($is_superuser && !PMA_DRIZZLE) {
         $out .= '<td class="tool">'
-               . '<a onclick="'
-               . 'PMA_commonActions.setDb(\''
-               . PMA_jsFormat($current['SCHEMA_NAME']) . '\');'
-               . '" href="server_privileges.php' . $url_query
-               . '&amp;db=' . urlencode($current['SCHEMA_NAME'])
-               . '&amp;checkprivsdb=' . urlencode($current['SCHEMA_NAME'])
-               . '" title="'
-               . htmlspecialchars(sprintf(
-                   __('Check privileges for database "%s".'),
-                   $current['SCHEMA_NAME']
-               ))
-               . '">'
-               . ' '
-               . PMA_Util::getIcon('s_rights.png', __('Check Privileges'))
-               . '</a></td>';
+            . '<a onclick="'
+            . 'PMA_commonActions.setDb(\''
+            . PMA_jsFormat($current['SCHEMA_NAME']) . '\');'
+            . '" href="server_privileges.php' . $url_query
+            . '&amp;db=' . urlencode($current['SCHEMA_NAME'])
+            . '&amp;checkprivsdb=' . urlencode($current['SCHEMA_NAME'])
+            . '" title="'
+            . htmlspecialchars(sprintf(
+                __('Check privileges for database "%s".'),
+                $current['SCHEMA_NAME']
+            ))
+            . '">'
+            . ' '
+            . PMA_Util::getIcon('s_rights.png', __('Check Privileges'))
+            . '</a></td>';
     }
-    return array($column_order, $out);
+
+    return [$column_order, $out];
 }
+
 ?>

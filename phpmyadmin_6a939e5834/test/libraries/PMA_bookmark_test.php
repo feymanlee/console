@@ -31,10 +31,10 @@ class PMA_Bookmark_Test extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $GLOBALS['cfg']['Server']['user'] = 'root';
-        $GLOBALS['cfg']['Server']['pmadb'] = 'phpmyadmin';
+        $GLOBALS['cfg']['Server']['user']          = 'root';
+        $GLOBALS['cfg']['Server']['pmadb']         = 'phpmyadmin';
         $GLOBALS['cfg']['Server']['bookmarktable'] = 'pma_bookmark';
-        $GLOBALS['server'] = 1;
+        $GLOBALS['server']                         = 1;
 
         include_once 'libraries/bookmark.lib.php';
     }
@@ -60,7 +60,7 @@ class PMA_Bookmark_Test extends PHPUnit_Framework_TestCase
     public function testPMA_Bookmark_getList()
     {
         $this->assertEquals(
-            array(),
+            [],
             PMA_Bookmark_getList('phpmyadmin')
         );
     }
@@ -85,12 +85,12 @@ class PMA_Bookmark_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMA_Bookmark_save()
     {
-        $bookmark = array(
+        $bookmark = [
             'dbase' => 'phpmyadmin',
-            'user' => 'phpmyadmin',
+            'user'  => 'phpmyadmin',
             'query' => 'SELECT "phpmyadmin"',
             'label' => 'phpmyadmin',
-        );
+        ];
 
         $this->assertfalse(PMA_Bookmark_save($bookmark));
     }

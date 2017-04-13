@@ -31,8 +31,8 @@ $binary_logs = PMA_DRIZZLE
         PMA_DatabaseInterface::QUERY_STORE
     );
 
-if (! isset($_REQUEST['log'])
-    || ! array_key_exists($_REQUEST['log'], $binary_logs)
+if (!isset($_REQUEST['log'])
+    || !array_key_exists($_REQUEST['log'], $binary_logs)
 ) {
     $_REQUEST['log'] = '';
 } else {

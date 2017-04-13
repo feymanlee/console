@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -21,7 +21,7 @@ if (! defined('PHPMYADMIN')) {
 function PMA_getColumnMap($sql_query, $view_columns)
 {
 
-    $column_map = array();
+    $column_map = [];
     // Select query which give results for VIEW
     $real_source_result = $GLOBALS['dbi']->tryQuery($sql_query);
 
@@ -32,13 +32,13 @@ function PMA_getColumnMap($sql_query, $view_columns)
         );
 
         $nbColumns = count($view_columns);
-        $nbFields = count($real_source_fields_meta);
+        $nbFields  = count($real_source_fields_meta);
         if ($nbFields > 0) {
 
-            for ($i=0; $i < $nbFields; $i++) {
+            for ($i = 0; $i < $nbFields; $i++) {
 
-                $map = array();
-                $map['table_name'] = $real_source_fields_meta[$i]->table;
+                $map                    = [];
+                $map['table_name']      = $real_source_fields_meta[$i]->table;
                 $map['refering_column'] = $real_source_fields_meta[$i]->name;
 
                 if ($nbColumns > 1) {
@@ -108,7 +108,7 @@ function PMA_getNewTransformationDataSql(
         . ' VALUES ';
 
     $column_count = 0;
-    $add_comma = false;
+    $add_comma    = false;
 
     while ($data_row = $GLOBALS['dbi']->fetchAssoc($pma_transformation_data)) {
 
@@ -126,8 +126,8 @@ function PMA_getNewTransformationDataSql(
                     . '\'';
 
                 $new_transformations_sql .= (isset($column['real_column']))
-                        ? $column['real_column']
-                        : $column['refering_column'];
+                    ? $column['real_column']
+                    : $column['refering_column'];
 
                 $new_transformations_sql .= '\', '
                     . '\'' . $data_row['comment'] . '\', '

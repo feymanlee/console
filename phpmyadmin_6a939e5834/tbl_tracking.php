@@ -23,10 +23,10 @@ require './libraries/tbl_common.inc.php';
 
 if (PMA_Tracker::isActive()
     && PMA_Tracker::isTracked($GLOBALS["db"], $GLOBALS["table"])
-    && ! (isset($_REQUEST['toggle_activation'])
-    && $_REQUEST['toggle_activation'] == 'deactivate_now')
-    && ! (isset($_REQUEST['report_export'])
-    && $_REQUEST['export_type'] == 'sqldumpfile')
+    && !(isset($_REQUEST['toggle_activation'])
+        && $_REQUEST['toggle_activation'] == 'deactivate_now')
+    && !(isset($_REQUEST['report_export'])
+        && $_REQUEST['export_type'] == 'sqldumpfile')
 ) {
     $msg = PMA_Message::notice(
         sprintf(
@@ -49,25 +49,25 @@ if (isset($_REQUEST['report']) || isset($_REQUEST['report_export'])) {
 
     $selection_schema = false;
     $selection_data   = false;
-    $selection_both  = false;
+    $selection_both   = false;
 
-    if (! isset($_REQUEST['logtype'])) {
+    if (!isset($_REQUEST['logtype'])) {
         $_REQUEST['logtype'] = 'schema_and_data';
     }
     if ($_REQUEST['logtype'] == 'schema') {
         $selection_schema = true;
     } elseif ($_REQUEST['logtype'] == 'data') {
-        $selection_data   = true;
+        $selection_data = true;
     } else {
-        $selection_both   = true;
+        $selection_both = true;
     }
-    if (! isset($_REQUEST['date_from'])) {
+    if (!isset($_REQUEST['date_from'])) {
         $_REQUEST['date_from'] = $data['date_from'];
     }
-    if (! isset($_REQUEST['date_to'])) {
+    if (!isset($_REQUEST['date_to'])) {
         $_REQUEST['date_to'] = $data['date_to'];
     }
-    if (! isset($_REQUEST['users'])) {
+    if (!isset($_REQUEST['users'])) {
         $_REQUEST['users'] = '*';
     }
     $filter_ts_from = strtotime($_REQUEST['date_from']);
@@ -93,7 +93,7 @@ $html = '<br />';
  * Actions
  */
 if (isset($_REQUEST['submit_mult'])) {
-    if (! empty($_REQUEST['selected_versions'])) {
+    if (!empty($_REQUEST['selected_versions'])) {
         if ($_REQUEST['submit_mult'] == 'delete_version') {
             foreach ($_REQUEST['selected_versions'] as $version) {
                 PMA_deleteTrackingVersion($version);
@@ -135,7 +135,7 @@ if (isset($_REQUEST['toggle_activation'])
 // Export as SQL execution
 if (isset($_REQUEST['report_export']) && $_REQUEST['export_type'] == 'execution') {
     $sql_result = PMA_exportAsSQLExecution($entries);
-    $msg = PMA_Message::success(__('SQL statements executed.'));
+    $msg        = PMA_Message::success(__('SQL statements executed.'));
     $html .= $msg->getDisplay();
 }
 
@@ -183,7 +183,7 @@ $html .= '<br />';
 /*
  * List versions of current table
  */
-$sql_result = PMA_getListOfVersionsOfTable();
+$sql_result   = PMA_getListOfVersionsOfTable();
 $last_version = PMA_getTableLastVersionNumber($sql_result);
 if ($last_version > 0) {
     $html .= PMA_getHtmlForTableVersionDetails(
@@ -197,7 +197,7 @@ $html .= PMA_getHtmlForDataDefinitionAndManipulationStatements(
     'tbl_tracking.php' . $url_query,
     $last_version,
     $GLOBALS['db'],
-    array($GLOBALS['table']),
+    [$GLOBALS['table']],
     $type
 );
 

@@ -32,8 +32,8 @@ class Advisor_Test extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
-        $GLOBALS['server'] = 0;
+        $_SESSION['PMA_Theme']           = PMA_Theme::load('./themes/pmahomme');
+        $GLOBALS['server']               = 0;
         $GLOBALS['cfg']['ServerDefault'] = '';
     }
 
@@ -59,12 +59,12 @@ class Advisor_Test extends PHPUnit_Framework_TestCase
      */
     public function escapeStrings()
     {
-        return array(
-            array('80%', '80%%'),
-            array('%s%', '%s%%'),
-            array('80% foo', '80%% foo'),
-            array('%s% foo', '%s%% foo'),
-            );
+        return [
+            ['80%', '80%%'],
+            ['%s%', '%s%%'],
+            ['80% foo', '80%% foo'],
+            ['%s% foo', '%s%% foo'],
+        ];
     }
 
     /**
@@ -74,9 +74,9 @@ class Advisor_Test extends PHPUnit_Framework_TestCase
      */
     public function testParse()
     {
-        $advisor = new Advisor();
+        $advisor     = new Advisor();
         $parseResult = $advisor->parseRulesFile();
-        $this->assertEquals($parseResult['errors'], array());
+        $this->assertEquals($parseResult['errors'], []);
     }
 
     /**
@@ -119,21 +119,21 @@ class Advisor_Test extends PHPUnit_Framework_TestCase
      *
      * @return void
      *
-     * @depends testParse
+     * @depends      testParse
      * @dataProvider rulesProvider
      */
     public function testAddRule($rule, $expected, $error)
     {
-        $advisor = new Advisor();
+        $advisor     = new Advisor();
         $parseResult = $advisor->parseRulesFile();
-        $this->assertEquals($parseResult['errors'], array());
+        $this->assertEquals($parseResult['errors'], []);
         $advisor->variables['value'] = 0;
         $advisor->addRule('fired', $rule);
         if (isset($advisor->runResult['errors']) || !is_null($error)) {
-            $this->assertEquals(array($error), $advisor->runResult['errors']);
+            $this->assertEquals([$error], $advisor->runResult['errors']);
         }
-        if (isset($advisor->runResult['fired']) || $expected != array()) {
-            $this->assertEquals(array($expected), $advisor->runResult['fired']);
+        if (isset($advisor->runResult['fired']) || $expected != []) {
+            $this->assertEquals([$expected], $advisor->runResult['fired']);
         }
     }
 
@@ -144,134 +144,135 @@ class Advisor_Test extends PHPUnit_Framework_TestCase
      */
     public function rulesProvider()
     {
-        return array(
-            array(
-                array(
-                    'justification' => 'foo',
-                    'name' => 'Basic',
-                    'issue' => 'issue',
-                    'recommendation' => 'Recommend'
-                ),
-                array(
-                    'justification' => 'foo',
-                    'id' => 'Basic',
-                    'name' => 'Basic',
-                    'issue' => 'issue',
-                    'recommendation' => 'Recommend'
-                ),
+        return [
+            [
+                [
+                    'justification'  => 'foo',
+                    'name'           => 'Basic',
+                    'issue'          => 'issue',
+                    'recommendation' => 'Recommend',
+                ],
+                [
+                    'justification'  => 'foo',
+                    'id'             => 'Basic',
+                    'name'           => 'Basic',
+                    'issue'          => 'issue',
+                    'recommendation' => 'Recommend',
+                ],
                 null,
-            ),
-            array(
-                array(
-                    'justification' => 'foo',
-                    'name' => 'Variable',
-                    'issue' => 'issue',
-                    'recommendation' => 'Recommend {status_var}'
-                ),
-                array(
-                    'justification' => 'foo',
-                    'id' => 'Variable',
-                    'name' => 'Variable',
-                    'issue' => 'issue',
+            ],
+            [
+                [
+                    'justification'  => 'foo',
+                    'name'           => 'Variable',
+                    'issue'          => 'issue',
+                    'recommendation' => 'Recommend {status_var}',
+                ],
+                [
+                    'justification'  => 'foo',
+                    'id'             => 'Variable',
+                    'name'           => 'Variable',
+                    'issue'          => 'issue',
                     'recommendation' => 'Recommend <a href="server_variables.php?' .
-                    'lang=en&amp;token=token&filter=status_var">status_var</a>'
-                ),
+                        'lang=en&amp;token=token&filter=status_var">status_var</a>',
+                ],
                 null,
-            ),
-            array(
-                array(
-                    'justification' => '%s foo | value',
-                    'name' => 'Format',
-                    'issue' => 'issue',
-                    'recommendation' => 'Recommend'
-                ),
-                array(
-                    'justification' => '0 foo',
-                    'id' => 'Format',
-                    'name' => 'Format',
-                    'issue' => 'issue',
-                    'recommendation' => 'Recommend'
-                ),
+            ],
+            [
+                [
+                    'justification'  => '%s foo | value',
+                    'name'           => 'Format',
+                    'issue'          => 'issue',
+                    'recommendation' => 'Recommend',
+                ],
+                [
+                    'justification'  => '0 foo',
+                    'id'             => 'Format',
+                    'name'           => 'Format',
+                    'issue'          => 'issue',
+                    'recommendation' => 'Recommend',
+                ],
                 null,
-            ),
-            array(
-                array(
-                    'justification' => '%s% foo | value',
-                    'name' => 'Percent',
-                    'issue' => 'issue',
-                    'recommendation' => 'Recommend'
-                ),
-                array(
-                    'justification' => '0% foo',
-                    'id' => 'Percent',
-                    'name' => 'Percent',
-                    'issue' => 'issue',
-                    'recommendation' => 'Recommend'
-                ),
+            ],
+            [
+                [
+                    'justification'  => '%s% foo | value',
+                    'name'           => 'Percent',
+                    'issue'          => 'issue',
+                    'recommendation' => 'Recommend',
+                ],
+                [
+                    'justification'  => '0% foo',
+                    'id'             => 'Percent',
+                    'name'           => 'Percent',
+                    'issue'          => 'issue',
+                    'recommendation' => 'Recommend',
+                ],
                 null,
-            ),
-            array(
-                array(
-                    'justification' => '%s% %d foo | value, value',
-                    'name' => 'Double',
-                    'issue' => 'issue',
-                    'recommendation' => 'Recommend'
-                ),
-                array(
-                    'justification' => '0% 0 foo',
-                    'id' => 'Double',
-                    'name' => 'Double',
-                    'issue' => 'issue',
-                    'recommendation' => 'Recommend'
-                ),
+            ],
+            [
+                [
+                    'justification'  => '%s% %d foo | value, value',
+                    'name'           => 'Double',
+                    'issue'          => 'issue',
+                    'recommendation' => 'Recommend',
+                ],
+                [
+                    'justification'  => '0% 0 foo',
+                    'id'             => 'Double',
+                    'name'           => 'Double',
+                    'issue'          => 'issue',
+                    'recommendation' => 'Recommend',
+                ],
                 null,
-            ),
-            array(
-                array(
-                    'justification' => '"\'foo',
-                    'name' => 'Quotes',
-                    'issue' => 'issue',
-                    'recommendation' => 'Recommend"\''
-                ),
-                array(
-                    'justification' => '"\'foo',
-                    'id' => 'Quotes',
-                    'name' => 'Quotes',
-                    'issue' => 'issue',
-                    'recommendation' => 'Recommend"\''
-                ),
+            ],
+            [
+                [
+                    'justification'  => '"\'foo',
+                    'name'           => 'Quotes',
+                    'issue'          => 'issue',
+                    'recommendation' => 'Recommend"\'',
+                ],
+                [
+                    'justification'  => '"\'foo',
+                    'id'             => 'Quotes',
+                    'name'           => 'Quotes',
+                    'issue'          => 'issue',
+                    'recommendation' => 'Recommend"\'',
+                ],
                 null,
-            ),
-            array(
-                array(
-                    'justification' => 'foo | fsafdsa',
-                    'name' => 'Failure',
-                    'issue' => 'issue',
-                    'recommendation' => 'Recommend'
-                ),
-                array(),
+            ],
+            [
+                [
+                    'justification'  => 'foo | fsafdsa',
+                    'name'           => 'Failure',
+                    'issue'          => 'issue',
+                    'recommendation' => 'Recommend',
+                ],
+                [],
                 'Failed formatting string for rule \'Failure\'. PHP threw ' .
                 'following error: Use of undefined constant fsafdsa - ' .
                 'assumed \'fsafdsa\'<br />Executed code: $value = array(fsafdsa);',
-            ),
-            array(
-                array(
-                    'justification' => 'Version string (%s) | value',
-                    'name' => 'Distribution',
-                    'issue' => 'official MySQL binaries.',
+            ],
+            [
+                [
+                    'justification'  => 'Version string (%s) | value',
+                    'name'           => 'Distribution',
+                    'issue'          => 'official MySQL binaries.',
                     'recommendation' => 'See <a href="http://phpma.org/">web</a>',
-                ),
-                array(
-                    'justification' => 'Version string (0)',
-                    'name' => 'Distribution',
-                    'issue' => 'official MySQL binaries.',
+                ],
+                [
+                    'justification'  => 'Version string (0)',
+                    'name'           => 'Distribution',
+                    'issue'          => 'official MySQL binaries.',
                     'recommendation' => 'See <a href="./url.php?url=http%3A%2F%2F' .
                         'phpma.org%2F" target="_blank">web</a>',
-                    'id' => 'Distribution'
-                ),
+                    'id'             => 'Distribution',
+                ],
                 null,
-            ),
-        );
+            ],
+        ];
     }
 }
+
 ?>

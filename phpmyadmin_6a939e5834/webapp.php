@@ -21,15 +21,15 @@ require './libraries/common.inc.php';
 require './libraries/zip.lib.php';
 
 // ini file
-$parameters = array(
-    'id'        => 'phpMyAdmin@' . $_SERVER['HTTP_HOST'],
-    'uri'       => $GLOBALS['PMA_Config']->get('PmaAbsoluteUri'),
-    'status'    => 'yes',
-    'location'  => 'no',
-    'sidebar'   => 'no',
+$parameters = [
+    'id'         => 'phpMyAdmin@' . $_SERVER['HTTP_HOST'],
+    'uri'        => $GLOBALS['PMA_Config']->get('PmaAbsoluteUri'),
+    'status'     => 'yes',
+    'location'   => 'no',
+    'sidebar'    => 'no',
     'navigation' => 'no',
-    'icon'      => 'phpMyAdmin',
-);
+    'icon'       => 'phpMyAdmin',
+];
 
 // dom script file
 // none need yet

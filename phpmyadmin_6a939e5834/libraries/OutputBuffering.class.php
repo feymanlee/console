@@ -4,7 +4,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -16,9 +16,9 @@ if (! defined('PHPMYADMIN')) {
 class PMA_OutputBuffering
 {
     private static $_instance;
-    private $_mode;
-    private $_content;
-    private $_on;
+    private        $_mode;
+    private        $_content;
+    private        $_on;
 
     /**
      * Initializes class
@@ -26,7 +26,7 @@ class PMA_OutputBuffering
     private function __construct()
     {
         $this->_mode = $this->_getMode();
-        $this->_on = false;
+        $this->_on   = false;
     }
 
     /**
@@ -69,6 +69,7 @@ class PMA_OutputBuffering
         if (empty(self::$_instance)) {
             self::$_instance = new PMA_OutputBuffering();
         }
+
         return self::$_instance;
     }
 
@@ -81,12 +82,12 @@ class PMA_OutputBuffering
      */
     public function start()
     {
-        if (! $this->_on) {
+        if (!$this->_on) {
             if ($this->_mode && function_exists('ob_gzhandler')) {
                 ob_start('ob_gzhandler');
             }
             ob_start();
-            if (! defined('TESTSUITE')) {
+            if (!defined('TESTSUITE')) {
                 header('X-ob_mode: ' . $this->_mode);
             }
             register_shutdown_function('PMA_OutputBuffering::stop');
@@ -105,7 +106,7 @@ class PMA_OutputBuffering
     {
         $buffer = PMA_OutputBuffering::getInstance();
         if ($buffer->_on) {
-            $buffer->_on = false;
+            $buffer->_on      = false;
             $buffer->_content = ob_get_contents();
             ob_end_clean();
         }

@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -24,10 +24,10 @@ require_once './libraries/display_export.lib.php';
 $export_list = PMA_getPlugins(
     "export",
     'libraries/plugins/export/',
-    array(
-        'export_type' => $export_type,
-        'single_table' => isset($single_table)
-    )
+    [
+        'export_type'  => $export_type,
+        'single_table' => isset($single_table),
+    ]
 );
 
 /* Fail if we didn't find any plugin */
@@ -42,8 +42,8 @@ $html = '<form method="post" action="export.php" '
     . ' name="dump" class="disableAjax">';
 
 //output Hidden Inputs
-$single_table_str = isset($single_table)? $single_table : '';
-$sql_query_str = isset($sql_query)? $sql_query : '';
+$single_table_str = isset($single_table) ? $single_table : '';
+$sql_query_str    = isset($sql_query) ? $sql_query : '';
 $html .= PMA_getHtmlForHiddenInput(
     $export_type,
     $db,
@@ -53,9 +53,9 @@ $html .= PMA_getHtmlForHiddenInput(
 );
 
 //output Export Options
-$num_tables_str = isset($num_tables)? $num_tables : '';
-$unlim_num_rows_str = isset($unlim_num_rows)? $unlim_num_rows : '';
-$multi_values_str = isset($multi_values)? $multi_values : '';
+$num_tables_str     = isset($num_tables) ? $num_tables : '';
+$unlim_num_rows_str = isset($unlim_num_rows) ? $unlim_num_rows : '';
+$multi_values_str   = isset($multi_values) ? $multi_values : '';
 $html .= PMA_getHtmlForExportOptions(
     $export_type,
     $db,

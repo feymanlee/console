@@ -311,7 +311,7 @@ canvas.pmd * {
     position: fixed;
 }
 
-.pmd_header a, .pmd_header span{
+.pmd_header a, .pmd_header span {
     display: block;
     float: <?php echo $left; ?>;
     margin: 3px 1px 4px;
@@ -364,14 +364,14 @@ a.M_butt:hover {
 
 #layer_upd_relation {
     position: absolute;
-    <?php echo $left; ?>: 637px;
+<?php echo $left; ?>: 637 px;
     top: 224px;
     z-index: 100;
 }
 
 #layer_new_relation {
     position: absolute;
-    <?php echo $left; ?>: 636px;
+<?php echo $left; ?>: 636 px;
     top: 85px;
     z-index: 100;
     width: 153px;
@@ -379,7 +379,7 @@ a.M_butt:hover {
 
 #pmd_optionse {
     position: absolute;
-    <?php echo $left; ?>: 636px;
+<?php echo $left; ?>: 636 px;
     top: 85px;
     z-index: 100;
     width: 153px;
@@ -397,15 +397,15 @@ a.M_butt:hover {
 .panel {
     position: fixed;
     top: 60px;
-    <?php echo $right; ?>: 0;
+<?php echo $right; ?>: 0;
     display: none;
     background: #FFF;
     border: 1px solid gray;
-    width: 350 px;
+    width: 350px;
     max-height: 500px;
-    overflow:scroll;
+    overflow: scroll;
     padding: 30px;
-    padding-<?php echo $left; ?>: 30px;
+    padding- <?php echo $left; ?>: 30px;
     color: #FFF;
     z-index: 102;
 }
@@ -414,7 +414,7 @@ a.trigger {
     position: fixed;
     text-decoration: none;
     top: 60px;
-    <?php echo $right; ?>: 0;
+<?php echo $right; ?>: 0;
     color: #fff;
     padding: 10px 40px 10px 15px;
     background: #333 url(<?php echo $plusImg; ?>) 85% 55% no-repeat;
@@ -446,7 +446,7 @@ h2.tiger {
     margin: 0 0 5px 0;
     width: 250px;
     float: <?php echo $left; ?>;
-    color : #333;
+    color: #333;
     text-align: center;
 }
 
@@ -454,7 +454,7 @@ h2.tiger a {
     background-image: url(<?php echo $headerImg; ?>);
     text-align: center;
     text-decoration: none;
-    color : #333;
+    color: #333;
     display: block;
 }
 
@@ -483,7 +483,7 @@ h2.active {
 .toggle_container .block {
     background-color: #DBE4E8;
     padding: 40px 15px 40px 15px; /*--Padding of Container--*/
-    border:1px solid #999;
+    border: 1px solid #999;
     color: #000;
 }
 
@@ -514,7 +514,7 @@ h2.active {
     display: none;
     position: absolute;
     top: 20%;
-    <?php echo $left; ?>: 30%;
+<?php echo $left; ?>: 30 %;
     width: 500px;
     height: 220px;
     padding: 48px;
@@ -529,7 +529,7 @@ h2.active {
     position: absolute;
     float: center;
     top: 0;
-    <?php echo $left; ?>: 0;
+<?php echo $left; ?>: 0;
     width: 593px;
     height: 20px;
     padding: 0;
@@ -539,7 +539,7 @@ h2.active {
     background-color: #D0DCE0;
     color: black;
     font-weight: bold;
-    padding-<?php echo $left; ?>: 2px;
+    padding- <?php echo $left; ?>: 2px;
     text-align: <?php echo $left; ?>;
 }
 

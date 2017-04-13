@@ -13,11 +13,12 @@ require_once 'libraries/Config.class.php';
 require_once 'libraries/php-gettext/gettext.inc';
 require_once 'libraries/config.default.php';
 require_once 'export.php';
+
 /**
  * tests for ExportExcel class
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_ExportExcel_Test extends PHPUnit_Framework_TestCase
 {
@@ -31,7 +32,7 @@ class PMA_ExportExcel_Test extends PHPUnit_Framework_TestCase
     function setup()
     {
         $GLOBALS['server'] = 0;
-        $this->object = new ExportExcel();
+        $this->object      = new ExportExcel();
     }
 
     /**
@@ -97,7 +98,7 @@ class PMA_ExportExcel_Test extends PHPUnit_Framework_TestCase
         );
 
         $generalOptionsArray = $options->getProperties();
-        $generalOptions = $generalOptionsArray[0];
+        $generalOptions      = $generalOptionsArray[0];
 
         $this->assertInstanceOf(
             'OptionsPropertyMainGroup',
@@ -175,11 +176,11 @@ class PMA_ExportExcel_Test extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array(
-                'win' => 'Windows',
+            [
+                'win'           => 'Windows',
                 'mac_excel2003' => 'Excel 2003 / Macintosh',
-                'mac_excel2008' => 'Excel 2008 / Macintosh'
-            ),
+                'mac_excel2008' => 'Excel 2008 / Macintosh',
+            ],
             $property->getValues()
         );
 
@@ -202,4 +203,5 @@ class PMA_ExportExcel_Test extends PHPUnit_Framework_TestCase
     }
 
 }
+
 ?>

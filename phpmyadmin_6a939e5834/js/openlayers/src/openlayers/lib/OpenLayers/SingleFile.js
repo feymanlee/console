@@ -4,7 +4,7 @@
  * full text of the license. */
 
 var OpenLayers = {
-    singleFile: true
+  singleFile: true
 };
 
 

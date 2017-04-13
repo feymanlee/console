@@ -41,7 +41,6 @@ require_once 'libraries/Response.class.php';
  *
  * @package PhpMyAdmin-test
  */
-
 class PMA_HeaderLocation_Test extends PHPUnit_Framework_TestCase
 {
 
@@ -64,7 +63,7 @@ class PMA_HeaderLocation_Test extends PHPUnit_Framework_TestCase
 
             $this->oldIISvalue = 'non-defined';
 
-            $defined_constants = get_defined_constants(true);
+            $defined_constants      = get_defined_constants(true);
             $user_defined_constants = $defined_constants['user'];
             if (array_key_exists('PMA_IS_IIS', $user_defined_constants)) {
                 $this->oldIISvalue = PMA_IS_IIS;
@@ -84,7 +83,7 @@ class PMA_HeaderLocation_Test extends PHPUnit_Framework_TestCase
 
         }
         $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
-        $GLOBALS['server'] = 0;
+        $GLOBALS['server']     = 0;
         $GLOBALS['PMA_Config'] = new PMA_Config();
         $GLOBALS['PMA_Config']->enableBc();
     }
@@ -126,10 +125,10 @@ class PMA_HeaderLocation_Test extends PHPUnit_Framework_TestCase
 
             runkit_constant_redefine('SID', md5('test_hash'));
 
-            $testUri = 'http://testurl.com/test.php?test=test';
+            $testUri   = 'http://testurl.com/test.php?test=test';
             $separator = PMA_URL_getArgSeparator();
 
-            $header = array('Location: ' . $testUri . $separator . SID);
+            $header = ['Location: ' . $testUri . $separator . SID];
 
             /* sets $GLOBALS['header'] */
             PMA_sendHeaderLocation($testUri);
@@ -157,7 +156,7 @@ class PMA_HeaderLocation_Test extends PHPUnit_Framework_TestCase
 
             $testUri = 'http://testurl.com/test.php';
 
-            $header = array('Location: ' . $testUri . '?' . SID);
+            $header = ['Location: ' . $testUri . '?' . SID];
 
             PMA_sendHeaderLocation($testUri);            // sets $GLOBALS['header']
             $this->assertEquals($header, $GLOBALS['header']);
@@ -183,14 +182,14 @@ class PMA_HeaderLocation_Test extends PHPUnit_Framework_TestCase
 
             $testUri = 'http://testurl.com/test.php';
 
-            $header = array('Location: ' . $testUri);
+            $header = ['Location: ' . $testUri];
             PMA_sendHeaderLocation($testUri); // sets $GLOBALS['header']
             $this->assertEquals($header, $GLOBALS['header']);
 
             //reset $GLOBALS['header'] for the next assertion
             unset($GLOBALS['header']);
 
-            $header = array('Refresh: 0; ' . $testUri);
+            $header = ['Refresh: 0; ' . $testUri];
             PMA_sendHeaderLocation($testUri, true); // sets $GLOBALS['header']
             $this->assertEquals($header, $GLOBALS['header']);
 
@@ -212,7 +211,7 @@ class PMA_HeaderLocation_Test extends PHPUnit_Framework_TestCase
         if (defined('PMA_TEST_HEADERS')) {
 
             $testUri = 'http://testurl.com/test.php';
-            $header = array('Location: ' . $testUri);
+            $header  = ['Location: ' . $testUri];
 
             PMA_sendHeaderLocation($testUri);            // sets $GLOBALS['header']
             $this->assertEquals($header, $GLOBALS['header']);
@@ -243,7 +242,7 @@ class PMA_HeaderLocation_Test extends PHPUnit_Framework_TestCase
         }
 
         // over 600 chars
-        $testUri = 'http://testurl.com/test.php?testlonguri=over600chars&test=test'
+        $testUri      = 'http://testurl.com/test.php?testlonguri=over600chars&test=test'
             . '&test=test&test=test&test=test&test=test&test=test&test=test'
             . '&test=test&test=test&test=test&test=test&test=test&test=test'
             . '&test=test&test=test&test=test&test=test&test=test&test=test'
@@ -255,32 +254,33 @@ class PMA_HeaderLocation_Test extends PHPUnit_Framework_TestCase
             . '&test=test&test=test&test=test&test=test&test=test&test=test'
             . '&test=test&test=test';
         $testUri_html = htmlspecialchars($testUri);
-        $testUri_js = PMA_escapeJsString($testUri);
+        $testUri_js   = PMA_escapeJsString($testUri);
 
-        $header =    "<html><head><title>- - -</title>\n" .
-                    "<meta http-equiv=\"expires\" content=\"0\">\n" .
-                    "<meta http-equiv=\"Pragma\" content=\"no-cache\">\n" .
-                    "<meta http-equiv=\"Cache-Control\" content=\"no-cache\">\n" .
-                    "<meta http-equiv=\"Refresh\" content=\"0;url=" . $testUri_html
-                    . "\">\n" .
-                    "<script type=\"text/javascript\">\n" .
-                    "//<![CDATA[\n" .
-                    "setTimeout(\"window.location = unescape('\"" . $testUri_js
-                    . "\"')\", 2000);\n" .
-                    "//]]>\n" .
-                    "</script>\n" .
-                    "</head>\n" .
-                    "<body>\n" .
-                    "<script type=\"text/javascript\">\n" .
-                    "//<![CDATA[\n" .
-                    "document.write('<p><a href=\"" . $testUri_html . "\">"
-                    . __('Go') . "</a></p>');\n" .
-                    "//]]>\n" .
-                    "</script></body></html>\n";
+        $header = "<html><head><title>- - -</title>\n" .
+            "<meta http-equiv=\"expires\" content=\"0\">\n" .
+            "<meta http-equiv=\"Pragma\" content=\"no-cache\">\n" .
+            "<meta http-equiv=\"Cache-Control\" content=\"no-cache\">\n" .
+            "<meta http-equiv=\"Refresh\" content=\"0;url=" . $testUri_html
+            . "\">\n" .
+            "<script type=\"text/javascript\">\n" .
+            "//<![CDATA[\n" .
+            "setTimeout(\"window.location = unescape('\"" . $testUri_js
+            . "\"')\", 2000);\n" .
+            "//]]>\n" .
+            "</script>\n" .
+            "</head>\n" .
+            "<body>\n" .
+            "<script type=\"text/javascript\">\n" .
+            "//<![CDATA[\n" .
+            "document.write('<p><a href=\"" . $testUri_html . "\">"
+            . __('Go') . "</a></p>');\n" .
+            "//]]>\n" .
+            "</script></body></html>\n";
 
         $this->expectOutputString($header);
 
         PMA_sendHeaderLocation($testUri);
     }
 }
+
 ?>

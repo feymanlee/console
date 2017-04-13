@@ -13,7 +13,7 @@ require_once 'libraries/common.inc.php';
 require_once 'libraries/Index.class.php';
 require_once 'libraries/tbl_indexes.lib.php';
 
-if (! isset($_REQUEST['create_edit_table'])) {
+if (!isset($_REQUEST['create_edit_table'])) {
     include_once 'libraries/tbl_common.inc.php';
 }
 
@@ -40,10 +40,10 @@ $form_params = PMA_getFormParameters($db, $table);
 
 // Get fields and stores their name/type
 if (isset($_REQUEST['create_edit_table'])) {
-    $fields = json_decode($_REQUEST['columns'], true);
-    $index_params = array(
-        'Non_unique' => ($_REQUEST['index']['Index_choice'] == 'UNIQUE') ? '0' : '1'
-    );
+    $fields       = json_decode($_REQUEST['columns'], true);
+    $index_params = [
+        'Non_unique' => ($_REQUEST['index']['Index_choice'] == 'UNIQUE') ? '0' : '1',
+    ];
     $index->set($index_params);
     $add_fields = count($fields);
 } else {
@@ -54,7 +54,7 @@ $html = PMA_getHtmlForIndexForm($fields, $index, $form_params, $add_fields);
 
 $response = PMA_Response::getInstance();
 $response->addHTML($html);
-$header   = $response->getHeader();
-$scripts  = $header->getScripts();
+$header  = $response->getHeader();
+$scripts = $header->getScripts();
 $scripts->addFile('indexes.js');
 ?>

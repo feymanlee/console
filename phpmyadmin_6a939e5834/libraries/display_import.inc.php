@@ -6,7 +6,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -45,9 +45,9 @@ if (isset($_REQUEST['local_import_file'])) {
     $local_import_file = $_REQUEST['local_import_file'];
 }
 
-$timeout_passed_str = isset($timeout_passed)? $timeout_passed : null;
-$offset_str = isset($offset)? $offset : null;
-$html = PMA_getHtmlForImport(
+$timeout_passed_str = isset($timeout_passed) ? $timeout_passed : null;
+$offset_str         = isset($offset) ? $offset : null;
+$html               = PMA_getHtmlForImport(
     $upload_id,
     $import_type,
     $db,

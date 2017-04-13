@@ -6,7 +6,7 @@
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -15,7 +15,7 @@ require_once './libraries/Message.class.php';
 /**
  * Handles the recently used and favorite tables.
  *
- * @TODO Change the release version in table pma_recent
+ * @TODO    Change the release version in table pma_recent
  * (#recent in documentation)
  *
  * @package PhpMyAdmin
@@ -44,7 +44,7 @@ class PMA_RecentFavoriteTable
      * @access private
      * @var array
      */
-    private static $_instances = array();
+    private static $_instances = [];
 
     /**
      * Creates a new instance of PMA_RecentFavoriteTable
@@ -56,11 +56,11 @@ class PMA_RecentFavoriteTable
     private function __construct($type)
     {
         $this->_tableType = $type;
-        $server_id = $GLOBALS['server'];
-        if (! isset($_SESSION['tmpval'][$this->_tableType . '_tables'][$server_id])
+        $server_id        = $GLOBALS['server'];
+        if (!isset($_SESSION['tmpval'][$this->_tableType . '_tables'][$server_id])
         ) {
             $_SESSION['tmpval'][$this->_tableType . '_tables'][$server_id]
-                = $this->_getPmaTable() ? $this->getFromDb() : array();
+                = $this->_getPmaTable() ? $this->getFromDb() : [];
         }
         $this->_tables
             =& $_SESSION['tmpval'][$this->_tableType . '_tables'][$server_id];
@@ -75,9 +75,10 @@ class PMA_RecentFavoriteTable
      */
     public static function getInstance($type)
     {
-        if (! array_key_exists($type, self::$_instances)) {
+        if (!array_key_exists($type, self::$_instances)) {
             self::$_instances[$type] = new PMA_RecentFavoriteTable($type);
         }
+
         return self::$_instances[$type];
     }
 
@@ -103,7 +104,7 @@ class PMA_RecentFavoriteTable
             = " SELECT `tables` FROM " . $this->_getPmaTable() .
             " WHERE `username` = '" . PMA_Util::sqlAddSlashes($GLOBALS['cfg']['Server']['user']) . "'";
 
-        $return = array();
+        $return = [];
         $result = PMA_queryAsControlUser($sql_query, false);
         if ($result) {
             $row = $GLOBALS['dbi']->fetchArray($result);
@@ -111,6 +112,7 @@ class PMA_RecentFavoriteTable
                 $return = json_decode($row[0], true);
             }
         }
+
         return $return;
     }
 
@@ -123,24 +125,24 @@ class PMA_RecentFavoriteTable
     {
         $username = $GLOBALS['cfg']['Server']['user'];
         $sql_query
-            = " REPLACE INTO " . $this->_getPmaTable() . " (`username`, `tables`)" .
-                " VALUES ('" . PMA_Util::sqlAddSlashes($username) . "', '"
-                . PMA_Util::sqlAddSlashes(
-                    json_encode($this->_tables)
-                ) . "')";
+                  = " REPLACE INTO " . $this->_getPmaTable() . " (`username`, `tables`)" .
+            " VALUES ('" . PMA_Util::sqlAddSlashes($username) . "', '"
+            . PMA_Util::sqlAddSlashes(
+                json_encode($this->_tables)
+            ) . "')";
 
         $success = $GLOBALS['dbi']->tryQuery($sql_query, $GLOBALS['controllink']);
 
-        if (! $success) {
+        if (!$success) {
             $error_msg = '';
             switch ($this->_tableType) {
-            case 'recent':
-                $error_msg = __('Could not save recent table!');
-                break;
+                case 'recent':
+                    $error_msg = __('Could not save recent table!');
+                    break;
 
-            case 'favorite':
-                $error_msg = __('Could not save favorite table!');
-                break;
+                case 'favorite':
+                    $error_msg = __('Could not save favorite table!');
+                    break;
             }
             $message = PMA_Message::error($error_msg);
             $message->addMessage('<br /><br />');
@@ -149,8 +151,10 @@ class PMA_RecentFavoriteTable
                     $GLOBALS['dbi']->getError($GLOBALS['controllink'])
                 )
             );
+
             return $message;
         }
+
         return true;
     }
 
@@ -162,13 +166,14 @@ class PMA_RecentFavoriteTable
      */
     public function trim()
     {
-        $max = max(
+        $max               = max(
             $GLOBALS['cfg']['Num' . ucfirst($this->_tableType) . 'Tables'], 0
         );
         $trimming_occurred = count($this->_tables) > $max;
         while (count($this->_tables) > $max) {
             array_pop($this->_tables);
         }
+
         return $trimming_occurred;
     }
 
@@ -184,15 +189,15 @@ class PMA_RecentFavoriteTable
             if ($this->_tableType == 'recent') {
                 foreach ($this->_tables as $table) {
                     $html .= '<li class="warp_link">';
-                    $recent_params = array(
+                    $recent_params = [
                         'db'    => $table['db'],
-                        'table' => $table['table']
-                    );
-                    $recent_url = 'tbl_recent_favorite.php'
+                        'table' => $table['table'],
+                    ];
+                    $recent_url    = 'tbl_recent_favorite.php'
                         . PMA_URL_getCommon($recent_params);
                     $html .= '<a href="' . $recent_url . '">`'
-                          . htmlspecialchars($table['db']) . '`.`'
-                          . htmlspecialchars($table['table']) . '`</a>';
+                        . htmlspecialchars($table['db']) . '`.`'
+                        . htmlspecialchars($table['table']) . '`</a>';
                     $html .= '</li>';
                 }
             } else {
@@ -200,12 +205,12 @@ class PMA_RecentFavoriteTable
                     $html .= '<li class="warp_link">';
 
                     $html .= '<a class="ajax favorite_table_anchor" ';
-                    $fav_params = array(
+                    $fav_params = [
                         'db'              => $table['db'],
                         'ajax_request'    => true,
                         'favorite_table'  => $table['table'],
-                        'remove_favorite' => true
-                    );
+                        'remove_favorite' => true,
+                    ];
                     $fav_rm_url = 'db_structure.php'
                         . PMA_URL_getCommon($fav_params);
                     $html .= 'href="' . $fav_rm_url
@@ -216,11 +221,11 @@ class PMA_RecentFavoriteTable
                         . PMA_Util::getIcon('b_favorite.png')
                         . '</a>';
 
-                    $fav_params = array(
+                    $fav_params = [
                         'db'    => $table['db'],
-                        'table' => $table['table']
-                    );
-                    $table_url = 'tbl_recent_favorite.php'
+                        'table' => $table['table'],
+                    ];
+                    $table_url  = 'tbl_recent_favorite.php'
                         . PMA_URL_getCommon($fav_params);
                     $html .= '<a href="' . $table_url . '">`'
                         . htmlspecialchars($table['db']) . '`.`'
@@ -230,11 +235,12 @@ class PMA_RecentFavoriteTable
             }
         } else {
             $html .= '<li class="warp_link">'
-                  . ($this->_tableType == 'recent'
-                    ?__('There are no recent tables.')
-                    :__('There are no favorite tables.'))
-                  . '</li>';
+                . ($this->_tableType == 'recent'
+                    ? __('There are no recent tables.')
+                    : __('There are no favorite tables.'))
+                . '</li>';
         }
+
         return $html;
     }
 
@@ -245,7 +251,7 @@ class PMA_RecentFavoriteTable
      */
     public function getHtml()
     {
-        $html  = '<div class="drop_list">';
+        $html = '<div class="drop_list">';
         if ($this->_tableType == 'recent') {
             $html .= '<span title="' . __('Recent tables')
                 . '" class="drop_button">'
@@ -257,6 +263,7 @@ class PMA_RecentFavoriteTable
         }
         $html .= $this->getHtmlList();
         $html .= '</ul></div>';
+
         return $html;
     }
 
@@ -271,16 +278,16 @@ class PMA_RecentFavoriteTable
     public function add($db, $table)
     {
         // If table does not exist, do not add._getPmaTable()
-        if (! $GLOBALS['dbi']->getColumns($db, $table)) {
+        if (!$GLOBALS['dbi']->getColumns($db, $table)) {
             return true;
         }
 
-        $table_arr = array();
-        $table_arr['db'] = $db;
+        $table_arr          = [];
+        $table_arr['db']    = $db;
         $table_arr['table'] = $table;
 
         // add only if this is new table
-        if (! isset($this->_tables[0]) || $this->_tables[0] != $table_arr) {
+        if (!isset($this->_tables[0]) || $this->_tables[0] != $table_arr) {
             array_unshift($this->_tables, $table_arr);
             $this->_tables = array_merge(array_unique($this->_tables, SORT_REGULAR));
             $this->trim();
@@ -288,6 +295,7 @@ class PMA_RecentFavoriteTable
                 return $this->saveToDb();
             }
         }
+
         return true;
     }
 
@@ -305,11 +313,12 @@ class PMA_RecentFavoriteTable
         foreach ($this->_tables as $tbl) {
             if ($tbl['db'] == $db && $tbl['table'] == $table) {
                 // TODO Figure out a better way to find the existence of a table
-                if (! $GLOBALS['dbi']->getColumns($tbl['db'], $tbl['table'])) {
+                if (!$GLOBALS['dbi']->getColumns($tbl['db'], $tbl['table'])) {
                     return $this->remove($tbl['db'], $tbl['table']);
                 }
             }
         }
+
         return false;
     }
 
@@ -323,8 +332,8 @@ class PMA_RecentFavoriteTable
      */
     public function remove($db, $table)
     {
-        $table_arr = array();
-        $table_arr['db'] = $db;
+        $table_arr          = [];
+        $table_arr['db']    = $db;
         $table_arr['table'] = $table;
         foreach ($this->_tables as $key => $value) {
             if ($value['db'] == $db && $value['table'] == $table) {
@@ -334,6 +343,7 @@ class PMA_RecentFavoriteTable
         if ($this->_getPmaTable()) {
             return $this->saveToDb();
         }
+
         return true;
     }
 
@@ -344,18 +354,19 @@ class PMA_RecentFavoriteTable
      */
     public function getHtmlSyncFavoriteTables()
     {
-        $retval = '';
+        $retval    = '';
         $server_id = $GLOBALS['server'];
         // Not to show this once list is synchronized.
         $is_synced = isset($_SESSION['tmpval']['favorites_synced'][$server_id]) ?
             true : false;
         if (!$is_synced) {
-            $params  = array('ajax_request' => true, 'favorite_table' => true,
-                'sync_favorite_tables' => true);
-            $url     = 'db_structure.php' . PMA_URL_getCommon($params);
-            $retval  = '<a class="hide" id="sync_favorite_tables"';
+            $params = ['ajax_request'         => true, 'favorite_table' => true,
+                       'sync_favorite_tables' => true];
+            $url    = 'db_structure.php' . PMA_URL_getCommon($params);
+            $retval = '<a class="hide" id="sync_favorite_tables"';
             $retval .= ' href="' . $url . '"></a>';
         }
+
         return $retval;
     }
 
@@ -366,10 +377,11 @@ class PMA_RecentFavoriteTable
      */
     public static function getHtmlUpdateRecentTables()
     {
-        $params  = array('ajax_request' => true, 'recent_table' => true);
-        $url     = 'index.php' . PMA_URL_getCommon($params);
-        $retval  = '<a class="hide" id="update_recent_tables"';
+        $params = ['ajax_request' => true, 'recent_table' => true];
+        $url    = 'index.php' . PMA_URL_getCommon($params);
+        $retval = '<a class="hide" id="update_recent_tables"';
         $retval .= ' href="' . $url . '"></a>';
+
         return $retval;
     }
 
@@ -381,13 +393,15 @@ class PMA_RecentFavoriteTable
     private function _getPmaTable()
     {
         $cfgRelation = PMA_getRelationsParam();
-        if (! empty($cfgRelation['db'])
-            && ! empty($cfgRelation[$this->_tableType])
+        if (!empty($cfgRelation['db'])
+            && !empty($cfgRelation[$this->_tableType])
         ) {
             return PMA_Util::backquote($cfgRelation['db']) . "."
                 . PMA_Util::backquote($cfgRelation[$this->_tableType]);
         }
+
         return null;
     }
 }
+
 ?>

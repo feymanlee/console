@@ -4,7 +4,7 @@
  * Test for supporting foreign key
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  * Test for supporting foreign key
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_IsForeignKeySupportedTest extends PHPUnit_Framework_TestCase
 {
@@ -27,11 +27,11 @@ class PMA_IsForeignKeySupportedTest extends PHPUnit_Framework_TestCase
      */
     public function foreignkeySupportedDataProvider()
     {
-        return array(
-            array('MyISAM', false),
-            array('innodb', true),
-            array('pBxT', true)
-        );
+        return [
+            ['MyISAM', false],
+            ['innodb', true],
+            ['pBxT', true],
+        ];
     }
 
     /**
@@ -51,4 +51,5 @@ class PMA_IsForeignKeySupportedTest extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

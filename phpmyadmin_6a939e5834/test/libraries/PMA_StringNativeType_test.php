@@ -56,12 +56,12 @@ class PMA_StringNativeType_Test extends PHPUnit_Framework_TestCase
      */
     public function isAlnumData()
     {
-        return array(
-            array(true, "A"),
-            array(false, "."),
-            array(true, "a"),
-            array(true, "2")
-        );
+        return [
+            [true, "A"],
+            [false, "."],
+            [true, "a"],
+            [true, "2"],
+        ];
     }
 
     /**
@@ -89,10 +89,10 @@ class PMA_StringNativeType_Test extends PHPUnit_Framework_TestCase
      */
     public function isAlphaData()
     {
-        return array(
-            array(true, "k"),
-            array(false, "1"),
-        );
+        return [
+            [true, "k"],
+            [false, "1"],
+        ];
     }
 
     /**
@@ -120,11 +120,11 @@ class PMA_StringNativeType_Test extends PHPUnit_Framework_TestCase
      */
     public function isDigitData()
     {
-        return array(
-            array(false, "k"),
-            array(false, "?"),
-            array(true, "1"),
-        );
+        return [
+            [false, "k"],
+            [false, "?"],
+            [true, "1"],
+        ];
     }
 
     /**
@@ -152,11 +152,11 @@ class PMA_StringNativeType_Test extends PHPUnit_Framework_TestCase
      */
     public function isUpperData()
     {
-        return array(
-            array(true, "A"),
-            array(false, "b"),
-            array(false, "1")
-        );
+        return [
+            [true, "A"],
+            [false, "b"],
+            [false, "1"],
+        ];
     }
 
     /**
@@ -184,11 +184,11 @@ class PMA_StringNativeType_Test extends PHPUnit_Framework_TestCase
      */
     public function isLowerData()
     {
-        return array(
-            array(true, "a"),
-            array(false, "B"),
-            array(false, "1")
-        );
+        return [
+            [true, "a"],
+            [false, "B"],
+            [false, "1"],
+        ];
     }
 
     /**
@@ -216,12 +216,12 @@ class PMA_StringNativeType_Test extends PHPUnit_Framework_TestCase
      */
     public function isSpaceData()
     {
-        return array(
-            array(true, " "),
-            array(false, '\n'),
-            array(true, "\n"),
-            array(false, "t"),
-        );
+        return [
+            [true, " "],
+            [false, '\n'],
+            [true, "\n"],
+            [false, "t"],
+        ];
     }
 
     /**
@@ -249,12 +249,13 @@ class PMA_StringNativeType_Test extends PHPUnit_Framework_TestCase
      */
     public function isHexDigitData()
     {
-        return array(
-            array(true, "A"),
-            array(false, "R"),
-            array(true, "a")
-        );
+        return [
+            [true, "A"],
+            [false, "R"],
+            [true, "a"],
+        ];
     }
 
 }
+
 ?>

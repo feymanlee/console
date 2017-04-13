@@ -14,14 +14,14 @@
  */
 OpenLayers.Lang["te"] = OpenLayers.Util.applyDefaults({
 
-    'permalink': "స్థిరలింకు",
+  'permalink': "స్థిరలింకు",
 
-    'W': "ప",
+  'W': "ప",
 
-    'E': "తూ",
+  'E': "తూ",
 
-    'N': "ఉ",
+  'N': "ఉ",
 
-    'S': "ద"
+  'S': "ద"
 
 });

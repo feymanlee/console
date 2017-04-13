@@ -28,9 +28,9 @@ require_once 'libraries/plugin_interface.lib.php';
  * default is PDF
  */
 
-$post_params = array(
-    'db'
-);
+$post_params = [
+    'db',
+];
 foreach ($post_params as $one_post_param) {
     if (isset($_REQUEST[$one_post_param])) {
         $GLOBALS[$one_post_param] = $_REQUEST[$one_post_param];
@@ -52,7 +52,7 @@ function PMA_processExportSchema($export_type)
     /**
      * default is PDF, otherwise validate it's only letters a-z
      */
-    if (! isset($export_type) || ! preg_match('/^[a-zA-Z]+$/', $export_type)) {
+    if (!isset($export_type) || !preg_match('/^[a-zA-Z]+$/', $export_type)) {
         $export_type = 'pdf';
     }
 
@@ -67,11 +67,12 @@ function PMA_processExportSchema($export_type)
     );
 
     // Check schema export type
-    if (! isset($export_plugin)) {
+    if (!isset($export_plugin)) {
         PMA_fatalError(__('Bad type!'));
     }
 
     $GLOBALS['dbi']->selectDb($GLOBALS['db']);
     $export_plugin->exportSchema($GLOBALS['db']);
 }
+
 ?>

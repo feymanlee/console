@@ -7,7 +7,7 @@
  * @package    PhpMyAdmin-Import
  * @subpackage ESRI_Shape
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -37,29 +37,29 @@ class PMA_ShapeRecord extends ShapeRecord
         $this->_loadHeaders();
 
         switch ($this->shapeType) {
-        case 0:
-            $this->_loadNullRecord();
-            break;
-        case 1:
-            $this->_loadPointRecord();
-            break;
-        case 3:
-            $this->_loadPolyLineRecord();
-            break;
-        case 5:
-            $this->_loadPolygonRecord();
-            break;
-        case 8:
-            $this->_loadMultiPointRecord();
-            break;
-        default:
-            $this->setError(
-                sprintf(
-                    __("Geometry type '%s' is not supported by MySQL."),
-                    $this->shapeType
-                )
-            );
-            break;
+            case 0:
+                $this->_loadNullRecord();
+                break;
+            case 1:
+                $this->_loadPointRecord();
+                break;
+            case 3:
+                $this->_loadPolyLineRecord();
+                break;
+            case 5:
+                $this->_loadPolygonRecord();
+                break;
+            case 8:
+                $this->_loadMultiPointRecord();
+                break;
+            default:
+                $this->setError(
+                    sprintf(
+                        __("Geometry type '%s' is not supported by MySQL."),
+                        $this->shapeType
+                    )
+                );
+                break;
         }
         if (extension_loaded('dbase') && isset($this->DBFFile)) {
             $this->_loadDBFData();
@@ -87,7 +87,7 @@ class PMA_ShapeRecord extends ShapeRecord
      */
     function _loadPoint()
     {
-        $data = array();
+        $data = [];
 
         $data["x"] = loadData("d", ImportShp::readFromBuffer(8));
         $data["y"] = loadData("d", ImportShp::readFromBuffer(8));
@@ -103,7 +103,7 @@ class PMA_ShapeRecord extends ShapeRecord
      */
     function _loadMultiPointRecord()
     {
-        $this->SHPData = array();
+        $this->SHPData         = [];
         $this->SHPData["xmin"] = loadData("d", ImportShp::readFromBuffer(8));
         $this->SHPData["ymin"] = loadData("d", ImportShp::readFromBuffer(8));
         $this->SHPData["xmax"] = loadData("d", ImportShp::readFromBuffer(8));
@@ -124,7 +124,7 @@ class PMA_ShapeRecord extends ShapeRecord
      */
     function _loadPolyLineRecord()
     {
-        $this->SHPData = array();
+        $this->SHPData         = [];
         $this->SHPData["xmin"] = loadData("d", ImportShp::readFromBuffer(8));
         $this->SHPData["ymin"] = loadData("d", ImportShp::readFromBuffer(8));
         $this->SHPData["xmax"] = loadData("d", ImportShp::readFromBuffer(8));
@@ -142,14 +142,14 @@ class PMA_ShapeRecord extends ShapeRecord
         $readPoints = 0;
         reset($this->SHPData["parts"]);
         while (list($partIndex,) = each($this->SHPData["parts"])) {
-            if (! isset($this->SHPData["parts"][$partIndex]["points"])
+            if (!isset($this->SHPData["parts"][$partIndex]["points"])
                 || !is_array($this->SHPData["parts"][$partIndex]["points"])
             ) {
-                $this->SHPData["parts"][$partIndex] = array();
-                $this->SHPData["parts"][$partIndex]["points"] = array();
+                $this->SHPData["parts"][$partIndex]           = [];
+                $this->SHPData["parts"][$partIndex]["points"] = [];
             }
-            while (! in_array($readPoints, $this->SHPData["parts"])
-            && ($readPoints < ($this->SHPData["numpoints"]))
+            while (!in_array($readPoints, $this->SHPData["parts"])
+                && ($readPoints < ($this->SHPData["numpoints"]))
             ) {
                 $this->SHPData["parts"][$partIndex]["points"][]
                     = $this->_loadPoint();
@@ -158,4 +158,5 @@ class PMA_ShapeRecord extends ShapeRecord
         }
     }
 }
+
 ?>

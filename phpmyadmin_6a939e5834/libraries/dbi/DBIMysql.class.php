@@ -6,11 +6,11 @@
  * @package    PhpMyAdmin-DBI
  * @subpackage MySQL
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
-if (! extension_loaded('mysql')) {
+if (!extension_loaded('mysql')) {
     // The old MySQL extension is deprecated as of PHP 5.5.0, and will be
     // removed in the future. Instead, the `MySQLi` or `PDO_MySQL` extension
     // should be used.
@@ -103,7 +103,7 @@ class PMA_DBI_Mysql implements PMA_DBI_Extension
     ) {
         global $cfg;
 
-        $server_port = $GLOBALS['dbi']->getServerPort($server);
+        $server_port   = $GLOBALS['dbi']->getServerPort($server);
         $server_socket = $GLOBALS['dbi']->getServerSocket($server);
 
         if ($server_port === null) {
@@ -137,14 +137,14 @@ class PMA_DBI_Mysql implements PMA_DBI_Extension
             $client_flags |= MYSQL_CLIENT_SSL;
         }
 
-        if (! $server) {
+        if (!$server) {
             $link = $this->_realConnect(
                 $cfg['Server']['host'] . $server_port . $server_socket,
                 $user, $password, empty($client_flags) ? null : $client_flags
             );
 
             // Retry with empty password if we're allowed to
-            if (empty($link) && $cfg['Server']['nopassword'] && ! $is_controluser) {
+            if (empty($link) && $cfg['Server']['nopassword'] && !$is_controluser) {
                 $link = $this->_realConnect(
                     $cfg['Server']['host'] . $server_port . $server_socket,
                     $user, '', empty($client_flags) ? null : $client_flags
@@ -160,6 +160,7 @@ class PMA_DBI_Mysql implements PMA_DBI_Extension
                 );
             }
         }
+
         return $link;
     }
 
@@ -337,10 +338,10 @@ class PMA_DBI_Mysql implements PMA_DBI_Extension
         $GLOBALS['errno'] = 0;
 
         if (null !== $link && false !== $link) {
-            $error_number = mysql_errno($link);
+            $error_number  = mysql_errno($link);
             $error_message = mysql_error($link);
         } else {
-            $error_number = mysql_errno();
+            $error_number  = mysql_errno();
             $error_message = mysql_error();
         }
         if (0 == $error_number) {
@@ -393,15 +394,16 @@ class PMA_DBI_Mysql implements PMA_DBI_Extension
      */
     public function getFieldsMeta($result)
     {
-        $fields       = array();
-        $num_fields   = mysql_num_fields($result);
+        $fields     = [];
+        $num_fields = mysql_num_fields($result);
         for ($i = 0; $i < $num_fields; $i++) {
-            $field = mysql_fetch_field($result, $i);
-            $field->flags = mysql_field_flags($result, $i);
+            $field           = mysql_fetch_field($result, $i);
+            $field->flags    = mysql_field_flags($result, $i);
             $field->orgtable = mysql_field_table($result, $i);
-            $field->orgname = mysql_field_name($result, $i);
-            $fields[] = $field;
+            $field->orgname  = mysql_field_name($result, $i);
+            $fields[]        = $field;
         }
+
         return $fields;
     }
 
@@ -468,4 +470,5 @@ class PMA_DBI_Mysql implements PMA_DBI_Extension
         return false;
     }
 }
+
 ?>

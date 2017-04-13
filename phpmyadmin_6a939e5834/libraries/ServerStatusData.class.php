@@ -7,7 +7,7 @@
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -60,9 +60,9 @@ class PMA_ServerStatusData
         $server_status = $GLOBALS['dbi']->fetchResult('SHOW GLOBAL STATUS', 0, 1);
         if (PMA_DRIZZLE) {
             // Drizzle doesn't put query statistics into variables, add it
-            $sql = "SELECT concat('Com_', variable_name), variable_value "
+            $sql           = "SELECT concat('Com_', variable_name), variable_value "
                 . "FROM data_dictionary.GLOBAL_STATEMENTS";
-            $statements = $GLOBALS['dbi']->fetchResult($sql, 0, 1);
+            $statements    = $GLOBALS['dbi']->fetchResult($sql, 0, 1);
             $server_status = array_merge($server_status, $statements);
         }
 
@@ -106,20 +106,20 @@ class PMA_ServerStatusData
             && isset($server_status['Key_write_requests'])
             && $server_status['Key_write_requests'] > 0
         ) {
-            $key_writes = $server_status['Key_writes'];
+            $key_writes         = $server_status['Key_writes'];
             $key_write_requests = $server_status['Key_write_requests'];
             $server_status['Key_write_ratio_%']
-                = 100 * $key_writes / $key_write_requests;
+                                = 100 * $key_writes / $key_write_requests;
         }
 
         if (isset($server_status['Key_reads'])
             && isset($server_status['Key_read_requests'])
             && $server_status['Key_read_requests'] > 0
         ) {
-            $key_reads = $server_status['Key_reads'];
+            $key_reads         = $server_status['Key_reads'];
             $key_read_requests = $server_status['Key_read_requests'];
             $server_status['Key_read_ratio_%']
-                = 100 * $key_reads / $key_read_requests;
+                               = 100 * $key_reads / $key_read_requests;
         }
 
         // Threads_cache_hitrate
@@ -136,102 +136,102 @@ class PMA_ServerStatusData
         /**
          * split variables in sections
          */
-        $allocations = array(
+        $allocations = [
             // variable name => section
             // variable names match when they begin with the given string
 
-            'Com_'              => 'com',
-            'Innodb_'           => 'innodb',
-            'Ndb_'              => 'ndb',
-            'Handler_'          => 'handler',
-            'Qcache_'           => 'qcache',
-            'Threads_'          => 'threads',
+            'Com_'                => 'com',
+            'Innodb_'             => 'innodb',
+            'Ndb_'                => 'ndb',
+            'Handler_'            => 'handler',
+            'Qcache_'             => 'qcache',
+            'Threads_'            => 'threads',
             'Slow_launch_threads' => 'threads',
 
-            'Binlog_cache_'     => 'binlog_cache',
-            'Created_tmp_'      => 'created_tmp',
-            'Key_'              => 'key',
+            'Binlog_cache_' => 'binlog_cache',
+            'Created_tmp_'  => 'created_tmp',
+            'Key_'          => 'key',
 
-            'Delayed_'          => 'delayed',
+            'Delayed_'                 => 'delayed',
             'Not_flushed_delayed_rows' => 'delayed',
 
-            'Flush_commands'    => 'query',
-            'Last_query_cost'   => 'query',
-            'Slow_queries'      => 'query',
-            'Queries'           => 'query',
+            'Flush_commands'      => 'query',
+            'Last_query_cost'     => 'query',
+            'Slow_queries'        => 'query',
+            'Queries'             => 'query',
             'Prepared_stmt_count' => 'query',
 
-            'Select_'           => 'select',
-            'Sort_'             => 'sort',
+            'Select_' => 'select',
+            'Sort_'   => 'sort',
 
-            'Open_tables'       => 'table',
-            'Opened_tables'     => 'table',
-            'Open_table_definitions' => 'table',
+            'Open_tables'              => 'table',
+            'Opened_tables'            => 'table',
+            'Open_table_definitions'   => 'table',
             'Opened_table_definitions' => 'table',
-            'Table_locks_'      => 'table',
+            'Table_locks_'             => 'table',
 
-            'Rpl_status'        => 'repl',
-            'Slave_'            => 'repl',
+            'Rpl_status' => 'repl',
+            'Slave_'     => 'repl',
 
-            'Tc_'               => 'tc',
+            'Tc_' => 'tc',
 
-            'Ssl_'              => 'ssl',
+            'Ssl_' => 'ssl',
 
-            'Open_files'        => 'files',
-            'Open_streams'      => 'files',
-            'Opened_files'      => 'files',
-        );
+            'Open_files'   => 'files',
+            'Open_streams' => 'files',
+            'Opened_files' => 'files',
+        ];
 
-        $sections = array(
+        $sections = [
             // section => section name (description)
-            'com'           => 'Com',
-            'query'         => __('SQL query'),
-            'innodb'        => 'InnoDB',
-            'ndb'           => 'NDB',
-            'handler'       => __('Handler'),
-            'qcache'        => __('Query cache'),
-            'threads'       => __('Threads'),
-            'binlog_cache'  => __('Binary log'),
-            'created_tmp'   => __('Temporary data'),
-            'delayed'       => __('Delayed inserts'),
-            'key'           => __('Key cache'),
-            'select'        => __('Joins'),
-            'repl'          => __('Replication'),
-            'sort'          => __('Sorting'),
-            'table'         => __('Tables'),
-            'tc'            => __('Transaction coordinator'),
-            'files'         => __('Files'),
-            'ssl'           => 'SSL',
-            'other'         => __('Other')
-        );
+            'com'          => 'Com',
+            'query'        => __('SQL query'),
+            'innodb'       => 'InnoDB',
+            'ndb'          => 'NDB',
+            'handler'      => __('Handler'),
+            'qcache'       => __('Query cache'),
+            'threads'      => __('Threads'),
+            'binlog_cache' => __('Binary log'),
+            'created_tmp'  => __('Temporary data'),
+            'delayed'      => __('Delayed inserts'),
+            'key'          => __('Key cache'),
+            'select'       => __('Joins'),
+            'repl'         => __('Replication'),
+            'sort'         => __('Sorting'),
+            'table'        => __('Tables'),
+            'tc'           => __('Transaction coordinator'),
+            'files'        => __('Files'),
+            'ssl'          => 'SSL',
+            'other'        => __('Other'),
+        ];
 
         /**
          * define some needful links/commands
          */
         // variable or section name => (name => url)
-        $links = array();
+        $links = [];
 
         $links['table'][__('Flush (close) all tables')] = $this->selfUrl
             . PMA_URL_getCommon(
-                array(
-                    'flush' => 'TABLES'
-                )
+                [
+                    'flush' => 'TABLES',
+                ]
             );
         $links['table'][__('Show open tables')]
-            = 'sql.php' . PMA_URL_getCommon(
-                array(
+                                                        = 'sql.php' . PMA_URL_getCommon(
+                [
                     'sql_query' => 'SHOW OPEN TABLES',
-                    'goto' => $this->selfUrl,
-                )
+                    'goto'      => $this->selfUrl,
+                ]
             );
 
         if ($GLOBALS['replication_info']['master']['status']) {
             $links['repl'][__('Show slave hosts')]
-                = 'sql.php' . PMA_URL_getCommon(
-                    array(
+                                                     = 'sql.php' . PMA_URL_getCommon(
+                    [
                         'sql_query' => 'SHOW SLAVE HOSTS',
-                        'goto' => $this->selfUrl,
-                    )
+                        'goto'      => $this->selfUrl,
+                    ]
                 );
             $links['repl'][__('Show master status')] = '#replication_master';
         }
@@ -242,11 +242,11 @@ class PMA_ServerStatusData
         $links['repl']['doc'] = 'replication';
 
         $links['qcache'][__('Flush query cache')]
-            = $this->selfUrl
+                                = $this->selfUrl
             . PMA_URL_getCommon(
-                array(
-                    'flush' => 'QUERY CACHE'
-                )
+                [
+                    'flush' => 'QUERY CACHE',
+                ]
             );
         $links['qcache']['doc'] = 'query_cache';
 
@@ -259,36 +259,38 @@ class PMA_ServerStatusData
         $links['Slow_queries']['doc'] = 'slow_query_log';
 
         $links['innodb'][__('Variables')]
-            = 'server_engines.php?engine=InnoDB&amp;'
-            . PMA_URL_getCommon(array(), 'html', '');
+                                = 'server_engines.php?engine=InnoDB&amp;'
+            . PMA_URL_getCommon([], 'html', '');
         $links['innodb'][__('InnoDB Status')]
-            = 'server_engines.php'
+                                = 'server_engines.php'
             . PMA_URL_getCommon(
-                array(
+                [
                     'engine' => 'InnoDB',
-                    'page' => 'Status'
-                )
+                    'page'   => 'Status',
+                ]
             );
         $links['innodb']['doc'] = 'innodb';
 
         // Variable to contain all com_ variables (query statistics)
-        $used_queries = array();
+        $used_queries = [];
 
         // Variable to map variable names to their respective section name
         // (used for js category filtering)
-        $allocationMap = array();
+        $allocationMap = [];
 
         // Variable to mark used sections
-        $categoryUsed = array();
+        $categoryUsed = [];
 
         // sort vars into arrays
         foreach ($server_status as $name => $value) {
             $section_found = false;
             foreach ($allocations as $filter => $section) {
-                if (/*overload*/mb_strpos($name, $filter) !== false) {
-                    $allocationMap[$name] = $section;
+                if (/*overload*/
+                    mb_strpos($name, $filter) !== false
+                ) {
+                    $allocationMap[$name]   = $section;
                     $categoryUsed[$section] = true;
-                    $section_found = true;
+                    $section_found          = true;
                     if ($section == 'com' && $value > 0) {
                         $used_queries[$name] = $value;
                     }
@@ -296,7 +298,7 @@ class PMA_ServerStatusData
                 }
             }
             if (!$section_found) {
-                $allocationMap[$name] = 'other';
+                $allocationMap[$name]  = 'other';
                 $categoryUsed['other'] = true;
             }
         }
@@ -315,23 +317,24 @@ class PMA_ServerStatusData
         }
 
         // Set all class properties
-        $this->db_isLocal = false;
-        $serverHostToLower = /*overload*/mb_strtolower(
-            $GLOBALS['cfg']['Server']['host']
-        );
+        $this->db_isLocal  = false;
+        $serverHostToLower = /*overload*/
+            mb_strtolower(
+                $GLOBALS['cfg']['Server']['host']
+            );
         if ($serverHostToLower === 'localhost'
             || $GLOBALS['cfg']['Server']['host'] === '127.0.0.1'
             || $GLOBALS['cfg']['Server']['host'] === '::1'
         ) {
             $this->db_isLocal = true;
         }
-        $this->status = $server_status;
-        $this->sections = $sections;
-        $this->variables = $server_variables;
-        $this->used_queries = $used_queries;
+        $this->status        = $server_status;
+        $this->sections      = $sections;
+        $this->variables     = $server_variables;
+        $this->used_queries  = $used_queries;
         $this->allocationMap = $allocationMap;
-        $this->links = $links;
-        $this->categoryUsed = $categoryUsed;
+        $this->links         = $links;
+        $this->categoryUsed  = $categoryUsed;
     }
 
     /**
@@ -343,16 +346,17 @@ class PMA_ServerStatusData
      */
     public static function cleanDeprecated($server_status)
     {
-        $deprecated = array(
+        $deprecated = [
             'Com_prepare_sql' => 'Com_stmt_prepare',
             'Com_execute_sql' => 'Com_stmt_execute',
             'Com_dealloc_sql' => 'Com_stmt_close',
-        );
+        ];
         foreach ($deprecated as $old => $new) {
             if (isset($server_status[$old]) && isset($server_status[$new])) {
                 unset($server_status[$old]);
             }
         }
+
         return $server_status;
     }
 
@@ -364,34 +368,34 @@ class PMA_ServerStatusData
     public function getMenuHtml()
     {
         $url_params = PMA_URL_getCommon();
-        $items = array(
-            array(
+        $items      = [
+            [
                 'name' => __('Server'),
-                'url' => 'server_status.php'
-            ),
-            array(
+                'url'  => 'server_status.php',
+            ],
+            [
                 'name' => __('Processes'),
-                'url' => 'server_status_processes.php'
-            ),
-            array(
+                'url'  => 'server_status_processes.php',
+            ],
+            [
                 'name' => __('Query statistics'),
-                'url' => 'server_status_queries.php'
-            ),
-            array(
+                'url'  => 'server_status_queries.php',
+            ],
+            [
                 'name' => __('All status variables'),
-                'url' => 'server_status_variables.php'
-            ),
-            array(
+                'url'  => 'server_status_variables.php',
+            ],
+            [
                 'name' => __('Monitor'),
-                'url' => 'server_status_monitor.php'
-            ),
-            array(
+                'url'  => 'server_status_monitor.php',
+            ],
+            [
                 'name' => __('Advisor'),
-                'url' => 'server_status_advisor.php'
-            )
-        );
+                'url'  => 'server_status_advisor.php',
+            ],
+        ];
 
-        $retval  = '<ul id="topmenu2">';
+        $retval = '<ul id="topmenu2">';
         foreach ($items as $item) {
             $class = '';
             if ($item['url'] === $this->selfUrl) {
@@ -421,12 +425,12 @@ class PMA_ServerStatusData
      */
     public static function getHtmlForRefreshList($name,
         $defaultRate = 5,
-        $refreshRates = Array(1, 2, 5, 10, 20, 40, 60, 120, 300, 600)
+        $refreshRates = [1, 2, 5, 10, 20, 40, 60, 120, 300, 600]
     ) {
         $return = '<select name="' . $name . '" id="id_' . $name
             . '" class="refreshRate">';
         foreach ($refreshRates as $rate) {
-            $selected = ($rate == $defaultRate)?' selected="selected"':'';
+            $selected = ($rate == $defaultRate) ? ' selected="selected"' : '';
             $return .= '<option value="' . $rate . '"' . $selected . '>';
             if ($rate < 60) {
                 $return .= sprintf(
@@ -438,9 +442,10 @@ class PMA_ServerStatusData
                     _ngettext('%d minute', '%d minutes', $rate), $rate
                 );
             }
-            $return .=  '</option>';
+            $return .= '</option>';
         }
         $return .= '</select>';
+
         return $return;
     }
 }

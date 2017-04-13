@@ -37,7 +37,7 @@ class FormDisplay
      * Form list
      * @var Form[]
      */
-    private $_forms = array();
+    private $_forms = [];
 
     /**
      * Stores validation errors, indexed by paths
@@ -45,27 +45,27 @@ class FormDisplay
      * [path] is a string storing error associated with single field
      * @var array
      */
-    private $_errors = array();
+    private $_errors = [];
 
     /**
      * Paths changed so that they can be used as HTML ids, indexed by paths
      * @var array
      */
-    private $_translatedPaths = array();
+    private $_translatedPaths = [];
 
     /**
      * Server paths change indexes so we define maps from current server
      * path to the first one, indexed by work path
      * @var array
      */
-    private $_systemPaths = array();
+    private $_systemPaths = [];
 
     /**
      * Language strings which will be sent to PMA_messages JS variable
      * Will be looked up in $GLOBALS: str{value} or strSetup{value}
      * @var array
      */
-    private $_jsLangStrings = array();
+    private $_jsLangStrings = [];
 
     /**
      * Tells whether forms have been validated
@@ -92,13 +92,13 @@ class FormDisplay
      */
     public function __construct(ConfigFile $cf)
     {
-        $this->_jsLangStrings = array(
-            'error_nan_p' => __('Not a positive number!'),
-            'error_nan_nneg' => __('Not a non-negative number!'),
+        $this->_jsLangStrings = [
+            'error_nan_p'          => __('Not a positive number!'),
+            'error_nan_nneg'       => __('Not a non-negative number!'),
             'error_incorrect_port' => __('Not a valid port number!'),
-            'error_invalid_value' => __('Incorrect value!'),
-            'error_value_lte' => __('Value must be equal or lower than %s!'));
-        $this->_configFile = $cf;
+            'error_invalid_value'  => __('Incorrect value!'),
+            'error_value_lte'      => __('Value must be equal or lower than %s!')];
+        $this->_configFile    = $cf;
         // initialize validators
         PMA_Validator::getValidators($this->_configFile);
     }
@@ -127,12 +127,12 @@ class FormDisplay
         $this->_forms[$form_name] = new Form(
             $form_name, $form, $this->_configFile, $server_id
         );
-        $this->_isValidated = false;
+        $this->_isValidated       = false;
         foreach ($this->_forms[$form_name]->fields as $path) {
-            $work_path = $server_id === null
+            $work_path                          = $server_id === null
                 ? $path
                 : str_replace('Servers/1/', "Servers/$server_id/", $path);
-            $this->_systemPaths[$work_path] = $path;
+            $this->_systemPaths[$work_path]     = $path;
             $this->_translatedPaths[$work_path] = str_replace('/', '-', $work_path);
         }
     }
@@ -156,6 +156,7 @@ class FormDisplay
         if (count($this->_forms) > 0) {
             return $this->save(array_keys($this->_forms), $allow_partial_save);
         }
+
         return false;
     }
 
@@ -170,16 +171,16 @@ class FormDisplay
             return;
         }
 
-        $paths = array();
-        $values = array();
+        $paths  = [];
+        $values = [];
         foreach ($this->_forms as $form) {
             /* @var $form Form */
             $paths[] = $form->name;
             // collect values and paths
             foreach ($form->fields as $path) {
-                $work_path = array_search($path, $this->_systemPaths);
+                $work_path     = array_search($path, $this->_systemPaths);
                 $values[$path] = $this->_configFile->getValue($work_path);
-                $paths[] = $path;
+                $paths[]       = $path;
             }
         }
 
@@ -190,11 +191,11 @@ class FormDisplay
 
         // change error keys from canonical paths to work paths
         if (is_array($errors) && count($errors) > 0) {
-            $this->_errors = array();
+            $this->_errors = [];
             foreach ($errors as $path => $error_list) {
                 $work_path = array_search($path, $this->_systemPaths);
                 // field error
-                if (! $work_path) {
+                if (!$work_path) {
                     // form error, fix path
                     $work_path = $path;
                 }
@@ -217,15 +218,15 @@ class FormDisplay
     {
         static $js_lang_sent = false;
 
-        $js = array();
-        $js_default = array();
+        $js          = [];
+        $js_default  = [];
         $tabbed_form = $tabbed_form && (count($this->_forms) > 1);
-        $validators = PMA_Validator::getValidators($this->_configFile);
+        $validators  = PMA_Validator::getValidators($this->_configFile);
 
         PMA_displayFormTop();
 
         if ($tabbed_form) {
-            $tabs = array();
+            $tabs = [];
             foreach ($this->_forms as $form) {
                 $tabs[$form->name] = PMA_lang("Form_$form->name");
             }
@@ -241,7 +242,7 @@ class FormDisplay
                 break;
             }
         }
-        if (! $is_new_server) {
+        if (!$is_new_server) {
             $this->_validate();
         }
 
@@ -251,7 +252,7 @@ class FormDisplay
         // display forms
         foreach ($this->_forms as $form) {
             /* @var $form Form */
-            $form_desc = isset($GLOBALS["strConfigForm_{$form->name}_desc"])
+            $form_desc   = isset($GLOBALS["strConfigForm_{$form->name}_desc"])
                 ? PMA_lang("Form_{$form->name}_desc")
                 : '';
             $form_errors = isset($this->_errors[$form->name])
@@ -260,11 +261,11 @@ class FormDisplay
                 PMA_lang("Form_$form->name"),
                 $form_desc,
                 $form_errors,
-                array('id' => $form->name)
+                ['id' => $form->name]
             );
 
             foreach ($form->fields as $field => $path) {
-                $work_path = array_search($path, $this->_systemPaths);
+                $work_path       = array_search($path, $this->_systemPaths);
                 $translated_path = $this->_translatedPaths[$work_path];
                 // always true/false for user preferences display
                 // otherwise null
@@ -296,9 +297,9 @@ class FormDisplay
         PMA_displayFormBottom();
 
         // if not already done, send strings used for validation to JavaScript
-        if (! $js_lang_sent) {
+        if (!$js_lang_sent) {
             $js_lang_sent = true;
-            $js_lang = array();
+            $js_lang      = [];
             foreach ($this->_jsLangStrings as $strName => $strValue) {
                 $js_lang[] = "'$strName': '" . PMA_jsFormat($strValue, false) . '\'';
             }
@@ -334,22 +335,22 @@ class FormDisplay
         Form $form, $field, $system_path, $work_path,
         $translated_path, $show_restore_default, $userprefs_allow, array &$js_default
     ) {
-        $name = PMA_langName($system_path);
+        $name        = PMA_langName($system_path);
         $description = PMA_langName($system_path, 'desc', '');
 
-        $value = $this->_configFile->get($work_path);
-        $value_default = $this->_configFile->getDefault($system_path);
+        $value            = $this->_configFile->get($work_path);
+        $value_default    = $this->_configFile->getDefault($system_path);
         $value_is_default = false;
         if ($value === null || $value === $value_default) {
-            $value = $value_default;
+            $value            = $value_default;
             $value_is_default = true;
         }
 
-        $opts = array(
-            'doc' => $this->getDocLink($system_path),
+        $opts = [
+            'doc'                  => $this->getDocLink($system_path),
             'show_restore_default' => $show_restore_default,
-            'userprefs_allow' => $userprefs_allow,
-            'userprefs_comment' => PMA_langName($system_path, 'cmt', ''));
+            'userprefs_allow'      => $userprefs_allow,
+            'userprefs_comment'    => PMA_langName($system_path, 'cmt', '')];
         if (isset($form->default[$system_path])) {
             $opts['setvalue'] = $form->default[$system_path];
         }
@@ -359,46 +360,51 @@ class FormDisplay
         }
 
         switch ($form->getOptionType($field)) {
-        case 'string':
-            $type = 'text';
-            break;
-        case 'short_string':
-            $type = 'short_text';
-            break;
-        case 'double':
-        case 'integer':
-            $type = 'number_text';
-            break;
-        case 'boolean':
-            $type = 'checkbox';
-            break;
-        case 'select':
-            $type = 'select';
-            $opts['values'] = $form->getOptionValueList($form->fields[$field]);
-            break;
-        case 'array':
-            $type = 'list';
-            $value = (array) $value;
-            $value_default = (array) $value_default;
-            break;
-        case 'group':
-            // :group:end is changed to :group:end:{unique id} in Form class
-            if (/*overload*/mb_substr($field, 7, 4) != 'end:') {
-                PMA_displayGroupHeader(/*overload*/mb_substr($field, 7));
-            } else {
-                PMA_displayGroupFooter();
-            }
-            return;
-        case 'NULL':
-            trigger_error("Field $system_path has no type", E_USER_WARNING);
-            return;
+            case 'string':
+                $type = 'text';
+                break;
+            case 'short_string':
+                $type = 'short_text';
+                break;
+            case 'double':
+            case 'integer':
+                $type = 'number_text';
+                break;
+            case 'boolean':
+                $type = 'checkbox';
+                break;
+            case 'select':
+                $type           = 'select';
+                $opts['values'] = $form->getOptionValueList($form->fields[$field]);
+                break;
+            case 'array':
+                $type          = 'list';
+                $value         = (array)$value;
+                $value_default = (array)$value_default;
+                break;
+            case 'group':
+                // :group:end is changed to :group:end:{unique id} in Form class
+                if (/*overload*/
+                    mb_substr($field, 7, 4) != 'end:'
+                ) {
+                    PMA_displayGroupHeader(/*overload*/
+                        mb_substr($field, 7));
+                } else {
+                    PMA_displayGroupFooter();
+                }
+
+                return;
+            case 'NULL':
+                trigger_error("Field $system_path has no type", E_USER_WARNING);
+
+                return;
         }
 
         // detect password fields
         if ($type === 'text'
             && (mb_substr($translated_path, -9) === '-password'
-               || mb_substr($translated_path, -4) === 'pass'
-               || mb_substr($translated_path, -4) === 'Pass')
+                || mb_substr($translated_path, -4) === 'pass'
+                || mb_substr($translated_path, -4) === 'Pass')
         ) {
             $type = 'password';
         }
@@ -416,25 +422,25 @@ class FormDisplay
         // send default value to form's JS
         $js_line = '\'' . $translated_path . '\': ';
         switch ($type) {
-        case 'text':
-        case 'short_text':
-        case 'number_text':
-        case 'password':
-            $js_line .= '\'' . PMA_escapeJsString($value_default) . '\'';
-            break;
-        case 'checkbox':
-            $js_line .= $value_default ? 'true' : 'false';
-            break;
-        case 'select':
-            $value_default_js = is_bool($value_default)
-                ? (int) $value_default
-                : $value_default;
-            $js_line .= '[\'' . PMA_escapeJsString($value_default_js) . '\']';
-            break;
-        case 'list':
-            $js_line .= '\'' . PMA_escapeJsString(implode("\n", $value_default))
-                . '\'';
-            break;
+            case 'text':
+            case 'short_text':
+            case 'number_text':
+            case 'password':
+                $js_line .= '\'' . PMA_escapeJsString($value_default) . '\'';
+                break;
+            case 'checkbox':
+                $js_line .= $value_default ? 'true' : 'false';
+                break;
+            case 'select':
+                $value_default_js = is_bool($value_default)
+                    ? (int)$value_default
+                    : $value_default;
+                $js_line .= '[\'' . PMA_escapeJsString($value_default_js) . '\']';
+                break;
+            case 'list':
+                $js_line .= '\'' . PMA_escapeJsString(implode("\n", $value_default))
+                    . '\'';
+                break;
         }
         $js_default[] = $js_line;
 
@@ -500,7 +506,7 @@ class FormDisplay
     private function _validateSelect(&$value, array $allowed)
     {
         $value_cmp = is_bool($value)
-            ? (int) $value
+            ? (int)$value
             : $value;
         foreach ($allowed as $vk => $v) {
             // equality comparison only if both values are numeric or not numeric
@@ -513,9 +519,11 @@ class FormDisplay
                 if (!is_bool($value)) {
                     settype($value, gettype($vk));
                 }
+
                 return true;
             }
         }
+
         return false;
     }
 
@@ -531,16 +539,16 @@ class FormDisplay
     public function save($forms, $allow_partial_save = true)
     {
         $result = true;
-        $forms = (array) $forms;
+        $forms  = (array)$forms;
 
-        $values = array();
-        $to_save = array();
+        $values          = [];
+        $to_save         = [];
         $is_setup_script = defined('PMA_SETUP');
         if ($is_setup_script) {
             $this->_loadUserprefsInfo();
         }
 
-        $this->_errors = array();
+        $this->_errors = [];
         foreach ($forms as $form_name) {
             /* @var $form Form */
             if (isset($this->_forms[$form_name])) {
@@ -555,8 +563,8 @@ class FormDisplay
             // grab POST values
             foreach ($form->fields as $field => $system_path) {
                 $work_path = array_search($system_path, $this->_systemPaths);
-                $key = $this->_translatedPaths[$work_path];
-                $type = $form->getOptionType($field);
+                $key       = $this->_translatedPaths[$work_path];
+                $type      = $form->getOptionType($field);
 
                 // skip groups
                 if ($type == 'group') {
@@ -573,7 +581,7 @@ class FormDisplay
                             __('Missing data for %s'),
                             '<i>' . PMA_langName($system_path) . '</i>'
                         );
-                        $result = false;
+                        $result                       = false;
                         continue;
                     }
                 }
@@ -593,40 +601,40 @@ class FormDisplay
 
                 // cast variables to correct type
                 switch ($type) {
-                case 'double':
-                    $_POST[$key] = PMA_Util::requestString($_POST[$key]);
-                    settype($_POST[$key], 'float');
-                    break;
-                case 'boolean':
-                case 'integer':
-                    if ($_POST[$key] !== '') {
+                    case 'double':
                         $_POST[$key] = PMA_Util::requestString($_POST[$key]);
-                        settype($_POST[$key], $type);
-                    }
-                    break;
-                case 'select':
-                    $successfully_validated = $this->_validateSelect(
-                        $_POST[$key],
-                        $form->getOptionValueList($system_path)
-                    );
-                    if (! $successfully_validated) {
-                        $this->_errors[$work_path][] = __('Incorrect value!');
-                        $result = false;
-                        continue;
-                    }
-                    break;
-                case 'string':
-                case 'short_string':
-                    $_POST[$key] = PMA_Util::requestString($_POST[$key]);
-                    break;
-                case 'array':
-                    // eliminate empty values and ensure we have an array
-                    $post_values = is_array($_POST[$key])
-                        ? $_POST[$key]
-                        : explode("\n", $_POST[$key]);
-                    $_POST[$key] = array();
-                    $this->_fillPostArrayParameters($post_values, $key);
-                    break;
+                        settype($_POST[$key], 'float');
+                        break;
+                    case 'boolean':
+                    case 'integer':
+                        if ($_POST[$key] !== '') {
+                            $_POST[$key] = PMA_Util::requestString($_POST[$key]);
+                            settype($_POST[$key], $type);
+                        }
+                        break;
+                    case 'select':
+                        $successfully_validated = $this->_validateSelect(
+                            $_POST[$key],
+                            $form->getOptionValueList($system_path)
+                        );
+                        if (!$successfully_validated) {
+                            $this->_errors[$work_path][] = __('Incorrect value!');
+                            $result                      = false;
+                            continue;
+                        }
+                        break;
+                    case 'string':
+                    case 'short_string':
+                        $_POST[$key] = PMA_Util::requestString($_POST[$key]);
+                        break;
+                    case 'array':
+                        // eliminate empty values and ensure we have an array
+                        $post_values = is_array($_POST[$key])
+                            ? $_POST[$key]
+                            : explode("\n", $_POST[$key]);
+                        $_POST[$key] = [];
+                        $this->_fillPostArrayParameters($post_values, $key);
+                        break;
                 }
 
                 // now we have value with proper type
@@ -645,22 +653,23 @@ class FormDisplay
         if (!$allow_partial_save && !empty($this->_errors)) {
             // don't look for non-critical errors
             $this->_validate();
+
             return $result;
         }
 
         foreach ($to_save as $work_path => $path) {
             // TrustedProxies requires changes before saving
             if ($path == 'TrustedProxies') {
-                $proxies = array();
-                $i = 0;
+                $proxies = [];
+                $i       = 0;
                 foreach ($values[$path] as $value) {
-                    $matches = array();
-                    $match = preg_match(
+                    $matches = [];
+                    $match   = preg_match(
                         "/^(.+):(?:[ ]?)(\\w+)$/", $value, $matches
                     );
                     if ($match) {
                         // correct 'IP: HTTP header' pair
-                        $ip = trim($matches[1]);
+                        $ip           = trim($matches[1]);
                         $proxies[$ip] = trim($matches[2]);
                     } else {
                         // save also incorrect values
@@ -705,13 +714,15 @@ class FormDisplay
      */
     public function getDocLink($path)
     {
-        $test = /*overload*/mb_substr($path, 0, 6);
+        $test = /*overload*/
+            mb_substr($path, 0, 6);
         if ($test == 'Import' || $test == 'Export') {
             return '';
         }
+
         return PMA_Util::getDocuLink(
             'config',
-            'cfg_' .  $this->_getOptName($path)
+            'cfg_' . $this->_getOptName($path)
         );
     }
 
@@ -724,7 +735,7 @@ class FormDisplay
      */
     private function _getOptName($path)
     {
-        return str_replace(array('Servers/1/', '/'), array('Servers/', '_'), $path);
+        return str_replace(['Servers/1/', '/'], ['Servers/', '_'], $path);
     }
 
     /**
@@ -740,8 +751,8 @@ class FormDisplay
 
         $this->_userprefsKeys = array_flip(PMA_readUserprefsFieldNames());
         // read real config for user preferences display
-        $userprefs_disallow = defined('PMA_SETUP')
-            ? $this->_configFile->get('UserprefsDisallow', array())
+        $userprefs_disallow       = defined('PMA_SETUP')
+            ? $this->_configFile->get('UserprefsDisallow', [])
             : $GLOBALS['cfg']['UserprefsDisallow'];
         $this->_userprefsDisallow = array_flip($userprefs_disallow);
     }
@@ -768,18 +779,18 @@ class FormDisplay
             if (!function_exists('recode_string')) {
                 $opts['values']['recode'] .= ' (' . __('unavailable') . ')';
                 $comment .= ($comment ? ", " : '') . sprintf(
-                    __('"%s" requires %s extension'),
-                    'recode', 'recode'
-                );
+                        __('"%s" requires %s extension'),
+                        'recode', 'recode'
+                    );
             }
             if (!function_exists('mb_convert_encoding')) {
                 $opts['values']['mb'] .= ' (' . __('unavailable') . ')';
                 $comment .= ($comment ? ", " : '') . sprintf(
-                    __('"%s" requires %s extension'),
-                    'mb', 'mbstring'
-                );
+                        __('"%s" requires %s extension'),
+                        'mb', 'mbstring'
+                    );
             }
-            $opts['comment'] = $comment;
+            $opts['comment']         = $comment;
             $opts['comment_warning'] = true;
         }
         // ZipDump, GZipDump, BZipDump - check function availability
@@ -788,10 +799,10 @@ class FormDisplay
             || $system_path == 'BZipDump'
         ) {
             $comment = '';
-            $funcs = array(
-                'ZipDump'  => array('zip_open', 'gzcompress'),
-                'GZipDump' => array('gzopen', 'gzencode'),
-                'BZipDump' => array('bzopen', 'bzcompress'));
+            $funcs   = [
+                'ZipDump'  => ['zip_open', 'gzcompress'],
+                'GZipDump' => ['gzopen', 'gzencode'],
+                'BZipDump' => ['bzopen', 'bzcompress']];
             if (!function_exists($funcs[$system_path][0])) {
                 $comment = sprintf(
                     __('Compressed import will not work due to missing function %s.'),
@@ -800,13 +811,13 @@ class FormDisplay
             }
             if (!function_exists($funcs[$system_path][1])) {
                 $comment .= ($comment ? '; ' : '') . sprintf(
-                    __(
-                        'Compressed export will not work due to missing function %s.'
-                    ),
-                    $funcs[$system_path][1]
-                );
+                        __(
+                            'Compressed export will not work due to missing function %s.'
+                        ),
+                        $funcs[$system_path][1]
+                    );
             }
-            $opts['comment'] = $comment;
+            $opts['comment']         = $comment;
             $opts['comment_warning'] = true;
         }
         if (!defined('PMA_SETUP')) {
@@ -838,4 +849,5 @@ class FormDisplay
         }
     }
 }
+
 ?>

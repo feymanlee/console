@@ -36,7 +36,7 @@ class PMA_SQLParser_Test extends PHPUnit_Framework_TestCase
         if (function_exists('mb_internal_encoding')) {
             mb_internal_encoding('utf-8');
         }
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
+        $_SESSION['PMA_Theme']    = new PMA_Theme();
         $GLOBALS['pmaThemeImage'] = 'theme/';
     }
 
@@ -50,7 +50,7 @@ class PMA_SQLParser_Test extends PHPUnit_Framework_TestCase
      * @return void
      *
      * @dataProvider parserData
-     * @group medium
+     * @group        medium
      */
     public function testParser($sql, $expected, $error = '')
     {
@@ -108,7 +108,7 @@ class PMA_SQLParser_Test extends PHPUnit_Framework_TestCase
     {
         global $SQP_errorString;
         $message = "error from testPMA_SQP_throwError";
-        $sql = "select * from PMA.PMABookmark";
+        $sql     = "select * from PMA.PMABookmark";
         PMA_SQP_throwError($message, $sql);
 
         $this->assertContains(
@@ -134,204 +134,204 @@ class PMA_SQLParser_Test extends PHPUnit_Framework_TestCase
      */
     public function parserData()
     {
-        return array(
-            array(
+        return [
+            [
                 'SELECT 1;',
-                array(
+                [
                     'raw' => 'SELECT 1;',
-                    0 => array(
-                        'type' => 'alpha_reservedWord',
-                        'data' => 'SELECT',
-                        'pos' => 6,
+                    0     => [
+                        'type'      => 'alpha_reservedWord',
+                        'data'      => 'SELECT',
+                        'pos'       => 6,
                         'forbidden' => true,
-                    ),
-                    1 => array(
+                    ],
+                    1     => [
                         'type' => 'digit_integer',
                         'data' => '1',
-                        'pos' => 8,
-                    ),
-                    2 => array(
+                        'pos'  => 8,
+                    ],
+                    2     => [
                         'type' => 'punct_queryend',
                         'data' => ';',
-                        'pos' => 9,
-                    ),
+                        'pos'  => 9,
+                    ],
                     'len' => 3,
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'SELECT * from aaa;',
-                array(
+                [
                     'raw' => 'SELECT * from aaa;',
-                    0 => array(
-                        'type' => 'alpha_reservedWord',
-                        'data' => 'SELECT',
-                        'pos' => 6,
+                    0     => [
+                        'type'      => 'alpha_reservedWord',
+                        'data'      => 'SELECT',
+                        'pos'       => 6,
                         'forbidden' => true,
-                    ),
-                    1 => array(
+                    ],
+                    1     => [
                         'type' => 'punct',
                         'data' => '*',
-                        'pos' => 8,
-                    ),
-                    2 => array(
-                        'type' => 'alpha_reservedWord',
-                        'data' => 'from',
-                        'pos' => 13,
+                        'pos'  => 8,
+                    ],
+                    2     => [
+                        'type'      => 'alpha_reservedWord',
+                        'data'      => 'from',
+                        'pos'       => 13,
                         'forbidden' => true,
-                    ),
-                    3 => array(
-                        'type' => 'alpha_identifier',
-                        'data' => 'aaa',
-                        'pos' => 17,
+                    ],
+                    3     => [
+                        'type'      => 'alpha_identifier',
+                        'data'      => 'aaa',
+                        'pos'       => 17,
                         'forbidden' => false,
-                    ),
-                    4 => array(
+                    ],
+                    4     => [
                         'type' => 'punct_queryend',
                         'data' => ';',
-                        'pos' => 18,
-                    ),
+                        'pos'  => 18,
+                    ],
                     'len' => 5,
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'SELECT * from `aaa`;',
-                array(
+                [
                     'raw' => 'SELECT * from `aaa`;',
-                    0 => array(
-                        'type' => 'alpha_reservedWord',
-                        'data' => 'SELECT',
-                        'pos' => 6,
+                    0     => [
+                        'type'      => 'alpha_reservedWord',
+                        'data'      => 'SELECT',
+                        'pos'       => 6,
                         'forbidden' => true,
-                    ),
-                    1 => array(
+                    ],
+                    1     => [
                         'type' => 'punct',
                         'data' => '*',
-                        'pos' => 8,
-                    ),
-                    2 => array(
-                        'type' => 'alpha_reservedWord',
-                        'data' => 'from',
-                        'pos' => 13,
+                        'pos'  => 8,
+                    ],
+                    2     => [
+                        'type'      => 'alpha_reservedWord',
+                        'data'      => 'from',
+                        'pos'       => 13,
                         'forbidden' => true,
-                    ),
-                    3 => array(
+                    ],
+                    3     => [
                         'type' => 'quote_backtick',
                         'data' => '`aaa`',
-                        'pos' => 19,
-                    ),
-                    4 => array(
+                        'pos'  => 19,
+                    ],
+                    4     => [
                         'type' => 'punct_queryend',
                         'data' => ';',
-                        'pos' => 20,
-                    ),
+                        'pos'  => 20,
+                    ],
                     'len' => 5,
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'SELECT * from `aaa;',
-                array(
+                [
                     'raw' => 'SELECT * from `aaa`;',
-                    0 => array (
-                        'type' => 'alpha_reservedWord',
-                        'data' => 'SELECT',
-                        'pos' => 6,
+                    0     => [
+                        'type'      => 'alpha_reservedWord',
+                        'data'      => 'SELECT',
+                        'pos'       => 6,
                         'forbidden' => true,
-                    ),
-                    1 => array(
+                    ],
+                    1     => [
                         'type' => 'punct',
                         'data' => '*',
-                        'pos' => 8,
-                    ),
-                    2 => array(
-                        'type' => 'alpha_reservedWord',
-                        'data' => 'from',
-                        'pos' => 13,
+                        'pos'  => 8,
+                    ],
+                    2     => [
+                        'type'      => 'alpha_reservedWord',
+                        'data'      => 'from',
+                        'pos'       => 13,
                         'forbidden' => true,
-                    ),
-                    3 => array(
+                    ],
+                    3     => [
                         'type' => 'quote_backtick',
                         'data' => '`aaa`',
-                        'pos' => 19,
-                    ),
-                    4 => array(
+                        'pos'  => 19,
+                    ],
+                    4     => [
                         'type' => 'punct_queryend',
                         'data' => ';',
-                        'pos' => 20,
-                    ),
+                        'pos'  => 20,
+                    ],
                     'len' => 5,
-                ),
+                ],
                 '<div class="notice"><img src="theme/s_notice.png" '
                 . 'title="" alt="" /> Automatically appended '
-                . 'backtick to the end of query!</div>'
-            ),
-            array(
+                . 'backtick to the end of query!</div>',
+            ],
+            [
                 'SELECT * FROM `a_table` tbla INNER JOIN b_table` tblb ON '
                 . 'tblb.id = tbla.id WHERE tblb.field1 != tbla.field1`;',
-                array(
+                [
                     'raw' => 'SELECT * FROM `a_table` tbla INNER JOIN '
                         . 'b_table` tblb ON tblb.id = tbla.id WHERE '
                         . 'tblb.field1 != tbla.field1`;',
-                    0 => array(
-                        'type' => 'alpha_reservedWord',
-                        'data' => 'SELECT',
-                        'pos' => 6,
+                    0     => [
+                        'type'      => 'alpha_reservedWord',
+                        'data'      => 'SELECT',
+                        'pos'       => 6,
                         'forbidden' => true,
-                    ),
-                    1 => array(
+                    ],
+                    1     => [
                         'type' => 'punct',
                         'data' => '*',
-                        'pos' => 8,
-                    ),
-                    2 => array(
-                        'type' => 'alpha_reservedWord',
-                        'data' => 'FROM',
-                        'pos' => 13,
+                        'pos'  => 8,
+                    ],
+                    2     => [
+                        'type'      => 'alpha_reservedWord',
+                        'data'      => 'FROM',
+                        'pos'       => 13,
                         'forbidden' => true,
-                    ),
-                    3 => array(
+                    ],
+                    3     => [
                         'type' => 'quote_backtick',
                         'data' => '`a_table`',
-                        'pos' => 23,
-                    ),
-                    4 => array(
-                        'type' => 'alpha_identifier',
-                        'data' => 'tbla',
-                        'pos' => 28,
+                        'pos'  => 23,
+                    ],
+                    4     => [
+                        'type'      => 'alpha_identifier',
+                        'data'      => 'tbla',
+                        'pos'       => 28,
                         'forbidden' => false,
-                    ),
-                    5 => array(
-                        'type' => 'alpha_reservedWord',
-                        'data' => 'INNER',
-                        'pos' => 34,
+                    ],
+                    5     => [
+                        'type'      => 'alpha_reservedWord',
+                        'data'      => 'INNER',
+                        'pos'       => 34,
                         'forbidden' => true,
-                    ),
-                    6 => array(
-                        'type' => 'alpha_reservedWord',
-                        'data' => 'JOIN',
-                        'pos' => 39,
+                    ],
+                    6     => [
+                        'type'      => 'alpha_reservedWord',
+                        'data'      => 'JOIN',
+                        'pos'       => 39,
                         'forbidden' => true,
-                    ),
-                    7 => array(
-                        'type' => 'alpha_identifier',
-                        'data' => 'b_table',
-                        'pos' => 47,
+                    ],
+                    7     => [
+                        'type'      => 'alpha_identifier',
+                        'data'      => 'b_table',
+                        'pos'       => 47,
                         'forbidden' => false,
-                    ),
-                    8 => array(
+                    ],
+                    8     => [
                         'type' => 'quote_backtick',
                         'data' => '` tblb ON tblb.id = tbla.id WHERE '
                             . 'tblb.field1 != tbla.field1`',
-                        'pos' => 108,
-                    ),
-                    9 => array(
+                        'pos'  => 108,
+                    ],
+                    9     => [
                         'type' => 'punct_queryend',
                         'data' => ';',
-                        'pos' => 109,
-                    ),
+                        'pos'  => 109,
+                    ],
                     'len' => 10,
-                )
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -341,75 +341,75 @@ class PMA_SQLParser_Test extends PHPUnit_Framework_TestCase
      */
     public function aliasDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'select i.name as `n`,abcdef gh from qwerty i',
                 'mydb',
-                array(
-                    'mydb' => array(
-                        'alias' => null,
-                        'tables' => array(
-                            'qwerty' => array(
-                                'alias' => 'i',
-                                'columns' => array(
-                                    'name' => 'n',
-                                    'abcdef' => 'gh'
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            array(
+                [
+                    'mydb' => [
+                        'alias'  => null,
+                        'tables' => [
+                            'qwerty' => [
+                                'alias'   => 'i',
+                                'columns' => [
+                                    'name'   => 'n',
+                                    'abcdef' => 'gh',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'select film_id id,title from film',
                 'sakila',
-                array(
-                    'sakila' => array(
-                        'alias' => null,
-                        'tables' => array(
-                            'film' => array(
-                                'alias' => null,
-                                'columns' => array(
-                                    'film_id' => 'id'
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            array(
+                [
+                    'sakila' => [
+                        'alias'  => null,
+                        'tables' => [
+                            'film' => [
+                                'alias'   => null,
+                                'columns' => [
+                                    'film_id' => 'id',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'select `sakila`.`A`.`actor_id` as aid,`F`.`film_id` `fid`,'
                 . 'last_update updated from `sakila`.actor A join `film_actor` as '
                 . '`F` on F.actor_id = A.`actor_id`',
                 'sakila',
-                array(
-                    'sakila' => array(
-                        'alias' => null,
-                        'tables' => array(
-                            'film_actor' => array(
-                                'alias' => 'F',
-                                'columns' => array(
-                                    'film_id' => 'fid',
-                                    'last_update' => 'updated'
-                                )
-                            ),
-                            'actor' => array(
-                                'alias'=> 'A',
-                                'columns' => array(
-                                    'actor_id' => 'aid',
-                                    'last_update' => 'updated'
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            array(
+                [
+                    'sakila' => [
+                        'alias'  => null,
+                        'tables' => [
+                            'film_actor' => [
+                                'alias'   => 'F',
+                                'columns' => [
+                                    'film_id'     => 'fid',
+                                    'last_update' => 'updated',
+                                ],
+                            ],
+                            'actor'      => [
+                                'alias'   => 'A',
+                                'columns' => [
+                                    'actor_id'    => 'aid',
+                                    'last_update' => 'updated',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            [
                 '',
                 '',
-                array()
-            )
-        );
+                [],
+            ],
+        ];
     }
 
     /**
@@ -422,7 +422,7 @@ class PMA_SQLParser_Test extends PHPUnit_Framework_TestCase
      * @return void
      *
      * @dataProvider aliasDataProvider
-     * @group medium
+     * @group        medium
      */
     public function testPmaSqpGetAliasesFromQuery($select_query, $db, $expected)
     {
@@ -432,4 +432,5 @@ class PMA_SQLParser_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

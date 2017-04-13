@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -145,9 +145,9 @@ class PMA_SVG extends XMLWriter
      * @return void
      * @access public
      *
-     * @see XMLWriter::startElement(),XMLWriter::writeAttribute()
+     * @see    XMLWriter::startElement(),XMLWriter::writeAttribute()
      */
-    function startSvgDoc($width,$height)
+    function startSvgDoc($width, $height)
     {
         $this->startElement('svg');
         $this->writeAttribute('width', $width);
@@ -161,7 +161,7 @@ class PMA_SVG extends XMLWriter
      *
      * @return void
      * @access public
-     * @see XMLWriter::endElement(),XMLWriter::endDocument()
+     * @see    XMLWriter::endElement(),XMLWriter::endDocument()
      */
     function endSvgDoc()
     {
@@ -180,7 +180,7 @@ class PMA_SVG extends XMLWriter
      *
      * @return void
      * @access public
-     * @see XMLWriter::startElement(),XMLWriter::writeAttribute()
+     * @see    XMLWriter::startElement(),XMLWriter::writeAttribute()
      */
     function showOutput($fileName)
     {
@@ -190,7 +190,8 @@ class PMA_SVG extends XMLWriter
         PMA_downloadHeader(
             $fileName,
             'image/svg+xml',
-            /*overload*/mb_strlen($output)
+            /*overload*/
+            mb_strlen($output)
         );
         print $output;
     }
@@ -204,20 +205,20 @@ class PMA_SVG extends XMLWriter
      *
      * @param string     $name   Svg element name
      * @param int        $x      The x attr defines the left position of the element
-     * (e.g. x="0" places the element 0 pixels from the left of the browser window)
+     *                           (e.g. x="0" places the element 0 pixels from the left of the browser window)
      * @param integer    $y      The y attribute defines the top position of the
-     * element (e.g. y="0" places the element 0 pixels from the top of the browser
-     * window)
+     *                           element (e.g. y="0" places the element 0 pixels from the top of the browser
+     *                           window)
      * @param int|string $width  The width attribute defines the width the element
      * @param int|string $height The height attribute defines the height the element
      * @param string     $text   The text attribute defines the text the element
      * @param string     $styles The style attribute defines the style the element
-     * styles can be defined like CSS styles
+     *                           styles can be defined like CSS styles
      *
      * @return void
      * @access public
      *
-     * @see XMLWriter::startElement(), XMLWriter::writeAttribute(),
+     * @see    XMLWriter::startElement(), XMLWriter::writeAttribute(),
      * XMLWriter::text(), XMLWriter::endElement()
      */
     function printElement($name, $x, $y, $width = '', $height = '',
@@ -255,10 +256,10 @@ class PMA_SVG extends XMLWriter
      * @return void
      * @access public
      *
-     * @see XMLWriter::startElement(), XMLWriter::writeAttribute(),
+     * @see    XMLWriter::startElement(), XMLWriter::writeAttribute(),
      * XMLWriter::endElement()
      */
-    function printElementLine($name,$x1,$y1,$x2,$y2,$styles)
+    function printElementLine($name, $x1, $y1, $x2, $y2, $styles)
     {
         $this->startElement($name);
         $this->writeAttribute('x1', $x1);
@@ -288,12 +289,12 @@ class PMA_SVG extends XMLWriter
 class PMA_Svg_Relation_Schema extends PMA_Export_Relation_Schema
 {
 
-    private $_tables = array();
-    private $_relations = array();
-    private $_xMax = 0;
-    private $_yMax = 0;
-    private $_xMin = 100000;
-    private $_yMin = 100000;
+    private $_tables    = [];
+    private $_relations = [];
+    private $_xMax      = 0;
+    private $_yMax      = 0;
+    private $_xMin      = 100000;
+    private $_yMin      = 100000;
     private $_tablewidth;
 
     /**
@@ -331,7 +332,7 @@ class PMA_Svg_Relation_Schema extends PMA_Export_Relation_Schema
         $alltables = $this->getTablesFromRequest();
 
         foreach ($alltables as $table) {
-            if (! isset($this->_tables[$table])) {
+            if (!isset($this->_tables[$table])) {
                 $this->_tables[$table] = new Table_Stats_Svg(
                     $table, $svg->getFont(), $svg->getFontSize(), $this->pageNumber,
                     $this->_tablewidth, $this->showKeys, $this->tableDimension,
@@ -439,21 +440,21 @@ class PMA_Svg_Relation_Schema extends PMA_Export_Relation_Schema
      * @access private
      * @return void
      *
-     * @see _setMinMax,Table_Stats_Svg::__construct(),
+     * @see    _setMinMax,Table_Stats_Svg::__construct(),
      *       Relation_Stats_Svg::__construct()
      */
     private function _addRelation(
-        $masterTable,$font,$fontSize, $masterField,
+        $masterTable, $font, $fontSize, $masterField,
         $foreignTable, $foreignField, $tableDimension
     ) {
-        if (! isset($this->_tables[$masterTable])) {
+        if (!isset($this->_tables[$masterTable])) {
             $this->_tables[$masterTable] = new Table_Stats_Svg(
                 $masterTable, $font, $fontSize, $this->pageNumber,
                 $this->_tablewidth, false, $tableDimension
             );
             $this->_setMinMax($this->_tables[$masterTable]);
         }
-        if (! isset($this->_tables[$foreignTable])) {
+        if (!isset($this->_tables[$foreignTable])) {
             $this->_tables[$foreignTable] = new Table_Stats_Svg(
                 $foreignTable, $font, $fontSize, $this->pageNumber,
                 $this->_tablewidth, false, $tableDimension
@@ -474,7 +475,7 @@ class PMA_Svg_Relation_Schema extends PMA_Export_Relation_Schema
      * @return void
      * @access private
      *
-     * @see Relation_Stats_Svg::relationDraw()
+     * @see    Relation_Stats_Svg::relationDraw()
      */
     private function _drawRelations()
     {
@@ -489,7 +490,7 @@ class PMA_Svg_Relation_Schema extends PMA_Export_Relation_Schema
      * @return void
      * @access private
      *
-     * @see Table_Stats_Svg::Table_Stats_tableDraw()
+     * @see    Table_Stats_Svg::Table_Stats_tableDraw()
      */
     private function _drawTables()
     {
@@ -498,4 +499,5 @@ class PMA_Svg_Relation_Schema extends PMA_Export_Relation_Schema
         }
     }
 }
+
 ?>

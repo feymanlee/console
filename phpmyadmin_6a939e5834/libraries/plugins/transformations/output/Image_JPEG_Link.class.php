@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage Link
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -42,4 +42,5 @@ class Image_JPEG_Link extends ImageLinkTransformationsPlugin
         return "JPEG";
     }
 }
+
 ?>

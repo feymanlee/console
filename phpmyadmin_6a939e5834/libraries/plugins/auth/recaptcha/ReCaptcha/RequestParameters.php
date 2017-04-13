@@ -58,17 +58,17 @@ class RequestParameters
     /**
      * Initialise parameters.
      *
-     * @param string $secret Site secret.
+     * @param string $secret   Site secret.
      * @param string $response Value from g-captcha-response form field.
      * @param string $remoteIp User's IP address.
-     * @param string $version Version of this client library.
+     * @param string $version  Version of this client library.
      */
     public function __construct($secret, $response, $remoteIp = null, $version = null)
     {
-        $this->secret = $secret;
+        $this->secret   = $secret;
         $this->response = $response;
         $this->remoteIp = $remoteIp;
-        $this->version = $version;
+        $this->version  = $version;
     }
 
     /**
@@ -78,7 +78,7 @@ class RequestParameters
      */
     public function toArray()
     {
-        $params = array('secret' => $this->secret, 'response' => $this->response);
+        $params = ['secret' => $this->secret, 'response' => $this->response];
 
         if (!is_null($this->remoteIp)) {
             $params['remoteip'] = $this->remoteIp;

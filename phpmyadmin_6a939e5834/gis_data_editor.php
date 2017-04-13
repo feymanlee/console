@@ -25,40 +25,43 @@ require_once 'libraries/gis/GIS_Visualization.class.php';
 require_once 'libraries/tbl_gis_visualization.lib.php';
 
 // Get data if any posted
-$gis_data = array();
+$gis_data = [];
 if (PMA_isValid($_REQUEST['gis_data'], 'array')) {
     $gis_data = $_REQUEST['gis_data'];
 }
 
-$gis_types = array(
+$gis_types = [
     'POINT',
     'MULTIPOINT',
     'LINESTRING',
     'MULTILINESTRING',
     'POLYGON',
     'MULTIPOLYGON',
-    'GEOMETRYCOLLECTION'
-);
+    'GEOMETRYCOLLECTION',
+];
 
 /** @var PMA_String $pmaString */
 $pmaString = $GLOBALS['PMA_String'];
 
 // Extract type from the initial call and make sure that it's a valid one.
 // Extract from field's values if available, if not use the column type passed.
-if (! isset($gis_data['gis_type'])) {
+if (!isset($gis_data['gis_type'])) {
     if (isset($_REQUEST['type']) && $_REQUEST['type'] != '') {
-        $gis_data['gis_type'] = /*overload*/mb_strtoupper($_REQUEST['type']);
+        $gis_data['gis_type'] = /*overload*/
+            mb_strtoupper($_REQUEST['type']);
     }
     if (isset($_REQUEST['value']) && trim($_REQUEST['value']) != '') {
-        $start = (substr($_REQUEST['value'], 0, 1) == "'") ? 1 : 0;
-        $gis_data['gis_type'] = /*overload*/mb_substr(
-            $_REQUEST['value'],
-            $start,
-            /*overload*/mb_strpos($_REQUEST['value'], "(") - $start
-        );
+        $start                = (substr($_REQUEST['value'], 0, 1) == "'") ? 1 : 0;
+        $gis_data['gis_type'] = /*overload*/
+            mb_substr(
+                $_REQUEST['value'],
+                $start,
+                /*overload*/
+                mb_strpos($_REQUEST['value'], "(") - $start
+            );
     }
-    if ((! isset($gis_data['gis_type']))
-        || (! in_array($gis_data['gis_type'], $gis_types))
+    if ((!isset($gis_data['gis_type']))
+        || (!in_array($gis_data['gis_type'], $gis_types))
     ) {
         $gis_data['gis_type'] = $gis_types[0];
     }
@@ -74,34 +77,34 @@ if (isset($_REQUEST['value'])) {
 }
 
 // Generate Well Known Text
-$srid = (isset($gis_data['srid']) && $gis_data['srid'] != '')
+$srid          = (isset($gis_data['srid']) && $gis_data['srid'] != '')
     ? htmlspecialchars($gis_data['srid']) : 0;
-$wkt = $gis_obj->generateWkt($gis_data, 0);
+$wkt           = $gis_obj->generateWkt($gis_data, 0);
 $wkt_with_zero = $gis_obj->generateWkt($gis_data, 0, '0');
-$result = "'" . $wkt . "'," . $srid;
+$result        = "'" . $wkt . "'," . $srid;
 
 // Generate PNG or SVG based visualization
-$format = (PMA_USR_BROWSER_AGENT == 'IE' && PMA_USR_BROWSER_VER <= 8)
+$format                = (PMA_USR_BROWSER_AGENT == 'IE' && PMA_USR_BROWSER_VER <= 8)
     ? 'png' : 'svg';
-$visualizationSettings = array(
-    'width' => 450,
-    'height' => 300,
-    'spatialColumn' => 'wkt'
-);
-$data = array(array('wkt' => $wkt_with_zero, 'srid' => $srid));
-$visualization = PMA_GIS_visualizationResults(
+$visualizationSettings = [
+    'width'         => 450,
+    'height'        => 300,
+    'spatialColumn' => 'wkt',
+];
+$data                  = [['wkt' => $wkt_with_zero, 'srid' => $srid]];
+$visualization         = PMA_GIS_visualizationResults(
     $data, $visualizationSettings, $format
 );
-$open_layers = PMA_GIS_visualizationResults($data, $visualizationSettings, 'ol');
+$open_layers           = PMA_GIS_visualizationResults($data, $visualizationSettings, 'ol');
 
 // If the call is to update the WKT and visualization make an AJAX response
 if (isset($_REQUEST['generate']) && $_REQUEST['generate'] == true) {
-    $extra_data = array(
+    $extra_data = [
         'result'        => $result,
         'visualization' => $visualization,
         'openLayers'    => $open_layers,
-    );
-    $response = PMA_Response::getInstance();
+    ];
+    $response   = PMA_Response::getInstance();
     $response->addJSON($extra_data);
     exit;
 }
@@ -143,7 +146,7 @@ echo '</div>';
 echo '<div class="choice" style="float:right;clear:right;">';
 echo '<input type="checkbox" id="choice" value="useBaseLayer"'
     . ($srid != 0 ? ' checked="checked"' : '') . '/>';
-echo '<label for="choice">' .  __("Use OpenStreetMaps as Base Layer") . '</label>';
+echo '<label for="choice">' . __("Use OpenStreetMaps as Base Layer") . '</label>';
 echo '</div>';
 
 echo '<script language="javascript" type="text/javascript">';
@@ -165,7 +168,7 @@ foreach ($gis_types as $gis_type) {
 echo '</select>';
 echo '&nbsp;&nbsp;&nbsp;&nbsp;';
 /* l10n: Spatial Reference System Identifier */
-echo '<label for="srid">' .  __('SRID:') . '</label>';
+echo '<label for="srid">' . __('SRID:') . '</label>';
 echo '<input name="gis_data[srid]" type="text" value="' . $srid . '" />';
 echo '</div>';
 echo '<!-- End of header section -->';
@@ -238,7 +241,7 @@ for ($a = 0; $a < $geom_count; $a++) {
             echo '<br/>';
             printf(__('Point %d'), $i + 1);
             echo ': ';
-            echo '<label for="x">' .  __("X") . '</label>';
+            echo '<label for="x">' . __("X") . '</label>';
             echo '<input type="text"'
                 . ' name="gis_data[' . $a . '][' . $type . '][' . $i . '][x]"'
                 . ' value="' . escape($gis_data[$a][$type][$i]['x']) . '" />';
@@ -294,7 +297,7 @@ for ($a = 0; $a < $geom_count; $a++) {
                 echo('<br/>');
                 printf(__('Point %d'), $j + 1);
                 echo ': ';
-                echo '<label for="x">' .  __("X") . '</label>';
+                echo '<label for="x">' . __("X") . '</label>';
                 echo '<input type="text" name="gis_data[' . $a . '][' . $type . ']['
                     . $i . '][' . $j . '][x]" value="'
                     . escape($gis_data[$a][$type][$i][$j]['x']) . '" />';
@@ -367,7 +370,7 @@ for ($a = 0; $a < $geom_count; $a++) {
                     echo '<br/>';
                     printf(__('Point %d'), $j + 1);
                     echo ': ';
-                    echo '<label for="x">' .  __("X") . '</label>';
+                    echo '<label for="x">' . __("X") . '</label>';
                     echo '<input type="text"'
                         . ' name="gis_data[' . $a . '][' . $type . '][' . $k . ']['
                         . $i . '][' . $j . '][x]"'
@@ -394,7 +397,7 @@ for ($a = 0; $a < $geom_count; $a++) {
         echo '<br/>';
         echo '<input type="submit"'
             . ' name="gis_data[' . $a . '][' . $type . '][add_polygon]"'
-            . ' class="add addPolygon" value="' .  __('Add a polygon') . '" />';
+            . ' class="add addPolygon" value="' . __('Add a polygon') . '" />';
     }
 }
 if ($geom_type == 'GEOMETRYCOLLECTION') {

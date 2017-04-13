@@ -40,13 +40,13 @@ $table_search = new PMA_TableSearch($db, $table, "zoom");
  */
 
 if (isset($_REQUEST['get_data_row']) && $_REQUEST['get_data_row'] == true) {
-    $extra_data = array();
+    $extra_data     = [];
     $row_info_query = 'SELECT * FROM `' . $_REQUEST['db'] . '`.`'
-        . $_REQUEST['table'] . '` WHERE ' .  $_REQUEST['where_clause'];
-    $result = $GLOBALS['dbi']->query(
+        . $_REQUEST['table'] . '` WHERE ' . $_REQUEST['where_clause'];
+    $result         = $GLOBALS['dbi']->query(
         $row_info_query . ";", null, PMA_DatabaseInterface::QUERY_STORE
     );
-    $fields_meta = $GLOBALS['dbi']->getFieldsMeta($result);
+    $fields_meta    = $GLOBALS['dbi']->getFieldsMeta($result);
     while ($row = $GLOBALS['dbi']->fetchAssoc($result)) {
         // for bit fields we need to convert them to printable form
         $i = 0;
@@ -72,7 +72,7 @@ if (isset($_REQUEST['get_data_row']) && $_REQUEST['get_data_row'] == true) {
 
 if (isset($_REQUEST['change_tbl_info']) && $_REQUEST['change_tbl_info'] == true) {
     $response = PMA_Response::getInstance();
-    $field = $_REQUEST['field'];
+    $field    = $_REQUEST['field'];
     if ($field == 'pma_null') {
         $response->addJSON('field_type', '');
         $response->addJSON('field_collation', '');
@@ -80,7 +80,7 @@ if (isset($_REQUEST['change_tbl_info']) && $_REQUEST['change_tbl_info'] == true)
         $response->addJSON('field_value', '');
         exit;
     }
-    $key = array_search($field, $table_search->getColumnNames());
+    $key          = array_search($field, $table_search->getColumnNames());
     $search_index = 0;
     if (PMA_isValid($_REQUEST['it'], 'integer')) {
         $search_index = $_REQUEST['it'];
@@ -100,14 +100,14 @@ $url_query .= '&amp;goto=tbl_select.php&amp;back=tbl_select.php';
 // Gets tables informations
 require_once './libraries/tbl_info.inc.php';
 
-if (! isset($goto)) {
+if (!isset($goto)) {
     $goto = $GLOBALS['cfg']['DefaultTabTable'];
 }
 // Defines the url to return to in case of error in the next sql statement
-$err_url   = $goto . PMA_URL_getCommon(array('db' => $db, 'table' => $table));
+$err_url = $goto . PMA_URL_getCommon(['db' => $db, 'table' => $table]);
 
 //Set default datalabel if not selected
-if ( !isset($_POST['zoom_submit']) || $_POST['dataLabel'] == '') {
+if (!isset($_POST['zoom_submit']) || $_POST['dataLabel'] == '') {
     $dataLabel = PMA_getDisplayField($db, $table);
 } else {
     $dataLabel = $_POST['dataLabel'];
@@ -131,15 +131,15 @@ if (isset($_POST['zoom_submit'])
     $sql_query .= ' LIMIT ' . $_POST['maxPlotLimit'];
 
     //Query execution part
-    $result = $GLOBALS['dbi']->query(
+    $result      = $GLOBALS['dbi']->query(
         $sql_query . ";", null, PMA_DatabaseInterface::QUERY_STORE
     );
     $fields_meta = $GLOBALS['dbi']->getFieldsMeta($result);
-    $data = array();
+    $data        = [];
     while ($row = $GLOBALS['dbi']->fetchAssoc($result)) {
         //Need a row with indexes as 0,1,2 for the getUniqueCondition
         // hence using a temporary array
-        $tmpRow = array();
+        $tmpRow = [];
         foreach ($row as $val) {
             $tmpRow[] = $val;
         }
@@ -151,15 +151,15 @@ if (isset($_POST['zoom_submit'])
         //Append it to row array as where_clause
         $row['where_clause'] = $uniqueCondition[0];
 
-        $tmpData = array(
+        $tmpData             = [
             $_POST['criteriaColumnNames'][0] =>
                 $row[$_POST['criteriaColumnNames'][0]],
             $_POST['criteriaColumnNames'][1] =>
                 $row[$_POST['criteriaColumnNames'][1]],
-            'where_clause' => $uniqueCondition[0]
-        );
+            'where_clause'                   => $uniqueCondition[0],
+        ];
         $tmpData[$dataLabel] = ($dataLabel) ? $row[$dataLabel] : '';
-        $data[] = $tmpData;
+        $data[]              = $tmpData;
     }
     unset($tmpData);
 

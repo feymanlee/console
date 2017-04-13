@@ -6,7 +6,7 @@
  * @package PhpMyAdmin-test
  */
 
-$GLOBALS['server'] = 1;
+$GLOBALS['server']                     = 1;
 $GLOBALS['cfg']['Server']['DisableIS'] = false;
 /*
  * Include to test.
@@ -29,8 +29,8 @@ class PMA_List_Database_Test extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $GLOBALS['cfg']['Server']['only_db'] = array('single\\_db');
-        $this->object = new PMA_List_Database();
+        $GLOBALS['cfg']['Server']['only_db'] = ['single\\_db'];
+        $this->object                        = new PMA_List_Database();
     }
 
     /**
@@ -43,9 +43,10 @@ class PMA_List_Database_Test extends PHPUnit_Framework_TestCase
      */
     private function _callProtectedFunction($name, $params)
     {
-        $class = new ReflectionClass('PMA_List_Database');
+        $class  = new ReflectionClass('PMA_List_Database');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
+
         return $method->invokeArgs($this->object, $params);
     }
 
@@ -96,7 +97,7 @@ class PMA_List_Database_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             $this->_callProtectedFunction(
                 'checkHideDatabase',
-                array()
+                []
             ),
             ''
         );
@@ -123,4 +124,5 @@ class PMA_List_Database_Test extends PHPUnit_Framework_TestCase
     }
 
 }
+
 ?>

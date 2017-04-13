@@ -22,8 +22,8 @@ if (! defined('PMA_MINIMUM_COMMON') && ! defined('TESTSUITE')) {
     color: #222222;
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     font-size: 1em;
-/*    height: 300px;
-    width: 590px;*/
+    /*    height: 300px;
+        width: 590px;*/
 }
 
 /*rules applied to all axes*/
@@ -40,7 +40,7 @@ if (! defined('PMA_MINIMUM_COMMON') && ! defined('TESTSUITE')) {
 }
 
 .jqplot-yaxis {
-    margin-<?php echo $right; ?>: 10px;
+    margin- <?php echo $right; ?>: 10px;
 }
 
 .jqplot-y2axis, .jqplot-y3axis, .jqplot-y4axis, .jqplot-y5axis, .jqplot-y6axis, .jqplot-y7axis, .jqplot-y8axis, .jqplot-y9axis, .jqplot-yMidAxis {
@@ -54,46 +54,45 @@ if (! defined('PMA_MINIMUM_COMMON') && ! defined('TESTSUITE')) {
     white-space: pre;
 }
 
-
 .jqplot-xaxis-tick {
     top: 0px;
     /* initial position untill tick is drawn in proper place */
-    <?php echo $left; ?>: 15px;
-/*    padding-top: 10px;*/
+<?php echo $left; ?>: 15 px;
+    /*    padding-top: 10px;*/
     vertical-align: top;
 }
 
 .jqplot-x2axis-tick {
     bottom: 0px;
     /* initial position untill tick is drawn in proper place */
-    <?php echo $left; ?>: 15px;
-/*    padding-bottom: 10px;*/
+<?php echo $left; ?>: 15 px;
+    /*    padding-bottom: 10px;*/
     vertical-align: bottom;
 }
 
 .jqplot-yaxis-tick {
-    <?php echo $right; ?>: 0px;
+<?php echo $right; ?>: 0 px;
     /* initial position untill tick is drawn in proper place */
     top: 15px;
-/*    padding-right: 10px;*/
+    /*    padding-right: 10px;*/
     text-align: <?php echo $right; ?>;
 }
 
 .jqplot-yaxis-tick.jqplot-breakTick {
-    <?php echo $right; ?>: -20px;
-    margin-<?php echo $right; ?>: 0px;
-    padding:1px 5px 1px;
-/*  background-color: white;*/
+<?php echo $right; ?>: - 20 px;
+    margin- <?php echo $right; ?>: 0px;
+    padding: 1px 5px 1px;
+    /*  background-color: white;*/
     z-index: 2;
     font-size: 1.5em;
 }
 
 .jqplot-y2axis-tick, .jqplot-y3axis-tick, .jqplot-y4axis-tick, .jqplot-y5axis-tick, .jqplot-y6axis-tick, .jqplot-y7axis-tick, .jqplot-y8axis-tick, .jqplot-y9axis-tick {
-    <?php echo $left; ?>: 0px;
+<?php echo $left; ?>: 0 px;
     /* initial position untill tick is drawn in proper place */
     top: 15px;
-/*    padding-left: 10px;*/
-/*    padding-right: 15px;*/
+    /*    padding-left: 10px;*/
+    /*    padding-right: 15px;*/
     text-align: <?php echo $left; ?>;
 }
 
@@ -116,7 +115,7 @@ if (! defined('PMA_MINIMUM_COMMON') && ! defined('TESTSUITE')) {
 
 .jqplot-yaxis-label {
     margin-right: 10px;
-/*    text-align: center;*/
+    /*    text-align: center;*/
     font-size: 11pt;
     position: absolute;
 }
@@ -127,9 +126,9 @@ if (! defined('PMA_MINIMUM_COMMON') && ! defined('TESTSUITE')) {
 }
 
 .jqplot-y2axis-label, .jqplot-y3axis-label, .jqplot-y4axis-label, .jqplot-y5axis-label, .jqplot-y6axis-label, .jqplot-y7axis-label, .jqplot-y8axis-label, .jqplot-y9axis-label {
-/*    text-align: center;*/
+    /*    text-align: center;*/
     font-size: 11pt;
-    margin-<?php echo $left; ?>: 10px;
+    margin- <?php echo $left; ?>: 10px;
     position: absolute;
 }
 
@@ -151,7 +150,7 @@ table.jqplot-table-legend {
 }
 
 table.jqplot-table-legend, table.jqplot-cursor-legend {
-    background-color: rgba(255,255,255,0.6);
+    background-color: rgba(255, 255, 255, 0.6);
     border: 1px solid #cccccc;
     position: absolute;
     font-size: 0.75em;
@@ -205,7 +204,7 @@ div.jqplot-table-legend-swatch {
 
 .jqplot-title {
     top: 0px;
-    <?php echo $left; ?>: 0px;
+<?php echo $left; ?>: 0 px;
     padding-bottom: 0.5em;
     font-size: 1.2em;
 }
@@ -215,12 +214,11 @@ table.jqplot-cursor-tooltip {
     font-size: 0.75em;
 }
 
-
 .jqplot-cursor-tooltip {
     border: 1px solid #cccccc;
     font-size: 0.75em;
     white-space: nowrap;
-    background: rgba(208,208,208,0.5);
+    background: rgba(208, 208, 208, 0.5);
     padding: 1px;
 }
 
@@ -228,7 +226,7 @@ table.jqplot-cursor-tooltip {
     border: 1px solid #cccccc;
     font-size: 0.75em;
     white-space: nowrap;
-    background: rgba(208,208,208,0.5);
+    background: rgba(208, 208, 208, 0.5);
     padding: 1px;
 }
 
@@ -248,12 +246,12 @@ div.jqplot-cursor-legend-swatch {
 }
 
 .jqplot-error {
-/*   Styles added to the plot target container when there is an error go here.*/
+    /*   Styles added to the plot target container when there is an error go here.*/
     text-align: center;
 }
 
 .jqplot-error-message {
-/*    Styling of the custom error message div goes here.*/
+    /*    Styling of the custom error message div goes here.*/
     position: relative;
     top: 46%;
     display: inline-block;
@@ -261,7 +259,7 @@ div.jqplot-cursor-legend-swatch {
 
 div.jqplot-bubble-label {
     font-size: 0.8em;
-/*    background: rgba(90%, 90%, 90%, 0.15);*/
+    /*    background: rgba(90%, 90%, 90%, 0.15);*/
     padding-left: 2px;
     padding-right: 2px;
     color: rgb(20%, 20%, 20%);

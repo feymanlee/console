@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-String
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -32,4 +32,5 @@ abstract class PMA_StringAbstractType implements PMA_StringType
         return ($num >= $lower && $num <= $upper);
     }
 }
+
 ?>

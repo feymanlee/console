@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -51,10 +51,12 @@ class PMA_Scripts
     private function _includeFiles($files)
     {
         $first_dynamic_scripts = "";
-        $dynamic_scripts = "";
-        $scripts = array();
+        $dynamic_scripts       = "";
+        $scripts               = [];
         foreach ($files as $value) {
-            if (/*overload*/mb_strpos($value['filename'], "?") !== false) {
+            if (/*overload*/
+                mb_strpos($value['filename'], "?") !== false
+            ) {
                 if ($value['before_statics'] === true) {
                     $first_dynamic_scripts
                         .= "<script data-cfasync='false' type='text/javascript' src='js/"
@@ -81,7 +83,7 @@ class PMA_Scripts
                 $scripts[] = "scripts%5B%5D=" . $value['filename'];
             }
         }
-        $separator = PMA_URL_getArgSeparator();
+        $separator      = PMA_URL_getArgSeparator();
         $static_scripts = '';
         // Using chunks of 10 files to avoid too long URLs
         // as some servers are set to 512 bytes URL limit
@@ -94,6 +96,7 @@ class PMA_Scripts
                 htmlspecialchars($url)
             );
         }
+
         return $first_dynamic_scripts . $static_scripts . $dynamic_scripts;
     }
 
@@ -104,9 +107,9 @@ class PMA_Scripts
      */
     public function __construct()
     {
-        $this->_files  = array();
+        $this->_files  = [];
         $this->_code   = '';
-        $this->_events = array();
+        $this->_events = [];
 
     }
 
@@ -131,13 +134,13 @@ class PMA_Scripts
             return;
         }
 
-        $has_onload = $this->_eventBlacklist($filename);
-        $this->_files[$hash] = array(
-            'has_onload' => $has_onload,
-            'filename' => $filename,
+        $has_onload          = $this->_eventBlacklist($filename);
+        $this->_files[$hash] = [
+            'has_onload'     => $has_onload,
+            'filename'       => $filename,
             'conditional_ie' => $conditional_ie,
-            'before_statics' => $before_statics
-        );
+            'before_statics' => $before_statics,
+        ];
     }
 
     /**
@@ -166,7 +169,7 @@ class PMA_Scripts
      */
     private function _eventBlacklist($filename)
     {
-        if (   strpos($filename, 'jquery') !== false
+        if (strpos($filename, 'jquery') !== false
             || strpos($filename, 'codemirror') !== false
             || strpos($filename, 'messages.php') !== false
             || strpos($filename, 'ajax.js') !== false
@@ -204,10 +207,10 @@ class PMA_Scripts
      */
     public function addEvent($event, $function)
     {
-        $this->_events[] = array(
-            'event' => $event,
-            'function' => $function
-        );
+        $this->_events[] = [
+            'event'    => $event,
+            'function' => $function,
+        ];
     }
 
     /**
@@ -218,20 +221,21 @@ class PMA_Scripts
      */
     public function getFiles()
     {
-        $retval = array();
+        $retval = [];
         foreach ($this->_files as $file) {
             //If filename contains a "?", continue.
             if (strpos($file['filename'], "?") !== false) {
                 continue;
             }
 
-            if (! $file['conditional_ie'] || PMA_USR_BROWSER_AGENT == 'IE') {
-                $retval[] = array(
+            if (!$file['conditional_ie'] || PMA_USR_BROWSER_AGENT == 'IE') {
+                $retval[] = [
                     'name' => $file['filename'],
-                    'fire' => $file['has_onload']
-                );
+                    'fire' => $file['has_onload'],
+                ];
             }
         }
+
         return $retval;
     }
 

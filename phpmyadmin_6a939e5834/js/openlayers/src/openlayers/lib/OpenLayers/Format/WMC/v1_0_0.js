@@ -10,19 +10,19 @@
 /**
  * Class: OpenLayers.Format.WMC.v1_0_0
  * Read and write WMC version 1.0.0.
- * 
+ *
  * Inherits from:
  *  - <OpenLayers.Format.WMC.v1>
  */
 OpenLayers.Format.WMC.v1_0_0 = OpenLayers.Class(
-    OpenLayers.Format.WMC.v1, {
-    
+  OpenLayers.Format.WMC.v1, {
+
     /**
      * Constant: VERSION
      * {String} 1.0.0
      */
     VERSION: "1.0.0",
-    
+
     /**
      * Property: schemaLocation
      * {String} http://www.opengis.net/context
@@ -39,10 +39,10 @@ OpenLayers.Format.WMC.v1_0_0 = OpenLayers.Class(
      * options - {Object} An optional object whose properties will be set on
      *     this instance.
      */
-    initialize: function(options) {
-        OpenLayers.Format.WMC.v1.prototype.initialize.apply(
-            this, [options]
-        );
+    initialize: function (options) {
+      OpenLayers.Format.WMC.v1.prototype.initialize.apply(
+        this, [options]
+      );
     },
 
     /**
@@ -56,21 +56,21 @@ OpenLayers.Format.WMC.v1_0_0 = OpenLayers.Class(
      * Returns:
      * {Element} A WMC Layer element node.
      */
-    write_wmc_Layer: function(context) {
-        var node = OpenLayers.Format.WMC.v1.prototype.write_wmc_Layer.apply(
-            this, [context]
-        );
-    
-        // optional FormatList element
-        node.appendChild(this.write_wmc_FormatList(context));
+    write_wmc_Layer: function (context) {
+      var node = OpenLayers.Format.WMC.v1.prototype.write_wmc_Layer.apply(
+        this, [context]
+      );
 
-        // optional StyleList element
-        node.appendChild(this.write_wmc_StyleList(context));
-        
-        // OpenLayers specific properties go in an Extension element
-        node.appendChild(this.write_wmc_LayerExtension(context));
-    },    
+      // optional FormatList element
+      node.appendChild(this.write_wmc_FormatList(context));
 
-    CLASS_NAME: "OpenLayers.Format.WMC.v1_0_0" 
+      // optional StyleList element
+      node.appendChild(this.write_wmc_StyleList(context));
 
-});
+      // OpenLayers specific properties go in an Extension element
+      node.appendChild(this.write_wmc_LayerExtension(context));
+    },
+
+    CLASS_NAME: "OpenLayers.Format.WMC.v1_0_0"
+
+  });

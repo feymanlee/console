@@ -5,6 +5,6 @@
  *
  * @package PhpMyAdmin-test
  */
-$theme_name = 'Test Theme';
+$theme_name       = 'Test Theme';
 $theme_generation = "2";
-$theme_version = "0.3";
+$theme_version    = "0.3";

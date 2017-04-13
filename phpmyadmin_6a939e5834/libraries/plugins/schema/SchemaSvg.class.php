@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Schema
  * @subpackage SVG
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -87,4 +87,5 @@ class SchemaSvg extends SchemaPlugin
         $export->showOutput();
     }
 }
+
 ?>

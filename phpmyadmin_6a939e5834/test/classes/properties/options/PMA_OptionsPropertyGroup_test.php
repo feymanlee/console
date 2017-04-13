@@ -47,7 +47,7 @@ class PMA_OptionsPropertyGroup_Test extends PHPUnit_Framework_TestCase
         $properties = new \ReflectionProperty('OptionsPropertyGroup', '_properties');
         $properties->setAccessible(true);
 
-        $properties->setValue($this->stub, array(1, 2, 3));
+        $properties->setValue($this->stub, [1, 2, 3]);
 
         $this->assertNull(
             $this->stub->addProperty(2)
@@ -56,7 +56,7 @@ class PMA_OptionsPropertyGroup_Test extends PHPUnit_Framework_TestCase
         $this->stub->addProperty('2');
 
         $this->assertEquals(
-            array(1, 2, 3, '2'),
+            [1, 2, 3, '2'],
             $properties->getValue($this->stub)
         );
     }
@@ -71,15 +71,15 @@ class PMA_OptionsPropertyGroup_Test extends PHPUnit_Framework_TestCase
         $properties = new \ReflectionProperty('OptionsPropertyGroup', '_properties');
         $properties->setAccessible(true);
 
-        $properties->setValue($this->stub, array(1, 2, 'test', 3));
+        $properties->setValue($this->stub, [1, 2, 'test', 3]);
         $this->stub->removeProperty('test');
 
         $this->assertEquals(
-            array(
+            [
                 0 => 1,
                 1 => 2,
-                3 => 3
-            ),
+                3 => 3,
+            ],
             $properties->getValue($this->stub)
         );
     }
@@ -106,10 +106,10 @@ class PMA_OptionsPropertyGroup_Test extends PHPUnit_Framework_TestCase
     {
         $properties = new \ReflectionProperty('OptionsPropertyGroup', '_properties');
         $properties->setAccessible(true);
-        $properties->setValue($this->stub, array(1, 2, 3));
+        $properties->setValue($this->stub, [1, 2, 3]);
 
         $this->assertEquals(
-            array(1, 2, 3),
+            [1, 2, 3],
             $this->stub->getProperties()
         );
     }
@@ -123,7 +123,7 @@ class PMA_OptionsPropertyGroup_Test extends PHPUnit_Framework_TestCase
     {
         $properties = new \ReflectionProperty('OptionsPropertyGroup', '_properties');
         $properties->setAccessible(true);
-        $properties->setValue($this->stub, array(1, 2, 3));
+        $properties->setValue($this->stub, [1, 2, 3]);
 
         $this->assertEquals(
             3,
@@ -131,4 +131,5 @@ class PMA_OptionsPropertyGroup_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

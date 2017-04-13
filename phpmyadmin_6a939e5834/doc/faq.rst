@@ -89,8 +89,8 @@ reasonably secure:
 
 * create a separate directory for uploads: :command:`mkdir /tmp/php`
 * give ownership to the Apache server's user.group: :command:`chown
-  apache.apache /tmp/php`
-* give proper permission: :command:`chmod 600 /tmp/php`
+      apache.apache /tmp/php`
+    * give proper permission: :command:`chmod 600 /tmp/php`
 * put ``upload_tmp_dir = /tmp/php`` in :file:`php.ini`
 * restart Apache
 
@@ -1720,7 +1720,7 @@ You can use :term:`CSV` for Microsoft Excel,
 which works out of the box.
 
 .. versionchanged:: 3.4.5
-    Since phpMyAdmin 3.4.5 support for direct export to Microsoft Excel version
+Since phpMyAdmin 3.4.5 support for direct export to Microsoft Excel version
     97 and newer was dropped.
 
 .. _faq6_24:

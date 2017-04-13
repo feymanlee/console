@@ -53,7 +53,7 @@ class PMA_DBI_Test extends PHPUnit_Framework_TestCase
     function testFetch()
     {
         $result = $GLOBALS['dbi']->tryQuery('SELECT 1');
-        $this->assertEquals(array('1'), $GLOBALS['dbi']->fetchArray($result));
+        $this->assertEquals(['1'], $GLOBALS['dbi']->fetchArray($result));
     }
 
     /**
@@ -78,10 +78,10 @@ class PMA_DBI_Test extends PHPUnit_Framework_TestCase
      */
     function schemaData()
     {
-        return array(
-            array('information_schema', true),
-            array('pma_test', false),
-        );
+        return [
+            ['information_schema', true],
+            ['pma_test', false],
+        ];
     }
 
     /**
@@ -111,14 +111,14 @@ class PMA_DBI_Test extends PHPUnit_Framework_TestCase
      */
     function errorData()
     {
-        return array(
-            array(1234, '', '#1234 - '),
-            array(1234, 'foobar', '#1234 - foobar'),
-            array(
+        return [
+            [1234, '', '#1234 - '],
+            [1234, 'foobar', '#1234 - foobar'],
+            [
                 2002, 'foobar',
                 '#2002 - foobar<br />The server is not responding (or the local '
-                . 'server\'s socket is not correctly configured).'
-            ),
-        );
+                . 'server\'s socket is not correctly configured).',
+            ],
+        ];
     }
 }

@@ -53,7 +53,7 @@ class PMA_Charset_Conversion_Test extends PHPUnit_Framework_TestCase
             );
         }
 
-        $GLOBALS['PMA_recoding_engine'] = PMA_CHARSET_ICONV;
+        $GLOBALS['PMA_recoding_engine']     = PMA_CHARSET_ICONV;
         $GLOBALS['cfg']['IconvExtraParams'] = '//TRANSLIT';
         $this->assertEquals(
             "This is the Euro symbol 'EUR'.",
@@ -63,4 +63,5 @@ class PMA_Charset_Conversion_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

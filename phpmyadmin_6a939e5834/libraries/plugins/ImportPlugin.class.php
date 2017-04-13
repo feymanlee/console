@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -63,15 +63,18 @@ abstract class ImportPlugin
      */
     protected function getDbnameAndOptions($currentDb, $defaultDb)
     {
-        if (/*overload*/mb_strlen($currentDb)) {
+        if (/*overload*/
+        mb_strlen($currentDb)
+        ) {
             $db_name = $currentDb;
-            $options = array('create_db' => false);
+            $options = ['create_db' => false];
         } else {
             $db_name = $defaultDb;
             $options = null;
         }
 
-        return array($db_name, $options);
+        return [$db_name, $options];
     }
 }
+
 ?>

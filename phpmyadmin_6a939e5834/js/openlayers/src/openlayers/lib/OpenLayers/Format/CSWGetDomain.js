@@ -14,15 +14,15 @@
  * Returns:
  * {<OpenLayers.Format>} A CSWGetDomain format of the given version.
  */
-OpenLayers.Format.CSWGetDomain = function(options) {
-    options = OpenLayers.Util.applyDefaults(
-        options, OpenLayers.Format.CSWGetDomain.DEFAULTS
-    );
-    var cls = OpenLayers.Format.CSWGetDomain["v"+options.version.replace(/\./g, "_")];
-    if(!cls) {
-        throw "Unsupported CSWGetDomain version: " + options.version;
-    }
-    return new cls(options);
+OpenLayers.Format.CSWGetDomain = function (options) {
+  options = OpenLayers.Util.applyDefaults(
+    options, OpenLayers.Format.CSWGetDomain.DEFAULTS
+  );
+  var cls = OpenLayers.Format.CSWGetDomain["v" + options.version.replace(/\./g, "_")];
+  if (!cls) {
+    throw "Unsupported CSWGetDomain version: " + options.version;
+  }
+  return new cls(options);
 };
 
 /**
@@ -30,5 +30,5 @@ OpenLayers.Format.CSWGetDomain = function(options) {
  * {Object} Default properties for the CSWGetDomain format.
  */
 OpenLayers.Format.CSWGetDomain.DEFAULTS = {
-    "version": "2.0.2"
+  "version": "2.0.2"
 };

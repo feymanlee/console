@@ -38,7 +38,7 @@ class PMA_From_Processing_Test extends PHPUnit_Framework_TestCase
         // case 1
         $formDisplay = $this->getMockBuilder('FormDisplay')
             ->disableOriginalConstructor()
-            ->setMethods(array('process', 'display'))
+            ->setMethods(['process', 'display'])
             ->getMock();
 
         $formDisplay->expects($this->once())
@@ -55,7 +55,7 @@ class PMA_From_Processing_Test extends PHPUnit_Framework_TestCase
         // case 2
         $formDisplay = $this->getMockBuilder('FormDisplay')
             ->disableOriginalConstructor()
-            ->setMethods(array('process', 'hasErrors', 'displayErrors'))
+            ->setMethods(['process', 'hasErrors', 'displayErrors'])
             ->getMock();
 
         $formDisplay->expects($this->once())
@@ -95,7 +95,7 @@ class PMA_From_Processing_Test extends PHPUnit_Framework_TestCase
         // case 3
         $formDisplay = $this->getMockBuilder('FormDisplay')
             ->disableOriginalConstructor()
-            ->setMethods(array('process', 'hasErrors'))
+            ->setMethods(['process', 'hasErrors'])
             ->getMock();
 
         $formDisplay->expects($this->once())
@@ -111,7 +111,7 @@ class PMA_From_Processing_Test extends PHPUnit_Framework_TestCase
         PMA_Process_formset($formDisplay);
 
         $this->assertEquals(
-            array('HTTP/1.1 303 See Other', 'Location: index.php'),
+            ['HTTP/1.1 303 See Other', 'Location: index.php'],
             $GLOBALS['header']
         );
 
@@ -119,4 +119,5 @@ class PMA_From_Processing_Test extends PHPUnit_Framework_TestCase
 
 
 }
+
 ?>

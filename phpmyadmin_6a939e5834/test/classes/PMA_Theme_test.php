@@ -34,7 +34,7 @@ class PMA_ThemeTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new PMA_Theme();
+        $this->object          = new PMA_Theme();
         $_SESSION['PMA_Theme'] = $this->object;
         $GLOBALS['PMA_Config'] = new PMA_Config();
         $GLOBALS['PMA_Config']->enableBc();
@@ -180,7 +180,7 @@ class PMA_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function testCheckImgPathGlobalsWrongPath()
     {
-        $prevThemePath = $GLOBALS['cfg']['ThemePath'];
+        $prevThemePath               = $GLOBALS['cfg']['ThemePath'];
         $GLOBALS['cfg']['ThemePath'] = 'no_themes';
 
         $this->object->setPath('/this/is/wrong/path');
@@ -371,21 +371,22 @@ class PMA_ThemeTest extends PHPUnit_Framework_TestCase
      */
     public function providerForGetImgPath()
     {
-        return array(
-            array(
+        return [
+            [
                 null,
-                ''
-            ),
-            array(
+                '',
+            ],
+            [
                 'screen.png',
-                './themes/pmahomme/img/screen.png'
-            ),
-            array(
+                './themes/pmahomme/img/screen.png',
+            ],
+            [
                 'arrow_ltr.png',
-                './themes/pmahomme/img/arrow_ltr.png'
-            )
+                './themes/pmahomme/img/arrow_ltr.png',
+            ],
 
-        );
+        ];
     }
 }
+
 ?>

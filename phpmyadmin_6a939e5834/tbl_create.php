@@ -13,13 +13,15 @@ require_once 'libraries/common.inc.php';
 require_once 'libraries/create_addfield.lib.php';
 
 // Check parameters
-PMA_Util::checkParameters(array('db'));
+PMA_Util::checkParameters(['db']);
 
 /** @var PMA_String $pmaString */
 $pmaString = $GLOBALS['PMA_String'];
 
 /* Check if database name is empty */
-if (/*overload*/mb_strlen($db) == 0) {
+if (/*overload*/
+    mb_strlen($db) == 0
+) {
     PMA_Util::mysqlDie(
         __('The database name is empty!'), '', false, 'index.php'
     );
@@ -43,7 +45,7 @@ if ($GLOBALS['dbi']->getColumns($db, $table)) {
         sprintf(__('Table %s already exists!'), htmlspecialchars($table)),
         '',
         false,
-        'db_structure.php' . PMA_URL_getCommon(array('db' => $db))
+        'db_structure.php' . PMA_URL_getCommon(['db' => $db])
     );
 }
 
@@ -76,7 +78,8 @@ if (isset($_REQUEST['do_save_data'])) {
         ) {
             foreach ($_REQUEST['field_mimetype'] as $fieldindex => $mimetype) {
                 if (isset($_REQUEST['field_name'][$fieldindex])
-                    && /*overload*/mb_strlen($_REQUEST['field_name'][$fieldindex])
+                    && /*overload*/
+                    mb_strlen($_REQUEST['field_name'][$fieldindex])
                 ) {
                     PMA_setMIME(
                         $db, $table,

@@ -36,8 +36,8 @@ class PMA_TableReplaceSearchTest extends PHPUnit_Framework_TestCase
     {
         $this->_object = $this->getMock(
             'PMA_TableSearch',
-            array('_loadTableInfo'),
-            array(),
+            ['_loadTableInfo'],
+            [],
             '',
             false
         );
@@ -55,7 +55,7 @@ class PMA_TableReplaceSearchTest extends PHPUnit_Framework_TestCase
         // set column names list
         $attrColNames = $reflection->getProperty('_columnNames');
         $attrColNames->setAccessible(true);
-        $columnNames = array('column1');
+        $columnNames = ['column1'];
         $attrColNames->setValue($this->_object, $columnNames);
     }
 
@@ -72,20 +72,20 @@ class PMA_TableReplaceSearchTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $find = 'findValue';
+        $find        = 'findValue';
         $replaceWith = 'replaceWithValue';
-        $useRegex = false;
-        $charSet = 'charSetValue';
+        $useRegex    = false;
+        $charSet     = 'charSetValue';
 
         // set expectations
         $dbi->expects($this->once())
             ->method('fetchResult')
             ->will(
                 $this->returnValue(
-                    array(
-                        array('val1', 'replace1', 5),
-                        array('va<2', 'replac<2', 1)
-                    )
+                    [
+                        ['val1', 'replace1', 5],
+                        ['va<2', 'replac<2', 1],
+                    ]
                 )
             );
         $GLOBALS['dbi'] = $dbi;
@@ -136,10 +136,10 @@ class PMA_TableReplaceSearchTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $find = 'findValue';
+        $find        = 'findValue';
         $replaceWith = 'replaceWithValue';
-        $useRegex = false;
-        $charSet = 'charSetValue';
+        $useRegex    = false;
+        $charSet     = 'charSetValue';
 
         $expectedQuery = "UPDATE `dbName`.`tableName`"
             . " SET `column1` = REPLACE(`column1`, '" . $find . "', '" . $replaceWith
@@ -154,4 +154,5 @@ class PMA_TableReplaceSearchTest extends PHPUnit_Framework_TestCase
         $this->_object->replace(0, $find, $replaceWith, $useRegex, $charSet);
     }
 }
+
 ?>

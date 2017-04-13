@@ -17,7 +17,7 @@ require_once 'libraries/common.inc.php';
 require_once 'libraries/structure.lib.php';
 
 // Add/Remove favorite tables using Ajax request.
-if ($GLOBALS['is_ajax_request'] && ! empty($_REQUEST['favorite_table'])) {
+if ($GLOBALS['is_ajax_request'] && !empty($_REQUEST['favorite_table'])) {
     PMA_addRemoveFavoriteTables($db);
     exit;
 }
@@ -33,14 +33,14 @@ $scripts->addFile('jquery/jquery-ui-timepicker-addon.js');
 if ((!empty($_POST['submit_mult']) && isset($_POST['selected_tbl']))
     || isset($_POST['mult_btn'])
 ) {
-    $action = 'db_structure.php';
-    $err_url = 'db_structure.php' . PMA_URL_getCommon(array('db' => $db));
+    $action  = 'db_structure.php';
+    $err_url = 'db_structure.php' . PMA_URL_getCommon(['db' => $db]);
 
     // see bug #2794840; in this case, code path is:
     // db_structure.php -> libraries/mult_submits.inc.php -> sql.php
     // -> db_structure.php and if we got an error on the multi submit,
     // we must display it here and not call again mult_submits.inc.php
-    if (! isset($_POST['error']) || false === $_POST['error']) {
+    if (!isset($_POST['error']) || false === $_POST['error']) {
         include 'libraries/mult_submits.inc.php';
     }
     if (empty($_POST['message'])) {
@@ -94,9 +94,9 @@ if ($num_tables == 0) {
  * Displays the tables list
  */
 $response->addHTML('<div id="tableslistcontainer">');
-$_url_params = array(
+$_url_params = [
     'pos' => $pos,
-    'db'  => $db);
+    'db'  => $db];
 
 // Add the sort options if they exists
 if (isset($_REQUEST['sort'])) {
@@ -128,29 +128,29 @@ $response->addHTML(
     )
 );
 
-$i = $sum_entries = 0;
-$overhead_check = '';
+$i               = $sum_entries = 0;
+$overhead_check  = '';
 $create_time_all = '';
 $update_time_all = '';
-$check_time_all = '';
-$num_columns    = $cfg['PropertiesNumColumns'] > 1
+$check_time_all  = '';
+$num_columns     = $cfg['PropertiesNumColumns'] > 1
     ? ceil($num_tables / $cfg['PropertiesNumColumns']) + 1
     : 0;
-$row_count      = 0;
-$sum_size       = (double) 0;
-$overhead_size  = (double) 0;
+$row_count       = 0;
+$sum_size        = (double)0;
+$overhead_size   = (double)0;
 
-$hidden_fields = array();
+$hidden_fields = [];
 $odd_row       = true;
 // Instance of PMA_RecentFavoriteTable class.
 $fav_instance = PMA_RecentFavoriteTable::getInstance('favorite');
 foreach ($tables as $keyname => $current_table) {
     // Get valid statistics whatever is the table type
 
-    $drop_query = '';
-    $drop_message = '';
+    $drop_query       = '';
+    $drop_message     = '';
     $already_favorite = false;
-    $overhead = '';
+    $overhead         = '';
 
     $table_is_view = false;
     $table_encoded = urlencode($current_table['TABLE_NAME']);
@@ -160,12 +160,12 @@ foreach ($tables as $keyname => $current_table) {
 
     list($current_table, $formatted_size, $unit, $formatted_overhead,
         $overhead_unit, $overhead_size, $table_is_view, $sum_size)
-            = PMA_getStuffForEngineTypeTable(
-                $current_table, $db_is_system_schema,
-                $is_show_stats, $table_is_view, $sum_size, $overhead_size
-            );
+        = PMA_getStuffForEngineTypeTable(
+        $current_table, $db_is_system_schema,
+        $is_show_stats, $table_is_view, $sum_size, $overhead_size
+    );
 
-    if (! PMA_Table::isMerge($db, $current_table['TABLE_NAME'])) {
+    if (!PMA_Table::isMerge($db, $current_table['TABLE_NAME'])) {
         $sum_entries += $current_table['TABLE_ROWS'];
     }
 
@@ -222,7 +222,7 @@ foreach ($tables as $keyname => $current_table) {
     $row_count++;
     if ($table_is_view) {
         $hidden_fields[] = '<input type="hidden" name="views[]" value="'
-            .  htmlspecialchars($current_table['TABLE_NAME']) . '" />';
+            . htmlspecialchars($current_table['TABLE_NAME']) . '" />';
     }
 
     /*
@@ -237,11 +237,11 @@ foreach ($tables as $keyname => $current_table) {
      */
     list($browse_table, $search_table, $browse_table_label, $empty_table,
         $tracking_icon) = PMA_getHtmlForActionLinks(
-            $current_table, $table_is_view, $tbl_url_query,
-            $titles, $truename, $db_is_system_schema, $url_query
-        );
+        $current_table, $table_is_view, $tbl_url_query,
+        $titles, $truename, $db_is_system_schema, $url_query
+    );
 
-    if (! $db_is_system_schema) {
+    if (!$db_is_system_schema) {
         list($drop_query, $drop_message)
             = PMA_getTableDropQueryAndMessage($table_is_view, $current_table);
     }
@@ -251,7 +251,7 @@ foreach ($tables as $keyname => $current_table) {
         && ($row_count % $num_columns) == 0
     ) {
         $row_count = 1;
-        $odd_row = true;
+        $odd_row   = true;
 
         $response->addHTML(
             '</tr></tbody></table>'

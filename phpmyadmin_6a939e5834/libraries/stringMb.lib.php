@@ -9,7 +9,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -29,8 +29,8 @@ if (!@function_exists('mb_ord')) {
      */
     function mb_preg_strpos($pattern, $subject, $offset = 0)
     {
-        $matches = array();
-        $bFind = preg_match(
+        $matches = [];
+        $bFind   = preg_match(
             $pattern, mb_substr($subject, $offset), $matches, PREG_OFFSET_CAPTURE
         );
         if (1 !== $bFind) {
@@ -53,9 +53,10 @@ if (!@function_exists('mb_ord')) {
             return 0;
         }
 
-        $str = mb_convert_encoding($string, "UCS-4BE", "UTF-8");
+        $str    = mb_convert_encoding($string, "UCS-4BE", "UTF-8");
         $substr = mb_substr($str, 0, 1, "UCS-4BE");
-        $val = unpack("N", $substr);
+        $val    = unpack("N", $substr);
+
         return $val[1];
     }
 

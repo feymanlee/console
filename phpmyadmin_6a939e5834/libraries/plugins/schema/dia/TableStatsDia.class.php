@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -35,7 +35,7 @@ class Table_Stats_Dia extends TableStats
      * @param boolean $showKeys   Whether to display ONLY keys or not
      * @param boolean $offline    Whether the coordinates are sent from the browser
      *
-     * @global object $dia         The current dia document
+     * @global object $dia        The current dia document
      *
      * @see PMA_DIA
      */
@@ -50,7 +50,7 @@ class Table_Stats_Dia extends TableStats
         /**
          * Every object in Dia document needs an ID to identify
          * so, we used a static variable to keep the things unique
-        */
+         */
         PMA_Dia_Relation_Schema::$objectId += 1;
         $this->tableId = PMA_Dia_Relation_Schema::$objectId;
     }
@@ -79,28 +79,28 @@ class Table_Stats_Dia extends TableStats
      * of displaying Database - Table on Dia Document.
      *
      * @param boolean $showColor Whether to show color for tables text or not
-     * if showColor is true then an array of $listOfColors will be used to choose
-     * the random colors for tables text we can change/add more colors to this array
+     *                           if showColor is true then an array of $listOfColors will be used to choose
+     *                           the random colors for tables text we can change/add more colors to this array
      *
      * @return void
      *
-     * @global object $dia The current Dia document
+     * @global object $dia       The current Dia document
      *
      * @access public
-     * @see PMA_DIA
+     * @see    PMA_DIA
      */
     public function tableDraw($showColor)
     {
         global $dia;
 
         if ($showColor) {
-            $listOfColors = array(
+            $listOfColors = [
                 'FF0000',
                 '000099',
-                '00FF00'
-            );
+                '00FF00',
+            ];
             shuffle($listOfColors);
-            $this->tableColor =  '#' . $listOfColors[0] . '';
+            $this->tableColor = '#' . $listOfColors[0] . '';
         } else {
             $this->tableColor = '#000000';
         }
@@ -224,4 +224,5 @@ class Table_Stats_Dia extends TableStats
         $dia->endElement();
     }
 }
+
 ?>

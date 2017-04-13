@@ -4,12 +4,12 @@
 /**
  * functions for displaying import for: server, database and table
  *
- * @usedby display_import.inc.php
+ * @usedby  display_import.inc.php
  *
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -24,7 +24,7 @@ if (! defined('PHPMYADMIN')) {
  */
 function PMA_getHtmlForHiddenInputs($import_type, $db, $table)
 {
-    $html  = '';
+    $html = '';
     if ($import_type == 'server') {
         $html .= PMA_URL_getHiddenInputs('', '', 1);
     } elseif ($import_type == 'database') {
@@ -48,7 +48,7 @@ function PMA_getHtmlForHiddenInputs($import_type, $db, $table)
 function PMA_getHtmlForImportJS($upload_id)
 {
     global $SESSION_KEY;
-    $html  = '';
+    $html = '';
     $html .= '<script type="text/javascript">';
     $html .= '    //<![CDATA[';
     //with "\n", so that the following lines won't be commented out by //<![CDATA[
@@ -100,7 +100,7 @@ function PMA_getHtmlForImportJS($upload_id)
  */
 function PMA_getHtmlForImportOptions($import_type, $db, $table)
 {
-    $html  = '    <div class="exportoptions" id="header">';
+    $html = '    <div class="exportoptions" id="header">';
     $html .= '        <h2>';
     $html .= PMA_Util::getImage('b_import.png', __('Import'));
 
@@ -135,7 +135,7 @@ function PMA_getHtmlForImportCompressions()
     global $cfg;
     $html = '';
     // zip, gzip and bzip2 encode features
-    $compressions = array();
+    $compressions = [];
 
     if ($cfg['GZipDump'] && @function_exists('gzopen')) {
         $compressions[] = 'gzip';
@@ -147,7 +147,7 @@ function PMA_getHtmlForImportCompressions()
         $compressions[] = 'zip';
     }
     // We don't have show anything about compression, when no supported
-    if ($compressions != array()) {
+    if ($compressions != []) {
         $html .= '<div class="formelementrow" id="compression_info">';
         $compress_str = sprintf(
             __('File may be compressed (%s) or uncompressed.'),
@@ -181,7 +181,7 @@ function PMA_getHtmlForImportCharset()
         reset($cfg['AvailableCharsets']);
         $html .= '<select id="charset_of_file" name="charset_of_file" size="1">';
         foreach ($cfg['AvailableCharsets'] as $temp_charset) {
-            $html .= '<option value="' . htmlentities($temp_charset) .  '"';
+            $html .= '<option value="' . htmlentities($temp_charset) . '"';
             if ((empty($cfg['Import']['charset']) && $temp_charset == 'utf-8')
                 || $temp_charset == $cfg['Import']['charset']
             ) {
@@ -218,8 +218,8 @@ function PMA_getHtmlForImportCharset()
 function PMA_getHtmlForImportOptionsFile($max_upload_size, $import_list)
 {
     global $cfg;
-    $html  = '    <div class="importoptions">';
-    $html .= '         <h3>'  . __('File to Import:') . '</h3>';
+    $html = '    <div class="importoptions">';
+    $html .= '         <h3>' . __('File to Import:') . '</h3>';
     $html .= PMA_getHtmlForImportCompressions();
     $html .= '        <div class="formelementrow" id="upload_form">';
 
@@ -234,8 +234,8 @@ function PMA_getHtmlForImportOptionsFile($max_upload_size, $import_list)
         $html .= '            <li>';
         $html .= '               <input type="radio" name="file_location" '
             . 'id="radio_local_import_file"';
-        if (! empty($GLOBALS['timeout_passed'])
-           && ! empty($GLOBALS['local_import_file'])
+        if (!empty($GLOBALS['timeout_passed'])
+            && !empty($GLOBALS['local_import_file'])
         ) {
             $html .= ' checked="checked"';
         }
@@ -272,7 +272,7 @@ function PMA_getHtmlForImportOptionsFile($max_upload_size, $import_list)
  */
 function PMA_getHtmlForImportOptionsPartialImport($timeout_passed, $offset)
 {
-    $html  = '    <div class="importoptions">';
+    $html = '    <div class="importoptions">';
     $html .= '        <h3>' . __('Partial Import:') . '</h3>';
 
     if (isset($timeout_passed) && $timeout_passed) {
@@ -300,10 +300,10 @@ function PMA_getHtmlForImportOptionsPartialImport($timeout_passed, $offset)
         ) . '</label><br />';
     $html .= '        </div>';
 
-    if (! (isset($timeout_passed) && $timeout_passed)) {
+    if (!(isset($timeout_passed) && $timeout_passed)) {
         $html .= '        <div class="formelementrow">';
         $html .= '            <label for="text_skip_queries">'
-            .  __(
+            . __(
                 'Skip this number of queries (for SQL) or lines (for other '
                 . 'formats), starting from the first one:'
             )
@@ -336,7 +336,7 @@ function PMA_getHtmlForImportOptionsPartialImport($timeout_passed, $offset)
  */
 function PMA_getHtmlForImportOptionsFormat($import_list)
 {
-    $html  = '   <div class="importoptions">';
+    $html = '   <div class="importoptions">';
     $html .= '       <h3>' . __('Format:') . '</h3>';
     $html .= PMA_pluginGetChoice('Import', 'format', $import_list);
     $html .= '       <div id="import_notification"></div>';
@@ -371,7 +371,7 @@ function PMA_getHtmlForImportOptionsFormat($import_list)
  */
 function PMA_getHtmlForImportOptionsSubmit()
 {
-    $html  = '    <div class="importoptions" id="submit">';
+    $html = '    <div class="importoptions" id="submit">';
     $html .= '       <input type="submit" value="' . __('Go') . '" id="buttonGo" />';
     $html .= '   </div>';
 
@@ -397,7 +397,7 @@ function PMA_getHtmlForImport(
     $max_upload_size, $import_list, $timeout_passed, $offset
 ) {
     global $SESSION_KEY;
-    $html  = '';
+    $html = '';
     $html .= '<iframe id="import_upload_iframe" name="import_upload_iframe" '
         . 'width="1" height="1" style="display: none;"></iframe>';
     $html .= '<div id="import_form_status" style="display: none;"></div>';
@@ -447,9 +447,9 @@ function PMA_getHtmlForImport(
 function PMA_getHtmlForImportWithPlugin($upload_id)
 {
     //some variable for javascript
-    $ajax_url = "import_status.php?id=" . $upload_id . "&"
-        . PMA_URL_getCommon(array('import_status'=>1), 'text');
-    $promot_str = PMA_jsFormat(
+    $ajax_url         = "import_status.php?id=" . $upload_id . "&"
+        . PMA_URL_getCommon(['import_status' => 1], 'text');
+    $promot_str       = PMA_jsFormat(
         __(
             'The file being uploaded is probably larger than '
             . 'the maximum allowed size or this is a known bug in webkit '
@@ -457,19 +457,19 @@ function PMA_getHtmlForImportWithPlugin($upload_id)
         ),
         false
     );
-    $statustext_str = PMA_escapeJsString(__('%s of %s'));
-    $upload_str = PMA_jsFormat(__('Uploading your import file…'), false);
-    $second_str = PMA_jsFormat(__('%s/sec.'), false);
-    $remaining_min = PMA_jsFormat(__('About %MIN min. %SEC sec. remaining.'), false);
+    $statustext_str   = PMA_escapeJsString(__('%s of %s'));
+    $upload_str       = PMA_jsFormat(__('Uploading your import file…'), false);
+    $second_str       = PMA_jsFormat(__('%s/sec.'), false);
+    $remaining_min    = PMA_jsFormat(__('About %MIN min. %SEC sec. remaining.'), false);
     $remaining_second = PMA_jsFormat(__('About %SEC sec. remaining.'), false);
-    $processed_str = PMA_jsFormat(
+    $processed_str    = PMA_jsFormat(
         __('The file is being processed, please be patient.'),
         false
     );
-    $import_url = PMA_URL_getCommon(array('import_status'=>1), 'text');
+    $import_url       = PMA_URL_getCommon(['import_status' => 1], 'text');
 
     //start output
-    $html  = 'var finished = false; ';
+    $html = 'var finished = false; ';
     $html .= 'var percent  = 0.0; ';
     $html .= 'var total    = 0; ';
     $html .= 'var complete = 0; ';

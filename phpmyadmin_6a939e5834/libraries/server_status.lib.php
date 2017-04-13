@@ -8,7 +8,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -22,7 +22,7 @@ if (! defined('PHPMYADMIN')) {
 function PMA_getHtmlForServerStatus($ServerStatusData)
 {
     //display the server state General Information
-    $retval  = PMA_getHtmlForServerStateGeneralInfo($ServerStatusData);
+    $retval = PMA_getHtmlForServerStateGeneralInfo($ServerStatusData);
 
     //display the server state traffic information
     $retval .= PMA_getHtmlForServerStateTraffic($ServerStatusData);
@@ -46,9 +46,9 @@ function PMA_getHtmlForServerStateGeneralInfo($ServerStatusData)
         'SELECT UNIX_TIMESTAMP() - ' . $ServerStatusData->status['Uptime']
     );
 
-    $retval  = '<h3>';
+    $retval         = '<h3>';
     $bytes_received = $ServerStatusData->status['Bytes_received'];
-    $bytes_sent = $ServerStatusData->status['Bytes_sent'];
+    $bytes_sent     = $ServerStatusData->status['Bytes_sent'];
     $retval .= sprintf(
         __('Network traffic since startup: %s'),
         implode(
@@ -63,10 +63,10 @@ function PMA_getHtmlForServerStateGeneralInfo($ServerStatusData)
     $retval .= '</h3>';
     $retval .= '<p>';
     $retval .= sprintf(
-        __('This MySQL server has been running for %1$s. It started up on %2$s.'),
-        PMA_Util::timespanFormat($ServerStatusData->status['Uptime']),
-        PMA_Util::localisedDate($start_time)
-    ) . "\n";
+            __('This MySQL server has been running for %1$s. It started up on %2$s.'),
+            PMA_Util::timespanFormat($ServerStatusData->status['Uptime']),
+            PMA_Util::localisedDate($start_time)
+        ) . "\n";
     $retval .= '</p>';
 
     if ($GLOBALS['replication_info']['master']['status']
@@ -126,13 +126,13 @@ function PMA_getHtmlForServerStateGeneralInfo($ServerStatusData)
  */
 function PMA_getHtmlForServerStateTraffic($ServerStatusData)
 {
-    $hour_factor    = 3600 / $ServerStatusData->status['Uptime'];
-    $retval  = '<table id="serverstatustraffic" class="data noclick">';
+    $hour_factor = 3600 / $ServerStatusData->status['Uptime'];
+    $retval      = '<table id="serverstatustraffic" class="data noclick">';
     $retval .= '<thead>';
     $retval .= '<tr>';
     $retval .= '<th colspan="2">';
     $retval .= __('Traffic') . '&nbsp;';
-    $retval .=  PMA_Util::showHint(
+    $retval .= PMA_Util::showHint(
         __(
             'On a busy server, the byte counters may overrun, so those statistics '
             . 'as reported by the MySQL server may be incorrect.'
@@ -185,7 +185,7 @@ function PMA_getHtmlForServerStateTraffic($ServerStatusData)
     $retval .= '<th class="name">' . __('Total') . '</th>';
     $retval .= '<td class="value">';
     $bytes_received = $ServerStatusData->status['Bytes_received'];
-    $bytes_sent = $ServerStatusData->status['Bytes_sent'];
+    $bytes_sent     = $ServerStatusData->status['Bytes_sent'];
     $retval .= implode(
         ' ',
         PMA_Util::formatByteDown(
@@ -195,7 +195,7 @@ function PMA_getHtmlForServerStateTraffic($ServerStatusData)
     $retval .= '</td>';
     $retval .= '<td class="value">';
     $bytes_received = $ServerStatusData->status['Bytes_received'];
-    $bytes_sent = $ServerStatusData->status['Bytes_sent'];
+    $bytes_sent     = $ServerStatusData->status['Bytes_sent'];
     $retval .= implode(
         ' ',
         PMA_Util::formatByteDown(
@@ -206,6 +206,7 @@ function PMA_getHtmlForServerStateTraffic($ServerStatusData)
     $retval .= '</tr>';
     $retval .= '</tbody>';
     $retval .= '</table>';
+
     return $retval;
 }
 
@@ -218,8 +219,8 @@ function PMA_getHtmlForServerStateTraffic($ServerStatusData)
  */
 function PMA_getHtmlForServerStateConnections($ServerStatusData)
 {
-    $hour_factor    = 3600 / $ServerStatusData->status['Uptime'];
-    $retval  = '<table id="serverstatusconnections" class="data noclick">';
+    $hour_factor = 3600 / $ServerStatusData->status['Uptime'];
+    $retval      = '<table id="serverstatusconnections" class="data noclick">';
     $retval .= '<thead>';
     $retval .= '<tr>';
     $retval .= '<th colspan="2">' . __('Connections') . '</th>';
@@ -252,7 +253,7 @@ function PMA_getHtmlForServerStateConnections($ServerStatusData)
     $retval .= '</td>';
     $retval .= '<td class="value">';
     if ($ServerStatusData->status['Connections'] > 0) {
-        $abortNum = $ServerStatusData->status['Aborted_connects'];
+        $abortNum   = $ServerStatusData->status['Aborted_connects'];
         $connectNum = $ServerStatusData->status['Connections'];
 
         $retval .= PMA_Util::formatNumber(
@@ -279,7 +280,7 @@ function PMA_getHtmlForServerStateConnections($ServerStatusData)
     $retval .= '</td>';
     $retval .= '<td class="value">';
     if ($ServerStatusData->status['Connections'] > 0) {
-        $abortNum = $ServerStatusData->status['Aborted_clients'];
+        $abortNum   = $ServerStatusData->status['Aborted_clients'];
         $connectNum = $ServerStatusData->status['Connections'];
 
         $retval .= PMA_Util::formatNumber(

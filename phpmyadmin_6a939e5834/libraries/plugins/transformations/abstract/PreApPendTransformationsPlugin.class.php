@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage PreApPend
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -44,9 +44,9 @@ abstract class PreApPendTransformationsPlugin extends TransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
-        $options = $this->getOptions($options, array('', ''));
+        $options = $this->getOptions($options, ['', '']);
 
         //just prepend and/or append the options to the original text
         return htmlspecialchars($options[0]) . htmlspecialchars($buffer)
@@ -66,4 +66,5 @@ abstract class PreApPendTransformationsPlugin extends TransformationsPlugin
         return "PreApPend";
     }
 }
+
 ?>

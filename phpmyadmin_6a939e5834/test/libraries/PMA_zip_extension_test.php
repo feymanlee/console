@@ -44,24 +44,24 @@ class PMA_ZipExtension_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestGetZipContents()
     {
-        return array(
-            array(
+        return [
+            [
                 './test/test_data/test.zip',
                 null,
-                array(
+                [
                     'error' => '',
-                    'data' => 'TEST FILE' . "\n"
-                )
-            ),
-            array(
+                    'data'  => 'TEST FILE' . "\n",
+                ],
+            ],
+            [
                 './test/test_data/test.zip',
                 'test',
-                array(
+                [
                     'error' => 'Error in ZIP archive: Could not find "test"',
-                    'data' => ''
-                )
-            )
-        );
+                    'data'  => '',
+                ],
+            ],
+        ];
     }
 
     /**
@@ -89,13 +89,13 @@ class PMA_ZipExtension_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestFindFileFromZipArchive()
     {
-        return array(
-            array(
+        return [
+            [
                 '/test/',
                 './test/test_data/test.zip',
-                'test.file'
-            )
-        );
+                'test.file',
+            ],
+        ];
     }
 
     /**
@@ -156,32 +156,32 @@ class PMA_ZipExtension_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestGetZipError()
     {
-        return array(
-            array(
+        return [
+            [
                 1,
-                'Multi-disk zip archives not supported'
-            ),
-            array(
+                'Multi-disk zip archives not supported',
+            ],
+            [
                 5,
-                'Read error'
-            ),
-            array(
+                'Read error',
+            ],
+            [
                 7,
-                'CRC error'
-            ),
-            array(
+                'CRC error',
+            ],
+            [
                 19,
-                'Not a zip archive'
-            ),
-            array(
+                'Not a zip archive',
+            ],
+            [
                 21,
-                'Zip archive inconsistent'
-            ),
-            array(
+                'Zip archive inconsistent',
+            ],
+            [
                 404,
-                404
-            )
-        );
+                404,
+            ],
+        ];
     }
 }
 

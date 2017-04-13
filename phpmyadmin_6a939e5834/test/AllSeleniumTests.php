@@ -31,7 +31,7 @@ class AllSeleniumTests
      */
     public static function main()
     {
-        $parameters = array();
+        $parameters = [];
         PHPUnit_TextUI_TestRunner::run(self::suite(), $parameters);
     }
 
@@ -49,7 +49,9 @@ class AllSeleniumTests
         $suite->addTestSuite('PmaSeleniumPrivilegesTest');
         $suite->addTestSuite('PmaSeleniumCreateDropDatabaseTest');
         $suite->addTestSuite('PmaSeleniumCreateRemoveUserTest');
+
         return $suite;
     }
 }
+
 ?>

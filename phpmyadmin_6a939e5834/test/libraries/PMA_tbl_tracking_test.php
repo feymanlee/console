@@ -38,22 +38,22 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
         /**
          * SET these to avoid undefined index error
          */
-        $_REQUEST['db'] = "db";
+        $_REQUEST['db']    = "db";
         $_REQUEST['table'] = "table";
 
-        $GLOBALS['server'] = 1;
-        $GLOBALS['db'] = "PMA_db";
-        $GLOBALS['table'] = "PMA_table";
-        $GLOBALS['pmaThemeImage'] = "image";
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['ActionLinksMode'] = 'both';
+        $GLOBALS['server']                             = 1;
+        $GLOBALS['db']                                 = "PMA_db";
+        $GLOBALS['table']                              = "PMA_table";
+        $GLOBALS['pmaThemeImage']                      = "image";
+        $GLOBALS['cfg']['ServerDefault']               = "server";
+        $GLOBALS['cfg']['ActionLinksMode']             = 'both';
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
 
-        $_SESSION['relation'][$GLOBALS['server']] = array(
-            'db' => 'pmadb',
-            'tracking' => 'tracking',
-            'trackingwork' => true
-        );
+        $_SESSION['relation'][$GLOBALS['server']] = [
+            'db'           => 'pmadb',
+            'tracking'     => 'tracking',
+            'trackingwork' => true,
+        ];
 
         $GLOBALS['cfg']['Server']['tracking_default_statements'] = 'DELETE';
 
@@ -61,7 +61,7 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $fetchArray = array('version' => "10");
+        $fetchArray = ['version' => "10"];
         $dbi->expects($this->any())
             ->method('fetchArray')
             ->will($this->returnValue($fetchArray));
@@ -83,21 +83,21 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAFilterTracking()
     {
-        $data = array(
-            array(
-                "date" => "20120102",
-                "username"=> "username1",
-                "statement"=>"statement1"
-            ),
-            array(
-                "date" => "20130102",
-                "username"=> "username2",
-                "statement"=>"statement2"
-            ),
-        );
+        $data           = [
+            [
+                "date"      => "20120102",
+                "username"  => "username1",
+                "statement" => "statement1",
+            ],
+            [
+                "date"      => "20130102",
+                "username"  => "username2",
+                "statement" => "statement2",
+            ],
+        ];
         $filter_ts_from = 0;
-        $filter_ts_to = 999999999999;
-        $filter_users = array("username1");
+        $filter_ts_to   = 999999999999;
+        $filter_users   = ["username1"];
 
         $ret = PMA_filterTracking(
             $data, $filter_ts_from, $filter_ts_to, $filter_users
@@ -121,10 +121,10 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForDataDefinitionAndManipulationStatements()
     {
-        $url_query = "url_query";
+        $url_query    = "url_query";
         $last_version = "10";
-        $html = PMA_getHtmlForDataDefinitionAndManipulationStatements(
-            $url_query, $last_version, $GLOBALS['db'], array($GLOBALS['table'])
+        $html         = PMA_getHtmlForDataDefinitionAndManipulationStatements(
+            $url_query, $last_version, $GLOBALS['db'], [$GLOBALS['table']]
         );
 
         $this->assertContains(
@@ -153,7 +153,7 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
         );
 
         $item = '<input type="checkbox" name="delete" value="true"'
-        . ' checked="checked" /> DELETE<br/>';
+            . ' checked="checked" /> DELETE<br/>';
         $this->assertContains(
             $item,
             $html
@@ -173,9 +173,9 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForActivateDeactivateTracking()
     {
-        $url_query = "url_query";
+        $url_query    = "url_query";
         $last_version = "10";
-        $html = PMA_getHtmlForActivateDeactivateTracking(
+        $html         = PMA_getHtmlForActivateDeactivateTracking(
             'activate', $url_query, $last_version
         );
 
@@ -240,7 +240,7 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetTableLastVersionNumber()
     {
-        $sql_result = "sql_result";
+        $sql_result   = "sql_result";
         $last_version = PMA_getTableLastVersionNumber($sql_result);
 
         $this->assertEquals(
@@ -273,26 +273,26 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForColumns()
     {
-        $columns = array(
-            array(
-                'Field'=>'Field1',
-                'Type'=>'Type1',
-                'Collation'=>'Collation1',
-                "Null"=>'YES',
-                'Extra'=>'Extra1',
-                'Key'=>'PRI',
-                'Comment'=>'Comment1'
-            ),
-            array(
-                'Field'=>'Field2',
-                'Type'=>'Type2',
-                'Collation'=>'Collation2',
-                "Null"=>'No',
-                'Extra'=>'Extra2',
-                'Key'=>'Key2',
-                'Comment'=>'Comment2'
-            ),
-        );
+        $columns = [
+            [
+                'Field'     => 'Field1',
+                'Type'      => 'Type1',
+                'Collation' => 'Collation1',
+                "Null"      => 'YES',
+                'Extra'     => 'Extra1',
+                'Key'       => 'PRI',
+                'Comment'   => 'Comment1',
+            ],
+            [
+                'Field'     => 'Field2',
+                'Type'      => 'Type2',
+                'Collation' => 'Collation2',
+                "Null"      => 'No',
+                'Extra'     => 'Extra2',
+                'Key'       => 'Key2',
+                'Comment'   => 'Comment2',
+            ],
+        ];
 
         $html = PMA_getHtmlForColumns($columns);
 
@@ -318,7 +318,7 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
         );
 
         //column1
-        $item1= $columns[0];
+        $item1 = $columns[0];
         $this->assertContains(
             htmlspecialchars($item1['Field']),
             $html
@@ -341,7 +341,7 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
         );
 
         //column2
-        $item1= $columns[1];
+        $item1 = $columns[1];
         $this->assertContains(
             htmlspecialchars($item1['Field']),
             $html
@@ -388,26 +388,26 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForTableVersionDetails()
     {
-        $sql_result = true;
-        $last_version = "10";
-        $url_params = array();
-        $url_query = "select * from PMA";
+        $sql_result    = true;
+        $last_version  = "10";
+        $url_params    = [];
+        $url_query     = "select * from PMA";
         $pmaThemeImage = "themePath/img";
-        $text_dir = "ltr";
+        $text_dir      = "ltr";
 
         $dbi_old = $GLOBALS['dbi'];
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi     = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $fetchArray = array(
-                'tracking_active' => 1,
-                'version' => "10",
-                'db_name' => 'db_name',
-                'table_name' => 'table_name',
-                'date_created' => 'date_created',
-                'date_updated' => 'date_updated'
-        );
+        $fetchArray = [
+            'tracking_active' => 1,
+            'version'         => "10",
+            'db_name'         => 'db_name',
+            'table_name'      => 'table_name',
+            'date_created'    => 'date_created',
+            'date_updated'    => 'date_updated',
+        ];
         $dbi->expects($this->at(0))
             ->method('fetchArray')
             ->will($this->returnValue($fetchArray));
@@ -491,21 +491,21 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
     public function testPMAGetHtmlForSelectableTables()
     {
         $selectable_tables_sql_result = true;
-        $url_query = "select * from PMA";
+        $url_query                    = "select * from PMA";
 
         $dbi_old = $GLOBALS['dbi'];
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi     = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $fetchArray = array(
-                'tracking_active' => 1,
-                'version' => "10",
-                'db_name' => 'db_name',
-                'table_name' => 'table_name',
-                'date_created' => 'date_created',
-                'date_updated' => 'date_updated'
-        );
+        $fetchArray = [
+            'tracking_active' => 1,
+            'version'         => "10",
+            'db_name'         => 'db_name',
+            'table_name'      => 'table_name',
+            'date_created'    => 'date_created',
+            'date_updated'    => 'date_updated',
+        ];
         $dbi->expects($this->at(0))
             ->method('fetchArray')
             ->will($this->returnValue($fetchArray));
@@ -543,24 +543,24 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForTrackingReportr()
     {
-        $_REQUEST['version'] = 10;
+        $_REQUEST['version']   = 10;
         $_REQUEST['date_from'] = "date_from";
-        $_REQUEST['date_to'] = "date_to";
-        $_REQUEST['users'] = "users";
-        $_REQUEST['logtype'] = 'logtype';
-        $url_query = "select * from PMA";
-        $data = array(
-            'tracking'=>'tracking',
-            'ddlog' => array('ddlog'),
-            'dmlog' => array('dmlog')
-        );
-        $url_params = array();
-        $selection_schema = array();
-        $selection_data = array();
-        $selection_both = array();
-        $filter_ts_to = array();
-        $filter_ts_from = array();
-        $filter_users = array();
+        $_REQUEST['date_to']   = "date_to";
+        $_REQUEST['users']     = "users";
+        $_REQUEST['logtype']   = 'logtype';
+        $url_query             = "select * from PMA";
+        $data                  = [
+            'tracking' => 'tracking',
+            'ddlog'    => ['ddlog'],
+            'dmlog'    => ['dmlog'],
+        ];
+        $url_params            = [];
+        $selection_schema      = [];
+        $selection_data        = [];
+        $selection_both        = [];
+        $filter_ts_to          = [];
+        $filter_ts_from        = [];
+        $filter_users          = [];
 
         $html = PMA_getHtmlForTrackingReport(
             $url_query, $data, $url_params,
@@ -591,9 +591,9 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
 
         $version = '<form method="post" action="tbl_tracking.php'
             . PMA_URL_getCommon(
-                $url_params + array(
-                    'report' => 'true', 'version' => $_REQUEST['version']
-                )
+                $url_params + [
+                    'report' => 'true', 'version' => $_REQUEST['version'],
+                ]
             );
 
         $this->assertContains(
@@ -646,23 +646,23 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
     public function testPMAGetHtmlForDataManipulationStatements()
     {
         $_REQUEST['version'] = "10";
-        $data = array(
-            'tracking'=>'tracking',
-            'dmlog' => array(
-                array(
+        $data                = [
+            'tracking' => 'tracking',
+            'dmlog'    => [
+                [
                     'statement' => 'statement',
-                    'date' => 'date',
-                    'username' => 'username',
-                )
-            ),
-            'ddlog' => array('ddlog')
-        );
-        $url_params = array();
-        $ddlog_count = 10;
-        $drop_image_or_text = "text";
-        $filter_ts_to = 9999999999;
-        $filter_ts_from = 0;
-        $filter_users = array("*");
+                    'date'      => 'date',
+                    'username'  => 'username',
+                ],
+            ],
+            'ddlog'    => ['ddlog'],
+        ];
+        $url_params          = [];
+        $ddlog_count         = 10;
+        $drop_image_or_text  = "text";
+        $filter_ts_to        = 9999999999;
+        $filter_ts_from      = 0;
+        $filter_users        = ["*"];
 
         $html = PMA_getHtmlForDataManipulationStatements(
             $data, $filter_users,
@@ -706,21 +706,21 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
     {
         $_REQUEST['version'] = "10";
 
-        $data = array(
-            'tracking'=>'tracking',
-            'ddlog' => array(
-                array(
+        $data               = [
+            'tracking' => 'tracking',
+            'ddlog'    => [
+                [
                     'statement' => 'statement',
-                    'date' => 'date',
-                    'username' => 'username',
-                )
-            ),
-            'dmlog' => array('dmlog')
-        );
-        $filter_users = array("*");
-        $filter_ts_to = 9999999999;
-        $filter_ts_from = 0;
-        $url_params = array();
+                    'date'      => 'date',
+                    'username'  => 'username',
+                ],
+            ],
+            'dmlog'    => ['dmlog'],
+        ];
+        $filter_users       = ["*"];
+        $filter_ts_to       = 9999999999;
+        $filter_ts_from     = 0;
+        $url_params         = [];
         $drop_image_or_text = "text";
 
         list($html, $count) = PMA_getHtmlForDataDefinitionStatements(
@@ -769,19 +769,19 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForIndexes()
     {
-        $indexs = array(
-            array(
-                'Non_unique' => 0,
-                'Packed' => '',
-                'Key_name' => 'Key_name1',
-                'Index_type' => 'BTREE',
+        $indexs = [
+            [
+                'Non_unique'  => 0,
+                'Packed'      => '',
+                'Key_name'    => 'Key_name1',
+                'Index_type'  => 'BTREE',
                 'Column_name' => 'Column_name',
                 'Cardinality' => 'Cardinality',
-                'Collation' => 'Collation',
-                'Null' => 'Null',
-                'Comment' => 'Comment',
-            ),
-        );
+                'Collation'   => 'Collation',
+                'Null'        => 'Null',
+                'Comment'     => 'Comment',
+            ],
+        ];
 
         $html = PMA_getHtmlForIndexes($indexs);
 
@@ -844,16 +844,16 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetTrackingSet()
     {
-        $_REQUEST['alter_table'] = false;
+        $_REQUEST['alter_table']  = false;
         $_REQUEST['rename_table'] = true;
         $_REQUEST['create_table'] = true;
-        $_REQUEST['drop_table'] = true;
+        $_REQUEST['drop_table']   = true;
         $_REQUEST['create_index'] = false;
-        $_REQUEST['drop_index'] = true;
-        $_REQUEST['insert'] = true;
-        $_REQUEST['update'] = false;
-        $_REQUEST['delete'] = true;
-        $_REQUEST['truncate'] = true;
+        $_REQUEST['drop_index']   = true;
+        $_REQUEST['insert']       = true;
+        $_REQUEST['update']       = false;
+        $_REQUEST['delete']       = true;
+        $_REQUEST['truncate']     = true;
 
         $tracking_set = PMA_getTrackingSet();
         $this->assertEquals(
@@ -862,16 +862,16 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
         );
 
         //other set to true
-        $_REQUEST['alter_table'] = true;
+        $_REQUEST['alter_table']  = true;
         $_REQUEST['rename_table'] = false;
         $_REQUEST['create_table'] = false;
-        $_REQUEST['drop_table'] = false;
+        $_REQUEST['drop_table']   = false;
         $_REQUEST['create_index'] = true;
-        $_REQUEST['drop_index'] = false;
-        $_REQUEST['insert'] = false;
-        $_REQUEST['update'] = true;
-        $_REQUEST['delete'] = false;
-        $_REQUEST['truncate'] = false;
+        $_REQUEST['drop_index']   = false;
+        $_REQUEST['insert']       = false;
+        $_REQUEST['update']       = true;
+        $_REQUEST['delete']       = false;
+        $_REQUEST['truncate']     = false;
 
         $tracking_set = PMA_getTrackingSet();
         $this->assertEquals(
@@ -890,26 +890,26 @@ class PMA_TblTrackingTest extends PHPUnit_Framework_TestCase
     public function testPMAGetEntries()
     {
         $_REQUEST['logtype'] = 'schema';
-        $data = array(
-            'tracking'=>'tracking',
-            'ddlog' => array(
-                array(
+        $data                = [
+            'tracking' => 'tracking',
+            'ddlog'    => [
+                [
                     'statement' => 'statement1',
-                    'date' => 'date2',
-                    'username' => 'username3',
-                )
-            ),
-            'dmlog' =>  array(
-                array(
+                    'date'      => 'date2',
+                    'username'  => 'username3',
+                ],
+            ],
+            'dmlog'    => [
+                [
                     'statement' => 'statement1',
-                    'date' => 'date2',
-                    'username' => 'username3',
-                )
-            ),
-        );
-        $filter_users = array("*");
-        $filter_ts_to = 9999999999;
-        $filter_ts_from = 0;
+                    'date'      => 'date2',
+                    'username'  => 'username3',
+                ],
+            ],
+        ];
+        $filter_users        = ["*"];
+        $filter_ts_to        = 9999999999;
+        $filter_ts_from      = 0;
 
         $entries = PMA_getEntries(
             $data, $filter_ts_from, $filter_ts_to, $filter_users

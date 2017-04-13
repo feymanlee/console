@@ -13,7 +13,7 @@
  * MultiPolygon is a geometry with multiple <OpenLayers.Geometry.Polygon>
  * components.  Create a new instance with the <OpenLayers.Geometry.MultiPolygon>
  * constructor.
- * 
+ *
  * Inherits from:
  *  - <OpenLayers.Geometry.Collection>
  */
@@ -37,10 +37,10 @@ OpenLayers.Geometry.MultiPolygon = OpenLayers.Class(
      *              used to generate the MultiPolygon
      *
      */
-    initialize: function(components) {
-        OpenLayers.Geometry.Collection.prototype.initialize.apply(this, 
-                                                                  arguments);
+    initialize: function (components) {
+      OpenLayers.Geometry.Collection.prototype.initialize.apply(this,
+        arguments);
     },
 
     CLASS_NAME: "OpenLayers.Geometry.MultiPolygon"
-});
+  });

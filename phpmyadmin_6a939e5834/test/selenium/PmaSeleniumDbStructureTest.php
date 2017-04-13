@@ -88,7 +88,7 @@ class PMA_SeleniumDbStructureTest extends PMA_SeleniumBase
         );
 
         $result = $this->dbQuery("SELECT count(*) as c FROM test_table");
-        $row = $result->fetch_assoc();
+        $row    = $result->fetch_assoc();
         $this->assertEquals(0, $row['c']);
     }
 

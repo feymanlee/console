@@ -13,6 +13,7 @@ require_once 'libraries/properties/options/items/MessageOnlyPropertyItem.class.p
 require_once 'libraries/properties/options/items/RadioPropertyItem.class.php';
 require_once 'libraries/properties/options/items/SelectPropertyItem.class.php';
 require_once 'libraries/properties/options/items/TextPropertyItem.class.php';
+
 /**
  * tests for *PropertyItem class
  *
@@ -127,4 +128,5 @@ class PMA_PropertyItems_Test extends PHPUnit_Framework_TestCase
 
 
 }
+
 ?>

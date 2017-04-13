@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -49,13 +49,13 @@ class Relation_Stats_Pdf extends RelationStats
      * @param boolean $showColor Whether to use one color per relation or not
      * @param integer $i         The id of the link to draw
      *
-     * @global object $pdf The current PDF document
+     * @global object $pdf       The current PDF document
      *
      * @access public
      *
      * @return void
      *
-     * @see PMA_Schema_PDF
+     * @see    PMA_Schema_PDF
      */
     public function relationDraw($showColor, $i)
     {
@@ -66,14 +66,14 @@ class Relation_Stats_Pdf extends RelationStats
             $j = ($i - $d) / 6;
             $j = $j % 4;
             $j++;
-            $case = array(
-                array(1, 0, 0),
-                array(0, 1, 0),
-                array(0, 0, 1),
-                array(1, 1, 0),
-                array(1, 0, 1),
-                array(0, 1, 1)
-            );
+            $case = [
+                [1, 0, 0],
+                [0, 1, 0],
+                [0, 0, 1],
+                [1, 1, 0],
+                [1, 0, 1],
+                [0, 1, 1],
+            ];
             list ($a, $b, $c) = $case[$d];
             $e = (1 - ($j - 1) / 6);
             $pdf->SetDrawColor($a * 255 * $e, $b * 255 * $e, $c * 255 * $e);
@@ -132,4 +132,5 @@ class Relation_Stats_Pdf extends RelationStats
         $pdf->SetDrawColor(0);
     }
 }
+
 ?>

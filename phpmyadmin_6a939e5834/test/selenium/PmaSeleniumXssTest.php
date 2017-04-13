@@ -27,7 +27,9 @@ class PMA_SeleniumXSSTest extends PMA_SeleniumBase
      */
     public function testQueryTabWithNullValue()
     {
-        if (/*overload*/mb_strtolower($this->getBrowser()) == 'safari') {
+        if (/*overload*/
+            mb_strtolower($this->getBrowser()) == 'safari'
+        ) {
             $this->markTestSkipped('Alerts not supported on Safari browser.');
         }
         $this->login();
@@ -37,4 +39,5 @@ class PMA_SeleniumXSSTest extends PMA_SeleniumBase
         $this->assertEquals("Missing value in the form!", $this->alertText());
     }
 }
+
 ?>

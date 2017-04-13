@@ -4,7 +4,7 @@
  ** Test for PMA_Util::containsNonPrintableAscii from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  ** Test for PMA_Util::containsNonPrintableAscii from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_ContainsNonPrintableAsciiTest extends PHPUnit_Framework_TestCase
 {
@@ -27,13 +27,13 @@ class PMA_ContainsNonPrintableAsciiTest extends PHPUnit_Framework_TestCase
      */
     public function dataProvider()
     {
-        return array(
-            array("normal string", 0),
-            array("new\nline", 1),
-            array("tab\tspace", 1),
-            array("escape" . chr(27) . "char", 1),
-            array("chars%$\r\n", 1),
-        );
+        return [
+            ["normal string", 0],
+            ["new\nline", 1],
+            ["tab\tspace", 1],
+            ["escape" . chr(27) . "char", 1],
+            ["chars%$\r\n", 1],
+        ];
     }
 
     /**

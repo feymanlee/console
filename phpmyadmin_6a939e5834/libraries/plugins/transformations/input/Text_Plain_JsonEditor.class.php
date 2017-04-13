@@ -6,13 +6,13 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage JSON
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
 /* Get the CodeMirror editor transformations class */
 require_once 'libraries/plugins/transformations/abstract/'
-        . 'CodeMirrorEditorTransformationPlugin.class.php';
+    . 'CodeMirrorEditorTransformationPlugin.class.php';
 
 /**
  * JSON editing with syntax highlighted CodeMirror editor
@@ -42,12 +42,13 @@ class Text_Plain_JsonEditor extends CodeMirrorEditorTransformationsPlugin
      */
     public function getScripts()
     {
-        $scripts = array();
+        $scripts = [];
         if ($GLOBALS['cfg']['CodemirrorEnable']) {
             $scripts[] = 'codemirror/lib/codemirror.js';
             $scripts[] = 'codemirror/mode/javascript/javascript.js';
             $scripts[] = 'transformations/json_editor.js';
         }
+
         return $scripts;
     }
 
@@ -83,4 +84,5 @@ class Text_Plain_JsonEditor extends CodeMirrorEditorTransformationsPlugin
         return "Plain";
     }
 }
+
 ?>

@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-String
  * @subpackage Native
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -72,7 +72,7 @@ class PMA_StringNativeType extends PMA_StringAbstractType
     {
         $ord_A = 65; //ord('A');
         $ord_Z = 90; //ord('Z');
-        $ord_c    = ord($c);
+        $ord_c = ord($c);
 
         return $this->numberInRangeInclusive($ord_c, $ord_A, $ord_Z);
     } // end of the "isUpper()" function
@@ -88,7 +88,7 @@ class PMA_StringNativeType extends PMA_StringAbstractType
     {
         $ord_a = 97;  //ord('a');
         $ord_z = 122; //ord('z');
-        $ord_c    = ord($c);
+        $ord_c = ord($c);
 
         return $this->numberInRangeInclusive($ord_c, $ord_a, $ord_z);
     } // end of the "isLower()" function
@@ -135,4 +135,5 @@ class PMA_StringNativeType extends PMA_StringAbstractType
             || $this->numberInRangeInclusive($ord_c, $ord_Alower, $ord_Flower));
     } // end of the "isHexDigit()" function
 }
+
 ?>

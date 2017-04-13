@@ -6,7 +6,7 @@
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -27,7 +27,7 @@ class PMA_Error_Handler
      *
      * @var array of PMA_Error
      */
-    protected $errors = array();
+    protected $errors = [];
 
     /**
      * Constructor - set PHP error handler
@@ -42,7 +42,7 @@ class PMA_Error_Handler
          * rely on PHPUnit doing it's own error handling which we break here.
          */
         if (!defined('TESTSUITE')) {
-            set_error_handler(array($this, 'handleError'));
+            set_error_handler([$this, 'handleError']);
         }
     }
 
@@ -55,8 +55,8 @@ class PMA_Error_Handler
     public function __destruct()
     {
         if (isset($_SESSION)) {
-            if (! isset($_SESSION['errors'])) {
-                $_SESSION['errors'] = array();
+            if (!isset($_SESSION['errors'])) {
+                $_SESSION['errors'] = [];
             }
 
             // remember only not displayed errors
@@ -66,7 +66,7 @@ class PMA_Error_Handler
                  * explode user session.
                  */
                 if (count($_SESSION['errors']) >= 10) {
-                    $error = new PMA_Error(
+                    $error                                 = new PMA_Error(
                         0,
                         __('Too many error messages, some are not displayed.'),
                         __FILE__,
@@ -75,7 +75,7 @@ class PMA_Error_Handler
                     $_SESSION['errors'][$error->getHash()] = $error;
                     break;
                 } else if (($error instanceof PMA_Error)
-                    && ! $error->isDisplayed()
+                    && !$error->isDisplayed()
                 ) {
                     $_SESSION['errors'][$key] = $error;
                 }
@@ -91,15 +91,16 @@ class PMA_Error_Handler
     protected function getErrors()
     {
         $this->checkSavedErrors();
+
         return $this->errors;
     }
 
     /**
-    * returns the errors occurred in the current run only.
-    * Does not include the errors save din the SESSION
-    *
-    * @return array of current errors
-    */
+     * returns the errors occurred in the current run only.
+     * Does not include the errors save din the SESSION
+     *
+     * @return array of current errors
+     */
     public function getCurrentErrors()
     {
         return $this->errors;
@@ -163,27 +164,27 @@ class PMA_Error_Handler
         $this->errors[$error->getHash()] = $error;
 
         switch ($error->getNumber()) {
-        case E_USER_NOTICE:
-        case E_USER_WARNING:
-        case E_STRICT:
-        case E_DEPRECATED:
-        case E_NOTICE:
-        case E_WARNING:
-        case E_CORE_WARNING:
-        case E_COMPILE_WARNING:
-        case E_USER_ERROR:
-        case E_RECOVERABLE_ERROR:
-            // just collect the error
-            // display is called from outside
-            break;
-        case E_ERROR:
-        case E_PARSE:
-        case E_CORE_ERROR:
-        case E_COMPILE_ERROR:
-        default:
-            // FATAL error, display it and exit
-            $this->dispFatalError($error);
-            exit;
+            case E_USER_NOTICE:
+            case E_USER_WARNING:
+            case E_STRICT:
+            case E_DEPRECATED:
+            case E_NOTICE:
+            case E_WARNING:
+            case E_CORE_WARNING:
+            case E_COMPILE_WARNING:
+            case E_USER_ERROR:
+            case E_RECOVERABLE_ERROR:
+                // just collect the error
+                // display is called from outside
+                break;
+            case E_ERROR:
+            case E_PARSE:
+            case E_CORE_ERROR:
+            case E_COMPILE_ERROR:
+            default:
+                // FATAL error, display it and exit
+                $this->dispFatalError($error);
+                exit;
         }
     }
 
@@ -226,7 +227,7 @@ class PMA_Error_Handler
      */
     protected function dispFatalError($error)
     {
-        if (! headers_sent()) {
+        if (!headers_sent()) {
             $this->dispPageStart($error);
         }
         $error->display();
@@ -253,10 +254,11 @@ class PMA_Error_Handler
     {
         $retval = '';
         foreach ($this->getErrors() as $error) {
-            if ($error->isUserError() && ! $error->isDisplayed()) {
+            if ($error->isUserError() && !$error->isDisplayed()) {
                 $retval .= $error->getDisplay();
             }
         }
+
         return $retval;
     }
 
@@ -301,7 +303,7 @@ class PMA_Error_Handler
         if ($GLOBALS['cfg']['SendErrorReports'] != 'never') {
             foreach ($this->getErrors() as $error) {
                 if ($error instanceof PMA_Error) {
-                    if (! $error->isDisplayed()) {
+                    if (!$error->isDisplayed()) {
                         $retval .= $error->getDisplay();
                     }
                 } else {
@@ -317,43 +319,44 @@ class PMA_Error_Handler
         // if preference is not 'never' and
         // there are 'actual' errors to be reported
         if ($GLOBALS['cfg']['SendErrorReports'] != 'never'
-            &&  $this->countErrors() !=  $this->countUserErrors()
+            && $this->countErrors() != $this->countUserErrors()
         ) {
             // add report button.
             $retval .= '<form method="post" action="error_report.php"'
-                    . ' id="pma_report_errors_form"';
+                . ' id="pma_report_errors_form"';
             if ($GLOBALS['cfg']['SendErrorReports'] == 'always') {
                 // in case of 'always', generate 'invisible' form.
                 $retval .= ' style="display:none;"';
             }
-            $retval .=  '>'
-                    . '<input type="hidden" name="token" value="'
-                    . $_SESSION[' PMA_token ']
-                    . '"/>'
-                    . '<input type="hidden" name="exception_type" value="php"/>'
-                    . '<input type="hidden" name="send_error_report" value="1" />'
-                    . '<input type="submit" value="'
-                    . __('Report')
-                    . '" id="pma_report_errors" style="float: right; margin: 20px;">'
-                    . '<input type="checkbox" name="always_send"'
-                    . ' id="always_send_checkbox" value="true"/>'
-                    . '<label for="always_send_checkbox">'
-                    . __('Automatically send report next time')
-                    . '</label>'
-                    . '</form>';
+            $retval .= '>'
+                . '<input type="hidden" name="token" value="'
+                . $_SESSION[' PMA_token ']
+                . '"/>'
+                . '<input type="hidden" name="exception_type" value="php"/>'
+                . '<input type="hidden" name="send_error_report" value="1" />'
+                . '<input type="submit" value="'
+                . __('Report')
+                . '" id="pma_report_errors" style="float: right; margin: 20px;">'
+                . '<input type="checkbox" name="always_send"'
+                . ' id="always_send_checkbox" value="true"/>'
+                . '<label for="always_send_checkbox">'
+                . __('Automatically send report next time')
+                . '</label>'
+                . '</form>';
 
             if ($GLOBALS['cfg']['SendErrorReports'] == 'ask') {
                 // add ignore buttons
                 $retval .= '<input type="submit" value="'
-                        . __('Ignore')
-                        . '" id="pma_ignore_errors_bottom"'
-                        . ' style="float: right; margin: 20px;">';
+                    . __('Ignore')
+                    . '" id="pma_ignore_errors_bottom"'
+                    . ' style="float: right; margin: 20px;">';
             }
             $retval .= '<input type="submit" value="'
-                    . __('Ignore All')
-                    . '" id="pma_ignore_all_errors_bottom"'
-                    . ' style="float: right; margin: 20px;">';
+                . __('Ignore All')
+                . '" id="pma_ignore_all_errors_bottom"'
+                . ' style="float: right; margin: 20px;">';
         }
+
         return $retval;
     }
 
@@ -378,14 +381,14 @@ class PMA_Error_Handler
 
             // restore saved errors
             foreach ($_SESSION['errors'] as $hash => $error) {
-                if ($error instanceof PMA_Error && ! isset($this->errors[$hash])) {
+                if ($error instanceof PMA_Error && !isset($this->errors[$hash])) {
                     $this->errors[$hash] = $error;
                 }
             }
             //$this->errors = array_merge($_SESSION['errors'], $this->errors);
 
             // delete stored errors
-            $_SESSION['errors'] = array();
+            $_SESSION['errors'] = [];
             unset($_SESSION['errors']);
         }
     }
@@ -426,7 +429,7 @@ class PMA_Error_Handler
      */
     public function hasUserErrors()
     {
-        return (bool) $this->countUserErrors();
+        return (bool)$this->countUserErrors();
     }
 
     /**
@@ -436,7 +439,7 @@ class PMA_Error_Handler
      */
     public function hasErrors()
     {
-        return (bool) $this->countErrors();
+        return (bool)$this->countErrors();
     }
 
     /**
@@ -460,16 +463,16 @@ class PMA_Error_Handler
      */
     public function hasDisplayErrors()
     {
-        return (bool) $this->countDisplayErrors();
+        return (bool)$this->countDisplayErrors();
     }
 
     /**
-    * Deletes previously stored errors in SESSION.
-    * Saves current errors in session as previous errors.
-    * Required to save current errors in case  'ask'
-    *
-    * @return void
-    */
+     * Deletes previously stored errors in SESSION.
+     * Saves current errors in session as previous errors.
+     * Required to save current errors in case  'ask'
+     *
+     * @return void
+     */
     public function savePreviousErrors()
     {
         unset($_SESSION['prev_errors']);
@@ -483,13 +486,13 @@ class PMA_Error_Handler
      * This distinguishes between the actual errors
      *      and user errors raised to warn user.
      *
-     *@return boolean true if there are errors to be "prompted", false otherwise
+     * @return boolean true if there are errors to be "prompted", false otherwise
      */
     public function hasErrorsForPrompt()
     {
         return (
             $GLOBALS['cfg']['SendErrorReports'] != 'never'
-            && $this->countErrors() !=  $this->countUserErrors()
+            && $this->countErrors() != $this->countUserErrors()
         );
     }
 
@@ -505,7 +508,7 @@ class PMA_Error_Handler
     {
         // if there're no actual errors,
         if (!$this->hasErrors()
-            || $this->countErrors() ==  $this->countUserErrors()
+            || $this->countErrors() == $this->countUserErrors()
         ) {
             // then simply return.
             return;
@@ -513,7 +516,7 @@ class PMA_Error_Handler
         // Delete all the prev_errors in session & store new prev_errors in session
         $this->savePreviousErrors();
         $response = PMA_Response::getInstance();
-        $jsCode = '';
+        $jsCode   = '';
         if ($GLOBALS['cfg']['SendErrorReports'] == 'always') {
             if ($response->isAjax()) {
                 // set flag for automatic report submission.
@@ -521,7 +524,7 @@ class PMA_Error_Handler
             } else {
                 // send the error reports asynchronously & without asking user
                 $jsCode .= '$("#pma_report_errors_form").submit();'
-                        . 'PMA_ajaxShowMessage(
+                    . 'PMA_ajaxShowMessage(
                             PMA_messages["phpErrorsBeingSubmitted"], false
                         );';
                 // js code to appropriate focusing,
@@ -534,21 +537,21 @@ class PMA_Error_Handler
             if (!$response->isAjax()) {
                 // js code to show appropriate msgs, event binding & focusing.
                 $jsCode = 'PMA_ajaxShowMessage(PMA_messages["phpErrorsFound"]);'
-                        . '$("#pma_ignore_errors_popup").bind("click", function() {
+                    . '$("#pma_ignore_errors_popup").bind("click", function() {
                             PMA_ignorePhpErrors()
                         });'
-                        . '$("#pma_ignore_all_errors_popup").bind("click",
+                    . '$("#pma_ignore_all_errors_popup").bind("click",
                             function() {
                                 PMA_ignorePhpErrors(false)
                             });'
-                        . '$("#pma_ignore_errors_bottom").bind("click", function() {
+                    . '$("#pma_ignore_errors_bottom").bind("click", function() {
                             PMA_ignorePhpErrors()
                         });'
-                        . '$("#pma_ignore_all_errors_bottom").bind("click",
+                    . '$("#pma_ignore_all_errors_bottom").bind("click",
                             function() {
                                 PMA_ignorePhpErrors(false)
                             });'
-                        . '$("html, body").animate({
+                    . '$("html, body").animate({
                             scrollTop:$(document).height()
                         }, "slow");';
             }
@@ -558,4 +561,5 @@ class PMA_Error_Handler
         $response->getFooter()->getScripts()->addCode($jsCode);
     }
 }
+
 ?>

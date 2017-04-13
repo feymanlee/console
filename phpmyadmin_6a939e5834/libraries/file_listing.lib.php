@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -23,13 +23,13 @@ function PMA_getDirContent($dir, $expression = '')
         return false;
     }
 
-    $result = array();
+    $result = [];
     if (substr($dir, -1) != '/') {
         $dir .= '/';
     }
     while ($file = @readdir($handle)) {
         if (is_file($dir . $file)
-            && ! is_link($dir . $file)
+            && !is_link($dir . $file)
             && ($expression == '' || preg_match($expression, $file))
         ) {
             $result[] = $file;
@@ -37,6 +37,7 @@ function PMA_getDirContent($dir, $expression = '')
     }
     @closedir($handle);
     asort($result);
+
     return $result;
 }
 
@@ -63,6 +64,7 @@ function PMA_getFileSelectOptions($dir, $extensions = '', $active = '')
         }
         $result .= '>' . htmlspecialchars($val) . '</option>' . "\n";
     }
+
     return $result;
 }
 

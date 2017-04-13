@@ -16,9 +16,10 @@
  * it'll be null-padded to 192-bits and 192 bits will be the key length until {@link self::setKey() setKey()}
  * is called, again, at which point, it'll be recalculated.
  *
- * Since \phpseclib\Crypt\AES extends \phpseclib\Crypt\Rijndael, some functions are available to be called that, in the context of AES, don't
- * make a whole lot of sense.  {@link self::setBlockLength() setBlockLength()}, for instance.  Calling that function,
- * however possible, won't do anything (AES has a fixed block length whereas Rijndael has a variable one).
+ * Since \phpseclib\Crypt\AES extends \phpseclib\Crypt\Rijndael, some functions are available to be called that, in the
+ * context of AES, don't make a whole lot of sense.  {@link self::setBlockLength() setBlockLength()}, for instance. 
+ * Calling that function, however possible, won't do anything (AES has a fixed block length whereas Rijndael has a
+ * variable one).
  *
  * Here's a short example of how to use this library:
  * <code>
@@ -48,7 +49,7 @@
  */
 namespace phpseclib\Crypt;
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -66,10 +67,12 @@ class AES extends Rijndael
     /**
      * Dummy function
      *
-     * Since \phpseclib\Crypt\AES extends \phpseclib\Crypt\Rijndael, this function is, technically, available, but it doesn't do anything.
+     * Since \phpseclib\Crypt\AES extends \phpseclib\Crypt\Rijndael, this function is, technically, available, but it
+     * doesn't do anything.
      *
-     * @see \phpseclib\Crypt\Rijndael::setBlockLength()
+     * @see    \phpseclib\Crypt\Rijndael::setBlockLength()
      * @access public
+     *
      * @param int $length
      */
     function setBlockLength($length)
@@ -83,8 +86,9 @@ class AES extends Rijndael
      * Valid key lengths are 128, 192, and 256.  If the length is less than 128, it will be rounded up to
      * 128.  If the length is greater than 128 and invalid, it will be rounded down to the closest valid amount.
      *
-     * @see \phpseclib\Crypt\Rijndael:setKeyLength()
+     * @see    \phpseclib\Crypt\Rijndael:setKeyLength()
      * @access public
+     *
      * @param int $length
      */
     function setKeyLength($length)
@@ -104,9 +108,10 @@ class AES extends Rijndael
      *
      * Rijndael supports five different key lengths, AES only supports three.
      *
-     * @see \phpseclib\Crypt\Rijndael:setKey()
-     * @see setKeyLength()
+     * @see    \phpseclib\Crypt\Rijndael:setKey()
+     * @see    setKeyLength()
      * @access public
+     *
      * @param string $key
      */
     function setKey($key)

@@ -4,7 +4,7 @@
  ** Test for PMA_Util::getTitleForTarget from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -17,7 +17,7 @@ require_once 'libraries/php-gettext/gettext.inc';
  ** Test for PMA_Util::getTitleForTarget from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_GetTitleForTarget_Test extends PHPUnit_Framework_TestCase
 {
@@ -28,17 +28,17 @@ class PMA_GetTitleForTarget_Test extends PHPUnit_Framework_TestCase
      */
     function dataProvider()
     {
-        return array(
-            array('tbl_structure.php', __('Structure')),
-            array('tbl_sql.php', __('SQL'),),
-            array('tbl_select.php', __('Search'),),
-            array('tbl_change.php', __('Insert')),
-            array('sql.php', __('Browse')),
-            array('db_structure.php', __('Structure')),
-            array('db_sql.php', __('SQL')),
-            array('db_search.php', __('Search')),
-            array('db_operations.php', __('Operations')),
-        );
+        return [
+            ['tbl_structure.php', __('Structure')],
+            ['tbl_sql.php', __('SQL'),],
+            ['tbl_select.php', __('Search'),],
+            ['tbl_change.php', __('Insert')],
+            ['sql.php', __('Browse')],
+            ['db_structure.php', __('Structure')],
+            ['db_sql.php', __('SQL')],
+            ['db_search.php', __('Search')],
+            ['db_operations.php', __('Operations')],
+        ];
     }
 
     /**

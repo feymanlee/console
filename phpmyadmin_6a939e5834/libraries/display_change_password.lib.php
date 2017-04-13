@@ -5,18 +5,18 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
 /**
-  * Get HTML for the Change password dialog
-  *
-  * @param string $username username
-  * @param string $hostname hostname
-  *
-  * @return string html snippet
-  */
+ * Get HTML for the Change password dialog
+ *
+ * @param string $username username
+ * @param string $hostname hostname
+ *
+ * @return string html snippet
+ */
 function PMA_getHtmlForChangePassword($username, $hostname)
 {
     /**
@@ -26,8 +26,8 @@ function PMA_getHtmlForChangePassword($username, $hostname)
     $chg_evt_handler = (PMA_USR_BROWSER_AGENT == 'IE'
         && PMA_USR_BROWSER_VER >= 5
         && PMA_USR_BROWSER_VER < 7)
-                 ? 'onpropertychange'
-                 : 'onchange';
+        ? 'onpropertychange'
+        : 'onchange';
 
     $is_privileges = basename($_SERVER['SCRIPT_NAME']) === 'server_privileges.php';
 
@@ -102,12 +102,13 @@ function PMA_getHtmlForChangePassword($username, $hostname)
         $html .= '<input type="hidden" name="pw_hash" value="new" />';
     }
 
-    $html .=  '</table>'
+    $html .= '</table>'
         . '</fieldset>'
         . '<fieldset id="fieldset_change_password_footer" class="tblFooters">'
         . '<input type="hidden" name="change_pw" value="1" />'
         . '<input type="submit" value="' . __('Go') . '" />'
         . '</fieldset>'
         . '</form>';
+
     return $html;
 }

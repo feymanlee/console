@@ -7,6 +7,7 @@
  */
 
 require_once 'libraries/properties/options/groups/OptionsPropertySubgroup.class.php';
+
 /**
  * tests for OptionsPropertySubgroup class
  *
@@ -66,4 +67,5 @@ class PMA_OptionsPropertySubgroup_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

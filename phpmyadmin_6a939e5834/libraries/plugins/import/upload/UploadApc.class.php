@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -45,19 +45,19 @@ class UploadApc implements UploadInterface
         if (trim($id) == "") {
             return null;
         }
-        if (! array_key_exists($id, $_SESSION[$SESSION_KEY])) {
-            $_SESSION[$SESSION_KEY][$id] = array(
+        if (!array_key_exists($id, $_SESSION[$SESSION_KEY])) {
+            $_SESSION[$SESSION_KEY][$id] = [
                 'id'       => $id,
                 'finished' => false,
                 'percent'  => 0,
                 'total'    => 0,
                 'complete' => 0,
-                'plugin'   => UploadApc::getIdKey()
-             );
+                'plugin'   => UploadApc::getIdKey(),
+            ];
         }
         $ret = $_SESSION[$SESSION_KEY][$id];
 
-        if (! PMA_Import_apcCheck() || $ret['finished']) {
+        if (!PMA_Import_apcCheck() || $ret['finished']) {
             return $ret;
         }
         $status = apc_fetch('upload_' . $id);
@@ -81,4 +81,5 @@ class UploadApc implements UploadInterface
         return $ret;
     }
 }
+
 ?>

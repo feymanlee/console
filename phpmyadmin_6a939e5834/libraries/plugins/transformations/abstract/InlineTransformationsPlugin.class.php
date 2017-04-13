@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage Inline
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -44,7 +44,7 @@ abstract class InlineTransformationsPlugin extends TransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         if (PMA_IS_GD2) {
             return '<a href="transformation_wrapper.php'
@@ -76,4 +76,5 @@ abstract class InlineTransformationsPlugin extends TransformationsPlugin
         return "Inline";
     }
 }
+
 ?>

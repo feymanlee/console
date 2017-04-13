@@ -35,15 +35,15 @@ class Node_DatabaseChildTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
-        $GLOBALS['pmaThemePath'] = $_SESSION['PMA_Theme']->getPath();
-        $GLOBALS['pmaThemeImage'] = 'theme/';
+        $_SESSION['PMA_Theme']                = new PMA_Theme();
+        $GLOBALS['pmaThemePath']              = $_SESSION['PMA_Theme']->getPath();
+        $GLOBALS['pmaThemeImage']             = 'theme/';
         $GLOBALS['cfg']['DefaultTabDatabase'] = 'db_structure.php';
-        $GLOBALS['server'] = 1;
-        $GLOBALS['cfg']['ServerDefault'] = 1;
-        $_SESSION['relation'][1]['navwork'] = true;
-        $this->object = $this->getMockForAbstractClass(
-            'Node_DatabaseChild', array('child')
+        $GLOBALS['server']                    = 1;
+        $GLOBALS['cfg']['ServerDefault']      = 1;
+        $_SESSION['relation'][1]['navwork']   = true;
+        $this->object                         = $this->getMockForAbstractClass(
+            'Node_DatabaseChild', ['child']
         );
     }
 
@@ -89,4 +89,5 @@ class Node_DatabaseChildTest extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

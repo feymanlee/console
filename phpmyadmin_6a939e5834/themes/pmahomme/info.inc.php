@@ -16,6 +16,6 @@
  * Icon set used by this theme: http://famfamfam.com/lab/icons/silk/
  */
 
-$theme_name = 'pmahomme';
+$theme_name         = 'pmahomme';
 $theme_full_version = '1.1';
 ?>

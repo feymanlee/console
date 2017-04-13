@@ -38,14 +38,14 @@ class PMA_BuildHtmlForDb_Test extends PHPUnit_Framework_TestCase
         global $cfg;
 
         $cfg['ShowFunctionFields'] = false;
-        $GLOBALS['server'] = 0;
-        $cfg['ServerDefault'] = 1;
+        $GLOBALS['server']         = 0;
+        $cfg['ServerDefault']      = 1;
 
-        $GLOBALS['PMA_Types'] = new PMA_Types_MySQL();
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
+        $GLOBALS['PMA_Types']              = new PMA_Types_MySQL();
+        $_SESSION['PMA_Theme']             = new PMA_Theme();
         $GLOBALS['cfg']['ActionLinksMode'] = 'icons';
 
-        $GLOBALS['pmaThemePath'] = $_SESSION['PMA_Theme']->getPath();
+        $GLOBALS['pmaThemePath']  = $_SESSION['PMA_Theme']->getPath();
         $GLOBALS['pmaThemeImage'] = 'theme/';
 
         $GLOBALS['cfg']['DefaultTabDatabase'] = 'db_structure.php';
@@ -59,39 +59,39 @@ class PMA_BuildHtmlForDb_Test extends PHPUnit_Framework_TestCase
     public function testGetColumnOrder()
     {
         $this->assertEquals(
-            array(
-                'DEFAULT_COLLATION_NAME' => array(
-                    'disp_name' => __('Collation'),
+            [
+                'DEFAULT_COLLATION_NAME' => [
+                    'disp_name'            => __('Collation'),
                     'description_function' => 'PMA_getCollationDescr',
-                    'format'    => 'string',
-                    'footer'    => 'utf8_general_ci'
-                ),
-                'SCHEMA_TABLES' => array(
+                    'format'               => 'string',
+                    'footer'               => 'utf8_general_ci',
+                ],
+                'SCHEMA_TABLES'          => [
                     'disp_name' => __('Tables'),
                     'format'    => 'number',
-                    'footer'    => 0
-                ),
-                'SCHEMA_TABLE_ROWS' => array(
+                    'footer'    => 0,
+                ],
+                'SCHEMA_TABLE_ROWS'      => [
                     'disp_name' => __('Rows'),
                     'format'    => 'number',
-                    'footer'    => 0
-                ),
-                'SCHEMA_DATA_LENGTH' => array(
+                    'footer'    => 0,
+                ],
+                'SCHEMA_DATA_LENGTH'     => [
                     'disp_name' => __('Data'),
                     'format'    => 'byte',
-                    'footer'    => 0
-                ),
-                'SCHEMA_INDEX_LENGTH' => array(
+                    'footer'    => 0,
+                ],
+                'SCHEMA_INDEX_LENGTH'    => [
                     'disp_name' => __('Indexes'),
                     'format'    => 'byte',
-                    'footer'    => 0
-                ),
-                'SCHEMA_LENGTH' => array(
+                    'footer'    => 0,
+                ],
+                'SCHEMA_LENGTH'          => [
                     'disp_name' => __('Total'),
                     'format'    => 'byte',
-                    'footer'    => 0
-                )
-            ),
+                    'footer'    => 0,
+                ],
+            ],
             PMA_getColumnOrder()
         );
     }
@@ -110,7 +110,7 @@ class PMA_BuildHtmlForDb_Test extends PHPUnit_Framework_TestCase
      * @return void
      * @dataProvider providerForTestBuildHtmlForDb
      *
-     * @group medium
+     * @group        medium
      */
     public function testBuildHtmlForDb($current, $is_superuser,
         $url_query, $column_order, $replication_types,
@@ -139,48 +139,48 @@ class PMA_BuildHtmlForDb_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestBuildHtmlForDb()
     {
-        return array(
-            array(
-                array('SCHEMA_NAME' => 'pma'),
+        return [
+            [
+                ['SCHEMA_NAME' => 'pma'],
                 true,
                 'target=main.php',
                 PMA_getColumnOrder(),
-                array(
+                [
                     'SCHEMA_NAME' => 'pma',
-                ),
-                array(
-                    'pma' => array(
-                        'status' => 'true',
-                        'Ignore_DB' => array(
-                                        'pma' => 'pma'
-                                       ),
-                    )
-                ),
-                array(
+                ],
+                [
+                    'pma' => [
+                        'status'    => 'true',
+                        'Ignore_DB' => [
+                            'pma' => 'pma',
+                        ],
+                    ],
+                ],
+                [
                     '<td class="tool">',
-                    '<input type="checkbox" name="selected_dbs[]" class="checkall" title="pma" value="pma"'
-                )
-            ),
-            array(
-                array('SCHEMA_NAME' => 'INFORMATION_SCHEMA'),
+                    '<input type="checkbox" name="selected_dbs[]" class="checkall" title="pma" value="pma"',
+                ],
+            ],
+            [
+                ['SCHEMA_NAME' => 'INFORMATION_SCHEMA'],
                 true,
                 'target=main.php',
                 PMA_getColumnOrder(),
-                array(
+                [
                     'SCHEMA_NAME' => 'INFORMATION_SCHEMA',
-                ),
-                array(
-                    'INFORMATION_SCHEMA' => array(
-                        'status' => 'false',
-                        'Ignore_DB' => array(
-                            'INFORMATION_SCHEMA' => 'INFORMATION_SCHEMA'
-                        )
-                    )
-                ),
-                array(
-                    '<input type="checkbox" name="selected_dbs[]" class="checkall" title="INFORMATION_SCHEMA" value="INFORMATION_SCHEMA" disabled="disabled"'
-                )
-            )
-        );
+                ],
+                [
+                    'INFORMATION_SCHEMA' => [
+                        'status'    => 'false',
+                        'Ignore_DB' => [
+                            'INFORMATION_SCHEMA' => 'INFORMATION_SCHEMA',
+                        ],
+                    ],
+                ],
+                [
+                    '<input type="checkbox" name="selected_dbs[]" class="checkall" title="INFORMATION_SCHEMA" value="INFORMATION_SCHEMA" disabled="disabled"',
+                ],
+            ],
+        ];
     }
 }

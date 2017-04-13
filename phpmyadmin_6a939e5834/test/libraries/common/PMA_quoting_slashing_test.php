@@ -4,7 +4,7 @@
  * Test for quoting, slashing/backslashing
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -17,7 +17,7 @@ require_once 'libraries/sqlparser.data.php';
  * Test for quoting, slashing/backslashing
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_QuotingSlashing_Test extends PHPUnit_Framework_TestCase
 {
@@ -72,12 +72,12 @@ class PMA_QuotingSlashing_Test extends PHPUnit_Framework_TestCase
      */
     public function unQuoteProvider()
     {
-        return array(
-            array('"test\'"', "test'"),
-            array("'test''", "test'"),
-            array("`test'`", "test'"),
-            array("'test'test", "'test'test")
-        );
+        return [
+            ['"test\'"', "test'"],
+            ["'test''", "test'"],
+            ["`test'`", "test'"],
+            ["'test'test", "'test'test"],
+        ];
     }
 
     /**
@@ -104,12 +104,12 @@ class PMA_QuotingSlashing_Test extends PHPUnit_Framework_TestCase
      */
     public function unQuoteSelectedProvider()
     {
-        return array(
-            array('"test\'"', "test'"),
-            array("'test''", "'test''"),
-            array("`test'`", "`test'`"),
-            array("'test'test", "'test'test")
-        );
+        return [
+            ['"test\'"', "test'"],
+            ["'test''", "'test''"],
+            ["`test'`", "`test'`"],
+            ["'test'test", "'test'test"],
+        ];
     }
 
     /**
@@ -136,15 +136,15 @@ class PMA_QuotingSlashing_Test extends PHPUnit_Framework_TestCase
      */
     public function backquoteDataProvider()
     {
-        return array(
-            array('0', '`0`'),
-            array('test', '`test`'),
-            array('te`st', '`te``st`'),
-            array(
-                array('test', 'te`st', '', '*'),
-                array('`test`', '`te``st`', '', '*')
-            )
-        );
+        return [
+            ['0', '`0`'],
+            ['test', '`test`'],
+            ['te`st', '`te``st`'],
+            [
+                ['test', 'te`st', '', '*'],
+                ['`test`', '`te``st`', '', '*'],
+            ],
+        ];
     }
 
     /**
@@ -173,15 +173,15 @@ class PMA_QuotingSlashing_Test extends PHPUnit_Framework_TestCase
      */
     public function backquoteCompatDataProvider()
     {
-        return array(
-            array('0', '"0"'),
-            array('test', '"test"'),
-            array('te`st', '"te`st"'),
-            array(
-                array('test', 'te`st', '', '*'),
-                array('"test"', '"te`st"', '', '*')
-            )
-        );
+        return [
+            ['0', '"0"'],
+            ['test', '"test"'],
+            ['te`st', '"te`st"'],
+            [
+                ['test', 'te`st', '', '*'],
+                ['"test"', '"te`st"', '', '*'],
+            ],
+        ];
     }
 
     /**
@@ -224,4 +224,5 @@ class PMA_QuotingSlashing_Test extends PHPUnit_Framework_TestCase
         }
     }
 }
+
 ?>

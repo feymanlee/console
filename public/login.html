@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<link rel="icon" href="favicon.ico" type="image/x-icon" />
-<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 <title><?php echo $_SESSION['brand'].$_SESSION['product'].' - '.$_SESSION['version']; ?></title>
 <link rel="stylesheet" type="text/css" href="public/css/reset.css">
 <link rel="stylesheet" type="text/css" href="/public/css/login.css">
@@ -17,15 +17,21 @@
 <div class="login">
 	<form class="loginform" method="post" action="/login.php">
 	<div class="rlogo"><?php echo $_SESSION['brand'].$_SESSION['product']; ?></div>
-	<div class="line"><input class="inputtxt" value="" name="username" datatype="*" nullmsg="请填写账号" errormsg="格式不对" placeholder="账号" type="text"><div class="Validform_checktip"></div></div>
-	<div class="line"><input class="inputtxt" name="password" value="" datatype="*" nullmsg="请填写密码" errormsg="请填写密码" placeholder="密码" type="password"><div class="Validform_checktip"></div></div>
+	<div class="line"><input class="inputtxt" value="" name="username" datatype="*" nullmsg="请填写账号" errormsg="格式不对"
+                             placeholder="账号" type="text"><div class="Validform_checktip"></div></div>
+	<div class="line"><input class="inputtxt" name="password" value="" datatype="*" nullmsg="请填写密码" errormsg="请填写密码"
+                             placeholder="密码" type="password"><div class="Validform_checktip"></div></div>
 	<div style="color: red;position: relative;top: -16px;"><?php echo @$_SESSION['error']; ?></div>
-	<?php if($_SESSION['error_count'] > 3){ ?>
+      <?php if($_SESSION['error_count'] > 3){ ?>
 	<div class="line yzm" style="top: -5px;">
-		<input type="text" class="inputtxt" name="code" nullmsg="请填写验证码" errormsg="验证码不对" datatype="*" placeholder="请填写验证码"><div class="Validform_checktip"></div><img width="100" height="40" class="passcode" onClick="this.src=this.src + '?'" src="/GetCodeImage.php" style="border: 1px solid #ccc; float: right;" >
+		<input type="text" class="inputtxt" name="code" nullmsg="请填写验证码" errormsg="验证码不对" datatype="*"
+               placeholder="请填写验证码"><div class="Validform_checktip"></div><img width="100" height="40" class="passcode"
+                                                                               onClick="this.src=this.src + '?'"
+                                                                               src="/GetCodeImage.php"
+                                                                               style="border: 1px solid #ccc; float: right;">
 	</div>
-	<?php } ?>
-	<div class="login_btn"><input id="login-button" value="登录" type="submit"></div>
+      <?php } ?>
+      <div class="login_btn"><input id="login-button" value="登录" type="submit"></div>
 	</form>
 </div>
 </div>
@@ -33,65 +39,65 @@
 <script type="text/javascript" src="/public/layer/layer.js"></script>
 <script type="text/javascript" src="/public/js/Validform_v5.3.2_min.js"></script>
 <script type="text/javascript">
-function Wreset(){
-	var w = $(window).width();
-	var yzmw = $(".login .line").width() - 140;
-	if($(".login").find(".yzm").length>0 && w > 640){
-		$(".login").css({"height":"332px","margin-top":"-211px"})
-	}
-	else{
-		$(".login").removeAttr("style")
-	}
-	$(".login .yzm .inputtxt").width(yzmw);
+function Wreset() {
+  var w = $(window).width();
+  var yzmw = $(".login .line").width() - 140;
+  if ($(".login").find(".yzm").length > 0 && w > 640) {
+    $(".login").css({"height": "332px", "margin-top": "-211px"})
+  }
+  else {
+    $(".login").removeAttr("style")
+  }
+  $(".login .yzm .inputtxt").width(yzmw);
 }
-$(function(){
-	Wreset()
+$(function () {
+  Wreset()
 })
-window.onresize=function(){
-	Wreset()
+window.onresize = function () {
+  Wreset()
 }
 </script>
 <script type="text/javascript">
-$(function(){
-	$(".loginform").Validform({
-		tiptype:function(msg,o,cssctl){
-			if(!o.obj.is("form")){
-				var objtip=o.obj.siblings(".Validform_checktip");
-				cssctl(objtip,o.type);
-				objtip.text(msg);
-			}
-		}
-	});
+$(function () {
+  $(".loginform").Validform({
+    tiptype: function (msg, o, cssctl) {
+      if (!o.obj.is("form")) {
+        var objtip = o.obj.siblings(".Validform_checktip");
+        cssctl(objtip, o.type);
+        objtip.text(msg);
+      }
+    }
+  });
 });
 
 //找回密码
-function rePassword(sing){
-	if(sing == 1){
-		var email = $("#semail").val();
-		var data = 'email='+email;
-		var loadT = layer.msg('正在校验...',{icon:16,time:10000});
-		$.post('/login.php?rePassword=',data,function(rdata){
-			layer.close(loadT);
-			if(rdata.status) layer.closeAll();
-			layer.msg(rdata.msg,{icon:rdata.status?1:5,time:rdata.status?5000:3000});
-		});
-		return;		
-	}
-	layer.open({
-		type: 1,
-		area: '320px',
-		title: '找回密码',
-		closeBtn: 2,
-		shift: 5,
-		shadeClose: false,
-		content: "<div class='zun-form-new'>\
+function rePassword(sing) {
+  if (sing == 1) {
+    var email = $("#semail").val();
+    var data = 'email=' + email;
+    var loadT = layer.msg('正在校验...', {icon: 16, time: 10000});
+    $.post('/login.php?rePassword=', data, function (rdata) {
+      layer.close(loadT);
+      if (rdata.status) layer.closeAll();
+      layer.msg(rdata.msg, {icon: rdata.status ? 1 : 5, time: rdata.status ? 5000 : 3000});
+    });
+    return;
+  }
+  layer.open({
+    type: 1,
+    area: '320px',
+    title: '找回密码',
+    closeBtn: 2,
+    shift: 5,
+    shadeClose: false,
+    content: "<div class='zun-form-new'>\
 					<div class='line'>\
 					<label><span>管理员邮箱</span></label>\
 					<div class='info-r'><input type='email' name='email' id='semail' value='' placeholder='请输入安装时填写的管理员邮箱' style='width:96%'/></div></div>\
 					<div class='submit-btn'><button type='button' class='btn btn-danger btn-sm' onclick=\"layer.closeAll()\">取消</button>\
 					<button type='button' class='btn btn-success btn-sm' onclick=\"rePassword(1)\">提交</button></div>\
 				</div>"
-	});
+  });
 }
 
 </script>

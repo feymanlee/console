@@ -12,9 +12,9 @@ require_once 'libraries/ServerStatusData.class.php';
 require_once 'libraries/server_status_monitor.lib.php';
 
 if (PMA_DRIZZLE) {
-    $GLOBALS['replication_info'] = array();
+    $GLOBALS['replication_info']                     = [];
     $GLOBALS['replication_info']['master']['status'] = false;
-    $GLOBALS['replication_info']['slave']['status'] = false;
+    $GLOBALS['replication_info']['slave']['status']  = false;
 } else {
     include_once 'libraries/replication.inc.php';
     include_once 'libraries/replication_gui.lib.php';
@@ -29,18 +29,18 @@ if (isset($_REQUEST['ajax_request']) && $_REQUEST['ajax_request'] == true) {
 
     // real-time charting data
     if (isset($_REQUEST['chart_data'])) {
-        switch($_REQUEST['type']) {
-        case 'chartgrid': // Data for the monitor
-            $ret = PMA_getJsonForChartingData();
-            PMA_Response::getInstance()->addJSON('message', $ret);
-            exit;
+        switch ($_REQUEST['type']) {
+            case 'chartgrid': // Data for the monitor
+                $ret = PMA_getJsonForChartingData();
+                PMA_Response::getInstance()->addJSON('message', $ret);
+                exit;
         }
     }
 
     if (isset($_REQUEST['log_data'])) {
 
         $start = intval($_REQUEST['time_start']);
-        $end = intval($_REQUEST['time_end']);
+        $end   = intval($_REQUEST['time_end']);
 
         if ($_REQUEST['type'] == 'slow') {
             $return = PMA_getJsonForLogDataTypeSlow($start, $end);
@@ -71,8 +71,8 @@ if (isset($_REQUEST['ajax_request']) && $_REQUEST['ajax_request'] == true) {
 /**
  * JS Includes
  */
-$header   = $response->getHeader();
-$scripts  = $header->getScripts();
+$header  = $response->getHeader();
+$scripts = $header->getScripts();
 $scripts->addFile('jquery/jquery.tablesorter.js');
 $scripts->addFile('jquery/jquery.sortableTable.js');
 $scripts->addFile('jquery/jquery-ui-timepicker-addon.js');

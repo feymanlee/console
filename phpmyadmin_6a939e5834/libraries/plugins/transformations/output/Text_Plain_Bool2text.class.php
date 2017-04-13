@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage Bool2Text
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -44,4 +44,5 @@ class Text_Plain_Bool2Text extends Bool2TextTransformationsPlugin
         return "Plain";
     }
 }
+
 ?>

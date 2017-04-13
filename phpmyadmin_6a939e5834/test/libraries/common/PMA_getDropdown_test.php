@@ -4,7 +4,7 @@
  ** Test for PMA_Util::getDropdown from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  ** Test for PMA_Util::getDropdown from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_GetDropdownTest extends PHPUnit_Framework_TestCase
 {
@@ -27,10 +27,10 @@ class PMA_GetDropdownTest extends PHPUnit_Framework_TestCase
      */
     function testGetDropdownEmpty()
     {
-        $name = "test_dropdown_name";
-        $choices = array();
+        $name          = "test_dropdown_name";
+        $choices       = [];
         $active_choice = null;
-        $id = "test_&lt;dropdown&gt;_name";
+        $id            = "test_&lt;dropdown&gt;_name";
 
         $result = '<select name="' . htmlspecialchars($name) . '" id="'
             . htmlspecialchars($id) . '"></select>';
@@ -50,10 +50,10 @@ class PMA_GetDropdownTest extends PHPUnit_Framework_TestCase
      */
     function testGetDropdown()
     {
-        $name = "&test_dropdown_name";
-        $choices = array("value_1" => "label_1", "value&_2\"" => "label_2");
+        $name          = "&test_dropdown_name";
+        $choices       = ["value_1" => "label_1", "value&_2\"" => "label_2"];
         $active_choice = null;
-        $id = "test_&lt;dropdown&gt;_name";
+        $id            = "test_&lt;dropdown&gt;_name";
 
         $result = '<select name="' . htmlspecialchars($name) . '" id="'
             . htmlspecialchars($id) . '">';
@@ -81,10 +81,10 @@ class PMA_GetDropdownTest extends PHPUnit_Framework_TestCase
      */
     function testGetDropdownWithActive()
     {
-        $name = "&test_dropdown_name";
-        $choices = array("value_1" => "label_1", "value&_2\"" => "label_2");
+        $name          = "&test_dropdown_name";
+        $choices       = ["value_1" => "label_1", "value&_2\"" => "label_2"];
         $active_choice = "value&_2\"";
-        $id = "test_&lt;dropdown&gt;_name";
+        $id            = "test_&lt;dropdown&gt;_name";
 
         $result = '<select name="' . htmlspecialchars($name) . '" id="'
             . htmlspecialchars($id) . '">';

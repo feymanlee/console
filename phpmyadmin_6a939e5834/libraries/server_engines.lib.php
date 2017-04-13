@@ -8,7 +8,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -24,7 +24,7 @@ function PMA_getHtmlForServerEngines()
      */
     $html = '';
     if (empty($_REQUEST['engine'])
-        || ! PMA_StorageEngine::isValid($_REQUEST['engine'])
+        || !PMA_StorageEngine::isValid($_REQUEST['engine'])
     ) {
         $html .= PMA_getHtmlForAllServerEngines();
     } else {
@@ -63,7 +63,7 @@ function PMA_getHtmlForAllServerEngines()
                 ? ' disabled' : '')
             . '">' . "\n"
             . '    <td><a rel="newpage" href="server_engines.php'
-            . PMA_URL_getCommon(array('engine' => $engine)) . '">' . "\n"
+            . PMA_URL_getCommon(['engine' => $engine]) . '">' . "\n"
             . '            ' . htmlspecialchars($details['Engine']) . "\n"
             . '        </a></td>' . "\n"
             . '    <td>' . htmlspecialchars($details['Comment']) . '</td>' . "\n"
@@ -88,7 +88,7 @@ function PMA_getHtmlForSpecifiedServerEngines()
     /**
      * Displays details about a given Storage Engine
      */
-    $html = '';
+    $html          = '';
     $engine_plugin = PMA_StorageEngine::getEngine($_REQUEST['engine']);
     $html .= '<h2>' . "\n"
         . PMA_Util::getImage('b_engine.png')
@@ -101,14 +101,14 @@ function PMA_getHtmlForSpecifiedServerEngines()
         . '    </em>' . "\n"
         . '</p>' . "\n\n";
     $infoPages = $engine_plugin->getInfoPages();
-    if (! empty($infoPages) && is_array($infoPages)) {
+    if (!empty($infoPages) && is_array($infoPages)) {
         $html .= '<p>' . "\n"
             . '    <strong>[</strong>' . "\n";
         if (empty($_REQUEST['page'])) {
             $html .= '    <strong>' . __('Variables') . '</strong>' . "\n";
         } else {
             $html .= '    <a href="server_engines.php'
-                . PMA_URL_getCommon(array('engine' => $_REQUEST['engine']))
+                . PMA_URL_getCommon(['engine' => $_REQUEST['engine']])
                 . '">' . __('Variables') . '</a>' . "\n";
         }
         foreach ($infoPages as $current => $label) {
@@ -118,7 +118,7 @@ function PMA_getHtmlForSpecifiedServerEngines()
             } else {
                 $html .= '    <a href="server_engines.php'
                     . PMA_URL_getCommon(
-                        array('engine' => $_REQUEST['engine'], 'page' => $current)
+                        ['engine' => $_REQUEST['engine'], 'page' => $current]
                     )
                     . '">' . htmlspecialchars($label) . '</a>' . "\n";
             }
@@ -128,15 +128,15 @@ function PMA_getHtmlForSpecifiedServerEngines()
             . '</p>' . "\n\n";
     }
     unset($infoPages, $page_output);
-    if (! empty($_REQUEST['page'])) {
+    if (!empty($_REQUEST['page'])) {
         $page_output = $engine_plugin->getPage($_REQUEST['page']);
     }
-    if (! empty($page_output)) {
+    if (!empty($page_output)) {
         $html .= $page_output;
     } else {
         $html .= '<p> ' . $engine_plugin->getSupportInformationMessage() . "\n"
-           . '</p>' . "\n"
-           . $engine_plugin->getHtmlVariables();
+            . '</p>' . "\n"
+            . $engine_plugin->getHtmlVariables();
     }
 
     return $html;

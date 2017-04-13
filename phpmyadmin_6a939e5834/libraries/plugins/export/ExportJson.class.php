@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Export
  * @subpackage JSON
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -74,7 +74,7 @@ class ExportJson extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportHeader ()
+    public function exportHeader()
     {
         PMA_exportOutputHandler(
             '/**' . $GLOBALS['crlf']
@@ -82,6 +82,7 @@ class ExportJson extends ExportPlugin
             . ' @version 0.1' . $GLOBALS['crlf']
             . ' */' . $GLOBALS['crlf'] . $GLOBALS['crlf']
         );
+
         return true;
     }
 
@@ -90,7 +91,7 @@ class ExportJson extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportFooter ()
+    public function exportFooter()
     {
         return true;
     }
@@ -103,7 +104,7 @@ class ExportJson extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportDBHeader ($db, $db_alias = '')
+    public function exportDBHeader($db, $db_alias = '')
     {
         if (empty($db_alias)) {
             $db_alias = $db;
@@ -111,6 +112,7 @@ class ExportJson extends ExportPlugin
         PMA_exportOutputHandler(
             '// Database \'' . $db_alias . '\'' . $GLOBALS['crlf']
         );
+
         return true;
     }
 
@@ -121,7 +123,7 @@ class ExportJson extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportDBFooter ($db)
+    public function exportDBFooter($db)
     {
         return true;
     }
@@ -152,18 +154,18 @@ class ExportJson extends ExportPlugin
      * @return bool Whether it succeeded
      */
     public function exportData(
-        $db, $table, $crlf, $error_url, $sql_query, $aliases = array()
+        $db, $table, $crlf, $error_url, $sql_query, $aliases = []
     ) {
-        $db_alias = $db;
+        $db_alias    = $db;
         $table_alias = $table;
         $this->initAlias($aliases, $db_alias, $table_alias);
 
-        $result = $GLOBALS['dbi']->query(
+        $result      = $GLOBALS['dbi']->query(
             $sql_query, null, PMA_DatabaseInterface::QUERY_UNBUFFERED
         );
         $columns_cnt = $GLOBALS['dbi']->numFields($result);
 
-        $columns = array();
+        $columns = [];
         for ($i = 0; $i < $columns_cnt; $i++) {
             $col_as = $GLOBALS['dbi']->fieldName($result, $i);
             if (!empty($aliases[$db]['tables'][$table]['columns'][$col_as])) {
@@ -172,7 +174,7 @@ class ExportJson extends ExportPlugin
             $columns[$i] = stripslashes($col_as);
         }
 
-        $buffer = '';
+        $buffer     = '';
         $record_cnt = 0;
         while ($record = $GLOBALS['dbi']->fetchRow($result)) {
 
@@ -187,29 +189,31 @@ class ExportJson extends ExportPlugin
                 $buffer = ', ';
             }
 
-            if (! PMA_exportOutputHandler($buffer)) {
+            if (!PMA_exportOutputHandler($buffer)) {
                 return false;
             }
 
-            $data = array();
+            $data = [];
 
             for ($i = 0; $i < $columns_cnt; $i++) {
                 $data[$columns[$i]] = $record[$i];
             }
 
-            if (! PMA_exportOutputHandler(json_encode($data))) {
+            if (!PMA_exportOutputHandler(json_encode($data))) {
                 return false;
             }
         }
 
         if ($record_cnt) {
-            if (! PMA_exportOutputHandler(']' . $crlf)) {
+            if (!PMA_exportOutputHandler(']' . $crlf)) {
                 return false;
             }
         }
 
         $GLOBALS['dbi']->freeResult($result);
+
         return true;
     }
 }
+
 ?>

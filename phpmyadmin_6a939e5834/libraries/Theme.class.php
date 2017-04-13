@@ -5,16 +5,16 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
 /**
  * handles theme
  *
- * @todo add the possibility to make a theme depend on another theme
+ * @todo    add the possibility to make a theme depend on another theme
  * and by default on original
- * @todo make all components optional - get missing components from 'parent' theme
+ * @todo    make all components optional - get missing components from 'parent' theme
  *
  * @package PhpMyAdmin
  */
@@ -68,7 +68,7 @@ class PMA_Theme
      * @var array List of css files to load
      * @access private
      */
-    private $_cssFiles = array(
+    private $_cssFiles = [
         'common',
         'enum_editor',
         'gis',
@@ -77,8 +77,8 @@ class PMA_Theme
         'rte',
         'codemirror',
         'jqplot',
-        'resizable-menu'
-    );
+        'resizable-menu',
+    ];
 
     /**
      * Loads theme information
@@ -88,7 +88,7 @@ class PMA_Theme
      */
     function loadInfo()
     {
-        if (! file_exists($this->getPath() . '/info.inc.php')) {
+        if (!file_exists($this->getPath() . '/info.inc.php')) {
             return false;
         }
 
@@ -99,11 +99,11 @@ class PMA_Theme
         @include $this->getPath() . '/info.inc.php';
 
         // was it set correctly?
-        if (! isset($theme_name)) {
+        if (!isset($theme_name)) {
             return false;
         }
 
-        $this->mtime_info = filemtime($this->getPath() . '/info.inc.php');
+        $this->mtime_info    = filemtime($this->getPath() . '/info.inc.php');
         $this->filesize_info = filesize($this->getPath() . '/info.inc.php');
 
         if (isset($theme_full_version)) {
@@ -132,7 +132,7 @@ class PMA_Theme
 
         $theme->setPath($folder);
 
-        if (! $theme->loadInfo()) {
+        if (!$theme->loadInfo()) {
             return false;
         }
 
@@ -152,6 +152,7 @@ class PMA_Theme
         // try current theme first
         if (is_dir($this->getPath() . '/img/')) {
             $this->setImgPath($this->getPath() . '/img/');
+
             return true;
         }
 
@@ -161,6 +162,7 @@ class PMA_Theme
             . '/img/';
         if (is_dir($fallback)) {
             $this->setImgPath($fallback);
+
             return true;
         }
 
@@ -172,6 +174,7 @@ class PMA_Theme
             ),
             E_USER_ERROR
         );
+
         return false;
     }
 
@@ -345,16 +348,16 @@ class PMA_Theme
 
         if ($GLOBALS['text_dir'] === 'ltr') {
             $right = 'right';
-            $left = 'left';
+            $left  = 'left';
         } else {
             $right = 'left';
-            $left = 'right';
+            $left  = 'right';
         }
 
         foreach ($this->_cssFiles as $file) {
-            $path = $this->getPath() . "/css/$file.css.php";
+            $path     = $this->getPath() . "/css/$file.css.php";
             $fallback = "./themes/"
-                . PMA_Theme_Manager::FALLBACK_THEME .  "/css/$file.css.php";
+                . PMA_Theme_Manager::FALLBACK_THEME . "/css/$file.css.php";
 
             if (is_readable($path)) {
                 echo "\n/* FILE: $file.css.php */\n";
@@ -380,10 +383,10 @@ class PMA_Theme
      */
     public function getPrintPreview()
     {
-        $url_params = array('set_theme' => $this->getId());
-        $url = 'index.php' . PMA_URL_getCommon($url_params);
+        $url_params = ['set_theme' => $this->getId()];
+        $url        = 'index.php' . PMA_URL_getCommon($url_params);
 
-        $retval  = '<div class="theme_preview">';
+        $retval = '<div class="theme_preview">';
         $retval .= '<h2>';
         $retval .= htmlspecialchars($this->getName());
         $retval .= ' (' . htmlspecialchars($this->getVersion()) . ') ';
@@ -391,7 +394,7 @@ class PMA_Theme
         $retval .= '<p>';
         $retval .= '<a class="take_theme" ';
         $retval .= 'name="' . htmlspecialchars($this->getId()) . '" ';
-        $retval .=  'href="' . $url . '">';
+        $retval .= 'href="' . $url . '">';
         if (@file_exists($this->getPath() . '/screen.png')) {
             // if screen exists then output
             $retval .= '<img src="' . $this->getPath() . '/screen.png" border="1"';
@@ -405,6 +408,7 @@ class PMA_Theme
         $retval .= '</a>';
         $retval .= '</p>';
         $retval .= '</div>';
+
         return $retval;
     }
 
@@ -416,8 +420,8 @@ class PMA_Theme
     function getCssIEClearFilter()
     {
         return PMA_USR_BROWSER_AGENT == 'IE'
-            && PMA_USR_BROWSER_VER >= 6
-            && PMA_USR_BROWSER_VER <= 8
+        && PMA_USR_BROWSER_VER >= 6
+        && PMA_USR_BROWSER_VER <= 8
             ? 'filter: none'
             : '';
     }
@@ -436,6 +440,7 @@ class PMA_Theme
         if (isset($_COOKIE['pma_fontsize'])) {
             return htmlspecialchars($_COOKIE['pma_fontsize']);
         }
+
         return '82%';
     }
 
@@ -449,7 +454,7 @@ class PMA_Theme
      */
     function getCssGradient($start_color, $end_color)
     {
-        $result = array();
+        $result = [];
         // Opera 9.5+, IE 9
         $result[] = 'background-image: url(./themes/svg_gradient.php?from='
             . $start_color . '&to=' . $end_color . ');';
@@ -479,7 +484,9 @@ class PMA_Theme
                 . 'progid:DXImageTransform.Microsoft.gradient(startColorstr="#'
                 . $start_color . '", endColorstr="#' . $end_color . '");';
         }
+
         return implode("\n", $result);
     }
 }
+
 ?>

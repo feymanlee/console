@@ -6,7 +6,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -42,7 +42,6 @@ abstract class OptionsPropertyItem extends PropertyItem
      * @var string
      */
     private $_force;
-
 
 
     /* ~~~~~~~~~~~~~~~~~~~~ Getters and Setters ~~~~~~~~~~~~~~~~~~~~ */
@@ -124,4 +123,5 @@ abstract class OptionsPropertyItem extends PropertyItem
         return "options";
     }
 }
+
 ?>

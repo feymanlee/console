@@ -20,7 +20,7 @@ require_once './libraries/common.inc.php';
 require_once './libraries/OutputBuffering.class.php';
 $buffer = PMA_OutputBuffering::getInstance();
 $buffer->start();
-register_shutdown_function(function() {
+register_shutdown_function(function () {
     echo PMA_OutputBuffering::getInstance()->getContents();
 });
 
@@ -28,13 +28,13 @@ register_shutdown_function(function() {
 if (is_readable($_SESSION['PMA_Theme']->getPath() . '/sprites.lib.php')) {
     include $_SESSION['PMA_Theme']->getPath() . '/sprites.lib.php';
 }
-$sprites = array();
+$sprites = [];
 if (function_exists('PMA_sprites')) {
     $sprites = PMA_sprites();
 }
 // We only need the keys from the array of sprites data,
 // since they contain the (partial) class names
-$keys = array();
+$keys = [];
 foreach ($sprites as $key => $value) {
     $keys[] = "'$key'";
 }
@@ -58,91 +58,91 @@ foreach ($sprites as $key => $value) {
  *                  .isSprite          - Whether the image is a sprite or not
  */
 function PMA_getImage(image, alternate, attributes) {
-    var in_array = function (needle, haystack) {
-        for (var i in haystack) {
-            if (haystack[i] == needle) {
-                return true;
-            }
-        }
-        return false;
-    };
-    var sprites = [
-        <?php echo implode($keys, ",\n        ") . "\n"; ?>
-    ];
-    // custom image object, it will eventually be returned by this functions
-    var retval = {
-        data: {
-            // this is private
-            alt: '',
-            title: '',
-            src: (typeof PMA_TEST_THEME == 'undefined' ? '' : '../')
-                + 'themes/dot.gif'
-        },
-        isSprite: true,
-        attr: function (name, value) {
-            if (value == undefined) {
-                if (this.data[name] == undefined) {
-                    return '';
-                } else {
-                    return this.data[name];
-                }
-            } else {
-                this.data[name] = value;
-            }
-        },
-        toString: function () {
-            var retval = '<' + 'img';
-            for (var i in this.data) {
-                retval += ' ' + i + '="' + this.data[i] + '"';
-            }
-            retval += ' /' + '>';
-            return retval;
-        }
-    };
-    // initialise missing parameters
-    if (attributes == undefined) {
-        attributes = {};
+  var in_array = function (needle, haystack) {
+    for (var i in haystack) {
+      if (haystack[i] == needle) {
+        return true;
+      }
     }
-    if (alternate == undefined) {
-        alternate = '';
-    }
-    // set alt
-    if (attributes.alt != undefined) {
-        retval.attr('alt', escapeHtml(attributes.alt));
-    } else {
-        retval.attr('alt', escapeHtml(alternate));
-    }
-    // set title
-    if (attributes.title != undefined) {
-        retval.attr('title', escapeHtml(attributes.title));
-    } else {
-        retval.attr('title', escapeHtml(alternate));
-    }
-    // set src
-    var klass = image.replace('.gif', '').replace('.png', '');
-    if (in_array(klass, sprites)) {
-        // it's an icon from a sprite
-        retval.attr('class', 'icon ic_' + klass);
-    } else {
-        // it's an image file
-        retval.isSprite = false;
-        retval.attr(
-            'src',
-            "<?php echo $_SESSION['PMA_Theme']->getImgPath(); ?>" + image
-        );
-    }
-    // set all other attrubutes
-    for (var i in attributes) {
-        if (i == 'src') {
-            // do not allow to override the 'src' attribute
-            continue;
-        } else if (i == 'class') {
-            retval.attr(i, retval.attr('class') + ' ' + attributes[i]);
+    return false;
+  };
+  var sprites = [
+      <?php echo implode($keys, ",\n        ") . "\n"; ?>
+  ];
+  // custom image object, it will eventually be returned by this functions
+  var retval = {
+    data: {
+      // this is private
+      alt: '',
+      title: '',
+      src: (typeof PMA_TEST_THEME == 'undefined' ? '' : '../')
+      + 'themes/dot.gif'
+    },
+    isSprite: true,
+    attr: function (name, value) {
+      if (value == undefined) {
+        if (this.data[name] == undefined) {
+          return '';
         } else {
-            retval.attr(i, attributes[i]);
+          return this.data[name];
         }
+      } else {
+        this.data[name] = value;
+      }
+    },
+    toString: function () {
+      var retval = '<' + 'img';
+      for (var i in this.data) {
+        retval += ' ' + i + '="' + this.data[i] + '"';
+      }
+      retval += ' /' + '>';
+      return retval;
     }
+  };
+  // initialise missing parameters
+  if (attributes == undefined) {
+    attributes = {};
+  }
+  if (alternate == undefined) {
+    alternate = '';
+  }
+  // set alt
+  if (attributes.alt != undefined) {
+    retval.attr('alt', escapeHtml(attributes.alt));
+  } else {
+    retval.attr('alt', escapeHtml(alternate));
+  }
+  // set title
+  if (attributes.title != undefined) {
+    retval.attr('title', escapeHtml(attributes.title));
+  } else {
+    retval.attr('title', escapeHtml(alternate));
+  }
+  // set src
+  var klass = image.replace('.gif', '').replace('.png', '');
+  if (in_array(klass, sprites)) {
+    // it's an icon from a sprite
+    retval.attr('class', 'icon ic_' + klass);
+  } else {
+    // it's an image file
+    retval.isSprite = false;
+    retval.attr(
+      'src',
+      "<?php echo $_SESSION['PMA_Theme']->getImgPath(); ?>" + image
+    );
+  }
+  // set all other attrubutes
+  for (var i in attributes) {
+    if (i == 'src') {
+      // do not allow to override the 'src' attribute
+      continue;
+    } else if (i == 'class') {
+      retval.attr(i, retval.attr('class') + ' ' + attributes[i]);
+    } else {
+      retval.attr(i, attributes[i]);
+    }
+  }
 
-    return retval;
+  return retval;
 }
 //

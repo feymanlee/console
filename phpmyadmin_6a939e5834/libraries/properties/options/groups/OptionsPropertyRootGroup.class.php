@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -32,4 +32,5 @@ class OptionsPropertyRootGroup extends OptionsPropertyGroup
         return "root";
     }
 }
+
 ?>

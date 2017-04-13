@@ -7,7 +7,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -49,7 +49,7 @@ $PMA_String = new PMA_String();
  */
 function PMA_ifSetOr(&$var, $default = null, $type = 'similar')
 {
-    if (! PMA_isValid($var, $type, $default)) {
+    if (!PMA_isValid($var, $type, $default)) {
         return $default;
     }
 
@@ -95,12 +95,12 @@ function PMA_ifSetOr(&$var, $default = null, $type = 'similar')
  *
  * @return boolean whether valid or not
  *
- * @todo add some more var types like hex, bin, ...?
+ * @todo    add some more var types like hex, bin, ...?
  * @see     http://php.net/gettype
  */
 function PMA_isValid(&$var, $type = 'length', $compare = null)
 {
-    if (! isset($var)) {
+    if (!isset($var)) {
         // var is not even set
         return false;
     }
@@ -117,24 +117,24 @@ function PMA_isValid(&$var, $type = 'length', $compare = null)
     // allow some aliases of var types
     $type = strtolower($type);
     switch ($type) {
-    case 'identic' :
-        $type = 'identical';
-        break;
-    case 'len' :
-        $type = 'length';
-        break;
-    case 'bool' :
-        $type = 'boolean';
-        break;
-    case 'float' :
-        $type = 'double';
-        break;
-    case 'int' :
-        $type = 'integer';
-        break;
-    case 'null' :
-        $type = 'NULL';
-        break;
+        case 'identic' :
+            $type = 'identical';
+            break;
+        case 'len' :
+            $type = 'length';
+            break;
+        case 'bool' :
+            $type = 'boolean';
+            break;
+        case 'float' :
+            $type = 'double';
+            break;
+        case 'int' :
+            $type = 'integer';
+            break;
+        case 'null' :
+            $type = 'NULL';
+            break;
     }
 
     if ($type === 'identical') {
@@ -144,16 +144,16 @@ function PMA_isValid(&$var, $type = 'length', $compare = null)
     // whether we should check against given $compare
     if ($type === 'similar') {
         switch (gettype($compare)) {
-        case 'string':
-        case 'boolean':
-            $type = 'scalar';
-            break;
-        case 'integer':
-        case 'double':
-            $type = 'numeric';
-            break;
-        default:
-            $type = gettype($compare);
+            case 'string':
+            case 'boolean':
+                $type = 'scalar';
+                break;
+            case 'integer':
+            case 'double':
+                $type = 'numeric';
+                break;
+            default:
+                $type = gettype($compare);
         }
     } elseif ($type === 'equal') {
         $type = gettype($compare);
@@ -163,8 +163,10 @@ function PMA_isValid(&$var, $type = 'length', $compare = null)
     if ($type === 'length' || $type === 'scalar') {
         $is_scalar = is_scalar($var);
         if ($is_scalar && $type === 'length') {
-            return (bool) /*overload*/mb_strlen($var);
+            return (bool) /*overload*/
+            mb_strlen($var);
         }
+
         return $is_scalar;
     }
 
@@ -225,7 +227,7 @@ function PMA_fatalError(
         $response->isSuccess(false);
         $response->addJSON('message', PMA_Message::error($error_message));
     } else {
-        $error_message = strtr($error_message, array('<br />' => '[br]'));
+        $error_message = strtr($error_message, ['<br />' => '[br]']);
 
         /* Load gettext for fatal errors */
         if (!function_exists('__')) {
@@ -247,7 +249,7 @@ function PMA_fatalError(
             $error_header = 'Error';
         }
         $lang = $GLOBALS['available_languages'][$GLOBALS['lang']][1];
-        $dir = $GLOBALS['text_dir'];
+        $dir  = $GLOBALS['text_dir'];
 
         // on fatal errors it cannot hurt to always delete the current session
         if ($delete_session
@@ -260,7 +262,7 @@ function PMA_fatalError(
         // Displays the error message
         include './libraries/error.inc.php';
     }
-    if (! defined('TESTSUITE')) {
+    if (!defined('TESTSUITE')) {
         exit;
     }
 }
@@ -277,9 +279,9 @@ function PMA_fatalError(
 function PMA_getPHPDocLink($target)
 {
     /* List of PHP documentation translations */
-    $php_doc_languages = array(
-        'pt_BR', 'zh', 'fr', 'de', 'it', 'ja', 'pl', 'ro', 'ru', 'fa', 'es', 'tr'
-    );
+    $php_doc_languages = [
+        'pt_BR', 'zh', 'fr', 'de', 'it', 'ja', 'pl', 'ro', 'ru', 'fa', 'es', 'tr',
+    ];
 
     $lang = 'en';
     if (in_array($GLOBALS['lang'], $php_doc_languages)) {
@@ -319,6 +321,7 @@ function PMA_warnMissingExtension($extension, $fatal = false, $extra = '')
     }
     if ($fatal) {
         PMA_fatalError($message);
+
         return;
     }
 
@@ -366,19 +369,19 @@ function PMA_getTableCount($db)
  */
 function PMA_getRealSize($size = 0)
 {
-    if (! $size) {
+    if (!$size) {
         return 0;
     }
 
-    $scan = array(
+    $scan = [
         'gb' => 1073741824, //1024 * 1024 * 1024,
         'g'  => 1073741824, //1024 * 1024 * 1024,
-        'mb' =>    1048576,
-        'm'  =>    1048576,
-        'kb' =>       1024,
-        'k'  =>       1024,
-        'b'  =>          1,
-    );
+        'mb' => 1048576,
+        'm'  => 1048576,
+        'kb' => 1024,
+        'k'  => 1024,
+        'b'  => 1,
+    ];
 
     foreach ($scan as $unit => $factor) {
         $sizeLength = strlen($size);
@@ -392,10 +395,10 @@ function PMA_getRealSize($size = 0)
             ) == $unit
         ) {
             return substr(
-                $size,
-                0,
-                $sizeLength - $unitLength
-            ) * $factor;
+                    $size,
+                    0,
+                    $sizeLength - $unitLength
+                ) * $factor;
         }
     }
 
@@ -415,41 +418,43 @@ function PMA_getRealSize($size = 0)
  */
 function PMA_arrayMergeRecursive()
 {
-    switch(func_num_args()) {
-    case 0 :
-        return false;
-    case 1 :
-        // when does that happen?
-        return func_get_arg(0);
-    case 2 :
-        $args = func_get_args();
-        if (! is_array($args[0]) || ! is_array($args[1])) {
-            return $args[1];
-        }
-        foreach ($args[1] as $key2 => $value2) {
-            if (isset($args[0][$key2]) && !is_int($key2)) {
-                $args[0][$key2] = PMA_arrayMergeRecursive(
-                    $args[0][$key2], $value2
-                );
-            } else {
-                // we erase the parent array, otherwise we cannot override
-                // a directive that contains array elements, like this:
-                // (in config.default.php)
-                // $cfg['ForeignKeyDropdownOrder']= array('id-content','content-id');
-                // (in config.inc.php)
-                // $cfg['ForeignKeyDropdownOrder']= array('content-id');
-                if (is_int($key2) && $key2 == 0) {
-                    unset($args[0]);
-                }
-                $args[0][$key2] = $value2;
+    switch (func_num_args()) {
+        case 0 :
+            return false;
+        case 1 :
+            // when does that happen?
+            return func_get_arg(0);
+        case 2 :
+            $args = func_get_args();
+            if (!is_array($args[0]) || !is_array($args[1])) {
+                return $args[1];
             }
-        }
-        return $args[0];
-    default :
-        $args = func_get_args();
-        $args[1] = PMA_arrayMergeRecursive($args[0], $args[1]);
-        array_shift($args);
-        return call_user_func_array('PMA_arrayMergeRecursive', $args);
+            foreach ($args[1] as $key2 => $value2) {
+                if (isset($args[0][$key2]) && !is_int($key2)) {
+                    $args[0][$key2] = PMA_arrayMergeRecursive(
+                        $args[0][$key2], $value2
+                    );
+                } else {
+                    // we erase the parent array, otherwise we cannot override
+                    // a directive that contains array elements, like this:
+                    // (in config.default.php)
+                    // $cfg['ForeignKeyDropdownOrder']= array('id-content','content-id');
+                    // (in config.inc.php)
+                    // $cfg['ForeignKeyDropdownOrder']= array('content-id');
+                    if (is_int($key2) && $key2 == 0) {
+                        unset($args[0]);
+                    }
+                    $args[0][$key2] = $value2;
+                }
+            }
+
+            return $args[0];
+        default :
+            $args    = func_get_args();
+            $args[1] = PMA_arrayMergeRecursive($args[0], $args[1]);
+            array_shift($args);
+
+            return call_user_func_array('PMA_arrayMergeRecursive', $args);
     }
 }
 
@@ -471,7 +476,7 @@ function PMA_arrayMergeRecursive()
 function PMA_arrayWalkRecursive(&$array, $function, $apply_to_keys_also = false)
 {
     static $recursive_counter = 0;
-    $walked_keys = array();
+    $walked_keys = [];
 
     if (++$recursive_counter > 1000) {
         PMA_fatalError(__('possible deep recursion attack'));
@@ -513,7 +518,7 @@ function PMA_arrayWalkRecursive(&$array, $function, $apply_to_keys_also = false)
  */
 function PMA_checkPageValidity(&$page, $whitelist)
 {
-    if (! isset($page) || !is_string($page)) {
+    if (!isset($page) || !is_string($page)) {
         return false;
     }
 
@@ -521,21 +526,25 @@ function PMA_checkPageValidity(&$page, $whitelist)
         return true;
     }
 
-    $_page = /*overload*/mb_substr(
-        $page,
-        0,
-        /*overload*/mb_strpos($page . '?', '?')
-    );
+    $_page = /*overload*/
+        mb_substr(
+            $page,
+            0,
+            /*overload*/
+            mb_strpos($page . '?', '?')
+        );
     if (in_array($_page, $whitelist)) {
         return true;
     }
 
     $_page = urldecode($page);
-    $_page = /*overload*/mb_substr(
-        $_page,
-        0,
-        /*overload*/mb_strpos($_page . '?', '?')
-    );
+    $_page = /*overload*/
+        mb_substr(
+            $_page,
+            0,
+            /*overload*/
+            mb_strpos($_page . '?', '?')
+        );
     if (in_array($_page, $whitelist)) {
         return true;
     }
@@ -586,7 +595,9 @@ function PMA_getenv($var_name)
  */
 function PMA_sendHeaderLocation($uri, $use_refresh = false)
 {
-    if (PMA_IS_IIS && /*overload*/mb_strlen($uri) > 600) {
+    if (PMA_IS_IIS && /*overload*/
+        mb_strlen($uri) > 600
+    ) {
         include_once './libraries/js_escape.lib.php';
         PMA_Response::getInstance()->disable();
 
@@ -595,7 +606,7 @@ function PMA_sendHeaderLocation($uri, $use_refresh = false)
         echo '<meta http-equiv="Pragma" content="no-cache">' . "\n";
         echo '<meta http-equiv="Cache-Control" content="no-cache">' . "\n";
         echo '<meta http-equiv="Refresh" content="0;url='
-            .  htmlspecialchars($uri) . '">' . "\n";
+            . htmlspecialchars($uri) . '">' . "\n";
         echo '<script type="text/javascript">' . "\n";
         echo '//<![CDATA[' . "\n";
         echo 'setTimeout("window.location = unescape(\'"'
@@ -615,12 +626,15 @@ function PMA_sendHeaderLocation($uri, $use_refresh = false)
     }
 
     if (SID) {
-        if (/*overload*/mb_strpos($uri, '?') === false) {
+        if (/*overload*/
+            mb_strpos($uri, '?') === false
+        ) {
             header('Location: ' . $uri . '?' . SID);
         } else {
             $separator = PMA_URL_getArgSeparator();
             header('Location: ' . $uri . $separator . SID);
         }
+
         return;
     }
 
@@ -648,7 +662,7 @@ function PMA_sendHeaderLocation($uri, $use_refresh = false)
  */
 function PMA_noCacheHeader()
 {
-    if (defined('TESTSUITE') && ! defined('PMA_TEST_HEADERS')) {
+    if (defined('TESTSUITE') && !defined('PMA_TEST_HEADERS')) {
         return;
     }
     // rfc2616 - Section 14.21
@@ -668,6 +682,7 @@ function PMA_noCacheHeader()
          * Adding Pragma: public fixes this.
          */
         header('Pragma: public');
+
         return;
     }
 
@@ -696,7 +711,7 @@ function PMA_downloadHeader($filename, $mimetype, $length = 0, $no_cache = true)
         PMA_noCacheHeader();
     }
     /* Replace all possibly dangerous chars in filename */
-    $filename = str_replace(array(';', '"', "\n", "\r"), '-', $filename);
+    $filename = str_replace([';', '"', "\n", "\r"], '-', $filename);
     if (!empty($filename)) {
         header('Content-Description: File Transfer');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -728,14 +743,15 @@ function PMA_downloadHeader($filename, $mimetype, $length = 0, $no_cache = true)
  */
 function PMA_arrayRead($path, $array, $default = null)
 {
-    $keys = explode('/', $path);
+    $keys  = explode('/', $path);
     $value =& $array;
     foreach ($keys as $key) {
-        if (! isset($value[$key])) {
+        if (!isset($value[$key])) {
             return $default;
         }
         $value =& $value[$key];
     }
+
     return $value;
 }
 
@@ -750,12 +766,12 @@ function PMA_arrayRead($path, $array, $default = null)
  */
 function PMA_arrayWrite($path, &$array, $value)
 {
-    $keys = explode('/', $path);
+    $keys     = explode('/', $path);
     $last_key = array_pop($keys);
-    $a =& $array;
+    $a        =& $array;
     foreach ($keys as $key) {
-        if (! isset($a[$key])) {
-            $a[$key] = array();
+        if (!isset($a[$key])) {
+            $a[$key] = [];
         }
         $a =& $a[$key];
     }
@@ -772,21 +788,21 @@ function PMA_arrayWrite($path, &$array, $value)
  */
 function PMA_arrayRemove($path, &$array)
 {
-    $keys = explode('/', $path);
+    $keys      = explode('/', $path);
     $keys_last = array_pop($keys);
-    $path = array();
-    $depth = 0;
+    $path      = [];
+    $depth     = 0;
 
     $path[0] =& $array;
-    $found = true;
+    $found   = true;
     // go as deep as required or possible
     foreach ($keys as $key) {
-        if (! isset($path[$depth][$key])) {
+        if (!isset($path[$depth][$key])) {
             $found = false;
             break;
         }
         $depth++;
-        $path[$depth] =& $path[$depth-1][$key];
+        $path[$depth] =& $path[$depth - 1][$key];
     }
     // if element found, remove it
     if ($found) {
@@ -796,7 +812,7 @@ function PMA_arrayRemove($path, &$array)
 
     // remove empty nested arrays
     for (; $depth >= 0; $depth--) {
-        if (! isset($path[$depth+1]) || count($path[$depth+1]) == 0) {
+        if (!isset($path[$depth + 1]) || count($path[$depth + 1]) == 0) {
             unset($path[$depth][$keys[$depth]]);
         } else {
             break;
@@ -820,15 +836,15 @@ function PMA_linkURL($url)
     if (!function_exists('PMA_URL_getCommon')) {
         include_once './libraries/url_generating.lib.php';
     }
-    $params = array();
+    $params        = [];
     $params['url'] = $url;
 
     $url = PMA_URL_getCommon($params);
     //strip off token and such sensitive information. Just keep url.
     $arr = parse_url($url);
     parse_str($arr["query"], $vars);
-    $query = http_build_query(array("url" => $vars["url"]));
-    $url = './url.php?' . $query;
+    $query = http_build_query(["url" => $vars["url"]]);
+    $url   = './url.php?' . $query;
 
     return $url;
 }
@@ -846,24 +862,24 @@ function PMA_isAllowedDomain($url)
 {
     $arr = parse_url($url);
     // Avoid URLs without hostname or with credentials
-    if (empty($arr['host']) || ! empty($arr['user']) || ! empty($arr['pass'])) {
+    if (empty($arr['host']) || !empty($arr['user']) || !empty($arr['pass'])) {
         return false;
     }
-    $domain = $arr["host"];
-    $domainWhiteList = array(
+    $domain          = $arr["host"];
+    $domainWhiteList = [
         /* Include current domain */
         $_SERVER['SERVER_NAME'],
         /* phpMyAdmin domains */
         'wiki.phpmyadmin.net', 'www.phpmyadmin.net', 'phpmyadmin.net',
         'docs.phpmyadmin.net',
         /* mysql.com domains */
-        'dev.mysql.com','bugs.mysql.com',
+        'dev.mysql.com', 'bugs.mysql.com',
         /* drizzle.com domains */
         'www.drizzle.org',
         /* php.net domains */
         'php.net',
         /* Github domains*/
-        'github.com','www.github.com',
+        'github.com', 'www.github.com',
         /* Following are doubtful ones. */
         'www.primebase.com',
         'pbxt.blogspot.com',
@@ -871,8 +887,9 @@ function PMA_isAllowedDomain($url)
         'mysqldatabaseadministration.blogspot.com',
         'ronaldbradford.com',
         'xaprb.com',
-    );
-    if (in_array(/*overload*/mb_strtolower($domain), $domainWhiteList)) {
+    ];
+    if (in_array(/*overload*/
+        mb_strtolower($domain), $domainWhiteList)) {
         return true;
     }
 
@@ -973,6 +990,7 @@ function PMA_emptyRecursive($value)
     } else {
         $empty = empty($value);
     }
+
     return $empty;
 }
 
@@ -1007,25 +1025,27 @@ function PMA_setGlobalDbOrTable($param)
     if (PMA_isValid($_REQUEST[$param])) {
         // can we strip tags from this?
         // only \ and / is not allowed in db names for MySQL
-        $GLOBALS[$param] = $_REQUEST[$param];
+        $GLOBALS[$param]               = $_REQUEST[$param];
         $GLOBALS['url_params'][$param] = $GLOBALS[$param];
     }
 }
 
 /* Compatibility with PHP < 5.6 */
-if(! function_exists('hash_equals')) {
-    function hash_equals($a, $b) {
+if (!function_exists('hash_equals')) {
+    function hash_equals($a, $b)
+    {
         $ret = strlen($a) ^ strlen($b);
         $ret |= array_sum(unpack("C*", $a ^ $b));
-        return ! $ret;
+
+        return !$ret;
     }
 }
 /* Compatibility with PHP < 5.1 or PHP without hash extension */
-if (! function_exists('hash_hmac')) {
+if (!function_exists('hash_hmac')) {
     function hash_hmac($algo, $data, $key, $raw_output = false)
     {
         $algo = strtolower($algo);
-        $pack = 'H'.strlen($algo('test'));
+        $pack = 'H' . strlen($algo('test'));
         $size = 64;
         $opad = str_repeat(chr(0x5C), $size);
         $ipad = str_repeat(chr(0x36), $size);
@@ -1041,7 +1061,7 @@ if (! function_exists('hash_hmac')) {
             $ipad[$i] = $ipad[$i] ^ $key[$i];
         }
 
-        $output = $algo($opad.pack($pack, $algo($ipad.$data)));
+        $output = $algo($opad . pack($pack, $algo($ipad . $data)));
 
         return ($raw_output) ? pack($pack, $output) : $output;
     }
@@ -1076,18 +1096,17 @@ function PMA_sanitizeMySQLHost($name)
  */
 function PMA_safeUnserialize($data)
 {
-    if (! is_string($data)) {
+    if (!is_string($data)) {
         return null;
     }
 
     /* validate serialized data */
     $length = strlen($data);
-    $depth = 0;
+    $depth  = 0;
     for ($i = 0; $i < $length; $i++) {
         $value = $data[$i];
 
-        switch ($value)
-        {
+        switch ($value) {
             case '}':
                 /* end of array */
                 if ($depth <= 0) {
@@ -1152,4 +1171,5 @@ function PMA_safeUnserialize($data)
 
     return unserialize($data);
 }
+
 ?>

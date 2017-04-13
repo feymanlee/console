@@ -42,14 +42,14 @@ class ConfigFile
      * Keys which will be always written to config file
      * @var array
      */
-    private $_persistKeys = array();
+    private $_persistKeys = [];
 
     /**
      * Changes keys while updating config in {@link updateWithGlobalConfig()}
      * or reading by {@link getConfig()} or {@link getConfigArray()}
      * @var array
      */
-    private $_cfgUpdateReadMapping = array();
+    private $_cfgUpdateReadMapping = [];
 
     /**
      * Key filter for {@link set()}
@@ -95,11 +95,11 @@ class ConfigFile
             }
         }
 
-        $this->_baseCfg = $base_config;
+        $this->_baseCfg   = $base_config;
         $this->_isInSetup = is_null($base_config);
-        $this->_id = 'ConfigFile' . $GLOBALS['server'];
+        $this->_id        = 'ConfigFile' . $GLOBALS['server'];
         if (!isset($_SESSION[$this->_id])) {
-            $_SESSION[$this->_id] = array();
+            $_SESSION[$this->_id] = [];
         }
     }
 
@@ -140,6 +140,7 @@ class ConfigFile
     {
         if ($keys === null) {
             $this->_setFilter = null;
+
             return;
         }
         // checking key presence is much faster than searching so move values
@@ -169,7 +170,7 @@ class ConfigFile
      */
     public function resetConfigData()
     {
-        $_SESSION[$this->_id] = array();
+        $_SESSION[$this->_id] = [];
     }
 
     /**
@@ -200,18 +201,19 @@ class ConfigFile
         }
         // apply key whitelist
         if ($this->_setFilter !== null
-            && ! isset($this->_setFilter[$canonical_path])
+            && !isset($this->_setFilter[$canonical_path])
         ) {
             return;
         }
         // if the path isn't protected it may be removed
         if (isset($this->_persistKeys[$canonical_path])) {
             PMA_arrayWrite($path, $_SESSION[$this->_id], $value);
+
             return;
         }
 
         $default_value = $this->getDefault($canonical_path);
-        $remove_path = $value === $default_value;
+        $remove_path   = $value === $default_value;
         if ($this->_isInSetup) {
             // remove if it has a default value or is empty
             $remove_path = $remove_path
@@ -231,6 +233,7 @@ class ConfigFile
         }
         if ($remove_path) {
             PMA_arrayRemove($path, $_SESSION[$this->_id]);
+
             return;
         }
 
@@ -253,7 +256,7 @@ class ConfigFile
         // no recursion for numeric arrays
         if (is_array($value) && !isset($value[0])) {
             $prefix .= $key . '/';
-            array_walk($value, array($this, '_flattenArray'), $prefix);
+            array_walk($value, [$this, '_flattenArray'], $prefix);
         } else {
             $this->_flattenArrayResult[$prefix . $key] = $value;
         }
@@ -266,10 +269,11 @@ class ConfigFile
      */
     public function getFlatDefaultConfig()
     {
-        $this->_flattenArrayResult = array();
-        array_walk($this->_defaultCfg, array($this, '_flattenArray'), '');
-        $flat_cfg = $this->_flattenArrayResult;
+        $this->_flattenArrayResult = [];
+        array_walk($this->_defaultCfg, [$this, '_flattenArray'], '');
+        $flat_cfg                  = $this->_flattenArrayResult;
         $this->_flattenArrayResult = null;
+
         return $flat_cfg;
     }
 
@@ -284,9 +288,9 @@ class ConfigFile
     public function updateWithGlobalConfig(array $cfg)
     {
         // load config array and flatten it
-        $this->_flattenArrayResult = array();
-        array_walk($cfg, array($this, '_flattenArray'), '');
-        $flat_cfg = $this->_flattenArrayResult;
+        $this->_flattenArrayResult = [];
+        array_walk($cfg, [$this, '_flattenArray'], '');
+        $flat_cfg                  = $this->_flattenArrayResult;
         $this->_flattenArrayResult = null;
 
         // save values map for translating a few user preferences paths,
@@ -344,6 +348,7 @@ class ConfigFile
             return $v;
         }
         $path = $this->getCanonicalPath($path);
+
         return $this->getDefault($path, $default);
     }
 
@@ -410,10 +415,10 @@ class ConfigFile
         }
 
         $path = 'Servers/' . $server;
-        $dsn = 'mysqli://';
+        $dsn  = 'mysqli://';
         if ($this->getValue("$path/auth_type") == 'config') {
             $dsn .= $this->getValue("$path/user");
-            if (! $this->getValue("$path/nopassword")) {
+            if (!$this->getValue("$path/nopassword")) {
                 $dsn .= ':***';
             }
             $dsn .= '@';
@@ -427,6 +432,7 @@ class ConfigFile
         } else {
             $dsn .= $this->getValue("$path/socket");
         }
+
         return $dsn;
     }
 
@@ -447,6 +453,7 @@ class ConfigFile
             return $verbose;
         }
         $host = $this->get("Servers/$id/host");
+
         return empty($host) ? 'localhost' : $host;
     }
 
@@ -507,6 +514,7 @@ class ConfigFile
                 PMA_arrayRemove($map_from, $c);
             }
         }
+
         return $c;
     }
 
@@ -517,9 +525,9 @@ class ConfigFile
      */
     public function getConfigArray()
     {
-        $this->_flattenArrayResult = array();
-        array_walk($_SESSION[$this->_id], array($this, '_flattenArray'), '');
-        $c = $this->_flattenArrayResult;
+        $this->_flattenArrayResult = [];
+        array_walk($_SESSION[$this->_id], [$this, '_flattenArray'], '');
+        $c                         = $this->_flattenArrayResult;
         $this->_flattenArrayResult = null;
 
         $persistKeys = array_diff(
@@ -537,7 +545,9 @@ class ConfigFile
             $c[$map_to] = $c[$map_from];
             unset($c[$map_from]);
         }
+
         return $c;
     }
 }
+
 ?>

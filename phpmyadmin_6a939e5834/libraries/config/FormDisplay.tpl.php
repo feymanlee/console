@@ -30,7 +30,7 @@ function PMA_displayFormTop($action = null, $method = 'post', $hidden_fields = n
     echo '<input type="hidden" name="tab_hash" value="" />';
     // we do validation on page refresh when browser remembers field values,
     // add a field with known value which will be used for checks
-    if (! $has_check_page_refresh) {
+    if (!$has_check_page_refresh) {
         $has_check_page_refresh = true;
         echo '<input type="hidden" name="check_page_refresh" '
             . ' id="check_page_refresh" value="" />' . "\n";
@@ -71,13 +71,13 @@ function PMA_displayTabsTop($tabs)
  * @return void
  */
 function PMA_displayFieldsetTop($title = '', $description = '', $errors = null,
-    $attributes = array()
+    $attributes = []
 ) {
     global $_FormDisplayGroup;
 
     $_FormDisplayGroup = 0;
 
-    $attributes = array_merge(array('class' => 'optbox'), $attributes);
+    $attributes = array_merge(['class' => 'optbox'], $attributes);
     foreach ($attributes as $k => &$attr) {
         $attr = $k . '="' . htmlspecialchars($attr) . '"';
     }
@@ -138,24 +138,24 @@ function PMA_displayInput($path, $name, $type, $value, $description = '',
 
     $is_setup_script = defined('PMA_SETUP');
     if ($icons === null) { // if the static variables have not been initialised
-        $icons = array();
+        $icons = [];
         // Icon definitions:
         // The same indexes will be used in the $icons array.
         // The first element contains the filename and the second
         // element is used for the "alt" and "title" attributes.
-        $icon_init = array(
-            'edit'   => array('b_edit.png',   ''),
-            'help'   => array('b_help.png',   __('Documentation')),
-            'reload' => array('s_reload.png', ''),
-            'tblops' => array('b_tblops.png', '')
-        );
+        $icon_init = [
+            'edit'   => ['b_edit.png', ''],
+            'help'   => ['b_help.png', __('Documentation')],
+            'reload' => ['s_reload.png', ''],
+            'tblops' => ['b_tblops.png', ''],
+        ];
         if ($is_setup_script) {
             // When called from the setup script, we don't have access to the
             // sprite-aware getImage() function because the PMA_theme class
             // has not been loaded, so we generate the img tags manually.
             foreach ($icon_init as $k => $v) {
                 $title = '';
-                if (! empty($v[1])) {
+                if (!empty($v[1])) {
                     $title = ' title="' . $v[1] . '"';
                 }
                 $icons[$k] = sprintf(
@@ -174,18 +174,18 @@ function PMA_displayInput($path, $name, $type, $value, $description = '',
             }
         }
     }
-    $has_errors = isset($opts['errors']) && !empty($opts['errors']);
-    $option_is_disabled = ! $is_setup_script && isset($opts['userprefs_allow'])
-        && ! $opts['userprefs_allow'];
-    $name_id = 'name="' . htmlspecialchars($path) . '" id="'
+    $has_errors         = isset($opts['errors']) && !empty($opts['errors']);
+    $option_is_disabled = !$is_setup_script && isset($opts['userprefs_allow'])
+        && !$opts['userprefs_allow'];
+    $name_id            = 'name="' . htmlspecialchars($path) . '" id="'
         . htmlspecialchars($path) . '"';
-    $field_class = $type == 'checkbox' ? 'checkbox' : '';
-    if (! $value_is_default) {
+    $field_class        = $type == 'checkbox' ? 'checkbox' : '';
+    if (!$value_is_default) {
         $field_class .= ($field_class == '' ? '' : ' ')
             . ($has_errors ? 'custom field-error' : 'custom');
     }
     $field_class = $field_class ? ' class="' . $field_class . '"' : '';
-    $tr_class = $_FormDisplayGroup > 0
+    $tr_class    = $_FormDisplayGroup > 0
         ? 'group-field group-field-' . $_FormDisplayGroup
         : '';
     if (isset($opts['setvalue']) && $opts['setvalue'] == ':group') {
@@ -202,7 +202,7 @@ function PMA_displayInput($path, $name, $type, $value, $description = '',
     echo '<th>';
     echo '<label for="' . htmlspecialchars($path) . '">' . $name . '</label>';
 
-    if (! empty($opts['doc'])) {
+    if (!empty($opts['doc'])) {
         echo '<span class="doc">';
         echo '<a href="' . $opts['doc']
             . '" target="documentation">' . $icons['help'] . '</a>';
@@ -226,67 +226,68 @@ function PMA_displayInput($path, $name, $type, $value, $description = '',
     echo '<td>';
 
     switch ($type) {
-    case 'text':
-        echo '<input type="text" size="60" ' . $name_id . $field_class
-            . ' value="' . htmlspecialchars($value) . '" />';
-        break;
-    case 'password':
-        echo '<input type="password" size="60" ' . $name_id . $field_class
-            . ' value="' . htmlspecialchars($value) . '" />';
-        break;
-    case 'short_text':
-        echo '<input type="text" size="25" ' . $name_id . $field_class
-            . ' value="' . htmlspecialchars($value) . '" />';
-        break;
-    case 'number_text':
-        echo '<input type="number" ' . $name_id . $field_class
-            . ' value="' . htmlspecialchars($value) . '" />';
-        break;
-    case 'checkbox':
-        echo '<span' . $field_class . '><input type="checkbox" ' . $name_id
-          . ($value ? ' checked="checked"' : '') . ' /></span>';
-        break;
-    case 'select':
-        echo '<select ' . $name_id . $field_class . '>';
-        $escape = !(isset($opts['values_escaped']) && $opts['values_escaped']);
-        $values_disabled = isset($opts['values_disabled'])
-            ? array_flip($opts['values_disabled']) : array();
-        foreach ($opts['values'] as $opt_value_key => $opt_value) {
-            // set names for boolean values
-            if (is_bool($opt_value)) {
-                $opt_value = /*overload*/mb_strtolower(
-                    $opt_value ? __('Yes') : __('No')
-                );
+        case 'text':
+            echo '<input type="text" size="60" ' . $name_id . $field_class
+                . ' value="' . htmlspecialchars($value) . '" />';
+            break;
+        case 'password':
+            echo '<input type="password" size="60" ' . $name_id . $field_class
+                . ' value="' . htmlspecialchars($value) . '" />';
+            break;
+        case 'short_text':
+            echo '<input type="text" size="25" ' . $name_id . $field_class
+                . ' value="' . htmlspecialchars($value) . '" />';
+            break;
+        case 'number_text':
+            echo '<input type="number" ' . $name_id . $field_class
+                . ' value="' . htmlspecialchars($value) . '" />';
+            break;
+        case 'checkbox':
+            echo '<span' . $field_class . '><input type="checkbox" ' . $name_id
+                . ($value ? ' checked="checked"' : '') . ' /></span>';
+            break;
+        case 'select':
+            echo '<select ' . $name_id . $field_class . '>';
+            $escape          = !(isset($opts['values_escaped']) && $opts['values_escaped']);
+            $values_disabled = isset($opts['values_disabled'])
+                ? array_flip($opts['values_disabled']) : [];
+            foreach ($opts['values'] as $opt_value_key => $opt_value) {
+                // set names for boolean values
+                if (is_bool($opt_value)) {
+                    $opt_value = /*overload*/
+                        mb_strtolower(
+                            $opt_value ? __('Yes') : __('No')
+                        );
+                }
+                // escape if necessary
+                if ($escape) {
+                    $display       = htmlspecialchars($opt_value);
+                    $display_value = htmlspecialchars($opt_value_key);
+                } else {
+                    $display       = $opt_value;
+                    $display_value = $opt_value_key;
+                }
+                // compare with selected value
+                // boolean values are cast to integers when used as array keys
+                $selected = is_bool($value)
+                    ? (int)$value === $opt_value_key
+                    : $opt_value_key === $value;
+                echo '<option value="' . $display_value . '"';
+                if ($selected) {
+                    echo ' selected="selected"';
+                }
+                if (isset($values_disabled[$opt_value_key])) {
+                    echo ' disabled="disabled"';
+                }
+                echo '>' . $display . '</option>';
             }
-            // escape if necessary
-            if ($escape) {
-                $display = htmlspecialchars($opt_value);
-                $display_value = htmlspecialchars($opt_value_key);
-            } else {
-                $display = $opt_value;
-                $display_value = $opt_value_key;
-            }
-            // compare with selected value
-            // boolean values are cast to integers when used as array keys
-            $selected = is_bool($value)
-                ? (int) $value === $opt_value_key
-                : $opt_value_key === $value;
-            echo '<option value="' . $display_value . '"';
-            if ($selected) {
-                echo ' selected="selected"';
-            }
-            if (isset($values_disabled[$opt_value_key])) {
-                echo ' disabled="disabled"';
-            }
-            echo '>' . $display . '</option>';
-        }
-        echo '</select>';
-        break;
-    case 'list':
-        echo '<textarea cols="40" rows="5" ' . $name_id . $field_class . '>'
-            . htmlspecialchars(implode("\n", $value))
-            . '</textarea>';
-        break;
+            echo '</select>';
+            break;
+        case 'list':
+            echo '<textarea cols="40" rows="5" ' . $name_id . $field_class . '>'
+                . htmlspecialchars(implode("\n", $value))
+                . '</textarea>';
+            break;
     }
     if (isset($opts['comment']) && $opts['comment']) {
         $class = 'field-comment-mark';
@@ -312,7 +313,7 @@ function PMA_displayInput($path, $name, $type, $value, $description = '',
     }
     if (isset($opts['show_restore_default']) && $opts['show_restore_default']) {
         echo '<a class="restore-default" href="#' . $path . '" title="'
-            .  __('Restore default value') . '" style="display:none">'
+            . __('Restore default value') . '" style="display:none">'
             . $icons['reload'] . '</a>';
     }
     // this must match with displayErrors() in scripts/config.js
@@ -351,7 +352,7 @@ function PMA_displayGroupHeader($header_text)
     global $_FormDisplayGroup;
 
     $_FormDisplayGroup++;
-    if (! $header_text) {
+    if (!$header_text) {
         return;
     }
     $colspan = defined('PMA_SETUP')
@@ -443,13 +444,13 @@ function PMA_addJsValidate($field_id, $validators, &$js_array)
 {
     foreach ((array)$validators as $validator) {
         $validator = (array)$validator;
-        $v_name = array_shift($validator);
-        $v_name = "PMA_" . $v_name;
-        $v_args = array();
+        $v_name    = array_shift($validator);
+        $v_name    = "PMA_" . $v_name;
+        $v_args    = [];
         foreach ($validator as $arg) {
             $v_args[] = PMA_escapeJsString($arg);
         }
-        $v_args = $v_args ? ", ['" . implode("', '", $v_args) . "']" : '';
+        $v_args     = $v_args ? ", ['" . implode("', '", $v_args) . "']" : '';
         $js_array[] = "validateField('$field_id', '$v_name', true$v_args)";
     }
 }
@@ -488,4 +489,5 @@ function PMA_displayErrors($name, $error_list)
     }
     echo '</dl>';
 }
+
 ?>

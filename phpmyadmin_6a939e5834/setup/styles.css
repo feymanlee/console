@@ -155,6 +155,7 @@ div.success {
     background-repeat: no-repeat;
     background-position: 5px 10px;
 }
+
 .success h4 {
     border-color: #00FF00;
 }
@@ -202,8 +203,6 @@ div.notice[id^=version_check] {
 div.notice[id^=version_check] h4 {
     border-color: #002DFF;
 }
-
-
 
 /* form tabs */
 
@@ -502,7 +501,6 @@ input[type="checkbox"],
 input[type="radio"] {
     vertical-align: -11%;
 }
-
 
 select {
     -moz-border-radius: 2px;

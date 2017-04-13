@@ -4,7 +4,7 @@
  * Test for PMA_getDbLink_test from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -19,7 +19,7 @@ require_once 'libraries/php-gettext/gettext.inc';
  * Test for PMA_getDbLink_test from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_GetDbLink_Test extends PHPUnit_Framework_TestCase
 {
@@ -60,7 +60,7 @@ class PMA_GetDbLink_Test extends PHPUnit_Framework_TestCase
     {
         global $cfg;
         $GLOBALS['db'] = 'test_db';
-        $database = $GLOBALS['db'];
+        $database      = $GLOBALS['db'];
         $this->assertEquals(
             '<a href="' . $cfg['DefaultTabDatabase'] . '?db=' . $database
             . '&amp;server=99&amp;lang=en&amp;token=token" '

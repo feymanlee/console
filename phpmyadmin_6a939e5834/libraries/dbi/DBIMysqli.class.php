@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-DBI
  * @subpackage MySQLi
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -26,45 +26,46 @@ mysqli_report(MYSQLI_REPORT_OFF);
 /**
  * some older mysql client libs are missing these constants ...
  */
-if (! defined('MYSQLI_BINARY_FLAG')) {
+if (!defined('MYSQLI_BINARY_FLAG')) {
     define('MYSQLI_BINARY_FLAG', 128);
 }
 
 /**
  * @see http://bugs.php.net/36007
  */
-if (! defined('MYSQLI_TYPE_NEWDECIMAL')) {
+if (!defined('MYSQLI_TYPE_NEWDECIMAL')) {
     define('MYSQLI_TYPE_NEWDECIMAL', 246);
 }
-if (! defined('MYSQLI_TYPE_BIT')) {
+if (!defined('MYSQLI_TYPE_BIT')) {
     define('MYSQLI_TYPE_BIT', 16);
 }
 
 // for Drizzle
-if (! defined('MYSQLI_TYPE_VARCHAR')) {
+if (!defined('MYSQLI_TYPE_VARCHAR')) {
     define('MYSQLI_TYPE_VARCHAR', 15);
 }
 
 /**
  * Names of field flags.
  */
-$pma_mysqli_flag_names = array(
-    MYSQLI_NUM_FLAG => 'num',
-    MYSQLI_PART_KEY_FLAG => 'part_key',
-    MYSQLI_SET_FLAG => 'set',
-    MYSQLI_TIMESTAMP_FLAG => 'timestamp',
+$pma_mysqli_flag_names = [
+    MYSQLI_NUM_FLAG            => 'num',
+    MYSQLI_PART_KEY_FLAG       => 'part_key',
+    MYSQLI_SET_FLAG            => 'set',
+    MYSQLI_TIMESTAMP_FLAG      => 'timestamp',
     MYSQLI_AUTO_INCREMENT_FLAG => 'auto_increment',
-    MYSQLI_ENUM_FLAG => 'enum',
-    MYSQLI_ZEROFILL_FLAG => 'zerofill',
-    MYSQLI_UNSIGNED_FLAG => 'unsigned',
-    MYSQLI_BLOB_FLAG => 'blob',
-    MYSQLI_MULTIPLE_KEY_FLAG => 'multiple_key',
-    MYSQLI_UNIQUE_KEY_FLAG => 'unique_key',
-    MYSQLI_PRI_KEY_FLAG => 'primary_key',
-    MYSQLI_NOT_NULL_FLAG => 'not_null',
-);
+    MYSQLI_ENUM_FLAG           => 'enum',
+    MYSQLI_ZEROFILL_FLAG       => 'zerofill',
+    MYSQLI_UNSIGNED_FLAG       => 'unsigned',
+    MYSQLI_BLOB_FLAG           => 'blob',
+    MYSQLI_MULTIPLE_KEY_FLAG   => 'multiple_key',
+    MYSQLI_UNIQUE_KEY_FLAG     => 'unique_key',
+    MYSQLI_PRI_KEY_FLAG        => 'primary_key',
+    MYSQLI_NOT_NULL_FLAG       => 'not_null',
+];
 
 /* vim: set expandtab sw=4 ts=4 sts=4: */
+
 /**
  * Interface to the improved MySQL extension (MySQLi)
  *
@@ -141,7 +142,7 @@ class PMA_DBI_Mysqli implements PMA_DBI_Extension
     ) {
         global $cfg;
 
-        $server_port = $GLOBALS['dbi']->getServerPort($server);
+        $server_port   = $GLOBALS['dbi']->getServerPort($server);
         $server_socket = $GLOBALS['dbi']->getServerSocket($server);
 
         if ($server) {
@@ -180,7 +181,7 @@ class PMA_DBI_Mysqli implements PMA_DBI_Extension
             $client_flags |= MYSQLI_CLIENT_SSL;
         }
 
-        if (! $server) {
+        if (!$server) {
             $return_value = @$this->_realConnect(
                 $link,
                 $cfg['Server']['host'],
@@ -195,7 +196,7 @@ class PMA_DBI_Mysqli implements PMA_DBI_Extension
             if ($return_value == false
                 && isset($cfg['Server']['nopassword'])
                 && $cfg['Server']['nopassword']
-                && ! $is_controluser
+                && !$is_controluser
             ) {
                 $return_value = @$this->_realConnect(
                     $link,
@@ -420,10 +421,10 @@ class PMA_DBI_Mysqli implements PMA_DBI_Extension
         $GLOBALS['errno'] = 0;
 
         if (null !== $link && false !== $link) {
-            $error_number = mysqli_errno($link);
+            $error_number  = mysqli_errno($link);
             $error_message = mysqli_error($link);
         } else {
-            $error_number = mysqli_connect_errno();
+            $error_number  = mysqli_connect_errno();
             $error_message = mysqli_connect_error();
         }
         if (0 == $error_number) {
@@ -476,7 +477,7 @@ class PMA_DBI_Mysqli implements PMA_DBI_Extension
     public function getFieldsMeta($result)
     {
         // Build an associative array for a type look up
-        $typeAr = array();
+        $typeAr                          = [];
         $typeAr[MYSQLI_TYPE_DECIMAL]     = 'real';
         $typeAr[MYSQLI_TYPE_NEWDECIMAL]  = 'real';
         $typeAr[MYSQLI_TYPE_BIT]         = 'int';
@@ -508,8 +509,8 @@ class PMA_DBI_Mysqli implements PMA_DBI_Extension
         // so this would override TINYINT and mark all TINYINT as string
         // https://sourceforge.net/p/phpmyadmin/bugs/2205/
         //$typeAr[MYSQLI_TYPE_CHAR]        = 'string';
-        $typeAr[MYSQLI_TYPE_GEOMETRY]    = 'geometry';
-        $typeAr[MYSQLI_TYPE_BIT]         = 'bit';
+        $typeAr[MYSQLI_TYPE_GEOMETRY] = 'geometry';
+        $typeAr[MYSQLI_TYPE_BIT]      = 'bit';
 
         $fields = mysqli_fetch_fields($result);
 
@@ -519,31 +520,32 @@ class PMA_DBI_Mysqli implements PMA_DBI_Extension
         }
 
         foreach ($fields as $k => $field) {
-            $fields[$k]->_type = $field->type;
-            $fields[$k]->type = $typeAr[$field->type];
+            $fields[$k]->_type  = $field->type;
+            $fields[$k]->type   = $typeAr[$field->type];
             $fields[$k]->_flags = $field->flags;
-            $fields[$k]->flags = $this->fieldFlags($result, $k);
+            $fields[$k]->flags  = $this->fieldFlags($result, $k);
 
             // Enhance the field objects for mysql-extension compatibility
             //$flags = explode(' ', $fields[$k]->flags);
             //array_unshift($flags, 'dummy');
             $fields[$k]->multiple_key
-                = (int) (bool) ($fields[$k]->_flags & MYSQLI_MULTIPLE_KEY_FLAG);
+                = (int)(bool)($fields[$k]->_flags & MYSQLI_MULTIPLE_KEY_FLAG);
             $fields[$k]->primary_key
-                = (int) (bool) ($fields[$k]->_flags & MYSQLI_PRI_KEY_FLAG);
+                = (int)(bool)($fields[$k]->_flags & MYSQLI_PRI_KEY_FLAG);
             $fields[$k]->unique_key
-                = (int) (bool) ($fields[$k]->_flags & MYSQLI_UNIQUE_KEY_FLAG);
+                = (int)(bool)($fields[$k]->_flags & MYSQLI_UNIQUE_KEY_FLAG);
             $fields[$k]->not_null
-                = (int) (bool) ($fields[$k]->_flags & MYSQLI_NOT_NULL_FLAG);
+                = (int)(bool)($fields[$k]->_flags & MYSQLI_NOT_NULL_FLAG);
             $fields[$k]->unsigned
-                = (int) (bool) ($fields[$k]->_flags & MYSQLI_UNSIGNED_FLAG);
+                = (int)(bool)($fields[$k]->_flags & MYSQLI_UNSIGNED_FLAG);
             $fields[$k]->zerofill
-                = (int) (bool) ($fields[$k]->_flags & MYSQLI_ZEROFILL_FLAG);
+                = (int)(bool)($fields[$k]->_flags & MYSQLI_ZEROFILL_FLAG);
             $fields[$k]->numeric
-                = (int) (bool) ($fields[$k]->_flags & MYSQLI_NUM_FLAG);
+                = (int)(bool)($fields[$k]->_flags & MYSQLI_NUM_FLAG);
             $fields[$k]->blob
-                = (int) (bool) ($fields[$k]->_flags & MYSQLI_BLOB_FLAG);
+                = (int)(bool)($fields[$k]->_flags & MYSQLI_BLOB_FLAG);
         }
+
         return $fields;
     }
 
@@ -595,11 +597,11 @@ class PMA_DBI_Mysqli implements PMA_DBI_Extension
      */
     public function fieldFlags($result, $i)
     {
-        $f = mysqli_fetch_field_direct($result, $i);
-        $type = $f->type;
+        $f         = mysqli_fetch_field_direct($result, $i);
+        $type      = $f->type;
         $charsetnr = $f->charsetnr;
-        $f = $f->flags;
-        $flags = array();
+        $f         = $f->flags;
+        $flags     = [];
         foreach ($GLOBALS['pma_mysqli_flag_names'] as $flag => $name) {
             if ($f & $flag) {
                 $flags[] = $name;
@@ -612,13 +614,15 @@ class PMA_DBI_Mysqli implements PMA_DBI_Extension
         // so we have to check also the type.
         // Unfortunately there is no equivalent in the mysql extension.
         if (($type == MYSQLI_TYPE_TINY_BLOB || $type == MYSQLI_TYPE_BLOB
-            || $type == MYSQLI_TYPE_MEDIUM_BLOB || $type == MYSQLI_TYPE_LONG_BLOB
-            || $type == MYSQLI_TYPE_VAR_STRING || $type == MYSQLI_TYPE_STRING)
+                || $type == MYSQLI_TYPE_MEDIUM_BLOB || $type == MYSQLI_TYPE_LONG_BLOB
+                || $type == MYSQLI_TYPE_VAR_STRING || $type == MYSQLI_TYPE_STRING)
             && 63 == $charsetnr
         ) {
             $flags[] = 'binary';
         }
+
         return implode(' ', $flags);
     }
 }
+
 ?>

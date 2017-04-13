@@ -31,10 +31,10 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
      */
     public function testDisplayFormTop()
     {
-        $_SERVER['REQUEST_URI'] = 'https://www.phpmyadmin.net';
+        $_SERVER['REQUEST_URI']          = 'https://www.phpmyadmin.net';
         $GLOBALS['cfg']['ServerDefault'] = '';
         ob_start();
-        PMA_displayFormTop(null, 'posted', array(1));
+        PMA_displayFormTop(null, 'posted', [1]);
         $result = ob_get_clean();
 
         $this->assertContains(
@@ -78,7 +78,7 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
     public function testDisplayTabsTop()
     {
         ob_start();
-        PMA_displayTabsTop(array('one', 'two'));
+        PMA_displayTabsTop(['one', 'two']);
         $result = ob_get_clean();
 
         $this->assertContains(
@@ -109,8 +109,8 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
      */
     public function testDisplayFieldsetTop()
     {
-        $attributes = array('name' => 'attrname');
-        $errors = array('e1', 'e2');
+        $attributes = ['name' => 'attrname'];
+        $errors     = ['e1', 'e2'];
 
         ob_start();
         PMA_displayFieldsetTop("TitleTest", "DescTest", $errors, $attributes);
@@ -154,20 +154,20 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
      */
     public function testDisplayInput()
     {
-        if (! PMA_HAS_RUNKIT) {
+        if (!PMA_HAS_RUNKIT) {
             $this->markTestSkipped('Cannot modify constant');
         }
 
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
-        $GLOBALS['pmaThemeImage'] = 'testImage';
-        $GLOBALS['_FormDislayGroup'] = 1;
-        $opts = array();
-        $opts['errors'] = array('e1');
-        $opts['userprefs_allow'] = false;
-        $opts['setvalue'] = ':group';
-        $opts['doc'] = "http://doclink";
-        $opts['comment'] = "testComment";
-        $opts['comment_warning'] = true;
+        $_SESSION['PMA_Theme']        = new PMA_Theme();
+        $GLOBALS['pmaThemeImage']     = 'testImage';
+        $GLOBALS['_FormDislayGroup']  = 1;
+        $opts                         = [];
+        $opts['errors']               = ['e1'];
+        $opts['userprefs_allow']      = false;
+        $opts['setvalue']             = ':group';
+        $opts['doc']                  = "http://doclink";
+        $opts['comment']              = "testComment";
+        $opts['comment_warning']      = true;
         $opts['show_restore_default'] = true;
         ob_start();
         PMA_displayInput(
@@ -232,15 +232,15 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
         // second case
 
         define('PMA_SETUP', true);
-        $GLOBALS['_FormDislayGroup'] = 0;
-        $GLOBALS['cfg']['ThemePath'] = 'themePath';
-        $opts = array();
-        $opts['errors'] = array();
-        $opts['setvalue'] = 'setVal';
-        $opts['comment'] = "testComment";
+        $GLOBALS['_FormDislayGroup']  = 0;
+        $GLOBALS['cfg']['ThemePath']  = 'themePath';
+        $opts                         = [];
+        $opts['errors']               = [];
+        $opts['setvalue']             = 'setVal';
+        $opts['comment']              = "testComment";
         $opts['show_restore_default'] = true;
-        $opts['userprefs_comment'] = 'userprefsComment';
-        $opts['userprefs_allow'] = true;
+        $opts['userprefs_comment']    = 'userprefsComment';
+        $opts['userprefs_allow']      = true;
 
         ob_start();
         PMA_displayInput(
@@ -280,8 +280,8 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
         // short_text
         $GLOBALS['_FormDislayGroup'] = 0;
         $GLOBALS['cfg']['ThemePath'] = 'themePath';
-        $opts = array();
-        $opts['errors'] = array();
+        $opts                        = [];
+        $opts['errors']              = [];
 
         ob_start();
         PMA_displayInput(
@@ -311,13 +311,13 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
         );
 
         // select case 1
-        $opts['values_escaped'] = true;
-        $opts['values_disabled'] = array(1, 2);
-        $opts['values'] = array(
-            1 => 'test',
+        $opts['values_escaped']  = true;
+        $opts['values_disabled'] = [1, 2];
+        $opts['values']          = [
+            1      => 'test',
             'key1' => true,
             'key2' => false,
-        );
+        ];
         ob_start();
         PMA_displayInput(
             'test/path', 'testName', 'select', true,
@@ -345,13 +345,13 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
         );
 
         // select case 2
-        $opts['values_escaped'] = false;
-        $opts['values_disabled'] = array(1, 2);
-        $opts['values'] = array(
-            'a<b' => 'c&d',
+        $opts['values_escaped']  = false;
+        $opts['values_disabled'] = [1, 2];
+        $opts['values']          = [
+            'a<b'  => 'c&d',
             'key1' => true,
             'key2' => false,
-        );
+        ];
         ob_start();
         PMA_displayInput(
             'test/path', 'testName', 'select', false,
@@ -374,7 +374,7 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
 
         ob_start();
         PMA_displayInput(
-            'test/path', 'testName', 'list', array('foo', 'bar'),
+            'test/path', 'testName', 'list', ['foo', 'bar'],
             '', true, $opts
         );
         $result = ob_get_clean();
@@ -393,7 +393,7 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
      */
     public function testDisplayGroupHeader()
     {
-        if (! PMA_HAS_RUNKIT) {
+        if (!PMA_HAS_RUNKIT) {
             $this->markTestSkipped('Cannot modify constant');
         }
 
@@ -454,7 +454,7 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
      */
     public function testDisplayFieldsetBottom()
     {
-        if (! PMA_HAS_RUNKIT) {
+        if (!PMA_HAS_RUNKIT) {
             $this->markTestSkipped('Cannot modify constant');
         }
 
@@ -548,22 +548,22 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
      */
     public function testAddJsValidate()
     {
-        $validators = array(
-            'one' => array('\\\';', '\r\n\\\'<scrIpt></\' + \'script>'),
-            'two' => array()
-        );
+        $validators = [
+            'one' => ['\\\';', '\r\n\\\'<scrIpt></\' + \'script>'],
+            'two' => [],
+        ];
 
-        $js = array();
+        $js = [];
 
         PMA_addJsValidate('testID', $validators, $js);
 
         $this->assertEquals(
-            array(
+            [
                 'validateField(\'testID\', \'PMA_\\\';\', true, '
-                    . '[\'\\\\r\\\\n\\\\\\\''
-                    . '<scrIpt></\\\' + \\\'script>\'])',
-                'validateField(\'testID\', \'PMA_\', true)'
-            ),
+                . '[\'\\\\r\\\\n\\\\\\\''
+                . '<scrIpt></\\\' + \\\'script>\'])',
+                'validateField(\'testID\', \'PMA_\', true)',
+            ],
             $js
         );
     }
@@ -576,7 +576,7 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
     public function testDisplayJavascript()
     {
         $this->assertNull(
-            PMA_displayJavascript(array())
+            PMA_displayJavascript([])
         );
 
         $this->expectOutputString(
@@ -586,7 +586,7 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
             "</script>\n"
         );
 
-        PMA_displayJavascript(array('var i = 1', 'i++'));
+        PMA_displayJavascript(['var i = 1', 'i++']);
     }
 
     /**
@@ -596,7 +596,7 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
      */
     public function testDisplayErrors()
     {
-        $errors = array('<err1>', '&err2');
+        $errors = ['<err1>', '&err2'];
 
         $this->expectOutputString(
             '<dl><dt>err&quot;Name1&quot;</dt>' .
@@ -607,4 +607,5 @@ class PMA_FormDisplay_Tpl_Test extends PHPUnit_Framework_TestCase
 
     }
 }
+
 ?>

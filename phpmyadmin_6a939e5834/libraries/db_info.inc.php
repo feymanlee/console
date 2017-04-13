@@ -11,25 +11,25 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
 /**
  * limits for table list
  */
-if (! isset($_SESSION['tmpval']['table_limit_offset'])
+if (!isset($_SESSION['tmpval']['table_limit_offset'])
     || $_SESSION['tmpval']['table_limit_offset_db'] != $db
 ) {
-    $_SESSION['tmpval']['table_limit_offset'] = 0;
+    $_SESSION['tmpval']['table_limit_offset']    = 0;
     $_SESSION['tmpval']['table_limit_offset_db'] = $db;
 }
 if (isset($_REQUEST['pos'])) {
-    $_SESSION['tmpval']['table_limit_offset'] = (int) $_REQUEST['pos'];
+    $_SESSION['tmpval']['table_limit_offset'] = (int)$_REQUEST['pos'];
 }
 $pos = $_SESSION['tmpval']['table_limit_offset'];
 
-PMA_Util::checkParameters(array('db'));
+PMA_Util::checkParameters(['db']);
 
 /**
  * @global bool whether to display extended stats
@@ -42,20 +42,20 @@ $is_show_stats = $cfg['ShowStats'];
 $db_is_system_schema = false;
 
 if ($GLOBALS['dbi']->isSystemSchema($db)) {
-    $is_show_stats = false;
+    $is_show_stats       = false;
     $db_is_system_schema = true;
 }
 
 /**
  * @global array information about tables in db
  */
-$tables = array();
+$tables = [];
 
-$tooltip_truename = array();
-$tooltip_aliasname = array();
+$tooltip_truename  = [];
+$tooltip_aliasname = [];
 
 // Special speedup for newer MySQL Versions (in 4.0 format changed)
-if (true === $cfg['SkipLockedTables'] && ! PMA_DRIZZLE) {
+if (true === $cfg['SkipLockedTables'] && !PMA_DRIZZLE) {
     $db_info_result = $GLOBALS['dbi']->query(
         'SHOW OPEN TABLES FROM ' . PMA_Util::backquote($db) . ';'
     );
@@ -74,9 +74,9 @@ if (true === $cfg['SkipLockedTables'] && ! PMA_DRIZZLE) {
             $db_info_result = false;
 
             $tblGroupSql = "";
-            $whereAdded = false;
+            $whereAdded  = false;
             if (PMA_isValid($_REQUEST['tbl_group'])) {
-                $group = PMA_Util::escapeMysqlWildcards($_REQUEST['tbl_group']);
+                $group              = PMA_Util::escapeMysqlWildcards($_REQUEST['tbl_group']);
                 $groupWithSeparator = PMA_Util::escapeMysqlWildcards(
                     $_REQUEST['tbl_group']
                     . $GLOBALS['cfg']['NavigationTreeTableSeparator']
@@ -89,7 +89,7 @@ if (true === $cfg['SkipLockedTables'] && ! PMA_DRIZZLE) {
                     . " LIKE '" . $group . "')";
                 $whereAdded = true;
             }
-            if (PMA_isValid($_REQUEST['tbl_type'], array('table', 'view'))) {
+            if (PMA_isValid($_REQUEST['tbl_type'], ['table', 'view'])) {
                 $tblGroupSql .= $whereAdded ? " AND" : " WHERE";
                 if ($_REQUEST['tbl_type'] == 'view') {
                     $tblGroupSql .= " `Table_type` != 'BASE TABLE'";
@@ -105,27 +105,27 @@ if (true === $cfg['SkipLockedTables'] && ! PMA_DRIZZLE) {
 
             if ($db_info_result && $GLOBALS['dbi']->numRows($db_info_result) > 0) {
                 while ($tmp = $GLOBALS['dbi']->fetchRow($db_info_result)) {
-                    if (! isset($sot_cache[$tmp[0]])) {
-                        $sts_result  = $GLOBALS['dbi']->query(
+                    if (!isset($sot_cache[$tmp[0]])) {
+                        $sts_result = $GLOBALS['dbi']->query(
                             "SHOW TABLE STATUS FROM " . PMA_Util::backquote($db)
                             . " LIKE '" . PMA_Util::sqlAddSlashes($tmp[0], true)
                             . "';"
                         );
-                        $sts_tmp     = $GLOBALS['dbi']->fetchAssoc($sts_result);
+                        $sts_tmp    = $GLOBALS['dbi']->fetchAssoc($sts_result);
                         $GLOBALS['dbi']->freeResult($sts_result);
                         unset($sts_result);
 
-                        $tableArray = $GLOBALS['dbi']->copyTableProperties(
-                            array($sts_tmp), $db
+                        $tableArray               = $GLOBALS['dbi']->copyTableProperties(
+                            [$sts_tmp], $db
                         );
                         $tables[$sts_tmp['Name']] = $tableArray[0];
                     } else { // table in use
-                        $tables[$tmp[0]] = array(
+                        $tables[$tmp[0]] = [
                             'TABLE_NAME' => $tmp[0],
-                            'ENGINE' => '',
+                            'ENGINE'     => '',
                             'TABLE_TYPE' => '',
                             'TABLE_ROWS' => 0,
-                        );
+                        ];
                     }
                 }
                 if ($GLOBALS['cfg']['NaturalOrder']) {
@@ -144,14 +144,14 @@ if (true === $cfg['SkipLockedTables'] && ! PMA_DRIZZLE) {
     }
 }
 
-if (! isset($sot_ready)) {
+if (!isset($sot_ready)) {
 
     // Set some sorting defaults
-    $sort = 'Name';
+    $sort       = 'Name';
     $sort_order = 'ASC';
 
     if (isset($_REQUEST['sort'])) {
-        $sortable_name_mappings = array(
+        $sortable_name_mappings = [
             'table'       => 'Name',
             'records'     => 'Rows',
             'type'        => 'Engine',
@@ -160,8 +160,8 @@ if (! isset($sot_ready)) {
             'overhead'    => 'Data_free',
             'creation'    => 'Create_time',
             'last_update' => 'Update_time',
-            'last_check'  => 'Check_time'
-        );
+            'last_check'  => 'Check_time',
+        ];
 
         // Make sure the sort type is implemented
         if (isset($sortable_name_mappings[$_REQUEST['sort']])) {
@@ -172,23 +172,23 @@ if (! isset($sot_ready)) {
         }
     }
 
-    $tbl_group = false;
+    $tbl_group          = false;
     $groupWithSeparator = false;
-    $tbl_type = null;
-    $limit_offset = 0;
-    $limit_count = false;
-    $groupTable = array();
+    $tbl_type           = null;
+    $limit_offset       = 0;
+    $limit_count        = false;
+    $groupTable         = [];
 
-    if (! empty($_REQUEST['tbl_group']) || ! empty($_REQUEST['tbl_type'])) {
-        if (! empty($_REQUEST['tbl_type'])) {
+    if (!empty($_REQUEST['tbl_group']) || !empty($_REQUEST['tbl_type'])) {
+        if (!empty($_REQUEST['tbl_type'])) {
             // only tables for selected type
             $tbl_type = $_REQUEST['tbl_type'];
         }
-        if (! empty($_REQUEST['tbl_group'])) {
+        if (!empty($_REQUEST['tbl_group'])) {
             // only tables for selected group
             $tbl_group = $_REQUEST['tbl_group'];
             // include the table with the exact name of the group if such exists
-            $groupTable = $GLOBALS['dbi']->getTablesFull(
+            $groupTable         = $GLOBALS['dbi']->getTablesFull(
                 $db, $tbl_group, false, null, $limit_offset,
                 $limit_count, $sort, $sort_order, $tbl_type
             );
@@ -199,7 +199,7 @@ if (! isset($sot_ready)) {
         // all tables in db
         // - get the total number of tables
         //  (needed for proper working of the MaxTableList feature)
-        $tables = $GLOBALS['dbi']->getTables($db);
+        $tables           = $GLOBALS['dbi']->getTables($db);
         $total_num_tables = count($tables);
         if (isset($sub_part) && $sub_part == '_export') {
             // (don't fetch only a subset if we are coming from db_export.php,
@@ -212,7 +212,7 @@ if (! isset($sot_ready)) {
         } else {
             // fetch the details for a possible limited subset
             $limit_offset = $pos;
-            $limit_count = true;
+            $limit_count  = true;
         }
     }
     $tables = array_merge(
@@ -229,7 +229,7 @@ if (! isset($sot_ready)) {
  */
 $num_tables = count($tables);
 //  (needed for proper working of the MaxTableList feature)
-if (! isset($total_num_tables)) {
+if (!isset($total_num_tables)) {
     $total_num_tables = $num_tables;
 }
 

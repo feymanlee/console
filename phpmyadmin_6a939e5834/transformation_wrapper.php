@@ -27,17 +27,17 @@ require_once './libraries/db_table_exists.lib.php';
 /**
  * Sets globals from $_REQUEST
  */
-$request_params = array(
+$request_params = [
     'cn',
     'ct',
     'sql_query',
     'transform_key',
-    'where_clause'
-);
-$size_params = array(
+    'where_clause',
+];
+$size_params    = [
     'newHeight',
     'newWidth',
-);
+];
 foreach ($request_params as $one_request_param) {
     if (isset($_REQUEST[$one_request_param])) {
         if (in_array($one_request_param, $size_params)) {
@@ -63,28 +63,28 @@ if (isset($where_clause)) {
         null,
         PMA_DatabaseInterface::QUERY_STORE
     );
-    $row = $GLOBALS['dbi']->fetchAssoc($result);
+    $row    = $GLOBALS['dbi']->fetchAssoc($result);
 } else {
     $result = $GLOBALS['dbi']->query(
         'SELECT * FROM ' . PMA_Util::backquote($table) . ' LIMIT 1;',
         null,
         PMA_DatabaseInterface::QUERY_STORE
     );
-    $row = $GLOBALS['dbi']->fetchAssoc($result);
+    $row    = $GLOBALS['dbi']->fetchAssoc($result);
 }
 
 // No row returned
-if (! $row) {
+if (!$row) {
     exit;
 } // end if (no record returned)
 
 $default_ct = 'application/octet-stream';
 
 if ($cfgRelation['commwork'] && $cfgRelation['mimework']) {
-    $mime_map = PMA_getMime($db, $table);
+    $mime_map     = PMA_getMime($db, $table);
     $mime_options = PMA_Transformation_getOptions(
         isset($mime_map[$transform_key]['transformation_options'])
-        ? $mime_map[$transform_key]['transformation_options'] : ''
+            ? $mime_map[$transform_key]['transformation_options'] : ''
     );
 
     foreach ($mime_options as $key => $option) {
@@ -99,18 +99,18 @@ $response = PMA_Response::getInstance();
 $response->getHeader()->sendHttpHeaders();
 
 // [MIME]
-if (isset($ct) && ! empty($ct)) {
+if (isset($ct) && !empty($ct)) {
     $mime_type = $ct;
 } else {
     $mime_type = (!empty($mime_map[$transform_key]['mimetype'])
-        ? str_replace('_', '/', $mime_map[$transform_key]['mimetype'])
-        : $default_ct)
-    . (isset($mime_options['charset']) ? $mime_options['charset'] : '');
+            ? str_replace('_', '/', $mime_map[$transform_key]['mimetype'])
+            : $default_ct)
+        . (isset($mime_options['charset']) ? $mime_options['charset'] : '');
 }
 
 PMA_downloadHeader($cn, $mime_type);
 
-if (! isset($_REQUEST['resize'])) {
+if (!isset($_REQUEST['resize'])) {
     if (stripos($mime_type, 'html') === false) {
         echo $row[$transform_key];
     } else {
@@ -120,23 +120,23 @@ if (! isset($_REQUEST['resize'])) {
     // if image_*__inline.inc.php finds that we can resize,
     // it sets the resize parameter to jpeg or png
 
-    $srcImage = imagecreatefromstring($row[$transform_key]);
-    $srcWidth = ImageSX($srcImage);
+    $srcImage  = imagecreatefromstring($row[$transform_key]);
+    $srcWidth  = ImageSX($srcImage);
     $srcHeight = ImageSY($srcImage);
 
     // Check to see if the width > height or if width < height
     // if so adjust accordingly to make sure the image
     // stays smaller than the new width and new height
 
-    $ratioWidth = $srcWidth/$_REQUEST['newWidth'];
-    $ratioHeight = $srcHeight/$_REQUEST['newHeight'];
+    $ratioWidth  = $srcWidth / $_REQUEST['newWidth'];
+    $ratioHeight = $srcHeight / $_REQUEST['newHeight'];
 
     if ($ratioWidth < $ratioHeight) {
-        $destWidth = $srcWidth/$ratioHeight;
+        $destWidth  = $srcWidth / $ratioHeight;
         $destHeight = $_REQUEST['newHeight'];
     } else {
-        $destWidth = $_REQUEST['newWidth'];
-        $destHeight = $srcHeight/$ratioWidth;
+        $destWidth  = $_REQUEST['newWidth'];
+        $destHeight = $srcHeight / $ratioWidth;
     }
 
     if ($_REQUEST['resize']) {

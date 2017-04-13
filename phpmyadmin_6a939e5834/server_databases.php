@@ -18,10 +18,10 @@ $header   = $response->getHeader();
 $scripts  = $header->getScripts();
 $scripts->addFile('server_databases.js');
 
-if (! PMA_DRIZZLE) {
+if (!PMA_DRIZZLE) {
     include_once 'libraries/replication.inc.php';
 } else {
-    $replication_types = array();
+    $replication_types           = [];
     $GLOBALS['replication_info'] = null;
 }
 require 'libraries/build_html_for_db.lib.php';
@@ -29,11 +29,11 @@ require 'libraries/build_html_for_db.lib.php';
 /**
  * Sets globals from $_POST
  */
-$post_params = array(
+$post_params = [
     'mult_btn',
     'query_type',
-    'selected'
-);
+    'selected',
+];
 foreach ($post_params as $one_post_param) {
     if (isset($_POST[$one_post_param])) {
         $GLOBALS[$one_post_param] = $_POST[$one_post_param];
@@ -42,8 +42,8 @@ foreach ($post_params as $one_post_param) {
 
 list($sort_by, $sort_order) = PMA_getListForSortDatabase();
 
-$dbstats    = empty($_REQUEST['dbstats']) ? 0 : 1;
-$pos        = empty($_REQUEST['pos']) ? 0 : (int) $_REQUEST['pos'];
+$dbstats = empty($_REQUEST['dbstats']) ? 0 : 1;
+$pos     = empty($_REQUEST['pos']) ? 0 : (int)$_REQUEST['pos'];
 
 
 /**
@@ -82,7 +82,7 @@ if ($cfg['ShowCreateDb']) {
  * Gets the databases list
  */
 if ($server > 0) {
-    $databases = $GLOBALS['dbi']->getDatabasesFull(
+    $databases       = $GLOBALS['dbi']->getDatabasesFull(
         null, $dbstats, null, $sort_by, $sort_order, $pos, true
     );
     $databases_count = count($GLOBALS['pma']->databases);

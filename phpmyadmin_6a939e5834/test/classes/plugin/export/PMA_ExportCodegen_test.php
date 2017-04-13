@@ -14,11 +14,12 @@ require_once 'libraries/Config.class.php';
 require_once 'libraries/php-gettext/gettext.inc';
 require_once 'libraries/config.default.php';
 require_once 'export.php';
+
 /**
  * tests for ExportCodegen class
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_ExportCodegen_Test extends PHPUnit_Framework_TestCase
 {
@@ -32,7 +33,7 @@ class PMA_ExportCodegen_Test extends PHPUnit_Framework_TestCase
     function setup()
     {
         $GLOBALS['server'] = 0;
-        $this->object = new ExportCodegen(null);
+        $this->object      = new ExportCodegen(null);
     }
 
     /**
@@ -64,18 +65,18 @@ class PMA_ExportCodegen_Test extends PHPUnit_Framework_TestCase
         $attrCgHandlers->setAccessible(true);
 
         $this->assertEquals(
-            array(
+            [
                 "NHibernate C# DO",
-                "NHibernate XML"
-            ),
+                "NHibernate XML",
+            ],
             $attrCgFormats->getValue($this->object)
         );
 
         $this->assertEquals(
-            array(
+            [
                 "_handleNHibernateCSBody",
-                "_handleNHibernateXMLBody"
-            ),
+                "_handleNHibernateXMLBody",
+            ],
             $attrCgHandlers->getValue($this->object)
         );
     }
@@ -133,7 +134,7 @@ class PMA_ExportCodegen_Test extends PHPUnit_Framework_TestCase
         );
 
         $generalOptionsArray = $options->getProperties();
-        $generalOptions = $generalOptionsArray[0];
+        $generalOptions      = $generalOptionsArray[0];
 
         $this->assertInstanceOf(
             'OptionsPropertyMainGroup',
@@ -177,10 +178,10 @@ class PMA_ExportCodegen_Test extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array(
+            [
                 "NHibernate C# DO",
-                "NHibernate XML"
-            ),
+                "NHibernate XML",
+            ],
             $select->getValues()
         );
     }
@@ -240,13 +241,13 @@ class PMA_ExportCodegen_Test extends PHPUnit_Framework_TestCase
      */
     public function testExportData()
     {
-        $GLOBALS['codegen_format'] = 1;
-        $GLOBALS['output_kanji_conversion'] = false;
+        $GLOBALS['codegen_format']            = 1;
+        $GLOBALS['output_kanji_conversion']   = false;
         $GLOBALS['output_charset_conversion'] = false;
-        $GLOBALS['buffer_needed'] = false;
-        $GLOBALS['asfile'] = true;
-        $GLOBALS['save_on_server'] = false;
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $GLOBALS['buffer_needed']             = false;
+        $GLOBALS['asfile']                    = true;
+        $GLOBALS['save_on_server']            = false;
+        $dbi                                  = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -331,7 +332,7 @@ class PMA_ExportCodegen_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(1))
             ->method('fetchRow')
             ->with(true)
-            ->will($this->returnValue(array('a', 'b', 'c', false, 'e', 'f')));
+            ->will($this->returnValue(['a', 'b', 'c', false, 'e', 'f']));
 
         $dbi->expects($this->at(2))
             ->method('fetchRow')
@@ -339,7 +340,7 @@ class PMA_ExportCodegen_Test extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(null));
 
         $GLOBALS['dbi'] = $dbi;
-        $method = new ReflectionMethod('ExportCodegen', '_handleNHibernateCSBody');
+        $method         = new ReflectionMethod('ExportCodegen', '_handleNHibernateCSBody');
         $method->setAccessible(true);
         $result = $method->invoke($this->object, 'db', 'table', "\n");
 
@@ -396,12 +397,12 @@ class PMA_ExportCodegen_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(1))
             ->method('fetchRow')
             ->with(true)
-            ->will($this->returnValue(array('a', 'b', 'c', false, 'e', 'f')));
+            ->will($this->returnValue(['a', 'b', 'c', false, 'e', 'f']));
 
         $dbi->expects($this->at(2))
             ->method('fetchRow')
             ->with(true)
-            ->will($this->returnValue(array('g', 'h', 'i', 'PRI', 'j', 'k')));
+            ->will($this->returnValue(['g', 'h', 'i', 'PRI', 'j', 'k']));
 
         $dbi->expects($this->at(3))
             ->method('fetchRow')
@@ -409,7 +410,7 @@ class PMA_ExportCodegen_Test extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(null));
 
         $GLOBALS['dbi'] = $dbi;
-        $method = new ReflectionMethod('ExportCodegen', '_handleNHibernateXMLBody');
+        $method         = new ReflectionMethod('ExportCodegen', '_handleNHibernateXMLBody');
         $method->setAccessible(true);
         $result = $method->invoke($this->object, 'db', 'table', "\n");
 
@@ -449,10 +450,10 @@ class PMA_ExportCodegen_Test extends PHPUnit_Framework_TestCase
         $getter->setAccessible(true);
         $setter->setAccessible(true);
 
-        $setter->invoke($this->object, array(1, 2));
+        $setter->invoke($this->object, [1, 2]);
 
         $this->assertEquals(
-            array(1, 2),
+            [1, 2],
             $getter->invoke($this->object)
         );
     }
@@ -474,12 +475,13 @@ class PMA_ExportCodegen_Test extends PHPUnit_Framework_TestCase
         $getter->setAccessible(true);
         $setter->setAccessible(true);
 
-        $setter->invoke($this->object, array(1, 2));
+        $setter->invoke($this->object, [1, 2]);
 
         $this->assertEquals(
-            array(1, 2),
+            [1, 2],
             $getter->invoke($this->object)
         );
     }
 }
+
 ?>

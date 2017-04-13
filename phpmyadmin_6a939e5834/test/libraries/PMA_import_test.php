@@ -54,36 +54,36 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
         global $timestamp, $maximum_time, $timeout_passed;
 
         //Reinit values.
-        $timestamp = time();
-        $maximum_time = 0;
+        $timestamp      = time();
+        $maximum_time   = 0;
         $timeout_passed = false;
 
         $this->assertFalse(PMA_checkTimeout());
 
         //Reinit values.
-        $timestamp = time();
-        $maximum_time = 0;
+        $timestamp      = time();
+        $maximum_time   = 0;
         $timeout_passed = true;
 
         $this->assertFalse(PMA_checkTimeout());
 
         //Reinit values.
-        $timestamp = time();
-        $maximum_time = 30;
+        $timestamp      = time();
+        $maximum_time   = 30;
         $timeout_passed = true;
 
         $this->assertTrue(PMA_checkTimeout());
 
         //Reinit values.
-        $timestamp = time()-15;
-        $maximum_time = 30;
+        $timestamp      = time() - 15;
+        $maximum_time   = 30;
         $timeout_passed = false;
 
         $this->assertFalse(PMA_checkTimeout());
 
         //Reinit values.
-        $timestamp = time()-60;
-        $maximum_time = 30;
+        $timestamp      = time() - 60;
+        $maximum_time   = 30;
         $timeout_passed = false;
 
         $this->assertTrue(PMA_checkTimeout());
@@ -97,37 +97,37 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
     function testLookForUse()
     {
         $this->assertEquals(
-            array(null, null),
+            [null, null],
             PMA_lookForUse(null, null, null)
         );
 
         $this->assertEquals(
-            array('myDb', null),
+            ['myDb', null],
             PMA_lookForUse(null, 'myDb', null)
         );
 
         $this->assertEquals(
-            array('myDb', true),
+            ['myDb', true],
             PMA_lookForUse(null, 'myDb', true)
         );
 
         $this->assertEquals(
-            array('myDb', true),
+            ['myDb', true],
             PMA_lookForUse('select 1 from myTable', 'myDb', true)
         );
 
         $this->assertEquals(
-            array('anotherDb', true),
+            ['anotherDb', true],
             PMA_lookForUse('use anotherDb', 'myDb', false)
         );
 
         $this->assertEquals(
-            array('anotherDb', true),
+            ['anotherDb', true],
             PMA_lookForUse('use anotherDb', 'myDb', true)
         );
 
         $this->assertEquals(
-            array('anotherDb', true),
+            ['anotherDb', true],
             PMA_lookForUse('use `anotherDb`;', 'myDb', true)
         );
     }
@@ -154,14 +154,14 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
      */
     function provGetColumnAlphaName()
     {
-        return array(
-            array('A', 1),
-            array('Z', 0),
-            array('AA', 27),
-            array('AZ', 52),
-            array('BA', 53),
-            array('BB', 54),
-        );
+        return [
+            ['A', 1],
+            ['Z', 0],
+            ['AA', 27],
+            ['AZ', 52],
+            ['BA', 53],
+            ['BB', 54],
+        ];
     }
 
     /**
@@ -186,14 +186,14 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
      */
     function provGetColumnNumberFromName()
     {
-        return array(
-            array(1, 'A'),
-            array(26, 'Z'),
-            array(27, 'AA'),
-            array(52, 'AZ'),
-            array(53, 'BA'),
-            array(54, 'BB'),
-        );
+        return [
+            [1, 'A'],
+            [26, 'Z'],
+            [27, 'AA'],
+            [52, 'AZ'],
+            [53, 'BA'],
+            [54, 'BB'],
+        ];
     }
 
     /**
@@ -218,12 +218,12 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
      */
     function provGetDecimalPrecision()
     {
-        return array(
-            array(2, '2,1'),
-            array(6, '6,2'),
-            array(6, '6,0'),
-            array(16, '16,2'),
-        );
+        return [
+            [2, '2,1'],
+            [6, '6,2'],
+            [6, '6,0'],
+            [16, '16,2'],
+        ];
     }
 
     /**
@@ -248,12 +248,12 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
      */
     function provGetDecimalScale()
     {
-        return array(
-            array(1, '2,1'),
-            array(2, '6,2'),
-            array(0, '6,0'),
-            array(20, '30,20'),
-        );
+        return [
+            [1, '2,1'],
+            [2, '6,2'],
+            [0, '6,0'],
+            [20, '30,20'],
+        ];
     }
 
     /**
@@ -278,12 +278,12 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
      */
     function provGetDecimalSize()
     {
-        return array(
-            array(array(2, 1, '2,1'), '2.1'),
-            array(array(2, 1, '2,1'), '6.2'),
-            array(array(3, 1, '3,1'), '10.0'),
-            array(array(4, 2, '4,2'), '30.20'),
-        );
+        return [
+            [[2, 1, '2,1'], '2.1'],
+            [[2, 1, '2,1'], '6.2'],
+            [[3, 1, '3,1'], '10.0'],
+            [[4, 2, '4,2'], '30.20'],
+        ];
     }
 
     /**
@@ -311,21 +311,21 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
      */
     function provDetectType()
     {
-        return array(
-            array(NONE, null, 'NULL'),
-            array(NONE, NONE, 'NULL'),
-            array(INT, INT, 'NULL'),
-            array(VARCHAR, VARCHAR, 'NULL'),
-            array(VARCHAR, null, null),
-            array(VARCHAR, INT, null),
-            array(INT, INT, '10'),
-            array(DECIMAL, DECIMAL, '10.2'),
-            array(DECIMAL, INT, '10.2'),
-            array(BIGINT, BIGINT, '2147483648'),
-            array(BIGINT, INT, '2147483648'),
-            array(VARCHAR, VARCHAR, 'test'),
-            array(VARCHAR, INT, 'test'),
-        );
+        return [
+            [NONE, null, 'NULL'],
+            [NONE, NONE, 'NULL'],
+            [INT, INT, 'NULL'],
+            [VARCHAR, VARCHAR, 'NULL'],
+            [VARCHAR, null, null],
+            [VARCHAR, INT, null],
+            [INT, INT, '10'],
+            [DECIMAL, DECIMAL, '10.2'],
+            [DECIMAL, INT, '10.2'],
+            [BIGINT, BIGINT, '2147483648'],
+            [BIGINT, INT, '2147483648'],
+            [VARCHAR, VARCHAR, 'test'],
+            [VARCHAR, INT, 'test'],
+        ];
     }
 
     /**
@@ -339,12 +339,12 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
             . 'SET `table_1`.`id` = `table_2`.`id` '
             . 'WHERE 1';
 
-        $parsed_sql = PMA_SQP_parse($sql_query);
-        $analyzed_sql = PMA_SQP_analyze($parsed_sql);
-        $analyzed_sql_results = array(
-            'parsed_sql' => $parsed_sql,
-            'analyzed_sql' => $analyzed_sql
-        );
+        $parsed_sql           = PMA_SQP_parse($sql_query);
+        $analyzed_sql         = PMA_SQP_analyze($parsed_sql);
+        $analyzed_sql_results = [
+            'parsed_sql'   => $parsed_sql,
+            'analyzed_sql' => $analyzed_sql,
+        ];
 
         $table_references = PMA_getTableReferences($analyzed_sql_results);
 
@@ -367,17 +367,17 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $update_query = 'UPDATE `table_1` '
+        $update_query           = 'UPDATE `table_1` '
             . 'SET `id` = 20 '
             . 'WHERE `id` > 10';
         $simulated_update_query = 'SELECT `id` FROM  `table_1` WHERE `id` > 10 ';
-        $delete_query = 'DELETE FROM `table_1` '
+        $delete_query           = 'DELETE FROM `table_1` '
             . 'WHERE `id` > 10';
         $simulated_delete_query = 'SELECT *  FROM  `table_1` WHERE `id` > 10 ';
 
         $dbi->expects($this->any())
             ->method('numRows')
-            ->with(array())
+            ->with([])
             ->will($this->returnValue(2));
 
         $dbi->expects($this->any())
@@ -388,12 +388,12 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(1))
             ->method('tryQuery')
             ->with($simulated_update_query)
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $dbi->expects($this->at(4))
             ->method('tryQuery')
             ->with($simulated_delete_query)
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $GLOBALS['dbi'] = $dbi;
 
@@ -411,30 +411,30 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
      */
     function simulatedQueryTest($sql_query, $simulated_query)
     {
-        $parsed_sql = PMA_SQP_parse($sql_query);
-        $analyzed_sql = PMA_SQP_analyze($parsed_sql);
-        $analyzed_sql_results = array(
-            'parsed_sql' => $parsed_sql,
-            'analyzed_sql' => $analyzed_sql
-        );
+        $parsed_sql           = PMA_SQP_parse($sql_query);
+        $analyzed_sql         = PMA_SQP_analyze($parsed_sql);
+        $analyzed_sql_results = [
+            'parsed_sql'   => $parsed_sql,
+            'analyzed_sql' => $analyzed_sql,
+        ];
 
         $simulated_data = PMA_getMatchedRows($analyzed_sql_results);
 
         // URL to matched rows.
-        $_url_params = array(
+        $_url_params      = [
             'db'        => 'PMA',
-            'sql_query' => $simulated_query
-        );
-        $matched_rows_url  = 'sql.php' . PMA_URL_getCommon($_url_params);
+            'sql_query' => $simulated_query,
+        ];
+        $matched_rows_url = 'sql.php' . PMA_URL_getCommon($_url_params);
 
         $this->assertEquals(
-            array(
-                'sql_query' => PMA_Util::formatSql(
+            [
+                'sql_query'        => PMA_Util::formatSql(
                     $analyzed_sql_results['parsed_sql']['raw']
                 ),
-                'matched_rows' => 2,
-                'matched_rows_url' => $matched_rows_url
-            ),
+                'matched_rows'     => 2,
+                'matched_rows_url' => $matched_rows_url,
+            ],
             $simulated_data
         );
     }
@@ -453,7 +453,7 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
             ->getMock();
 
         // List of Transactional Engines.
-        $transactional_engines = array(
+        $transactional_engines = [
             'INNODB',
             'FALCON',
             'NDB',
@@ -461,8 +461,8 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
             'TOKUDB',
             'XTRADB',
             'SEQUENCE',
-            'BDB'
-        );
+            'BDB',
+        ];
 
         $check_query = 'SELECT `ENGINE` FROM `information_schema`.`tables` '
             . 'WHERE `table_name` = "%s" '
@@ -477,7 +477,7 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(0))
             ->method('tryQuery')
             ->with(sprintf($check_table_query, 'PMA', 'table_1'))
-            ->will($this->returnValue(array('table')));
+            ->will($this->returnValue(['table']));
 
         $dbi->expects($this->at(1))
             ->method('tryQuery')
@@ -491,7 +491,7 @@ class PMA_Import_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(3))
             ->method('tryQuery')
             ->with(sprintf($check_table_query, 'PMA', 'table_2'))
-            ->will($this->returnValue(array('table')));
+            ->will($this->returnValue(['table']));
 
         $dbi->expects($this->at(4))
             ->method('tryQuery')

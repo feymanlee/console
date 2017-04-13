@@ -34,13 +34,13 @@ class PMA_RTN_GetExecuteForm_Test extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         global $cfg;
-        $GLOBALS['PMA_Types'] = new PMA_Types_MySQL();
-        $GLOBALS['server'] = 0;
-        $cfg['ServerDefault'] = 1;
-        $GLOBALS['cfg']['ServerDefault'] = '';
-        $cfg['ShowFunctionFields'] = true;
-        $cfg['DefaultFunctions']['FUNC_NUMBER'] = '';
-        $cfg['DefaultFunctions']['FUNC_DATE'] = '';
+        $GLOBALS['PMA_Types']                    = new PMA_Types_MySQL();
+        $GLOBALS['server']                       = 0;
+        $cfg['ServerDefault']                    = 1;
+        $GLOBALS['cfg']['ServerDefault']         = '';
+        $cfg['ShowFunctionFields']               = true;
+        $cfg['DefaultFunctions']['FUNC_NUMBER']  = '';
+        $cfg['DefaultFunctions']['FUNC_DATE']    = '';
         $cfg['DefaultFunctions']['FUNC_SPATIAL'] = 'GeomFromText';
     }
 
@@ -71,7 +71,7 @@ class PMA_RTN_GetExecuteForm_Test extends PHPUnit_Framework_TestCase
      */
     public function provider_1()
     {
-        $data = array(
+        $data = [
             'item_name'                 => 'foo',
             'item_returnlength'         => '',
             'item_returnopts_num'       => '',
@@ -81,95 +81,95 @@ class PMA_RTN_GetExecuteForm_Test extends PHPUnit_Framework_TestCase
             'item_definer'              => '',
             'item_type'                 => 'PROCEDURE',
             'item_num_params'           => 6,
-            'item_param_dir'            => array(
+            'item_param_dir'            => [
                 0 => 'IN',
                 1 => 'OUT',
                 2 => 'IN',
                 3 => 'IN',
                 4 => 'IN',
-                5 => 'IN'
-            ),
-            'item_param_name'           => array(
+                5 => 'IN',
+            ],
+            'item_param_name'           => [
                 0 => 'foo',
                 1 => 'foa',
                 2 => 'fob',
                 3 => 'foc',
                 4 => 'fod',
-                5 => 'foe'
-            ),
-            'item_param_type'           => array(
+                5 => 'foe',
+            ],
+            'item_param_type'           => [
                 0 => 'DATE',
                 1 => 'VARCHAR',
                 2 => 'DATETIME',
                 3 => 'GEOMETRY',
                 4 => 'ENUM',
-                5 => 'SET'
-            ),
-            'item_param_length'         => array(
+                5 => 'SET',
+            ],
+            'item_param_length'         => [
                 0 => '',
                 1 => '22',
                 2 => '',
                 3 => '',
                 4 => "'a','b'",
-                5 => "'a','b'"
-            ),
-            'item_param_opts_num'       => array(
+                5 => "'a','b'",
+            ],
+            'item_param_opts_num'       => [
                 0 => '',
                 1 => '',
                 2 => '',
                 3 => '',
                 4 => '',
-                5 => ''
-            ),
-            'item_param_opts_text'      => array(
+                5 => '',
+            ],
+            'item_param_opts_text'      => [
                 0 => '',
                 1 => 'utf8',
                 2 => '',
                 3 => '',
                 4 => '',
-                5 => ''
-            ),
+                5 => '',
+            ],
             'item_returntype'           => '',
             'item_isdeterministic'      => '',
             'item_securitytype_definer' => '',
             'item_securitytype_invoker' => '',
-            'item_sqldataaccess'        => ''
-        );
+            'item_sqldataaccess'        => '',
+        ];
 
-        return array(
-            array(
+        return [
+            [
                 $data,
-                "name='item_name'"
-            ),
-            array(
+                "name='item_name'",
+            ],
+            [
                 $data,
-                "name='funcs[foo]'"
-            ),
-            array(
+                "name='funcs[foo]'",
+            ],
+            [
                 $data,
-                "<input class='datefield' type='text' name='params[foo]' />"
-            ),
-            array(
+                "<input class='datefield' type='text' name='params[foo]' />",
+            ],
+            [
                 $data,
-                "name='funcs[fob]'"
-            ),
-            array(
+                "name='funcs[fob]'",
+            ],
+            [
                 $data,
-                "<input class='datetimefield' type='text' name='params[fob]'"
-            ),
-            array(
+                "<input class='datetimefield' type='text' name='params[fob]'",
+            ],
+            [
                 $data,
-                "name='params[fod][]'"
-            ),
-            array(
+                "name='params[fod][]'",
+            ],
+            [
                 $data,
-                "name='params[foe][]'"
-            ),
-            array(
+                "name='params[foe][]'",
+            ],
+            [
                 $data,
-                "name='execute_routine'"
-            ),
-        );
+                "name='execute_routine'",
+            ],
+        ];
     }
 
     /**
@@ -199,7 +199,7 @@ class PMA_RTN_GetExecuteForm_Test extends PHPUnit_Framework_TestCase
      */
     public function provider_2()
     {
-        $data = array(
+        $data = [
             'item_name'                 => 'foo',
             'item_returnlength'         => '',
             'item_returnopts_num'       => '',
@@ -209,71 +209,72 @@ class PMA_RTN_GetExecuteForm_Test extends PHPUnit_Framework_TestCase
             'item_definer'              => '',
             'item_type'                 => 'PROCEDURE',
             'item_num_params'           => 6,
-            'item_param_dir'            => array(
+            'item_param_dir'            => [
                 0 => 'IN',
                 1 => 'OUT',
                 2 => 'IN',
                 3 => 'IN',
                 4 => 'IN',
-                5 => 'IN'
-            ),
-            'item_param_name'           => array(
+                5 => 'IN',
+            ],
+            'item_param_name'           => [
                 0 => 'foo',
                 1 => 'foa',
                 2 => 'fob',
                 3 => 'foc',
                 4 => 'fod',
-                5 => 'foe'
-            ),
-            'item_param_type'           => array(
+                5 => 'foe',
+            ],
+            'item_param_type'           => [
                 0 => 'DATE',
                 1 => 'VARCHAR',
                 2 => 'DATETIME',
                 3 => 'GEOMETRY',
                 4 => 'ENUM',
-                5 => 'SET'
-            ),
-            'item_param_length'         => array(
+                5 => 'SET',
+            ],
+            'item_param_length'         => [
                 0 => '',
                 1 => '22',
                 2 => '',
                 3 => '',
                 4 => "'a','b'",
-                5 => "'a','b'"
-            ),
-            'item_param_opts_num'       => array(
+                5 => "'a','b'",
+            ],
+            'item_param_opts_num'       => [
                 0 => '',
                 1 => '',
                 2 => '',
                 3 => '',
                 4 => '',
-                5 => ''
-            ),
-            'item_param_opts_text'      => array(
+                5 => '',
+            ],
+            'item_param_opts_text'      => [
                 0 => '',
                 1 => 'utf8',
                 2 => '',
                 3 => '',
                 4 => '',
-                5 => ''
-            ),
+                5 => '',
+            ],
             'item_returntype'           => '',
             'item_isdeterministic'      => '',
             'item_securitytype_definer' => '',
             'item_securitytype_invoker' => '',
-            'item_sqldataaccess'        => ''
-        );
+            'item_sqldataaccess'        => '',
+        ];
 
-        return array(
-            array(
+        return [
+            [
                 $data,
-                "name='execute_routine'"
-            ),
-            array(
+                "name='execute_routine'",
+            ],
+            [
                 $data,
-                "name='ajax_request'"
-            ),
-        );
+                "name='ajax_request'",
+            ],
+        ];
     }
 }
+
 ?>

@@ -4,7 +4,7 @@
  ** Test for PMA_Util::unsupportedDatatypes from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  ** Test for PMA_Util::unsupportedDatatypes from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_UnsupportedDatatypes_Test extends PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class PMA_UnsupportedDatatypes_Test extends PHPUnit_Framework_TestCase
      */
     function testNotSupportedDataTypes()
     {
-        $no_support_types = array();
+        $no_support_types = [];
         $this->assertEquals(
             $no_support_types, PMA_Util::unsupportedDatatypes()
         );

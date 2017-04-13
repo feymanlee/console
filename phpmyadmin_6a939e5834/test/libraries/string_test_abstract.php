@@ -38,11 +38,11 @@ abstract class PMA_StringTest extends PHPUnit_Framework_TestCase
      */
     public function providerStrlen()
     {
-        return array(
-            array(2, "ab"),
-            array(9, "test data"),
-            array(0, ""),
-        );
+        return [
+            [2, "ab"],
+            [9, "test data"],
+            [0, ""],
+        ];
     }
 
     /**
@@ -72,10 +72,10 @@ abstract class PMA_StringTest extends PHPUnit_Framework_TestCase
      */
     public function providerSubstr()
     {
-        return array(
-            array("b", "ab", 1, 1),
-            array("data", "testdata", 4, 4),
-        );
+        return [
+            ["b", "ab", 1, 1],
+            ["data", "testdata", 4, 4],
+        ];
     }
 
     /**
@@ -104,12 +104,12 @@ abstract class PMA_StringTest extends PHPUnit_Framework_TestCase
      */
     public function providerSubstrCount()
     {
-        return array(
-            array(1, "ab", "b"),
-            array(1, "testdata", "data"),
-            array(2, "testdata", "a"),
-            array(0, "testdata", "b"),
-        );
+        return [
+            [1, "ab", "b"],
+            [1, "testdata", "data"],
+            [2, "testdata", "a"],
+            [0, "testdata", "b"],
+        ];
     }
 
     /**
@@ -137,11 +137,11 @@ abstract class PMA_StringTest extends PHPUnit_Framework_TestCase
      */
     public function providerSubstrCountException()
     {
-        return array(
-            array("testdata", ""),
-            array("testdata", null),
-            array("testdata", false),
-        );
+        return [
+            ["testdata", ""],
+            ["testdata", null],
+            ["testdata", false],
+        ];
     }
 
     /**
@@ -171,10 +171,10 @@ abstract class PMA_StringTest extends PHPUnit_Framework_TestCase
      */
     public function providerStrpos()
     {
-        return array(
-            array(1, "ab", "b", 0),
-            array(4, "test data", " ", 0),
-        );
+        return [
+            [1, "ab", "b", 0],
+            [4, "test data", " ", 0],
+        ];
     }
 
     /**
@@ -203,27 +203,27 @@ abstract class PMA_StringTest extends PHPUnit_Framework_TestCase
      */
     public function providerStrrchr()
     {
-        return array(
-            array('abcdef', 'abcdefabcdef', 'a'),
-            array(false, 'abcdefabcdef', 'A'),
-            array('f', 'abcdefabcdef', 'f'),
-            array(false, 'abcdefabcdef', 'z'),
-            array(false, 'abcdefabcdef', ''),
-            array(false, 'abcdefabcdef', false),
-            array(false, 'abcdefabcdef', true),
-            array('123', '789456123', true),
-            array(false, '7894560123', false),
-            array(false, 'abcdefabcdef', null),
-            array(false, null, null),
-            array(false, null, 'a'),
-            array(false, null, '0'),
-            array(false, false, null),
-            array(false, false, 'a'),
-            array(false, false, '0'),
-            array(false, true, null),
-            array(false, true, 'a'),
-            array(false, true, '0'),
-        );
+        return [
+            ['abcdef', 'abcdefabcdef', 'a'],
+            [false, 'abcdefabcdef', 'A'],
+            ['f', 'abcdefabcdef', 'f'],
+            [false, 'abcdefabcdef', 'z'],
+            [false, 'abcdefabcdef', ''],
+            [false, 'abcdefabcdef', false],
+            [false, 'abcdefabcdef', true],
+            ['123', '789456123', true],
+            [false, '7894560123', false],
+            [false, 'abcdefabcdef', null],
+            [false, null, null],
+            [false, null, 'a'],
+            [false, null, '0'],
+            [false, false, null],
+            [false, false, 'a'],
+            [false, false, '0'],
+            [false, true, null],
+            [false, true, 'a'],
+            [false, true, '0'],
+        ];
     }
 
     /**
@@ -251,9 +251,9 @@ abstract class PMA_StringTest extends PHPUnit_Framework_TestCase
      */
     public function providerStrtolower()
     {
-        return array(
-            array("mary had a", "Mary Had A"),
-            array("test string", "TEST STRING")
-        );
+        return [
+            ["mary had a", "Mary Had A"],
+            ["test string", "TEST STRING"],
+        ];
     }
 }

@@ -4,7 +4,7 @@
  * Test for format number and byte
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -17,7 +17,7 @@ require_once 'libraries/php-gettext/gettext.inc';
  * Test for format number and byte
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_FormatNumberByteDown_Test extends PHPUnit_Framework_TestCase
 {
@@ -50,7 +50,7 @@ class PMA_FormatNumberByteDown_Test extends PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $GLOBALS = $this->tmpGlobals;
+        $GLOBALS  = $this->tmpGlobals;
         $_SESSION = $this->tmpSession;
 
     }
@@ -62,16 +62,16 @@ class PMA_FormatNumberByteDown_Test extends PHPUnit_Framework_TestCase
      */
     public function formatNumberDataProvider()
     {
-        return array(
-            array(10, 2, 2, '10  '),
-            array(100, 2, 0, '100  '),
-            array(100, 2, 2, '100  '),
-            array(-1000.454, 4, 2, '-1,000.45  '),
-            array(0.00003, 3, 2, '30 &micro;'),
-            array(0.003, 3, 3, '3 m'),
-            array(-0.003, 6, 0, '-3,000 &micro;'),
-            array(100.98, 0, 2, '100.98')
-        );
+        return [
+            [10, 2, 2, '10  '],
+            [100, 2, 0, '100  '],
+            [100, 2, 2, '100  '],
+            [-1000.454, 4, 2, '-1,000.45  '],
+            [0.00003, 3, 2, '30 &micro;'],
+            [0.003, 3, 3, '3 m'],
+            [-0.003, 6, 0, '-3,000 &micro;'],
+            [100.98, 0, 2, '100.98'],
+        ];
     }
 
     /**
@@ -90,7 +90,7 @@ class PMA_FormatNumberByteDown_Test extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $d,
-            (string) PMA_Util::formatNumber(
+            (string)PMA_Util::formatNumber(
                 $a, $b, $c, false
             )
         );
@@ -103,16 +103,16 @@ class PMA_FormatNumberByteDown_Test extends PHPUnit_Framework_TestCase
      */
     public function formatByteDownDataProvider()
     {
-        return array(
-            array(10, 2, 2, array('10', __('B'))),
-            array(100, 2, 0, array('0', __('KiB'))),
-            array(100, 3, 0, array('100', __('B'))),
-            array(100, 2, 2, array('0.10', __('KiB'))),
-            array(1034, 3, 2, array('1.01', __('KiB'))),
-            array(100233, 3, 3, array('97.884', __('KiB'))),
-            array(2206451, 1, 2, array('2.10', __('MiB'))),
-            array(21474836480, 4, 0, array('20', __('GiB')))
-        );
+        return [
+            [10, 2, 2, ['10', __('B')]],
+            [100, 2, 0, ['0', __('KiB')]],
+            [100, 3, 0, ['100', __('B')]],
+            [100, 2, 2, ['0.10', __('KiB')]],
+            [1034, 3, 2, ['1.01', __('KiB')]],
+            [100233, 3, 3, ['97.884', __('KiB')]],
+            [2206451, 1, 2, ['2.10', __('MiB')]],
+            [21474836480, 4, 0, ['20', __('GiB')]],
+        ];
     }
 
     /**
@@ -129,9 +129,10 @@ class PMA_FormatNumberByteDown_Test extends PHPUnit_Framework_TestCase
      */
     public function testFormatByteDown($a, $b, $c, $e)
     {
-        $result = PMA_Util::formatByteDown($a, $b, $c);
+        $result    = PMA_Util::formatByteDown($a, $b, $c);
         $result[0] = trim($result[0]);
         $this->assertEquals($e, $result);
     }
 }
+
 ?>

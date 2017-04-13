@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -26,8 +26,8 @@ class Table_Stats_Pdf extends TableStats
     /**
      * Defines properties
      */
-    public $nb_fiels;
-    public $height;
+    public  $nb_fiels;
+    public  $height;
     private $_ff = PMA_PDF_FONT;
 
     /**
@@ -43,7 +43,7 @@ class Table_Stats_Pdf extends TableStats
      * @param boolean $offline        Whether the coordinates are sent
      *                                from the browser
      *
-     * @global object $pdf         The current PDF document
+     * @global object $pdf            The current PDF document
      *
      * @see PMA_Schema_PDF, Table_Stats_Pdf::Table_Stats_setWidth,
      *     Table_Stats_Pdf::Table_Stats_setHeight
@@ -95,6 +95,7 @@ class Table_Stats_Pdf extends TableStats
         if ($this->tableDimension) {
             $ret = sprintf('%.0fx%0.f', $this->width, $this->height);
         }
+
         return $ret . ' ' . $this->tableName;
     }
 
@@ -103,13 +104,13 @@ class Table_Stats_Pdf extends TableStats
      *
      * @param integer $fontSize The font size
      *
-     * @global object $pdf The current PDF document
+     * @global object $pdf      The current PDF document
      *
      * @access private
      *
      * @return void
      *
-     * @see PMA_Schema_PDF
+     * @see    PMA_Schema_PDF
      */
     private function _setWidth($fontSize)
     {
@@ -149,13 +150,13 @@ class Table_Stats_Pdf extends TableStats
      * @param boolean         $withDoc  Whether to include links to documentation
      * @param boolean|integer $setColor Whether to display color
      *
-     * @global object $pdf The current PDF document
+     * @global object         $pdf      The current PDF document
      *
      * @access public
      *
      * @return void
      *
-     * @see PMA_Schema_PDF
+     * @see    PMA_Schema_PDF
      */
     public function tableDraw($fontSize, $withDoc, $setColor = 0)
     {

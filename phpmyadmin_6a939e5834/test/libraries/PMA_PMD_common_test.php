@@ -24,18 +24,18 @@ class PMA_PMD_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $GLOBALS['server'] = 1;
+        $GLOBALS['server']      = 1;
         $GLOBALS['controllink'] = 2;
-        $_SESSION = array(
-            'relation' => array(
-                '1' => array(
-                    'db' => 'pmadb',
-                    'pdf_pages' => 'pdf_pages',
-                    'pdfwork' => true,
-                    'table_coords' => 'table_coords'
-                )
-            )
-        );
+        $_SESSION               = [
+            'relation' => [
+                '1' => [
+                    'db'           => 'pmadb',
+                    'pdf_pages'    => 'pdf_pages',
+                    'pdfwork'      => true,
+                    'table_coords' => 'table_coords',
+                ],
+            ],
+        ];
 
         include_once 'libraries/relation.lib.php';
         include_once 'libraries/pmd_common.php';
@@ -83,7 +83,7 @@ class PMA_PMD_CommonTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPageName()
     {
-        $pg = 1;
+        $pg       = 1;
         $pageName = 'pageName';
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
@@ -100,7 +100,7 @@ class PMA_PMD_CommonTest extends PHPUnit_Framework_TestCase
                 2,
                 PMA_DatabaseInterface::QUERY_STORE
             )
-            ->will($this->returnValue(array($pageName)));
+            ->will($this->returnValue([$pageName]));
         $GLOBALS['dbi'] = $dbi;
 
         $result = PMA_getPageName($pg);
@@ -171,7 +171,7 @@ class PMA_PMD_CommonTest extends PHPUnit_Framework_TestCase
                 2,
                 PMA_DatabaseInterface::QUERY_STORE
             )
-            ->will($this->returnValue(array($pg)));
+            ->will($this->returnValue([$pg]));
         $GLOBALS['dbi'] = $dbi;
 
         $result = PMA_getFirstPage($db);
@@ -179,4 +179,5 @@ class PMA_PMD_CommonTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($pg, $result);
     }
 }
+
 ?>

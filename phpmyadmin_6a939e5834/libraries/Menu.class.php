@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -69,8 +69,9 @@ class PMA_Menu
      */
     public function getDisplay()
     {
-        $retval  = $this->_getBreadcrumbs();
+        $retval = $this->_getBreadcrumbs();
         $retval .= $this->_getMenu();
+
         return $retval;
     }
 
@@ -95,26 +96,31 @@ class PMA_Menu
      */
     private function _getMenu()
     {
-        $url_params = array('db' => $this->_db);
+        $url_params = ['db' => $this->_db];
 
-        if (/*overload*/mb_strlen($this->_table)) {
-            $tabs = $this->_getTableTabs();
+        if (/*overload*/
+        mb_strlen($this->_table)
+        ) {
+            $tabs                = $this->_getTableTabs();
             $url_params['table'] = $this->_table;
-            $level = 'table';
-        } else if (/*overload*/mb_strlen($this->_db)) {
-            $tabs = $this->_getDbTabs();
+            $level               = 'table';
+        } else if (/*overload*/
+        mb_strlen($this->_db)
+        ) {
+            $tabs  = $this->_getDbTabs();
             $level = 'db';
         } else {
-            $tabs = $this->_getServerTabs();
+            $tabs  = $this->_getServerTabs();
             $level = 'server';
         }
 
         $allowedTabs = $this->_getAllowedTabs($level);
         foreach ($tabs as $key => $value) {
-            if (! array_key_exists($key, $allowedTabs)) {
+            if (!array_key_exists($key, $allowedTabs)) {
                 unset($tabs[$key]);
             }
         }
+
         return PMA_Util::getHtmlTabs($tabs, $url_params, 'topmenu', true);
     }
 
@@ -133,7 +139,7 @@ class PMA_Menu
             $groupTable = PMA_Util::backquote($cfgRelation['db'])
                 . "."
                 . PMA_Util::backquote($cfgRelation['usergroups']);
-            $userTable = PMA_Util::backquote($cfgRelation['db'])
+            $userTable  = PMA_Util::backquote($cfgRelation['db'])
                 . "." . PMA_Util::backquote($cfgRelation['users']);
 
             $sql_query = "SELECT `tab` FROM " . $groupTable
@@ -146,14 +152,17 @@ class PMA_Menu
             $result = PMA_queryAsControlUser($sql_query, false);
             if ($result) {
                 while ($row = $GLOBALS['dbi']->fetchAssoc($result)) {
-                    $tabName = /*overload*/mb_substr(
-                        $row['tab'],
-                        /*overload*/mb_strpos($row['tab'], '_') + 1
-                    );
+                    $tabName = /*overload*/
+                        mb_substr(
+                            $row['tab'],
+                            /*overload*/
+                            mb_strpos($row['tab'], '_') + 1
+                        );
                     unset($allowedTabs[$tabName]);
                 }
             }
         }
+
         return $allowedTabs;
     }
 
@@ -164,9 +173,9 @@ class PMA_Menu
      */
     private function _getBreadcrumbs()
     {
-        $retval = '';
+        $retval      = '';
         $tbl_is_view = PMA_Table::isView($this->_db, $this->_table);
-        $server_info = ! empty($GLOBALS['cfg']['Server']['verbose'])
+        $server_info = !empty($GLOBALS['cfg']['Server']['verbose'])
             ? $GLOBALS['cfg']['Server']['verbose']
             : $GLOBALS['cfg']['Server']['host'];
         $server_info .= empty($GLOBALS['cfg']['Server']['port'])
@@ -174,7 +183,7 @@ class PMA_Menu
             : ':' . $GLOBALS['cfg']['Server']['port'];
 
         $separator = "<span class='separator item'>&nbsp;»</span>";
-        $item = '<a href="%1$s%2$s" class="item">';
+        $item      = '<a href="%1$s%2$s" class="item">';
 
         if (PMA_Util::showText('TabsMode')) {
             $item .= '%4$s: ';
@@ -186,7 +195,7 @@ class PMA_Menu
             $retval .= PMA_Util::getImage(
                 's_host.png',
                 '',
-                array('class' => 'item')
+                ['class' => 'item']
             );
         }
         $retval .= sprintf(
@@ -197,26 +206,29 @@ class PMA_Menu
             __('Server')
         );
 
-        if (/*overload*/mb_strlen($this->_db)) {
+        if (/*overload*/
+        mb_strlen($this->_db)
+        ) {
             $retval .= $separator;
             if (PMA_Util::showIcons('TabsMode')) {
                 $retval .= PMA_Util::getImage(
                     's_db.png',
                     '',
-                    array('class' => 'item')
+                    ['class' => 'item']
                 );
             }
             $retval .= sprintf(
                 $item,
                 $GLOBALS['cfg']['DefaultTabDatabase'],
-                PMA_URL_getCommon(array('db' => $this->_db)),
+                PMA_URL_getCommon(['db' => $this->_db]),
                 htmlspecialchars($this->_db),
                 __('Database')
             );
             // if the table is being dropped, $_REQUEST['purge'] is set to '1'
             // so do not display the table name in upper div
-            if (/*overload*/mb_strlen($this->_table)
-                && ! (isset($_REQUEST['purge']) && $_REQUEST['purge'] == '1')
+            if (/*overload*/
+                mb_strlen($this->_table)
+                && !(isset($_REQUEST['purge']) && $_REQUEST['purge'] == '1')
             ) {
                 include './libraries/tbl_info.inc.php';
 
@@ -226,16 +238,16 @@ class PMA_Menu
                     $retval .= PMA_Util::getImage(
                         $icon,
                         '',
-                        array('class' => 'item')
+                        ['class' => 'item']
                     );
                 }
                 $retval .= sprintf(
                     $item,
                     $GLOBALS['cfg']['DefaultTabTable'],
                     PMA_URL_getCommon(
-                        array(
-                            'db' => $this->_db, 'table' => $this->_table
-                        )
+                        [
+                            'db' => $this->_db, 'table' => $this->_table,
+                        ]
                     ),
                     str_replace(' ', '&nbsp;', htmlspecialchars($this->_table)),
                     $tbl_is_view ? __('View') : __('Table')
@@ -244,10 +256,12 @@ class PMA_Menu
                 /**
                  * Displays table comment
                  */
-                if (! empty($show_comment)
-                    && ! isset($GLOBALS['avoid_show_comment'])
+                if (!empty($show_comment)
+                    && !isset($GLOBALS['avoid_show_comment'])
                 ) {
-                    if (/*overload*/mb_strstr($show_comment, '; InnoDB free')) {
+                    if (/*overload*/
+                    mb_strstr($show_comment, '; InnoDB free')
+                    ) {
                         $show_comment = preg_replace(
                             '@; InnoDB free:.*?$@',
                             '',
@@ -270,7 +284,7 @@ class PMA_Menu
                     /**
                      * Displays table comment
                      */
-                    if (! empty($comment)) {
+                    if (!empty($comment)) {
                         $retval .= '<span class="table_comment"'
                             . ' id="span_table_comment">&quot;'
                             . htmlspecialchars($comment)
@@ -281,6 +295,7 @@ class PMA_Menu
         }
         $retval .= '<div class="clearfloat"></div>';
         $retval .= '</div>';
+
         return $retval;
     }
 
@@ -292,72 +307,72 @@ class PMA_Menu
     private function _getTableTabs()
     {
         $db_is_system_schema = $GLOBALS['dbi']->isSystemSchema($this->_db);
-        $tbl_is_view = PMA_Table::isView($this->_db, $this->_table);
-        $is_superuser = $GLOBALS['dbi']->isSuperuser();
+        $tbl_is_view         = PMA_Table::isView($this->_db, $this->_table);
+        $is_superuser        = $GLOBALS['dbi']->isSuperuser();
         $isCreateOrGrantUser = $GLOBALS['dbi']->isUserType('grant')
             || $GLOBALS['dbi']->isUserType('create');
 
-        $tabs = array();
+        $tabs = [];
 
-        $tabs['browse']['icon'] = 'b_browse.png';
-        $tabs['browse']['text'] = __('Browse');
-        $tabs['browse']['link'] = 'sql.php';
+        $tabs['browse']['icon']        = 'b_browse.png';
+        $tabs['browse']['text']        = __('Browse');
+        $tabs['browse']['link']        = 'sql.php';
         $tabs['browse']['args']['pos'] = 0;
 
-        $tabs['structure']['icon'] = 'b_props.png';
-        $tabs['structure']['link'] = 'tbl_structure.php';
-        $tabs['structure']['text'] = __('Structure');
+        $tabs['structure']['icon']   = 'b_props.png';
+        $tabs['structure']['link']   = 'tbl_structure.php';
+        $tabs['structure']['text']   = __('Structure');
         $tabs['structure']['active'] = in_array(
             basename($GLOBALS['PMA_PHP_SELF']),
-            array('tbl_structure.php', 'tbl_relation.php')
+            ['tbl_structure.php', 'tbl_relation.php']
         );
 
         $tabs['sql']['icon'] = 'b_sql.png';
         $tabs['sql']['link'] = 'tbl_sql.php';
         $tabs['sql']['text'] = __('SQL');
 
-        $tabs['search']['icon'] = 'b_search.png';
-        $tabs['search']['text'] = __('Search');
-        $tabs['search']['link'] = 'tbl_select.php';
+        $tabs['search']['icon']   = 'b_search.png';
+        $tabs['search']['text']   = __('Search');
+        $tabs['search']['link']   = 'tbl_select.php';
         $tabs['search']['active'] = in_array(
             basename($GLOBALS['PMA_PHP_SELF']),
-            array('tbl_select.php', 'tbl_zoom_select.php', 'tbl_find_replace.php')
+            ['tbl_select.php', 'tbl_zoom_select.php', 'tbl_find_replace.php']
         );
 
-        if (! $db_is_system_schema) {
+        if (!$db_is_system_schema) {
             $tabs['insert']['icon'] = 'b_insrow.png';
             $tabs['insert']['link'] = 'tbl_change.php';
             $tabs['insert']['text'] = __('Insert');
         }
 
-        $tabs['export']['icon'] = 'b_tblexport.png';
-        $tabs['export']['link'] = 'tbl_export.php';
+        $tabs['export']['icon']                 = 'b_tblexport.png';
+        $tabs['export']['link']                 = 'tbl_export.php';
         $tabs['export']['args']['single_table'] = 'true';
-        $tabs['export']['text'] = __('Export');
+        $tabs['export']['text']                 = __('Export');
 
         /**
          * Don't display "Import" for views and information_schema
          */
-        if (! $tbl_is_view && ! $db_is_system_schema) {
+        if (!$tbl_is_view && !$db_is_system_schema) {
             $tabs['import']['icon'] = 'b_tblimport.png';
             $tabs['import']['link'] = 'tbl_import.php';
             $tabs['import']['text'] = __('Import');
         }
         if (($is_superuser || $isCreateOrGrantUser)
-            && ! PMA_DRIZZLE && ! $db_is_system_schema
+            && !PMA_DRIZZLE && !$db_is_system_schema
         ) {
-            $tabs['privileges']['link'] = 'server_privileges.php';
-            $tabs['privileges']['args']['checkprivsdb'] = $this->_db;
+            $tabs['privileges']['link']                    = 'server_privileges.php';
+            $tabs['privileges']['args']['checkprivsdb']    = $this->_db;
             $tabs['privileges']['args']['checkprivstable'] = $this->_table;
             // stay on table view
             $tabs['privileges']['args']['viewing_mode'] = 'table';
-            $tabs['privileges']['text'] = __('Privileges');
-            $tabs['privileges']['icon'] = 's_rights.png';
+            $tabs['privileges']['text']                 = __('Privileges');
+            $tabs['privileges']['icon']                 = 's_rights.png';
         }
         /**
          * Don't display "Operations" for views and information_schema
          */
-        if (! $tbl_is_view && ! $db_is_system_schema) {
+        if (!$tbl_is_view && !$db_is_system_schema) {
             $tabs['operation']['icon'] = 'b_tblops.png';
             $tabs['operation']['link'] = 'tbl_operations.php';
             $tabs['operation']['text'] = __('Operations');
@@ -365,7 +380,7 @@ class PMA_Menu
         /**
          * Views support a limited number of operations
          */
-        if ($tbl_is_view && ! $db_is_system_schema) {
+        if ($tbl_is_view && !$db_is_system_schema) {
             $tabs['operation']['icon'] = 'b_tblops.png';
             $tabs['operation']['link'] = 'view_operations.php';
             $tabs['operation']['text'] = __('Operations');
@@ -376,14 +391,14 @@ class PMA_Menu
             $tabs['tracking']['text'] = __('Tracking');
             $tabs['tracking']['link'] = 'tbl_tracking.php';
         }
-        if (! $db_is_system_schema
-            && ! PMA_DRIZZLE
+        if (!$db_is_system_schema
+            && !PMA_DRIZZLE
             && PMA_Util::currentUserHasPrivilege(
                 'TRIGGER',
                 $this->_db,
                 $this->_table
             )
-            && ! $tbl_is_view
+            && !$tbl_is_view
         ) {
             $tabs['triggers']['link'] = 'tbl_triggers.php';
             $tabs['triggers']['text'] = __('Triggers');
@@ -401,8 +416,8 @@ class PMA_Menu
     private function _getDbTabs()
     {
         $db_is_system_schema = $GLOBALS['dbi']->isSystemSchema($this->_db);
-        $num_tables = count($GLOBALS['dbi']->getTables($this->_db));
-        $is_superuser = $GLOBALS['dbi']->isSuperuser();
+        $num_tables          = count($GLOBALS['dbi']->getTables($this->_db));
+        $is_superuser        = $GLOBALS['dbi']->isSuperuser();
         $isCreateOrGrantUser = $GLOBALS['dbi']->isUserType('grant')
             || $GLOBALS['dbi']->isUserType('create');
 
@@ -411,7 +426,7 @@ class PMA_Menu
          */
         $cfgRelation = PMA_getRelationsParam();
 
-        $tabs = array();
+        $tabs = [];
 
         $tabs['structure']['link'] = 'db_structure.php';
         $tabs['structure']['text'] = __('Structure');
@@ -442,7 +457,7 @@ class PMA_Menu
             $tabs['export']['warning'] = __('Database seems to be empty!');
         }
 
-        if (! $db_is_system_schema) {
+        if (!$db_is_system_schema) {
             $tabs['import']['link'] = 'db_import.php';
             $tabs['import']['text'] = __('Import');
             $tabs['import']['icon'] = 'b_import.png';
@@ -451,27 +466,27 @@ class PMA_Menu
             $tabs['operation']['text'] = __('Operations');
             $tabs['operation']['icon'] = 'b_tblops.png';
 
-            if (($is_superuser || $isCreateOrGrantUser) && ! PMA_DRIZZLE) {
-                $tabs['privileges']['link'] = 'server_privileges.php';
+            if (($is_superuser || $isCreateOrGrantUser) && !PMA_DRIZZLE) {
+                $tabs['privileges']['link']                 = 'server_privileges.php';
                 $tabs['privileges']['args']['checkprivsdb'] = $this->_db;
                 // stay on database view
                 $tabs['privileges']['args']['viewing_mode'] = 'db';
-                $tabs['privileges']['text'] = __('Privileges');
-                $tabs['privileges']['icon'] = 's_rights.png';
+                $tabs['privileges']['text']                 = __('Privileges');
+                $tabs['privileges']['icon']                 = 's_rights.png';
             }
-            if (! PMA_DRIZZLE) {
+            if (!PMA_DRIZZLE) {
                 $tabs['routines']['link'] = 'db_routines.php';
                 $tabs['routines']['text'] = __('Routines');
                 $tabs['routines']['icon'] = 'b_routines.png';
             }
-            if (! PMA_DRIZZLE
+            if (!PMA_DRIZZLE
                 && PMA_Util::currentUserHasPrivilege('EVENT', $this->_db)
             ) {
                 $tabs['events']['link'] = 'db_events.php';
                 $tabs['events']['text'] = __('Events');
                 $tabs['events']['icon'] = 'b_events.png';
             }
-            if (! PMA_DRIZZLE
+            if (!PMA_DRIZZLE
                 && PMA_Util::currentUserHasPrivilege('TRIGGER', $this->_db)
             ) {
                 $tabs['triggers']['link'] = 'db_triggers.php';
@@ -486,14 +501,14 @@ class PMA_Menu
             $tabs['tracking']['link'] = 'db_tracking.php';
         }
 
-        if (! $db_is_system_schema) {
+        if (!$db_is_system_schema) {
             $tabs['designer']['text'] = __('Designer');
             $tabs['designer']['icon'] = 'b_relations.png';
             $tabs['designer']['link'] = 'db_designer.php';
-            $tabs['designer']['id'] = 'designer_tab';
+            $tabs['designer']['id']   = 'designer_tab';
         }
 
-        if (! $db_is_system_schema
+        if (!$db_is_system_schema
             && isset($cfgRelation['central_columnswork'])
             && $cfgRelation['central_columnswork']
         ) {
@@ -501,6 +516,7 @@ class PMA_Menu
             $tabs['central_columns']['icon'] = 'centralColumns.png';
             $tabs['central_columns']['link'] = 'db_central_columns.php';
         }
+
         return $tabs;
     }
 
@@ -511,11 +527,11 @@ class PMA_Menu
      */
     private function _getServerTabs()
     {
-        $is_superuser = $GLOBALS['dbi']->isSuperuser();
+        $is_superuser        = $GLOBALS['dbi']->isSuperuser();
         $isCreateOrGrantUser = $GLOBALS['dbi']->isUserType('grant')
             || $GLOBALS['dbi']->isUserType('create');
-        $binary_logs = null;
-        if (! defined('PMA_DRIZZLE') || ! PMA_DRIZZLE) {
+        $binary_logs         = null;
+        if (!defined('PMA_DRIZZLE') || !PMA_DRIZZLE) {
             if (PMA_Util::cacheExists('binary_logs')) {
                 $binary_logs = PMA_Util::cacheGet('binary_logs');
             } else {
@@ -530,7 +546,7 @@ class PMA_Menu
             }
         }
 
-        $tabs = array();
+        $tabs = [];
 
         $tabs['databases']['icon'] = 's_db.png';
         $tabs['databases']['link'] = 'server_databases.php';
@@ -540,28 +556,28 @@ class PMA_Menu
         $tabs['sql']['link'] = 'server_sql.php';
         $tabs['sql']['text'] = __('SQL');
 
-        $tabs['status']['icon'] = 's_status.png';
-        $tabs['status']['link'] = 'server_status.php';
-        $tabs['status']['text'] = __('Status');
+        $tabs['status']['icon']   = 's_status.png';
+        $tabs['status']['link']   = 'server_status.php';
+        $tabs['status']['text']   = __('Status');
         $tabs['status']['active'] = in_array(
             basename($GLOBALS['PMA_PHP_SELF']),
-            array(
+            [
                 'server_status.php',
                 'server_status_advisor.php',
                 'server_status_monitor.php',
                 'server_status_queries.php',
                 'server_status_variables.php',
-                'server_status_processes.php'
-            )
+                'server_status_processes.php',
+            ]
         );
 
-        if (($is_superuser || $isCreateOrGrantUser) && ! PMA_DRIZZLE) {
-            $tabs['rights']['icon'] = 's_rights.png';
-            $tabs['rights']['link'] = 'server_privileges.php';
-            $tabs['rights']['text'] = __('Users');
-            $tabs['rights']['active'] = in_array(
+        if (($is_superuser || $isCreateOrGrantUser) && !PMA_DRIZZLE) {
+            $tabs['rights']['icon']                 = 's_rights.png';
+            $tabs['rights']['link']                 = 'server_privileges.php';
+            $tabs['rights']['text']                 = __('Users');
+            $tabs['rights']['active']               = in_array(
                 basename($GLOBALS['PMA_PHP_SELF']),
-                array('server_privileges.php', 'server_user_groups.php')
+                ['server_privileges.php', 'server_user_groups.php']
             );
             $tabs['rights']['args']['viewing_mode'] = 'server';
         }
@@ -579,16 +595,16 @@ class PMA_Menu
         $tabs['settings']['text']   = __('Settings');
         $tabs['settings']['active'] = in_array(
             basename($GLOBALS['PMA_PHP_SELF']),
-            array('prefs_forms.php', 'prefs_manage.php')
+            ['prefs_forms.php', 'prefs_manage.php']
         );
 
-        if (! empty($binary_logs)) {
+        if (!empty($binary_logs)) {
             $tabs['binlog']['icon'] = 's_tbl.png';
             $tabs['binlog']['link'] = 'server_binlog.php';
             $tabs['binlog']['text'] = __('Binary log');
         }
 
-        if ($is_superuser && ! PMA_DRIZZLE) {
+        if ($is_superuser && !PMA_DRIZZLE) {
             $tabs['replication']['icon'] = 's_replication.png';
             $tabs['replication']['link'] = 'server_replication.php';
             $tabs['replication']['text'] = __('Replication');
@@ -611,6 +627,7 @@ class PMA_Menu
             $tabs['engine']['link'] = 'server_engines.php';
             $tabs['engine']['text'] = __('Engines');
         }
+
         return $tabs;
     }
 
@@ -624,6 +641,7 @@ class PMA_Menu
     public function setTable($table)
     {
         $this->_table = $table;
+
         return $this;
     }
 }

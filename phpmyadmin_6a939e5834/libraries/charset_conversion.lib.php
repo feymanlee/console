@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -15,7 +15,7 @@ define('PMA_CHARSET_RECODE', 2);
 define('PMA_CHARSET_ICONV_AIX', 3);
 define('PMA_CHARSET_MB', 4);
 
-if (! isset($GLOBALS['cfg']['RecodingEngine'])) {
+if (!isset($GLOBALS['cfg']['RecodingEngine'])) {
     $GLOBALS['cfg']['RecodingEngine'] = '';
 }
 // Finally detect which function we will use:
@@ -60,9 +60,9 @@ if ($PMA_recoding_engine == PMA_CHARSET_ICONV_AIX) {
 }
 
 /**
- * Determines the correct recoding engine to use 
+ * Determines the correct recoding engine to use
  *
- * @return int $PMA_recoding_engine 
+ * @return int $PMA_recoding_engine
  *
  * @access  public
  *
@@ -98,22 +98,22 @@ function PMA_convertString($src_charset, $dest_charset, $what)
         return $what;
     }
     switch ($GLOBALS['PMA_recoding_engine']) {
-    case PMA_CHARSET_RECODE:
-        return recode_string($src_charset . '..'  . $dest_charset, $what);
-    case PMA_CHARSET_ICONV:
-        return iconv(
-            $src_charset, $dest_charset . $GLOBALS['cfg']['IconvExtraParams'], $what
-        );
-    case PMA_CHARSET_ICONV_AIX:
-        return PMA_convertAIXIconv(
-            $src_charset, $dest_charset . $GLOBALS['cfg']['IconvExtraParams'], $what
-        );
-    case PMA_CHARSET_MB:
-        return mb_convert_encoding(
-            $what, $dest_charset, $src_charset
-        );
-    default:
-        return $what;
+        case PMA_CHARSET_RECODE:
+            return recode_string($src_charset . '..' . $dest_charset, $what);
+        case PMA_CHARSET_ICONV:
+            return iconv(
+                $src_charset, $dest_charset . $GLOBALS['cfg']['IconvExtraParams'], $what
+            );
+        case PMA_CHARSET_ICONV_AIX:
+            return PMA_convertAIXIconv(
+                $src_charset, $dest_charset . $GLOBALS['cfg']['IconvExtraParams'], $what
+            );
+        case PMA_CHARSET_MB:
+            return mb_convert_encoding(
+                $what, $dest_charset, $src_charset
+            );
+        default:
+            return $what;
     }
 } //  end of the "PMA_convertString()" function
 

@@ -15,11 +15,12 @@ require_once 'libraries/config.default.php';
 require_once 'libraries/php-gettext/gettext.inc';
 require_once 'libraries/Message.class.php';
 require_once 'export.php';
+
 /**
  * tests for ExportCsv class
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
 {
@@ -33,7 +34,7 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
     function setup()
     {
         $GLOBALS['server'] = 0;
-        $this->object = new ExportCsv();
+        $this->object      = new ExportCsv();
     }
 
     /**
@@ -99,7 +100,7 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
         );
 
         $generalOptionsArray = $options->getProperties();
-        $generalOptions = $generalOptionsArray[0];
+        $generalOptions      = $generalOptionsArray[0];
 
         $this->assertInstanceOf(
             'OptionsPropertyMainGroup',
@@ -255,7 +256,7 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
     {
         // case 1
 
-        $GLOBALS['what'] = 'excel';
+        $GLOBALS['what']          = 'excel';
         $GLOBALS['excel_edition'] = 'win';
         $GLOBALS['excel_columns'] = true;
 
@@ -372,10 +373,10 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
 
         // case 5
 
-        $GLOBALS['what'] = 'notExcel';
-        $GLOBALS['crlf'] = "\n";
+        $GLOBALS['what']           = 'notExcel';
+        $GLOBALS['crlf']           = "\n";
         $GLOBALS['csv_terminated'] = '';
-        $GLOBALS['csv_separator'] = 'a\\t';
+        $GLOBALS['csv_separator']  = 'a\\t';
 
         $this->assertTrue(
             $this->object->exportHeader()
@@ -406,7 +407,7 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
         // case 7
 
         $GLOBALS['csv_terminated'] = 'a\\rb\\nc\\t';
-        $GLOBALS['csv_separator'] = 'a\\t';
+        $GLOBALS['csv_separator']  = 'a\\t';
 
         $this->assertTrue(
             $this->object->exportHeader()
@@ -479,20 +480,20 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
     public function testExportData()
     {
         // case 1
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi            = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $GLOBALS['dbi'] = $dbi;
 
-        $GLOBALS['csv_columns'] = 'yes';
+        $GLOBALS['csv_columns']    = 'yes';
         $GLOBALS['csv_terminated'] = ';';
 
-        $GLOBALS['output_kanji_conversion'] = false;
+        $GLOBALS['output_kanji_conversion']   = false;
         $GLOBALS['output_charset_conversion'] = false;
-        $GLOBALS['buffer_needed'] = false;
-        $GLOBALS['asfile'] = true;
-        $GLOBALS['save_on_server'] = true;
-        $GLOBALS['file_handle'] = null;
+        $GLOBALS['buffer_needed']             = false;
+        $GLOBALS['asfile']                    = true;
+        $GLOBALS['save_on_server']            = true;
+        $GLOBALS['file_handle']               = null;
 
         ob_start();
         $this->assertFalse(
@@ -525,7 +526,7 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(3))
             ->method('fetchRow')
             ->with(true)
-            ->will($this->returnValue(array(null, 'b', 'c', false, 'e', 'f')));
+            ->will($this->returnValue([null, 'b', 'c', false, 'e', 'f']));
 
         $dbi->expects($this->at(4))
             ->method('fetchRow')
@@ -533,13 +534,13 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(null));
         $GLOBALS['dbi'] = $dbi;
 
-        $GLOBALS['what'] = 'UT';
-        $GLOBALS['UT_null'] = 'customNull';
-        $GLOBALS['output_kanji_conversion'] = false;
+        $GLOBALS['what']                      = 'UT';
+        $GLOBALS['UT_null']                   = 'customNull';
+        $GLOBALS['output_kanji_conversion']   = false;
         $GLOBALS['output_charset_conversion'] = false;
-        $GLOBALS['buffer_needed'] = false;
-        $GLOBALS['asfile'] = true;
-        $GLOBALS['save_on_server'] = false;
+        $GLOBALS['buffer_needed']             = false;
+        $GLOBALS['asfile']                    = true;
+        $GLOBALS['save_on_server']            = false;
 
         ob_start();
         $this->assertTrue(
@@ -578,7 +579,7 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(3))
             ->method('fetchRow')
             ->with(true)
-            ->will($this->returnValue(array(1 => 'a')));
+            ->will($this->returnValue([1 => 'a']));
 
         $dbi->expects($this->at(4))
             ->method('fetchRow')
@@ -625,7 +626,7 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(3))
             ->method('fetchRow')
             ->with(true)
-            ->will($this->returnValue(array("test\015\012\n")));
+            ->will($this->returnValue(["test\015\012\n"]));
 
         $dbi->expects($this->at(4))
             ->method('fetchRow')
@@ -633,10 +634,10 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(null));
         $GLOBALS['dbi'] = $dbi;
 
-        $GLOBALS['csv_enclosed'] = '"';
-        $GLOBALS['what'] = 'excel';
+        $GLOBALS['csv_enclosed']     = '"';
+        $GLOBALS['what']             = 'excel';
         $GLOBALS['excel_removeCRLF'] = true;
-        $GLOBALS['csv_escaped'] = '"';
+        $GLOBALS['csv_escaped']      = '"';
 
         ob_start();
         $this->assertTrue(
@@ -675,7 +676,7 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(3))
             ->method('fetchRow')
             ->with(true)
-            ->will($this->returnValue(array("test\015\n")));
+            ->will($this->returnValue(["test\015\n"]));
 
         $dbi->expects($this->at(4))
             ->method('fetchRow')
@@ -723,7 +724,7 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(4))
             ->method('fetchRow')
             ->with(true)
-            ->will($this->returnValue(array("test\015\n", "test\n")));
+            ->will($this->returnValue(["test\015\n", "test\n"]));
 
         $dbi->expects($this->at(5))
             ->method('fetchRow')
@@ -732,8 +733,8 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
         $GLOBALS['dbi'] = $dbi;
 
         $GLOBALS['csv_enclosed'] = '"';
-        $GLOBALS['csv_escaped'] = ';';
-        $GLOBALS['csv_escaped'] = '#';
+        $GLOBALS['csv_escaped']  = ';';
+        $GLOBALS['csv_escaped']  = '#';
 
         ob_start();
         $this->assertTrue(
@@ -751,4 +752,5 @@ class PMA_ExportCsv_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

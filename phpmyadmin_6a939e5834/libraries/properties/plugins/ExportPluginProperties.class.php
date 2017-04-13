@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -15,7 +15,7 @@ require_once 'PluginPropertyItem.class.php';
 /**
  * Defines possible options and getters and setters for them.
  *
- * @todo modify descriptions if needed, when the plug-in properties are integrated
+ * @todo    modify descriptions if needed, when the plug-in properties are integrated
  * @package PhpMyAdmin
  */
 class ExportPluginProperties extends PluginPropertyItem
@@ -65,4 +65,5 @@ class ExportPluginProperties extends PluginPropertyItem
         $this->_forceFile = $forceFile;
     }
 }
+
 ?>

@@ -8,7 +8,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -21,7 +21,7 @@ if (! defined('PHPMYADMIN')) {
  */
 function PMA_getHtmlForMonitor($ServerStatusData)
 {
-    $retval  = PMA_getHtmlForTabLinks();
+    $retval = PMA_getHtmlForTabLinks();
 
     $retval .= PMA_getHtmlForSettingsDialog();
 
@@ -29,7 +29,7 @@ function PMA_getHtmlForMonitor($ServerStatusData)
 
     $retval .= PMA_getHtmlForAddChartDialog();
 
-    if (! PMA_DRIZZLE) {
+    if (!PMA_DRIZZLE) {
         $retval .= PMA_getHtmlForAnalyseDialog();
     }
 
@@ -40,8 +40,8 @@ function PMA_getHtmlForMonitor($ServerStatusData)
 
     $retval .= '<script type="text/javascript">';
     $retval .= 'variableNames = [ ';
-    $i=0;
-    foreach ($ServerStatusData->status as $name=>$value) {
+    $i = 0;
+    foreach ($ServerStatusData->status as $name => $value) {
         if (is_numeric($value)) {
             if ($i++ > 0) {
                 $retval .= ", ";
@@ -62,7 +62,7 @@ function PMA_getHtmlForMonitor($ServerStatusData)
  */
 function PMA_getHtmlForAnalyseDialog()
 {
-    $retval  = '<div id="logAnalyseDialog" title="';
+    $retval = '<div id="logAnalyseDialog" title="';
     $retval .= __('Log statistics') . '" style="display:none;">';
     $retval .= '<p>' . __('Selected time range:');
     $retval .= '<input type="text" name="dateStart"'
@@ -106,7 +106,7 @@ function PMA_getHtmlForAnalyseDialog()
  */
 function PMA_getHtmlForInstructionsDialog()
 {
-    $retval  = '<div id="monitorInstructionsDialog" title="';
+    $retval = '<div id="monitorInstructionsDialog" title="';
     $retval .= __('Monitor Instructions') . '" style="display:none;">';
     $retval .= __(
         'The phpMyAdmin Monitor can assist you in optimizing the server'
@@ -167,7 +167,7 @@ function PMA_getHtmlForInstructionsDialog()
  */
 function PMA_getHtmlForAddChartDialog()
 {
-    $retval  = '<div id="addChartDialog" title="'
+    $retval = '<div id="addChartDialog" title="'
         . __('Add chart') . '" style="display:none;">';
     $retval .= '<div id="tabGridVariables">';
     $retval .= '<p><input type="text" name="chartTitle" value="'
@@ -249,14 +249,14 @@ function PMA_getHtmlForAddChartDialog()
  */
 function PMA_getHtmlForTabLinks()
 {
-    $retval  = '<div class="tabLinks">';
+    $retval = '<div class="tabLinks">';
     $retval .= '<a href="#pauseCharts">';
     $retval .= PMA_Util::getImage('play.png') . __('Start Monitor');
     $retval .= '</a>';
     $retval .= '<a href="#settingsPopup" class="popupLink">';
-    $retval .= PMA_Util::getImage('s_cog.png') .  __('Settings');
+    $retval .= PMA_Util::getImage('s_cog.png') . __('Settings');
     $retval .= '</a>';
-    if (! PMA_DRIZZLE) {
+    if (!PMA_DRIZZLE) {
         $retval .= '<a href="#monitorInstructionsDialog">';
         $retval .= PMA_Util::getImage('b_help.png') . __('Instructions/Setup');
     }
@@ -276,7 +276,7 @@ function PMA_getHtmlForTabLinks()
  */
 function PMA_getHtmlForSettingsDialog()
 {
-    $retval  = '<div class="popupContent settingsPopup">';
+    $retval = '<div class="popupContent settingsPopup">';
     $retval .= '<a href="#addNewChart">';
     $retval .= PMA_Util::getImage('b_chart.png') . __('Add chart');
     $retval .= '</a>';
@@ -289,7 +289,7 @@ function PMA_getHtmlForSettingsDialog()
     $retval .= PMA_ServerStatusData::getHtmlForRefreshList(
         'gridChartRefresh',
         5,
-        Array(2, 3, 4, 5, 10, 20, 40, 60, 120, 300, 600, 1200)
+        [2, 3, 4, 5, 10, 20, 40, 60, 120, 300, 600, 1200]
     );
     $retval .= '<br />';
     $retval .= '</div>';
@@ -354,7 +354,7 @@ function PMA_getHtmlForClientSideDataAndLinks($ServerStatusData)
     /**
      * Define some links used on client side
      */
-    $links  = '<div id="profiling_docu" class="hide">';
+    $links = '<div id="profiling_docu" class="hide">';
     $links .= PMA_Util::showMySQLDocu('general-thread-states');
     $links .= '</div>';
     $links .= '<div id="explain_docu" class="hide">';
@@ -373,10 +373,10 @@ function PMA_getHtmlForClientSideDataAndLinks($ServerStatusData)
  */
 function PMA_getJsonForChartingData()
 {
-    $ret = json_decode($_REQUEST['requiredData'], true);
-    $statusVars = array();
-    $serverVars = array();
-    $sysinfo = $cpuload = $memory = 0;
+    $ret        = json_decode($_REQUEST['requiredData'], true);
+    $statusVars = [];
+    $serverVars = [];
+    $sysinfo    = $cpuload = $memory = 0;
 
     /* Accumulate all required variables and data */
     list($serverVars, $statusVars, $ret) = PMA_getJsonForChartingDataGet(
@@ -392,7 +392,7 @@ function PMA_getJsonForChartingData()
             1
         );
     } else {
-        $statusVarValues = array();
+        $statusVarValues = [];
     }
 
     // Retrieve all required server variables
@@ -404,13 +404,14 @@ function PMA_getJsonForChartingData()
             1
         );
     } else {
-        $serverVarValues = array();
+        $serverVarValues = [];
     }
 
     // ...and now assign them
     $ret = PMA_getJsonForChartingDataSet($ret, $statusVarValues, $serverVarValues);
 
     $ret['x'] = microtime(true) * 1000;
+
     return $ret;
 }
 
@@ -429,18 +430,19 @@ function PMA_getJsonForChartingDataSet($ret, $statusVarValues, $serverVarValues)
         foreach ($chartNodes as $node_id => $nodeDataPoints) {
             foreach ($nodeDataPoints as $point_id => $dataPoint) {
                 switch ($dataPoint['type']) {
-                case 'statusvar':
-                    $ret[$chart_id][$node_id][$point_id]['value']
-                        = $statusVarValues[$dataPoint['name']];
-                    break;
-                case 'servervar':
-                    $ret[$chart_id][$node_id][$point_id]['value']
-                        = $serverVarValues[$dataPoint['name']];
-                    break;
+                    case 'statusvar':
+                        $ret[$chart_id][$node_id][$point_id]['value']
+                            = $statusVarValues[$dataPoint['name']];
+                        break;
+                    case 'servervar':
+                        $ret[$chart_id][$node_id][$point_id]['value']
+                            = $serverVarValues[$dataPoint['name']];
+                        break;
                 }
             }
         }
     }
+
     return $ret;
 }
 
@@ -467,14 +469,15 @@ function PMA_getJsonForChartingDataGet(
             foreach ($nodeDataPoints as $point_id => $dataPoint) {
                 list($serverVars, $statusVars, $ret[$chart_id][$node_id][$point_id])
                     = PMA_getJsonForChartingDataSwitch(
-                        $dataPoint['type'], $dataPoint['name'], $serverVars,
-                        $statusVars, $ret[$chart_id][$node_id][$point_id],
-                        $sysinfo, $cpuload, $memory
-                    );
+                    $dataPoint['type'], $dataPoint['name'], $serverVars,
+                    $statusVars, $ret[$chart_id][$node_id][$point_id],
+                    $sysinfo, $cpuload, $memory
+                );
             } /* foreach */
         } /* foreach */
     }
-    return array($serverVars, $statusVars, $ret);
+
+    return [$serverVars, $statusVars, $ret];
 }
 
 /**
@@ -496,60 +499,60 @@ function PMA_getJsonForChartingDataSwitch(
     $sysinfo, $cpuload, $memory
 ) {
     switch ($type) {
-    /* We only collect the status and server variables here to
-     * read them all in one query,
-     * and only afterwards assign them.
-     * Also do some white list filtering on the names
-    */
-    case 'servervar':
-        if (!preg_match('/[^a-zA-Z_]+/', $pName)) {
-            $serverVars[] = $pName;
-        }
-        break;
+        /* We only collect the status and server variables here to
+         * read them all in one query,
+         * and only afterwards assign them.
+         * Also do some white list filtering on the names
+        */
+        case 'servervar':
+            if (!preg_match('/[^a-zA-Z_]+/', $pName)) {
+                $serverVars[] = $pName;
+            }
+            break;
 
-    case 'statusvar':
-        if (!preg_match('/[^a-zA-Z_]+/', $pName)) {
-            $statusVars[] = $pName;
-        }
-        break;
+        case 'statusvar':
+            if (!preg_match('/[^a-zA-Z_]+/', $pName)) {
+                $statusVars[] = $pName;
+            }
+            break;
 
-    case 'proc':
-        $result = $GLOBALS['dbi']->query('SHOW PROCESSLIST');
-        $ret['value'] = $GLOBALS['dbi']->numRows($result);
-        break;
+        case 'proc':
+            $result       = $GLOBALS['dbi']->query('SHOW PROCESSLIST');
+            $ret['value'] = $GLOBALS['dbi']->numRows($result);
+            break;
 
-    case 'cpu':
-        if (!$sysinfo) {
-            include_once 'libraries/sysinfo.lib.php';
-            $sysinfo = PMA_getSysInfo();
-        }
-        if (!$cpuload) {
-            $cpuload = $sysinfo->loadavg();
-        }
+        case 'cpu':
+            if (!$sysinfo) {
+                include_once 'libraries/sysinfo.lib.php';
+                $sysinfo = PMA_getSysInfo();
+            }
+            if (!$cpuload) {
+                $cpuload = $sysinfo->loadavg();
+            }
 
-        if (PMA_getSysInfoOs() == 'Linux') {
-            $ret['idle'] = $cpuload['idle'];
-            $ret['busy'] = $cpuload['busy'];
-        } else {
-            $ret['value'] = $cpuload['loadavg'];
-        }
+            if (PMA_getSysInfoOs() == 'Linux') {
+                $ret['idle'] = $cpuload['idle'];
+                $ret['busy'] = $cpuload['busy'];
+            } else {
+                $ret['value'] = $cpuload['loadavg'];
+            }
 
-        break;
+            break;
 
-    case 'memory':
-        if (!$sysinfo) {
-            include_once 'libraries/sysinfo.lib.php';
-            $sysinfo = PMA_getSysInfo();
-        }
-        if (!$memory) {
-            $memory = $sysinfo->memory();
-        }
+        case 'memory':
+            if (!$sysinfo) {
+                include_once 'libraries/sysinfo.lib.php';
+                $sysinfo = PMA_getSysInfo();
+            }
+            if (!$memory) {
+                $memory = $sysinfo->memory();
+            }
 
-        $ret['value'] = isset($memory[$pName]) ? $memory[$pName] : 0;
-        break;
+            $ret['value'] = isset($memory[$pName]) ? $memory[$pName] : 0;
+            break;
     }
 
-    return array($serverVars, $statusVars, $ret);
+    return [$serverVars, $statusVars, $ret];
 }
 
 /**
@@ -562,7 +565,7 @@ function PMA_getJsonForChartingDataSwitch(
  */
 function PMA_getJsonForLogDataTypeSlow($start, $end)
 {
-    $query  = 'SELECT start_time, user_host, ';
+    $query = 'SELECT start_time, user_host, ';
     $query .= 'Sec_to_Time(Sum(Time_to_Sec(query_time))) as query_time, ';
     $query .= 'Sec_to_Time(Sum(Time_to_Sec(lock_time))) as lock_time, ';
     $query .= 'SUM(rows_sent) AS rows_sent, ';
@@ -574,37 +577,44 @@ function PMA_getJsonForLogDataTypeSlow($start, $end)
 
     $result = $GLOBALS['dbi']->tryQuery($query);
 
-    $return = array('rows' => array(), 'sum' => array());
+    $return = ['rows' => [], 'sum' => []];
 
     while ($row = $GLOBALS['dbi']->fetchAssoc($result)) {
-        $type = /*overload*/mb_strtolower(
-            /*overload*/mb_substr(
-                $row['sql_text'],
-                0,
-                /*overload*/mb_strpos($row['sql_text'], ' ')
-            )
-        );
+        $type = /*overload*/
+            mb_strtolower(
+            /*overload*/
+                mb_substr(
+                    $row['sql_text'],
+                    0,
+                    /*overload*/
+                    mb_strpos($row['sql_text'], ' ')
+                )
+            );
 
-        switch($type) {
-        case 'insert':
-        case 'update':
-            //Cut off big inserts and updates, but append byte count instead
-            if (/*overload*/mb_strlen($row['sql_text']) > 220) {
-                $implode_sql_text = implode(
-                    ' ',
-                    PMA_Util::formatByteDown(
-                        /*overload*/mb_strlen($row['sql_text']), 2, 2
-                    )
-                );
-                $row['sql_text'] = /*overload*/mb_substr($row['sql_text'], 0, 200)
-                    . '... [' . $implode_sql_text . ']';
-            }
-            break;
-        default:
-            break;
+        switch ($type) {
+            case 'insert':
+            case 'update':
+                //Cut off big inserts and updates, but append byte count instead
+                if (/*overload*/
+                    mb_strlen($row['sql_text']) > 220
+                ) {
+                    $implode_sql_text = implode(
+                        ' ',
+                        PMA_Util::formatByteDown(
+                        /*overload*/
+                            mb_strlen($row['sql_text']), 2, 2
+                        )
+                    );
+                    $row['sql_text']  = /*overload*/
+                        mb_substr($row['sql_text'], 0, 200)
+                        . '... [' . $implode_sql_text . ']';
+                }
+                break;
+            default:
+                break;
         }
 
-        if (! isset($return['sum'][$type])) {
+        if (!isset($return['sum'][$type])) {
             $return['sum'][$type] = 0;
         }
         $return['sum'][$type] += $row['#'];
@@ -612,9 +622,10 @@ function PMA_getJsonForLogDataTypeSlow($start, $end)
     }
 
     $return['sum']['TOTAL'] = array_sum($return['sum']);
-    $return['numRows'] = count($return['rows']);
+    $return['numRows']      = count($return['rows']);
 
     $GLOBALS['dbi']->freeResult($result);
+
     return $return;
 }
 
@@ -644,74 +655,80 @@ function PMA_getJsonForLogDataTypeGeneral($start, $end)
 
     $result = $GLOBALS['dbi']->tryQuery($query);
 
-    $return = array('rows' => array(), 'sum' => array());
-    $insertTables = array();
+    $return            = ['rows' => [], 'sum' => []];
+    $insertTables      = [];
     $insertTablesFirst = -1;
-    $i = 0;
-    $removeVars = isset($_REQUEST['removeVariables'])
+    $i                 = 0;
+    $removeVars        = isset($_REQUEST['removeVariables'])
         && $_REQUEST['removeVariables'];
 
     while ($row = $GLOBALS['dbi']->fetchAssoc($result)) {
         preg_match('/^(\w+)\s/', $row['argument'], $match);
-        $type = /*overload*/mb_strtolower($match[1]);
+        $type = /*overload*/
+            mb_strtolower($match[1]);
 
-        if (! isset($return['sum'][$type])) {
+        if (!isset($return['sum'][$type])) {
             $return['sum'][$type] = 0;
         }
         $return['sum'][$type] += $row['#'];
 
-        switch($type) {
-        /** @noinspection PhpMissingBreakStatementInspection */
-        case 'insert':
-            // Group inserts if selected
-            if ($removeVars
-                && preg_match(
-                    '/^INSERT INTO (`|\'|"|)([^\s\\1]+)\\1/i',
-                    $row['argument'], $matches
-                )
-            ) {
-                $insertTables[$matches[2]]++;
-                if ($insertTables[$matches[2]] > 1) {
-                    $return['rows'][$insertTablesFirst]['#']
-                        = $insertTables[$matches[2]];
+        switch ($type) {
+            /** @noinspection PhpMissingBreakStatementInspection */
+            case 'insert':
+                // Group inserts if selected
+                if ($removeVars
+                    && preg_match(
+                        '/^INSERT INTO (`|\'|"|)([^\s\\1]+)\\1/i',
+                        $row['argument'], $matches
+                    )
+                ) {
+                    $insertTables[$matches[2]]++;
+                    if ($insertTables[$matches[2]] > 1) {
+                        $return['rows'][$insertTablesFirst]['#']
+                            = $insertTables[$matches[2]];
 
-                    // Add a ... to the end of this query to indicate that
-                    // there's been other queries
-                    $temp = $return['rows'][$insertTablesFirst]['argument'];
-                    $return['rows'][$insertTablesFirst]['argument']
-                        .= PMA_getSuspensionPoints(
-                            $temp[/*overload*/mb_strlen($temp) - 1]
+                        // Add a ... to the end of this query to indicate that
+                        // there's been other queries
+                        $temp = $return['rows'][$insertTablesFirst]['argument'];
+                        $return['rows'][$insertTablesFirst]['argument']
+                            .= PMA_getSuspensionPoints(
+                            $temp[/*overload*/
+                            mb_strlen($temp) - 1]
                         );
 
-                    // Group this value, thus do not add to the result list
-                    continue 2;
-                } else {
-                    $insertTablesFirst = $i;
-                    $insertTables[$matches[2]] += $row['#'] - 1;
+                        // Group this value, thus do not add to the result list
+                        continue 2;
+                    } else {
+                        $insertTablesFirst = $i;
+                        $insertTables[$matches[2]] += $row['#'] - 1;
+                    }
                 }
-            }
             // No break here
 
-        case 'update':
-            // Cut off big inserts and updates,
-            // but append byte count therefor
-            if (/*overload*/mb_strlen($row['argument']) > 220) {
-                $row['argument'] = /*overload*/mb_substr($row['argument'], 0, 200)
-                    . '... ['
-                    .  implode(
-                        ' ',
-                        PMA_Util::formatByteDown(
-                            /*overload*/mb_strlen($row['argument']),
-                            2,
-                            2
+            case 'update':
+                // Cut off big inserts and updates,
+                // but append byte count therefor
+                if (/*overload*/
+                    mb_strlen($row['argument']) > 220
+                ) {
+                    $row['argument'] = /*overload*/
+                        mb_substr($row['argument'], 0, 200)
+                        . '... ['
+                        . implode(
+                            ' ',
+                            PMA_Util::formatByteDown(
+                            /*overload*/
+                                mb_strlen($row['argument']),
+                                2,
+                                2
+                            )
                         )
-                    )
-                    . ']';
-            }
-            break;
+                        . ']';
+                }
+                break;
 
-        default:
-            break;
+            default:
+                break;
         }
 
         $return['rows'][] = $row;
@@ -719,7 +736,7 @@ function PMA_getJsonForLogDataTypeGeneral($start, $end)
     }
 
     $return['sum']['TOTAL'] = array_sum($return['sum']);
-    $return['numRows'] = count($return['rows']);
+    $return['numRows']      = count($return['rows']);
 
     $GLOBALS['dbi']->freeResult($result);
 
@@ -741,6 +758,7 @@ function PMA_getSuspensionPoints($lastChar)
 
     return null;
 }
+
 /**
  * Returns JSon for logging vars
  *
@@ -750,11 +768,11 @@ function PMA_getJsonForLoggingVars()
 {
     if (isset($_REQUEST['varName']) && isset($_REQUEST['varValue'])) {
         $value = PMA_Util::sqlAddSlashes($_REQUEST['varValue']);
-        if (! is_numeric($value)) {
-            $value="'" . $value . "'";
+        if (!is_numeric($value)) {
+            $value = "'" . $value . "'";
         }
 
-        if (! preg_match("/[^a-zA-Z0-9_]+/", $_REQUEST['varName'])) {
+        if (!preg_match("/[^a-zA-Z0-9_]+/", $_REQUEST['varName'])) {
             $GLOBALS['dbi']->query(
                 'SET GLOBAL ' . $_REQUEST['varName'] . ' = ' . $value
             );
@@ -768,6 +786,7 @@ function PMA_getJsonForLoggingVars()
         0,
         1
     );
+
     return $loggingVars;
 }
 
@@ -778,9 +797,11 @@ function PMA_getJsonForLoggingVars()
  */
 function PMA_getJsonForQueryAnalyzer()
 {
-    $return = array();
+    $return = [];
 
-    if (/*overload*/mb_strlen($_REQUEST['database'])) {
+    if (/*overload*/
+    mb_strlen($_REQUEST['database'])
+    ) {
         $GLOBALS['dbi']->selectDb($_REQUEST['database']);
     }
 
@@ -809,16 +830,17 @@ function PMA_getJsonForQueryAnalyzer()
     $GLOBALS['dbi']->freeResult($result);
 
     if ($profiling) {
-        $return['profiling'] = array();
-        $result = $GLOBALS['dbi']->tryQuery(
+        $return['profiling'] = [];
+        $result              = $GLOBALS['dbi']->tryQuery(
             'SELECT seq,state,duration FROM INFORMATION_SCHEMA.PROFILING'
             . ' WHERE QUERY_ID=1 ORDER BY seq'
         );
         while ($row = $GLOBALS['dbi']->fetchAssoc($result)) {
-            $return['profiling'][]= $row;
+            $return['profiling'][] = $row;
         }
         $GLOBALS['dbi']->freeResult($result);
     }
+
     return $return;
 }
 

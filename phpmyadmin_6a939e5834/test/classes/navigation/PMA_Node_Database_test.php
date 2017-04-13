@@ -25,10 +25,10 @@ class Node_Database_Test extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $GLOBALS['server'] = 0;
+        $GLOBALS['server']                    = 0;
         $GLOBALS['cfg']['DefaultTabDatabase'] = 'db_structure.php';
         $GLOBALS['cfg']['MaxNavigationItems'] = 250;
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
+        $_SESSION['PMA_Theme']                = PMA_Theme::load('./themes/pmahomme');
     }
 
     /**
@@ -50,4 +50,5 @@ class Node_Database_Test extends PHPUnit_Framework_TestCase
         $this->assertContains('database', $parent->classes);
     }
 }
+
 ?>

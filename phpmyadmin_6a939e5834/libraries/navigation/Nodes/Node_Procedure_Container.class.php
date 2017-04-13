@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Navigation
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -24,29 +24,29 @@ class Node_Procedure_Container extends Node
     public function __construct()
     {
         parent::__construct(__('Procedures'), Node::CONTAINER);
-        $this->icon  = PMA_Util::getImage('b_routines.png', __('Procedures'));
-        $this->links = array(
+        $this->icon      = PMA_Util::getImage('b_routines.png', __('Procedures'));
+        $this->links     = [
             'text' => 'db_routines.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%1$s&amp;token=' . $_SESSION[' PMA_token ']
-                    . '&amp;type=PROCEDURE',
+                . '&amp;db=%1$s&amp;token=' . $_SESSION[' PMA_token ']
+                . '&amp;type=PROCEDURE',
             'icon' => 'db_routines.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%1$s&amp;token=' . $_SESSION[' PMA_token ']
-                    . '&amp;type=PROCEDURE',
-        );
+                . '&amp;db=%1$s&amp;token=' . $_SESSION[' PMA_token ']
+                . '&amp;type=PROCEDURE',
+        ];
         $this->real_name = 'procedures';
 
-        $new_label = _pgettext('Create new procedure', 'New');
-        $new        = PMA_NodeFactory::getInstance('Node', $new_label);
-        $new->isNew = true;
-        $new->icon  = PMA_Util::getImage('b_routine_add.png', $new_label);
-        $new->links = array(
+        $new_label    = _pgettext('Create new procedure', 'New');
+        $new          = PMA_NodeFactory::getInstance('Node', $new_label);
+        $new->isNew   = true;
+        $new->icon    = PMA_Util::getImage('b_routine_add.png', $new_label);
+        $new->links   = [
             'text' => 'db_routines.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%2$s&amp;token=' . $_SESSION[' PMA_token ']
-                    . '&add_item=1',
+                . '&amp;db=%2$s&amp;token=' . $_SESSION[' PMA_token ']
+                . '&add_item=1',
             'icon' => 'db_routines.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%2$s&amp;token=' . $_SESSION[' PMA_token ']
-                    . '&add_item=1',
-        );
+                . '&amp;db=%2$s&amp;token=' . $_SESSION[' PMA_token ']
+                . '&add_item=1',
+        ];
         $new->classes = 'new_procedure italics';
         $this->addChild($new);
     }

@@ -39,21 +39,20 @@ class PMA_GenerateCommonURL_Test extends PHPUnit_Framework_TestCase
      */
     public function testDbOnly()
     {
-        $GLOBALS['server'] = 'x';
+        $GLOBALS['server']               = 'x';
         $GLOBALS['collation_connection'] = 'x';
         $GLOBALS['cfg']['ServerDefault'] = 'y';
 
         $separator = PMA_URL_getArgSeparator();
-        $expected = 'server=x' . htmlentities($separator)
+        $expected  = 'server=x' . htmlentities($separator)
             . 'lang=en' . htmlentities($separator)
             . 'collation_connection=x' . htmlentities($separator)
-            . 'token=token'
-            ;
+            . 'token=token';
 
         $expected = '?db=db'
             . htmlentities($separator) . $expected;
 
-        $this->assertEquals($expected, PMA_URL_getCommon(array('db' => 'db')));
+        $this->assertEquals($expected, PMA_URL_getCommon(['db' => 'db']));
     }
 
     /**
@@ -63,21 +62,20 @@ class PMA_GenerateCommonURL_Test extends PHPUnit_Framework_TestCase
      */
     public function testNewStyle()
     {
-        $GLOBALS['server'] = 'x';
+        $GLOBALS['server']               = 'x';
         $GLOBALS['collation_connection'] = 'x';
         $GLOBALS['cfg']['ServerDefault'] = 'y';
 
         $separator = PMA_URL_getArgSeparator();
-        $expected = 'server=x' . htmlentities($separator)
+        $expected  = 'server=x' . htmlentities($separator)
             . 'lang=en' . htmlentities($separator)
             . 'collation_connection=x' . htmlentities($separator)
-            . 'token=token'
-            ;
+            . 'token=token';
 
         $expected = '?db=db'
             . htmlentities($separator) . 'table=table'
             . htmlentities($separator) . $expected;
-        $params = array('db' => 'db', 'table' => 'table');
+        $params   = ['db' => 'db', 'table' => 'table'];
         $this->assertEquals($expected, PMA_URL_getCommon($params));
     }
 
@@ -88,23 +86,22 @@ class PMA_GenerateCommonURL_Test extends PHPUnit_Framework_TestCase
      */
     public function testWithAlternateDivider()
     {
-        $GLOBALS['server'] = 'x';
+        $GLOBALS['server']               = 'x';
         $GLOBALS['collation_connection'] = 'x';
         $GLOBALS['cfg']['ServerDefault'] = 'y';
 
         $separator = PMA_URL_getArgSeparator();
-        $expected = 'server=x' . $separator
+        $expected  = 'server=x' . $separator
             . 'lang=en' . $separator
             . 'collation_connection=x' . $separator
-            . 'token=token'
-            ;
+            . 'token=token';
 
         $expected = '#ABC#db=db' . $separator . 'table=table' . $separator
             . $expected;
         $this->assertEquals(
             $expected,
             PMA_URL_getCommon(
-                array('db' => 'db', 'table' => 'table'), 'text', '#ABC#'
+                ['db' => 'db', 'table' => 'table'], 'text', '#ABC#'
             )
         );
     }
@@ -116,17 +113,17 @@ class PMA_GenerateCommonURL_Test extends PHPUnit_Framework_TestCase
      */
     public function testDefault()
     {
-        $GLOBALS['server'] = 'x';
+        $GLOBALS['server']               = 'x';
         $GLOBALS['collation_connection'] = 'x';
         $GLOBALS['cfg']['ServerDefault'] = 'y';
 
         $separator = PMA_URL_getArgSeparator();
-        $expected = '?server=x' . htmlentities($separator)
+        $expected  = '?server=x' . htmlentities($separator)
             . 'lang=en' . htmlentities($separator)
             . 'collation_connection=x' . htmlentities($separator)
-            . 'token=token'
-            ;
+            . 'token=token';
         $this->assertEquals($expected, PMA_URL_getCommon());
     }
 }
+
 ?>

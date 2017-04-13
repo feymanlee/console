@@ -6,7 +6,7 @@
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -27,46 +27,46 @@ class PMA_Error extends PMA_Message
      *
      * @var array
      */
-    static public $errortype = array (
-        0                    => 'Internal error',
-        E_ERROR              => 'Error',
-        E_WARNING            => 'Warning',
-        E_PARSE              => 'Parsing Error',
-        E_NOTICE             => 'Notice',
-        E_CORE_ERROR         => 'Core Error',
-        E_CORE_WARNING       => 'Core Warning',
-        E_COMPILE_ERROR      => 'Compile Error',
-        E_COMPILE_WARNING    => 'Compile Warning',
-        E_USER_ERROR         => 'User Error',
-        E_USER_WARNING       => 'User Warning',
-        E_USER_NOTICE        => 'User Notice',
-        E_STRICT             => 'Runtime Notice',
-        E_DEPRECATED         => 'Deprecation Notice',
-        E_RECOVERABLE_ERROR  => 'Catchable Fatal Error',
-    );
+    static public $errortype = [
+        0                   => 'Internal error',
+        E_ERROR             => 'Error',
+        E_WARNING           => 'Warning',
+        E_PARSE             => 'Parsing Error',
+        E_NOTICE            => 'Notice',
+        E_CORE_ERROR        => 'Core Error',
+        E_CORE_WARNING      => 'Core Warning',
+        E_COMPILE_ERROR     => 'Compile Error',
+        E_COMPILE_WARNING   => 'Compile Warning',
+        E_USER_ERROR        => 'User Error',
+        E_USER_WARNING      => 'User Warning',
+        E_USER_NOTICE       => 'User Notice',
+        E_STRICT            => 'Runtime Notice',
+        E_DEPRECATED        => 'Deprecation Notice',
+        E_RECOVERABLE_ERROR => 'Catchable Fatal Error',
+    ];
 
     /**
      * Error levels
      *
      * @var array
      */
-    static public $errorlevel = array (
-        0                    => 'error',
-        E_ERROR              => 'error',
-        E_WARNING            => 'error',
-        E_PARSE              => 'error',
-        E_NOTICE             => 'notice',
-        E_CORE_ERROR         => 'error',
-        E_CORE_WARNING       => 'error',
-        E_COMPILE_ERROR      => 'error',
-        E_COMPILE_WARNING    => 'error',
-        E_USER_ERROR         => 'error',
-        E_USER_WARNING       => 'error',
-        E_USER_NOTICE        => 'notice',
-        E_STRICT             => 'notice',
-        E_DEPRECATED         => 'notice',
-        E_RECOVERABLE_ERROR  => 'error',
-    );
+    static public $errorlevel = [
+        0                   => 'error',
+        E_ERROR             => 'error',
+        E_WARNING           => 'error',
+        E_PARSE             => 'error',
+        E_NOTICE            => 'notice',
+        E_CORE_ERROR        => 'error',
+        E_CORE_WARNING      => 'error',
+        E_COMPILE_ERROR     => 'error',
+        E_COMPILE_WARNING   => 'error',
+        E_USER_ERROR        => 'error',
+        E_USER_WARNING      => 'error',
+        E_USER_NOTICE       => 'notice',
+        E_STRICT            => 'notice',
+        E_DEPRECATED        => 'notice',
+        E_RECOVERABLE_ERROR => 'error',
+    ];
 
     /**
      * The file in which the error occurred
@@ -87,7 +87,7 @@ class PMA_Error extends PMA_Message
      *
      * @var array
      */
-    protected $backtrace = array();
+    protected $backtrace = [];
 
     /**
      * Unique id
@@ -171,7 +171,7 @@ class PMA_Error extends PMA_Message
     {
         try {
             $backtrace = serialize($this->getBacktrace());
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $backtrace = '';
         }
         if ($this->hash === null) {
@@ -201,6 +201,7 @@ class PMA_Error extends PMA_Message
         if ($count != -1) {
             return array_slice($this->backtrace, 0, $count);
         }
+
         return $this->backtrace;
     }
 
@@ -252,7 +253,8 @@ class PMA_Error extends PMA_Message
     public function getHtmlTitle()
     {
         return htmlspecialchars(
-            /*overload*/mb_substr($this->getTitle(), 0, 100)
+        /*overload*/
+            mb_substr($this->getTitle(), 0, 100)
         );
     }
 
@@ -336,6 +338,7 @@ class PMA_Error extends PMA_Message
             }
         }
         $retval .= ')';
+
         return $retval;
     }
 
@@ -353,21 +356,21 @@ class PMA_Error extends PMA_Message
      */
     static function getArg($arg, $function)
     {
-        $retval = '';
-        $include_functions = array(
+        $retval            = '';
+        $include_functions = [
             'include',
             'include_once',
             'require',
             'require_once',
-        );
-        $connect_functions = array(
+        ];
+        $connect_functions = [
             'mysql_connect',
             'mysql_pconnect',
             'mysqli_connect',
             'mysqli_real_connect',
             'connect',
-            '_realConnect'
-        );
+            '_realConnect',
+        ];
 
         if (in_array($function, $include_functions)) {
             $retval .= PMA_Error::relPath($arg);
@@ -394,13 +397,13 @@ class PMA_Error extends PMA_Message
     {
         $this->isDisplayed(true);
         $retval = '<div class="' . $this->getLevel() . '">';
-        if (! $this->isUserError()) {
+        if (!$this->isUserError()) {
             $retval .= '<strong>' . $this->getType() . '</strong>';
             $retval .= ' in ' . $this->getFile() . '#' . $this->getLine();
             $retval .= "<br />\n";
         }
         $retval .= $this->getMessage();
-        if (! $this->isUserError()) {
+        if (!$this->isUserError()) {
             $retval .= "<br />\n";
             $retval .= "<br />\n";
             $retval .= "<strong>Backtrace</strong><br />\n";
@@ -460,6 +463,7 @@ class PMA_Error extends PMA_Message
             }
         }
         $path = $result . str_replace(implode($separator, $Adest), '', $dest);
+
         return str_replace(
             $separator . $separator,
             $separator,
@@ -467,4 +471,5 @@ class PMA_Error extends PMA_Message
         );
     }
 }
+
 ?>

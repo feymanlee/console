@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Export
  * @subpackage YAML
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -75,11 +75,12 @@ class ExportYaml extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportHeader ()
+    public function exportHeader()
     {
         PMA_exportOutputHandler(
             '%YAML 1.1' . $GLOBALS['crlf'] . '---' . $GLOBALS['crlf']
         );
+
         return true;
     }
 
@@ -88,9 +89,10 @@ class ExportYaml extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportFooter ()
+    public function exportFooter()
     {
         PMA_exportOutputHandler('...' . $GLOBALS['crlf']);
+
         return true;
     }
 
@@ -102,7 +104,7 @@ class ExportYaml extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportDBHeader ($db, $db_alias = '')
+    public function exportDBHeader($db, $db_alias = '')
     {
         return true;
     }
@@ -114,7 +116,7 @@ class ExportYaml extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportDBFooter ($db)
+    public function exportDBFooter($db)
     {
         return true;
     }
@@ -145,9 +147,9 @@ class ExportYaml extends ExportPlugin
      * @return bool Whether it succeeded
      */
     public function exportData(
-        $db, $table, $crlf, $error_url, $sql_query, $aliases = array()
+        $db, $table, $crlf, $error_url, $sql_query, $aliases = []
     ) {
-        $db_alias = $db;
+        $db_alias    = $db;
         $table_alias = $table;
         $this->initAlias($aliases, $db_alias, $table_alias);
         $result = $GLOBALS['dbi']->query(
@@ -155,7 +157,7 @@ class ExportYaml extends ExportPlugin
         );
 
         $columns_cnt = $GLOBALS['dbi']->numFields($result);
-        $columns = array();
+        $columns     = [];
         for ($i = 0; $i < $columns_cnt; $i++) {
             $col_as = $GLOBALS['dbi']->fieldName($result, $i);
             if (!empty($aliases[$db]['tables'][$table]['columns'][$col_as])) {
@@ -164,7 +166,7 @@ class ExportYaml extends ExportPlugin
             $columns[$i] = stripslashes($col_as);
         }
 
-        $buffer = '';
+        $buffer     = '';
         $record_cnt = 0;
         while ($record = $GLOBALS['dbi']->fetchRow($result)) {
             $record_cnt++;
@@ -178,7 +180,7 @@ class ExportYaml extends ExportPlugin
             }
 
             for ($i = 0; $i < $columns_cnt; $i++) {
-                if (! isset($record[$i])) {
+                if (!isset($record[$i])) {
                     continue;
                 }
 
@@ -188,19 +190,19 @@ class ExportYaml extends ExportPlugin
                 }
 
                 if (is_numeric($record[$i])) {
-                    $buffer .= '  ' . $columns[$i] . ': '  . $record[$i] . $crlf;
+                    $buffer .= '  ' . $columns[$i] . ': ' . $record[$i] . $crlf;
                     continue;
                 }
 
                 $record[$i] = str_replace(
-                    array('\\', '"', "\n", "\r"),
-                    array('\\\\', '\"', '\n', '\r'),
+                    ['\\', '"', "\n", "\r"],
+                    ['\\\\', '\"', '\n', '\r'],
                     $record[$i]
                 );
                 $buffer .= '  ' . $columns[$i] . ': "' . $record[$i] . '"' . $crlf;
             }
 
-            if (! PMA_exportOutputHandler($buffer)) {
+            if (!PMA_exportOutputHandler($buffer)) {
                 return false;
             }
         }
@@ -209,4 +211,5 @@ class ExportYaml extends ExportPlugin
         return true;
     } // end getTableYAML
 }
+
 ?>

@@ -81,10 +81,10 @@ class ParsingTest extends PHPUnit_Framework_TestCase
      */
     public static function data_provider_test_npgettext()
     {
-        return array(
-            array(1, "%d pig went to the market\n"),
-            array(2, "%d pigs went to the market\n"),
-        );
+        return [
+            [1, "%d pig went to the market\n"],
+            [2, "%d pigs went to the market\n"],
+        ];
     }
 
 }

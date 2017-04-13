@@ -6,7 +6,7 @@
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -62,6 +62,7 @@ class PMA_SavedSearches
         }
 
         $this->_id = $searchId;
+
         return $this;
     }
 
@@ -85,6 +86,7 @@ class PMA_SavedSearches
     public function setSearchName($searchName)
     {
         $this->_searchName = $searchName;
+
         return $this;
     }
 
@@ -114,6 +116,7 @@ class PMA_SavedSearches
     public function setConfig($config)
     {
         $this->_config = $config;
+
         return $this;
     }
 
@@ -139,20 +142,21 @@ class PMA_SavedSearches
     {
         if (true === $json && is_string($criterias)) {
             $this->_criterias = json_decode($criterias, true);
+
             return $this;
         }
 
-        $aListFieldsToGet = array(
+        $aListFieldsToGet = [
             'criteriaColumn',
             'criteriaSort',
             'criteriaShow',
             'criteria',
             'criteriaAndOrRow',
             'criteriaAndOrColumn',
-            'rows'
-        );
+            'rows',
+        ];
 
-        $data = array();
+        $data = [];
 
         $data['criteriaColumnCount'] = count($criterias['criteriaColumn']);
 
@@ -165,6 +169,7 @@ class PMA_SavedSearches
         }
 
         $this->_criterias = $data;
+
         return $this;
     }
 
@@ -188,6 +193,7 @@ class PMA_SavedSearches
     public function setUsername($username)
     {
         $this->_username = $username;
+
         return $this;
     }
 
@@ -211,6 +217,7 @@ class PMA_SavedSearches
     public function setDbname($dbname)
     {
         $this->_dbname = $dbname;
+
         return $this;
     }
 
@@ -242,7 +249,7 @@ class PMA_SavedSearches
     public function save()
     {
         if (null == $this->getSearchName()) {
-            $message = PMA_Message::error(
+            $message  = PMA_Message::error(
                 __('Please provide a name for this bookmarked search.')
             );
             $response = PMA_Response::getInstance();
@@ -257,7 +264,7 @@ class PMA_SavedSearches
             || null == $this->getSearchName()
             || null == $this->getCriterias()
         ) {
-            $message = PMA_Message::error(
+            $message  = PMA_Message::error(
                 __('Missing information to save the bookmarked search.')
             );
             $response = PMA_Response::getInstance();
@@ -272,14 +279,14 @@ class PMA_SavedSearches
 
         //If it's an insert.
         if (null === $this->getId()) {
-            $wheres = array(
+            $wheres           = [
                 "search_name = '" . PMA_Util::sqlAddSlashes($this->getSearchName())
-                . "'"
-            );
+                . "'",
+            ];
             $existingSearches = $this->getList($wheres);
 
             if (!empty($existingSearches)) {
-                $message = PMA_Message::error(
+                $message  = PMA_Message::error(
                     __('An entry with this name already exists.')
                 );
                 $response = PMA_Response::getInstance();
@@ -309,14 +316,14 @@ class PMA_SavedSearches
         }
 
         //Else, it's an update.
-        $wheres = array(
+        $wheres           = [
             "id != " . $this->getId(),
-            "search_name = '" . PMA_Util::sqlAddSlashes($this->getSearchName()) . "'"
-        );
+            "search_name = '" . PMA_Util::sqlAddSlashes($this->getSearchName()) . "'",
+        ];
         $existingSearches = $this->getList($wheres);
 
         if (!empty($existingSearches)) {
-            $message = PMA_Message::error(
+            $message  = PMA_Message::error(
                 __('An entry with this name already exists.')
             );
             $response = PMA_Response::getInstance();
@@ -332,6 +339,7 @@ class PMA_SavedSearches
             . "`search_data` = '"
             . PMA_Util::sqlAddSlashes(json_encode($this->getCriterias())) . "' "
             . "WHERE id = " . $this->getId();
+
         return (bool)PMA_queryAsControlUser($sqlQuery);
     }
 
@@ -343,7 +351,7 @@ class PMA_SavedSearches
     public function delete()
     {
         if (null == $this->getId()) {
-            $message = PMA_Message::error(
+            $message  = PMA_Message::error(
                 __('Missing information to delete the search.')
             );
             $response = PMA_Response::getInstance();
@@ -371,7 +379,7 @@ class PMA_SavedSearches
     public function load()
     {
         if (null == $this->getId()) {
-            $message = PMA_Message::error(
+            $message  = PMA_Message::error(
                 __('Missing information to load the search.')
             );
             $response = PMA_Response::getInstance();
@@ -384,14 +392,14 @@ class PMA_SavedSearches
         $savedSearchesTbl = PMA_Util::backquote($this->_config['cfgRelation']['db'])
             . "."
             . PMA_Util::backquote($this->_config['cfgRelation']['savedsearches']);
-        $sqlQuery = "SELECT id, search_name, search_data "
+        $sqlQuery         = "SELECT id, search_name, search_data "
             . "FROM " . $savedSearchesTbl . " "
             . "WHERE id = '" . PMA_Util::sqlAddSlashes($this->getId()) . "' ";
 
         $resList = PMA_queryAsControlUser($sqlQuery);
 
         if (false === ($oneResult = $GLOBALS['dbi']->fetchArray($resList))) {
-            $message = PMA_Message::error(__('Error while loading the search.'));
+            $message  = PMA_Message::error(__('Error while loading the search.'));
             $response = PMA_Response::getInstance();
             $response->isSuccess($message->isSuccess());
             $response->addJSON('fieldWithError', 'searchId');
@@ -412,7 +420,7 @@ class PMA_SavedSearches
      *
      * @return array|bool List of saved search or false on failure
      */
-    public function getList(array $wheres = array())
+    public function getList(array $wheres = [])
     {
         if (null == $this->getUsername()
             || null == $this->getDbname()
@@ -423,7 +431,7 @@ class PMA_SavedSearches
         $savedSearchesTbl = PMA_Util::backquote($this->_config['cfgRelation']['db'])
             . "."
             . PMA_Util::backquote($this->_config['cfgRelation']['savedsearches']);
-        $sqlQuery = "SELECT id, search_name "
+        $sqlQuery         = "SELECT id, search_name "
             . "FROM " . $savedSearchesTbl . " "
             . "WHERE "
             . "username = '" . PMA_Util::sqlAddSlashes($this->getUsername()) . "' "
@@ -437,7 +445,7 @@ class PMA_SavedSearches
 
         $resList = PMA_queryAsControlUser($sqlQuery);
 
-        $list = array();
+        $list = [];
         while ($oneResult = $GLOBALS['dbi']->fetchArray($resList)) {
             $list[$oneResult['id']] = $oneResult['search_name'];
         }

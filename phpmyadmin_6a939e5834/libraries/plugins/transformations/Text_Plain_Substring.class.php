@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage Substring
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -41,4 +41,5 @@ class Text_Plain_Substring extends SubstringTransformationsPlugin
         return "Plain";
     }
 }
+
 ?>

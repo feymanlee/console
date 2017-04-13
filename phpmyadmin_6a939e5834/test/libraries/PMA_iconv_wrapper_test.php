@@ -35,7 +35,7 @@ class PMA_Iconv_Wrapper_Test extends PHPUnit_Framework_TestCase
         $in_charset_mapped, $out_charset_mapped
     ) {
         $this->assertEquals(
-            array($in_charset_mapped, $out_charset_mapped),
+            [$in_charset_mapped, $out_charset_mapped],
             PMA_convertAIXMapCharsets($in_charset, $out_charset)
         );
     }
@@ -48,25 +48,26 @@ class PMA_Iconv_Wrapper_Test extends PHPUnit_Framework_TestCase
      */
     public function iconvDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'UTF-8',
                 'ISO-8859-1//IGNORE',
                 'UTF-8',
-                'ISO-8859-1//IGNORE'
-            ),
-            array(
+                'ISO-8859-1//IGNORE',
+            ],
+            [
                 'UTF-8',
                 'ISO-8859-1//TRANSLIT',
                 'UTF-8',
-                'ISO8859-1'
-            ),
-            array('UTF-8',
+                'ISO8859-1',
+            ],
+            ['UTF-8',
                 'ISO-8859-9',
                 'UTF-8',
-                'ISO8859-9'
-            )
-        );
+                'ISO8859-9',
+            ],
+        ];
     }
 }
+
 ?>

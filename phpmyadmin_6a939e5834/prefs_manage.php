@@ -47,9 +47,9 @@ if (isset($_POST['submit_export'])
         && is_uploaded_file($_FILES['import_file']['tmp_name'])
     ) {
         // read JSON from uploaded file
-        $open_basedir = @ini_get('open_basedir');
+        $open_basedir   = @ini_get('open_basedir');
         $file_to_unlink = '';
-        $import_file = $_FILES['import_file']['tmp_name'];
+        $import_file    = $_FILES['import_file']['tmp_name'];
 
         // If we are on a server with open_basedir, we must move the file
         // before opening it. The doc explains how to create the "./tmp"
@@ -59,7 +59,7 @@ if (isset($_POST['submit_export'])
             if (is_writable($tmp_subdir)) {
                 $import_file_new = tempnam($tmp_subdir, 'prefs');
                 if (move_uploaded_file($import_file, $import_file_new)) {
-                    $import_file = $import_file_new;
+                    $import_file    = $import_file_new;
                     $file_to_unlink = $import_file_new;
                 }
             }
@@ -76,9 +76,9 @@ if (isset($_POST['submit_export'])
     // hide header message
     $_SESSION['userprefs_autoload'] = true;
 
-    $config = json_decode($json, true);
+    $config     = json_decode($json, true);
     $return_url = filter_input(INPUT_POST, 'return_url');
-    if (! is_array($config)) {
+    if (!is_array($config)) {
         $error = __('Could not import configuration');
     } else {
         // sanitize input values: treat them as though
@@ -94,14 +94,14 @@ if (isset($_POST['submit_export'])
             $new_config = array_merge($new_config, $cf->getConfigArray());
         }
         $new_config = array_merge($new_config, $config);
-        $_POST_bak = $_POST;
+        $_POST_bak  = $_POST;
         foreach ($new_config as $k => $v) {
             $_POST[str_replace('/', '-', $k)] = $v;
         }
         $cf->resetConfigData();
         $all_ok = $form_display->process(true, false);
         $all_ok = $all_ok && !$form_display->hasErrors();
-        $_POST = $_POST_bak;
+        $_POST  = $_POST_bak;
 
         if (!$all_ok && isset($_POST['fix_errors'])) {
             $form_display->fixErrors();
@@ -122,7 +122,7 @@ if (isset($_POST['submit_export'])
             echo '<input type="hidden" name="json" value="'
                 . htmlspecialchars($json) . '" />';
             echo '<input type="hidden" name="fix_errors" value="1" />';
-            if (! empty($_POST['import_merge'])) {
+            if (!empty($_POST['import_merge'])) {
                 echo '<input type="hidden" name="import_merge" value="1" />';
             }
             if ($return_url) {
@@ -141,7 +141,7 @@ if (isset($_POST['submit_export'])
         }
 
         // check for ThemeDefault and fontsize
-        $params = array();
+        $params = [];
         if (isset($config['ThemeDefault'])
             && $_SESSION['PMA_Theme_Manager']->theme->getId() != $config['ThemeDefault']
             && $_SESSION['PMA_Theme_Manager']->checkTheme($config['ThemeDefault'])
@@ -169,19 +169,22 @@ if (isset($_POST['submit_export'])
         $result = PMA_saveUserprefs($cf->getConfigArray());
         if ($result === true) {
             if ($return_url) {
-                $query = explode('&', parse_url($return_url, PHP_URL_QUERY));
+                $query      = explode('&', parse_url($return_url, PHP_URL_QUERY));
                 $return_url = parse_url($return_url, PHP_URL_PATH);
 
                 /** @var PMA_String $pmaString */
                 $pmaString = $GLOBALS['PMA_String'];
 
                 foreach ($query as $q) {
-                    $pos = /*overload*/mb_strpos($q, '=');
-                    $k = /*overload*/mb_substr($q, 0, $pos);
+                    $pos = /*overload*/
+                        mb_strpos($q, '=');
+                    $k   = /*overload*/
+                        mb_substr($q, 0, $pos);
                     if ($k == 'token') {
                         continue;
                     }
-                    $params[$k] = /*overload*/mb_substr($q, $pos+1);
+                    $params[$k] = /*overload*/
+                        mb_substr($q, $pos + 1);
                 }
             } else {
                 $return_url = 'prefs_manage.php';
@@ -195,9 +198,9 @@ if (isset($_POST['submit_export'])
         }
     }
 } else if (isset($_POST['submit_clear'])) {
-    $result = PMA_saveUserprefs(array());
+    $result = PMA_saveUserprefs([]);
     if ($result === true) {
-        $params = array();
+        $params = [];
         if ($GLOBALS['PMA_Config']->get('fontsize') != '82%') {
             $GLOBALS['PMA_Config']->removeCookie('pma_fontsize');
         }
@@ -213,7 +216,7 @@ if (isset($_POST['submit_export'])
 
 $response = PMA_Response::getInstance();
 $header   = $response->getHeader();
-$scripts = $header->getScripts();
+$scripts  = $header->getScripts();
 $scripts->addFile('config.js');
 
 require 'libraries/user_preferences.inc.php';
@@ -259,7 +262,7 @@ echo '<h2>' . __('Import') . '</h2>'
     . '</div>'
     . '<div class="localStorage-empty">';
 PMA_Message::notice(__('You have no saved settings!'))->display();
-echo  '</div>'
+echo '</div>'
     . '</div>'
     . '<div class="localStorage-unsupported">';
 PMA_Message::notice(
@@ -276,25 +279,25 @@ echo '</div>'
     . '</form>'
     . '</div>';
 if (file_exists('setup/index.php')) {
-            // show only if setup script is available, allows to disable this message
-            // by simply removing setup directory
-            ?>
-            <div class="group">
+    // show only if setup script is available, allows to disable this message
+    // by simply removing setup directory
+    ?>
+  <div class="group">
             <h2><?php echo __('More settings') ?></h2>
             <div class="group-cnt">
                 <?php
                 echo sprintf(
-                    __(
-                        'You can set more settings by modifying config.inc.php, eg. '
-                        . 'by using %sSetup script%s.'
-                    ), '<a href="setup/index.php" target="_blank">', '</a>'
-                ) . PMA_Util::showDocu('setup', 'setup-script');
+                        __(
+                            'You can set more settings by modifying config.inc.php, eg. '
+                            . 'by using %sSetup script%s.'
+                        ), '<a href="setup/index.php" target="_blank">', '</a>'
+                    ) . PMA_Util::showDocu('setup', 'setup-script');
                 ?>
             </div>
             </div>
-        <?php
+    <?php
 }
-        ?>
+?>
     </div>
     <div id="main_pane_right">
         <div class="group">
@@ -309,14 +312,14 @@ if (file_exists('setup/index.php')) {
             <form class="group-cnt prefs-form disableAjax" name="prefs_export"
                   action="prefs_manage.php" method="post">
                 <?php echo PMA_URL_getHiddenInputs(); ?>
-                <div style="padding-bottom:0.5em">
+              <div style="padding-bottom:0.5em">
                     <input type="radio" id="export_text_file" name="export_type"
-                           value="text_file" checked="checked" />
+                           value="text_file" checked="checked"/>
                     <label for="export_text_file">
                         <?php echo __('Save as file'); ?>
-                    </label><br />
+                    </label><br/>
                     <input type="radio" id="export_local_storage" name="export_type"
-                           value="local_storage" disabled="disabled" />
+                           value="local_storage" disabled="disabled"/>
                     <label for="export_local_storage">
                         <?php echo __('Save to browser\'s storage'); ?></label>
                 </div>
@@ -329,7 +332,7 @@ if (file_exists('setup/index.php')) {
                             . 'storage.'
                         );
                         ?>
-                        <div class="localStorage-exists">
+                      <div class="localStorage-exists">
                             <b>
                                 <?php
                                 echo __(
@@ -347,11 +350,11 @@ if (file_exists('setup/index.php')) {
                         ?>
                     </div>
                 </div>
-                <br />
+                <br/>
                 <?php
                 echo '<input type="submit" name="submit_export" value="' . __(
-                    'Go'
-                ) . '" />';
+                        'Go'
+                    ) . '" />';
                 ?>
             </form>
         </div>
@@ -361,15 +364,15 @@ if (file_exists('setup/index.php')) {
                   action="prefs_manage.php" method="post">
                 <?php
                 echo PMA_URL_getHiddenInputs() . __(
-                    'You can reset all your settings and restore them to default '
-                    . 'values.'
-                );
+                        'You can reset all your settings and restore them to default '
+                        . 'values.'
+                    );
                 ?>
-                <br /><br />
+              <br/><br/>
                 <input type="submit" name="submit_clear"
                        value="<?php echo __('Reset'); ?>"/>
             </form>
         </div>
     </div>
-    <br class="clearfloat" />
+    <br class="clearfloat"/>
 </div>

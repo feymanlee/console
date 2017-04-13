@@ -31,7 +31,6 @@ require_once 'libraries/config.default.php';
  *
  * @package PhpMyAdmin-test
  */
-
 class PMA_ServerDatabases_Test extends PHPUnit_Framework_TestCase
 {
     /**
@@ -48,24 +47,24 @@ class PMA_ServerDatabases_Test extends PHPUnit_Framework_TestCase
         //$GLOBALS
         $GLOBALS['PMA_Config'] = new PMA_Config();
         $GLOBALS['PMA_Config']->enableBc();
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['cfg']['MaxDbList'] = 100;
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['RememberSorting'] = true;
-        $GLOBALS['cfg']['SQP'] = array();
+        $GLOBALS['cfg']['MaxRows']                     = 10;
+        $GLOBALS['cfg']['MaxDbList']                   = 100;
+        $GLOBALS['cfg']['ServerDefault']               = "server";
+        $GLOBALS['cfg']['RememberSorting']             = true;
+        $GLOBALS['cfg']['SQP']                         = [];
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
-        $GLOBALS['cfg']['ShowSQL'] = true;
-        $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
-        $GLOBALS['cfg']['DBG']['sql'] = false;
-        $GLOBALS['cfg']['ActionLinksMode'] = "both";
-        $GLOBALS['cfg']['DefaultTabDatabase'] = 'db_structure.php';
+        $GLOBALS['cfg']['ShowSQL']                     = true;
+        $GLOBALS['cfg']['TableNavigationLinksMode']    = 'icons';
+        $GLOBALS['cfg']['LimitChars']                  = 100;
+        $GLOBALS['cfg']['DBG']['sql']                  = false;
+        $GLOBALS['cfg']['ActionLinksMode']             = "both";
+        $GLOBALS['cfg']['DefaultTabDatabase']          = 'db_structure.php';
 
-        $GLOBALS['table'] = "table";
+        $GLOBALS['table']                                = "table";
         $GLOBALS['replication_info']['master']['status'] = false;
-        $GLOBALS['replication_info']['slave']['status'] = false;
-        $GLOBALS['pmaThemeImage'] = 'image';
-        $GLOBALS['text_dir'] = "text_dir";
+        $GLOBALS['replication_info']['slave']['status']  = false;
+        $GLOBALS['pmaThemeImage']                        = 'image';
+        $GLOBALS['text_dir']                             = "text_dir";
 
         //$_SESSION
         $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
@@ -89,38 +88,38 @@ class PMA_ServerDatabases_Test extends PHPUnit_Framework_TestCase
         $GLOBALS['dbi'] = $dbi;
 
         //Call the test function
-        $databases = array(
-            array("SCHEMA_NAME" => "pma_bookmark"),
-            array("SCHEMA_NAME" => "information_schema"),
-            array("SCHEMA_NAME" => "mysql"),
-            array("SCHEMA_NAME" => "performance_schema"),
-            array("SCHEMA_NAME" => "phpmyadmin")
-        );
+        $databases = [
+            ["SCHEMA_NAME" => "pma_bookmark"],
+            ["SCHEMA_NAME" => "information_schema"],
+            ["SCHEMA_NAME" => "mysql"],
+            ["SCHEMA_NAME" => "performance_schema"],
+            ["SCHEMA_NAME" => "phpmyadmin"],
+        ];
 
-        $databases_count = 5;
-        $pos = 0;
-        $dbstats = 0;
-        $sort_by = "SCHEMA_NAME";
-        $sort_order = "asc";
-        $is_superuser = true;
-        $cfg = array(
+        $databases_count   = 5;
+        $pos               = 0;
+        $dbstats           = 0;
+        $sort_by           = "SCHEMA_NAME";
+        $sort_order        = "asc";
+        $is_superuser      = true;
+        $cfg               = [
             "AllowUserDropDatabase" => false,
-            "ActionLinksMode" => "both",
-        );
-        $replication_types = array("master", "slave");
-        $replication_info = array(
-            "master" => array(
-                 "status" => true,
-                 "Ignore_DB" => array("DB" => "Ignore_DB"),
-                 "Do_DB" => array(""),
-            ),
-            "slave" => array(
-                 "status" => false,
-                 "Ignore_DB" => array("DB" => "Ignore_DB"),
-                 "Do_DB" => array(""),
-            ),
-        );
-        $url_query = "token=27ae04f0b003a84e5c2796182f361ff1";
+            "ActionLinksMode"       => "both",
+        ];
+        $replication_types = ["master", "slave"];
+        $replication_info  = [
+            "master" => [
+                "status"    => true,
+                "Ignore_DB" => ["DB" => "Ignore_DB"],
+                "Do_DB"     => [""],
+            ],
+            "slave"  => [
+                "status"    => false,
+                "Ignore_DB" => ["DB" => "Ignore_DB"],
+                "Do_DB"     => [""],
+            ],
+        ];
+        $url_query         = "token=27ae04f0b003a84e5c2796182f361ff1";
 
         $html = PMA_getHtmlForDatabase(
             $databases,
@@ -224,7 +223,7 @@ class PMA_ServerDatabases_Test extends PHPUnit_Framework_TestCase
 
         // $_REQUEST['sort_by'] = 'DEFAULT_COLLATION_NAME'
         // and $_REQUEST['sort_order'] is not 'desc'
-        $_REQUEST['sort_by'] = 'DEFAULT_COLLATION_NAME';
+        $_REQUEST['sort_by']    = 'DEFAULT_COLLATION_NAME';
         $_REQUEST['sort_order'] = 'abc';
         list($sort_by, $sort_order) = PMA_getListForSortDatabase();
         $this->assertEquals(
@@ -238,7 +237,7 @@ class PMA_ServerDatabases_Test extends PHPUnit_Framework_TestCase
 
         // $_REQUEST['sort_by'] = 'DEFAULT_COLLATION_NAME'
         // and $_REQUEST['sort_order'] is 'desc'
-        $_REQUEST['sort_by'] = 'DEFAULT_COLLATION_NAME';
+        $_REQUEST['sort_by']    = 'DEFAULT_COLLATION_NAME';
         $_REQUEST['sort_order'] = 'desc';
         list($sort_by, $sort_order) = PMA_getListForSortDatabase();
         $this->assertEquals(
@@ -265,17 +264,17 @@ class PMA_ServerDatabases_Test extends PHPUnit_Framework_TestCase
 
         $GLOBALS['dbi'] = $dbi;
 
-        $column_order = array(
-            "first_database" => array(
+        $column_order   = [
+            "first_database" => [
                 'format' => 'byte',
                 'footer' => '10333',
-            )
-        );
-        $first_database = array(
-            "first_database" => "db1"
-        );
-        $html = PMA_getHtmlForColumnOrder($column_order, $first_database);
-        $stat = $column_order["first_database" ];
+            ],
+        ];
+        $first_database = [
+            "first_database" => "db1",
+        ];
+        $html           = PMA_getHtmlForColumnOrder($column_order, $first_database);
+        $stat           = $column_order["first_database"];
         list($value, $unit)
             = PMA_Util::formatByteDown($stat['footer'], 3, 1);
         $this->assertContains(

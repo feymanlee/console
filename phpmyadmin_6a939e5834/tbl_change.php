@@ -30,7 +30,7 @@ require_once 'libraries/transformations.lib.php';
 list(
     $insert_mode, $where_clause, $where_clause_array, $where_clauses,
     $result, $rows, $found_unique_key, $after_insert
-) = PMA_determineInsertOrEdit(
+    ) = PMA_determineInsertOrEdit(
     isset($where_clause) ? $where_clause : null, $db, $table
 );
 // Increase number of rows if unsaved rows are more
@@ -39,7 +39,7 @@ if (!empty($unsaved_values) && count($rows) < count($unsaved_values)) {
 }
 /**
  * file listing
-*/
+ */
 require_once 'libraries/file_listing.lib.php';
 
 /**
@@ -47,7 +47,9 @@ require_once 'libraries/file_listing.lib.php';
  * (at this point, $GLOBALS['goto'] will be set but could be empty)
  */
 if (empty($GLOBALS['goto'])) {
-    if (/*overload*/mb_strlen($table)) {
+    if (/*overload*/
+    mb_strlen($table)
+    ) {
         // avoid a problem (see bug #2202709)
         $GLOBALS['goto'] = 'tbl_sql.php';
     } else {
@@ -57,7 +59,7 @@ if (empty($GLOBALS['goto'])) {
 
 
 $_url_params = PMA_getUrlParameters($db, $table);
-$err_url = $GLOBALS['goto'] . PMA_URL_getCommon($_url_params);
+$err_url     = $GLOBALS['goto'] . PMA_URL_getCommon($_url_params);
 unset($_url_params);
 
 $comments_map = PMA_getCommentsMap($db, $table);
@@ -84,7 +86,7 @@ $scripts->addFile('gis_data_editor.js');
  *
  * $disp_message come from tbl_replace.php
  */
-if (! empty($disp_message)) {
+if (!empty($disp_message)) {
     $response->addHTML(PMA_Util::getMessage($disp_message, null));
 }
 
@@ -110,15 +112,15 @@ $chg_evt_handler = (PMA_USR_BROWSER_AGENT == 'IE'
     && PMA_USR_BROWSER_VER >= 5
     && PMA_USR_BROWSER_VER < 7
 )
-     ? 'onpropertychange'
-     : 'onchange';
+    ? 'onpropertychange'
+    : 'onchange';
 // Had to put the URI because when hosted on an https server,
 // some browsers send wrongly this form to the http server.
 
 $html_output = '';
 // Set if we passed the first timestamp field
 $timestamp_seen = false;
-$columns_cnt     = count($table_columns);
+$columns_cnt    = count($table_columns);
 
 $tabindex              = 0;
 $tabindex_for_function = +3000;
@@ -127,9 +129,9 @@ $tabindex_for_value    = 0;
 $o_rows                = 0;
 $biggest_max_file_size = 0;
 
-$url_params['db'] = $db;
+$url_params['db']    = $db;
 $url_params['table'] = $table;
-$url_params = PMA_urlParamsInEditMode(
+$url_params          = PMA_urlParamsInEditMode(
     $url_params, $where_clause_array, $where_clause
 );
 
@@ -137,7 +139,7 @@ $has_blob_field = false;
 foreach ($table_columns as $column) {
     if (PMA_isColumn(
         $column,
-        array('blob', 'tinyblob', 'mediumblob', 'longblob')
+        ['blob', 'tinyblob', 'mediumblob', 'longblob']
     )) {
         $has_blob_field = true;
         break;
@@ -154,35 +156,35 @@ $titles['Browse'] = PMA_Util::getIcon('b_browse.png', __('Browse foreign values'
 
 // user can toggle the display of Function column and column types
 // (currently does not work for multi-edits)
-if (! $cfg['ShowFunctionFields'] || ! $cfg['ShowFieldTypesInDataEditView']) {
+if (!$cfg['ShowFunctionFields'] || !$cfg['ShowFieldTypesInDataEditView']) {
     $html_output .= __('Show');
 }
 
-if (! $cfg['ShowFunctionFields']) {
+if (!$cfg['ShowFunctionFields']) {
     $html_output .= PMA_showTypeOrFunction('function', $url_params, false);
 }
 
-if (! $cfg['ShowFieldTypesInDataEditView']) {
+if (!$cfg['ShowFieldTypesInDataEditView']) {
     $html_output .= PMA_showTypeOrFunction('type', $url_params, false);
 }
 
-$GLOBALS['plugin_scripts'] = array();
+$GLOBALS['plugin_scripts'] = [];
 foreach ($rows as $row_id => $current_row) {
     if (empty($current_row)) {
-        $current_row = array();
+        $current_row = [];
     }
 
     $jsvkey = $row_id;
-    $vkey = '[multi_edit][' . $jsvkey . ']';
+    $vkey   = '[multi_edit][' . $jsvkey . ']';
 
     $current_result = (isset($result) && is_array($result) && isset($result[$row_id])
         ? $result[$row_id]
         : $result);
-    $repopulate = array();
-    $checked = true;
+    $repopulate     = [];
+    $checked        = true;
     if (isset($unsaved_values[$row_id])) {
         $repopulate = $unsaved_values[$row_id];
-        $checked = false;
+        $checked    = false;
     }
     if ($insert_mode && $row_id > 0) {
         $html_output .= PMA_getHtmlForIgnoreOption($row_id, $checked);
@@ -202,7 +204,7 @@ unset($unsaved_values, $checked, $repopulate, $GLOBALS['plugin_scripts']);
 
 $html_output .= PMA_getHtmlForGisEditor();
 
-if (! isset($after_insert)) {
+if (!isset($after_insert)) {
     $after_insert = 'back';
 }
 

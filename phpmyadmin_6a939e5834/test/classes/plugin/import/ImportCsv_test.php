@@ -49,37 +49,37 @@ class ImportCsv_Test extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $GLOBALS['plugin_param'] = "csv";
-        $this->object = new ImportCsv();
+        $this->object            = new ImportCsv();
 
         //setting
-        $GLOBALS['finished'] = false;
-        $GLOBALS['read_limit'] = 100000000;
-        $GLOBALS['offset'] = 0;
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['cfg']['ServerDefault'] = 0;
+        $GLOBALS['finished']                     = false;
+        $GLOBALS['read_limit']                   = 100000000;
+        $GLOBALS['offset']                       = 0;
+        $GLOBALS['cfg']['Server']['DisableIS']   = false;
+        $GLOBALS['cfg']['ServerDefault']         = 0;
         $GLOBALS['cfg']['AllowUserDropDatabase'] = false;
-        $GLOBALS['cfg']['ShowHint'] = true;
+        $GLOBALS['cfg']['ShowHint']              = true;
 
-        $GLOBALS['import_file'] = 'test/test_data/db_test.csv';
-        $GLOBALS['import_text'] = 'ImportCsv_Test';
-        $GLOBALS['compression'] = 'none';
+        $GLOBALS['import_file']   = 'test/test_data/db_test.csv';
+        $GLOBALS['import_text']   = 'ImportCsv_Test';
+        $GLOBALS['compression']   = 'none';
         $GLOBALS['read_multiply'] = 10;
-        $GLOBALS['import_type'] = 'Xml';
+        $GLOBALS['import_type']   = 'Xml';
         $GLOBALS['pmaThemeImage'] = 'image';
         $GLOBALS['import_handle'] = @fopen($GLOBALS['import_file'], 'r');
 
         //separator for csv
         $GLOBALS['csv_terminated'] = "\015";
-        $GLOBALS['csv_enclosed'] = '"';
-        $GLOBALS['csv_escaped'] = '"';
-        $GLOBALS['csv_new_line'] = 'auto';
+        $GLOBALS['csv_enclosed']   = '"';
+        $GLOBALS['csv_escaped']    = '"';
+        $GLOBALS['csv_new_line']   = 'auto';
 
         //$_SESSION
         $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
         $_SESSION['PMA_Theme'] = new PMA_Theme();
 
         //Mock DBI
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi            = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $GLOBALS['dbi'] = $dbi;
@@ -164,8 +164,8 @@ class ImportCsv_Test extends PHPUnit_Framework_TestCase
     public function testGetPropertiesForTable()
     {
         $GLOBALS['plugin_param'] = 'table';
-        $this->object = new ImportCsv();
-        $properties = $this->object->getProperties();
+        $this->object            = new ImportCsv();
+        $properties              = $this->object->getProperties();
         $this->assertEquals(
             __('CSV'),
             $properties->getText()

@@ -6,7 +6,7 @@
  *
  * @package PhpMyAdmin-navigation
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -30,14 +30,14 @@ class PMA_Navigation
     {
         /* Init */
         $retval = '';
-        if (! PMA_Response::getInstance()->isAjax()) {
+        if (!PMA_Response::getInstance()->isAjax()) {
             $header = new PMA_NavigationHeader();
             $retval = $header->getDisplay();
         }
         $tree = new PMA_NavigationTree();
-        if (! PMA_Response::getInstance()->isAjax()
-            || ! empty($_REQUEST['full'])
-            || ! empty($_REQUEST['reload'])
+        if (!PMA_Response::getInstance()->isAjax()
+            || !empty($_REQUEST['full'])
+            || !empty($_REQUEST['reload'])
         ) {
             if ($GLOBALS['cfg']['ShowDatabasesNavigationAsTree']) {
                 // provide database tree in navigation
@@ -49,7 +49,7 @@ class PMA_Navigation
         } else {
             $navRender = $tree->renderPath();
         }
-        if (! $navRender) {
+        if (!$navRender) {
             $retval .= PMA_Message::error(
                 __('An error has occurred while loading the navigation display')
             )->getDisplay();
@@ -57,7 +57,7 @@ class PMA_Navigation
             $retval .= $navRender;
         }
 
-        if (! PMA_Response::getInstance()->isAjax()) {
+        if (!PMA_Response::getInstance()->isAjax()) {
             // closes the tags that were opened by the navigation header
             $retval .= '</div>'; // pma_navigation_tree
             $retval .= '</div>'; // pma_navigation_content
@@ -90,7 +90,7 @@ class PMA_Navigation
             . "'" . PMA_Util::sqlAddSlashes($itemName) . "',"
             . "'" . PMA_Util::sqlAddSlashes($itemType) . "',"
             . "'" . PMA_Util::sqlAddSlashes($dbName) . "',"
-            . "'" . (! empty($tableName)? PMA_Util::sqlAddSlashes($tableName) : "" )
+            . "'" . (!empty($tableName) ? PMA_Util::sqlAddSlashes($tableName) : "")
             . "')";
         PMA_queryAsControlUser($sqlQuery, false);
     }
@@ -113,6 +113,7 @@ class PMA_Navigation
         $retval .= '<span class="minimize">-</span></h2>';
         $retval .= '<div></div>';
         $retval .= '</div>';
+
         return $retval;
     }
 
@@ -139,7 +140,7 @@ class PMA_Navigation
             . " AND `item_name`='" . PMA_Util::sqlAddSlashes($itemName) . "'"
             . " AND `item_type`='" . PMA_Util::sqlAddSlashes($itemType) . "'"
             . " AND `db_name`='" . PMA_Util::sqlAddSlashes($dbName) . "'"
-            . (! empty($tableName)
+            . (!empty($tableName)
                 ? " AND `table_name`='" . PMA_Util::sqlAddSlashes($tableName) . "'"
                 : ""
             );
@@ -157,7 +158,7 @@ class PMA_Navigation
      */
     public function getItemUnhideDialog($dbName, $itemType = null, $tableName = null)
     {
-        $html  = '<form method="post" action="navigation.php" class="ajax">';
+        $html = '<form method="post" action="navigation.php" class="ajax">';
         $html .= '<fieldset>';
         $html .= PMA_URL_getHiddenInputs($dbName, $tableName);
 
@@ -168,35 +169,35 @@ class PMA_Navigation
             . PMA_Util::sqlAddSlashes($GLOBALS['cfg']['Server']['user']) . "'"
             . " AND `db_name`='" . PMA_Util::sqlAddSlashes($dbName) . "'"
             . " AND `table_name`='"
-            . (! empty($tableName) ? PMA_Util::sqlAddSlashes($tableName) : '') . "'";
-        $result = PMA_queryAsControlUser($sqlQuery, false);
+            . (!empty($tableName) ? PMA_Util::sqlAddSlashes($tableName) : '') . "'";
+        $result   = PMA_queryAsControlUser($sqlQuery, false);
 
-        $hidden = array();
+        $hidden = [];
         if ($result) {
             while ($row = $GLOBALS['dbi']->fetchArray($result)) {
                 $type = $row['item_type'];
-                if (! isset($hidden[$type])) {
-                    $hidden[$type] = array();
+                if (!isset($hidden[$type])) {
+                    $hidden[$type] = [];
                 }
                 $hidden[$type][] = $row['item_name'];
             }
         }
         $GLOBALS['dbi']->freeResult($result);
 
-        $typeMap = array(
-            'event' => __('Events:'),
-            'function' => __('Functions:'),
+        $typeMap = [
+            'event'     => __('Events:'),
+            'function'  => __('Functions:'),
             'procedure' => __('Procedures:'),
-            'table' => __('Tables:'),
-            'view' => __('Views:'),
-        );
+            'table'     => __('Tables:'),
+            'view'      => __('Views:'),
+        ];
         if (empty($tableName)) {
             $first = true;
             foreach ($typeMap as $t => $lable) {
                 if ((empty($itemType) || $itemType == $t)
                     && isset($hidden[$t])
                 ) {
-                    $html .= (! $first ? '<br/>' : '')
+                    $html .= (!$first ? '<br/>' : '')
                         . '<strong>' . $lable . '</strong>';
                     $html .= '<table width="100%"><tbody>';
                     $odd = true;
@@ -211,8 +212,8 @@ class PMA_Navigation
                             . '&dbName=' . urlencode($dbName) . '"'
                             . ' class="unhideNavItem ajax">'
                             . PMA_Util::getIcon('lightbulb.png', __('Show'))
-                            .  '</a></td>';
-                        $odd = ! $odd;
+                            . '</a></td>';
+                        $odd = !$odd;
                     }
                     $html .= '</tbody></table>';
                     $first = false;
@@ -222,7 +223,9 @@ class PMA_Navigation
 
         $html .= '</fieldset>';
         $html .= '</form>';
+
         return $html;
     }
 }
+
 ?>

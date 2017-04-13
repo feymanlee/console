@@ -39,11 +39,11 @@ class PMA_TblChartTest extends PHPUnit_Framework_TestCase
         /**
          * SET these to avoid undefined index error
          */
-        $GLOBALS['server'] = 1;
+        $GLOBALS['server']                 = 1;
         $GLOBALS['cfg']['Server']['pmadb'] = '';
-        $GLOBALS['pmaThemeImage'] = 'theme/';
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['ShowHint'] = true;
+        $GLOBALS['pmaThemeImage']          = 'theme/';
+        $GLOBALS['cfg']['ServerDefault']   = "server";
+        $GLOBALS['cfg']['ShowHint']        = true;
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
@@ -64,7 +64,7 @@ class PMA_TblChartTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForPmaTokenAndUrlQuery()
     {
-        $url_query = "url_query";
+        $url_query               = "url_query";
         $_SESSION[' PMA_token '] = "PMA_token";
 
         $html = PMA_getHtmlForPmaTokenAndUrlQuery($url_query);
@@ -143,10 +143,10 @@ class PMA_TblChartTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForChartXAxisOptions()
     {
-        $keys = array(
+        $keys  = [
             "x1" => "value1",
             "x2" => "value2",
-        );
+        ];
         $yaxis = null;
 
         $html = PMA_getHtmlForChartXAxisOptions($keys, $yaxis);
@@ -183,25 +183,25 @@ class PMA_TblChartTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForTableChartDisplay()
     {
-        $_SESSION[' PMA_token '] = "PMA_token";
-        $_SESSION['tmpval']['pos'] = "pos";
+        $_SESSION[' PMA_token ']        = "PMA_token";
+        $_SESSION['tmpval']['pos']      = "pos";
         $_SESSION['tmpval']['max_rows'] = "all";
-        $GLOBALS['cfg']['MaxRows'] = 10;
+        $GLOBALS['cfg']['MaxRows']      = 10;
 
-        $url_query = "url_query";
-        $url_params = array("url" => "url_params");
-        $keys = array(
+        $url_query            = "url_query";
+        $url_params           = ["url" => "url_params"];
+        $keys                 = [
             "x1" => "value1",
             "x2" => "value2",
-        );
-        $fields_meta = array(
+        ];
+        $fields_meta          = [
             "x1" => new Mock_Meta("type1"),
             "x2" => new Mock_Meta("type3"),
-        );
-        $numeric_types = array("type1", "type2");
+        ];
+        $numeric_types        = ["type1", "type2"];
         $numeric_column_count = 2;
-        $sql_query = "sql_query";
-        $yaxis = null;
+        $sql_query            = "sql_query";
+        $yaxis                = null;
 
         $html = PMA_getHtmlForTableChartDisplay(
             $url_query, $url_params, $keys,

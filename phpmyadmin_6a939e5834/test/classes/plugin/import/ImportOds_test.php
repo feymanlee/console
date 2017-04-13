@@ -47,33 +47,33 @@ class ImportOds_Test extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $GLOBALS['plugin_param'] = "csv";
-        $this->object = new ImportOds();
+        $this->object            = new ImportOds();
 
         //setting
-        $GLOBALS['finished'] = false;
-        $GLOBALS['read_limit'] = 100000000;
-        $GLOBALS['offset'] = 0;
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['cfg']['ServerDefault'] = 0;
+        $GLOBALS['finished']                     = false;
+        $GLOBALS['read_limit']                   = 100000000;
+        $GLOBALS['offset']                       = 0;
+        $GLOBALS['cfg']['Server']['DisableIS']   = false;
+        $GLOBALS['cfg']['ServerDefault']         = 0;
         $GLOBALS['cfg']['AllowUserDropDatabase'] = false;
 
         $GLOBALS['import_file'] = 'test/test_data/db_test.ods';
 
         /**
          * Load interface for zip extension.
-        */
+         */
         include_once 'libraries/zip_extension.lib.php';
-        $result = PMA_getZipContents($GLOBALS['import_file']);
-        $GLOBALS['import_text'] = $result["data"];
-        $GLOBALS['compression'] = 'application/zip';
+        $result                   = PMA_getZipContents($GLOBALS['import_file']);
+        $GLOBALS['import_text']   = $result["data"];
+        $GLOBALS['compression']   = 'application/zip';
         $GLOBALS['read_multiply'] = 10;
-        $GLOBALS['import_type'] = 'ods';
+        $GLOBALS['import_type']   = 'ods';
         $GLOBALS['import_handle'] = @fopen($GLOBALS['import_file'], 'r');
 
         //variable for Ods
         $_REQUEST['ods_recognize_percentages'] = true;
-        $_REQUEST['ods_recognize_currency'] = true;
-        $_REQUEST['ods_empty_rows'] = true;
+        $_REQUEST['ods_recognize_currency']    = true;
+        $_REQUEST['ods_empty_rows']            = true;
     }
 
     /**
@@ -127,7 +127,7 @@ class ImportOds_Test extends PHPUnit_Framework_TestCase
         $sql_query_disabled = false;
 
         //Mock DBI
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi            = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $GLOBALS['dbi'] = $dbi;

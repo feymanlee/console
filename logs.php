@@ -1,13 +1,5 @@
 <?php
-// +----------------------------------------------------------------------
-// | 宝塔服务器助手[Linux面板]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2015-2016 宝塔软件(http://bt.cn) All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: 黄文良 <2879625666@qq.com>
-// +----------------------------------------------------------------------
+
 
 //----------------------------------
 // 操作日志
@@ -15,13 +7,13 @@
 require './Common.php';
 
 //接口动作
-if(isset($_GET['action'])){
-	$_GET['action']();
-	exit;
+if (isset($_GET['action'])) {
+    $_GET['action']();
+    exit;
 }
 
 //包含头部与菜单
-require './public/head.html'; 
+require './public/head.html';
 require './public/menu.html';
 require './public/logs.html';
 require './public/footer.html';

@@ -40,7 +40,7 @@ class PMA_StringMbTest extends PMA_StringTest
     {
         return array_merge(
             parent::providerStrlen(),
-            array(array(13, "chaîne testée"))
+            [[13, "chaîne testée"]]
         );
     }
 
@@ -53,10 +53,10 @@ class PMA_StringMbTest extends PMA_StringTest
     {
         return array_merge(
             parent::providerSubstr(),
-            array(
-                array("rçon", "garçon", 2, 4),
-                array("de ", "garçon de café", 7, 3)
-            )
+            [
+                ["rçon", "garçon", 2, 4],
+                ["de ", "garçon de café", 7, 3],
+            ]
         );
     }
 
@@ -69,12 +69,12 @@ class PMA_StringMbTest extends PMA_StringTest
     {
         return array_merge(
             parent::providerSubstrCount(),
-            array(
-                array(2, "garçon de café", "a"),
-                array(1, "garçon de café attristé", "ç"),
-                array(2, "garçon de café attristé", "é"),
-                array(1, "garçon de café attristé", "fé"),
-            )
+            [
+                [2, "garçon de café", "a"],
+                [1, "garçon de café attristé", "ç"],
+                [2, "garçon de café attristé", "é"],
+                [1, "garçon de café attristé", "fé"],
+            ]
         );
     }
 
@@ -89,11 +89,11 @@ class PMA_StringMbTest extends PMA_StringTest
     {
         return array_merge(
             parent::providerStrpos(),
-            array(
-                array(16, "garçon de café attristé", "t"),
-                array(13, "garçon de café attristé", "é"),
-                array(22, "garçon de café attristé", "é", 15),
-            )
+            [
+                [16, "garçon de café attristé", "t"],
+                [13, "garçon de café attristé", "é"],
+                [22, "garçon de café attristé", "é", 15],
+            ]
         );
     }
 

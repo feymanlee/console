@@ -61,7 +61,7 @@ class PMA_TRI_GetQueryFromRequest_Test extends PHPUnit_Framework_TestCase
     ) {
         global $_REQUEST, $errors;
 
-        $errors = array();
+        $errors = [];
         PMA_TRI_setGlobals();
 
         $_REQUEST['item_definer']    = $definer;
@@ -82,17 +82,17 @@ class PMA_TRI_GetQueryFromRequest_Test extends PHPUnit_Framework_TestCase
      */
     public function provider()
     {
-        return array(
-            array('',
+        return [
+            ['',
                 '',
                 '',
                 '',
                 '',
                 '',
                 'CREATE TRIGGER ON  FOR EACH ROW ',
-                5
-            ),
-            array(
+                5,
+            ],
+            [
                 'root',
                 'trigger',
                 'BEFORE',
@@ -100,9 +100,9 @@ class PMA_TRI_GetQueryFromRequest_Test extends PHPUnit_Framework_TestCase
                 'table`2',
                 'SET @A=NULL',
                 'CREATE TRIGGER `trigger` BEFORE INSERT ON  FOR EACH ROW SET @A=NULL',
-                2
-            ),
-            array(
+                2,
+            ],
+            [
                 'foo`s@host',
                 'trigger`s test',
                 'AFTER',
@@ -110,9 +110,9 @@ class PMA_TRI_GetQueryFromRequest_Test extends PHPUnit_Framework_TestCase
                 'table3',
                 'BEGIN SET @A=1; SET @B=2; END',
                 'CREATE DEFINER=`foo``s`@`host` TRIGGER `trigger``s test` AFTER ON  FOR EACH ROW BEGIN SET @A=1; SET @B=2; END',
-                2
-            ),
-            array(
+                2,
+            ],
+            [
                 'root@localhost',
                 'trigger',
                 'BEFORE',
@@ -120,9 +120,10 @@ class PMA_TRI_GetQueryFromRequest_Test extends PHPUnit_Framework_TestCase
                 'table1',
                 'SET @A=NULL',
                 'CREATE DEFINER=`root`@`localhost` TRIGGER `trigger` BEFORE INSERT ON `table1` FOR EACH ROW SET @A=NULL',
-                0
-            ),
-        );
+                0,
+            ],
+        ];
     }
 }
+
 ?>

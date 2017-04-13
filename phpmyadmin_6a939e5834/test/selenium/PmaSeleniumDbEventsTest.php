@@ -62,7 +62,7 @@ class PMA_SeleniumDbEventsTest extends PMA_SeleniumBase
     private function _eventSQL()
     {
         $start = date('Y-m-d H:i:s', strtotime('-1 day'));
-        $end = date('Y-m-d H:i:s', strtotime('+1 day'));
+        $end   = date('Y-m-d H:i:s', strtotime('+1 day'));
 
         $this->dbQuery(
             "CREATE EVENT `test_event` ON SCHEDULE EVERY 2 MINUTE_SECOND STARTS "
@@ -133,7 +133,7 @@ class PMA_SeleniumDbEventsTest extends PMA_SeleniumBase
         $result = $this->dbQuery(
             "SELECT val FROM `" . $this->database_name . "`.`test_table`"
         );
-        $row = $result->fetch_assoc();
+        $row    = $result->fetch_assoc();
         $this->assertGreaterThan(2, $row['val']);
     }
 
@@ -174,7 +174,7 @@ class PMA_SeleniumDbEventsTest extends PMA_SeleniumBase
         $result = $this->dbQuery(
             "SELECT val FROM `" . $this->database_name . "`.`test_table`"
         );
-        $row = $result->fetch_assoc();
+        $row    = $result->fetch_assoc();
         $this->assertGreaterThan(100, $row['val']);
     }
 

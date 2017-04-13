@@ -35,11 +35,11 @@ class PMA_ServerStatusProcesses_Test extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $GLOBALS['cfg']['Server']['host'] = "localhost";
-        $GLOBALS['PMA_PHP_SELF'] = PMA_getenv('PHP_SELF');
+        $GLOBALS['cfg']['Server']['host']                = "localhost";
+        $GLOBALS['PMA_PHP_SELF']                         = PMA_getenv('PHP_SELF');
         $GLOBALS['replication_info']['master']['status'] = true;
-        $GLOBALS['replication_info']['slave']['status'] = false;
-        $GLOBALS['replication_types'] = array();
+        $GLOBALS['replication_info']['slave']['status']  = false;
+        $GLOBALS['replication_types']                    = [];
 
         $GLOBALS['pmaThemeImage'] = 'image';
 
@@ -106,17 +106,17 @@ class PMA_ServerStatusProcesses_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForServerProcessList()
     {
-        $process = array(
-            "User" => "User1",
-            "Host" => "Host1",
-            "Id" => "Id1",
-            "db" => "db1",
+        $process                                       = [
+            "User"    => "User1",
+            "Host"    => "Host1",
+            "Id"      => "Id1",
+            "db"      => "db1",
             "Command" => "Command1",
-            "State" => "State1",
-            "Info" => "Info1",
-            "State" => "State1",
-            "Time" => "Time1"
-        );
+            "State"   => "State1",
+            "Info"    => "Info1",
+            "State"   => "State1",
+            "Time"    => "Time1",
+        ];
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 12;
         $GLOBALS['dbi']->expects($this->any())->method('fetchAssoc')
             ->will($this->onConsecutiveCalls($process));
@@ -142,11 +142,11 @@ class PMA_ServerStatusProcesses_Test extends PHPUnit_Framework_TestCase
             $html
         );
 
-        $_REQUEST['full'] = true;
-        $_REQUEST['sort_order'] = 'ASC';
+        $_REQUEST['full']           = true;
+        $_REQUEST['sort_order']     = 'ASC';
         $_REQUEST['order_by_field'] = 'db';
-        $_REQUEST['column_name'] = 'Database';
-        $html = PMA_getHtmlForServerProcesslist();
+        $_REQUEST['column_name']    = 'Database';
+        $html                       = PMA_getHtmlForServerProcesslist();
 
         $this->assertContains(
             'Truncate Shown Queries',
@@ -161,10 +161,10 @@ class PMA_ServerStatusProcesses_Test extends PHPUnit_Framework_TestCase
             $html
         );
 
-        $_REQUEST['sort_order'] = 'DESC';
+        $_REQUEST['sort_order']     = 'DESC';
         $_REQUEST['order_by_field'] = 'Host';
-        $_REQUEST['column_name'] = 'Host';
-        $html = PMA_getHtmlForServerProcesslist();
+        $_REQUEST['column_name']    = 'Host';
+        $html                       = PMA_getHtmlForServerProcesslist();
 
         $this->assertContains(
             'Host',
@@ -184,32 +184,32 @@ class PMA_ServerStatusProcesses_Test extends PHPUnit_Framework_TestCase
     public function testPMAGetHtmlForServerProcessItem()
     {
         //parameters
-        $process = array(
-            "user" => "User1",
-            "host" => "Host1",
-            "id" => "Id1",
-            "db" => "db1",
+        $process       = [
+            "user"    => "User1",
+            "host"    => "Host1",
+            "id"      => "Id1",
+            "db"      => "db1",
             "command" => "Command1",
-            "state" => "State1",
-            "info" => "Info1",
-            "state" => "State1",
-            "time" => "Time1",
-        );
-        $odd_row = true;
+            "state"   => "State1",
+            "info"    => "Info1",
+            "state"   => "State1",
+            "time"    => "Time1",
+        ];
+        $odd_row       = true;
         $show_full_sql = true;
 
-        $_REQUEST['sort_order'] = "desc";
-        $_REQUEST['order_by_field'] = "process";
+        $_REQUEST['sort_order']                        = "desc";
+        $_REQUEST['order_by_field']                    = "process";
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 12;
 
         //Call the test function
         $html = PMA_getHtmlForServerProcessItem($process, $odd_row, $show_full_sql);
 
         //validate 1: $kill_process
-        $url_params = array(
-            'kill' => $process['id'],
-            'ajax_request' => true
-        );
+        $url_params   = [
+            'kill'         => $process['id'],
+            'ajax_request' => true,
+        ];
         $kill_process = 'server_status_processes.php'
             . PMA_URL_getCommon($url_params);
         $this->assertContains(
@@ -276,4 +276,5 @@ class PMA_ServerStatusProcesses_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

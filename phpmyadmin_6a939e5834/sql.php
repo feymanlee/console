@@ -41,9 +41,9 @@ if (isset($ajax_reload) && $ajax_reload['reload'] === true) {
  * Defines the url to return to in case of error in a sql statement
  */
 // Security checks
-if (! empty($goto)) {
-    $is_gotofile     = preg_replace('@^([^?]+).*$@s', '\\1', $goto);
-    if (! @file_exists('' . $is_gotofile)) {
+if (!empty($goto)) {
+    $is_gotofile = preg_replace('@^([^?]+).*$@s', '\\1', $goto);
+    if (!@file_exists('' . $is_gotofile)) {
         unset($goto);
     } else {
         $is_gotofile = ($is_gotofile == $goto);
@@ -54,14 +54,16 @@ if (! empty($goto)) {
     } else {
         $goto = $cfg['DefaultTabTable'];
     }
-    $is_gotofile  = true;
+    $is_gotofile = true;
 } // end if
 
-if (! isset($err_url)) {
-    $err_url = (! empty($back) ? $back : $goto)
-        . '?' . PMA_URL_getCommon(array('db' => $GLOBALS['db']))
-        . ((/*overload*/mb_strpos(' ' . $goto, 'db_') != 1
-            && /*overload*/mb_strlen($table))
+if (!isset($err_url)) {
+    $err_url = (!empty($back) ? $back : $goto)
+        . '?' . PMA_URL_getCommon(['db' => $GLOBALS['db']])
+        . ((/*overload*/
+            mb_strpos(' ' . $goto, 'db_') != 1
+            && /*overload*/
+            mb_strlen($table))
             ? '&amp;table=' . urlencode($table)
             : ''
         );
@@ -111,8 +113,10 @@ if (isset($_REQUEST['set_col_prefs']) && $_REQUEST['set_col_prefs'] == true) {
 
 // Default to browse if no query set and we have table
 // (needed for browsing from DefaultTabTable)
-$tableLength = /*overload*/mb_strlen($table);
-$dbLength = /*overload*/mb_strlen($db);
+$tableLength = /*overload*/
+    mb_strlen($table);
+$dbLength    = /*overload*/
+    mb_strlen($db);
 if (empty($sql_query) && $tableLength && $dbLength) {
     $sql_query = PMA_getDefaultSqlQueryForBrowse($db, $table);
 
@@ -120,7 +124,7 @@ if (empty($sql_query) && $tableLength && $dbLength) {
     $goto = '';
 } else {
     // Now we can check the parameters
-    PMA_Util::checkParameters(array('sql_query'));
+    PMA_Util::checkParameters(['sql_query']);
 }
 
 /**
@@ -169,13 +173,13 @@ if (isset($_POST['store_bkm'])) {
  */
 if ($goto == 'sql.php') {
     $is_gotofile = false;
-    $goto = 'sql.php' . PMA_URL_getCommon(
-        array(
-            'db' => $db,
-            'table' => $table,
-            'sql_query' => $sql_query
-        )
-    );
+    $goto        = 'sql.php' . PMA_URL_getCommon(
+            [
+                'db'        => $db,
+                'table'     => $table,
+                'sql_query' => $sql_query,
+            ]
+        );
 } // end if
 
 PMA_executeQueryAndSendQueryResponse(

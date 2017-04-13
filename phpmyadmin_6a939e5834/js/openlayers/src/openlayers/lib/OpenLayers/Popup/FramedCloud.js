@@ -10,14 +10,14 @@
 
 /**
  * Class: OpenLayers.Popup.FramedCloud
- * 
- * Inherits from: 
+ *
+ * Inherits from:
  *  - <OpenLayers.Popup.Framed>
  */
-OpenLayers.Popup.FramedCloud = 
+OpenLayers.Popup.FramedCloud =
   OpenLayers.Class(OpenLayers.Popup.Framed, {
 
-    /** 
+    /**
      * Property: contentDisplayClass
      * {String} The CSS class of the popup content div.
      */
@@ -43,12 +43,12 @@ OpenLayers.Popup.FramedCloud =
 
     /**
      * APIProperty: isAlphaImage
-     * {Boolean} The FramedCloud does not use an alpha image (in honor of the 
+     * {Boolean} The FramedCloud does not use an alpha image (in honor of the
      *     good ie6 folk out there)
      */
     isAlphaImage: false,
 
-    /** 
+    /**
      * APIProperty: fixedRelativePosition
      * {Boolean} The Framed Cloud popup works in just one fixed position.
      */
@@ -60,130 +60,130 @@ OpenLayers.Popup.FramedCloud =
      *     two-character code string (ie "tl", "tr", "bl", "br")
      */
     positionBlocks: {
-        "tl": {
-            'offset': new OpenLayers.Pixel(44, 0),
-            'padding': new OpenLayers.Bounds(8, 40, 8, 9),
-            'blocks': [
-                { // top-left
-                    size: new OpenLayers.Size('auto', 'auto'),
-                    anchor: new OpenLayers.Bounds(0, 51, 22, 0),
-                    position: new OpenLayers.Pixel(0, 0)
-                },
-                { //top-right
-                    size: new OpenLayers.Size(22, 'auto'),
-                    anchor: new OpenLayers.Bounds(null, 50, 0, 0),
-                    position: new OpenLayers.Pixel(-1238, 0)
-                },
-                { //bottom-left
-                    size: new OpenLayers.Size('auto', 19),
-                    anchor: new OpenLayers.Bounds(0, 32, 22, null),
-                    position: new OpenLayers.Pixel(0, -631)
-                },
-                { //bottom-right
-                    size: new OpenLayers.Size(22, 18),
-                    anchor: new OpenLayers.Bounds(null, 32, 0, null),
-                    position: new OpenLayers.Pixel(-1238, -632)
-                },
-                { // stem
-                    size: new OpenLayers.Size(81, 35),
-                    anchor: new OpenLayers.Bounds(null, 0, 0, null),
-                    position: new OpenLayers.Pixel(0, -688)
-                }
-            ]
-        },
-        "tr": {
-            'offset': new OpenLayers.Pixel(-45, 0),
-            'padding': new OpenLayers.Bounds(8, 40, 8, 9),
-            'blocks': [
-                { // top-left
-                    size: new OpenLayers.Size('auto', 'auto'),
-                    anchor: new OpenLayers.Bounds(0, 51, 22, 0),
-                    position: new OpenLayers.Pixel(0, 0)
-                },
-                { //top-right
-                    size: new OpenLayers.Size(22, 'auto'),
-                    anchor: new OpenLayers.Bounds(null, 50, 0, 0),
-                    position: new OpenLayers.Pixel(-1238, 0)
-                },
-                { //bottom-left
-                    size: new OpenLayers.Size('auto', 19),
-                    anchor: new OpenLayers.Bounds(0, 32, 22, null),
-                    position: new OpenLayers.Pixel(0, -631)
-                },
-                { //bottom-right
-                    size: new OpenLayers.Size(22, 19),
-                    anchor: new OpenLayers.Bounds(null, 32, 0, null),
-                    position: new OpenLayers.Pixel(-1238, -631)
-                },
-                { // stem
-                    size: new OpenLayers.Size(81, 35),
-                    anchor: new OpenLayers.Bounds(0, 0, null, null),
-                    position: new OpenLayers.Pixel(-215, -687)
-                }
-            ]
-        },
-        "bl": {
-            'offset': new OpenLayers.Pixel(45, 0),
-            'padding': new OpenLayers.Bounds(8, 9, 8, 40),
-            'blocks': [
-                { // top-left
-                    size: new OpenLayers.Size('auto', 'auto'),
-                    anchor: new OpenLayers.Bounds(0, 21, 22, 32),
-                    position: new OpenLayers.Pixel(0, 0)
-                },
-                { //top-right
-                    size: new OpenLayers.Size(22, 'auto'),
-                    anchor: new OpenLayers.Bounds(null, 21, 0, 32),
-                    position: new OpenLayers.Pixel(-1238, 0)
-                },
-                { //bottom-left
-                    size: new OpenLayers.Size('auto', 21),
-                    anchor: new OpenLayers.Bounds(0, 0, 22, null),
-                    position: new OpenLayers.Pixel(0, -629)
-                },
-                { //bottom-right
-                    size: new OpenLayers.Size(22, 21),
-                    anchor: new OpenLayers.Bounds(null, 0, 0, null),
-                    position: new OpenLayers.Pixel(-1238, -629)
-                },
-                { // stem
-                    size: new OpenLayers.Size(81, 33),
-                    anchor: new OpenLayers.Bounds(null, null, 0, 0),
-                    position: new OpenLayers.Pixel(-101, -674)
-                }
-            ]
-        },
-        "br": {
-            'offset': new OpenLayers.Pixel(-44, 0),
-            'padding': new OpenLayers.Bounds(8, 9, 8, 40),
-            'blocks': [
-                { // top-left
-                    size: new OpenLayers.Size('auto', 'auto'),
-                    anchor: new OpenLayers.Bounds(0, 21, 22, 32),
-                    position: new OpenLayers.Pixel(0, 0)
-                },
-                { //top-right
-                    size: new OpenLayers.Size(22, 'auto'),
-                    anchor: new OpenLayers.Bounds(null, 21, 0, 32),
-                    position: new OpenLayers.Pixel(-1238, 0)
-                },
-                { //bottom-left
-                    size: new OpenLayers.Size('auto', 21),
-                    anchor: new OpenLayers.Bounds(0, 0, 22, null),
-                    position: new OpenLayers.Pixel(0, -629)
-                },
-                { //bottom-right
-                    size: new OpenLayers.Size(22, 21),
-                    anchor: new OpenLayers.Bounds(null, 0, 0, null),
-                    position: new OpenLayers.Pixel(-1238, -629)
-                },
-                { // stem
-                    size: new OpenLayers.Size(81, 33),
-                    anchor: new OpenLayers.Bounds(0, null, null, 0),
-                    position: new OpenLayers.Pixel(-311, -674)
-                }
-            ]
-        }
+      "tl": {
+        'offset': new OpenLayers.Pixel(44, 0),
+        'padding': new OpenLayers.Bounds(8, 40, 8, 9),
+        'blocks': [
+          { // top-left
+            size: new OpenLayers.Size('auto', 'auto'),
+            anchor: new OpenLayers.Bounds(0, 51, 22, 0),
+            position: new OpenLayers.Pixel(0, 0)
+          },
+          { //top-right
+            size: new OpenLayers.Size(22, 'auto'),
+            anchor: new OpenLayers.Bounds(null, 50, 0, 0),
+            position: new OpenLayers.Pixel(-1238, 0)
+          },
+          { //bottom-left
+            size: new OpenLayers.Size('auto', 19),
+            anchor: new OpenLayers.Bounds(0, 32, 22, null),
+            position: new OpenLayers.Pixel(0, -631)
+          },
+          { //bottom-right
+            size: new OpenLayers.Size(22, 18),
+            anchor: new OpenLayers.Bounds(null, 32, 0, null),
+            position: new OpenLayers.Pixel(-1238, -632)
+          },
+          { // stem
+            size: new OpenLayers.Size(81, 35),
+            anchor: new OpenLayers.Bounds(null, 0, 0, null),
+            position: new OpenLayers.Pixel(0, -688)
+          }
+        ]
+      },
+      "tr": {
+        'offset': new OpenLayers.Pixel(-45, 0),
+        'padding': new OpenLayers.Bounds(8, 40, 8, 9),
+        'blocks': [
+          { // top-left
+            size: new OpenLayers.Size('auto', 'auto'),
+            anchor: new OpenLayers.Bounds(0, 51, 22, 0),
+            position: new OpenLayers.Pixel(0, 0)
+          },
+          { //top-right
+            size: new OpenLayers.Size(22, 'auto'),
+            anchor: new OpenLayers.Bounds(null, 50, 0, 0),
+            position: new OpenLayers.Pixel(-1238, 0)
+          },
+          { //bottom-left
+            size: new OpenLayers.Size('auto', 19),
+            anchor: new OpenLayers.Bounds(0, 32, 22, null),
+            position: new OpenLayers.Pixel(0, -631)
+          },
+          { //bottom-right
+            size: new OpenLayers.Size(22, 19),
+            anchor: new OpenLayers.Bounds(null, 32, 0, null),
+            position: new OpenLayers.Pixel(-1238, -631)
+          },
+          { // stem
+            size: new OpenLayers.Size(81, 35),
+            anchor: new OpenLayers.Bounds(0, 0, null, null),
+            position: new OpenLayers.Pixel(-215, -687)
+          }
+        ]
+      },
+      "bl": {
+        'offset': new OpenLayers.Pixel(45, 0),
+        'padding': new OpenLayers.Bounds(8, 9, 8, 40),
+        'blocks': [
+          { // top-left
+            size: new OpenLayers.Size('auto', 'auto'),
+            anchor: new OpenLayers.Bounds(0, 21, 22, 32),
+            position: new OpenLayers.Pixel(0, 0)
+          },
+          { //top-right
+            size: new OpenLayers.Size(22, 'auto'),
+            anchor: new OpenLayers.Bounds(null, 21, 0, 32),
+            position: new OpenLayers.Pixel(-1238, 0)
+          },
+          { //bottom-left
+            size: new OpenLayers.Size('auto', 21),
+            anchor: new OpenLayers.Bounds(0, 0, 22, null),
+            position: new OpenLayers.Pixel(0, -629)
+          },
+          { //bottom-right
+            size: new OpenLayers.Size(22, 21),
+            anchor: new OpenLayers.Bounds(null, 0, 0, null),
+            position: new OpenLayers.Pixel(-1238, -629)
+          },
+          { // stem
+            size: new OpenLayers.Size(81, 33),
+            anchor: new OpenLayers.Bounds(null, null, 0, 0),
+            position: new OpenLayers.Pixel(-101, -674)
+          }
+        ]
+      },
+      "br": {
+        'offset': new OpenLayers.Pixel(-44, 0),
+        'padding': new OpenLayers.Bounds(8, 9, 8, 40),
+        'blocks': [
+          { // top-left
+            size: new OpenLayers.Size('auto', 'auto'),
+            anchor: new OpenLayers.Bounds(0, 21, 22, 32),
+            position: new OpenLayers.Pixel(0, 0)
+          },
+          { //top-right
+            size: new OpenLayers.Size(22, 'auto'),
+            anchor: new OpenLayers.Bounds(null, 21, 0, 32),
+            position: new OpenLayers.Pixel(-1238, 0)
+          },
+          { //bottom-left
+            size: new OpenLayers.Size('auto', 21),
+            anchor: new OpenLayers.Bounds(0, 0, 22, null),
+            position: new OpenLayers.Pixel(0, -629)
+          },
+          { //bottom-right
+            size: new OpenLayers.Size(22, 21),
+            anchor: new OpenLayers.Bounds(null, 0, 0, null),
+            position: new OpenLayers.Pixel(-1238, -629)
+          },
+          { // stem
+            size: new OpenLayers.Size(81, 33),
+            anchor: new OpenLayers.Bounds(0, null, null, 0),
+            position: new OpenLayers.Pixel(-311, -674)
+          }
+        ]
+      }
     },
 
     /**
@@ -198,34 +198,34 @@ OpenLayers.Popup.FramedCloud =
      */
     maxSize: new OpenLayers.Size(1200, 660),
 
-    /** 
+    /**
      * Constructor: OpenLayers.Popup.FramedCloud
-     * 
+     *
      * Parameters:
      * id - {String}
      * lonlat - {<OpenLayers.LonLat>}
      * contentSize - {<OpenLayers.Size>}
      * contentHTML - {String}
-     * anchor - {Object} Object to which we'll anchor the popup. Must expose 
-     *     a 'size' (<OpenLayers.Size>) and 'offset' (<OpenLayers.Pixel>) 
+     * anchor - {Object} Object to which we'll anchor the popup. Must expose
+     *     a 'size' (<OpenLayers.Size>) and 'offset' (<OpenLayers.Pixel>)
      *     (Note that this is generally an <OpenLayers.Icon>).
      * closeBox - {Boolean}
      * closeBoxCallback - {Function} Function to be called on closeBox click.
      */
-    initialize:function(id, lonlat, contentSize, contentHTML, anchor, closeBox, 
-                        closeBoxCallback) {
+    initialize: function (id, lonlat, contentSize, contentHTML, anchor, closeBox,
+                          closeBoxCallback) {
 
-        this.imageSrc = OpenLayers.Util.getImagesLocation() + 'cloud-popup-relative.png';
-        OpenLayers.Popup.Framed.prototype.initialize.apply(this, arguments);
-        this.contentDiv.className = this.contentDisplayClass;
+      this.imageSrc = OpenLayers.Util.getImagesLocation() + 'cloud-popup-relative.png';
+      OpenLayers.Popup.Framed.prototype.initialize.apply(this, arguments);
+      this.contentDiv.className = this.contentDisplayClass;
     },
 
-    /** 
+    /**
      * APIMethod: destroy
      */
-    destroy: function() {
-        OpenLayers.Popup.Framed.prototype.destroy.apply(this, arguments);
+    destroy: function () {
+      OpenLayers.Popup.Framed.prototype.destroy.apply(this, arguments);
     },
 
     CLASS_NAME: "OpenLayers.Popup.FramedCloud"
-});
+  });

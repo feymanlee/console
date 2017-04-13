@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Navigation
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -32,20 +32,21 @@ class Node_Database_Container extends Node
         if ($GLOBALS['is_create_db_priv']
             && $GLOBALS['cfg']['ShowCreateDb'] !== false
         ) {
-            $new        = PMA_NodeFactory::getInstance(
+            $new          = PMA_NodeFactory::getInstance(
                 'Node', _pgettext('Create new database', 'New')
             );
-            $new->isNew = true;
-            $new->icon  = PMA_Util::getImage('b_newdb.png', '');
-            $new->links = array(
+            $new->isNew   = true;
+            $new->icon    = PMA_Util::getImage('b_newdb.png', '');
+            $new->links   = [
                 'text' => 'server_databases.php?server=' . $GLOBALS['server']
-                        . '&amp;token=' . $_SESSION[' PMA_token '],
+                    . '&amp;token=' . $_SESSION[' PMA_token '],
                 'icon' => 'server_databases.php?server=' . $GLOBALS['server']
-                        . '&amp;token=' . $_SESSION[' PMA_token '],
-            );
+                    . '&amp;token=' . $_SESSION[' PMA_token '],
+            ];
             $new->classes = 'new_database italics';
             $this->addChild($new);
         }
     }
 }
+
 ?>

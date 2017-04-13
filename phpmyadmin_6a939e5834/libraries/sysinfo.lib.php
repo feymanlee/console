@@ -9,7 +9,7 @@
  *
  * @package PhpMyAdmin-sysinfo
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -30,7 +30,7 @@ function PMA_getSysInfoOs($php_os = PHP_OS)
 {
 
     // look for common UNIX-like systems
-    $unix_like = array('FreeBSD', 'DragonFly');
+    $unix_like = ['FreeBSD', 'DragonFly'];
     if (in_array($php_os, $unix_like)) {
         $php_os = 'Linux';
     }
@@ -45,12 +45,12 @@ function PMA_getSysInfoOs($php_os = PHP_OS)
  */
 function PMA_getSysInfo()
 {
-    $php_os = PMA_getSysInfoOs();
-    $supported = array('Linux', 'WINNT', 'SunOS');
+    $php_os    = PMA_getSysInfoOs();
+    $supported = ['Linux', 'WINNT', 'SunOS'];
 
     if (in_array($php_os, $supported)) {
         $class_name = 'PMA_SysInfo' . $php_os;
-        $ret = new $class_name();
+        $ret        = new $class_name();
         if ($ret->supported()) {
             return $ret;
         }
@@ -75,7 +75,7 @@ class PMA_SysInfo
      */
     public function loadavg()
     {
-        return array('loadavg' => 0);
+        return ['loadavg' => 0];
     }
 
     /**
@@ -85,7 +85,7 @@ class PMA_SysInfo
      */
     public function memory()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -132,8 +132,8 @@ class PMA_SysInfoWinnt extends PMA_SysInfo
     function loadavg()
     {
         $loadavg = "";
-        $sum = 0;
-        $buffer = $this->_getWMI('Win32_Processor', array('LoadPercentage'));
+        $sum     = 0;
+        $buffer  = $this->_getWMI('Win32_Processor', ['LoadPercentage']);
 
         foreach ($buffer as $load) {
             $value = $load['LoadPercentage'];
@@ -141,7 +141,7 @@ class PMA_SysInfoWinnt extends PMA_SysInfo
             $sum += $value;
         }
 
-        return array('loadavg' => $sum / count($buffer));
+        return ['loadavg' => $sum / count($buffer)];
     }
 
     /**
@@ -162,27 +162,28 @@ class PMA_SysInfoWinnt extends PMA_SysInfo
      *
      * @return array with results
      */
-    private function _getWMI($strClass, $strValue = array())
+    private function _getWMI($strClass, $strValue = [])
     {
-        $arrData = array();
+        $arrData = [];
 
-        $objWEBM = $this->_wmi->Get($strClass);
-        $arrProp = $objWEBM->Properties_;
+        $objWEBM    = $this->_wmi->Get($strClass);
+        $arrProp    = $objWEBM->Properties_;
         $arrWEBMCol = $objWEBM->Instances_();
         foreach ($arrWEBMCol as $objItem) {
             if (is_array($arrProp)) {
                 reset($arrProp);
             }
-            $arrInstance = array();
+            $arrInstance = [];
             foreach ($arrProp as $propItem) {
                 $name = $propItem->Name;
-                if ( empty($strValue) || in_array($name, $strValue)) {
-                    $value = $objItem->$name;
+                if (empty($strValue) || in_array($name, $strValue)) {
+                    $value              = $objItem->$name;
                     $arrInstance[$name] = trim($value);
                 }
             }
             $arrData[] = $arrInstance;
         }
+
         return $arrData;
     }
 
@@ -193,20 +194,20 @@ class PMA_SysInfoWinnt extends PMA_SysInfo
      */
     function memory()
     {
-        $buffer = $this->_getWMI(
+        $buffer          = $this->_getWMI(
             "Win32_OperatingSystem",
-            array('TotalVisibleMemorySize', 'FreePhysicalMemory')
+            ['TotalVisibleMemorySize', 'FreePhysicalMemory']
         );
-        $mem = Array();
+        $mem             = [];
         $mem['MemTotal'] = $buffer[0]['TotalVisibleMemorySize'];
-        $mem['MemFree'] = $buffer[0]['FreePhysicalMemory'];
-        $mem['MemUsed'] = $mem['MemTotal'] - $mem['MemFree'];
+        $mem['MemFree']  = $buffer[0]['FreePhysicalMemory'];
+        $mem['MemUsed']  = $mem['MemTotal'] - $mem['MemFree'];
 
         $buffer = $this->_getWMI('Win32_PageFileUsage');
 
         $mem['SwapTotal'] = 0;
-        $mem['SwapUsed'] = 0;
-        $mem['SwapPeak'] = 0;
+        $mem['SwapUsed']  = 0;
+        $mem['SwapPeak']  = 0;
 
         foreach ($buffer as $swapdevice) {
             $mem['SwapTotal'] += $swapdevice['AllocatedBaseSize'] * 1024;
@@ -234,15 +235,18 @@ class PMA_SysInfoLinux extends PMA_SysInfo
      */
     function loadavg()
     {
-        $buf = file_get_contents('/proc/stat');
+        $buf  = file_get_contents('/proc/stat');
         $nums = preg_split(
             "/\s+/",
-            /*overload*/mb_substr($buf, 0, /*overload*/mb_strpos($buf, "\n"))
+            /*overload*/
+            mb_substr($buf, 0, /*overload*/
+                mb_strpos($buf, "\n"))
         );
-        return Array(
+
+        return [
             'busy' => $nums[1] + $nums[2] + $nums[3],
-            'idle' => intval($nums[4])
-        );
+            'idle' => intval($nums[4]),
+        ];
     }
 
     /**
@@ -271,15 +275,15 @@ class PMA_SysInfoLinux extends PMA_SysInfo
 
         $mem = array_combine($matches[1], $matches[2]);
 
-        $defaults = array(
-            'MemTotal' => 0,
-            'MemFree' => 0,
-            'Cached' => 0,
-            'Buffers' => 0,
-            'SwapTotal' => 0,
-            'SwapFree' => 0,
+        $defaults = [
+            'MemTotal'   => 0,
+            'MemFree'    => 0,
+            'Cached'     => 0,
+            'Buffers'    => 0,
+            'SwapTotal'  => 0,
+            'SwapFree'   => 0,
             'SwapCached' => 0,
-        );
+        ];
 
         $mem = array_merge($defaults, $mem);
 
@@ -292,6 +296,7 @@ class PMA_SysInfoLinux extends PMA_SysInfo
         foreach ($mem as $idx => $value) {
             $mem[$idx] = intval($value);
         }
+
         return $mem;
     }
 }
@@ -316,6 +321,7 @@ class PMA_SysInfoSunos extends PMA_SysInfo
     {
         if ($m = shell_exec('kstat -p d ' . $key)) {
             list(, $value) = preg_split("/\t/", trim($m), 2);
+
             return $value;
         } else {
             return '';
@@ -331,7 +337,7 @@ class PMA_SysInfoSunos extends PMA_SysInfo
     {
         $load1 = $this->_kstat('unix:0:system_misc:avenrun_1min');
 
-        return array('loadavg' => $load1);
+        return ['loadavg' => $load1];
     }
 
     /**
@@ -352,17 +358,17 @@ class PMA_SysInfoSunos extends PMA_SysInfo
      */
     public function memory()
     {
-        $pagesize = $this->_kstat('unix:0:seg_cache:slab_size');
-        $mem = array();
+        $pagesize         = $this->_kstat('unix:0:seg_cache:slab_size');
+        $mem              = [];
         $mem['MemTotal']
-            = $this->_kstat('unix:0:system_pages:pagestotal') * $pagesize;
+                          = $this->_kstat('unix:0:system_pages:pagestotal') * $pagesize;
         $mem['MemUsed']
-            = $this->_kstat('unix:0:system_pages:pageslocked') * $pagesize;
+                          = $this->_kstat('unix:0:system_pages:pageslocked') * $pagesize;
         $mem['MemFree']
-            = $this->_kstat('unix:0:system_pages:pagesfree') * $pagesize;
+                          = $this->_kstat('unix:0:system_pages:pagesfree') * $pagesize;
         $mem['SwapTotal'] = $this->_kstat('unix:0:vminfo:swap_avail') / 1024;
-        $mem['SwapUsed'] = $this->_kstat('unix:0:vminfo:swap_alloc') / 1024;
-        $mem['SwapFree'] = $this->_kstat('unix:0:vminfo:swap_free') / 1024;
+        $mem['SwapUsed']  = $this->_kstat('unix:0:vminfo:swap_alloc') / 1024;
+        $mem['SwapFree']  = $this->_kstat('unix:0:vminfo:swap_free') / 1024;
 
         return $mem;
     }

@@ -16,7 +16,7 @@ require_once 'libraries/mime.lib.php';
 
 /* Check parameters */
 PMA_Util::checkParameters(
-    array('db', 'table')
+    ['db', 'table']
 );
 
 /* Select database */
@@ -33,7 +33,7 @@ if (!$GLOBALS['dbi']->getColumns($db, $table)) {
 }
 
 /* Grab data */
-$sql = 'SELECT ' . PMA_Util::backquote($_GET['transform_key'])
+$sql    = 'SELECT ' . PMA_Util::backquote($_GET['transform_key'])
     . ' FROM ' . PMA_Util::backquote($table)
     . ' WHERE ' . $_GET['where_clause'] . ';';
 $result = $GLOBALS['dbi']->fetchValue($sql);
@@ -47,9 +47,10 @@ if ($result === false) {
 @ini_set('url_rewriter.tags', '');
 
 PMA_downloadHeader(
-    $table . '-' .  $_GET['transform_key'] . '.bin',
+    $table . '-' . $_GET['transform_key'] . '.bin',
     PMA_detectMIME($result),
-    /*overload*/mb_strlen($result, '8bit')
+    /*overload*/
+    mb_strlen($result, '8bit')
 );
 echo $result;
 ?>

@@ -4,7 +4,7 @@
  * Test for PMA_langList from select_lang.lib.php
  *
  * @package PhpMyAdmin-test
- * @group select_lang.lib-tests
+ * @group   select_lang.lib-tests
  */
 
 /*
@@ -18,7 +18,7 @@ require_once 'libraries/select_lang.lib.php';
  * Test for PMA_langList from select_lang.lib.php
  *
  * @package PhpMyAdmin-test
- * @group select_lang.lib-tests
+ * @group   select_lang.lib-tests
  */
 class PMA_LangList_Test extends PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,7 @@ class PMA_LangList_Test extends PHPUnit_Framework_TestCase
     function testLangList()
     {
         $GLOBALS['lang_path'] = '';
-        $expected = array('en' => PMA_langDetails('en'));
+        $expected             = ['en' => PMA_langDetails('en')];
 
         $this->assertEquals($expected, PMA_langList());
     }
@@ -43,7 +43,7 @@ class PMA_LangList_Test extends PHPUnit_Framework_TestCase
     function testLangListWithDir()
     {
         $GLOBALS['lang_path'] = './locale/';
-        $expected = array('en' => PMA_langDetails('en'));
+        $expected             = ['en' => PMA_langDetails('en')];
 
         $handle = @opendir($GLOBALS['lang_path']);
         if ($handle === false) {
@@ -69,7 +69,7 @@ class PMA_LangList_Test extends PHPUnit_Framework_TestCase
     function testLangListWithWrongDir()
     {
         $GLOBALS['lang_path'] = '/root/';
-        $expected = array('en' => PMA_langDetails('en'));
+        $expected             = ['en' => PMA_langDetails('en')];
 
         $this->assertEquals($expected, PMA_langList());
     }

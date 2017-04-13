@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -102,14 +102,14 @@ class PMA_Response
      */
     private function __construct()
     {
-        if (! defined('TESTSUITE')) {
+        if (!defined('TESTSUITE')) {
             $buffer = PMA_OutputBuffering::getInstance();
             $buffer->start();
             register_shutdown_function('PMA_Response::response');
         }
         $this->_header = new PMA_Header();
         $this->_HTML   = '';
-        $this->_JSON   = array();
+        $this->_JSON   = [];
         $this->_footer = new PMA_Footer();
 
         $this->_isSuccess  = true;
@@ -139,6 +139,7 @@ class PMA_Response
         if (empty(self::$_instance)) {
             self::$_instance = new PMA_Response();
         }
+
         return self::$_instance;
     }
 
@@ -269,9 +270,10 @@ class PMA_Response
         // if its content was already rendered
         // and, in this case, the header will be
         // in the content part of the request
-        $retval  = $this->_header->getDisplay();
+        $retval = $this->_header->getDisplay();
         $retval .= $this->_HTML;
         $retval .= $this->_footer->getDisplay();
+
         return $retval;
     }
 
@@ -295,10 +297,11 @@ class PMA_Response
         /* Avoid wrapping in case we're disabled */
         if ($this->_isDisabled) {
             echo $this->_getDisplay();
+
             return;
         }
 
-        if (! isset($this->_JSON['message'])) {
+        if (!isset($this->_JSON['message'])) {
             $this->_JSON['message'] = $this->_getDisplay();
         } else if ($this->_JSON['message'] instanceof PMA_Message) {
             $this->_JSON['message'] = $this->_JSON['message']->getDisplay();
@@ -322,11 +325,11 @@ class PMA_Response
             if (isset($GLOBALS['dbi'])) {
                 $menuHash = $this->getHeader()->getMenu()->getHash();
                 $this->addJSON('_menuHash', $menuHash);
-                $hashes = array();
+                $hashes = [];
                 if (isset($_REQUEST['menuHashes'])) {
                     $hashes = explode('-', $_REQUEST['menuHashes']);
                 }
-                if (! in_array($menuHash, $hashes)) {
+                if (!in_array($menuHash, $hashes)) {
                     $this->addJSON('_menu', $this->getHeader()->getMenu()->getDisplay());
                 }
             }
@@ -336,12 +339,16 @@ class PMA_Response
             $this->addJSON('_displayMessage', $this->getHeader()->getMessage());
 
             $debug = $this->_footer->getDebugMessage();
-            if (/*overload*/mb_strlen($debug)) {
+            if (/*overload*/
+            mb_strlen($debug)
+            ) {
                 $this->addJSON('_debug', $debug);
             }
 
             $errors = $this->_footer->getErrorMessages();
-            if (/*overload*/mb_strlen($errors)) {
+            if (/*overload*/
+            mb_strlen($errors)
+            ) {
                 $this->addJSON('_errors', $errors);
             }
             $promptPhpErrors = $GLOBALS['error_handler']->hasErrorsForPrompt();
@@ -350,25 +357,26 @@ class PMA_Response
             if (empty($GLOBALS['error_message'])) {
                 // set current db, table and sql query in the querywindow
                 // (this is for the bottom console)
-                $query = '';
+                $query    = '';
                 $maxChars = $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'];
                 if (isset($GLOBALS['sql_query'])
-                    && /*overload*/mb_strlen($GLOBALS['sql_query']) < $maxChars
+                    && /*overload*/
+                    mb_strlen($GLOBALS['sql_query']) < $maxChars
                 ) {
                     $query = $GLOBALS['sql_query'];
                 }
                 $this->addJSON(
                     '_reloadQuerywindow',
-                    array(
-                        'db' => PMA_ifSetOr($GLOBALS['db'], ''),
-                        'table' => PMA_ifSetOr($GLOBALS['table'], ''),
-                        'sql_query' => $query
-                    )
+                    [
+                        'db'        => PMA_ifSetOr($GLOBALS['db'], ''),
+                        'table'     => PMA_ifSetOr($GLOBALS['table'], ''),
+                        'sql_query' => $query,
+                    ]
                 );
-                if (! empty($GLOBALS['focus_querywindow'])) {
+                if (!empty($GLOBALS['focus_querywindow'])) {
                     $this->addJSON('_focusQuerywindow', $query);
                 }
-                if (! empty($GLOBALS['reload'])) {
+                if (!empty($GLOBALS['reload'])) {
                     $this->addJSON('_reloadNavigation', 1);
                 }
                 $this->addJSON('_params', $this->getHeader()->getJsParams());
@@ -377,7 +385,7 @@ class PMA_Response
 
         // Set the Content-Type header to JSON so that jQuery parses the
         // response correctly.
-        if (! defined('TESTSUITE')) {
+        if (!defined('TESTSUITE')) {
             header('Cache-Control: no-cache');
             header('Content-Type: application/json');
         }

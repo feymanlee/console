@@ -60,17 +60,17 @@ class PMA_DBI_Drizzle_Test extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $GLOBALS['cfg']['Server']['host'] = "localhost";
-        $GLOBALS['cfg']['Server']['socket'] = "socket";
-        $GLOBALS['cfg']['Server']['port'] = 4080;
-        $GLOBALS['cfg']['Server']['connect_type'] = "http";
-        $GLOBALS['cfg']['PersistentConnections'] = false;
-        $GLOBALS['cfg']['Server']['compress'] = true;
-        $GLOBALS['cfg']['Server']['ssl'] = false;
+        $GLOBALS['cfg']['Server']['host']              = "localhost";
+        $GLOBALS['cfg']['Server']['socket']            = "socket";
+        $GLOBALS['cfg']['Server']['port']              = 4080;
+        $GLOBALS['cfg']['Server']['connect_type']      = "http";
+        $GLOBALS['cfg']['PersistentConnections']       = false;
+        $GLOBALS['cfg']['Server']['compress']          = true;
+        $GLOBALS['cfg']['Server']['ssl']               = false;
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
-        $GLOBALS['cfg']['ActionLinksMode'] = "both";
-        $GLOBALS['cfg']['DefaultTabDatabase'] = 'db_structure.php';
-        $GLOBALS['pmaThemeImage'] = 'image';
+        $GLOBALS['cfg']['ActionLinksMode']             = "both";
+        $GLOBALS['cfg']['DefaultTabDatabase']          = 'db_structure.php';
+        $GLOBALS['pmaThemeImage']                      = 'image';
 
         //$_SESSION
         $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
@@ -201,9 +201,9 @@ class PMA_DBI_Drizzle_Test extends PHPUnit_Framework_TestCase
      */
     public function testDBIFunction()
     {
-        $user = "PMA_user";
+        $user     = "PMA_user";
         $password = "pma_password";
-        $server = null;
+        $server   = null;
 
         //$server = null;
         $link = $this->object->connect($user, $password);
@@ -214,7 +214,7 @@ class PMA_DBI_Drizzle_Test extends PHPUnit_Framework_TestCase
 
         //$server['host'] = 'host'
         $server['host'] = 'host';
-        $link = $this->object->connect($user, $password);
+        $link           = $this->object->connect($user, $password);
         $this->assertEquals(
             "DrizzleCon_addUds",
             $link->getType()
@@ -228,7 +228,7 @@ class PMA_DBI_Drizzle_Test extends PHPUnit_Framework_TestCase
         );
 
         //realQuery
-        $query = "query";
+        $query   = "query";
         $options = false;
         $this->assertEquals(
             "query" . $query,

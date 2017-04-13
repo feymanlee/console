@@ -6,7 +6,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -49,7 +49,7 @@ class Advisor
         $sysinfo = PMA_getSysInfo();
         $memory  = $sysinfo->memory();
         $this->variables['system_memory']
-            = isset($memory['MemTotal']) ? $memory['MemTotal'] : 0;
+                 = isset($memory['MemTotal']) ? $memory['MemTotal'] : 0;
 
         // Step 2: Read and parse the list of rules
         $this->parseResult = $this->parseRulesFile();
@@ -57,10 +57,10 @@ class Advisor
         // $runResult
         $this->runRules();
 
-        return array(
-            'parse' => array('errors' => $this->parseResult['errors']),
-            'run'   => $this->runResult
-        );
+        return [
+            'parse' => ['errors' => $this->parseResult['errors']],
+            'run'   => $this->runResult,
+        ];
     }
 
     /**
@@ -88,20 +88,20 @@ class Advisor
      */
     public function runRules()
     {
-        $this->runResult = array(
-            'fired' => array(),
-            'notfired' => array(),
-            'unchecked'=> array(),
-            'errors' => array()
-        );
+        $this->runResult = [
+            'fired'     => [],
+            'notfired'  => [],
+            'unchecked' => [],
+            'errors'    => [],
+        ];
 
         foreach ($this->parseResult['rules'] as $rule) {
             $this->variables['value'] = 0;
-            $precond = true;
+            $precond                  = true;
 
             if (isset($rule['precondition'])) {
                 try {
-                     $precond = $this->ruleExprEvaluate($rule['precondition']);
+                    $precond = $this->ruleExprEvaluate($rule['precondition']);
                 } catch (Exception $e) {
                     $this->storeError(
                         sprintf(
@@ -114,12 +114,12 @@ class Advisor
                 }
             }
 
-            if (! $precond) {
+            if (!$precond) {
                 $this->addRule('unchecked', $rule);
             } else {
                 try {
                     $value = $this->ruleExprEvaluate($rule['formula']);
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     $this->storeError(
                         sprintf(
                             __('Failed calculating value for rule \'%s\'.'),
@@ -138,7 +138,7 @@ class Advisor
                     } else {
                         $this->addRule('notfired', $rule);
                     }
-                }  catch(Exception $e) {
+                } catch (Exception $e) {
                     $this->storeError(
                         sprintf(
                             __('Failed running test for rule \'%s\'.'),
@@ -176,11 +176,12 @@ class Advisor
     public function translate($str, $param = null)
     {
         $string = _gettext(Advisor::escapePercent($str));
-        if ( ! is_null($param)) {
+        if (!is_null($param)) {
             $params = $this->ruleExprEvaluate('array(' . $param . ')');
         } else {
-            $params = array();
+            $params = [];
         }
+
         return vsprintf($string, $params);
     }
 
@@ -195,9 +196,10 @@ class Advisor
     {
         $jst = preg_split('/\s*\|\s*/', $rule['justification'], 2);
         if (count($jst) > 1) {
-            return array($jst[0], $jst[1]);
+            return [$jst[0], $jst[1]];
         }
-        return array($rule['justification']);
+
+        return [$rule['justification']];
     }
 
     /**
@@ -210,49 +212,50 @@ class Advisor
      */
     public function addRule($type, $rule)
     {
-        switch($type) {
-        case 'notfired':
-        case 'fired':
-            $jst = Advisor::splitJustification($rule);
-            if (count($jst) > 1) {
-                try {
-                    /* Translate */
-                    $str = $this->translate($jst[0], $jst[1]);
-                } catch (Exception $e) {
-                    $this->storeError(
-                        sprintf(
-                            __('Failed formatting string for rule \'%s\'.'),
-                            $rule['name']
-                        ),
-                        $e
-                    );
-                    return;
+        switch ($type) {
+            case 'notfired':
+            case 'fired':
+                $jst = Advisor::splitJustification($rule);
+                if (count($jst) > 1) {
+                    try {
+                        /* Translate */
+                        $str = $this->translate($jst[0], $jst[1]);
+                    } catch (Exception $e) {
+                        $this->storeError(
+                            sprintf(
+                                __('Failed formatting string for rule \'%s\'.'),
+                                $rule['name']
+                            ),
+                            $e
+                        );
+
+                        return;
+                    }
+
+                    $rule['justification'] = $str;
+                } else {
+                    $rule['justification'] = $this->translate($rule['justification']);
                 }
+                $rule['id']    = $rule['name'];
+                $rule['name']  = $this->translate($rule['name']);
+                $rule['issue'] = $this->translate($rule['issue']);
 
-                $rule['justification'] = $str;
-            } else {
-                $rule['justification'] = $this->translate($rule['justification']);
-            }
-            $rule['id'] = $rule['name'];
-            $rule['name'] = $this->translate($rule['name']);
-            $rule['issue'] = $this->translate($rule['issue']);
+                // Replaces {server_variable} with 'server_variable'
+                // linking to server_variables.php
+                $rule['recommendation'] = preg_replace(
+                    '/\{([a-z_0-9]+)\}/Ui',
+                    '<a href="server_variables.php' . PMA_URL_getCommon()
+                    . '&filter=\1">\1</a>',
+                    $this->translate($rule['recommendation'])
+                );
 
-            // Replaces {server_variable} with 'server_variable'
-            // linking to server_variables.php
-            $rule['recommendation'] = preg_replace(
-                '/\{([a-z_0-9]+)\}/Ui',
-                '<a href="server_variables.php' . PMA_URL_getCommon()
-                . '&filter=\1">\1</a>',
-                $this->translate($rule['recommendation'])
-            );
-
-            // Replaces external Links with PMA_linkURL() generated links
-            $rule['recommendation'] = preg_replace_callback(
-                '#href=("|\')(https?://[^\1]+)\1#i',
-                array($this, '_replaceLinkURL'),
-                $rule['recommendation']
-            );
-            break;
+                // Replaces external Links with PMA_linkURL() generated links
+                $rule['recommendation'] = preg_replace_callback(
+                    '#href=("|\')(https?://[^\1]+)\1#i',
+                    [$this, '_replaceLinkURL'],
+                    $rule['recommendation']
+                );
+                break;
         }
 
         $this->runResult[$type][] = $rule;
@@ -303,7 +306,7 @@ class Advisor
      */
     private function _ruleExprEvaluateVariable($matches)
     {
-        if (! isset($this->variables[$matches[1]])) {
+        if (!isset($this->variables[$matches[1]])) {
             return $matches[1];
         }
         if (is_numeric($this->variables[$matches[1]])) {
@@ -328,17 +331,17 @@ class Advisor
         // Evaluate fired() conditions
         $expr = preg_replace_callback(
             '/fired\s*\(\s*(\'|")(.*)\1\s*\)/Ui',
-            array($this, '_ruleExprEvaluateFired'),
+            [$this, '_ruleExprEvaluateFired'],
             $expr
         );
         // Evaluate variables
-        $expr = preg_replace_callback(
+        $expr  = preg_replace_callback(
             '/\b(\w+)\b/',
-            array($this, '_ruleExprEvaluateVariable'),
+            [$this, '_ruleExprEvaluateVariable'],
             $expr
         );
         $value = 0;
-        $err = 0;
+        $err   = 0;
 
         // Actually evaluate the code
         ob_start();
@@ -359,6 +362,7 @@ class Advisor
                 . '<br />Executed code: $value = ' . htmlspecialchars($expr) . ';'
             );
         }
+
         return $value;
     }
 
@@ -370,17 +374,17 @@ class Advisor
      */
     public static function parseRulesFile()
     {
-        $file = file('libraries/advisory_rules.txt', FILE_IGNORE_NEW_LINES);
-        $errors = array();
-        $rules = array();
-        $lines = array();
-        $ruleSyntax = array(
-            'name', 'formula', 'test', 'issue', 'recommendation', 'justification'
-        );
-        $numRules = count($ruleSyntax);
-        $numLines = count($file);
-        $ruleNo = -1;
-        $ruleLine = -1;
+        $file       = file('libraries/advisory_rules.txt', FILE_IGNORE_NEW_LINES);
+        $errors     = [];
+        $rules      = [];
+        $lines      = [];
+        $ruleSyntax = [
+            'name', 'formula', 'test', 'issue', 'recommendation', 'justification',
+        ];
+        $numRules   = count($ruleSyntax);
+        $numLines   = count($file);
+        $ruleNo     = -1;
+        $ruleLine   = -1;
 
         for ($i = 0; $i < $numLines; $i++) {
             $line = $file[$i];
@@ -404,8 +408,8 @@ class Advisor
                 if (preg_match("/rule\s'(.*)'( \[(.*)\])?$/", $line, $match)) {
                     $ruleLine = 1;
                     $ruleNo++;
-                    $rules[$ruleNo] = array('name' => $match[1]);
-                    $lines[$ruleNo] = array('name' => $i + 1);
+                    $rules[$ruleNo] = ['name' => $match[1]];
+                    $lines[$ruleNo] = ['name' => $i + 1];
                     if (isset($match[3])) {
                         $rules[$ruleNo]['precondition'] = $match[3];
                         $lines[$ruleNo]['precondition'] = $i + 1;
@@ -444,7 +448,8 @@ class Advisor
                     continue;
                 }
                 $rules[$ruleNo][$ruleSyntax[$ruleLine]] = chop(
-                    /*overload*/mb_substr($line, 1)
+                /*overload*/
+                    mb_substr($line, 1)
                 );
                 $lines[$ruleNo][$ruleSyntax[$ruleLine]] = $i + 1;
                 $ruleLine += 1;
@@ -456,7 +461,7 @@ class Advisor
             }
         }
 
-        return array('rules' => $rules, 'lines' => $lines, 'errors' => $errors);
+        return ['rules' => $rules, 'lines' => $lines, 'errors' => $errors];
     }
 }
 
@@ -476,7 +481,7 @@ function ADVISOR_bytime($num, $precision)
     } elseif ($num * 60 >= 1) { // per minute
         $num = $num * 60;
         $per = __('per minute');
-    } elseif ($num * 60 * 60 >= 1 ) { // per hour
+    } elseif ($num * 60 * 60 >= 1) { // per hour
         $num = $num * 60 * 60;
         $per = __('per hour');
     } else {

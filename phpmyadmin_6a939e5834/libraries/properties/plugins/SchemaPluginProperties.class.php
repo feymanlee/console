@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -44,4 +44,5 @@ class SchemaPluginProperties extends PluginPropertyItem
         return true;
     }
 }
+
 ?>

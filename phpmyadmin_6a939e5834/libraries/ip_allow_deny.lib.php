@@ -6,7 +6,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -41,12 +41,12 @@ function PMA_getIp()
     $value = PMA_getenv($GLOBALS['cfg']['TrustedProxies'][$direct_ip]);
     // Grab first element what is client adddress
     $values = explode(',', $value);
-    $value = $values[0];
+    $value  = $values[0];
     // Extract IP address
     // the $ checks that the header contains only one IP address,
     // ?: makes sure the () don't capture
-    $matches = array();
-    $is_ip = preg_match(
+    $matches = [];
+    $is_ip   = preg_match(
         '|^(?:[0-9]{1,3}\.){3,3}[0-9]{1,3}$|',
         $value, $matches
     );
@@ -73,8 +73,10 @@ function PMA_getIp()
  */
 function PMA_ipMaskTest($testRange, $ipToTest)
 {
-    if (/*overload*/mb_strpos($testRange, ':') > -1
-        || /*overload*/mb_strpos($ipToTest, ':') > -1
+    if (/*overload*/
+        mb_strpos($testRange, ':') > -1
+        || /*overload*/
+        mb_strpos($ipToTest, ':') > -1
     ) {
         // assume IPv6
         $result = PMA_ipv6MaskTest($testRange, $ipToTest);
@@ -110,7 +112,7 @@ function PMA_ipMaskTest($testRange, $ipToTest)
 function PMA_ipv4MaskTest($testRange, $ipToTest)
 {
     $result = true;
-    $match = preg_match(
+    $match  = preg_match(
         '|([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)/([0-9]+)|',
         $testRange,
         $regs
@@ -122,7 +124,7 @@ function PMA_ipv4MaskTest($testRange, $ipToTest)
             $regs[1] . '.' . $regs[2] . '.' . $regs[3] . '.' . $regs[4]
         );
 
-        $maskl  = 0;
+        $maskl = 0;
 
         for ($i = 0; $i < 31; $i++) {
             if ($i < $regs[5] - 1) {
@@ -187,25 +189,30 @@ function PMA_ipv6MaskTest($test_range, $ip_to_test)
     $result = true;
 
     // convert to lowercase for easier comparison
-    $test_range = /*overload*/mb_strtolower($test_range);
-    $ip_to_test = /*overload*/mb_strtolower($ip_to_test);
+    $test_range = /*overload*/
+        mb_strtolower($test_range);
+    $ip_to_test = /*overload*/
+        mb_strtolower($ip_to_test);
 
-    $is_cidr = /*overload*/mb_strpos($test_range, '/') > -1;
-    $is_range = /*overload*/mb_strpos($test_range, '[') > -1;
-    $is_single = ! $is_cidr && ! $is_range;
+    $is_cidr   = /*overload*/
+        mb_strpos($test_range, '/') > -1;
+    $is_range  = /*overload*/
+        mb_strpos($test_range, '[') > -1;
+    $is_single = !$is_cidr && !$is_range;
 
     $ip_hex = bin2hex(inet_pton($ip_to_test));
 
     if ($is_single) {
         $range_hex = bin2hex(inet_pton($test_range));
-        $result = $ip_hex === $range_hex;
+        $result    = $ip_hex === $range_hex;
+
         return $result;
     }
 
     if ($is_range) {
         // what range do we operate on?
-        $range_match = array();
-        $match = preg_match(
+        $range_match = [];
+        $match       = preg_match(
             '/\[([0-9a-f]+)\-([0-9a-f]+)\]/', $test_range, $range_match
         );
         if ($match) {
@@ -221,6 +228,7 @@ function PMA_ipv6MaskTest($test_range, $ip_to_test)
             // check if the IP to test is within the range
             $result = ($ip_hex >= $first_hex && $ip_hex <= $last_hex);
         }
+
         return $result;
     }
 
@@ -240,7 +248,8 @@ function PMA_ipv6MaskTest($test_range, $ip_to_test)
         $pos = 31;
         while ($flexbits > 0) {
             // Get the character at this position
-            $orig = /*overload*/mb_substr($last_hex, $pos, 1);
+            $orig = /*overload*/
+                mb_substr($last_hex, $pos, 1);
 
             // Convert it to an integer
             $origval = hexdec($orig);
@@ -289,16 +298,16 @@ function PMA_allowDeny($type)
     }
 
     // copy username
-    $username  = $cfg['Server']['user'];
+    $username = $cfg['Server']['user'];
 
     // copy rule database
-    $rules     = $cfg['Server']['AllowDeny']['rules'];
+    $rules = $cfg['Server']['AllowDeny']['rules'];
 
     // lookup table for some name shortcuts
-    $shortcuts = array(
+    $shortcuts = [
         'all'       => '0.0.0.0/0',
-        'localhost' => '127.0.0.1/8'
-    );
+        'localhost' => '127.0.0.1/8',
+    ];
 
     // Provide some useful shortcuts if server gives us address:
     if (PMA_getenv('SERVER_ADDR')) {

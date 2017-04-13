@@ -49,6 +49,7 @@ class Random
      * eg. for RSA key generation.
      *
      * @param int $length
+     *
      * @return string
      */
     static function string($length)
@@ -134,10 +135,10 @@ class Random
         static $crypto = false, $v;
         if ($crypto === false) {
             // save old session data
-            $old_session_id = session_id();
-            $old_use_cookies = ini_get('session.use_cookies');
+            $old_session_id            = session_id();
+            $old_use_cookies           = ini_get('session.use_cookies');
             $old_session_cache_limiter = session_cache_limiter();
-            $_OLD_SESSION = isset($_SESSION) ? $_SESSION : false;
+            $_OLD_SESSION              = isset($_SESSION) ? $_SESSION : false;
             if ($old_session_id != '') {
                 session_write_close();
             }
@@ -187,7 +188,7 @@ class Random
             //
             // see the is_string($crypto) part for an example of how to expand the keys
             $key = pack('H*', sha1($seed . 'A'));
-            $iv = pack('H*', sha1($seed . 'C'));
+            $iv  = pack('H*', sha1($seed . 'C'));
 
             // ciphers are used as per the nist.gov link below. also, see this link:
             //
@@ -213,6 +214,7 @@ class Random
                     break;
                 default:
                     user_error(__CLASS__ . ' requires at least one symmetric cipher be loaded');
+
                     return false;
             }
 
@@ -236,8 +238,9 @@ class Random
             $i = $crypto->encrypt(microtime()); // strlen(microtime()) == 21
             $r = $crypto->encrypt($i ^ $v); // strlen($v) == 20
             $v = $crypto->encrypt($r ^ $i); // strlen($r) == 20
-            $result.= $r;
+            $result .= $r;
         }
+
         return substr($result, 0, $length);
     }
 }

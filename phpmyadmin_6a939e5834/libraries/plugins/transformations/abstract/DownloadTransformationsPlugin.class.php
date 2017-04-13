@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage Download
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -45,7 +45,7 @@ abstract class DownloadTransformationsPlugin extends TransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         global $row, $fields_meta;
 
@@ -92,4 +92,5 @@ abstract class DownloadTransformationsPlugin extends TransformationsPlugin
         return "Download";
     }
 }
+
 ?>

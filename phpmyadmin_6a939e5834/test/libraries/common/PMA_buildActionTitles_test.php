@@ -4,7 +4,7 @@
  * Test for PMA_Util::buildActionTitles from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -18,7 +18,7 @@ require_once 'libraries/php-gettext/gettext.inc';
  * Test for PMA_Util::buildActionTitles from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_BuildActionTitles_Test extends PHPUnit_Framework_TestCase
 {
@@ -29,8 +29,8 @@ class PMA_BuildActionTitles_Test extends PHPUnit_Framework_TestCase
      */
     function setup()
     {
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
-        $GLOBALS['cfg'] = array('ActionLinksMode' => 'both');
+        $_SESSION['PMA_Theme']    = PMA_Theme::load('./themes/pmahomme');
+        $GLOBALS['cfg']           = ['ActionLinksMode' => 'both'];
         $GLOBALS['pmaThemeImage'] = 'theme/';
     }
 
@@ -41,7 +41,7 @@ class PMA_BuildActionTitles_Test extends PHPUnit_Framework_TestCase
      */
     function testBuildActionTitles()
     {
-        $titles = array();
+        $titles               = [];
         $titles['Browse']     = PMA_Util::getIcon('b_browse.png', __('Browse'));
         $titles['NoBrowse']   = PMA_Util::getIcon('bd_browse.png', __('Browse'));
         $titles['Search']     = PMA_Util::getIcon('b_select.png', __('Search'));

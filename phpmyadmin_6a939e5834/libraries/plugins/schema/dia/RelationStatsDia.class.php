@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -49,16 +49,16 @@ class Relation_Stats_Dia
     function __construct($master_table, $master_field, $foreign_table,
         $foreign_field
     ) {
-        $src_pos  = $this->_getXy($master_table, $master_field);
-        $dest_pos = $this->_getXy($foreign_table, $foreign_field);
-        $this->srcConnPointsLeft = $src_pos[0];
-        $this->srcConnPointsRight = $src_pos[1];
-        $this->destConnPointsLeft = $dest_pos[0];
+        $src_pos                   = $this->_getXy($master_table, $master_field);
+        $dest_pos                  = $this->_getXy($foreign_table, $foreign_field);
+        $this->srcConnPointsLeft   = $src_pos[0];
+        $this->srcConnPointsRight  = $src_pos[1];
+        $this->destConnPointsLeft  = $dest_pos[0];
         $this->destConnPointsRight = $dest_pos[1];
-        $this->masterTablePos = $src_pos[2];
-        $this->foreignTablePos = $dest_pos[2];
-        $this->masterTableId = $master_table->tableId;
-        $this->foreignTableId = $foreign_table->tableId;
+        $this->masterTablePos      = $src_pos[2];
+        $this->foreignTablePos     = $dest_pos[2];
+        $this->masterTableId       = $master_table->tableId;
+        $this->foreignTableId      = $foreign_table->tableId;
     }
 
     /**
@@ -81,9 +81,10 @@ class Relation_Stats_Dia
         // left, right, position
         $value = 12;
         if ($pos != 0) {
-            return array($pos + $value + $pos, $pos + $value + $pos + 1, $pos);
+            return [$pos + $value + $pos, $pos + $value + $pos + 1, $pos];
         }
-        return array($pos + $value , $pos + $value + 1, $pos);
+
+        return [$pos + $value, $pos + $value + 1, $pos];
     }
 
     /**
@@ -96,15 +97,15 @@ class Relation_Stats_Dia
      * in the combination of displaying Database - reference on Dia Document.
      *
      * @param boolean $showColor Whether to use one color per relation or not
-     * if showColor is true then an array of $listOfColors will be used to choose
-     * the random colors for references lines. we can change/add more colors to this
+     *                           if showColor is true then an array of $listOfColors will be used to choose
+     *                           the random colors for references lines. we can change/add more colors to this
      *
      * @return boolean|void
      *
-     * @global object $dia The current Dia document
+     * @global object $dia       The current Dia document
      *
      * @access public
-     * @see PMA_PDF
+     * @see    PMA_PDF
      */
     public function relationDraw($showColor)
     {
@@ -116,20 +117,20 @@ class Relation_Stats_Dia
         * points are same then return it false and don't draw that
         * relation
         */
-        if ( $this->srcConnPointsRight == $this->destConnPointsRight) {
-            if ( $this->srcConnPointsLeft == $this->destConnPointsLeft) {
+        if ($this->srcConnPointsRight == $this->destConnPointsRight) {
+            if ($this->srcConnPointsLeft == $this->destConnPointsLeft) {
                 return false;
             }
         }
 
         if ($showColor) {
-            $listOfColors = array(
+            $listOfColors = [
                 'FF0000',
                 '000099',
-                '00FF00'
-            );
+                '00FF00',
+            ];
             shuffle($listOfColors);
-            $this->referenceColor =  '#' . $listOfColors[0] . '';
+            $this->referenceColor = '#' . $listOfColors[0] . '';
         } else {
             $this->referenceColor = '#000000';
         }
@@ -213,4 +214,5 @@ class Relation_Stats_Dia
         );
     }
 }
+
 ?>

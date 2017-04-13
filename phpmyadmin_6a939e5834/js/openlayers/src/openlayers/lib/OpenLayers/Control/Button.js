@@ -8,11 +8,11 @@
  */
 
 /**
- * Class: OpenLayers.Control.Button 
- * The Button control is a very simple push-button, for use with 
+ * Class: OpenLayers.Control.Button
+ * The Button control is a very simple push-button, for use with
  * <OpenLayers.Control.Panel>.
  * When clicked, the function trigger() is executed.
- * 
+ *
  * Inherits from:
  *  - <OpenLayers.Control>
  *
@@ -23,22 +23,23 @@
  * });
  * panel.addControls([button]);
  * (end)
- * 
+ *
  * Will create a button with CSS class MyButtonItemInactive, that
  *     will call the function MyFunction() when clicked.
  */
 OpenLayers.Control.Button = OpenLayers.Class(OpenLayers.Control, {
-    /**
-     * Property: type
-     * {Integer} OpenLayers.Control.TYPE_BUTTON.
-     */
-    type: OpenLayers.Control.TYPE_BUTTON,
-    
-    /**
-     * Method: trigger
-     * Called by a control panel when the button is clicked.
-     */
-    trigger: function() {},
+  /**
+   * Property: type
+   * {Integer} OpenLayers.Control.TYPE_BUTTON.
+   */
+  type: OpenLayers.Control.TYPE_BUTTON,
 
-    CLASS_NAME: "OpenLayers.Control.Button"
+  /**
+   * Method: trigger
+   * Called by a control panel when the button is clicked.
+   */
+  trigger: function () {
+  },
+
+  CLASS_NAME: "OpenLayers.Control.Button"
 });

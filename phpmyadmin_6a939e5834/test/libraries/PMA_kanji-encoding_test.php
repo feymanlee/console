@@ -43,10 +43,10 @@ class PMA_Kanji_Encoding_Test extends PHPUnit_Framework_TestCase
      */
     public function checkEncodingData()
     {
-        return array(
-            array('UTF-8', 'ASCII,SJIS,EUC-JP,JIS'),
-            array('EUC-JP', 'ASCII,EUC-JP,SJIS,JIS')
-        );
+        return [
+            ['UTF-8', 'ASCII,SJIS,EUC-JP,JIS'],
+            ['EUC-JP', 'ASCII,EUC-JP,SJIS,JIS'],
+        ];
     }
 
     /**
@@ -73,10 +73,10 @@ class PMA_Kanji_Encoding_Test extends PHPUnit_Framework_TestCase
      */
     public function changeOrderData()
     {
-        return array(
-            array('ASCII,SJIS,EUC-JP,JIS', 'ASCII,EUC-JP,SJIS,JIS'),
-            array('ASCII,EUC-JP,SJIS,JIS', 'ASCII,SJIS,EUC-JP,JIS')
-        );
+        return [
+            ['ASCII,SJIS,EUC-JP,JIS', 'ASCII,EUC-JP,SJIS,JIS'],
+            ['ASCII,EUC-JP,SJIS,JIS', 'ASCII,SJIS,EUC-JP,JIS'],
+        ];
     }
 
     /**
@@ -121,7 +121,7 @@ class PMA_Kanji_Encoding_Test extends PHPUnit_Framework_TestCase
     {
         $file_str = "教育漢字常用漢字";
         $filename = 'test.kanji';
-        $file = fopen($filename, 'w');
+        $file     = fopen($filename, 'w');
         fputs($file, $file_str);
         fclose($file);
         $GLOBALS['kanji_encoding_list'] = 'ASCII,EUC-JP,SJIS,JIS';
@@ -168,4 +168,5 @@ class PMA_Kanji_Encoding_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

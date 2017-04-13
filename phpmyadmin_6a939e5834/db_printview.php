@@ -16,12 +16,12 @@ $response = PMA_Response::getInstance();
 $header   = $response->getHeader();
 $header->enablePrintView();
 
-PMA_Util::checkParameters(array('db'));
+PMA_Util::checkParameters(['db']);
 
 /**
  * Defines the url to return to in case of error in a sql statement
  */
-$err_url = 'db_sql.php' . PMA_URL_getCommon(array('db' => $db));
+$err_url = 'db_sql.php' . PMA_URL_getCommon(['db' => $db]);
 
 /**
  * Settings for relations stuff
@@ -32,7 +32,7 @@ $cfgRelation = PMA_getRelationsParam();
  * If there is at least one table, displays the printer friendly view, else
  * an error message
  */
-$tables = $GLOBALS['dbi']->getTablesFull($db);
+$tables     = $GLOBALS['dbi']->getTablesFull($db);
 $num_tables = count($tables);
 
 echo '<br />';
@@ -56,17 +56,18 @@ if ($num_tables == 0) {
     echo '</thead>';
     echo '<tbody>';
     $sum_entries = $sum_size = 0;
-    $odd_row = true;
+    $odd_row     = true;
     foreach ($tables as $sts_data) {
         if (PMA_Table::isMerge($db, $sts_data['TABLE_NAME'])
-            || /*overload*/mb_strtoupper($sts_data['ENGINE']) == 'FEDERATED'
+            || /*overload*/
+            mb_strtoupper($sts_data['ENGINE']) == 'FEDERATED'
         ) {
             $merged_size = true;
         } else {
             $merged_size = false;
         }
         $sum_entries += $sts_data['TABLE_ROWS'];
-        echo '<tr class="' .  ($odd_row ? 'odd' : 'even') . '">';
+        echo '<tr class="' . ($odd_row ? 'odd' : 'even') . '">';
         echo '<th>';
         echo htmlspecialchars($sts_data['TABLE_NAME']);
         echo '</th>';
@@ -85,51 +86,51 @@ if ($num_tables == 0) {
             echo $sts_data['ENGINE'];
             echo '</td>';
             if ($cfg['ShowStats']) {
-                $tblsize =  $sts_data['Data_length'] + $sts_data['Index_length'];
+                $tblsize = $sts_data['Data_length'] + $sts_data['Index_length'];
                 $sum_size += $tblsize;
                 list($formated_size, $unit)
-                    =  PMA_Util::formatByteDown($tblsize, 3, 1);
+                    = PMA_Util::formatByteDown($tblsize, 3, 1);
                 echo '<td class="right nowrap">';
                 echo $formated_size . ' ' . $unit;
                 echo '</td>';
             } // end if
         } else {
             echo '<td colspan="3" class="center">';
-            if (! PMA_Table::isView($db, $sts_data['TABLE_NAME'])) {
+            if (!PMA_Table::isView($db, $sts_data['TABLE_NAME'])) {
                 echo __('in use');
             }
             echo '</td>';
         }
         echo '<td>';
-        if (! empty($sts_data['Comment'])) {
+        if (!empty($sts_data['Comment'])) {
             echo htmlspecialchars($sts_data['Comment']);
             $needs_break = '<br />';
         } else {
             $needs_break = '';
         }
 
-        if (! empty($sts_data['Create_time'])
-            || ! empty($sts_data['Update_time'])
-            || ! empty($sts_data['Check_time'])
+        if (!empty($sts_data['Create_time'])
+            || !empty($sts_data['Update_time'])
+            || !empty($sts_data['Check_time'])
         ) {
             echo $needs_break;
             echo '<table width="100%">';
 
-            if (! empty($sts_data['Create_time'])) {
+            if (!empty($sts_data['Create_time'])) {
                 echo PMA_getHtmlForOneDate(
                     __('Creation:'),
                     $sts_data['Create_time']
                 );
             }
 
-            if (! empty($sts_data['Update_time'])) {
+            if (!empty($sts_data['Update_time'])) {
                 echo PMA_getHtmlForOneDate(
                     __('Last update:'),
                     $sts_data['Update_time']
                 );
             }
 
-            if (! empty($sts_data['Check_time'])) {
+            if (!empty($sts_data['Check_time'])) {
                 echo PMA_getHtmlForOneDate(
                     __('Last check:'),
                     $sts_data['Check_time']

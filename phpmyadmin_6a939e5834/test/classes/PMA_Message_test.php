@@ -38,8 +38,8 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new PMA_Message;
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
+        $this->object             = new PMA_Message;
+        $_SESSION['PMA_Theme']    = new PMA_Theme();
         $GLOBALS['pmaThemeImage'] = 'theme/';
     }
 
@@ -212,17 +212,17 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
     {
         $this->object->addParam(PMA_Message::notice('test'));
         $this->assertEquals(
-            array(PMA_Message::notice('test')),
+            [PMA_Message::notice('test')],
             $this->object->getParams()
         );
         $this->object->addParam('test', true);
         $this->assertEquals(
-            array(PMA_Message::notice('test'), 'test'),
+            [PMA_Message::notice('test'), 'test'],
             $this->object->getParams()
         );
         $this->object->addParam('test', false);
         $this->assertEquals(
-            array(PMA_Message::notice('test'), 'test', PMA_Message::notice('test')),
+            [PMA_Message::notice('test'), 'test', PMA_Message::notice('test')],
             $this->object->getParams()
         );
     }
@@ -236,17 +236,17 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
     {
         $this->object->addString('test', '*');
         $this->assertEquals(
-            array('*', PMA_Message::notice('test')),
+            ['*', PMA_Message::notice('test')],
             $this->object->getAddedMessages()
         );
         $this->object->addString('test', '');
         $this->assertEquals(
-            array(
+            [
                 '*',
                 PMA_Message::notice('test'),
                 '',
-                PMA_Message::notice('test')
-            ),
+                PMA_Message::notice('test'),
+            ],
             $this->object->getAddedMessages()
         );
     }
@@ -260,16 +260,16 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
     {
         $this->object->addMessage('test', '');
         $this->assertEquals(
-            array(PMA_Message::rawNotice('test')),
+            [PMA_Message::rawNotice('test')],
             $this->object->getAddedMessages()
         );
         $this->object->addMessage('test');
         $this->assertEquals(
-            array(
+            [
                 PMA_Message::rawNotice('test'),
                 ' ',
-                PMA_Message::rawNotice('test')
-            ),
+                PMA_Message::rawNotice('test'),
+            ],
             $this->object->getAddedMessages()
         );
     }
@@ -281,18 +281,18 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
      */
     public function testAddMessages()
     {
-        $messages = array();
+        $messages   = [];
         $messages[] = "Test1";
         $messages[] = new PMA_Message("PMA_Test2", PMA_Message::ERROR);
         $messages[] = "Test3";
         $this->object->addMessages($messages, '');
 
         $this->assertEquals(
-            array(
+            [
                 PMA_Message::rawNotice('Test1'),
                 PMA_Message::error("PMA_Test2"),
-                PMA_Message::rawNotice('Test3')
-            ),
+                PMA_Message::rawNotice('Test3'),
+            ],
             $this->object->getAddedMessages()
         );
     }
@@ -323,8 +323,8 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
             PMA_Message::sanitize($this->object)
         );
         $this->assertEquals(
-            array('test&amp;string&lt;&gt;', 'test&amp;string&lt;&gt;'),
-            PMA_Message::sanitize(array($this->object, $this->object))
+            ['test&amp;string&lt;&gt;', 'test&amp;string&lt;&gt;'],
+            PMA_Message::sanitize([$this->object, $this->object])
         );
     }
 
@@ -335,39 +335,39 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
      */
     public function decodeBBDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 '[em]test[/em][em]aa[em/][em]test[/em]',
-                '<em>test</em><em>aa[em/]<em>test</em>'
-            ),
-            array(
+                '<em>test</em><em>aa[em/]<em>test</em>',
+            ],
+            [
                 '[strong]test[/strong][strong]test[/strong]',
-                '<strong>test</strong><strong>test</strong>'
-            ),
-            array(
+                '<strong>test</strong><strong>test</strong>',
+            ],
+            [
                 '[code]test[/code][code]test[/code]',
-                '<code>test</code><code>test</code>'
-            ),
-            array(
+                '<code>test</code><code>test</code>',
+            ],
+            [
                 '[kbd]test[/kbd][br][sup]test[/sup]',
-                '<kbd>test</kbd><br /><sup>test</sup>'
-            ),
-            array(
+                '<kbd>test</kbd><br /><sup>test</sup>',
+            ],
+            [
                 '[a@http://foo.bar/@Documentation]link[/a]',
                 '<a href="./url.php?url=http%3A%2F%2Ffoo.bar%2F"'
-                . ' target="Documentation">link</a>'
-            ),
-            array(
+                . ' target="Documentation">link</a>',
+            ],
+            [
                 '[a@./non-existing@Documentation]link[/a]',
-                '[a@./non-existing@Documentation]link</a>'
-            ),
-            array(
+                '[a@./non-existing@Documentation]link</a>',
+            ],
+            [
                 '[doc@foo]link[/doc]',
                 '<a href="./url.php?url=https%3A%2F%2Fdocs.phpmyadmin.net%2Fen%2F'
                 . 'latest%2Fsetup.html%23foo" '
-                . 'target="documentation">link</a>'
-            ),
-        );
+                . 'target="documentation">link</a>',
+            ],
+        ];
     }
 
     /**
@@ -405,11 +405,11 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
         );
         $this->assertEquals(
             'test string',
-            PMA_Message::format('test string', array())
+            PMA_Message::format('test string', [])
         );
         $this->assertEquals(
             'test string',
-            PMA_Message::format('%s string', array('test'))
+            PMA_Message::format('%s string', ['test'])
         );
 
     }
@@ -563,23 +563,23 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
      */
     public function providerAffectedRows()
     {
-        return array(
-            array(
+        return [
+            [
                 1,
                 '<div class="notice"><img src="theme/s_notice.png" title="" alt="" '
-                . '/>  1 row affected.</div>'
-            ),
-            array(
+                . '/>  1 row affected.</div>',
+            ],
+            [
                 2,
                 '<div class="notice"><img src="theme/s_notice.png" title="" alt="" '
-                . '/>  2 rows affected.</div>'
-            ),
-            array(
+                . '/>  2 rows affected.</div>',
+            ],
+            [
                 10000,
                 '<div class="notice"><img src="theme/s_notice.png" title="" alt="" '
-                . '/>  10000 rows affected.</div>'
-            )
-        );
+                . '/>  10000 rows affected.</div>',
+            ],
+        ];
     }
 
     /**
@@ -595,7 +595,7 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
     public function testAffectedRows($rows, $output)
     {
         $this->object = new PMA_Message();
-        $msg = $this->object->getMessageForAffectedRows($rows);
+        $msg          = $this->object->getMessageForAffectedRows($rows);
         echo $this->object->addMessage($msg);
         $this->expectOutputString($output);
         $this->object->display();
@@ -608,23 +608,23 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
      */
     public function providerInsertedRows()
     {
-        return array(
-            array(
+        return [
+            [
                 1,
                 '<div class="notice"><img src="theme/s_notice.png" title="" alt="" '
-                . '/>  1 row inserted.</div>'
-            ),
-            array(
+                . '/>  1 row inserted.</div>',
+            ],
+            [
                 2,
                 '<div class="notice"><img src="theme/s_notice.png" title="" alt="" '
-                . '/>  2 rows inserted.</div>'
-            ),
-            array(
+                . '/>  2 rows inserted.</div>',
+            ],
+            [
                 100000,
                 '<div class="notice"><img src="theme/s_notice.png" title="" alt="" '
-                . '/>  100000 rows inserted.</div>'
-            )
-        );
+                . '/>  100000 rows inserted.</div>',
+            ],
+        ];
     }
 
     /**
@@ -640,7 +640,7 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
     public function testInsertedRows($rows, $output)
     {
         $this->object = new PMA_Message();
-        $msg = $this->object->getMessageForInsertedRows($rows);
+        $msg          = $this->object->getMessageForInsertedRows($rows);
         echo $this->object->addMessage($msg);
         $this->expectOutputString($output);
         $this->object->display();
@@ -653,23 +653,23 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
      */
     public function providerDeletedRows()
     {
-        return array(
-            array(
+        return [
+            [
                 1,
                 '<div class="notice"><img src="theme/s_notice.png" title="" alt="" '
-                . '/>  1 row deleted.</div>'
-            ),
-            array(
+                . '/>  1 row deleted.</div>',
+            ],
+            [
                 2,
                 '<div class="notice"><img src="theme/s_notice.png" title="" alt="" '
-                . '/>  2 rows deleted.</div>'
-            ),
-            array(
+                . '/>  2 rows deleted.</div>',
+            ],
+            [
                 500000,
                 '<div class="notice"><img src="theme/s_notice.png" title="" alt="" '
-                . '/>  500000 rows deleted.</div>'
-            )
-        );
+                . '/>  500000 rows deleted.</div>',
+            ],
+        ];
     }
 
     /**
@@ -685,10 +685,11 @@ class PMA_Message_Test extends PHPUnit_Framework_TestCase
     public function testDeletedRows($rows, $output)
     {
         $this->object = new PMA_Message();
-        $msg = $this->object->getMessageForDeletedRows($rows);
+        $msg          = $this->object->getMessageForDeletedRows($rows);
         echo $this->object->addMessage($msg);
         $this->expectOutputString($output);
         $this->object->display();
     }
 }
+
 ?>

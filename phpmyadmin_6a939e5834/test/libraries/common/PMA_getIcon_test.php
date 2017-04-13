@@ -4,7 +4,7 @@
  ** Test for PMA_Util::getIcon() from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -17,7 +17,7 @@ require_once 'libraries/Theme.class.php';
  ** Test for PMA_Util::getIcon() from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_GetIcon_Test extends PHPUnit_Framework_TestCase
 {
@@ -69,7 +69,7 @@ class PMA_GetIcon_Test extends PHPUnit_Framework_TestCase
     function testGetIconAlternate()
     {
         $GLOBALS['cfg']['ActionLinksMode'] = 'icons';
-        $alternate_text = 'alt_str';
+        $alternate_text                    = 'alt_str';
 
         $this->assertEquals(
             '<span class="nowrap"><img src="themes/dot.gif" title="'
@@ -87,7 +87,7 @@ class PMA_GetIcon_Test extends PHPUnit_Framework_TestCase
     function testGetIconWithForceText()
     {
         $GLOBALS['cfg']['ActionLinksMode'] = 'icons';
-        $alternate_text = 'alt_str';
+        $alternate_text                    = 'alt_str';
 
         // Here we are checking for an icon embedded inside a span (i.e not a menu
         // bar icon

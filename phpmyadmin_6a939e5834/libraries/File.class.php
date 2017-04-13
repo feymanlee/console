@@ -5,14 +5,14 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
 /**
  * File wrapper class
  *
- * @todo when uploading a file into a blob field, should we also consider using
+ * @todo    when uploading a file into a blob field, should we also consider using
  *       chunks like in import? UPDATE `table` SET `field` = `field` + [chunk]
  *
  * @package PhpMyAdmin
@@ -137,7 +137,7 @@ class PMA_File
     public function isTemp($is_temp = null)
     {
         if (null !== $is_temp) {
-            $this->_is_temp = (bool) $is_temp;
+            $this->_is_temp = (bool)$is_temp;
         }
 
         return $this->_is_temp;
@@ -167,11 +167,11 @@ class PMA_File
     public function getContent()
     {
         if (null === $this->_content) {
-            if ($this->isUploaded() && ! $this->checkUploadedFile()) {
+            if ($this->isUploaded() && !$this->checkUploadedFile()) {
                 return false;
             }
 
-            if (! $this->isReadable()) {
+            if (!$this->isReadable()) {
                 return false;
             }
 
@@ -220,9 +220,10 @@ class PMA_File
     {
         $this->setName($name);
 
-        if (! $this->isUploaded()) {
+        if (!$this->isUploaded()) {
             $this->setName(null);
             $this->_error_message = __('File was not an uploaded file.');
+
             return false;
         }
 
@@ -240,7 +241,7 @@ class PMA_File
      */
     public function setUploadedFromTblChangeRequest($key, $rownumber)
     {
-        if (! isset($_FILES['fields_upload'])
+        if (!isset($_FILES['fields_upload'])
             || empty($_FILES['fields_upload']['name']['multi_edit'][$rownumber][$key])
         ) {
             return false;
@@ -253,33 +254,33 @@ class PMA_File
 
         // check for file upload errors
         switch ($file['error']) {
-        // we do not use the PHP constants here cause not all constants
-        // are defined in all versions of PHP - but the correct constants names
-        // are given as comment
-        case 0: //UPLOAD_ERR_OK:
-            return $this->setUploadedFile($file['tmp_name']);
-        case 4: //UPLOAD_ERR_NO_FILE:
-            break;
-        case 1: //UPLOAD_ERR_INI_SIZE:
-            $this->_error_message = __('The uploaded file exceeds the upload_max_filesize directive in php.ini.');
-            break;
-        case 2: //UPLOAD_ERR_FORM_SIZE:
-            $this->_error_message = __('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.');
-            break;
-        case 3: //UPLOAD_ERR_PARTIAL:
-            $this->_error_message = __('The uploaded file was only partially uploaded.');
-            break;
-        case 6: //UPLOAD_ERR_NO_TMP_DIR:
-            $this->_error_message = __('Missing a temporary folder.');
-            break;
-        case 7: //UPLOAD_ERR_CANT_WRITE:
-            $this->_error_message = __('Failed to write file to disk.');
-            break;
-        case 8: //UPLOAD_ERR_EXTENSION:
-            $this->_error_message = __('File upload stopped by extension.');
-            break;
-        default:
-            $this->_error_message = __('Unknown error in file upload.');
+            // we do not use the PHP constants here cause not all constants
+            // are defined in all versions of PHP - but the correct constants names
+            // are given as comment
+            case 0: //UPLOAD_ERR_OK:
+                return $this->setUploadedFile($file['tmp_name']);
+            case 4: //UPLOAD_ERR_NO_FILE:
+                break;
+            case 1: //UPLOAD_ERR_INI_SIZE:
+                $this->_error_message = __('The uploaded file exceeds the upload_max_filesize directive in php.ini.');
+                break;
+            case 2: //UPLOAD_ERR_FORM_SIZE:
+                $this->_error_message = __('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.');
+                break;
+            case 3: //UPLOAD_ERR_PARTIAL:
+                $this->_error_message = __('The uploaded file was only partially uploaded.');
+                break;
+            case 6: //UPLOAD_ERR_NO_TMP_DIR:
+                $this->_error_message = __('Missing a temporary folder.');
+                break;
+            case 7: //UPLOAD_ERR_CANT_WRITE:
+                $this->_error_message = __('Failed to write file to disk.');
+                break;
+            case 8: //UPLOAD_ERR_EXTENSION:
+                $this->_error_message = __('File upload stopped by extension.');
+                break;
+            default:
+                $this->_error_message = __('Unknown error in file upload.');
         } // end switch
 
         return false;
@@ -315,13 +316,13 @@ class PMA_File
     public function fetchUploadedFromTblChangeRequestMultiple(
         $file, $rownumber, $key
     ) {
-        $new_file = array(
-            'name' => $file['name']['multi_edit'][$rownumber][$key],
-            'type' => $file['type']['multi_edit'][$rownumber][$key],
-            'size' => $file['size']['multi_edit'][$rownumber][$key],
+        $new_file = [
+            'name'     => $file['name']['multi_edit'][$rownumber][$key],
+            'type'     => $file['type']['multi_edit'][$rownumber][$key],
+            'size'     => $file['size']['multi_edit'][$rownumber][$key],
             'tmp_name' => $file['tmp_name']['multi_edit'][$rownumber][$key],
-            'error' => $file['error']['multi_edit'][$rownumber][$key],
-        );
+            'error'    => $file['error']['multi_edit'][$rownumber][$key],
+        ];
 
         return $new_file;
     }
@@ -337,7 +338,7 @@ class PMA_File
      */
     public function setSelectedFromTblChangeRequest($key, $rownumber = null)
     {
-        if (! empty($_REQUEST['fields_uploadlocal']['multi_edit'][$rownumber][$key])
+        if (!empty($_REQUEST['fields_uploadlocal']['multi_edit'][$rownumber][$key])
             && is_string($_REQUEST['fields_uploadlocal']['multi_edit'][$rownumber][$key])
         ) {
             // ... whether with multiple rows ...
@@ -368,7 +369,7 @@ class PMA_File
      */
     public function isError()
     {
-        return ! empty($this->_error_message);
+        return !empty($this->_error_message);
     }
 
     /**
@@ -386,12 +387,15 @@ class PMA_File
         if ($this->setUploadedFromTblChangeRequest($key, $rownumber)) {
             // well done ...
             $this->_error_message = '';
+
             return true;
         } elseif ($this->setSelectedFromTblChangeRequest($key, $rownumber)) {
             // well done ...
             $this->_error_message = '';
+
             return true;
         }
+
         // all failed, whether just no file uploaded/selected or an error
 
         return false;
@@ -417,11 +421,13 @@ class PMA_File
         if (is_link($this->getName())) {
             $this->_error_message = __('File is a symbolic link');
             $this->setName(null);
+
             return false;
         }
-        if (! $this->isReadable()) {
+        if (!$this->isReadable()) {
             $this->_error_message = __('File could not be read!');
             $this->setName(null);
+
             return false;
         }
 
@@ -441,6 +447,7 @@ class PMA_File
         ob_start();
         $is_readable = is_readable($this->getName());
         ob_end_clean();
+
         return $is_readable;
     }
 
@@ -449,7 +456,7 @@ class PMA_File
      * before opening it. The FAQ 1.11 explains how to create the "./tmp"
      * directory - if needed
      *
-     * @todo move check of $cfg['TempDir'] into PMA_Config?
+     * @todo    move check of $cfg['TempDir'] into PMA_Config?
      * @access  public
      * @return boolean whether uploaded file is fine or not
      */
@@ -460,10 +467,11 @@ class PMA_File
         }
 
         if (empty($GLOBALS['cfg']['TempDir'])
-            || ! is_writable($GLOBALS['cfg']['TempDir'])
+            || !is_writable($GLOBALS['cfg']['TempDir'])
         ) {
             // cannot create directory or access, point user to FAQ 1.11
             $this->_error_message = __('Error moving the uploaded file, see [doc@faq1-11]FAQ 1.11[/doc].');
+
             return false;
         }
 
@@ -480,16 +488,18 @@ class PMA_File
             $new_file_to_upload
         );
         ob_end_clean();
-        if (! $move_uploaded_file_result) {
+        if (!$move_uploaded_file_result) {
             $this->_error_message = __('Error while moving uploaded file.');
+
             return false;
         }
 
         $this->setName($new_file_to_upload);
         $this->isTemp(true);
 
-        if (! $this->isReadable()) {
+        if (!$this->isReadable()) {
             $this->_error_message = __('Cannot read (moved) upload file.');
+
             return false;
         }
 
@@ -513,24 +523,26 @@ class PMA_File
         $file = fopen($this->getName(), 'rb');
         ob_end_clean();
 
-        if (! $file) {
+        if (!$file) {
             $this->_error_message = __('File could not be read!');
+
             return false;
         }
 
         /**
          * @todo
          * get registered plugins for file compression
-
-        foreach (PMA_getPlugins($type = 'compression') as $plugin) {
-            if ($plugin['classname']::canHandle($this->getName())) {
-                $this->setCompressionPlugin($plugin);
-                break;
-            }
-        }
+         *
+         * foreach (PMA_getPlugins($type = 'compression') as $plugin) {
+         * if ($plugin['classname']::canHandle($this->getName())) {
+         * $this->setCompressionPlugin($plugin);
+         * break;
+         * }
+         * }
          */
 
         $this->_compression = PMA_Util::getCompressionMimeType($file);
+
         return $this->_compression;
     }
 
@@ -543,7 +555,7 @@ class PMA_File
      */
     public function setDecompressContent($decompress)
     {
-        $this->_decompress = (bool) $decompress;
+        $this->_decompress = (bool)$decompress;
     }
 
     /**
@@ -556,6 +568,7 @@ class PMA_File
         if (null === $this->_handle) {
             $this->open();
         }
+
         return $this->_handle;
     }
 
@@ -592,49 +605,54 @@ class PMA_File
      */
     public function open()
     {
-        if (! $this->_decompress) {
+        if (!$this->_decompress) {
             $this->_handle = @fopen($this->getName(), 'r');
         }
 
         switch ($this->getCompression()) {
-        case false:
-            return false;
-        case 'application/bzip2':
-            if ($GLOBALS['cfg']['BZipDump'] && @function_exists('bzopen')) {
-                $this->_handle = @bzopen($this->getName(), 'r');
-            } else {
-                $this->errorUnsupported();
+            case false:
                 return false;
-            }
-            break;
-        case 'application/gzip':
-            if ($GLOBALS['cfg']['GZipDump'] && @function_exists('gzopen')) {
-                $this->_handle = @gzopen($this->getName(), 'r');
-            } else {
-                $this->errorUnsupported();
-                return false;
-            }
-            break;
-        case 'application/zip':
-            if ($GLOBALS['cfg']['ZipDump'] && @function_exists('zip_open')) {
-                include_once './libraries/zip_extension.lib.php';
-                $result = PMA_getZipContents($this->getName());
-                if (! empty($result['error'])) {
-                    $this->_error_message = PMA_Message::rawError($result['error']);
+            case 'application/bzip2':
+                if ($GLOBALS['cfg']['BZipDump'] && @function_exists('bzopen')) {
+                    $this->_handle = @bzopen($this->getName(), 'r');
+                } else {
+                    $this->errorUnsupported();
+
                     return false;
                 }
-                unset($result);
-            } else {
+                break;
+            case 'application/gzip':
+                if ($GLOBALS['cfg']['GZipDump'] && @function_exists('gzopen')) {
+                    $this->_handle = @gzopen($this->getName(), 'r');
+                } else {
+                    $this->errorUnsupported();
+
+                    return false;
+                }
+                break;
+            case 'application/zip':
+                if ($GLOBALS['cfg']['ZipDump'] && @function_exists('zip_open')) {
+                    include_once './libraries/zip_extension.lib.php';
+                    $result = PMA_getZipContents($this->getName());
+                    if (!empty($result['error'])) {
+                        $this->_error_message = PMA_Message::rawError($result['error']);
+
+                        return false;
+                    }
+                    unset($result);
+                } else {
+                    $this->errorUnsupported();
+
+                    return false;
+                }
+                break;
+            case 'none':
+                $this->_handle = @fopen($this->getName(), 'r');
+                break;
+            default:
                 $this->errorUnsupported();
+
                 return false;
-            }
-            break;
-        case 'none':
-            $this->_handle = @fopen($this->getName(), 'r');
-            break;
-        default:
-            $this->errorUnsupported();
-            return false;
         }
 
         return true;
@@ -706,7 +724,7 @@ class PMA_File
      */
     public function setChunkSize($chunk_size)
     {
-        $this->_chunk_size = (int) $chunk_size;
+        $this->_chunk_size = (int)$chunk_size;
     }
 
     /**
@@ -716,7 +734,8 @@ class PMA_File
      */
     public function getContentLength()
     {
-        return /*overload*/mb_strlen($this->_content);
+        return /*overload*/
+            mb_strlen($this->_content);
     }
 
     /**
@@ -734,4 +753,5 @@ class PMA_File
 
     }
 }
+
 ?>

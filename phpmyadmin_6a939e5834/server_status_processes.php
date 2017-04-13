@@ -15,16 +15,16 @@ require_once 'libraries/server_status_processes.lib.php';
  * Replication library
  */
 if (PMA_DRIZZLE) {
-    $GLOBALS['replication_info'] = array();
+    $GLOBALS['replication_info']                     = [];
     $GLOBALS['replication_info']['master']['status'] = false;
-    $GLOBALS['replication_info']['slave']['status'] = false;
+    $GLOBALS['replication_info']['slave']['status']  = false;
 } else {
     include_once 'libraries/replication.inc.php';
     include_once 'libraries/replication_gui.lib.php';
 }
 
 $ServerStatusData = new PMA_ServerStatusData();
-$response = PMA_Response::getInstance();
+$response         = PMA_Response::getInstance();
 
 /**
  * Kills a selected process
@@ -51,8 +51,8 @@ if ($response->isAjax() && !empty($_REQUEST['kill'])) {
     $response->addHTML(PMA_getHtmlForServerProcessList());
 } else {
     // Load the full page
-    $header   = $response->getHeader();
-    $scripts  = $header->getScripts();
+    $header  = $response->getHeader();
+    $scripts = $header->getScripts();
     $scripts->addFile('server_status_processes.js');
     $response->addHTML('<div>');
     $response->addHTML($ServerStatusData->getMenuHtml());

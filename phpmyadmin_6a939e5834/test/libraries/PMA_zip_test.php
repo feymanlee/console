@@ -84,16 +84,16 @@ class PMA_Zip_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestUnix2DosTime()
     {
-        return array(
-            array(
+        return [
+            [
                 123456,
-                2162688
-            ),
-            array(
+                2162688,
+            ],
+            [
                 234232,
-                2162688
-            ),
-        );
+                2162688,
+            ],
+        ];
     }
 
     /**

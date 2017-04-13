@@ -10,21 +10,21 @@
  * Include to test.
  */
 //$GLOBALS
-$GLOBALS['server'] = 1;
-$GLOBALS['is_superuser'] = false;
+$GLOBALS['server']               = 1;
+$GLOBALS['is_superuser']         = false;
 $GLOBALS['cfg']['ServerDefault'] = 1;
-$GLOBALS['url_query'] = "url_query";
-$GLOBALS['PMA_PHP_SELF'] = PMA_getenv('PHP_SELF');
-$GLOBALS['lang'] = "en";
-$GLOBALS['available_languages']= array(
-    "en" => array("English", "US-ENGLISH"),
-    "ch" => array("Chinese", "TW-Chinese")
-);
-$GLOBALS['text_dir'] = "text_dir";
-$GLOBALS['cfg']['DBG']['sql'] = false;
-$GLOBALS['cfg']['Server'] = array(
-    'DisableIS' => false
-);
+$GLOBALS['url_query']            = "url_query";
+$GLOBALS['PMA_PHP_SELF']         = PMA_getenv('PHP_SELF');
+$GLOBALS['lang']                 = "en";
+$GLOBALS['available_languages']  = [
+    "en" => ["English", "US-ENGLISH"],
+    "ch" => ["Chinese", "TW-Chinese"],
+];
+$GLOBALS['text_dir']             = "text_dir";
+$GLOBALS['cfg']['DBG']['sql']    = false;
+$GLOBALS['cfg']['Server']        = [
+    'DisableIS' => false,
+];
 //$_SESSION
 require_once 'libraries/Theme.class.php';
 $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
@@ -63,17 +63,17 @@ class PMA_ServerCollations_Test extends PHPUnit_Framework_TestCase
         $_REQUEST['pos'] = 3;
 
         //$GLOBALS
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['is_ajax_request'] = true;
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['RememberSorting'] = true;
-        $GLOBALS['cfg']['SQP'] = array();
+        $GLOBALS['cfg']['MaxRows']                     = 10;
+        $GLOBALS['is_ajax_request']                    = true;
+        $GLOBALS['cfg']['ServerDefault']               = "server";
+        $GLOBALS['cfg']['RememberSorting']             = true;
+        $GLOBALS['cfg']['SQP']                         = [];
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
-        $GLOBALS['cfg']['ShowSQL'] = true;
-        $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
+        $GLOBALS['cfg']['ShowSQL']                     = true;
+        $GLOBALS['cfg']['TableNavigationLinksMode']    = 'icons';
+        $GLOBALS['cfg']['LimitChars']                  = 100;
 
-        $GLOBALS['table'] = "table";
+        $GLOBALS['table']         = "table";
         $GLOBALS['pmaThemeImage'] = 'image';
     }
 
@@ -84,31 +84,31 @@ class PMA_ServerCollations_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForCharsets()
     {
-        $mysql_charsets = array("armscii8", "ascii", "big5", "binary");
-        $mysql_collations = array(
-            "armscii8" => array("armscii8"),
-            "ascii" => array("ascii"),
-            "big5" => array("big5"),
-            "binary" => array("binary"),
-        );
-        $mysql_charsets_descriptions = array(
+        $mysql_charsets              = ["armscii8", "ascii", "big5", "binary"];
+        $mysql_collations            = [
+            "armscii8" => ["armscii8"],
+            "ascii"    => ["ascii"],
+            "big5"     => ["big5"],
+            "binary"   => ["binary"],
+        ];
+        $mysql_charsets_descriptions = [
             "armscii8" => "PMA_armscii8_general_ci",
-            "ascii" => "PMA_ascii_general_ci",
-            "big5" => "PMA_big5_general_ci",
-            "binary" => "PMA_binary_general_ci",
-        );
-        $mysql_default_collations = array(
+            "ascii"    => "PMA_ascii_general_ci",
+            "big5"     => "PMA_big5_general_ci",
+            "binary"   => "PMA_binary_general_ci",
+        ];
+        $mysql_default_collations    = [
             "armscii8" => "armscii8",
-            "ascii" => "ascii",
-            "big5" => "big5",
-            "binary" => "binary",
-        );
-        $mysql_collations_available = array(
+            "ascii"    => "ascii",
+            "big5"     => "big5",
+            "binary"   => "binary",
+        ];
+        $mysql_collations_available  = [
             "armscii8" => true,
-            "ascii" => true,
-            "big5" => true,
-            "binary" => true,
-        );
+            "ascii"    => true,
+            "big5"     => true,
+            "binary"   => true,
+        ];
 
         //Mock DBI
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')

@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Engines
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -23,11 +23,11 @@ class PMA_StorageEngine_Memory extends PMA_StorageEngine
      */
     public function getVariables()
     {
-        return array(
-            'max_heap_table_size' => array(
-                'type'  => PMA_ENGINE_DETAILS_TYPE_SIZE,
-            ),
-        );
+        return [
+            'max_heap_table_size' => [
+                'type' => PMA_ENGINE_DETAILS_TYPE_SIZE,
+            ],
+        ];
     }
 }
 

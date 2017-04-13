@@ -4,7 +4,7 @@
  ** Test for PMA_Util::formatSql from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -17,7 +17,7 @@ require_once 'libraries/sqlparser.lib.php';
  ** Test for PMA_Util::formatSql from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_FormatSql_Test extends PHPUnit_Framework_TestCase
 {

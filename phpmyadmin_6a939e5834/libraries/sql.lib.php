@@ -22,12 +22,14 @@ function PMA_getNewDatabase($sql, $databases)
     $db = '';
     // loop through all the databases
     foreach ($databases as $database) {
-        if (/*overload*/mb_strpos($sql, $database['SCHEMA_NAME']) !== false
+        if (/*overload*/
+            mb_strpos($sql, $database['SCHEMA_NAME']) !== false
         ) {
             $db = $database['SCHEMA_NAME'];
             break;
         }
     }
+
     return $db;
 }
 
@@ -47,13 +49,16 @@ function PMA_getTableNameBySQL($sql, $tables)
 
     // loop through all the tables in the database
     foreach ($tables as $tbl) {
-        if (/*overload*/mb_strpos($sql, $tbl)) {
+        if (/*overload*/
+        mb_strpos($sql, $tbl)
+        ) {
             $table .= ' ' . $tbl;
         }
     }
 
     if (count(explode(' ', trim($table))) > 1) {
         $tmp_array = explode(' ', trim($table));
+
         return $tmp_array[0];
     }
 
@@ -86,7 +91,7 @@ function PMA_handleSortOrder(
             // retrieve the remembered sorting order for current table
             $sql_order_to_append = ' ORDER BY ' . $sorted_col . ' ';
             $full_sql_query
-                = $analyzed_sql_results['analyzed_sql'][0]['section_before_limit']
+                                 = $analyzed_sql_results['analyzed_sql'][0]['section_before_limit']
                 . $sql_order_to_append
                 . $analyzed_sql_results['analyzed_sql'][0]['limit_clause']
                 . ' '
@@ -132,15 +137,17 @@ function PMA_getSqlWithLimitClause($analyzed_sql,
  */
 function PMA_getColumnNameInColumnDropSql($sql)
 {
-    $tmpArray1 = explode('DROP', $sql);
+    $tmpArray1    = explode('DROP', $sql);
     $str_to_check = trim($tmpArray1[1]);
 
-    if (/*overload*/mb_stripos($str_to_check, 'COLUMN') !== false) {
-        $tmpArray2 = explode('COLUMN', $str_to_check);
+    if (/*overload*/
+        mb_stripos($str_to_check, 'COLUMN') !== false
+    ) {
+        $tmpArray2    = explode('COLUMN', $str_to_check);
         $str_to_check = trim($tmpArray2[1]);
     }
 
-    $tmpArray3 = explode(' ', $str_to_check);
+    $tmpArray3    = explode(' ', $str_to_check);
     $str_to_check = trim($tmpArray3[0]);
 
     $drop_column = str_replace(';', '', trim($str_to_check));
@@ -159,7 +166,7 @@ function PMA_getColumnNameInColumnDropSql($sql)
 function PMA_resultSetHasJustOneTable($fields_meta)
 {
     $just_one_table = true;
-    $prev_table = '';
+    $prev_table     = '';
     foreach ($fields_meta as $one_field_meta) {
         if ($one_field_meta->table != ''
             && $prev_table != ''
@@ -171,6 +178,7 @@ function PMA_resultSetHasJustOneTable($fields_meta)
             $prev_table = $one_field_meta->table;
         }
     }
+
     return $just_one_table && $prev_table != '';
 }
 
@@ -186,14 +194,14 @@ function PMA_resultSetHasJustOneTable($fields_meta)
  */
 function PMA_resultSetContainsUniqueKey($db, $table, $fields_meta)
 {
-    $resultSetColumnNames = array();
+    $resultSetColumnNames = [];
     foreach ($fields_meta as $oneMeta) {
         $resultSetColumnNames[] = $oneMeta->name;
     }
     foreach (PMA_Index::getFromTable($table, $db) as $index) {
         if ($index->isUnique()) {
             $indexColumns = $index->getColumns();
-            $numberFound = 0;
+            $numberFound  = 0;
             foreach ($indexColumns as $indexColumnName => $dummy) {
                 if (in_array($indexColumnName, $resultSetColumnNames)) {
                     $numberFound++;
@@ -204,6 +212,7 @@ function PMA_resultSetContainsUniqueKey($db, $table, $fields_meta)
             }
         }
     }
+
     return false;
 }
 
@@ -228,11 +237,11 @@ function PMA_getHtmlForRelationalColumnDropdown($db, $table, $column, $curr_valu
     if ($foreignData['disp_row'] == null) {
         //Handle the case when number of values
         //is more than $cfg['ForeignKeyMaxLimit']
-        $_url_params = array(
-                'db' => $db,
-                'table' => $table,
-                'field' => $column
-        );
+        $_url_params = [
+            'db'    => $db,
+            'table' => $table,
+            'field' => $column,
+        ];
 
         $dropdown = '<span class="curr_value">'
             . htmlspecialchars($_REQUEST['curr_value'])
@@ -269,20 +278,20 @@ function PMA_getHtmlForRelationalColumnDropdown($db, $table, $column, $curr_valu
 function PMA_getHtmlForPrintViewHeader($db, $sql_query, $num_rows)
 {
     $response = PMA_Response::getInstance();
-    $header = $response->getHeader();
+    $header   = $response->getHeader();
     if (isset($_REQUEST['printview']) && $_REQUEST['printview'] == '1') {
-        PMA_Util::checkParameters(array('db', 'sql_query'));
+        PMA_Util::checkParameters(['db', 'sql_query']);
         $header->enablePrintView();
-        if ( $GLOBALS['cfg']['Server']['verbose']) {
-            $hostname =  $GLOBALS['cfg']['Server']['verbose'];
+        if ($GLOBALS['cfg']['Server']['verbose']) {
+            $hostname = $GLOBALS['cfg']['Server']['verbose'];
         } else {
-            $hostname =  $GLOBALS['cfg']['Server']['host'];
-            if (! empty( $GLOBALS['cfg']['Server']['port'])) {
-                $hostname .=  $GLOBALS['cfg']['Server']['port'];
+            $hostname = $GLOBALS['cfg']['Server']['host'];
+            if (!empty($GLOBALS['cfg']['Server']['port'])) {
+                $hostname .= $GLOBALS['cfg']['Server']['port'];
             }
         }
 
-        $versions  = "phpMyAdmin&nbsp;" . PMA_VERSION;
+        $versions = "phpMyAdmin&nbsp;" . PMA_VERSION;
         $versions .= "&nbsp;/&nbsp;";
         $versions .= "MySQL&nbsp;" . PMA_MYSQL_STR_VERSION;
 
@@ -327,7 +336,7 @@ function PMA_getHtmlForProfilingChart($url_query, $db, $profiling_results)
         $pma_token = $_SESSION[' PMA_token '];
         $url_query = isset($url_query)
             ? $url_query
-            : PMA_URL_getCommon(array('db' => $db));
+            : PMA_URL_getCommon(['db' => $db]);
 
         $profiling_table = '';
         $profiling_table .= '<fieldset><legend>' . __('Profiling')
@@ -396,6 +405,7 @@ EOT;
     } else {
         $profiling_table = null;
     }
+
     return $profiling_table;
 }
 
@@ -410,13 +420,13 @@ EOT;
 function PMA_analyzeAndGetTableHtmlForProfilingResults(
     $profiling_results
 ) {
-    $profiling_stats = array(
+    $profiling_stats = [
         'total_time' => 0,
-        'states' => array(),
-    );
-    $chart_json = Array();
-    $i = 1;
-    $table = '';
+        'states'     => [],
+    ];
+    $chart_json      = [];
+    $i               = 1;
+    $table           = '';
     foreach ($profiling_results as $one_result) {
         if (isset($profiling_stats['states'][ucwords($one_result['Status'])])) {
             $states = $profiling_stats['states'];
@@ -424,10 +434,10 @@ function PMA_analyzeAndGetTableHtmlForProfilingResults(
                 += $one_result['Duration'];
             $states[ucwords($one_result['Status'])]['calls']++;
         } else {
-            $profiling_stats['states'][ucwords($one_result['Status'])] = array(
+            $profiling_stats['states'][ucwords($one_result['Status'])] = [
                 'total_time' => $one_result['Duration'],
-                'calls' => 1,
-            );
+                'calls'      => 1,
+            ];
         }
         $profiling_stats['total_time'] += $one_result['Duration'];
 
@@ -447,7 +457,8 @@ function PMA_analyzeAndGetTableHtmlForProfilingResults(
                 = $one_result['Duration'];
         }
     }
-    return array($table, $chart_json, $profiling_stats);
+
+    return [$table, $chart_json, $profiling_stats];
 }
 
 /**
@@ -472,7 +483,7 @@ function PMA_getTableHtmlForProfilingSummaryByState($profiling_stats)
                 100 * ($stats['total_time'] / $profiling_stats['total_time']),
                 0, 2
             )
-        . '%</td>' . "\n";
+            . '%</td>' . "\n";
         $table .= '<td align="right">' . $stats['calls'] . '</td>'
             . "\n";
         $table .= '<td align="right">'
@@ -484,6 +495,7 @@ function PMA_getTableHtmlForProfilingSummaryByState($profiling_stats)
             . '</span></td>' . "\n";
         $table .= ' </tr>' . "\n";
     }
+
     return $table;
 }
 
@@ -501,10 +513,11 @@ function PMA_getTableHtmlForProfilingSummaryByState($profiling_stats)
  */
 function PMA_getHtmlForEnumColumnDropdown($db, $table, $column, $curr_value)
 {
-    $values = PMA_getValuesForColumn($db, $table, $column);
+    $values   = PMA_getValuesForColumn($db, $table, $column);
     $dropdown = '<option value="">&nbsp;</option>';
-    $dropdown .= PMA_getHtmlForOptionsList($values, array($curr_value));
+    $dropdown .= PMA_getHtmlForOptionsList($values, [$curr_value]);
     $dropdown = '<select>' . $dropdown . '</select>';
+
     return $dropdown;
 }
 
@@ -522,7 +535,7 @@ function PMA_getHtmlForEnumColumnDropdown($db, $table, $column, $curr_value)
  */
 function PMA_getHtmlForSetColumn($db, $table, $column, $curr_value)
 {
-    $values = PMA_getValuesForColumn($db, $table, $column);
+    $values   = PMA_getValuesForColumn($db, $table, $column);
     $dropdown = '';
 
     //converts characters of $curr_value to HTML entities
@@ -534,7 +547,7 @@ function PMA_getHtmlForSetColumn($db, $table, $column, $curr_value)
     $dropdown .= PMA_getHtmlForOptionsList($values, $selected_values);
 
     $select_size = (sizeof($values) > 10) ? 10 : sizeof($values);
-    $dropdown = '<select multiple="multiple" size="' . $select_size . '">'
+    $dropdown    = '<select multiple="multiple" size="' . $select_size . '">'
         . $dropdown . '</select>';
 
     return $dropdown;
@@ -580,6 +593,7 @@ function PMA_getHtmlForOptionsList($values, $selected_values)
         }
         $options .= '>' . $value . '</option>';
     }
+
     return $options;
 }
 
@@ -601,22 +615,22 @@ function PMA_getHtmlForBookmark($displayParts, $cfgBookmark, $sql_query, $db,
     $table, $complete_query, $bkm_user
 ) {
     if ($displayParts['bkm_form'] == '1'
-        && (! empty($cfgBookmark) && empty($_GET['id_bookmark']))
-        && ! empty($sql_query)
+        && (!empty($cfgBookmark) && empty($_GET['id_bookmark']))
+        && !empty($sql_query)
     ) {
-        $goto = 'sql.php'
+        $goto          = 'sql.php'
             . PMA_URL_getCommon(
-                array(
-                    'db' => $db,
-                    'table' => $table,
-                    'sql_query' => $sql_query,
-                    'id_bookmark'=> 1,
-                )
+                [
+                    'db'          => $db,
+                    'table'       => $table,
+                    'sql_query'   => $sql_query,
+                    'id_bookmark' => 1,
+                ]
             );
         $bkm_sql_query = urlencode(
             isset($complete_query) ? $complete_query : $sql_query
         );
-        $html = '<form action="sql.php" method="post"'
+        $html          = '<form action="sql.php" method="post"'
             . ' onsubmit="return ! emptyCheckTheField(this,'
             . '\'bkm_fields[bkm_label]\');"'
             . ' class="bookmarkQueryForm">';
@@ -676,10 +690,10 @@ function PMA_isRememberSortingOrder($analyzed_sql_results)
         $analyzed_sql_results['analyzed_sql'][0]['queryflags']['select_from']
     );
     if ($GLOBALS['cfg']['RememberSorting']
-        && ! ($analyzed_sql_results['is_count']
-        || $analyzed_sql_results['is_export']
-        || $analyzed_sql_results['is_func']
-        || $analyzed_sql_results['is_analyse'])
+        && !($analyzed_sql_results['is_count']
+            || $analyzed_sql_results['is_export']
+            || $analyzed_sql_results['is_func']
+            || $analyzed_sql_results['is_analyse'])
         && isset($analyzed_sql_results['analyzed_sql'][0]['select_expr'])
         && (count($analyzed_sql_results['analyzed_sql'][0]['select_expr']) == 0)
         && $select_from
@@ -705,10 +719,10 @@ function PMA_isAppendLimitClause($analyzed_sql_results)
         $analyzed_sql_results['analyzed_sql'][0]['queryflags']['select_from']
     );
     if (($_SESSION['tmpval']['max_rows'] != 'all')
-        && ! ($analyzed_sql_results['is_export']
-        || $analyzed_sql_results['is_analyse'])
+        && !($analyzed_sql_results['is_export']
+            || $analyzed_sql_results['is_analyse'])
         && ($select_from || $analyzed_sql_results['is_subquery'])
-        && ! isset($analyzed_sql_results['analyzed_sql'][0]['queryflags']['offset'])
+        && !isset($analyzed_sql_results['analyzed_sql'][0]['queryflags']['offset'])
         && empty($analyzed_sql_results['analyzed_sql'][0]['limit_clause'])
     ) {
         return true;
@@ -735,15 +749,15 @@ function PMA_isJustBrowsing($analyzed_sql_results, $find_real_end)
     $table_name = isset(
         $analyzed_sql_results['analyzed_sql'][0]['table_ref'][1]['table_name']
     );
-    if (! $analyzed_sql_results['is_group']
-        && ! $analyzed_sql_results['is_func']
-        && ! isset($analyzed_sql_results['analyzed_sql'][0]['queryflags']['union'])
-        && ! $distinct
-        && ! $table_name
+    if (!$analyzed_sql_results['is_group']
+        && !$analyzed_sql_results['is_func']
+        && !isset($analyzed_sql_results['analyzed_sql'][0]['queryflags']['union'])
+        && !$distinct
+        && !$table_name
         && (empty($analyzed_sql_results['analyzed_sql'][0]['where_clause'])
-        || $analyzed_sql_results['analyzed_sql'][0]['where_clause'] == '1 ')
+            || $analyzed_sql_results['analyzed_sql'][0]['where_clause'] == '1 ')
         && empty($analyzed_sql_results['analyzed_sql'][0]['group_by_clause'])
-        && ! isset($find_real_end)
+        && !isset($find_real_end)
         && !$analyzed_sql_results['is_subquery']
         && empty($analyzed_sql_results['analyzed_sql'][0]['having_clause'])
     ) {
@@ -765,7 +779,7 @@ function PMA_isDeleteTransformationInfo($analyzed_sql_results)
 {
     if (!empty($analyzed_sql_results['analyzed_sql'][0]['querytype'])
         && (($analyzed_sql_results['analyzed_sql'][0]['querytype'] == 'ALTER')
-        || ($analyzed_sql_results['analyzed_sql'][0]['querytype'] == 'DROP'))
+            || ($analyzed_sql_results['analyzed_sql'][0]['querytype'] == 'DROP'))
     ) {
         return true;
     } else {
@@ -786,11 +800,11 @@ function PMA_isDeleteTransformationInfo($analyzed_sql_results)
 function PMA_hasNoRightsToDropDatabase($analyzed_sql_results,
     $allowUserDropDatabase, $is_superuser
 ) {
-    if (! defined('PMA_CHK_DROP')
-        && ! $allowUserDropDatabase
+    if (!defined('PMA_CHK_DROP')
+        && !$allowUserDropDatabase
         && isset ($analyzed_sql_results['drop_database'])
         && $analyzed_sql_results['drop_database'] == 1
-        && ! $is_superuser
+        && !$is_superuser
     ) {
         return true;
     } else {
@@ -809,15 +823,15 @@ function PMA_hasNoRightsToDropDatabase($analyzed_sql_results,
 function PMA_setColumnProperty($pmatable, $request_index)
 {
     $property_value = explode(',', $_REQUEST[$request_index]);
-    switch($request_index) {
-    case 'col_order':
-        $property_to_set = PMA_Table::PROP_COLUMN_ORDER;
-        break;
-    case 'col_visib':
-        $property_to_set = PMA_Table::PROP_COLUMN_VISIB;
-        break;
-    default:
-        $property_to_set = '';
+    switch ($request_index) {
+        case 'col_order':
+            $property_to_set = PMA_Table::PROP_COLUMN_ORDER;
+            break;
+        case 'col_visib':
+            $property_to_set = PMA_Table::PROP_COLUMN_VISIB;
+            break;
+        default:
+            $property_to_set = '';
     }
     $retval = $pmatable->setUiProp(
         $property_to_set,
@@ -845,7 +859,7 @@ function PMA_setColumnProperty($pmatable, $request_index)
 function PMA_setColumnOrderOrVisibility($table, $db)
 {
     $pmatable = new PMA_Table($table, $db);
-    $retval = false;
+    $retval   = false;
 
     // set column order
     if (isset($_REQUEST['col_order'])) {
@@ -872,10 +886,10 @@ function PMA_setColumnOrderOrVisibility($table, $db)
  */
 function PMA_addBookmark($pmaAbsoluteUri, $goto)
 {
-    $result = PMA_Bookmark_save(
+    $result   = PMA_Bookmark_save(
         $_POST['bkm_fields'],
         (isset($_POST['bkm_all_users'])
-            && $_POST['bkm_all_users'] == 'true' ? true : false
+        && $_POST['bkm_all_users'] == 'true' ? true : false
         )
     );
     $response = PMA_Response::getInstance();
@@ -912,7 +926,7 @@ function PMA_addBookmark($pmaAbsoluteUri, $goto)
  */
 function PMA_findRealEndOfRows($db, $table)
 {
-    $unlim_num_rows = PMA_Table::countRecords($db, $table, true);
+    $unlim_num_rows            = PMA_Table::countRecords($db, $table, true);
     $_SESSION['tmpval']['pos'] = PMA_getStartPosToDisplayRow($unlim_num_rows);
 
     return $unlim_num_rows;
@@ -956,9 +970,9 @@ function PMA_getRelationalValues($db, $table)
  */
 function PMA_getEnumOrSetValues($db, $table, $columnType)
 {
-    $column = $_REQUEST['column'];
+    $column     = $_REQUEST['column'];
     $curr_value = $_REQUEST['curr_value'];
-    $response = PMA_Response::getInstance();
+    $response   = PMA_Response::getInstance();
     if ($columnType == "enum") {
         $dropdown = PMA_getHtmlForEnumColumnDropdown(
             $db, $table, $column, $curr_value
@@ -990,7 +1004,7 @@ function PMA_getDefaultSqlQueryForBrowse($db, $table)
         true
     );
 
-    if (! empty($book_sql_query)) {
+    if (!empty($book_sql_query)) {
         $GLOBALS['using_bookmark_message'] = PMA_message::notice(
             __('Using bookmark "%s" as default browse query.')
         );
@@ -1007,12 +1021,12 @@ function PMA_getDefaultSqlQueryForBrowse($db, $table)
             && ($GLOBALS['cfg']['TablePrimaryKeyOrder'] !== 'NONE')
         ) {
 
-            $primaryKey     = null;
-            $primary        = PMA_Index::getPrimary($table, $db);
+            $primaryKey = null;
+            $primary    = PMA_Index::getPrimary($table, $db);
 
             if ($primary !== false) {
 
-                $primarycols    = $primary->getColumns();
+                $primarycols = $primary->getColumns();
 
                 foreach ($primarycols as $col) {
                     $primaryKey = $col->getName();
@@ -1021,9 +1035,9 @@ function PMA_getDefaultSqlQueryForBrowse($db, $table)
 
                 if ($primaryKey != null) {
                     $defaultOrderByClause = ' ORDER BY '
-                                          . PMA_Util::backquote($table) . '.'
-                                          . PMA_Util::backquote($primaryKey) . ' '
-                                          . $GLOBALS['cfg']['TablePrimaryKeyOrder'];
+                        . PMA_Util::backquote($table) . '.'
+                        . PMA_Util::backquote($primaryKey) . ' '
+                        . $GLOBALS['cfg']['TablePrimaryKeyOrder'];
                 }
 
             }
@@ -1051,7 +1065,7 @@ function PMA_getDefaultSqlQueryForBrowse($db, $table)
 function PMA_handleQueryExecuteError($is_gotofile, $error, $full_sql_query)
 {
     if ($is_gotofile) {
-        $message = PMA_Message::rawError($error);
+        $message  = PMA_Message::rawError($error);
         $response = PMA_Response::getInstance();
         $response->isSuccess(false);
         $response->addJSON('message', $message);
@@ -1076,12 +1090,12 @@ function PMA_storeTheQueryAsBookmark($db, $bkm_user, $sql_query_for_bookmark,
     $bkm_label, $bkm_replace
 ) {
     include_once 'libraries/bookmark.lib.php';
-    $bfields = array(
-                 'bkm_database' => $db,
-                 'bkm_user'  => $bkm_user,
-                 'bkm_sql_query' => urlencode($sql_query_for_bookmark),
-                 'bkm_label' => $bkm_label
-    );
+    $bfields = [
+        'bkm_database'  => $db,
+        'bkm_user'      => $bkm_user,
+        'bkm_sql_query' => urlencode($sql_query_for_bookmark),
+        'bkm_label'     => $bkm_label,
+    ];
 
     // Should we replace bookmark?
     if (isset($bkm_replace)) {
@@ -1109,7 +1123,7 @@ function PMA_executeQueryAndStoreResults($full_sql_query)
     // Measure query time.
     $querytime_before = array_sum(explode(' ', microtime()));
 
-    $result = @$GLOBALS['dbi']->tryQuery(
+    $result          = @$GLOBALS['dbi']->tryQuery(
         $full_sql_query, null, PMA_DatabaseInterface::QUERY_STORE
     );
     $querytime_after = array_sum(explode(' ', microtime()));
@@ -1130,9 +1144,9 @@ function PMA_executeQueryAndStoreResults($full_sql_query)
  */
 function PMA_getNumberOfRowsAffectedOrChanged($is_affected, $result, $num_rows)
 {
-    if (! $is_affected) {
+    if (!$is_affected) {
         $num_rows = ($result) ? @$GLOBALS['dbi']->numRows($result) : 0;
-    } elseif (! isset($num_rows)) {
+    } elseif (!isset($num_rows)) {
         $num_rows = @$GLOBALS['dbi']->affectedRows();
     }
 
@@ -1152,7 +1166,9 @@ function PMA_hasCurrentDbChanged($db)
     // Checks if the current database has changed
     // This could happen if the user sends a query like "USE `database`;"
     $reload = 0;
-    if (/*overload*/mb_strlen($db)) {
+    if (/*overload*/
+    mb_strlen($db)
+    ) {
         $current_db = $GLOBALS['dbi']->fetchValue('SELECT DATABASE()');
         // $current_db is false, except when a USE statement was sent
         if ($current_db != false && $db !== $current_db) {
@@ -1179,17 +1195,24 @@ function PMA_cleanupRelations($db, $table, $dropped_column, $purge, $extra_data)
     include_once 'libraries/relation_cleanup.lib.php';
 
     if (isset($purge) && $purge == 1) {
-        if (/*overload*/mb_strlen($table) && /*overload*/mb_strlen($db)) {
+        if (/*overload*/
+            mb_strlen($table) && /*overload*/
+            mb_strlen($db)
+        ) {
             PMA_relationsCleanupTable($db, $table);
-        } elseif (/*overload*/mb_strlen($db)) {
+        } elseif (/*overload*/
+        mb_strlen($db)
+        ) {
             PMA_relationsCleanupDatabase($db);
         }
     }
 
     if (isset($dropped_column)
         && !empty($dropped_column)
-        && /*overload*/mb_strlen($db)
-        && /*overload*/mb_strlen($table)
+        && /*overload*/
+        mb_strlen($db)
+        && /*overload*/
+        mb_strlen($table)
     ) {
         PMA_relationsCleanupColumn($db, $table, $dropped_column);
         // to refresh the list of indexes (Ajax mode)
@@ -1222,7 +1245,7 @@ function PMA_countQueryResults(
         // if we did not append a limit, set this to get a correct
         // "Showing rows..." message
         // $_SESSION['tmpval']['max_rows'] = 'all';
-        $unlim_num_rows         = $num_rows;
+        $unlim_num_rows = $num_rows;
     } elseif ($is_select || $analyzed_sql_results['is_subquery']) {
         //    c o u n t    q u e r y
 
@@ -1294,7 +1317,7 @@ function PMA_countQueryResults(
             // long delays. Returned count will be complete anyway.
             // (but a LIMIT would disrupt results in an UNION)
 
-            if (! isset($analyzed_sql[0]['queryflags']['union'])) {
+            if (!isset($analyzed_sql[0]['queryflags']['union'])) {
                 $count_query .= ' LIMIT 1';
             }
 
@@ -1347,8 +1370,8 @@ function PMA_executeTheQuery($analyzed_sql_results, $full_sql_query, $is_gotofil
 
     // Only if we ask to see the php code
     if (isset($GLOBALS['show_as_php'])) {
-        $result = null;
-        $num_rows = 0;
+        $result         = null;
+        $num_rows       = 0;
         $unlim_num_rows = 0;
     } else { // If we don't ask to see the php code
         if (isset($_SESSION['profiling']) && PMA_Util::profilingSupported()) {
@@ -1365,7 +1388,7 @@ function PMA_executeTheQuery($analyzed_sql_results, $full_sql_query, $is_gotofil
 
         // If there are no errors and bookmarklabel was given,
         // store the query as a bookmark
-        if (! empty($_POST['bkm_label']) && ! empty($sql_query_for_bookmark)) {
+        if (!empty($_POST['bkm_label']) && !empty($sql_query_for_bookmark)) {
             $cfgBookmark = PMA_Bookmark_getParams();
             PMA_storeTheQueryAsBookmark(
                 $db, $cfgBookmark['user'],
@@ -1409,10 +1432,11 @@ function PMA_executeTheQuery($analyzed_sql_results, $full_sql_query, $is_gotofil
         }
     }
 
-    return array($result, $num_rows, $unlim_num_rows,
-        isset($profiling_results) ? $profiling_results : null, $extra_data
-    );
+    return [$result, $num_rows, $unlim_num_rows,
+        isset($profiling_results) ? $profiling_results : null, $extra_data,
+    ];
 }
+
 /**
  * Delete related tranformatioinformationn information
  *
@@ -1426,10 +1450,11 @@ function PMA_deleteTransformationInfo($db, $table, $analyzed_sql)
 {
     include_once 'libraries/transformations.lib.php';
     if ($analyzed_sql[0]['querytype'] == 'ALTER') {
-        $posDrop = /*overload*/mb_stripos(
-            $analyzed_sql[0]['unsorted_query'],
-            'DROP'
-        );
+        $posDrop = /*overload*/
+            mb_stripos(
+                $analyzed_sql[0]['unsorted_query'],
+                'DROP'
+            );
         if ($posDrop !== false) {
             $drop_column = PMA_getColumnNameInColumnDropSql(
                 $analyzed_sql[0]['unsorted_query']
@@ -1489,9 +1514,9 @@ function PMA_getMessageForNoRowsReturned($message_to_show, $analyzed_sql_results
         // fact that $message_to_show is sent for every case.
         // The $message_to_show containing a success message and sent with
         // the form should not have priority over errors
-    } elseif (! empty($message_to_show) && ! $analyzed_sql_results['is_select']) {
+    } elseif (!empty($message_to_show) && !$analyzed_sql_results['is_select']) {
         $message = PMA_Message::rawSuccess(htmlspecialchars($message_to_show));
-    } elseif (! empty($GLOBALS['show_as_php'])) {
+    } elseif (!empty($GLOBALS['show_as_php'])) {
         $message = PMA_Message::success(__('Showing as PHP code'));
     } elseif (isset($GLOBALS['show_as_php'])) {
         /* User disable showing as PHP, query is only displayed */
@@ -1558,7 +1583,7 @@ function PMA_getQueryResponseForNoResultsReturned($analyzed_sql_results, $db,
 
         if (isset($GLOBALS['reload']) && $GLOBALS['reload'] == 1) {
             $extra_data['reload'] = 1;
-            $extra_data['db'] = $GLOBALS['db'];
+            $extra_data['db']     = $GLOBALS['db'];
         }
 
         $html_message = PMA_Util::getMessage(
@@ -1575,7 +1600,7 @@ function PMA_getQueryResponseForNoResultsReturned($analyzed_sql_results, $db,
         }
 
         $response = PMA_Response::getInstance();
-        $response->addJSON(isset($extra_data) ? $extra_data : array());
+        $response->addJSON(isset($extra_data) ? $extra_data : []);
 
         $query_type = PMA_DisplayResults::QUERY_TYPE_SELECT;
         if ($analyzed_sql_results['analyzed_sql'][0]['querytype'] == $query_type) {
@@ -1597,7 +1622,7 @@ function PMA_getQueryResponseForNoResultsReturned($analyzed_sql_results, $db,
  */
 function PMA_sendResponseForGridEdit($result)
 {
-    $row = $GLOBALS['dbi']->fetchRow($result);
+    $row         = $GLOBALS['dbi']->fetchRow($result);
     $field_flags = $GLOBALS['dbi']->fieldFlags($result, 0);
     if (stristr($field_flags, PMA_DisplayResults::BINARY_FIELD)) {
         $row[0] = bin2hex($row[0]);
@@ -1686,14 +1711,14 @@ function PMA_getHtmlForSqlQueryResultsTable($displayResultsObject,
     $editable, $unlim_num_rows, $num_rows, $showtable, $result,
     $analyzed_sql_results
 ) {
-    $printview = isset($_REQUEST['printview']) ? $_REQUEST['printview'] : null;
-    $table_html = '';
-    $browse_dist = ! empty($_REQUEST['is_browse_distinct']);
+    $printview   = isset($_REQUEST['printview']) ? $_REQUEST['printview'] : null;
+    $table_html  = '';
+    $browse_dist = !empty($_REQUEST['is_browse_distinct']);
 
     if ($analyzed_sql_results['is_procedure']) {
 
         do {
-            if (! isset($result)) {
+            if (!isset($result)) {
                 $result = $GLOBALS['dbi']->storeResult();
             }
             $num_rows = $GLOBALS['dbi']->numRows($result);
@@ -1725,16 +1750,16 @@ function PMA_getHtmlForSqlQueryResultsTable($displayResultsObject,
                     $browse_dist
                 );
 
-                $displayParts = array(
-                    'edit_lnk' => $displayResultsObject::NO_EDIT_OR_DELETE,
-                    'del_lnk' => $displayResultsObject::NO_EDIT_OR_DELETE,
-                    'sort_lnk' => '1',
-                    'nav_bar'  => '1',
-                    'ins_row'  => '0',
-                    'bkm_form' => '1',
-                    'text_btn' => '1',
-                    'pview_lnk' => '1'
-                );
+                $displayParts = [
+                    'edit_lnk'  => $displayResultsObject::NO_EDIT_OR_DELETE,
+                    'del_lnk'   => $displayResultsObject::NO_EDIT_OR_DELETE,
+                    'sort_lnk'  => '1',
+                    'nav_bar'   => '1',
+                    'ins_row'   => '0',
+                    'bkm_form'  => '1',
+                    'text_btn'  => '1',
+                    'pview_lnk' => '1',
+                ];
 
                 $table_html .= $displayResultsObject->getTable(
                     $result,
@@ -1848,7 +1873,7 @@ function PMA_getHtmlForIndexesProblems($query_type, $selectedTables, $db)
         $indexes_problems_html = '';
         foreach ($selectedTables as $tbl_name) {
             $check = PMA_Index::findDuplicates($tbl_name, $db);
-            if (! empty($check)) {
+            if (!empty($check)) {
                 $indexes_problems_html .= sprintf(
                     __('Problems with indexes of table `%s`'), $tbl_name
                 );
@@ -1911,7 +1936,7 @@ function PMA_getHtmlForPrintButton()
 function PMA_getQueryResponseForResultsReturned($result,
     $analyzed_sql_results, $db, $table, $message, $sql_data,
     $displayResultsObject, $pmaThemeImage,
-    $unlim_num_rows, $num_rows,  $full_sql_query, $disp_query,
+    $unlim_num_rows, $num_rows, $full_sql_query, $disp_query,
     $disp_message, $profiling_results, $query_type, $selectedTables, $sql_query,
     $complete_query
 ) {
@@ -1942,7 +1967,7 @@ function PMA_getQueryResponseForResultsReturned($result,
 
     $sele_exp_cls = $analyzed_sql_results['analyzed_sql'][0]['select_expr_clause'];
     $updatableView
-        = trim($sele_exp_cls) == '*'
+                  = trim($sele_exp_cls) == '*'
         && PMA_Table::isUpdatableView($db, $table);
 
     $has_unique = PMA_resultSetContainsUniqueKey(
@@ -1953,41 +1978,41 @@ function PMA_getQueryResponseForResultsReturned($result,
 
     $editable = ($has_unique || $updatableView) && $just_one_table;
 
-    $displayParts = array(
-        'edit_lnk' => $displayResultsObject::UPDATE_ROW,
-        'del_lnk' => $displayResultsObject::DELETE_ROW,
-        'sort_lnk' => '1',
-        'nav_bar'  => '1',
-        'ins_row'  => '1',
-        'bkm_form' => '1',
-        'text_btn' => '0',
-        'pview_lnk' => '1'
-    );
+    $displayParts = [
+        'edit_lnk'  => $displayResultsObject::UPDATE_ROW,
+        'del_lnk'   => $displayResultsObject::DELETE_ROW,
+        'sort_lnk'  => '1',
+        'nav_bar'   => '1',
+        'ins_row'   => '1',
+        'bkm_form'  => '1',
+        'text_btn'  => '0',
+        'pview_lnk' => '1',
+    ];
 
     if (!empty($table) && ($GLOBALS['dbi']->isSystemSchema($db) || !$editable)) {
-        $displayParts = array(
-            'edit_lnk' => $displayResultsObject::NO_EDIT_OR_DELETE,
-            'del_lnk' => $displayResultsObject::NO_EDIT_OR_DELETE,
-            'sort_lnk' => '1',
-            'nav_bar'  => '1',
-            'ins_row'  => '0',
-            'bkm_form' => '1',
-            'text_btn' => '1',
-            'pview_lnk' => '1'
-        );
+        $displayParts = [
+            'edit_lnk'  => $displayResultsObject::NO_EDIT_OR_DELETE,
+            'del_lnk'   => $displayResultsObject::NO_EDIT_OR_DELETE,
+            'sort_lnk'  => '1',
+            'nav_bar'   => '1',
+            'ins_row'   => '0',
+            'bkm_form'  => '1',
+            'text_btn'  => '1',
+            'pview_lnk' => '1',
+        ];
 
     }
-    if ( isset($_REQUEST['printview']) && $_REQUEST['printview'] == '1') {
-        $displayParts = array(
-            'edit_lnk' => $displayResultsObject::NO_EDIT_OR_DELETE,
-            'del_lnk' => $displayResultsObject::NO_EDIT_OR_DELETE,
-            'sort_lnk' => '0',
-            'nav_bar'  => '0',
-            'ins_row'  => '0',
-            'bkm_form' => '0',
-            'text_btn' => '0',
-            'pview_lnk' => '0'
-        );
+    if (isset($_REQUEST['printview']) && $_REQUEST['printview'] == '1') {
+        $displayParts = [
+            'edit_lnk'  => $displayResultsObject::NO_EDIT_OR_DELETE,
+            'del_lnk'   => $displayResultsObject::NO_EDIT_OR_DELETE,
+            'sort_lnk'  => '0',
+            'nav_bar'   => '0',
+            'ins_row'   => '0',
+            'bkm_form'  => '0',
+            'text_btn'  => '0',
+            'pview_lnk' => '0',
+        ];
     }
 
     if (isset($_REQUEST['table_maintenance'])) {
@@ -1995,7 +2020,7 @@ function PMA_getQueryResponseForResultsReturned($result,
         $scripts->addFile('sql.js');
         $table_maintenance_html = '';
         if (isset($message)) {
-            $message = PMA_Message::success($message);
+            $message                = PMA_Message::success($message);
             $table_maintenance_html = PMA_Util::getMessage(
                 $message, $GLOBALS['sql_query'], 'success'
             );
@@ -2171,9 +2196,9 @@ function PMA_executeQueryAndGetQueryResponse($analyzed_sql_results,
     // Handling is not required when it's a union query
     // (the parser never sets the 'union' key to 0)
     if (PMA_isRememberSortingOrder($analyzed_sql_results)
-        && ! isset($analyzed_sql_results['analyzed_sql'][0]['queryflags']['union'])
+        && !isset($analyzed_sql_results['analyzed_sql'][0]['queryflags']['union'])
     ) {
-        if (! isset($_SESSION['sql_from_query_box'])) {
+        if (!isset($_SESSION['sql_from_query_box'])) {
             PMA_handleSortOrder($db, $table, $analyzed_sql_results, $sql_query);
         } else {
             unset($_SESSION['sql_from_query_box']);
@@ -2204,15 +2229,15 @@ function PMA_executeQueryAndGetQueryResponse($analyzed_sql_results,
     // Execute the query
     list($result, $num_rows, $unlim_num_rows, $profiling_results, $extra_data)
         = PMA_executeTheQuery(
-            $analyzed_sql_results,
-            $full_sql_query,
-            $is_gotofile,
-            $db,
-            $table,
-            isset($find_real_end) ? $find_real_end : null,
-            isset($sql_query_for_bookmark) ? $sql_query_for_bookmark : null,
-            isset($extra_data) ? $extra_data : null
-        );
+        $analyzed_sql_results,
+        $full_sql_query,
+        $is_gotofile,
+        $db,
+        $table,
+        isset($find_real_end) ? $find_real_end : null,
+        isset($sql_query_for_bookmark) ? $sql_query_for_bookmark : null,
+        isset($extra_data) ? $extra_data : null
+    );
 
     // No rows returned -> move back to the calling page
     if ((0 == $num_rows && 0 == $unlim_num_rows) || $is_affected) {

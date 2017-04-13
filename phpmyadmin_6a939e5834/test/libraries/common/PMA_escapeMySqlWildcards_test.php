@@ -4,7 +4,7 @@
  * Test for MySQL Wildcards escaping/unescaping
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  * Test for MySQL Wildcards escaping/unescaping
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_EscapeMySqlWildcardsTest extends PHPUnit_Framework_TestCase
 {
@@ -27,16 +27,16 @@ class PMA_EscapeMySqlWildcardsTest extends PHPUnit_Framework_TestCase
      */
     public function escapeDataProvider()
     {
-        return array(
-            array('\_test', '_test'),
-            array('\_\\', '_\\'),
-            array('\\_\%', '_%'),
-            array('\\\_', '\_'),
-            array('\\\_\\\%', '\_\%'),
-            array('\_\\%\_\_\%', '_%__%'),
-            array('\%\_', '%_'),
-            array('\\\%\\\_', '\%\_')
-        );
+        return [
+            ['\_test', '_test'],
+            ['\_\\', '_\\'],
+            ['\\_\%', '_%'],
+            ['\\\_', '\_'],
+            ['\\\_\\\%', '\_\%'],
+            ['\_\\%\_\_\%', '_%__%'],
+            ['\%\_', '%_'],
+            ['\\\%\\\_', '\%\_'],
+        ];
     }
 
     /**
@@ -75,4 +75,5 @@ class PMA_EscapeMySqlWildcardsTest extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

@@ -8,7 +8,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -40,12 +40,12 @@ function PMA_getHtmlForDatabase(
     // table col order
     $column_order = PMA_getColumnOrder();
 
-    $_url_params = array(
-        'pos' => $pos,
-        'dbstats' => $dbstats,
-        'sort_by' => $sort_by,
+    $_url_params = [
+        'pos'        => $pos,
+        'dbstats'    => $dbstats,
+        'sort_by'    => $sort_by,
         'sort_order' => $sort_order,
-    );
+    ];
 
     $html .= PMA_Util::getListNavigator(
         $databases_count, $pos, $_url_params, 'server_databases.php',
@@ -60,7 +60,7 @@ function PMA_getHtmlForDatabase(
 
     $_url_params['sort_by'] = 'SCHEMA_NAME';
     $_url_params['sort_order']
-        = ($sort_by == 'SCHEMA_NAME' && $sort_order == 'asc') ? 'desc' : 'asc';
+                            = ($sort_by == 'SCHEMA_NAME' && $sort_order == 'asc') ? 'desc' : 'asc';
 
     $html .= '<table id="tabledatabases" class="data">' . "\n"
         . '<thead>' . "\n"
@@ -186,6 +186,7 @@ function PMA_getHtmlForTableFooter(
     }
     $html .= '</tr>' . "\n";
     $html .= '</tfoot>' . "\n";
+
     return $html;
 }
 
@@ -206,7 +207,7 @@ function PMA_getHtmlAndColumnOrderForDatabaseList(
     $column_order, $replication_types, $replication_info
 ) {
     $odd_row = true;
-    $html = '<tbody>' . "\n";
+    $html    = '<tbody>' . "\n";
 
     foreach ($databases as $current) {
         $tr_class = $odd_row ? 'odd' : 'even';
@@ -214,7 +215,7 @@ function PMA_getHtmlAndColumnOrderForDatabaseList(
             $tr_class .= ' noclick';
         }
         $html .= '<tr class="' . $tr_class . '">' . "\n";
-        $odd_row = ! $odd_row;
+        $odd_row = !$odd_row;
 
         list($column_order, $generated_html) = PMA_buildHtmlForDb(
             $current,
@@ -231,7 +232,8 @@ function PMA_getHtmlAndColumnOrderForDatabaseList(
     } // end foreach ($databases as $key => $current)
     unset($current, $odd_row);
     $html .= '</tbody>';
-    return array($html, $column_order);
+
+    return [$html, $column_order];
 }
 
 /**
@@ -295,9 +297,9 @@ function PMA_getHtmlForColumnOrderWithSort(
     $_url_params, $sort_by, $sort_order,
     $column_order, $first_database
 ) {
-    $html = ($is_superuser || $is_allowUserDropDb
-        ? '        <th></th>' . "\n"
-        : '')
+    $html          = ($is_superuser || $is_allowUserDropDb
+            ? '        <th></th>' . "\n"
+            : '')
         . '    <th><a href="server_databases.php'
         . PMA_URL_getCommon($_url_params) . '">' . "\n"
         . '            ' . __('Database') . "\n"
@@ -307,7 +309,7 @@ function PMA_getHtmlForColumnOrderWithSort(
                 ($sort_order == 'asc' ? __('Ascending') : __('Descending'))
             ) . "\n"
             : ''
-          )
+        )
         . '        </a></th>' . "\n";
     $table_columns = 3;
     foreach ($column_order as $stat_name => $stat) {
@@ -324,7 +326,7 @@ function PMA_getHtmlForColumnOrderWithSort(
         }
         $_url_params['sort_by'] = $stat_name;
         $_url_params['sort_order']
-            = ($sort_by == $stat_name && $sort_order == 'desc') ? 'asc' : 'desc';
+                                = ($sort_by == $stat_name && $sort_order == 'desc') ? 'asc' : 'desc';
         $html .= '    <th' . $colspan . '>'
             . '<a href="server_databases.php'
             . PMA_URL_getCommon($_url_params) . '">' . "\n"
@@ -335,9 +337,10 @@ function PMA_getHtmlForColumnOrderWithSort(
                     ($sort_order == 'asc' ? __('Ascending') : __('Descending'))
                 ) . "\n"
                 : ''
-              )
+            )
             . '        </a></th>' . "\n";
     }
+
     return $html;
 }
 
@@ -359,7 +362,7 @@ function PMA_getHtmlForNoticeEnableStatistics($url_query, $html)
         )
     )->getDisplay();
     //we should put notice above database list
-    $html  = $notice . $html;
+    $html = $notice . $html;
     $html .= '<ul><li id="li_switch_dbstats"><strong>' . "\n";
     $html .= '<a href="server_databases.php' . $url_query . '&amp;dbstats=1"'
         . ' title="' . __('Enable Statistics') . '">' . "\n"
@@ -395,10 +398,11 @@ function PMA_getHtmlForReplicationType(
         }
     }
 
-    if ($is_superuser && ! PMA_DRIZZLE) {
+    if ($is_superuser && !PMA_DRIZZLE) {
         $html .= '    <th>' . ($cfg_iconic ? '' : __('Action')) . "\n"
             . '    </th>' . "\n";
     }
+
     return $html;
 }
 
@@ -412,7 +416,7 @@ function PMA_getListForSortDatabase()
     if (empty($_REQUEST['sort_by'])) {
         $sort_by = 'SCHEMA_NAME';
     } else {
-        $sort_by_whitelist = array(
+        $sort_by_whitelist = [
             'SCHEMA_NAME',
             'DEFAULT_COLLATION_NAME',
             'SCHEMA_TABLES',
@@ -420,8 +424,8 @@ function PMA_getListForSortDatabase()
             'SCHEMA_DATA_LENGTH',
             'SCHEMA_INDEX_LENGTH',
             'SCHEMA_LENGTH',
-            'SCHEMA_DATA_FREE'
-        );
+            'SCHEMA_DATA_FREE',
+        ];
         if (in_array($_REQUEST['sort_by'], $sort_by_whitelist)) {
             $sort_by = $_REQUEST['sort_by'];
         } else {
@@ -430,14 +434,15 @@ function PMA_getListForSortDatabase()
     }
 
     if (isset($_REQUEST['sort_order'])
-        && /*overload*/mb_strtolower($_REQUEST['sort_order']) == 'desc'
+        && /*overload*/
+        mb_strtolower($_REQUEST['sort_order']) == 'desc'
     ) {
         $sort_order = 'desc';
     } else {
         $sort_order = 'asc';
     }
 
-    return array($sort_by, $sort_order);
+    return [$sort_by, $sort_order];
 }
 
 /**
@@ -447,24 +452,24 @@ function PMA_getListForSortDatabase()
  */
 function PMA_dropMultiDatabases()
 {
-    if (! isset($_REQUEST['selected_dbs']) && ! isset($_REQUEST['query_type'])) {
+    if (!isset($_REQUEST['selected_dbs']) && !isset($_REQUEST['query_type'])) {
         $message = PMA_Message::error(__('No databases selected.'));
     } else {
-        $action = 'server_databases.php';
+        $action      = 'server_databases.php';
         $submit_mult = 'drop_db';
-        $err_url = 'server_databases.php' . PMA_URL_getCommon();
+        $err_url     = 'server_databases.php' . PMA_URL_getCommon();
         if (isset($_REQUEST['selected_dbs'])
             && !isset($_REQUEST['is_js_confirmed'])
         ) {
             $selected_db = $_REQUEST['selected_dbs'];
         }
         if (isset($_REQUEST['is_js_confirmed'])) {
-            $_REQUEST = array(
+            $_REQUEST = [
                 'query_type' => $submit_mult,
-                'selected' => $_REQUEST['selected_dbs'],
-                'mult_btn' => __('Yes'),
-                'db' => $GLOBALS['db'],
-                'table' => $GLOBALS['table']);
+                'selected'   => $_REQUEST['selected_dbs'],
+                'mult_btn'   => __('Yes'),
+                'db'         => $GLOBALS['db'],
+                'table'      => $GLOBALS['table']];
         }
         //the following variables will be used on mult_submits.inc.php
         global $query_type, $selected, $mult_btn;

@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -15,7 +15,7 @@ if (! defined('PHPMYADMIN')) {
 require_once './libraries/bookmark.lib.php';
 
 // Check parameters
-PMA_Util::checkParameters(array('db', 'table'));
+PMA_Util::checkParameters(['db', 'table']);
 
 $db_is_system_schema = $GLOBALS['dbi']->isSystemSchema($db);
 
@@ -23,12 +23,12 @@ $db_is_system_schema = $GLOBALS['dbi']->isSystemSchema($db);
  * Set parameters for links
  * @deprecated
  */
-$url_query = PMA_URL_getCommon(array('db' => $db, 'table' => $table));
+$url_query = PMA_URL_getCommon(['db' => $db, 'table' => $table]);
 
 /**
  * Set parameters for links
  */
-$url_params = array();
+$url_params          = [];
 $url_params['db']    = $db;
 $url_params['table'] = $table;
 
@@ -36,7 +36,7 @@ $url_params['table'] = $table;
  * Defines the urls to return to in case of error in a sql statement
  */
 $err_url_0 = $cfg['DefaultTabDatabase']
-    . PMA_URL_getCommon(array('db' => $db));
+    . PMA_URL_getCommon(['db' => $db]);
 $err_url   = $cfg['DefaultTabTable'] . PMA_URL_getCommon($url_params);
 
 

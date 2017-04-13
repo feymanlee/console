@@ -40,15 +40,16 @@ class PMA_GetRealSize_Test extends PHPUnit_Framework_TestCase
      */
     public function provider()
     {
-        return array(
-            array('0', 0),
-            array('1kb', 1024),
-            array('1024k', 1024 * 1024),
-            array('8m', 8 * 1024 * 1024),
-            array('12gb', 12 * 1024 * 1024 * 1024),
-            array('1024', 1024),
-        );
+        return [
+            ['0', 0],
+            ['1kb', 1024],
+            ['1024k', 1024 * 1024],
+            ['8m', 8 * 1024 * 1024],
+            ['12gb', 12 * 1024 * 1024 * 1024],
+            ['1024', 1024],
+        ];
     }
 
 }
+
 ?>

@@ -61,7 +61,7 @@ class Form
     public function __construct(
         $form_name, array $form, ConfigFile $cf, $index = null
     ) {
-        $this->index = $index;
+        $this->index       = $index;
         $this->_configFile = $cf;
         $this->loadForm($form_name, $form);
     }
@@ -76,12 +76,15 @@ class Form
     public function getOptionType($option_name)
     {
         $key = ltrim(
-            /*overload*/mb_substr(
+        /*overload*/
+            mb_substr(
                 $option_name,
-                /*overload*/mb_strrpos($option_name, '/')
+                /*overload*/
+                mb_strrpos($option_name, '/')
             ),
             '/'
         );
+
         return isset($this->_fieldsTypes[$key])
             ? $this->_fieldsTypes[$key]
             : null;
@@ -99,23 +102,26 @@ class Form
         $value = $this->_configFile->getDbEntry($option_path);
         if ($value === null) {
             trigger_error("$option_path - select options not defined", E_USER_ERROR);
-            return array();
+
+            return [];
         }
         if (!is_array($value)) {
             trigger_error("$option_path - not a static value list", E_USER_ERROR);
-            return array();
+
+            return [];
         }
         // convert array('#', 'a', 'b') to array('a', 'b')
         if (isset($value[0]) && $value[0] === '#') {
             // remove first element ('#')
             array_shift($value);
+
             // $value has keys and value names, return it
             return $value;
         }
 
         // convert value list array('a', 'b') to array('a' => 'a', 'b' => 'b')
         $has_string_keys = false;
-        $keys = array();
+        $keys            = [];
         for ($i = 0, $nb = count($value); $i < $nb; $i++) {
             if (!isset($value[$i])) {
                 $has_string_keys = true;
@@ -123,7 +129,7 @@ class Form
             }
             $keys[] = is_bool($value[$i]) ? (int)$value[$i] : $value[$i];
         }
-        if (! $has_string_keys) {
+        if (!$has_string_keys) {
             $value = array_combine($keys, $value);
         }
 
@@ -147,13 +153,14 @@ class Form
 
         if (is_array($value)) {
             $prefix .= $key . '/';
-            array_walk($value, array($this, '_readFormPathsCallback'), $prefix);
+            array_walk($value, [$this, '_readFormPathsCallback'], $prefix);
+
             return;
         }
 
         if (!is_int($key)) {
             $this->default[$prefix . $key] = $value;
-            $value = $key;
+            $value                         = $key;
         }
         // add unique id to group ends
         if ($value == ':group:end') {
@@ -172,16 +179,18 @@ class Form
     protected function readFormPaths($form)
     {
         // flatten form fields' paths and save them to $fields
-        $this->fields = array();
-        array_walk($form, array($this, '_readFormPathsCallback'), '');
+        $this->fields = [];
+        array_walk($form, [$this, '_readFormPathsCallback'], '');
 
         // $this->fields is an array of the form: [0..n] => 'field path'
         // change numeric indexes to contain field names (last part of the path)
-        $paths = $this->fields;
-        $this->fields = array();
+        $paths        = $this->fields;
+        $this->fields = [];
         foreach ($paths as $path) {
-            $key = ltrim(
-                /*overload*/mb_substr($path, /*overload*/mb_strrpos($path, '/')),
+            $key                = ltrim(
+            /*overload*/
+                mb_substr($path, /*overload*/
+                    mb_strrpos($path, '/')),
                 '/'
             );
             $this->fields[$key] = $path;
@@ -198,7 +207,9 @@ class Form
     {
         $cf = $this->_configFile;
         foreach ($this->fields as $name => $path) {
-            if (/*overload*/mb_strpos($name, ':group:') === 0) {
+            if (/*overload*/
+                mb_strpos($name, ':group:') === 0
+            ) {
                 $this->_fieldsTypes[$name] = 'group';
                 continue;
             }
@@ -228,4 +239,5 @@ class Form
         $this->readTypes();
     }
 }
+
 ?>

@@ -7,7 +7,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -30,17 +30,20 @@ function PMA_getUrlParams(
     $what, $reload, $action, $db, $table, $selected, $views,
     $original_sql_query, $original_url_query
 ) {
-    $_url_params = array(
+    $_url_params = [
         'query_type' => $what,
-        'reload' => (! empty($reload) ? 1 : 0),
-    );
-    if (/*overload*/mb_strpos(' ' . $action, 'db_') == 1) {
-        $_url_params['db']= $db;
-    } elseif (/*overload*/mb_strpos(' ' . $action, 'tbl_') == 1
+        'reload'     => (!empty($reload) ? 1 : 0),
+    ];
+    if (/*overload*/
+        mb_strpos(' ' . $action, 'db_') == 1
+    ) {
+        $_url_params['db'] = $db;
+    } elseif (/*overload*/
+        mb_strpos(' ' . $action, 'tbl_') == 1
         || $what == 'row_delete'
     ) {
-        $_url_params['db']= $db;
-        $_url_params['table']= $table;
+        $_url_params['db']    = $db;
+        $_url_params['table'] = $table;
     }
     foreach ($selected as $sval) {
         if ($what == 'row_delete') {
@@ -58,12 +61,12 @@ function PMA_getUrlParams(
     }
     if ($what == 'row_delete') {
         $_url_params['original_sql_query'] = $original_sql_query;
-        if (! empty($original_url_query)) {
+        if (!empty($original_url_query)) {
             $_url_params['original_url_query'] = $original_url_query;
         }
     }
 
-    return  $_url_params;
+    return $_url_params;
 }
 
 /**
@@ -85,180 +88,186 @@ function PMA_getQueryStrFromSelected(
     $from_prefix, $to_prefix
 ) {
     $rebuild_database_list = false;
-    $reload = null;
-    $a_query = null;
-    $sql_query = '';
-    $sql_query_views = null;
+    $reload                = null;
+    $a_query               = null;
+    $sql_query             = '';
+    $sql_query_views       = null;
     // whether to run query after each pass
     $run_parts = false;
     // whether to execute the query at the end (to display results)
     $use_sql = false;
-    $result = null;
+    $result  = null;
 
     if ($query_type == 'drop_tbl') {
         $sql_query_views = '';
     }
 
-    $selected_cnt   = count($selected);
-    $deletes = false;
+    $selected_cnt = count($selected);
+    $deletes      = false;
 
     for ($i = 0; $i < $selected_cnt; $i++) {
         switch ($query_type) {
-        case 'row_delete':
-            $deletes = true;
-            $a_query = $selected[$i];
-            $run_parts = true;
-            break;
+            case 'row_delete':
+                $deletes   = true;
+                $a_query   = $selected[$i];
+                $run_parts = true;
+                break;
 
-        case 'drop_db':
-            PMA_relationsCleanupDatabase($selected[$i]);
-            $a_query   = 'DROP DATABASE '
-                       . PMA_Util::backquote($selected[$i]);
-            $reload    = 1;
-            $run_parts = true;
-            $rebuild_database_list = true;
-            break;
+            case 'drop_db':
+                PMA_relationsCleanupDatabase($selected[$i]);
+                $a_query               = 'DROP DATABASE '
+                    . PMA_Util::backquote($selected[$i]);
+                $reload                = 1;
+                $run_parts             = true;
+                $rebuild_database_list = true;
+                break;
 
-        case 'drop_tbl':
-            PMA_relationsCleanupTable($db, $selected[$i]);
-            $current = $selected[$i];
-            if (!empty($views) && in_array($current, $views)) {
-                $sql_query_views .= (empty($sql_query_views) ? 'DROP VIEW ' : ', ')
-                          . PMA_Util::backquote($current);
-            } else {
-                $sql_query .= (empty($sql_query) ? 'DROP TABLE ' : ', ')
-                           . PMA_Util::backquote($current);
-            }
-            $reload    = 1;
-            break;
+            case 'drop_tbl':
+                PMA_relationsCleanupTable($db, $selected[$i]);
+                $current = $selected[$i];
+                if (!empty($views) && in_array($current, $views)) {
+                    $sql_query_views .= (empty($sql_query_views) ? 'DROP VIEW ' : ', ')
+                        . PMA_Util::backquote($current);
+                } else {
+                    $sql_query .= (empty($sql_query) ? 'DROP TABLE ' : ', ')
+                        . PMA_Util::backquote($current);
+                }
+                $reload = 1;
+                break;
 
-        case 'check_tbl':
-            $sql_query .= (empty($sql_query) ? 'CHECK TABLE ' : ', ')
-                       . PMA_Util::backquote($selected[$i]);
-            $use_sql    = true;
-            break;
+            case 'check_tbl':
+                $sql_query .= (empty($sql_query) ? 'CHECK TABLE ' : ', ')
+                    . PMA_Util::backquote($selected[$i]);
+                $use_sql = true;
+                break;
 
-        case 'optimize_tbl':
-            $sql_query .= (empty($sql_query) ? 'OPTIMIZE TABLE ' : ', ')
-                       . PMA_Util::backquote($selected[$i]);
-            $use_sql    = true;
-            break;
+            case 'optimize_tbl':
+                $sql_query .= (empty($sql_query) ? 'OPTIMIZE TABLE ' : ', ')
+                    . PMA_Util::backquote($selected[$i]);
+                $use_sql = true;
+                break;
 
-        case 'analyze_tbl':
-            $sql_query .= (empty($sql_query) ? 'ANALYZE TABLE ' : ', ')
-                       . PMA_Util::backquote($selected[$i]);
-            $use_sql    = true;
-            break;
+            case 'analyze_tbl':
+                $sql_query .= (empty($sql_query) ? 'ANALYZE TABLE ' : ', ')
+                    . PMA_Util::backquote($selected[$i]);
+                $use_sql = true;
+                break;
 
-        case 'repair_tbl':
-            $sql_query .= (empty($sql_query) ? 'REPAIR TABLE ' : ', ')
-                       . PMA_Util::backquote($selected[$i]);
-            $use_sql    = true;
-            break;
+            case 'repair_tbl':
+                $sql_query .= (empty($sql_query) ? 'REPAIR TABLE ' : ', ')
+                    . PMA_Util::backquote($selected[$i]);
+                $use_sql = true;
+                break;
 
-        case 'empty_tbl':
-            $deletes = true;
-            $a_query = 'TRUNCATE ';
-            $a_query .= PMA_Util::backquote($selected[$i]);
-            $run_parts = true;
-            break;
+            case 'empty_tbl':
+                $deletes = true;
+                $a_query = 'TRUNCATE ';
+                $a_query .= PMA_Util::backquote($selected[$i]);
+                $run_parts = true;
+                break;
 
-        case 'drop_fld':
-            PMA_relationsCleanupColumn($db, $table, $selected[$i]);
-            $sql_query .= (empty($sql_query)
-                ? 'ALTER TABLE ' . PMA_Util::backquote($table)
-                : ',')
-                       . ' DROP ' . PMA_Util::backquote($selected[$i])
-                       . (($i == $selected_cnt-1) ? ';' : '');
-            break;
+            case 'drop_fld':
+                PMA_relationsCleanupColumn($db, $table, $selected[$i]);
+                $sql_query .= (empty($sql_query)
+                        ? 'ALTER TABLE ' . PMA_Util::backquote($table)
+                        : ',')
+                    . ' DROP ' . PMA_Util::backquote($selected[$i])
+                    . (($i == $selected_cnt - 1) ? ';' : '');
+                break;
 
-        case 'primary_fld':
-            $sql_query .= (empty($sql_query)
-                ? 'ALTER TABLE ' . PMA_Util::backquote($table) . (empty($primary)
-                    ? ''
-                    : ' DROP PRIMARY KEY,') . ' ADD PRIMARY KEY( '
-                : ', ')
-                       . PMA_Util::backquote($selected[$i])
-                       . (($i == $selected_cnt-1) ? ');' : '');
-            break;
+            case 'primary_fld':
+                $sql_query .= (empty($sql_query)
+                        ? 'ALTER TABLE ' . PMA_Util::backquote($table) . (empty($primary)
+                            ? ''
+                            : ' DROP PRIMARY KEY,') . ' ADD PRIMARY KEY( '
+                        : ', ')
+                    . PMA_Util::backquote($selected[$i])
+                    . (($i == $selected_cnt - 1) ? ');' : '');
+                break;
 
-        case 'index_fld':
-            $sql_query .= (empty($sql_query)
-                ? 'ALTER TABLE ' . PMA_Util::backquote($table) . ' ADD INDEX( '
-                : ', ')
-                       . PMA_Util::backquote($selected[$i])
-                       . (($i == $selected_cnt-1) ? ');' : '');
-            break;
+            case 'index_fld':
+                $sql_query .= (empty($sql_query)
+                        ? 'ALTER TABLE ' . PMA_Util::backquote($table) . ' ADD INDEX( '
+                        : ', ')
+                    . PMA_Util::backquote($selected[$i])
+                    . (($i == $selected_cnt - 1) ? ');' : '');
+                break;
 
-        case 'unique_fld':
-            $sql_query .= (empty($sql_query)
-                ? 'ALTER TABLE ' . PMA_Util::backquote($table) . ' ADD UNIQUE( '
-                : ', ')
-                       . PMA_Util::backquote($selected[$i])
-                       . (($i == $selected_cnt-1) ? ');' : '');
-            break;
+            case 'unique_fld':
+                $sql_query .= (empty($sql_query)
+                        ? 'ALTER TABLE ' . PMA_Util::backquote($table) . ' ADD UNIQUE( '
+                        : ', ')
+                    . PMA_Util::backquote($selected[$i])
+                    . (($i == $selected_cnt - 1) ? ');' : '');
+                break;
 
-        case 'spatial_fld':
-            $sql_query .= (empty($sql_query)
-                ? 'ALTER TABLE ' . PMA_Util::backquote($table) . ' ADD SPATIAL( '
-                : ', ')
-                       . PMA_Util::backquote($selected[$i])
-                       . (($i == $selected_cnt-1) ? ');' : '');
-            break;
+            case 'spatial_fld':
+                $sql_query .= (empty($sql_query)
+                        ? 'ALTER TABLE ' . PMA_Util::backquote($table) . ' ADD SPATIAL( '
+                        : ', ')
+                    . PMA_Util::backquote($selected[$i])
+                    . (($i == $selected_cnt - 1) ? ');' : '');
+                break;
 
-        case 'fulltext_fld':
-            $sql_query .= (empty($sql_query)
-                ? 'ALTER TABLE ' . PMA_Util::backquote($table) . ' ADD FULLTEXT( '
-                : ', ')
-                       . PMA_Util::backquote($selected[$i])
-                       . (($i == $selected_cnt-1) ? ');' : '');
-            break;
+            case 'fulltext_fld':
+                $sql_query .= (empty($sql_query)
+                        ? 'ALTER TABLE ' . PMA_Util::backquote($table) . ' ADD FULLTEXT( '
+                        : ', ')
+                    . PMA_Util::backquote($selected[$i])
+                    . (($i == $selected_cnt - 1) ? ');' : '');
+                break;
 
-        case 'add_prefix_tbl':
-            $newtablename = $_POST['add_prefix'] . $selected[$i];
-            // ADD PREFIX TO TABLE NAME
-            $a_query = 'ALTER TABLE '
-                . PMA_Util::backquote($selected[$i])
-                . ' RENAME '
-                . PMA_Util::backquote($newtablename);
-            $run_parts = true;
-            break;
+            case 'add_prefix_tbl':
+                $newtablename = $_POST['add_prefix'] . $selected[$i];
+                // ADD PREFIX TO TABLE NAME
+                $a_query   = 'ALTER TABLE '
+                    . PMA_Util::backquote($selected[$i])
+                    . ' RENAME '
+                    . PMA_Util::backquote($newtablename);
+                $run_parts = true;
+                break;
 
-        case 'replace_prefix_tbl':
-            $current = $selected[$i];
-            $subFromPrefix = /*overload*/mb_substr(
-                $current,
-                0,
-                /*overload*/mb_strlen($from_prefix)
-            );
-            if ($subFromPrefix == $from_prefix) {
-                $newtablename = $to_prefix
-                    . /*overload*/mb_substr(
+            case 'replace_prefix_tbl':
+                $current       = $selected[$i];
+                $subFromPrefix = /*overload*/
+                    mb_substr(
                         $current,
-                        /*overload*/mb_strlen($from_prefix)
+                        0,
+                        /*overload*/
+                        mb_strlen($from_prefix)
                     );
-            } else {
-                $newtablename = $current;
-            }
-            // CHANGE PREFIX PATTERN
-            $a_query = 'ALTER TABLE '
-                . PMA_Util::backquote($selected[$i])
-                . ' RENAME '
-                . PMA_Util::backquote($newtablename);
-            $run_parts = true;
-            break;
+                if ($subFromPrefix == $from_prefix) {
+                    $newtablename = $to_prefix
+                        . /*overload*/
+                        mb_substr(
+                            $current,
+                            /*overload*/
+                            mb_strlen($from_prefix)
+                        );
+                } else {
+                    $newtablename = $current;
+                }
+                // CHANGE PREFIX PATTERN
+                $a_query   = 'ALTER TABLE '
+                    . PMA_Util::backquote($selected[$i])
+                    . ' RENAME '
+                    . PMA_Util::backquote($newtablename);
+                $run_parts = true;
+                break;
 
-        case 'copy_tbl_change_prefix':
-            $current = $selected[$i];
-            $newtablename = $to_prefix .
-                /*overload*/mb_substr($current, /*overload*/mb_strlen($from_prefix));
-            // COPY TABLE AND CHANGE PREFIX PATTERN
-            $a_query = 'CREATE TABLE '
-                . PMA_Util::backquote($newtablename)
-                . ' SELECT * FROM '
-                . PMA_Util::backquote($selected[$i]);
-            $run_parts = true;
-            break;
+            case 'copy_tbl_change_prefix':
+                $current      = $selected[$i];
+                $newtablename = $to_prefix .
+                    /*overload*/
+                    mb_substr($current, /*overload*/
+                        mb_strlen($from_prefix));
+                // COPY TABLE AND CHANGE PREFIX PATTERN
+                $a_query   = 'CREATE TABLE '
+                    . PMA_Util::backquote($newtablename)
+                    . ' SELECT * FROM '
+                    . PMA_Util::backquote($selected[$i]);
+                $run_parts = true;
+                break;
 
         } // end switch
 
@@ -281,16 +290,16 @@ function PMA_getQueryStrFromSelected(
         } // end if
     } // end for
 
-    if ($deletes && ! empty($_REQUEST['pos'])) {
+    if ($deletes && !empty($_REQUEST['pos'])) {
         $_REQUEST['pos'] = PMA_calculatePosForLastPage(
             $db, $table, isset($_REQUEST['pos']) ? $_REQUEST['pos'] : null
         );
     }
 
-    return array(
+    return [
         $result, $rebuild_database_list, $reload,
-        $run_parts, $use_sql, $sql_query, $sql_query_views
-    );
+        $run_parts, $use_sql, $sql_query, $sql_query_views,
+    ];
 }
 
 /**
@@ -304,7 +313,7 @@ function PMA_getQueryStrFromSelected(
 function PMA_getKeyForTablePrimary($db, $table)
 {
     $GLOBALS['dbi']->selectDb($db);
-    $result = $GLOBALS['dbi']->query(
+    $result  = $GLOBALS['dbi']->query(
         'SHOW KEYS FROM ' . PMA_Util::backquote($table) . ';'
     );
     $primary = '';
@@ -330,7 +339,7 @@ function PMA_getKeyForTablePrimary($db, $table)
  */
 function PMA_getHtmlForReplacePrefixTable($what, $action, $_url_params)
 {
-    $html  = '<form action="' . $action . '" method="post">';
+    $html = '<form action="' . $action . '" method="post">';
     $html .= PMA_URL_getHiddenInputs($_url_params);
     $html .= '<fieldset class = "input">';
     $html .= '<legend>';
@@ -374,7 +383,7 @@ function PMA_getHtmlForReplacePrefixTable($what, $action, $_url_params)
  */
 function PMA_getHtmlForAddPrefixTable($action, $_url_params)
 {
-    $html  = '<form action="' . $action . '" method="post">';
+    $html = '<form action="' . $action . '" method="post">';
     $html .= PMA_URL_getHiddenInputs($_url_params);
     $html .= '<fieldset class = "input">';
     $html .= '<legend>' . __('Add table prefix:') . '</legend>';
@@ -414,7 +423,7 @@ function PMA_getHtmlForOtherActions($what, $action, $_url_params, $full_query)
     $html .= '<fieldset class="confirmation">';
     $html .= '<legend>';
     if ($what == 'drop_db') {
-        $html .=  __('You are about to DESTROY a complete database!') . ' ';
+        $html .= __('You are about to DESTROY a complete database!') . ' ';
     }
     $html .= __('Do you really want to execute the following query?');
     $html .= '<input type="submit" name="mult_btn" value="'
@@ -435,8 +444,8 @@ function PMA_getHtmlForOtherActions($what, $action, $_url_params, $full_query)
         $html .= '<input type="checkbox" name="fk_check" value="1" '
             . 'id="fkc_checkbox"';
         $default_fk_check_value = $GLOBALS['dbi']->fetchValue(
-            'SHOW VARIABLES LIKE \'foreign_key_checks\';', 0, 1
-        ) == 'ON';
+                'SHOW VARIABLES LIKE \'foreign_key_checks\';', 0, 1
+            ) == 'ON';
         if ($default_fk_check_value) {
             $html .= ' checked="checked"';
         }
@@ -469,69 +478,69 @@ function PMA_getHtmlForOtherActions($what, $action, $_url_params, $full_query)
  */
 function PMA_getDataForSubmitMult($submit_mult, $db, $table, $selected, $action)
 {
-    $what = null;
-    $query_type = null;
+    $what                 = null;
+    $query_type           = null;
     $is_unset_submit_mult = false;
-    $mult_btn = null;
-    $centralColsError = null;
+    $mult_btn             = null;
+    $centralColsError     = null;
     switch ($submit_mult) {
-    case 'drop':
-        $what     = 'drop_fld';
-        break;
-    case 'primary':
-        // Gets table primary key
-        $primary = PMA_getKeyForTablePrimary($db, $table);
-        if (empty($primary)) {
-            // no primary key, so we can safely create new
+        case 'drop':
+            $what = 'drop_fld';
+            break;
+        case 'primary':
+            // Gets table primary key
+            $primary = PMA_getKeyForTablePrimary($db, $table);
+            if (empty($primary)) {
+                // no primary key, so we can safely create new
+                $is_unset_submit_mult = true;
+                $query_type           = 'primary_fld';
+                $mult_btn             = __('Yes');
+            } else {
+                // primary key exists, so lets as user
+                $what = 'primary_fld';
+            }
+            break;
+        case 'index':
             $is_unset_submit_mult = true;
-            $query_type = 'primary_fld';
-            $mult_btn   = __('Yes');
-        } else {
-            // primary key exists, so lets as user
-            $what = 'primary_fld';
-        }
-        break;
-    case 'index':
-        $is_unset_submit_mult = true;
-        $query_type = 'index_fld';
-        $mult_btn   = __('Yes');
-        break;
-    case 'unique':
-        $is_unset_submit_mult = true;
-        $query_type = 'unique_fld';
-        $mult_btn   = __('Yes');
-        break;
-    case 'spatial':
-        $is_unset_submit_mult = true;
-        $query_type = 'spatial_fld';
-        $mult_btn   = __('Yes');
-        break;
-    case 'ftext':
-        $is_unset_submit_mult = true;
-        $query_type = 'fulltext_fld';
-        $mult_btn   = __('Yes');
-        break;
-    case 'add_to_central_columns':
-        include_once 'libraries/central_columns.lib.php';
-        $centralColsError = PMA_syncUniqueColumns($selected, false);
-        break;
-    case 'remove_from_central_columns':
-        include_once 'libraries/central_columns.lib.php';
-        $centralColsError = PMA_deleteColumnsFromList($selected, false);
-        break;
-    case 'change':
-        PMA_displayHtmlForColumnChange($db, $table, $selected, $action);
-        // execution stops here but PMA_Response correctly finishes
-        // the rendering
-        exit;
-    case 'browse':
-        // this should already be handled by tbl_structure.php
+            $query_type           = 'index_fld';
+            $mult_btn             = __('Yes');
+            break;
+        case 'unique':
+            $is_unset_submit_mult = true;
+            $query_type           = 'unique_fld';
+            $mult_btn             = __('Yes');
+            break;
+        case 'spatial':
+            $is_unset_submit_mult = true;
+            $query_type           = 'spatial_fld';
+            $mult_btn             = __('Yes');
+            break;
+        case 'ftext':
+            $is_unset_submit_mult = true;
+            $query_type           = 'fulltext_fld';
+            $mult_btn             = __('Yes');
+            break;
+        case 'add_to_central_columns':
+            include_once 'libraries/central_columns.lib.php';
+            $centralColsError = PMA_syncUniqueColumns($selected, false);
+            break;
+        case 'remove_from_central_columns':
+            include_once 'libraries/central_columns.lib.php';
+            $centralColsError = PMA_deleteColumnsFromList($selected, false);
+            break;
+        case 'change':
+            PMA_displayHtmlForColumnChange($db, $table, $selected, $action);
+            // execution stops here but PMA_Response correctly finishes
+            // the rendering
+            exit;
+        case 'browse':
+            // this should already be handled by tbl_structure.php
     }
 
-    return array(
+    return [
         $what, $query_type, $is_unset_submit_mult, $mult_btn,
-        $centralColsError
-            );
+        $centralColsError,
+    ];
 }
 
 /**
@@ -547,84 +556,84 @@ function PMA_getDataForSubmitMult($submit_mult, $db, $table, $selected, $action)
  */
 function PMA_getQueryFromSelected($what, $db, $table, $selected, $views)
 {
-    $reload = false;
+    $reload           = false;
     $full_query_views = null;
-    $full_query     = '';
+    $full_query       = '';
 
     if ($what == 'drop_tbl') {
         $full_query_views = '';
     }
 
-    $selected_cnt   = count($selected);
-    $i = 0;
+    $selected_cnt = count($selected);
+    $i            = 0;
     foreach ($selected as $sval) {
         switch ($what) {
-        case 'row_delete':
-            $full_query .= 'DELETE FROM '
-                . PMA_Util::backquote(htmlspecialchars($db))
-                . '.' . PMA_Util::backquote(htmlspecialchars($table))
-                // Do not append a "LIMIT 1" clause here
-                // (it's not binlog friendly).
-                // We don't need the clause because the calling panel permits
-                // this feature only when there is a unique index.
-                . ' WHERE ' . htmlspecialchars($sval)
-                . ';<br />';
-            break;
-        case 'drop_db':
-            $full_query .= 'DROP DATABASE '
-                . PMA_Util::backquote(htmlspecialchars($sval))
-                . ';<br />';
-            $reload = true;
-            break;
+            case 'row_delete':
+                $full_query .= 'DELETE FROM '
+                    . PMA_Util::backquote(htmlspecialchars($db))
+                    . '.' . PMA_Util::backquote(htmlspecialchars($table))
+                    // Do not append a "LIMIT 1" clause here
+                    // (it's not binlog friendly).
+                    // We don't need the clause because the calling panel permits
+                    // this feature only when there is a unique index.
+                    . ' WHERE ' . htmlspecialchars($sval)
+                    . ';<br />';
+                break;
+            case 'drop_db':
+                $full_query .= 'DROP DATABASE '
+                    . PMA_Util::backquote(htmlspecialchars($sval))
+                    . ';<br />';
+                $reload = true;
+                break;
 
-        case 'drop_tbl':
-            $current = $sval;
-            if (!empty($views) && in_array($current, $views)) {
-                $full_query_views .= (empty($full_query_views) ? 'DROP VIEW ' : ', ')
-                    . PMA_Util::backquote(htmlspecialchars($current));
-            } else {
-                $full_query .= (empty($full_query) ? 'DROP TABLE ' : ', ')
-                    . PMA_Util::backquote(htmlspecialchars($current));
-            }
-            break;
+            case 'drop_tbl':
+                $current = $sval;
+                if (!empty($views) && in_array($current, $views)) {
+                    $full_query_views .= (empty($full_query_views) ? 'DROP VIEW ' : ', ')
+                        . PMA_Util::backquote(htmlspecialchars($current));
+                } else {
+                    $full_query .= (empty($full_query) ? 'DROP TABLE ' : ', ')
+                        . PMA_Util::backquote(htmlspecialchars($current));
+                }
+                break;
 
-        case 'empty_tbl':
-            $full_query .= 'TRUNCATE ';
-            $full_query .= PMA_Util::backquote(htmlspecialchars($sval))
-                        . ';<br />';
-            break;
+            case 'empty_tbl':
+                $full_query .= 'TRUNCATE ';
+                $full_query .= PMA_Util::backquote(htmlspecialchars($sval))
+                    . ';<br />';
+                break;
 
-        case 'primary_fld':
-            if ($full_query == '') {
-                $full_query .= 'ALTER TABLE '
-                    . PMA_Util::backquote(htmlspecialchars($table))
-                    . '<br />&nbsp;&nbsp;DROP PRIMARY KEY,'
-                    . '<br />&nbsp;&nbsp; ADD PRIMARY KEY('
-                    . '<br />&nbsp;&nbsp;&nbsp;&nbsp; '
+            case 'primary_fld':
+                if ($full_query == '') {
+                    $full_query .= 'ALTER TABLE '
+                        . PMA_Util::backquote(htmlspecialchars($table))
+                        . '<br />&nbsp;&nbsp;DROP PRIMARY KEY,'
+                        . '<br />&nbsp;&nbsp; ADD PRIMARY KEY('
+                        . '<br />&nbsp;&nbsp;&nbsp;&nbsp; '
+                        . PMA_Util::backquote(htmlspecialchars($sval))
+                        . ',';
+                } else {
+                    $full_query .= '<br />&nbsp;&nbsp;&nbsp;&nbsp; '
+                        . PMA_Util::backquote(htmlspecialchars($sval))
+                        . ',';
+                }
+                if ($i == $selected_cnt - 1) {
+                    $full_query = preg_replace('@,$@', ');<br />', $full_query);
+                }
+                break;
+
+            case 'drop_fld':
+                if ($full_query == '') {
+                    $full_query .= 'ALTER TABLE '
+                        . PMA_Util::backquote(htmlspecialchars($table));
+                }
+                $full_query .= '<br />&nbsp;&nbsp;DROP '
                     . PMA_Util::backquote(htmlspecialchars($sval))
                     . ',';
-            } else {
-                $full_query .= '<br />&nbsp;&nbsp;&nbsp;&nbsp; '
-                    . PMA_Util::backquote(htmlspecialchars($sval))
-                    . ',';
-            }
-            if ($i == $selected_cnt-1) {
-                $full_query = preg_replace('@,$@', ');<br />', $full_query);
-            }
-            break;
-
-        case 'drop_fld':
-            if ($full_query == '') {
-                $full_query .= 'ALTER TABLE '
-                    . PMA_Util::backquote(htmlspecialchars($table));
-            }
-            $full_query .= '<br />&nbsp;&nbsp;DROP '
-                . PMA_Util::backquote(htmlspecialchars($sval))
-                . ',';
-            if ($i == $selected_cnt - 1) {
-                $full_query = preg_replace('@,$@', ';<br />', $full_query);
-            }
-            break;
+                if ($i == $selected_cnt - 1) {
+                    $full_query = preg_replace('@,$@', ';<br />', $full_query);
+                }
+                break;
         } // end switch
         $i++;
     }
@@ -639,9 +648,9 @@ function PMA_getQueryFromSelected($what, $db, $table, $selected, $views)
         unset($full_query_views);
     }
 
-    $full_query_views = isset($full_query_views)? $full_query_views : null;
+    $full_query_views = isset($full_query_views) ? $full_query_views : null;
 
-    return array($full_query, $reload, $full_query_views);
+    return [$full_query, $reload, $full_query_views];
 }
 
 ?>

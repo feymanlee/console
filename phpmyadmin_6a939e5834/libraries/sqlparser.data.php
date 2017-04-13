@@ -16,18 +16,18 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
-if (! isset($GLOBALS['sql_delimiter'])) {
-        $GLOBALS['sql_delimiter'] = ';';
+if (!isset($GLOBALS['sql_delimiter'])) {
+    $GLOBALS['sql_delimiter'] = ';';
 }
 
 /**
  * @global array MySQL function names
  */
-$PMA_SQPdata_function_name = array (
+$PMA_SQPdata_function_name = [
     'ABS',
     'ACOS',
     'ADDDATE',
@@ -325,13 +325,13 @@ $PMA_SQPdata_function_name = array (
     'X',                        // point-property-functions.html
     'Y',                        // point-property-functions.html
     'YEAR',
-    'YEARWEEK'
-);
+    'YEARWEEK',
+];
 
 /**
  * @global array MySQL attributes
  */
-$PMA_SQPdata_column_attrib = array (
+$PMA_SQPdata_column_attrib = [
     'ARCHIVE',          // Engine
     'ASCII',
     'AUTO_INCREMENT',
@@ -361,8 +361,8 @@ $PMA_SQPdata_column_attrib = array (
     'UNICODE',
     'UNSIGNED',
     'VARYING',
-    'ZEROFILL'
-);
+    'ZEROFILL',
+];
 
 /**
  * words that are reserved by MySQL and may not be used as identifiers without
@@ -372,7 +372,7 @@ $PMA_SQPdata_column_attrib = array (
  *
  * @global array MySQL reserved words
  */
-$PMA_SQPdata_reserved_word = array (
+$PMA_SQPdata_reserved_word = [
     'ACCESSIBLE',       // 5.1
     'ACTION',
     'ADD',
@@ -681,8 +681,8 @@ $PMA_SQPdata_reserved_word = array (
     'WORK',
     'WRITE',
     'XOR',
-    'YEAR_MONTH'
-);
+    'YEAR_MONTH',
+];
 
 /**
  * words forbidden to be used as column or table name without quotes
@@ -690,7 +690,7 @@ $PMA_SQPdata_reserved_word = array (
  *
  * @global array MySQL forbidden words
  */
-$PMA_SQPdata_forbidden_word = array (
+$PMA_SQPdata_forbidden_word = [
     'ACCESSIBLE',
     'ADD',
     'ALL',
@@ -928,8 +928,8 @@ $PMA_SQPdata_forbidden_word = array (
     'WRITE',
     'XOR',
     'YEAR_MONTH',
-    'ZEROFILL'
-);
+    'ZEROFILL',
+];
 
 /**
  * the MySQL column/data types
@@ -939,7 +939,7 @@ $PMA_SQPdata_forbidden_word = array (
  *
  * @global array MySQL column types
  */
-$PMA_SQPdata_column_type = array (
+$PMA_SQPdata_column_type = [
     'BIGINT',
     'BINARY',
     'BIT',
@@ -993,7 +993,7 @@ $PMA_SQPdata_column_type = array (
     'TINYTEXT',
     'VARBINARY',
     'VARCHAR',
-    'YEAR'
-);
+    'YEAR',
+];
 
 ?>

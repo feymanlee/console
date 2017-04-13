@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -38,7 +38,7 @@ class VersionInformation
         if (isset($_SESSION['cache']['version_check'])
             && time() < $_SESSION['cache']['version_check']['timestamp'] + 3600 * 6
         ) {
-            $save = false;
+            $save     = false;
             $response = $_SESSION['cache']['version_check']['response'];
         } else {
             $save = true;
@@ -64,19 +64,19 @@ class VersionInformation
                     CURLOPT_TIMEOUT,
                     $connection_timeout
                 );
-                if (! defined('TESTSUITE')) {
+                if (!defined('TESTSUITE')) {
                     session_write_close();
                 }
                 $response = curl_exec($curl_handle);
             } else if (ini_get('allow_url_fopen')) {
-                $context = array(
-                    'http' => array(
+                $context = [
+                    'http' => [
                         'request_fulluri' => true,
-                        'timeout' => $connection_timeout,
-                    )
-                );
+                        'timeout'         => $connection_timeout,
+                    ],
+                ];
                 $context = PMA_Util::handleContext($context);
-                if (! defined('TESTSUITE')) {
+                if (!defined('TESTSUITE')) {
                     session_write_close();
                 }
                 $response = file_get_contents(
@@ -88,7 +88,7 @@ class VersionInformation
         }
 
         $data = json_decode($response);
-        if (! is_object($data)
+        if (!is_object($data)
             || empty($data->version)
             || empty($data->date)
             || empty($data->releases)
@@ -97,18 +97,19 @@ class VersionInformation
         }
 
         if ($save) {
-            if (! isset($_SESSION) && ! defined('TESTSUITE')) {
+            if (!isset($_SESSION) && !defined('TESTSUITE')) {
                 ini_set('session.use_only_cookies', 'false');
                 ini_set('session.use_cookies', 'false');
                 ini_set('session.use_trans_sid', 'false');
                 ini_set('session.cache_limiter', 'nocache');
                 session_start();
             }
-            $_SESSION['cache']['version_check'] = array(
-                'response' => $response,
-                'timestamp' => time()
-            );
+            $_SESSION['cache']['version_check'] = [
+                'response'  => $response,
+                'timestamp' => time(),
+            ];
         }
+
         return $data;
     }
 
@@ -148,27 +149,27 @@ class VersionInformation
         }
 
         if (!empty($suffix)) {
-            $matches = array();
+            $matches = [];
             if (preg_match('/^(\D+)(\d+)$/', $suffix, $matches)) {
                 $suffix = $matches[1];
                 $result += intval($matches[2]);
             }
             switch ($suffix) {
-            case 'pl':
-                $result += 60;
-                break;
-            case 'rc':
-                $result += 30;
-                break;
-            case 'beta':
-                $result += 20;
-                break;
-            case 'alpha':
-                $result += 10;
-                break;
-            case 'dev':
-                $result += 0;
-                break;
+                case 'pl':
+                    $result += 60;
+                    break;
+                case 'rc':
+                    $result += 30;
+                    break;
+                case 'beta':
+                    $result += 20;
+                    break;
+                case 'alpha':
+                    $result += 10;
+                    break;
+                case 'dev':
+                    $result += 0;
+                    break;
             }
         } else {
             $result += 50; // for final
@@ -188,10 +189,10 @@ class VersionInformation
     public function getLatestCompatibleVersion($releases)
     {
         foreach ($releases as $release) {
-            $phpVersions = $release->php_versions;
+            $phpVersions   = $release->php_versions;
             $phpConditions = explode(",", $phpVersions);
             foreach ($phpConditions as $phpCondition) {
-                if (! $this->evaluateVersionCondition("PHP", $phpCondition)) {
+                if (!$this->evaluateVersionCondition("PHP", $phpCondition)) {
                     continue 2;
                 }
             }
@@ -199,19 +200,19 @@ class VersionInformation
             // We evalute MySQL version constraint if there are only
             // one server configured.
             if (count($GLOBALS['cfg']['Servers']) == 1) {
-                $mysqlVersions = $release->mysql_versions;
+                $mysqlVersions   = $release->mysql_versions;
                 $mysqlConditions = explode(",", $mysqlVersions);
                 foreach ($mysqlConditions as $mysqlCondition) {
-                    if (! $this->evaluateVersionCondition('MySQL', $mysqlCondition)) {
+                    if (!$this->evaluateVersionCondition('MySQL', $mysqlCondition)) {
                         continue 2;
                     }
                 }
             }
 
-            return array(
+            return [
                 'version' => $release->version,
-                'date' => $release->date,
-            );
+                'date'    => $release->date,
+            ];
         }
 
         // no compatible version
@@ -228,12 +229,12 @@ class VersionInformation
      */
     public function evaluateVersionCondition($type, $condition)
     {
-        $operator = null;
-        $operators = array("<=", ">=", "!=", "<>", "<", ">", "="); // preserve order
+        $operator  = null;
+        $operators = ["<=", ">=", "!=", "<>", "<", ">", "="]; // preserve order
         foreach ($operators as $oneOperator) {
             if (strpos($condition, $oneOperator) === 0) {
                 $operator = $oneOperator;
-                $version = substr($condition, strlen($oneOperator));
+                $version  = substr($condition, strlen($oneOperator));
                 break;
             }
         }
@@ -248,6 +249,7 @@ class VersionInformation
         if ($myVersion != null && $operator != null) {
             return version_compare($myVersion, $version, $operator);
         }
+
         return false;
     }
 
@@ -271,4 +273,5 @@ class VersionInformation
         return PMA_Util::cacheGet('PMA_MYSQL_STR_VERSION');
     }
 }
+
 ?>

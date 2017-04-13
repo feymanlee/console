@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Engines
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -22,4 +22,5 @@ require_once './libraries/engines/innodb.lib.php';
 class PMA_StorageEngine_Innobase extends PMA_StorageEngine_Innodb
 {
 }
+
 ?>

@@ -34,15 +34,15 @@ class PMA_NavigationTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new PMA_Navigation();
-        $GLOBALS['cfgRelation']['db'] = 'pmadb';
+        $this->object                               = new PMA_Navigation();
+        $GLOBALS['cfgRelation']['db']               = 'pmadb';
         $GLOBALS['cfgRelation']['navigationhiding'] = 'navigationhiding';
-        $GLOBALS['cfg']['Server']['user'] = 'user';
-        $GLOBALS['cfg']['ActionLinksMode'] = 'both';
+        $GLOBALS['cfg']['Server']['user']           = 'user';
+        $GLOBALS['cfg']['ActionLinksMode']          = 'both';
 
         $GLOBALS['pmaThemeImage'] = 'image';
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
+        $_SESSION['PMA_Theme']    = PMA_Theme::load('./themes/pmahomme');
+        $_SESSION['PMA_Theme']    = new PMA_Theme();
     }
 
     /**
@@ -67,7 +67,7 @@ class PMA_NavigationTest extends PHPUnit_Framework_TestCase
         $expectedQuery = "INSERT INTO `pmadb`.`navigationhiding`"
             . "(`username`, `item_name`, `item_type`, `db_name`, `table_name`)"
             . " VALUES ('user','itemName','itemType','db','')";
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi           = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $dbi->expects($this->once())
@@ -88,7 +88,7 @@ class PMA_NavigationTest extends PHPUnit_Framework_TestCase
         $expectedQuery = "DELETE FROM `pmadb`.`navigationhiding`"
             . " WHERE `username`='user' AND `item_name`='itemName'"
             . " AND `item_type`='itemType' AND `db_name`='db'";
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi           = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $dbi->expects($this->once())
@@ -109,7 +109,7 @@ class PMA_NavigationTest extends PHPUnit_Framework_TestCase
         $expectedQuery = "SELECT `item_name`, `item_type`"
             . " FROM `pmadb`.`navigationhiding`"
             . " WHERE `username`='user' AND `db_name`='db' AND `table_name`=''";
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi           = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $dbi->expects($this->once())
@@ -120,20 +120,20 @@ class PMA_NavigationTest extends PHPUnit_Framework_TestCase
             ->method('fetchArray')
             ->will(
                 $this->returnValue(
-                    array(
+                    [
                         'item_name' => 'tableName',
-                        'item_type' => 'table'
-                    )
+                        'item_type' => 'table',
+                    ]
                 )
             );
         $dbi->expects($this->at(2))
             ->method('fetchArray')
             ->will(
                 $this->returnValue(
-                    array(
+                    [
                         'item_name' => 'viewName',
-                        'item_type' => 'view'
-                    )
+                        'item_type' => 'view',
+                    ]
                 )
             );
         $dbi->expects($this->at(3))
@@ -156,4 +156,5 @@ class PMA_NavigationTest extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

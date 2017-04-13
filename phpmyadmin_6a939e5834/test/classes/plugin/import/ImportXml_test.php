@@ -47,19 +47,19 @@ class ImportXml_Test extends PHPUnit_Framework_TestCase
         $this->object = new ImportXml();
 
         //setting
-        $GLOBALS['finished'] = false;
-        $GLOBALS['read_limit'] = 100000000;
-        $GLOBALS['offset'] = 0;
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['cfg']['ServerDefault'] = 0;
+        $GLOBALS['finished']                     = false;
+        $GLOBALS['read_limit']                   = 100000000;
+        $GLOBALS['offset']                       = 0;
+        $GLOBALS['cfg']['Server']['DisableIS']   = false;
+        $GLOBALS['cfg']['ServerDefault']         = 0;
         $GLOBALS['cfg']['AllowUserDropDatabase'] = false;
 
-        $GLOBALS['import_file'] = 'test/test_data/phpmyadmin_importXML_'
+        $GLOBALS['import_file']   = 'test/test_data/phpmyadmin_importXML_'
             . 'For_Testing.xml';
-        $GLOBALS['import_text'] = 'ImportXml_Test';
-        $GLOBALS['compression'] = 'none';
+        $GLOBALS['import_text']   = 'ImportXml_Test';
+        $GLOBALS['compression']   = 'none';
         $GLOBALS['read_multiply'] = 10;
-        $GLOBALS['import_type'] = 'Xml';
+        $GLOBALS['import_type']   = 'Xml';
         $GLOBALS['import_handle'] = @fopen($GLOBALS['import_file'], 'r');
     }
 
@@ -98,7 +98,7 @@ class ImportXml_Test extends PHPUnit_Framework_TestCase
             $properties->getMimeType()
         );
         $this->assertEquals(
-            array(),
+            [],
             $properties->getOptions()
         );
         $this->assertEquals(
@@ -121,7 +121,7 @@ class ImportXml_Test extends PHPUnit_Framework_TestCase
         global $import_notice;
 
         //Mock DBI
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi            = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $GLOBALS['dbi'] = $dbi;

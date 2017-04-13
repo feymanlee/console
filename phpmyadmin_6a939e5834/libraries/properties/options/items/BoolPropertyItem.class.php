@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -32,4 +32,5 @@ class BoolPropertyItem extends OptionsPropertyOneItem
         return "bool";
     }
 }
+
 ?>

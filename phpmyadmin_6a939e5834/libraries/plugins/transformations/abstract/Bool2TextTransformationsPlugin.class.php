@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage Bool2Text
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -43,13 +43,14 @@ abstract class Bool2TextTransformationsPlugin extends TransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
-        $options = $this->getOptions($options, array('T', 'F'));
+        $options = $this->getOptions($options, ['T', 'F']);
 
         if ($buffer == '0') {
             return $options[1];   // return false label
         }
+
         return $options[0];       // or true one if nonzero
     }
 
@@ -66,4 +67,5 @@ abstract class Bool2TextTransformationsPlugin extends TransformationsPlugin
         return "Bool2Text";
     }
 }
+
 ?>

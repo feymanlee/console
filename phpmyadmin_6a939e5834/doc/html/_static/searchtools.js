@@ -13,7 +13,7 @@
 /**
  * Porter Stemmer
  */
-var Stemmer = function() {
+var Stemmer = function () {
 
   var step2list = {
     ational: 'ate',
@@ -57,7 +57,7 @@ var Stemmer = function() {
   var mgr0 = "^(" + C + ")?" + V + C;                      // [C]VC... is m>0
   var meq1 = "^(" + C + ")?" + V + C + "(" + V + ")?$";    // [C]VC[V] is m=1
   var mgr1 = "^(" + C + ")?" + V + C + V + C;              // [C]VCVC... is m>1
-  var s_v   = "^(" + C + ")?" + v;                         // vowel in stem
+  var s_v = "^(" + C + ")?" + v;                         // vowel in stem
 
   this.stemWord = function (w) {
     var stem;
@@ -73,7 +73,7 @@ var Stemmer = function() {
     var re3;
     var re4;
 
-    firstch = w.substr(0,1);
+    firstch = w.substr(0, 1);
     if (firstch == "y")
       w = firstch.toUpperCase() + w.substr(1);
 
@@ -82,9 +82,9 @@ var Stemmer = function() {
     re2 = /^(.+?)([^s])s$/;
 
     if (re.test(w))
-      w = w.replace(re,"$1$2");
+      w = w.replace(re, "$1$2");
     else if (re2.test(w))
-      w = w.replace(re2,"$1$2");
+      w = w.replace(re2, "$1$2");
 
     // Step 1b
     re = /^(.+?)eed$/;
@@ -94,7 +94,7 @@ var Stemmer = function() {
       re = new RegExp(mgr0);
       if (re.test(fp[1])) {
         re = /.$/;
-        w = w.replace(re,"");
+        w = w.replace(re, "");
       }
     }
     else if (re2.test(w)) {
@@ -110,7 +110,7 @@ var Stemmer = function() {
           w = w + "e";
         else if (re3.test(w)) {
           re = /.$/;
-          w = w.replace(re,"");
+          w = w.replace(re, "");
         }
         else if (re4.test(w))
           w = w + "e";
@@ -182,7 +182,7 @@ var Stemmer = function() {
     re2 = new RegExp(mgr1);
     if (re.test(w) && re2.test(w)) {
       re = /.$/;
-      w = w.replace(re,"");
+      w = w.replace(re, "");
     }
 
     // and turn initial Y back to y
@@ -193,7 +193,6 @@ var Stemmer = function() {
 }
 
 
-
 /**
  * Simple result scoring code.
  */
@@ -202,19 +201,21 @@ var Scorer = {
   // The function takes a result array [filename, title, anchor, descr, score]
   // and returns the new score.
   /*
-  score: function(result) {
-    return result[4];
-  },
-  */
+   score: function(result) {
+   return result[4];
+   },
+   */
 
   // query matches the full name of an object
   objNameMatch: 11,
   // or matches in the last dotted part of the object name
   objPartialMatch: 6,
   // Additive scores depending on the priority of the object
-  objPrio: {0:  15,   // used to be importantResults
-            1:  5,   // used to be objectResults
-            2: -5},  // used to be unimportantResults
+  objPrio: {
+    0: 15,   // used to be importantResults
+    1: 5,   // used to be objectResults
+    2: -5
+  },  // used to be unimportantResults
   //  Used when the priority is not in the mapping.
   objPrioDefault: 0,
 
@@ -230,30 +231,32 @@ var Scorer = {
  */
 var Search = {
 
-  _index : null,
-  _queued_query : null,
-  _pulse_status : -1,
+  _index: null,
+  _queued_query: null,
+  _pulse_status: -1,
 
-  init : function() {
-      var params = $.getQueryParameters();
-      if (params.q) {
-          var query = params.q[0];
-          $('input[name="q"]')[0].value = query;
-          this.performSearch(query);
+  init: function () {
+    var params = $.getQueryParameters();
+    if (params.q) {
+      var query = params.q[0];
+      $('input[name="q"]')[0].value = query;
+      this.performSearch(query);
+    }
+  },
+
+  loadIndex: function (url) {
+    $.ajax({
+      type: "GET", url: url, data: null,
+      dataType: "script", cache: true,
+      complete: function (jqxhr, textstatus) {
+        if (textstatus != "success") {
+          document.getElementById("searchindexloader").src = url;
+        }
       }
+    });
   },
 
-  loadIndex : function(url) {
-    $.ajax({type: "GET", url: url, data: null,
-            dataType: "script", cache: true,
-            complete: function(jqxhr, textstatus) {
-              if (textstatus != "success") {
-                document.getElementById("searchindexloader").src = url;
-              }
-            }});
-  },
-
-  setIndex : function(index) {
+  setIndex: function (index) {
     var q;
     this._index = index;
     if ((q = this._queued_query) !== null) {
@@ -262,21 +265,21 @@ var Search = {
     }
   },
 
-  hasIndex : function() {
-      return this._index !== null;
+  hasIndex: function () {
+    return this._index !== null;
   },
 
-  deferQuery : function(query) {
-      this._queued_query = query;
+  deferQuery: function (query) {
+    this._queued_query = query;
   },
 
-  stopPulse : function() {
-      this._pulse_status = 0;
+  stopPulse: function () {
+    this._pulse_status = 0;
   },
 
-  startPulse : function() {
+  startPulse: function () {
     if (this._pulse_status >= 0)
-        return;
+      return;
     function pulse() {
       var i;
       Search._pulse_status = (Search._pulse_status + 1) % 4;
@@ -287,13 +290,14 @@ var Search = {
       if (Search._pulse_status > -1)
         window.setTimeout(pulse, 500);
     }
+
     pulse();
   },
 
   /**
    * perform a search for something (or wait until index is loaded)
    */
-  performSearch : function(query) {
+  performSearch: function (query) {
     // create the required interface elements
     this.out = $('#search-results');
     this.title = $('<h2>' + _('Searching') + '</h2>').appendTo(this.out);
@@ -314,9 +318,9 @@ var Search = {
   /**
    * execute search (requires search index to be loaded)
    */
-  query : function(query) {
+  query: function (query) {
     var i;
-    var stopwords = ["a","and","are","as","at","be","but","by","for","if","in","into","is","it","near","no","not","of","on","or","such","that","the","their","then","there","these","they","this","to","was","will","with"];
+    var stopwords = ["a", "and", "are", "as", "at", "be", "but", "by", "for", "if", "in", "into", "is", "it", "near", "no", "not", "of", "on", "or", "such", "that", "the", "their", "then", "there", "these", "they", "this", "to", "was", "will", "with"];
 
     // stem the searchterms and add them to the correct list
     var stemmer = new Stemmer();
@@ -327,11 +331,11 @@ var Search = {
     var objectterms = [];
     for (i = 0; i < tmp.length; i++) {
       if (tmp[i] !== "") {
-          objectterms.push(tmp[i].toLowerCase());
+        objectterms.push(tmp[i].toLowerCase());
       }
 
       if ($u.indexOf(stopwords, tmp[i].toLowerCase()) != -1 || tmp[i].match(/^\d+$/) ||
-          tmp[i] === "") {
+        tmp[i] === "") {
         // skip this "word"
         continue;
       }
@@ -368,13 +372,13 @@ var Search = {
     // lookup as object
     for (i = 0; i < objectterms.length; i++) {
       var others = [].concat(objectterms.slice(0, i),
-                             objectterms.slice(i+1, objectterms.length));
+        objectterms.slice(i + 1, objectterms.length));
       results = results.concat(this.performObjectSearch(objectterms[i], others));
     }
 
     // lookup as search terms in fulltext
     results = results.concat(this.performTermsSearch(searchterms, excluded, terms, Scorer.term))
-                     .concat(this.performTermsSearch(searchterms, excluded, titleterms, Scorer.title));
+      .concat(this.performTermsSearch(searchterms, excluded, titleterms, Scorer.title));
 
     // let the scorer override scores with a custom scoring function
     if (Scorer.score) {
@@ -385,7 +389,7 @@ var Search = {
     // now sort the results by score (in opposite order of appearance, since the
     // display function below uses pop() to retrieve items) and then
     // alphabetically
-    results.sort(function(a, b) {
+    results.sort(function (a, b) {
       var left = a[4];
       var right = b[4];
       if (left > right) {
@@ -406,6 +410,7 @@ var Search = {
 
     // print the results
     var resultCount = results.length;
+
     function displayNextItem() {
       // results left, load the summary and display it
       if (results.length) {
@@ -415,7 +420,7 @@ var Search = {
           // dirhtml builder
           var dirname = item[0] + '/';
           if (dirname.match(/\/index\/$/)) {
-            dirname = dirname.substring(0, dirname.length-6);
+            dirname = dirname.substring(0, dirname.length - 6);
           } else if (dirname == 'index/') {
             dirname = '';
           }
@@ -431,26 +436,28 @@ var Search = {
         if (item[3]) {
           listItem.append($('<span> (' + item[3] + ')</span>'));
           Search.output.append(listItem);
-          listItem.slideDown(5, function() {
+          listItem.slideDown(5, function () {
             displayNextItem();
           });
         } else if (DOCUMENTATION_OPTIONS.HAS_SOURCE) {
-          $.ajax({url: DOCUMENTATION_OPTIONS.URL_ROOT + '_sources/' + item[0] + '.txt',
-                  dataType: "text",
-                  complete: function(jqxhr, textstatus) {
-                    var data = jqxhr.responseText;
-                    if (data !== '') {
-                      listItem.append(Search.makeSearchSummary(data, searchterms, hlterms));
-                    }
-                    Search.output.append(listItem);
-                    listItem.slideDown(5, function() {
-                      displayNextItem();
-                    });
-                  }});
+          $.ajax({
+            url: DOCUMENTATION_OPTIONS.URL_ROOT + '_sources/' + item[0] + '.txt',
+            dataType: "text",
+            complete: function (jqxhr, textstatus) {
+              var data = jqxhr.responseText;
+              if (data !== '') {
+                listItem.append(Search.makeSearchSummary(data, searchterms, hlterms));
+              }
+              Search.output.append(listItem);
+              listItem.slideDown(5, function () {
+                displayNextItem();
+              });
+            }
+          });
         } else {
           // no source available, just display title
           Search.output.append(listItem);
-          listItem.slideDown(5, function() {
+          listItem.slideDown(5, function () {
             displayNextItem();
           });
         }
@@ -462,17 +469,18 @@ var Search = {
         if (!resultCount)
           Search.status.text(_('Your search did not match any documents. Please make sure that all words are spelled correctly and that you\'ve selected enough categories.'));
         else
-            Search.status.text(_('Search finished, found %s page(s) matching the search query.').replace('%s', resultCount));
+          Search.status.text(_('Search finished, found %s page(s) matching the search query.').replace('%s', resultCount));
         Search.status.fadeIn(500);
       }
     }
+
     displayNextItem();
   },
 
   /**
    * search for object names
    */
-  performObjectSearch : function(object, otherterms) {
+  performObjectSearch: function (object, otherterms) {
     var filenames = this._index.filenames;
     var objects = this._index.objects;
     var objnames = this._index.objnames;
@@ -491,7 +499,7 @@ var Search = {
           // "last name" (i.e. last dotted part)
           if (fullname == object || parts[parts.length - 1] == object) {
             score += Scorer.objNameMatch;
-          // matches in last name
+            // matches in last name
           } else if (parts[parts.length - 1].indexOf(object) > -1) {
             score += Scorer.objPartialMatch;
           }
@@ -502,7 +510,7 @@ var Search = {
           // found in the name/title/description
           if (otherterms.length > 0) {
             var haystack = (prefix + ' ' + name + ' ' +
-                            objname + ' ' + title).toLowerCase();
+            objname + ' ' + title).toLowerCase();
             var allfound = true;
             for (i = 0; i < otherterms.length; i++) {
               if (haystack.indexOf(otherterms[i]) == -1) {
@@ -527,7 +535,7 @@ var Search = {
           } else {
             score += Scorer.objPrioDefault;
           }
-          results.push([filenames[match[0]], fullname, '#'+anchor, descr, score]);
+          results.push([filenames[match[0]], fullname, '#' + anchor, descr, score]);
         }
       }
     }
@@ -538,7 +546,7 @@ var Search = {
   /**
    * search for full-text terms in the index
    */
-  performTermsSearch : function(searchterms, excluded, terms, score) {
+  performTermsSearch: function (searchterms, excluded, terms, score) {
     var filenames = this._index.filenames;
     var titles = this._index.titles;
 
@@ -571,7 +579,7 @@ var Search = {
 
       // check if all requirements are matched
       if (fileMap[file].length != searchterms.length)
-          continue;
+        continue;
 
       // ensure that none of the excluded terms is in the search result
       for (i = 0; i < excluded.length; i++) {
@@ -597,10 +605,10 @@ var Search = {
    * words. the first one is used to find the occurance, the
    * latter for highlighting it.
    */
-  makeSearchSummary : function(text, keywords, hlwords) {
+  makeSearchSummary: function (text, keywords, hlwords) {
     var textLower = text.toLowerCase();
     var start = 0;
-    $.each(keywords, function() {
+    $.each(keywords, function () {
       var i = textLower.indexOf(this.toLowerCase());
       if (i > -1)
         start = i;
@@ -610,13 +618,13 @@ var Search = {
       $.trim(text.substr(start, 240)) +
       ((start + 240 - text.length) ? '...' : '');
     var rv = $('<div class="context"></div>').text(excerpt);
-    $.each(hlwords, function() {
+    $.each(hlwords, function () {
       rv = rv.highlightText(this, 'highlighted');
     });
     return rv;
   }
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
   Search.init();
 });

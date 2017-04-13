@@ -22,21 +22,21 @@ if (isset($_POST['edit_save']) || isset($_POST['add_new_column'])) {
     if ($col_default == 'NONE' && $_POST['col_default_sel'] != 'USER_DEFINED') {
         $col_default = "";
     }
-    $col_extra = $_POST['col_extra'];
-    $col_isNull = isset($_POST['col_isNull'])?1:0;
-    $col_length = $_POST['col_length'];
+    $col_extra     = $_POST['col_extra'];
+    $col_isNull    = isset($_POST['col_isNull']) ? 1 : 0;
+    $col_length    = $_POST['col_length'];
     $col_attribute = $_POST['col_attribute'];
-    $col_type = $_POST['col_type'];
-    $collation = $_POST['collation'];
+    $col_type      = $_POST['col_type'];
+    $collation     = $_POST['collation'];
     if (isset($orig_col_name) && $orig_col_name) {
         echo PMA_updateOneColumn(
-            $db, $orig_col_name, $col_name, $col_type,$col_attribute,
+            $db, $orig_col_name, $col_name, $col_type, $col_attribute,
             $col_length, $col_isNull, $collation, $col_extra, $col_default
         );
         exit;
     } else {
         $tmp_msg = PMA_updateOneColumn(
-            $db, "", $col_name, $col_type,$col_attribute,
+            $db, "", $col_name, $col_type, $col_attribute,
             $col_length, $col_isNull, $collation, $col_extra, $col_default
         );
     }
@@ -51,25 +51,25 @@ if (isset($_POST['getColumnList'])) {
     exit;
 }
 if (isset($_POST['add_column'])) {
-    $selected_col = array();
-    $selected_tbl = $_POST['table-select'];
+    $selected_col   = [];
+    $selected_tbl   = $_POST['table-select'];
     $selected_col[] = $_POST['column-select'];
-    $tmp_msg = PMA_syncUniqueColumns($selected_col, false, $selected_tbl);
+    $tmp_msg        = PMA_syncUniqueColumns($selected_col, false, $selected_tbl);
 }
 $response = PMA_Response::getInstance();
-$header = $response->getHeader();
-$scripts = $header->getScripts();
+$header   = $response->getHeader();
+$scripts  = $header->getScripts();
 $scripts->addFile('jquery/jquery.uitablefilter.js');
 $scripts->addFile('jquery/jquery.tablesorter.js');
 $scripts->addFile('db_central_columns.js');
 $cfgCentralColumns = PMA_centralColumnsGetParams();
-$pmadb = $cfgCentralColumns['db'];
-$pmatable = $cfgCentralColumns['table'];
-$max_rows = $GLOBALS['cfg']['MaxRows'];
+$pmadb             = $cfgCentralColumns['db'];
+$pmatable          = $cfgCentralColumns['table'];
+$max_rows          = $GLOBALS['cfg']['MaxRows'];
 if (isset($_POST['delete_save'])) {
-    $col_name = array();
+    $col_name   = [];
     $col_name[] = $_REQUEST['col_name'];
-    $tmp_msg = PMA_deleteColumnsFromList($col_name, false);
+    $tmp_msg    = PMA_deleteColumnsFromList($col_name, false);
 }
 if (isset($_REQUEST['total_rows']) && $_REQUEST['total_rows']) {
     $total_rows = $_REQUEST['total_rows'];
@@ -98,24 +98,24 @@ $response->addHTML($table_navigation_html);
 $columnAdd = PMA_getHTMLforAddCentralColumn($total_rows, $pos, $db);
 $response->addHTML($columnAdd);
 $deleteRowForm = '<form method="post" id="del_form" action="db_central_columns.php">'
-        . PMA_URL_getHiddenInputs(
-            $db
-        )
-        . '<input id="del_col_name" type="hidden" name="col_name" value="">'
-        . '<input type="hidden" name="pos" value="' . $pos . '">'
-        . '<input type="hidden" name="delete_save" value="delete"></form>';
+    . PMA_URL_getHiddenInputs(
+        $db
+    )
+    . '<input id="del_col_name" type="hidden" name="col_name" value="">'
+    . '<input type="hidden" name="pos" value="' . $pos . '">'
+    . '<input type="hidden" name="delete_save" value="delete"></form>';
 $response->addHTML($deleteRowForm);
 $table_struct = '<div id="tableslistcontainer">'
-        . '<table id="table_columns" class="tablesorter" '
-        . 'style="min-width:100%" class="data">';
+    . '<table id="table_columns" class="tablesorter" '
+    . 'style="min-width:100%" class="data">';
 $response->addHTML($table_struct);
 $tableheader = PMA_getCentralColumnsTableHeader(
     'column_heading', __('Click to sort.'), 2
 );
 $response->addHTML($tableheader);
-$result = PMA_getColumnsList($db, $pos, $max_rows);
+$result  = PMA_getColumnsList($db, $pos, $max_rows);
 $odd_row = true;
-$row_num=0;
+$row_num = 0;
 foreach ($result as $row) {
     $tableHtmlRow = PMA_getHTMLforCentralColumnsTableRow(
         $row, $odd_row, $row_num, $db

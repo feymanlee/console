@@ -9,11 +9,11 @@
  * @package PhpMyAdmin
  * @see     http://www.php.net/session
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
-if (! function_exists('openssl_random_pseudo_bytes')) {
+if (!function_exists('openssl_random_pseudo_bytes')) {
     require_once PHPSECLIB_INC_DIR . '/Crypt/Random.php';
 }
 
@@ -80,11 +80,11 @@ session_cache_limiter('private');
 $session_name = 'phpMyAdmin';
 @session_name($session_name);
 
-if (! isset($_COOKIE[$session_name])) {
+if (!isset($_COOKIE[$session_name])) {
     // on first start of session we check for errors
     // f.e. session dir cannot be accessed - session file not created
     $orig_error_count = $GLOBALS['error_handler']->countErrors();
-    $session_result = session_start();
+    $session_result   = session_start();
     if ($session_result !== true
         || $orig_error_count != $GLOBALS['error_handler']->countErrors()
     ) {
@@ -109,8 +109,8 @@ if (! isset($_COOKIE[$session_name])) {
  * Token which is used for authenticating access queries.
  * (we use "space PMA_token space" to prevent overwriting)
  */
-if (! isset($_SESSION[' PMA_token '])) {
-    if (! function_exists('openssl_random_pseudo_bytes')) {
+if (!isset($_SESSION[' PMA_token '])) {
+    if (!function_exists('openssl_random_pseudo_bytes')) {
         $_SESSION[' PMA_token '] = bin2hex(phpseclib\Crypt\Random::string(16));
     } else {
         $_SESSION[' PMA_token '] = bin2hex(openssl_random_pseudo_bytes(16));
@@ -133,10 +133,11 @@ function PMA_secureSession()
     ) {
         session_regenerate_id(true);
     }
-    if (! function_exists('openssl_random_pseudo_bytes')) {
+    if (!function_exists('openssl_random_pseudo_bytes')) {
         $_SESSION[' PMA_token '] = bin2hex(phpseclib\Crypt\Random::string(16));
     } else {
         $_SESSION[' PMA_token '] = bin2hex(openssl_random_pseudo_bytes(16));
     }
 }
+
 ?>

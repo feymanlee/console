@@ -14,6 +14,6 @@
  */
 OpenLayers.Lang["io"] = OpenLayers.Util.applyDefaults({
 
-    'scale': "Skalo = 1 : ${scaleDenom}"
+  'scale': "Skalo = 1 : ${scaleDenom}"
 
 });

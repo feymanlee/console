@@ -48,36 +48,37 @@ class PMA_GIS_FactoryTest extends PHPUnit_Framework_TestCase
      */
     public function providerForTestFactory()
     {
-        return array(
-            array(
+        return [
+            [
                 'MULTIPOLYGON',
-                'PMA_GIS_Multipolygon'
-            ),
-            array(
+                'PMA_GIS_Multipolygon',
+            ],
+            [
                 'POLYGON',
-                'PMA_GIS_Polygon'
-            ),
-            array(
+                'PMA_GIS_Polygon',
+            ],
+            [
                 'MULTILINESTRING',
-                'PMA_GIS_Multilinestring'
-            ),
-            array(
+                'PMA_GIS_Multilinestring',
+            ],
+            [
                 'LINESTRING',
-                'PMA_GIS_Linestring'
-            ),
-            array(
+                'PMA_GIS_Linestring',
+            ],
+            [
                 'MULTIPOINT',
-                'PMA_GIS_Multipoint'
-            ),
-            array(
+                'PMA_GIS_Multipoint',
+            ],
+            [
                 'POINT',
-                'PMA_GIS_Point'
-            ),
-            array(
+                'PMA_GIS_Point',
+            ],
+            [
                 'GEOMETRYCOLLECTION',
-                'PMA_GIS_Geometrycollection'
-            ),
-        );
+                'PMA_GIS_Geometrycollection',
+            ],
+        ];
     }
 }
+
 ?>

@@ -30,15 +30,15 @@ use ReCaptcha\RequestMethod;
 use ReCaptcha\RequestParameters;
 
 /**
- * Sends a POST request to the reCAPTCHA service, but makes use of fsockopen() 
- * instead of get_file_contents(). This is to account for people who may be on 
+ * Sends a POST request to the reCAPTCHA service, but makes use of fsockopen()
+ * instead of get_file_contents(). This is to account for people who may be on
  * servers where allow_furl_open is disabled.
  */
 class SocketPost implements RequestMethod
 {
     /**
      * reCAPTCHA service host.
-     * @const string 
+     * @const string
      */
     const RECAPTCHA_HOST = 'www.google.com';
 
@@ -65,7 +65,7 @@ class SocketPost implements RequestMethod
 
     /**
      * Constructor
-     * 
+     *
      * @param \ReCaptcha\RequestMethod\Socket $socket optional socket, injectable for testing
      */
     public function __construct(Socket $socket = null)
@@ -81,11 +81,12 @@ class SocketPost implements RequestMethod
      * Submit the POST request with the specified parameters.
      *
      * @param RequestParameters $params Request parameters
+     *
      * @return string Body of the reCAPTCHA response
      */
     public function submit(RequestParameters $params)
     {
-        $errno = 0;
+        $errno  = 0;
         $errstr = '';
 
         if ($this->socket->fsockopen('ssl://' . self::RECAPTCHA_HOST, 443, $errno, $errstr, 30) !== false) {
@@ -109,6 +110,7 @@ class SocketPost implements RequestMethod
 
             if (0 === strpos($response, 'HTTP/1.1 200 OK')) {
                 $parts = preg_split("#\n\s*\n#Uis", $response);
+
                 return $parts[1];
             }
 

@@ -14,22 +14,22 @@
  */
 OpenLayers.Lang["fur"] = OpenLayers.Util.applyDefaults({
 
-    'permalink': "Leam Permanent",
+  'permalink': "Leam Permanent",
 
-    'overlays': "Livei parsore",
+  'overlays': "Livei parsore",
 
-    'baseLayer': "Livel di base",
+  'baseLayer': "Livel di base",
 
-    'browserNotSupported': "Il to sgarfadôr nol supuarte la renderizazion vetoriâl. Al moment a son supuartâts:\n${renderers}",
+  'browserNotSupported': "Il to sgarfadôr nol supuarte la renderizazion vetoriâl. Al moment a son supuartâts:\n${renderers}",
 
-    'scale': "Scjale = 1 : ${scaleDenom}",
+  'scale': "Scjale = 1 : ${scaleDenom}",
 
-    'W': "O",
+  'W': "O",
 
-    'E': "E",
+  'E': "E",
 
-    'N': "N",
+  'N': "N",
 
-    'S': "S"
+  'S': "S"
 
 });

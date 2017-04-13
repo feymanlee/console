@@ -4,7 +4,7 @@
  ** Test for PMA_Util::checkParameters from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -21,7 +21,7 @@ require_once 'libraries/sanitizing.lib.php';
  ** Test for PMA_Util::checkParameters from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_CheckParameters_Test extends PHPUnit_Framework_TestCase
 {
@@ -32,11 +32,11 @@ class PMA_CheckParameters_Test extends PHPUnit_Framework_TestCase
      */
     function setup()
     {
-        $GLOBALS['PMA_Config'] = new PMA_Config();
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
-        $GLOBALS['cfg'] = array('ServerDefault' => 1);
+        $GLOBALS['PMA_Config']    = new PMA_Config();
+        $_SESSION['PMA_Theme']    = new PMA_Theme();
+        $GLOBALS['cfg']           = ['ServerDefault' => 1];
         $GLOBALS['pmaThemeImage'] = 'theme/';
-        $GLOBALS['text_dir'] = 'ltr';
+        $GLOBALS['text_dir']      = 'ltr';
     }
 
     /**
@@ -52,7 +52,7 @@ class PMA_CheckParameters_Test extends PHPUnit_Framework_TestCase
         $this->expectOutputRegex("/Missing parameter: field/");
 
         PMA_Util::checkParameters(
-            array('db', 'table', 'field')
+            ['db', 'table', 'field']
         );
     }
 
@@ -65,14 +65,14 @@ class PMA_CheckParameters_Test extends PHPUnit_Framework_TestCase
     {
         $GLOBALS['PMA_PHP_SELF'] = PMA_getenv('PHP_SELF');
         $GLOBALS['pmaThemePath'] = $_SESSION['PMA_Theme']->getPath();
-        $GLOBALS['db'] = "dbDatabase";
-        $GLOBALS['table'] = "tblTable";
-        $GLOBALS['field'] = "test_field";
-        $GLOBALS['sql_query'] = "SELECT * FROM tblTable;";
+        $GLOBALS['db']           = "dbDatabase";
+        $GLOBALS['table']        = "tblTable";
+        $GLOBALS['field']        = "test_field";
+        $GLOBALS['sql_query']    = "SELECT * FROM tblTable;";
 
         $this->expectOutputString("");
         PMA_Util::checkParameters(
-            array('db', 'table', 'field', 'sql_query')
+            ['db', 'table', 'field', 'sql_query']
         );
     }
 }

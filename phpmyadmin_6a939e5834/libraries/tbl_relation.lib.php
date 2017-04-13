@@ -21,8 +21,8 @@
 function PMA_generateDropdown(
     $dropdown_question, $select_name, $choices, $selected_value
 ) {
-    $html_output = (! empty($dropdown_question) ?
-        htmlspecialchars($dropdown_question) . '&nbsp;&nbsp;' : '')
+    $html_output = (!empty($dropdown_question) ?
+            htmlspecialchars($dropdown_question) . '&nbsp;&nbsp;' : '')
         . '<select name="' . htmlspecialchars($select_name) . '">' . "\n";
 
     foreach ($choices as $one_value => $one_label) {
@@ -48,27 +48,33 @@ function PMA_generateDropdown(
  */
 function PMA_backquoteSplit($text)
 {
-    $elements = array();
-    $final_pos = /*overload*/mb_strlen($text) - 1;
-    $pos = 0;
+    $elements  = [];
+    $final_pos = /*overload*/
+        mb_strlen($text) - 1;
+    $pos       = 0;
     while ($pos <= $final_pos) {
-        $first_backquote = /*overload*/mb_strpos($text, '`', $pos);
-        $second_backquote = /*overload*/mb_strpos($text, '`', $first_backquote + 1);
+        $first_backquote  = /*overload*/
+            mb_strpos($text, '`', $pos);
+        $second_backquote = /*overload*/
+            mb_strpos($text, '`', $first_backquote + 1);
         // after the second one, there might be another one which means
         // this is an escaped backquote
         if ($second_backquote < $final_pos && '`' == $text[$second_backquote + 1]) {
             $second_backquote
-                = /*overload*/mb_strpos($text, '`', $second_backquote + 2);
+                = /*overload*/
+                mb_strpos($text, '`', $second_backquote + 2);
         }
         if (false === $first_backquote || false === $second_backquote) {
             break;
         }
-        $elements[] = /*overload*/mb_substr(
-            $text, $first_backquote, $second_backquote - $first_backquote + 1
-        );
-        $pos = $second_backquote + 1;
+        $elements[] = /*overload*/
+            mb_substr(
+                $text, $first_backquote, $second_backquote - $first_backquote + 1
+            );
+        $pos        = $second_backquote + 1;
     }
-    return($elements);
+
+    return ($elements);
 }
 
 /**
@@ -102,9 +108,9 @@ function PMA_getSQLToDropForeignKey($table, $fk)
 function PMA_getSQLToCreateForeignKey($table, $field, $foreignDb, $foreignTable,
     $foreignField, $name = null, $onDelete = null, $onUpdate = null
 ) {
-    $sql_query  = 'ALTER TABLE ' . PMA_Util::backquote($table) . ' ADD ';
+    $sql_query = 'ALTER TABLE ' . PMA_Util::backquote($table) . ' ADD ';
     // if user entered a constraint name
-    if (! empty($name)) {
+    if (!empty($name)) {
         $sql_query .= ' CONSTRAINT ' . PMA_Util::backquote($name);
     }
 
@@ -119,10 +125,10 @@ function PMA_getSQLToCreateForeignKey($table, $field, $foreignDb, $foreignTable,
         . '.' . PMA_Util::backquote($foreignTable)
         . '(' . implode(', ', $foreignField) . ')';
 
-    if (! empty($onDelete)) {
+    if (!empty($onDelete)) {
         $sql_query .= ' ON DELETE ' . $onDelete;
     }
-    if (! empty($onUpdate)) {
+    if (!empty($onUpdate)) {
         $sql_query .= ' ON UPDATE ' . $onUpdate;
     }
     $sql_query .= ';';
@@ -141,7 +147,7 @@ function PMA_getSQLToCreateForeignKey($table, $field, $foreignDb, $foreignTable,
  * @return string HTML for the dropdown
  */
 function PMA_generateRelationalDropdown(
-    $name, $values = array(), $foreign = false, $title = ''
+    $name, $values = [], $foreign = false, $title = ''
 ) {
     $html_output = '<select name="' . $name . '" title="' . $title . '">';
     $html_output .= '<option value=""></option>';
@@ -156,11 +162,12 @@ function PMA_generateRelationalDropdown(
         $html_output .= '>' . htmlspecialchars($value) . '</option>';
     }
 
-    if (is_string($foreign) && ! $seen_key) {
+    if (is_string($foreign) && !$seen_key) {
         $html_output .= '<option value="' . htmlspecialchars($foreign) . '"'
             . ' selected="selected">' . htmlspecialchars($foreign) . '</option>';
     }
     $html_output .= '</select>';
+
     return $html_output;
 }
 
@@ -221,8 +228,8 @@ function PMA_getHtmlForCommonForm($db, $table, $columns, $cfgRelation,
 function PMA_getHtmlForInternalRelationForm($columns, $tbl_storage_engine,
     $existrel, $db
 ) {
-    $save_row = array_values($columns);
-    $saved_row_cnt  = count($save_row);
+    $save_row      = array_values($columns);
+    $saved_row_cnt = count($save_row);
 
     $html_output = '<fieldset>'
         . '<legend>' . __('Internal relations') . '</legend>'
@@ -248,7 +255,7 @@ function PMA_getHtmlForInternalRelationForm($columns, $tbl_storage_engine,
             $save_row, $i, $odd_row,
             $existrel, $db
         );
-        $odd_row = ! $odd_row;
+        $odd_row = !$odd_row;
     }
 
     $html_output .= '</table>';
@@ -274,7 +281,7 @@ function PMA_getHtmlForInternalRelationRow($save_row, $i, $odd_row,
     $myfield = $save_row[$i]['Field'];
     // Use an md5 as array index to avoid having special characters
     // in the name attribute (see bug #1746964 )
-    $myfield_md5 = md5($myfield);
+    $myfield_md5  = md5($myfield);
     $myfield_html = htmlspecialchars($myfield);
 
     $html_output = '<tr class="' . ($odd_row ? 'odd' : 'even') . '">'
@@ -286,7 +293,7 @@ function PMA_getHtmlForInternalRelationRow($save_row, $i, $odd_row,
 
     $html_output .= '<td>';
 
-    $foreign_table = false;
+    $foreign_table  = false;
     $foreign_column = false;
 
     // database dropdown
@@ -304,7 +311,7 @@ function PMA_getHtmlForInternalRelationRow($save_row, $i, $odd_row,
     // end of database dropdown
 
     // table dropdown
-    $tables = array();
+    $tables = [];
     if ($foreign_db) {
         if (isset($existrel[$myfield])) {
             $foreign_table = $existrel[$myfield]['foreign_table'];
@@ -327,13 +334,13 @@ function PMA_getHtmlForInternalRelationRow($save_row, $i, $odd_row,
     // end of table dropdown
 
     // column dropdown
-    $columns = array();
+    $columns = [];
     if ($foreign_db && $foreign_table) {
         if (isset($existrel[$myfield])) {
             $foreign_column = $existrel[$myfield]['foreign_field'];
         }
         $table_obj = new PMA_Table($foreign_table, $foreign_db);
-        $columns = $table_obj->getUniqueColumns(false, false);
+        $columns   = $table_obj->getUniqueColumns(false, false);
     }
     $html_output .= PMA_generateRelationalDropdown(
         'destination_column[' . $myfield_md5 . ']',
@@ -383,18 +390,18 @@ function PMA_getHtmlForForeignKeyForm($columns, $existrel_foreign, $db,
     $html_output .= '</th></tr>';
 
     $odd_row = true;
-    $i = 0;
-    if (! empty($existrel_foreign)) {
+    $i       = 0;
+    if (!empty($existrel_foreign)) {
         foreach ($existrel_foreign as $key => $one_key) {
             $html_output .= PMA_getHtmlForForeignKeyRow(
                 $one_key, $odd_row, $columns, $i++, $options_array,
                 $tbl_storage_engine, $db
             );
-            $odd_row = ! $odd_row;
+            $odd_row = !$odd_row;
         }
     }
     $html_output .= PMA_getHtmlForForeignKeyRow(
-        array(), $odd_row, $columns, $i++, $options_array, $tbl_storage_engine,
+        [], $odd_row, $columns, $i++, $options_array, $tbl_storage_engine,
         $db
     );
 
@@ -430,18 +437,18 @@ function PMA_getHtmlForForeignKeyRow($one_key, $odd_row, $columns, $i,
     // Drop key anchor.
     $html_output .= '<td>';
     if (isset($one_key['constraint'])) {
-        $drop_fk_query = 'ALTER TABLE ' . PMA_Util::backquote($GLOBALS['table'])
+        $drop_fk_query                  = 'ALTER TABLE ' . PMA_Util::backquote($GLOBALS['table'])
             . ' DROP FOREIGN KEY '
             . PMA_Util::backquote($one_key['constraint']) . ';';
-        $this_params = $GLOBALS['url_params'];
-        $this_params['goto'] = 'tbl_relation.php';
-        $this_params['back'] = 'tbl_relation.php';
-        $this_params['sql_query'] = $drop_fk_query;
+        $this_params                    = $GLOBALS['url_params'];
+        $this_params['goto']            = 'tbl_relation.php';
+        $this_params['back']            = 'tbl_relation.php';
+        $this_params['sql_query']       = $drop_fk_query;
         $this_params['message_to_show'] = sprintf(
             __('Foreign key constraint %s has been dropped'),
             $one_key['constraint']
         );
-        $js_msg = PMA_jsFormat(
+        $js_msg                         = PMA_jsFormat(
             'ALTER TABLE ' . $GLOBALS['table']
             . ' DROP FOREIGN KEY '
             . $one_key['constraint'] . ';'
@@ -452,8 +459,8 @@ function PMA_getHtmlForForeignKeyRow($one_key, $odd_row, $columns, $i,
         $html_output .= '    <a class="drop_foreign_key_anchor';
         $html_output .= ' ajax';
         $html_output .= '" href="sql.php' . PMA_URL_getCommon($this_params)
-           . '" >'
-           . PMA_Util::getIcon('b_drop.png', __('Drop'))  . '</a>';
+            . '" >'
+            . PMA_Util::getIcon('b_drop.png', __('Drop')) . '</a>';
     }
     $html_output .= '</td>';
     $html_output .= '<td>';
@@ -492,10 +499,10 @@ function PMA_getHtmlForForeignKeyRow($one_key, $odd_row, $columns, $i,
     $html_output .= '</span>';
     $html_output .= '</div>';
 
-    $column_array = array();
+    $column_array     = [];
     $column_array[''] = '';
     foreach ($columns as $column) {
-        if (! empty($column['Key'])) {
+        if (!empty($column['Key'])) {
             $column_array[$column['Field']] = $column['Field'];
         }
     }
@@ -546,7 +553,7 @@ function PMA_getHtmlForForeignKeyRow($one_key, $odd_row, $columns, $i,
     $html_output .= '</td>';
     $html_output .= '<td>';
     // foreign table dropdown
-    $tables = array();
+    $tables = [];
     if ($foreign_db) {
         $foreign_table = isset($one_key['ref_table_name'])
             ? $one_key['ref_table_name'] : '';
@@ -567,7 +574,8 @@ function PMA_getHtmlForForeignKeyRow($one_key, $odd_row, $columns, $i,
                     'Engine'
                 );
                 if (isset($engine)
-                    && /*overload*/mb_strtoupper($engine) == $tbl_storage_engine
+                    && /*overload*/
+                    mb_strtoupper($engine) == $tbl_storage_engine
                 ) {
                     $tables[] = $row[0];
                 }
@@ -580,7 +588,8 @@ function PMA_getHtmlForForeignKeyRow($one_key, $odd_row, $columns, $i,
             );
             while ($row = $GLOBALS['dbi']->fetchRow($tables_rs)) {
                 if (isset($row[1])
-                    && /*overload*/mb_strtoupper($row[1]) == $tbl_storage_engine
+                    && /*overload*/
+                    mb_strtoupper($row[1]) == $tbl_storage_engine
                 ) {
                     $tables[] = $row[0];
                 }
@@ -602,7 +611,7 @@ function PMA_getHtmlForForeignKeyRow($one_key, $odd_row, $columns, $i,
     if ($foreign_db && $foreign_table) {
         foreach ($one_key['ref_index_list'] as $foreign_column) {
             $table_obj = new PMA_Table($foreign_table, $foreign_db);
-            $columns = $table_obj->getUniqueColumns(false, false);
+            $columns   = $table_obj->getUniqueColumns(false, false);
             $html_output .= '<span class="formelement clearfloat">';
             $html_output .= PMA_generateRelationalDropdown(
                 'destination_foreign_column[' . $i . '][]',
@@ -616,7 +625,7 @@ function PMA_getHtmlForForeignKeyRow($one_key, $odd_row, $columns, $i,
         $html_output .= '<span class="formelement clearfloat">';
         $html_output .= PMA_generateRelationalDropdown(
             'destination_foreign_column[' . $i . '][]',
-            array(),
+            [],
             '',
             __('Column')
         );
@@ -640,7 +649,7 @@ function PMA_getHtmlForForeignKeyRow($one_key, $odd_row, $columns, $i,
 function PMA_getHtmlForCommonFormHeader($db, $table)
 {
     return '<form method="post" action="tbl_relation.php">' . "\n"
-    . PMA_URL_getHiddenInputs($db, $table);
+        . PMA_URL_getHiddenInputs($db, $table);
 }
 
 /**
@@ -669,7 +678,7 @@ function PMA_getHtmlForCommonFormFooter()
  */
 function PMA_getHtmlForDisplayFieldInfos($db, $table, $save_row)
 {
-    $disp = PMA_getDisplayField($db, $table);
+    $disp        = PMA_getDisplayField($db, $table);
     $html_output = '<fieldset>'
         . '<label>' . __('Choose column to display:') . '</label>'
         . '<select name="display_field">'
@@ -716,14 +725,14 @@ function PMA_sendHtmlForColumnDropdownList()
     $response = PMA_Response::getInstance();
 
     $foreignTable = $_REQUEST['foreignTable'];
-    $table_obj = new PMA_Table($foreignTable, $_REQUEST['foreignDb']);
+    $table_obj    = new PMA_Table($foreignTable, $_REQUEST['foreignDb']);
     // Since views do not have keys defined on them provide the full list of columns
     if (PMA_Table::isView($_REQUEST['foreignDb'], $foreignTable)) {
         $columnList = $table_obj->getColumns(false, false);
     } else {
         $columnList = $table_obj->getIndexedColumns(false, false);
     }
-    $columns = array();
+    $columns = [];
     foreach ($columnList as $column) {
         $columns[] = htmlspecialchars($column);
     }
@@ -747,24 +756,25 @@ function PMA_sendHtmlForColumnDropdownList()
 function PMA_sendHtmlForTableDropdownList()
 {
     $response = PMA_Response::getInstance();
-    $tables = array();
+    $tables   = [];
 
     $foreign = isset($_REQUEST['foreign']) && $_REQUEST['foreign'] === 'true';
     if ($foreign) {
-        $tbl_storage_engine = /*overload*/mb_strtoupper(
-            PMA_Table::sGetStatusInfo(
-                $_REQUEST['db'],
-                $_REQUEST['table'],
-                'Engine'
-            )
-        );
+        $tbl_storage_engine = /*overload*/
+            mb_strtoupper(
+                PMA_Table::sGetStatusInfo(
+                    $_REQUEST['db'],
+                    $_REQUEST['table'],
+                    'Engine'
+                )
+            );
     }
 
     // In Drizzle, 'SHOW TABLE STATUS' will show status only for the tables
     // which are currently in the table cache. Hence we have to use 'SHOW TABLES'
     // and manually retrieve table engine values.
-    if ($foreign && ! PMA_DRIZZLE) {
-        $query = 'SHOW TABLE STATUS FROM '
+    if ($foreign && !PMA_DRIZZLE) {
+        $query     = 'SHOW TABLE STATUS FROM '
             . PMA_Util::backquote($_REQUEST['foreignDb']);
         $tables_rs = $GLOBALS['dbi']->query(
             $query,
@@ -774,13 +784,14 @@ function PMA_sendHtmlForTableDropdownList()
 
         while ($row = $GLOBALS['dbi']->fetchArray($tables_rs)) {
             if (isset($row['Engine'])
-                && /*overload*/mb_strtoupper($row['Engine']) == $tbl_storage_engine
+                && /*overload*/
+                mb_strtoupper($row['Engine']) == $tbl_storage_engine
             ) {
                 $tables[] = htmlspecialchars($row['Name']);
             }
         }
     } else {
-        $query = 'SHOW TABLES FROM '
+        $query     = 'SHOW TABLES FROM '
             . PMA_Util::backquote($_REQUEST['foreignDb']);
         $tables_rs = $GLOBALS['dbi']->query(
             $query,
@@ -789,13 +800,14 @@ function PMA_sendHtmlForTableDropdownList()
         );
         while ($row = $GLOBALS['dbi']->fetchArray($tables_rs)) {
             if ($foreign && PMA_DRIZZLE) {
-                $engine = /*overload*/mb_strtoupper(
-                    PMA_Table::sGetStatusInfo(
-                        $_REQUEST['foreignDb'],
-                        $row[0],
-                        'Engine'
-                    )
-                );
+                $engine = /*overload*/
+                    mb_strtoupper(
+                        PMA_Table::sGetStatusInfo(
+                            $_REQUEST['foreignDb'],
+                            $row[0],
+                            'Engine'
+                        )
+                    );
                 if (isset($engine) && $engine == $tbl_storage_engine) {
                     $tables[] = htmlspecialchars($row[0]);
                 }
@@ -822,7 +834,7 @@ function PMA_handleUpdateForDisplayField($disp, $display_field, $db, $table,
     $cfgRelation
 ) {
     $html_output = '';
-    $upd_query = PMA_getQueryForDisplayUpdate(
+    $upd_query   = PMA_getQueryForDisplayUpdate(
         $disp, $display_field, $db, $table, $cfgRelation
     );
     if ($upd_query) {
@@ -832,6 +844,7 @@ function PMA_handleUpdateForDisplayField($disp, $display_field, $db, $table,
             '', 'success'
         );
     }
+
     return $html_output;
 }
 
@@ -898,7 +911,7 @@ function PMA_handleUpdatesForInternalRelations($destination_db,
     $db, $table, $existrel
 ) {
     $html_output = '';
-    $updated = false;
+    $updated     = false;
     foreach ($destination_db as $master_field_md5 => $foreign_db) {
         $upd_query = PMA_getQueryForInternalRelationUpdate(
             $multi_edit_columns_name,
@@ -916,6 +929,7 @@ function PMA_handleUpdatesForInternalRelations($destination_db,
             '', 'success'
         );
     }
+
     return $html_output;
 }
 
@@ -945,12 +959,12 @@ function PMA_getQueryForInternalRelationUpdate($multi_edit_columns_name,
 
     $foreign_table = $destination_table[$master_field_md5];
     $foreign_field = $destination_column[$master_field_md5];
-    if (! empty($foreign_db)
-        && ! empty($foreign_table)
-        && ! empty($foreign_field)
+    if (!empty($foreign_db)
+        && !empty($foreign_table)
+        && !empty($foreign_field)
     ) {
-        if (! isset($existrel[$master_field])) {
-            $upd_query  = 'INSERT INTO '
+        if (!isset($existrel[$master_field])) {
+            $upd_query = 'INSERT INTO '
                 . PMA_Util::backquote($GLOBALS['cfgRelation']['db'])
                 . '.' . PMA_Util::backquote($cfgRelation['relation'])
                 . '(master_db, master_table, master_field, foreign_db,'
@@ -967,7 +981,7 @@ function PMA_getQueryForInternalRelationUpdate($multi_edit_columns_name,
             || $existrel[$master_field]['foreign_table'] != $foreign_table
             || $existrel[$master_field]['foreign_field'] != $foreign_field
         ) {
-            $upd_query  = 'UPDATE '
+            $upd_query = 'UPDATE '
                 . PMA_Util::backquote($GLOBALS['cfgRelation']['db'])
                 . '.' . PMA_Util::backquote($cfgRelation['relation']) . ' SET'
                 . ' foreign_db       = \''
@@ -1013,11 +1027,11 @@ function PMA_handleUpdatesForForeignKeys($destination_foreign_db,
     $multi_edit_columns_name, $destination_foreign_table,
     $destination_foreign_column, $options_array, $table, $existrel_foreign
 ) {
-    $html_output = '';
+    $html_output      = '';
     $preview_sql_data = '';
-    $display_query = '';
-    $seen_error = false;
-    $preview_sql = (isset($_REQUEST['preview_sql'])) ? true : false;
+    $display_query    = '';
+    $seen_error       = false;
+    $preview_sql      = (isset($_REQUEST['preview_sql'])) ? true : false;
     foreach ($destination_foreign_db as $master_field_md5 => $foreign_db) {
         list($html, $sql_data) = PMA_handleUpdateForForeignKey(
             $multi_edit_columns_name, $master_field_md5,
@@ -1034,9 +1048,9 @@ function PMA_handleUpdatesForForeignKeys($destination_foreign_db,
         PMA_previewSQL($preview_sql_data);
     }
 
-    if (! empty($display_query) && ! $seen_error) {
+    if (!empty($display_query) && !$seen_error) {
         $GLOBALS['display_query'] = $display_query;
-        $html_output = PMA_Util::getMessage(
+        $html_output              = PMA_Util::getMessage(
             __('Your SQL query has been executed successfully.'),
             null, 'success'
         );
@@ -1067,10 +1081,10 @@ function PMA_handleUpdateForForeignKey($multi_edit_columns_name, $master_field_m
     $existrel_foreign, $table, &$seen_error, &$display_query,
     $foreign_db, $preview_sql
 ) {
-    $html_output = '';
+    $html_output      = '';
     $preview_sql_data = '';
-    $create = false;
-    $drop = false;
+    $create           = false;
+    $drop             = false;
 
     // Map the fieldname's md5 back to its real name
     $master_field = $multi_edit_columns_name[$master_field_md5];
@@ -1086,8 +1100,8 @@ function PMA_handleUpdateForForeignKey($multi_edit_columns_name, $master_field_m
 
     $empty_fields = false;
     foreach ($master_field as $key => $one_field) {
-        if ((! empty($one_field) && empty($foreign_field[$key]))
-            || (empty($one_field) && ! empty($foreign_field[$key]))
+        if ((!empty($one_field) && empty($foreign_field[$key]))
+            || (empty($one_field) && !empty($foreign_field[$key]))
         ) {
             $empty_fields = true;
         }
@@ -1098,20 +1112,20 @@ function PMA_handleUpdateForForeignKey($multi_edit_columns_name, $master_field_m
         }
     }
 
-    if (! empty($foreign_db)
-        && ! empty($foreign_table)
-        && ! $empty_fields
+    if (!empty($foreign_db)
+        && !empty($foreign_table)
+        && !$empty_fields
     ) {
         if (isset($existrel_foreign[$master_field_md5])) {
             $constraint_name = $existrel_foreign[$master_field_md5]['constraint'];
-            $on_delete = ! empty(
-                        $existrel_foreign[$master_field_md5]['on_delete'])
-                        ? $existrel_foreign[$master_field_md5]['on_delete']
-                        : 'RESTRICT';
-            $on_update = ! empty(
-                        $existrel_foreign[$master_field_md5]['on_update'])
-                        ? $existrel_foreign[$master_field_md5]['on_update']
-                        : 'RESTRICT';
+            $on_delete       = !empty(
+            $existrel_foreign[$master_field_md5]['on_delete'])
+                ? $existrel_foreign[$master_field_md5]['on_delete']
+                : 'RESTRICT';
+            $on_update       = !empty(
+            $existrel_foreign[$master_field_md5]['on_update'])
+                ? $existrel_foreign[$master_field_md5]['on_update']
+                : 'RESTRICT';
 
             if ($ref_db_name != $foreign_db
                 || $existrel_foreign[$master_field_md5]['ref_table_name'] != $foreign_table
@@ -1123,7 +1137,7 @@ function PMA_handleUpdateForForeignKey($multi_edit_columns_name, $master_field_m
             ) {
                 // another foreign key is already defined for this field
                 // or an option has been changed for ON DELETE or ON UPDATE
-                $drop = true;
+                $drop   = true;
                 $create = true;
             } // end if... else....
         } else {
@@ -1140,16 +1154,17 @@ function PMA_handleUpdateForForeignKey($multi_edit_columns_name, $master_field_m
             $table, $existrel_foreign[$master_field_md5]['constraint']
         );
 
-        if (! $preview_sql) {
+        if (!$preview_sql) {
             $display_query .= $drop_query . "\n";
             $GLOBALS['dbi']->tryQuery($drop_query);
             $tmp_error_drop = $GLOBALS['dbi']->getError();
 
-            if (! empty($tmp_error_drop)) {
+            if (!empty($tmp_error_drop)) {
                 $seen_error = true;
                 $html_output .= PMA_Util::mysqlDie(
                     $tmp_error_drop, $drop_query, false, '', false
                 );
+
                 return $html_output;
             }
         } else {
@@ -1158,7 +1173,7 @@ function PMA_handleUpdateForForeignKey($multi_edit_columns_name, $master_field_m
     }
     $tmp_error_create = false;
     if (!$create) {
-        return array($html_output, $preview_sql_data);
+        return [$html_output, $preview_sql_data];
     }
 
     $create_query = PMA_getSQLToCreateForeignKey(
@@ -1168,11 +1183,11 @@ function PMA_handleUpdateForForeignKey($multi_edit_columns_name, $master_field_m
         $options_array[$_REQUEST['on_update'][$master_field_md5]]
     );
 
-    if (! $preview_sql) {
+    if (!$preview_sql) {
         $display_query .= $create_query . "\n";
         $GLOBALS['dbi']->tryQuery($create_query);
         $tmp_error_create = $GLOBALS['dbi']->getError();
-        if (! empty($tmp_error_create)) {
+        if (!empty($tmp_error_create)) {
             $seen_error = true;
 
             if (substr($tmp_error_create, 1, 4) == '1005') {
@@ -1187,8 +1202,8 @@ function PMA_handleUpdateForForeignKey($multi_edit_columns_name, $master_field_m
                 );
             }
             $html_output .= PMA_Util::showMySQLDocu(
-                'InnoDB_foreign_key_constraints'
-            ) . "\n";
+                    'InnoDB_foreign_key_constraints'
+                ) . "\n";
         }
     } else {
         $preview_sql_data .= $create_query . "\n";
@@ -1197,7 +1212,7 @@ function PMA_handleUpdateForForeignKey($multi_edit_columns_name, $master_field_m
     // this is an alteration and the old constraint has been dropped
     // without creation of a new one
     if ($drop && $create && empty($tmp_error_drop)
-        && ! empty($tmp_error_create)
+        && !empty($tmp_error_create)
     ) {
         // a rollback may be better here
         $sql_query_recreate = '# Restoring the dropped constraint...' . "\n";
@@ -1211,7 +1226,7 @@ function PMA_handleUpdateForForeignKey($multi_edit_columns_name, $master_field_m
             $options_array[$existrel_foreign[$master_field_md5]['on_delete']],
             $options_array[$existrel_foreign[$master_field_md5]['on_update']]
         );
-        if (! $preview_sql) {
+        if (!$preview_sql) {
             $display_query .= $sql_query_recreate . "\n";
             $GLOBALS['dbi']->tryQuery($sql_query_recreate);
         } else {
@@ -1219,6 +1234,7 @@ function PMA_handleUpdateForForeignKey($multi_edit_columns_name, $master_field_m
         }
     }
 
-    return array($html_output, $preview_sql_data);
+    return [$html_output, $preview_sql_data];
 }
+
 ?>

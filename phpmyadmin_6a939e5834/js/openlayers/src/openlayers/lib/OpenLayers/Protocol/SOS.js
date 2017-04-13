@@ -14,20 +14,20 @@
  * Returns:
  * {<OpenLayers.Protocol>} An SOS protocol for the given version.
  */
-OpenLayers.Protocol.SOS = function(options) {
-    options = OpenLayers.Util.applyDefaults(
-        options, OpenLayers.Protocol.SOS.DEFAULTS
-    );
-    var cls = OpenLayers.Protocol.SOS["v"+options.version.replace(/\./g, "_")];
-    if(!cls) {
-        throw "Unsupported SOS version: " + options.version;
-    }
-    return new cls(options);
+OpenLayers.Protocol.SOS = function (options) {
+  options = OpenLayers.Util.applyDefaults(
+    options, OpenLayers.Protocol.SOS.DEFAULTS
+  );
+  var cls = OpenLayers.Protocol.SOS["v" + options.version.replace(/\./g, "_")];
+  if (!cls) {
+    throw "Unsupported SOS version: " + options.version;
+  }
+  return new cls(options);
 };
 
 /**
  * Constant: OpenLayers.Protocol.SOS.DEFAULTS
  */
 OpenLayers.Protocol.SOS.DEFAULTS = {
-    "version": "1.0.0"
+  "version": "1.0.0"
 };

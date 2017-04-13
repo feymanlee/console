@@ -7,7 +7,7 @@
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 /**
@@ -23,27 +23,28 @@ if (! defined('PHPMYADMIN')) {
  * @return HTML for list of columns in form of given list types
  */
 function PMA_getHtmlForColumnsList(
-    $db, $table, $colTypeCategory='all', $listType='dropdown'
+    $db, $table, $colTypeCategory = 'all', $listType = 'dropdown'
 ) {
-    $columnTypeList = array();
+    $columnTypeList = [];
     if ($colTypeCategory != 'all') {
-        $types = $GLOBALS['PMA_Types']->getColumns();
+        $types          = $GLOBALS['PMA_Types']->getColumns();
         $columnTypeList = $types[$colTypeCategory];
     }
     $GLOBALS['dbi']->selectDb($db, $GLOBALS['userlink']);
-    $columns = (array) $GLOBALS['dbi']->getColumns(
+    $columns       = (array)$GLOBALS['dbi']->getColumns(
         $db, $table, null,
         true, $GLOBALS['userlink']
     );
-    $type = "";
+    $type          = "";
     $selectColHtml = "";
     foreach ($columns as $column => $def) {
         if (isset($def['Type'])) {
             $extracted_columnspec = PMA_Util::extractColumnSpec($def['Type']);
-            $type = $extracted_columnspec['type'];
+            $type                 = $extracted_columnspec['type'];
         }
         if (empty($columnTypeList)
-            || in_array(/*overload*/mb_strtoupper($type), $columnTypeList)
+            || in_array(/*overload*/
+                mb_strtoupper($type), $columnTypeList)
         ) {
             if ($listType == 'checkbox') {
                 $selectColHtml .= '<input type="checkbox" value="'
@@ -52,12 +53,13 @@ function PMA_getHtmlForColumnsList(
                     . htmlspecialchars($def['Type']) . ' ]</br>';
             } else {
                 $selectColHtml .= '<option value="' . htmlspecialchars($column) . ''
-                . '">' . htmlspecialchars($column)
-                . ' [ ' . htmlspecialchars($def['Type']) . ' ]'
-                . '</option>';
+                    . '">' . htmlspecialchars($column)
+                    . ' [ ' . htmlspecialchars($def['Type']) . ' ]'
+                    . '</option>';
             }
         }
     }
+
     return $selectColHtml;
 }
 
@@ -72,47 +74,49 @@ function PMA_getHtmlForColumnsList(
  * @return HTML
  */
 function PMA_getHtmlForCreateNewColumn(
-    $num_fields, $db, $table, $columnMeta=array()
+    $num_fields, $db, $table, $columnMeta = []
 ) {
-    $cfgRelation = PMA_getRelationsParam();
-    $content_cells = array();
-    $available_mime = array();
-    $mime_map = array();
-    $header_cells = PMA_getHeaderCells(
+    $cfgRelation    = PMA_getRelationsParam();
+    $content_cells  = [];
+    $available_mime = [];
+    $mime_map       = [];
+    $header_cells   = PMA_getHeaderCells(
         true, null,
         $cfgRelation['mimework'], $db, $table
     );
     if ($cfgRelation['mimework'] && $GLOBALS['cfg']['BrowseMIME']) {
-        $mime_map = PMA_getMIME($db, $table);
+        $mime_map       = PMA_getMIME($db, $table);
         $available_mime = PMA_getAvailableMIMEtypes();
     }
     $comments_map = PMA_getComments($db, $table);
     for ($columnNumber = 0; $columnNumber < $num_fields; $columnNumber++) {
         $content_cells[$columnNumber] = PMA_getHtmlForColumnAttributes(
             $columnNumber, $columnMeta, '',
-            8, '', null, array(), null, null,
+            8, '', null, [], null, null,
             $comments_map, null, true,
-            array(), $cfgRelation,
-            isset($available_mime)?$available_mime:array(), $mime_map
+            [], $cfgRelation,
+            isset($available_mime) ? $available_mime : [], $mime_map
         );
     }
+
     return PMA_getHtmlForTableFieldDefinitions($header_cells, $content_cells);
 }
+
 /**
  * build the html for step 1.1 of normalization
  *
  * @param string $db           current database
  * @param string $table        current table
  * @param string $normalizedTo up to which step normalization will go,
- * possible values 1nf|2nf|3nf
+ *                             possible values 1nf|2nf|3nf
  *
  * @return HTML for step 1.1
  */
 function PMA_getHtmlFor1NFStep1($db, $table, $normalizedTo)
 {
-    $step = 1;
+    $step    = 1;
     $stepTxt = __('Make all columns atomic');
-    $html = "<h3 class='center'>"
+    $html    = "<h3 class='center'>"
         . __('First step of normalization (1NF)') . "</h3>";
     $html .= "<div id='mainContent' data-normalizeto='" . $normalizedTo . "'>" .
         "<fieldset>" .
@@ -150,6 +154,7 @@ function PMA_getHtmlFor1NFStep1($db, $table, $normalizedTo)
         . "</fieldset><fieldset class='tblFooters'>"
         . "</fieldset>"
         . "</div>";
+
     return $html;
 }
 
@@ -163,15 +168,15 @@ function PMA_getHtmlFor1NFStep1($db, $table, $normalizedTo)
  */
 function PMA_getHtmlContentsFor1NFStep2($db, $table)
 {
-    $step = 2;
-    $stepTxt = __('Have a primary key');
-    $primary = PMA_Index::getPrimary($table, $db);
+    $step          = 2;
+    $stepTxt       = __('Have a primary key');
+    $primary       = PMA_Index::getPrimary($table, $db);
     $hasPrimaryKey = "0";
-    $legendText = __('Step 1.') . $step . " " . $stepTxt;
-    $extra = '';
+    $legendText    = __('Step 1.') . $step . " " . $stepTxt;
+    $extra         = '';
     if ($primary) {
-        $headText = __("Primary key already exists.");
-        $subText = __("Taking you to next step…");
+        $headText      = __("Primary key already exists.");
+        $subText       = __("Taking you to next step…");
         $hasPrimaryKey = "1";
     } else {
         $headText = __(
@@ -179,22 +184,23 @@ function PMA_getHtmlContentsFor1NFStep2($db, $table)
             . "Hint: A primary key is a column "
             . "(or combination of columns) that uniquely identify all rows."
         );
-        $subText = '<a href="#" id="createPrimaryKey">'
+        $subText  = '<a href="#" id="createPrimaryKey">'
             . PMA_Util::getIcon(
                 'b_index_add.png', __(
                     'Add a primary key on existing column(s)'
                 )
             )
             . '</a>';
-        $extra = __(
-            "If it's not possible to make existing "
-            . "column combinations as primary key"
-        ) . "<br/>"
+        $extra    = __(
+                "If it's not possible to make existing "
+                . "column combinations as primary key"
+            ) . "<br/>"
             . '<a href="#" id="addNewPrimary">'
             . __('+ Add a new primary key column') . '</a>';
     }
-    $res = array('legendText'=>$legendText, 'headText'=>$headText,
-        'subText'=>$subText, 'hasPrimaryKey'=>$hasPrimaryKey, 'extra'=>$extra);
+    $res = ['legendText' => $legendText, 'headText' => $headText,
+            'subText'    => $subText, 'hasPrimaryKey' => $hasPrimaryKey, 'extra' => $extra];
+
     return $res;
 }
 
@@ -208,29 +214,30 @@ function PMA_getHtmlContentsFor1NFStep2($db, $table)
  */
 function PMA_getHtmlContentsFor1NFStep4($db, $table)
 {
-    $step = 4;
-    $stepTxt = __('Remove redundant columns');
+    $step       = 4;
+    $stepTxt    = __('Remove redundant columns');
     $legendText = __('Step 1.') . $step . " " . $stepTxt;
-    $headText = __(
+    $headText   = __(
         "Do you have a group of columns which on combining gives an existing"
         . " column? For example, if you have first_name, last_name and"
         . " full_name then combining first_name and last_name gives full_name"
         . " which is redundant."
     );
-    $subText = __(
+    $subText    = __(
         "Check the columns which are redundant and click on remove. "
         . "If no redundant column, click on 'No redundant column'"
     );
-    $extra = PMA_getHtmlForColumnsList($db, $table, 'all', "checkbox") . "</br>"
+    $extra      = PMA_getHtmlForColumnsList($db, $table, 'all', "checkbox") . "</br>"
         . '<input type="submit" id="removeRedundant" value="'
         . __('Remove selected') . '"/>'
         . '<input type="submit" value="' . __('No redundant column')
         . '" onclick="goToFinish1NF();"'
         . '/>';
-    $res = array(
-            'legendText'=>$legendText, 'headText'=>$headText,
-            'subText'=>$subText, 'extra'=>$extra
-        );
+    $res        = [
+        'legendText' => $legendText, 'headText' => $headText,
+        'subText'    => $subText, 'extra' => $extra,
+    ];
+
     return $res;
 }
 
@@ -244,10 +251,10 @@ function PMA_getHtmlContentsFor1NFStep4($db, $table)
  */
 function PMA_getHtmlContentsFor1NFStep3($db, $table)
 {
-    $step = 3;
-    $stepTxt = __('Move repeating groups');
-    $legendText = __('Step 1.') . $step . " " . $stepTxt;
-    $headText = __(
+    $step        = 3;
+    $stepTxt     = __('Move repeating groups');
+    $legendText  = __('Step 1.') . $step . " " . $stepTxt;
+    $headText    = __(
         "Do you have a group of two or more columns that are closely "
         . "related and are all repeating the same attribute? For example, "
         . "a table that holds data on books might have columns such as book_id, "
@@ -255,26 +262,27 @@ function PMA_getHtmlContentsFor1NFStep3($db, $table)
         . "repeating group. In this case a new table (book_id, author) should "
         . "be created."
     );
-    $subText = __(
+    $subText     = __(
         "Check the columns which form a repeating group. "
         . "If no such group, click on 'No repeating group'"
     );
-    $extra = PMA_getHtmlForColumnsList($db, $table, 'all', "checkbox") . "</br>"
+    $extra       = PMA_getHtmlForColumnsList($db, $table, 'all', "checkbox") . "</br>"
         . '<input type="submit" id="moveRepeatingGroup" value="'
         . __('Done') . '"/>'
         . '<input type="submit" value="' . __('No repeating group')
         . '" onclick="goToStep4();"'
         . '/>';
-    $primary = PMA_Index::getPrimary($table, $db);
+    $primary     = PMA_Index::getPrimary($table, $db);
     $primarycols = $primary->getColumns();
-    $pk = array();
+    $pk          = [];
     foreach ($primarycols as $col) {
         $pk[] = $col->getName();
     }
-    $res = array(
-            'legendText'=>$legendText, 'headText'=>$headText,
-            'subText'=>$subText, 'extra'=>$extra, 'primary_key'=> json_encode($pk)
-        );
+    $res = [
+        'legendText' => $legendText, 'headText' => $headText,
+        'subText'    => $subText, 'extra' => $extra, 'primary_key' => json_encode($pk),
+    ];
+
     return $res;
 }
 
@@ -288,13 +296,13 @@ function PMA_getHtmlContentsFor1NFStep3($db, $table)
  */
 function PMA_getHtmlFor2NFstep1($db, $table)
 {
-    $legendText = __('Step 2.') . "1 " . __('Find partial dependencies');
-    $primary = PMA_Index::getPrimary($table, $db);
-    $primarycols = $primary->getColumns();
-    $pk = array();
-    $subText = '';
+    $legendText   = __('Step 2.') . "1 " . __('Find partial dependencies');
+    $primary      = PMA_Index::getPrimary($table, $db);
+    $primarycols  = $primary->getColumns();
+    $pk           = [];
+    $subText      = '';
     $selectPkForm = "";
-    $extra = "";
+    $extra        = "";
     foreach ($primarycols as $col) {
         $pk[] = $col->getName();
         $selectPkForm .= '<input type="checkbox" name="pd" value="'
@@ -304,46 +312,46 @@ function PMA_getHtmlFor2NFstep1($db, $table)
     $key = implode(', ', $pk);
     if (count($primarycols) > 1) {
         $GLOBALS['dbi']->selectDb($db, $GLOBALS['userlink']);
-        $columns = (array) $GLOBALS['dbi']->getColumnNames(
+        $columns = (array)$GLOBALS['dbi']->getColumnNames(
             $db, $table, $GLOBALS['userlink']
         );
         if (count($pk) == count($columns)) {
             $headText = sprintf(
-                __(
-                    'No partial dependencies possible as '
-                    . 'no non-primary column exists since primary key ( %1$s ) '
-                    . 'is composed of all the columns in the table.'
-                ), htmlspecialchars($key)
-            ) . '<br/>';
-            $extra = '<h3>' . __('Table is already in second normal form.')
+                    __(
+                        'No partial dependencies possible as '
+                        . 'no non-primary column exists since primary key ( %1$s ) '
+                        . 'is composed of all the columns in the table.'
+                    ), htmlspecialchars($key)
+                ) . '<br/>';
+            $extra    = '<h3>' . __('Table is already in second normal form.')
                 . '</h3>';
         } else {
             $headText = sprintf(
-                __(
-                    'The primary key ( %1$s ) consists of more than one column '
-                    . 'so we need to find the partial dependencies.'
-                ), htmlspecialchars($key)
-            ) . '<br/>' . __(
-                'Please answer the following question(s) '
-                . 'carefully to obtain a correct normalization.'
-            )
+                    __(
+                        'The primary key ( %1$s ) consists of more than one column '
+                        . 'so we need to find the partial dependencies.'
+                    ), htmlspecialchars($key)
+                ) . '<br/>' . __(
+                    'Please answer the following question(s) '
+                    . 'carefully to obtain a correct normalization.'
+                )
                 . '<br/><a href="#" id="showPossiblePd">' . __(
                     '+ Show me the possible partial dependencies '
                     . 'based on data in the table'
                 ) . '</a>';
-            $subText = __(
+            $subText  = __(
                 'For each column below, '
                 . 'please select the <b>minimal set</b> of columns among given set '
                 . 'whose values combined together are sufficient'
                 . ' to determine the value of the column.'
             );
-            $cnt=0;
+            $cnt      = 0;
             foreach ($columns as $column) {
                 if (!in_array($column, $pk)) {
                     $cnt++;
                     $extra .= "<b>" . sprintf(
-                        __('\'%1$s\' depends on:'), htmlspecialchars($column)
-                    ) . "</b><br>";
+                            __('\'%1$s\' depends on:'), htmlspecialchars($column)
+                        ) . "</b><br>";
                     $extra .= '<form id="pk_' . $cnt . '" data-colname="'
                         . htmlspecialchars($column) . '" class="smallIndent">'
                         . $selectPkForm . '</form><br/><br/>';
@@ -352,17 +360,18 @@ function PMA_getHtmlFor2NFstep1($db, $table)
         }
     } else {
         $headText = sprintf(
-            __(
-                'No partial dependencies possible as the primary key'
-                . ' ( %1$s ) has just one column.'
-            ), htmlspecialchars($key)
-        ) . '<br/>';
-        $extra = '<h3>' . __('Table is already in second normal form.') . '</h3>';
+                __(
+                    'No partial dependencies possible as the primary key'
+                    . ' ( %1$s ) has just one column.'
+                ), htmlspecialchars($key)
+            ) . '<br/>';
+        $extra    = '<h3>' . __('Table is already in second normal form.') . '</h3>';
     }
-    $res = array(
-        'legendText'=>$legendText, 'headText'=>$headText,
-        'subText'=>$subText,'extra'=>$extra, 'primary_key'=> $key
-    );
+    $res = [
+        'legendText' => $legendText, 'headText' => $headText,
+        'subText'    => $subText, 'extra' => $extra, 'primary_key' => $key,
+    ];
+
     return $res;
 }
 
@@ -374,26 +383,27 @@ function PMA_getHtmlFor2NFstep1($db, $table)
  *
  * @return HTML
  */
-function PMA_getHtmlForNewTables2NF($partialDependencies,$table)
+function PMA_getHtmlForNewTables2NF($partialDependencies, $table)
 {
-    $html = '<p><b>' . sprintf(
-        __(
-            'In order to put the '
-            . 'original table \'%1$s\' into Second normal form we need '
-            . 'to create the following tables:'
-        ), htmlspecialchars($table)
-    ) . '</b></p>';
+    $html      = '<p><b>' . sprintf(
+            __(
+                'In order to put the '
+                . 'original table \'%1$s\' into Second normal form we need '
+                . 'to create the following tables:'
+            ), htmlspecialchars($table)
+        ) . '</b></p>';
     $tableName = $table;
-    $i=1;
-    foreach ($partialDependencies as $key=>$dependents) {
+    $i         = 1;
+    foreach ($partialDependencies as $key => $dependents) {
         $html .= '<p><input type="text" name="' . htmlspecialchars($key)
             . '" value="' . htmlspecialchars($tableName) . '"/>'
             . '( <u>' . htmlspecialchars($key) . '</u>'
-            .  (count($dependents)>0?', ':'')
+            . (count($dependents) > 0 ? ', ' : '')
             . htmlspecialchars(implode(', ', $dependents)) . ' )';
         $i++;
         $tableName = 'table' . $i;
     }
+
     return $html;
 }
 
@@ -409,33 +419,33 @@ function PMA_getHtmlForNewTables2NF($partialDependencies,$table)
  */
 function PMA_createNewTablesFor2NF($partialDependencies, $tablesName, $table, $db)
 {
-    $dropCols = false;
-    $nonPKCols = array();
-    $queries = array();
-    $error = false;
-    $headText = '<h3>' . sprintf(
-        __('The second step of normalization is complete for table \'%1$s\'.'),
-        htmlspecialchars($table)
-    ) . '</h3>';
+    $dropCols  = false;
+    $nonPKCols = [];
+    $queries   = [];
+    $error     = false;
+    $headText  = '<h3>' . sprintf(
+            __('The second step of normalization is complete for table \'%1$s\'.'),
+            htmlspecialchars($table)
+        ) . '</h3>';
     if (count((array)$partialDependencies) == 1) {
-        return array(
-            'legendText'=>__('End of step'), 'headText'=>$headText,
-            'queryError'=>$error
-        );
+        return [
+            'legendText' => __('End of step'), 'headText' => $headText,
+            'queryError' => $error,
+        ];
     }
     $message = '';
     $GLOBALS['dbi']->selectDb($db, $GLOBALS['userlink']);
-    foreach ($partialDependencies as $key=>$dependents) {
+    foreach ($partialDependencies as $key => $dependents) {
         if ($tablesName->$key != $table) {
             $backquotedKey = implode(', ', PMA_Util::backquote(explode(', ', $key)));
-            $queries[] = 'CREATE TABLE ' . PMA_Util::backquote($tablesName->$key)
+            $queries[]     = 'CREATE TABLE ' . PMA_Util::backquote($tablesName->$key)
                 . ' SELECT DISTINCT ' . $backquotedKey
-                . (count($dependents)>0?', ':'')
+                . (count($dependents) > 0 ? ', ' : '')
                 . implode(',', PMA_Util::backquote($dependents))
                 . ' FROM ' . PMA_Util::backquote($table) . ';';
-            $queries[] = 'ALTER TABLE ' . PMA_Util::backquote($tablesName->$key)
+            $queries[]     = 'ALTER TABLE ' . PMA_Util::backquote($tablesName->$key)
                 . ' ADD PRIMARY KEY(' . $backquotedKey . ');';
-            $nonPKCols = array_merge($nonPKCols, $dependents);
+            $nonPKCols     = array_merge($nonPKCols, $dependents);
         } else {
             $dropCols = true;
         }
@@ -465,10 +475,11 @@ function PMA_createNewTablesFor2NF($partialDependencies, $tablesName, $table, $d
             break;
         }
     }
-    return array(
-        'legendText'=>__('End of step'), 'headText'=>$headText,
-        'queryError'=>$error, 'extra'=>$message
-    );
+
+    return [
+        'legendText' => __('End of step'), 'headText' => $headText,
+        'queryError' => $error, 'extra' => $message,
+    ];
 }
 
 /**
@@ -483,52 +494,53 @@ function PMA_createNewTablesFor2NF($partialDependencies, $tablesName, $table, $d
  */
 function PMA_getHtmlForNewTables3NF($dependencies, $tables, $db)
 {
-    $html = "";
-    $i=1;
-    $newTables = array();
-    foreach ($tables as $table=>$arrDependson) {
+    $html      = "";
+    $i         = 1;
+    $newTables = [];
+    foreach ($tables as $table => $arrDependson) {
         if (count(array_unique($arrDependson)) == 1) {
             continue;
         }
-        $primary = PMA_Index::getPrimary($table, $db);
+        $primary     = PMA_Index::getPrimary($table, $db);
         $primarycols = $primary->getColumns();
-        $pk = array();
+        $pk          = [];
         foreach ($primarycols as $col) {
             $pk[] = $col->getName();
         }
         $html .= '<p><b>' . sprintf(
-            __(
-                'In order to put the '
-                . 'original table \'%1$s\' into Third normal form we need '
-                . 'to create the following tables:'
-            ), htmlspecialchars($table)
-        ) . '</b></p>';
-        $tableName = $table;
-        $columnList = array();
+                __(
+                    'In order to put the '
+                    . 'original table \'%1$s\' into Third normal form we need '
+                    . 'to create the following tables:'
+                ), htmlspecialchars($table)
+            ) . '</b></p>';
+        $tableName  = $table;
+        $columnList = [];
         foreach ($arrDependson as $key) {
             $dependents = $dependencies->$key;
             if ($key == $table) {
                 $key = implode(', ', $pk);
             }
-            $tmpTableCols =array_merge(explode(', ', $key), $dependents);
+            $tmpTableCols = array_merge(explode(', ', $key), $dependents);
             sort($tmpTableCols);
             if (!in_array($tmpTableCols, $columnList)) {
                 $columnList[] = $tmpTableCols;
-                    $html .= '<p><input type="text" name="'
-                        . htmlspecialchars($tableName)
-                        . '" value="' . htmlspecialchars($tableName) . '"/>'
-                        . '( <u>' . htmlspecialchars($key) . '</u>'
-                        .  (count($dependents)>0?', ':'')
-                        . htmlspecialchars(implode(', ', $dependents)) . ' )';
-                    $newTables[$table][$tableName] = array(
-                        "pk"=>$key, "nonpk"=>implode(', ', $dependents)
-                    );
-                    $i++;
-                    $tableName = 'table' . $i;
+                $html .= '<p><input type="text" name="'
+                    . htmlspecialchars($tableName)
+                    . '" value="' . htmlspecialchars($tableName) . '"/>'
+                    . '( <u>' . htmlspecialchars($key) . '</u>'
+                    . (count($dependents) > 0 ? ', ' : '')
+                    . htmlspecialchars(implode(', ', $dependents)) . ' )';
+                $newTables[$table][$tableName] = [
+                    "pk" => $key, "nonpk" => implode(', ', $dependents),
+                ];
+                $i++;
+                $tableName = 'table' . $i;
             }
         }
     }
-    return array('html'=>$html, 'newTables'=>$newTables);
+
+    return ['html' => $html, 'newTables' => $newTables];
 }
 
 /**
@@ -541,47 +553,47 @@ function PMA_getHtmlForNewTables3NF($dependencies, $tables, $db)
  */
 function PMA_createNewTablesFor3NF($newTables, $db)
 {
-    $queries = array();
+    $queries  = [];
     $dropCols = false;
-    $error = false;
+    $error    = false;
     $headText = '<h3>' .
         __('The third step of normalization is complete.')
         . '</h3>';
     if (count((array)$newTables) == 0) {
-        return array(
-            'legendText'=>__('End of step'), 'headText'=>$headText,
-            'queryError'=>$error
-        );
+        return [
+            'legendText' => __('End of step'), 'headText' => $headText,
+            'queryError' => $error,
+        ];
     }
     $message = '';
     $GLOBALS['dbi']->selectDb($db, $GLOBALS['userlink']);
-    foreach ($newTables as $originalTable=>$tablesList) {
-        foreach ($tablesList as $table=>$cols) {
+    foreach ($newTables as $originalTable => $tablesList) {
+        foreach ($tablesList as $table => $cols) {
             if ($table != $originalTable) {
-                $quotedPk = implode(
+                $quotedPk    = implode(
                     ', ', PMA_Util::backquote(explode(', ', $cols->pk))
                 );
                 $quotedNonpk = implode(
                     ', ', PMA_Util::backquote(explode(', ', $cols->nonpk))
                 );
-                $queries[] = 'CREATE TABLE ' . PMA_Util::backquote($table)
+                $queries[]   = 'CREATE TABLE ' . PMA_Util::backquote($table)
                     . ' SELECT DISTINCT ' . $quotedPk
                     . ', ' . $quotedNonpk
                     . ' FROM ' . PMA_Util::backquote($originalTable) . ';';
-                $queries[] = 'ALTER TABLE ' . PMA_Util::backquote($table)
+                $queries[]   = 'ALTER TABLE ' . PMA_Util::backquote($table)
                     . ' ADD PRIMARY KEY(' . $quotedPk . ');';
             } else {
                 $dropCols = $cols;
             }
         }
         if ($dropCols) {
-            $columns = (array) $GLOBALS['dbi']->getColumnNames(
+            $columns    = (array)$GLOBALS['dbi']->getColumnNames(
                 $db, $originalTable, $GLOBALS['userlink']
             );
             $colPresent = array_merge(
                 explode(', ', $dropCols->pk), explode(', ', $dropCols->nonpk)
             );
-            $query = 'ALTER TABLE ' . PMA_Util::backquote($originalTable);
+            $query      = 'ALTER TABLE ' . PMA_Util::backquote($originalTable);
             foreach ($columns as $col) {
                 if (!in_array($col, $colPresent)) {
                     $query .= ' DROP ' . PMA_Util::backquote($col) . ',';
@@ -608,17 +620,19 @@ function PMA_createNewTablesFor3NF($newTables, $db)
             break;
         }
     }
-    return array(
-        'legendText'=>__('End of step'), 'headText'=>$headText,
-        'queryError'=>$error, 'extra'=>$message
-    );
+
+    return [
+        'legendText' => __('End of step'), 'headText' => $headText,
+        'queryError' => $error, 'extra' => $message,
+    ];
 }
+
 /**
  * move the repeating group of columns to a new table
  *
  * @param string $repeatingColumns comma separated list of repeating group columns
  * @param string $primary_columns  comma separated list of column in primary key
- * of $table
+ *                                 of $table
  * @param string $newTable         name of the new table to be created
  * @param string $newColumn        name of the new column in the new table
  * @param string $table            current table
@@ -632,31 +646,31 @@ function PMA_moveRepeatingGroup(
     $repeatingColumnsArr = (array)PMA_Util::backquote(
         explode(', ', $repeatingColumns)
     );
-    $primary_columns = implode(
+    $primary_columns     = implode(
         ',', PMA_Util::backquote(explode(',', $primary_columns))
     );
-    $query1 = 'CREATE TABLE ' . PMA_Util::backquote($newTable);
-    $query2 = 'ALTER TABLE ' . PMA_Util::backquote($table);
-    $message = PMA_Message::success(
+    $query1              = 'CREATE TABLE ' . PMA_Util::backquote($newTable);
+    $query2              = 'ALTER TABLE ' . PMA_Util::backquote($table);
+    $message             = PMA_Message::success(
         sprintf(
             __('Selected repeating group has been moved to the table \'%s\''),
             htmlspecialchars($table)
         )
     );
-    $first = true;
-    $error = false;
+    $first               = true;
+    $error               = false;
     foreach ($repeatingColumnsArr as $repeatingColumn) {
         if (!$first) {
             $query1 .= ' UNION ';
         }
         $first = false;
-        $query1 .=  ' SELECT ' . $primary_columns . ',' . $repeatingColumn
+        $query1 .= ' SELECT ' . $primary_columns . ',' . $repeatingColumn
             . ' as ' . PMA_Util::backquote($newColumn)
             . ' FROM ' . PMA_Util::backquote($table);
         $query2 .= ' DROP ' . $repeatingColumn . ',';
     }
-    $query2 = trim($query2, ',');
-    $queries = array($query1, $query2);
+    $query2  = trim($query2, ',');
+    $queries = [$query1, $query2];
     $GLOBALS['dbi']->selectDb($db, $GLOBALS['userlink']);
     foreach ($queries as $query) {
         if (!$GLOBALS['dbi']->tryQuery($query, $GLOBALS['userlink'])) {
@@ -671,9 +685,10 @@ function PMA_moveRepeatingGroup(
             break;
         }
     }
-    return array(
-        'queryError'=>$error, 'message'=>$message
-    );
+
+    return [
+        'queryError' => $error, 'message' => $message,
+    ];
 }
 
 /**
@@ -687,12 +702,12 @@ function PMA_moveRepeatingGroup(
 function PMA_getHtmlFor3NFstep1($db, $tables)
 {
     $legendText = __('Step 3.') . "1 " . __('Find transitive dependencies');
-    $extra = "";
-    $headText = __(
+    $extra      = "";
+    $headText   = __(
         'Please answer the following question(s) '
         . 'carefully to obtain a correct normalization.'
     );
-    $subText = __(
+    $subText    = __(
         'For each column below, '
         . 'please select the <b>minimal set</b> of columns among given set '
         . 'whose values combined together are sufficient'
@@ -700,35 +715,35 @@ function PMA_getHtmlFor3NFstep1($db, $tables)
         . 'Note: A column may have no transitive dependency, '
         . 'in that case you don\'t have to select any.'
     );
-    $cnt=0;
-    foreach ($tables as $key=>$table) {
-        $primary = PMA_Index::getPrimary($table, $db);
-        $primarycols = $primary->getColumns();
+    $cnt        = 0;
+    foreach ($tables as $key => $table) {
+        $primary      = PMA_Index::getPrimary($table, $db);
+        $primarycols  = $primary->getColumns();
         $selectTdForm = "";
-        $pk = array();
+        $pk           = [];
         foreach ($primarycols as $col) {
             $pk[] = $col->getName();
         }
         $GLOBALS['dbi']->selectDb($db, $GLOBALS['userlink']);
-            $columns = (array) $GLOBALS['dbi']->getColumnNames(
-                $db, $table, $GLOBALS['userlink']
-            );
-        if (count($columns)-count($pk)<=1) {
+        $columns = (array)$GLOBALS['dbi']->getColumnNames(
+            $db, $table, $GLOBALS['userlink']
+        );
+        if (count($columns) - count($pk) <= 1) {
             continue;
         }
         foreach ($columns as $column) {
             if (!in_array($column, $pk)) {
                 $selectTdForm .= '<input type="checkbox" name="pd" value="'
-                . htmlspecialchars($column) . '">'
-                . '<span>' . htmlspecialchars($column) . '</span>';
+                    . htmlspecialchars($column) . '">'
+                    . '<span>' . htmlspecialchars($column) . '</span>';
             }
         }
         foreach ($columns as $column) {
             if (!in_array($column, $pk)) {
                 $cnt++;
                 $extra .= "<b>" . sprintf(
-                    __('\'%1$s\' depends on:'), htmlspecialchars($column)
-                )
+                        __('\'%1$s\' depends on:'), htmlspecialchars($column)
+                    )
                     . "</b><br>";
                 $extra .= '<form id="td_' . $cnt . '" data-colname="'
                     . htmlspecialchars($column) . '" data-tablename="'
@@ -743,15 +758,17 @@ function PMA_getHtmlFor3NFstep1($db, $tables)
             "No Transitive dependencies possible as the table "
             . "doesn't have any non primary key columns"
         );
-        $subText = "";
-        $extra = "<h3>" . __("Table is already in Third normal form!") . "</h3>";
+        $subText  = "";
+        $extra    = "<h3>" . __("Table is already in Third normal form!") . "</h3>";
     }
-    $res = array(
-        'legendText'=>$legendText, 'headText'=>$headText,
-        'subText'=>$subText,'extra'=>$extra
-    );
+    $res = [
+        'legendText' => $legendText, 'headText' => $headText,
+        'subText'    => $subText, 'extra' => $extra,
+    ];
+
     return $res;
 }
+
 /**
  * get html for options to normalize table
  *
@@ -769,10 +786,10 @@ function PMA_getHtmlForNormalizetable()
     $html_output .= '<legend>'
         . __('Improve table structure (Normalization):') . '</legend>';
     $html_output .= '<h3>' . __('Select up to what step you want to normalize') . '</h3>';
-    $choices = array(
-            '1nf' => __('First step of normalization (1NF)'),
-            '2nf'      => __('Second step of normalization (1NF+2NF)'),
-            '3nf'  => __('Third step of normalization (1NF+2NF+3NF)'));
+    $choices = [
+        '1nf' => __('First step of normalization (1NF)'),
+        '2nf' => __('Second step of normalization (1NF+2NF)'),
+        '3nf' => __('Third step of normalization (1NF+2NF+3NF)')];
 
     $html_output .= PMA_Util::getRadioFields(
         'normalizeTo', $choices, '1nf', true
@@ -800,24 +817,24 @@ function PMA_getHtmlForNormalizetable()
  */
 function PMA_findPartialDependencies($table, $db)
 {
-    $dependencyList = array();
+    $dependencyList = [];
     $GLOBALS['dbi']->selectDb($db, $GLOBALS['userlink']);
-    $columns = (array) $GLOBALS['dbi']->getColumnNames(
+    $columns      = (array)$GLOBALS['dbi']->getColumnNames(
         $db, $table, $GLOBALS['userlink']
     );
-    $columns = (array)PMA_Util::backquote($columns);
+    $columns      = (array)PMA_Util::backquote($columns);
     $totalRowsRes = $GLOBALS['dbi']->fetchResult(
         'SELECT COUNT(*) FROM (SELECT * FROM '
         . PMA_Util::backquote($table) . ' LIMIT 500) as dt;'
     );
-    $totalRows = $totalRowsRes[0];
-    $primary = PMA_Index::getPrimary($table, $db);
-    $primarycols = $primary->getColumns();
-    $pk = array();
+    $totalRows    = $totalRowsRes[0];
+    $primary      = PMA_Index::getPrimary($table, $db);
+    $primarycols  = $primary->getColumns();
+    $pk           = [];
     foreach ($primarycols as $col) {
         $pk[] = PMA_Util::backquote($col->getName());
     }
-    $partialKeys = PMA_getAllCombinationPartialKeys($pk);
+    $partialKeys      = PMA_getAllCombinationPartialKeys($pk);
     $distinctValCount = PMA_findDistinctValuesCount(
         array_unique(
             array_merge($columns, $partialKeys)
@@ -840,11 +857,11 @@ function PMA_findPartialDependencies($table, $db)
     }
 
     $html = __(
-        'This list is based on a subset of the table\'s data '
-        . 'and is not necessarily accurate. '
-    )
+            'This list is based on a subset of the table\'s data '
+            . 'and is not necessarily accurate. '
+        )
         . '<div class="dependencies_box">';
-    foreach ($dependencyList as $dependon=>$colList) {
+    foreach ($dependencyList as $dependon => $colList) {
         $html .= '<span class="displayblock">'
             . '<input type="button" class="pickPd" value="' . __('Pick') . '"/>'
             . '<span class="determinants">'
@@ -859,13 +876,15 @@ function PMA_findPartialDependencies($table, $db)
             . __('No partial dependencies found!') . '</p>';
     }
     $html .= '</div>';
+
     return $html;
 }
+
 /**
  * check whether a particular column is dependent on given subset of primary key
  *
  * @param string  $partialKey the partial key, subset of primary key,
- * each column in key supposed to be backquoted
+ *                            each column in key supposed to be backquoted
  * @param string  $column     backquoted column on whose dependency being checked
  * @param string  $table      current table
  * @param integer $pkCnt      distinct value count for given partial key
@@ -877,11 +896,11 @@ function PMA_findPartialDependencies($table, $db)
 function PMA_checkPartialDependency(
     $partialKey, $column, $table, $pkCnt, $colCnt, $totalRows
 ) {
-    $query = 'SELECT '
+    $query    = 'SELECT '
         . 'COUNT(DISTINCT ' . $partialKey . ',' . $column . ') as pkColCnt '
         . 'FROM (SELECT * FROM ' . PMA_Util::backquote($table)
-        . ' LIMIT 500) as dt'  . ';';
-    $res = $GLOBALS['dbi']->fetchResult($query, null, null, $GLOBALS['userlink']);
+        . ' LIMIT 500) as dt' . ';';
+    $res      = $GLOBALS['dbi']->fetchResult($query, null, null, $GLOBALS['userlink']);
     $pkColCnt = $res[0];
     if ($pkCnt && $pkCnt == $colCnt && $colCnt == $pkColCnt) {
         return true;
@@ -889,6 +908,7 @@ function PMA_checkPartialDependency(
     if ($totalRows && $totalRows == $pkCnt) {
         return true;
     }
+
     return false;
 }
 
@@ -896,18 +916,18 @@ function PMA_checkPartialDependency(
  * function to get distinct values count of all the column in the array $columns
  *
  * @param array  $columns array of backquoted columns whose distinct values
- * need to be counted.
+ *                        need to be counted.
  * @param string $table   table to which these columns belong
  *
  * @return array associative array containing the count
  */
 function PMA_findDistinctValuesCount($columns, $table)
 {
-    $result = array();
-    $query = 'SELECT ';
+    $result = [];
+    $query  = 'SELECT ';
     foreach ($columns as $column) {
         if ($column) { //each column is already backquoted
-            $query .= 'COUNT(DISTINCT ' .  $column . ') as \''
+            $query .= 'COUNT(DISTINCT ' . $column . ') as \''
                 . $column . '_cnt\', ';
         }
     }
@@ -920,6 +940,7 @@ function PMA_findDistinctValuesCount($columns, $table)
             $result[$column] = $res[0][$column . '_cnt'];
         }
     }
+
     return $result;
 }
 
@@ -932,7 +953,7 @@ function PMA_findDistinctValuesCount($columns, $table)
  */
 function PMA_getAllCombinationPartialKeys($primaryKey)
 {
-    $results = array('');
+    $results = [''];
     foreach ($primaryKey as $element) {
         foreach ($results as $combination) {
             array_push(

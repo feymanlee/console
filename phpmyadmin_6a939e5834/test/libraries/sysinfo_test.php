@@ -40,12 +40,12 @@ class PMA_SysInfoTest extends PHPUnit_Framework_TestCase
      */
     public function sysInfoOsProvider()
     {
-        return array(
-            array('FreeBSD', 'Linux'),
-            array('Linux', 'Linux'),
-            array('Winnt', 'Winnt'),
-            array('SunOS', 'SunOS'),
-        );
+        return [
+            ['FreeBSD', 'Linux'],
+            ['Linux', 'Linux'],
+            ['Winnt', 'Winnt'],
+            ['SunOS', 'SunOS'],
+        ];
     }
 
     /**

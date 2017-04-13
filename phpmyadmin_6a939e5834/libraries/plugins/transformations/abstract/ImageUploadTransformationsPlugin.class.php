@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage ImageUpload
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -43,7 +43,7 @@ abstract class ImageUploadTransformationsPlugin extends IOTransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         return $buffer;
     }
@@ -65,7 +65,7 @@ abstract class ImageUploadTransformationsPlugin extends IOTransformationsPlugin
         $column, $row_id, $column_name_appendix, $options, $value, $text_dir
     ) {
         $html = '';
-        $src = '';
+        $src  = '';
         if (!empty($value)) {
             $html = '<input type="hidden" name="fields_prev' . $column_name_appendix
                 . '" value="' . bin2hex($value) . '"/>';
@@ -74,11 +74,12 @@ abstract class ImageUploadTransformationsPlugin extends IOTransformationsPlugin
             $src = 'transformation_wrapper.php' . $options['wrapper_link'];
         }
         $html .= '<img src="' . $src . '" width="'
-                . (isset($options[0]) ? intval($options[0]) : '100') . '" height="'
-                . (isset($options[1]) ? intval($options[1]) : '100') . '" alt="'
-                . __('Image preview here') . '"/>';
+            . (isset($options[0]) ? intval($options[0]) : '100') . '" height="'
+            . (isset($options[1]) ? intval($options[1]) : '100') . '" alt="'
+            . __('Image preview here') . '"/>';
         $html .= '<br/><input type="file" name="fields_upload'
             . $column_name_appendix . '" accept="image/*" class="image-upload"/>';
+
         return $html;
     }
 
@@ -90,9 +91,9 @@ abstract class ImageUploadTransformationsPlugin extends IOTransformationsPlugin
      */
     public function getScripts()
     {
-        return array(
-            'transformations/image_upload.js'
-        );
+        return [
+            'transformations/image_upload.js',
+        ];
     }
 
     /* ~~~~~~~~~~~~~~~~~~~~ Getters and Setters ~~~~~~~~~~~~~~~~~~~~ */
@@ -107,4 +108,5 @@ abstract class ImageUploadTransformationsPlugin extends IOTransformationsPlugin
         return "Image upload";
     }
 }
+
 ?>

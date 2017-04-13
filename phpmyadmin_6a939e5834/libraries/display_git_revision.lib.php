@@ -5,20 +5,21 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
 /**
-* Prints details about the current Git commit revision
-*
-* @return void
-*/
+ * Prints details about the current Git commit revision
+ *
+ * @return void
+ */
 function PMA_printGitRevision()
 {
-    if (! $GLOBALS['PMA_Config']->get('PMA_VERSION_GIT')) {
+    if (!$GLOBALS['PMA_Config']->get('PMA_VERSION_GIT')) {
         $response = PMA_Response::getInstance();
         $response->isSuccess(false);
+
         return;
     }
 
@@ -59,7 +60,7 @@ function PMA_printGitRevision()
     }
 
     $committer = $GLOBALS['PMA_Config']->get('PMA_VERSION_GIT_COMMITTER');
-    $author = $GLOBALS['PMA_Config']->get('PMA_VERSION_GIT_AUTHOR');
+    $author    = $GLOBALS['PMA_Config']->get('PMA_VERSION_GIT_AUTHOR');
     PMA_printListItem(
         __('Git revision:') . ' '
         . $branch . ',<br /> '

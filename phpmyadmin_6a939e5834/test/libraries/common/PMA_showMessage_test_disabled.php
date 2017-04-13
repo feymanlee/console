@@ -4,7 +4,7 @@
  ** Test for PMA_Util::getMessage from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 const PMA_IS_WINDOWS = false;
@@ -20,7 +20,7 @@ require_once 'libraries/js_escape.lib.php';
  ** Test for PMA_Util::getMessage from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_ShowMessage_Test extends PHPUnit_Framework_TestCase
 {
@@ -32,7 +32,7 @@ class PMA_ShowMessage_Test extends PHPUnit_Framework_TestCase
     function setUp()
     {
         global $cfg;
-        if (! defined('VERSION_CHECK_DEFAULT')) {
+        if (!defined('VERSION_CHECK_DEFAULT')) {
             define('VERSION_CHECK_DEFAULT', 1);
         }
 
@@ -50,8 +50,8 @@ class PMA_ShowMessage_Test extends PHPUnit_Framework_TestCase
 
         $GLOBALS['is_ajax_request'] = true;
         $cfg['Server']['DisableIS'] = false;
-        $GLOBALS['table'] = 'tbl';
-        $GLOBALS['db'] = 'db';
+        $GLOBALS['table']           = 'tbl';
+        $GLOBALS['db']              = 'db';
 
         $GLOBALS['sql_query'] = "SELECT * FROM tblPatient ";
 

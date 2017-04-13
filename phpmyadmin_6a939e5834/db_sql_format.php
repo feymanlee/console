@@ -12,7 +12,7 @@ require_once 'libraries/sql-formatter/lib/SqlFormatter.php';
 $query = isset($_POST['sql']) ? $_POST['sql'] : '';
 
 SqlFormatter::$tab = "\t";
-$query = SqlFormatter::format($query, false);
+$query             = SqlFormatter::format($query, false);
 
 $response = PMA_Response::getInstance();
 $response->addJSON("sql", $query);

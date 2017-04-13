@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -117,22 +117,22 @@ class PMA_Header
      */
     public function __construct()
     {
-        $this->_isEnabled = true;
-        $this->_isAjax = false;
-        $this->_bodyId = '';
-        $this->_title  = '';
-        $this->_console = new PMA_Console();
-        $db = ! empty($GLOBALS['db']) ? $GLOBALS['db'] : '';
-        $table = ! empty($GLOBALS['table']) ? $GLOBALS['table'] : '';
-        $this->_menu   = new PMA_Menu(
+        $this->_isEnabled       = true;
+        $this->_isAjax          = false;
+        $this->_bodyId          = '';
+        $this->_title           = '';
+        $this->_console         = new PMA_Console();
+        $db                     = !empty($GLOBALS['db']) ? $GLOBALS['db'] : '';
+        $table                  = !empty($GLOBALS['table']) ? $GLOBALS['table'] : '';
+        $this->_menu            = new PMA_Menu(
             $GLOBALS['server'],
             $db,
             $table
         );
-        $this->_menuEnabled = true;
+        $this->_menuEnabled     = true;
         $this->_warningsEnabled = true;
-        $this->_isPrintView = false;
-        $this->_scripts     = new PMA_Scripts();
+        $this->_isPrintView     = false;
+        $this->_scripts         = new PMA_Scripts();
         $this->_addDefaultScripts();
         $this->_headerIsSent = false;
         // if database storage for user preferences is transient,
@@ -140,7 +140,7 @@ class PMA_Header
         // (detection will be done in JavaScript)
         $this->_userprefsOfferImport = false;
         if ($GLOBALS['PMA_Config']->get('user_preferences') == 'session'
-            && ! isset($_SESSION['userprefs_autoload'])
+            && !isset($_SESSION['userprefs_autoload'])
         ) {
             $this->_userprefsOfferImport = true;
         }
@@ -154,7 +154,7 @@ class PMA_Header
     private function _addDefaultScripts()
     {
         // Localised strings
-        $params = array('lang' => $GLOBALS['lang']);
+        $params = ['lang' => $GLOBALS['lang']];
         if (isset($GLOBALS['db'])) {
             $params['db'] = $GLOBALS['db'];
         }
@@ -216,44 +216,44 @@ class PMA_Header
      */
     public function getJsParams()
     {
-        $db = ! empty($GLOBALS['db']) ? $GLOBALS['db'] : '';
-        $table = ! empty($GLOBALS['table']) ? $GLOBALS['table'] : '';
-        $pftext = ! empty($_SESSION['tmpval']['pftext'])
+        $db     = !empty($GLOBALS['db']) ? $GLOBALS['db'] : '';
+        $table  = !empty($GLOBALS['table']) ? $GLOBALS['table'] : '';
+        $pftext = !empty($_SESSION['tmpval']['pftext'])
             ? $_SESSION['tmpval']['pftext'] : '';
 
         // not sure when this happens, but it happens
-        if (! isset($GLOBALS['collation_connection'])) {
+        if (!isset($GLOBALS['collation_connection'])) {
             $GLOBALS['collation_connection'] = 'utf8_general_ci';
         }
 
-        $params = array(
-            'common_query' => PMA_URL_getCommon(array(), 'text'),
-            'opendb_url' => $GLOBALS['cfg']['DefaultTabDatabase'],
-            'safari_browser' => PMA_USR_BROWSER_AGENT == 'SAFARI' ? 1 : 0,
-            'collation_connection' => $GLOBALS['collation_connection'],
-            'lang' => $GLOBALS['lang'],
-            'server' => $GLOBALS['server'],
-            'table' => $table,
-            'db'    => $db,
-            'token' => $_SESSION[' PMA_token '],
-            'text_dir' => $GLOBALS['text_dir'],
-            'show_databases_navigation_as_tree'=> $GLOBALS['cfg']['ShowDatabasesNavigationAsTree'],
-            'pma_absolute_uri' => $GLOBALS['cfg']['PmaAbsoluteUri'],
-            'pma_text_default_tab' => PMA_Util::getTitleForTarget(
+        $params = [
+            'common_query'                      => PMA_URL_getCommon([], 'text'),
+            'opendb_url'                        => $GLOBALS['cfg']['DefaultTabDatabase'],
+            'safari_browser'                    => PMA_USR_BROWSER_AGENT == 'SAFARI' ? 1 : 0,
+            'collation_connection'              => $GLOBALS['collation_connection'],
+            'lang'                              => $GLOBALS['lang'],
+            'server'                            => $GLOBALS['server'],
+            'table'                             => $table,
+            'db'                                => $db,
+            'token'                             => $_SESSION[' PMA_token '],
+            'text_dir'                          => $GLOBALS['text_dir'],
+            'show_databases_navigation_as_tree' => $GLOBALS['cfg']['ShowDatabasesNavigationAsTree'],
+            'pma_absolute_uri'                  => $GLOBALS['cfg']['PmaAbsoluteUri'],
+            'pma_text_default_tab'              => PMA_Util::getTitleForTarget(
                 $GLOBALS['cfg']['DefaultTabTable']
             ),
-            'pma_text_left_default_tab' => PMA_Util::getTitleForTarget(
+            'pma_text_left_default_tab'         => PMA_Util::getTitleForTarget(
                 $GLOBALS['cfg']['NavigationTreeDefaultTabTable']
             ),
-            'pma_text_left_default_tab2' => PMA_Util::getTitleForTarget(
+            'pma_text_left_default_tab2'        => PMA_Util::getTitleForTarget(
                 $GLOBALS['cfg']['NavigationTreeDefaultTabTable2']
             ),
-            'LimitChars' => $GLOBALS['cfg']['LimitChars'],
-            'pftext' => $pftext,
-            'confirm' => $GLOBALS['cfg']['Confirm'],
-            'LoginCookieValidity' => $GLOBALS['cfg']['LoginCookieValidity'],
-            'logged_in' => isset($GLOBALS['userlink']) ? true : false
-        );
+            'LimitChars'                        => $GLOBALS['cfg']['LimitChars'],
+            'pftext'                            => $pftext,
+            'confirm'                           => $GLOBALS['cfg']['Confirm'],
+            'LoginCookieValidity'               => $GLOBALS['cfg']['LoginCookieValidity'],
+            'logged_in'                         => isset($GLOBALS['userlink']) ? true : false,
+        ];
         if (isset($GLOBALS['cfg']['Server'])
             && isset($GLOBALS['cfg']['Server']['auth_type'])
         ) {
@@ -275,6 +275,7 @@ class PMA_Header
         foreach ($params as $key => $value) {
             $params[$key] = $key . ':"' . PMA_escapeJsString($value) . '"';
         }
+
         return 'PMA_commonParams.setAll({' . implode(',', $params) . '});';
     }
 
@@ -387,8 +388,8 @@ class PMA_Header
     public function getDisplay()
     {
         $retval = '';
-        if (! $this->_headerIsSent) {
-            if (! $this->_isAjax && $this->_isEnabled) {
+        if (!$this->_headerIsSent) {
+            if (!$this->_isAjax && $this->_isEnabled) {
                 $this->sendHttpHeaders();
                 $retval .= $this->_getHtmlStart();
                 $retval .= $this->_getMetaTags();
@@ -433,7 +434,7 @@ class PMA_Header
                 }
                 // pass configuration for hint tooltip display
                 // (to be used by PMA_tooltip() in js/functions.js)
-                if (! $GLOBALS['cfg']['ShowHint']) {
+                if (!$GLOBALS['cfg']['ShowHint']) {
                     $retval .= '<span id="no_hint" class="hide"></span>';
                 }
                 $retval .= $this->_getWarnings();
@@ -459,6 +460,7 @@ class PMA_Header
                 );
             }
         }
+
         return $retval;
     }
 
@@ -470,15 +472,15 @@ class PMA_Header
      */
     public function getMessage()
     {
-        $retval = '';
+        $retval  = '';
         $message = '';
-        if (! empty($GLOBALS['message'])) {
+        if (!empty($GLOBALS['message'])) {
             $message = $GLOBALS['message'];
             unset($GLOBALS['message']);
-        } else if (! empty($_REQUEST['message'])) {
+        } else if (!empty($_REQUEST['message'])) {
             $message = $_REQUEST['message'];
         }
-        if (! empty($message)) {
+        if (!empty($message)) {
             if (isset($GLOBALS['buffer_message'])) {
                 $buffer_message = $GLOBALS['buffer_message'];
             }
@@ -487,6 +489,7 @@ class PMA_Header
                 $GLOBALS['buffer_message'] = $buffer_message;
             }
         }
+
         return $retval;
     }
 
@@ -497,7 +500,7 @@ class PMA_Header
      */
     public function sendHttpHeaders()
     {
-        if (defined('TESTSUITE') && ! defined('PMA_TEST_HEADERS')) {
+        if (defined('TESTSUITE') && !defined('PMA_TEST_HEADERS')) {
             return;
         }
         if ($GLOBALS['PMA_Config']->isHttps()) {
@@ -514,12 +517,12 @@ class PMA_Header
             && !empty($GLOBALS['cfg']['CaptchaLoginPublicKey'])
         ) {
             $captcha_url = ' https://apis.google.com https://www.google.com/recaptcha/'
-               . ' https://www.gstatic.com/recaptcha/ https://ssl.gstatic.com/ ';
+                . ' https://www.gstatic.com/recaptcha/ https://ssl.gstatic.com/ ';
         } else {
             $captcha_url = '';
         }
         /* Prevent against ClickJacking by disabling framing */
-        if (! $GLOBALS['cfg']['AllowThirdPartyFraming']) {
+        if (!$GLOBALS['cfg']['AllowThirdPartyFraming']) {
             header(
                 'X-Frame-Options: DENY'
             );
@@ -574,7 +577,7 @@ class PMA_Header
             . ";"
         );
         PMA_noCacheHeader();
-        if (! defined('IS_TRANSFORMATION_WRAPPER')) {
+        if (!defined('IS_TRANSFORMATION_WRAPPER')) {
             // Define the charset to be used
             header('Content-Type: text/html; charset=utf-8');
         }
@@ -591,10 +594,12 @@ class PMA_Header
         $lang = $GLOBALS['available_languages'][$GLOBALS['lang']][1];
         $dir  = $GLOBALS['text_dir'];
 
-        $retval  = "<!DOCTYPE HTML>";
+        $retval = "<!DOCTYPE HTML>";
         $retval .= "<html lang='$lang' dir='$dir' class='";
-        $retval .= /*overload*/mb_strtolower(PMA_USR_BROWSER_AGENT) . " ";
-        $retval .= /*overload*/mb_strtolower(PMA_USR_BROWSER_AGENT)
+        $retval .= /*overload*/
+            mb_strtolower(PMA_USR_BROWSER_AGENT) . " ";
+        $retval .= /*overload*/
+            mb_strtolower(PMA_USR_BROWSER_AGENT)
             . intval(PMA_USR_BROWSER_VER) . "'>";
         $retval .= '<head>';
 
@@ -608,13 +613,14 @@ class PMA_Header
      */
     private function _getMetaTags()
     {
-        $retval  = '<meta charset="utf-8" />';
+        $retval = '<meta charset="utf-8" />';
         $retval .= '<meta name="referrer" content="no-referrer" />';
         $retval .= '<meta name="robots" content="noindex,nofollow" />';
         $retval .= '<meta http-equiv="X-UA-Compatible" content="IE=Edge">';
-        if (! $GLOBALS['cfg']['AllowThirdPartyFraming']) {
+        if (!$GLOBALS['cfg']['AllowThirdPartyFraming']) {
             $retval .= '<style id="cfs-style">html{display: none;}</style>';
         }
+
         return $retval;
     }
 
@@ -657,9 +663,10 @@ class PMA_Header
      */
     public function getTitleTag()
     {
-        $retval  = "<title>";
+        $retval = "<title>";
         $retval .= $this->_getPageTitle();
         $retval .= "</title>";
+
         return $retval;
     }
 
@@ -673,11 +680,11 @@ class PMA_Header
     {
         if (empty($this->_title)) {
             if ($GLOBALS['server'] > 0) {
-                if (! empty($GLOBALS['table'])) {
+                if (!empty($GLOBALS['table'])) {
                     $temp_title = $GLOBALS['cfg']['TitleTable'];
-                } else if (! empty($GLOBALS['db'])) {
+                } else if (!empty($GLOBALS['db'])) {
                     $temp_title = $GLOBALS['cfg']['TitleDatabase'];
-                } elseif (! empty($GLOBALS['cfg']['Server']['host'])) {
+                } elseif (!empty($GLOBALS['cfg']['Server']['host'])) {
                     $temp_title = $GLOBALS['cfg']['TitleServer'];
                 } else {
                     $temp_title = $GLOBALS['cfg']['TitleDefault'];
@@ -689,6 +696,7 @@ class PMA_Header
                 $this->_title = 'phpMyAdmin';
             }
         }
+
         return $this->_title;
     }
 
@@ -701,10 +709,11 @@ class PMA_Header
     private function _getBodyStart()
     {
         $retval = "</head><body";
-        if (! empty($this->_bodyId)) {
+        if (!empty($this->_bodyId)) {
             $retval .= " id='" . $this->_bodyId . "'";
         }
         $retval .= ">";
+
         return $retval;
     }
 
@@ -723,6 +732,7 @@ class PMA_Header
             )->getDisplay();
             $retval .= "</noscript>";
         }
+
         return $retval;
     }
 
@@ -738,11 +748,12 @@ class PMA_Header
     {
         $retval = '';
         if ($this->_menuEnabled
-            && /*overload*/mb_strlen($table)
+            && /*overload*/
+            mb_strlen($table)
             && $GLOBALS['cfg']['NumRecentTables'] > 0
         ) {
             $tmp_result = PMA_RecentFavoriteTable::getInstance('recent')
-                              ->add($db, $table);
+                ->add($db, $table);
             if ($tmp_result === true) {
                 $retval = PMA_RecentFavoriteTable::getHtmlUpdateRecentTables();
             } else {
@@ -750,6 +761,7 @@ class PMA_Header
                 $retval = $error->getDisplay();
             }
         }
+
         return $retval;
     }
 }

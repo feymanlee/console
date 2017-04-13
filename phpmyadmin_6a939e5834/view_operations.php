@@ -36,16 +36,16 @@ $reread_info = false;
  * Updates if required
  */
 if (isset($_REQUEST['submitoptions'])) {
-    $_message = '';
-    $warning_messages = array();
+    $_message         = '';
+    $warning_messages = [];
 
     if (isset($_REQUEST['new_name'])) {
         if ($pma_table->rename($_REQUEST['new_name'])) {
             $_message .= $pma_table->getLastMessage();
-            $result = true;
+            $result           = true;
             $GLOBALS['table'] = $pma_table->getName();
-            $reread_info = true;
-            $reload = true;
+            $reread_info      = true;
+            $reload           = true;
         } else {
             $_message .= $pma_table->getLastError();
             $result = false;
@@ -64,7 +64,7 @@ if (isset($result)) {
         // $result should exist, regardless of $_message
         $_type = $result ? 'success' : 'error';
     }
-    if (! empty($warning_messages)) {
+    if (!empty($warning_messages)) {
         $_message = new PMA_Message;
         $_message->addMessages($warning_messages);
         $_message->isError(true);
@@ -87,7 +87,7 @@ $url_params['back'] = 'view_operations.php';
 <div class="operations_half_width">
 <form method="post" action="view_operations.php">
 <?php echo PMA_URL_getHiddenInputs($GLOBALS['db'], $GLOBALS['table']); ?>
-<input type="hidden" name="reload" value="1" />
+  <input type="hidden" name="reload" value="1"/>
 <fieldset>
     <legend><?php echo __('Operations'); ?></legend>
 
@@ -95,32 +95,32 @@ $url_params['back'] = 'view_operations.php';
     <!-- Change view name -->
     <tr><td><?php echo __('Rename view to'); ?></td>
         <td><input type="text" size="20" name="new_name" onfocus="this.select()"
-                value="<?php echo htmlspecialchars($GLOBALS['table']); ?>"
-                required />
+                   value="<?php echo htmlspecialchars($GLOBALS['table']); ?>"
+                   required/>
         </td>
     </tr>
     </table>
 </fieldset>
 <fieldset class="tblFooters">
-        <input type="hidden" name="submitoptions" value="1" />
-        <input type="submit" value="<?php echo __('Go'); ?>" />
+        <input type="hidden" name="submitoptions" value="1"/>
+        <input type="submit" value="<?php echo __('Go'); ?>"/>
 </fieldset>
 </form>
 </div>
 <?php
 $drop_view_url_params = array_merge(
     $url_params,
-    array(
-        'sql_query' => 'DROP VIEW ' . PMA_Util::backquote($GLOBALS['table']),
-        'goto' => 'tbl_structure.php',
-        'reload' => '1',
-        'purge' => '1',
+    [
+        'sql_query'       => 'DROP VIEW ' . PMA_Util::backquote($GLOBALS['table']),
+        'goto'            => 'tbl_structure.php',
+        'reload'          => '1',
+        'purge'           => '1',
         'message_to_show' => sprintf(
             __('View %s has been dropped.'),
             htmlspecialchars($GLOBALS['table'])
         ),
-        'table' => $GLOBALS['table']
-    )
+        'table'           => $GLOBALS['table'],
+    ]
 );
 echo '<div class="operations_half_width">';
 echo '<fieldset class="caution">';

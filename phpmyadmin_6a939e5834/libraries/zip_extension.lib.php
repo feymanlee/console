@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -21,24 +21,26 @@ if (! defined('PHPMYADMIN')) {
 function PMA_getZipContents($file, $specific_entry = null)
 {
     $error_message = '';
-    $file_data = '';
-    $zip_handle = zip_open($file);
+    $file_data     = '';
+    $zip_handle    = zip_open($file);
     if (!is_resource($zip_handle)) {
         $error_message = __('Error in ZIP archive:')
             . ' ' . PMA_getZipError($zip_handle);
         zip_close($zip_handle);
-        return (array('error' => $error_message, 'data' => $file_data));
+
+        return (['error' => $error_message, 'data' => $file_data]);
     }
 
     $first_zip_entry = zip_read($zip_handle);
     if (false === $first_zip_entry) {
         $error_message = __('No files found inside ZIP archive!');
         zip_close($zip_handle);
-        return (array('error' => $error_message, 'data' => $file_data));
+
+        return (['error' => $error_message, 'data' => $file_data]);
     }
 
     /* Is the the zip really an ODS file? */
-    $read = zip_entry_read($first_zip_entry);
+    $read     = zip_entry_read($first_zip_entry);
     $ods_mime = 'application/vnd.oasis.opendocument.spreadsheet';
     if (!strcmp($ods_mime, $read)) {
         $specific_entry = '/^content\.xml$/';
@@ -55,11 +57,12 @@ function PMA_getZipContents($file, $specific_entry = null)
         );
         zip_entry_close($first_zip_entry);
         zip_close($zip_handle);
-        return (array('error' => $error_message, 'data' => $file_data));
+
+        return (['error' => $error_message, 'data' => $file_data]);
     }
 
     /* Return the correct contents, not just the first entry */
-    for ( ; ; ) {
+    for (; ;) {
         $entry = zip_read($zip_handle);
         if (is_resource($entry)) {
             if (preg_match($specific_entry, zip_entry_name($entry))) {
@@ -90,7 +93,8 @@ function PMA_getZipContents($file, $specific_entry = null)
     }
 
     zip_close($zip_handle);
-    return (array('error' => $error_message, 'data' => $file_data));
+
+    return (['error' => $error_message, 'data' => $file_data]);
 }
 
 /**
@@ -101,7 +105,7 @@ function PMA_getZipContents($file, $specific_entry = null)
  *
  * @return string the file name of the first file that matches the given regexp
  */
-function PMA_findFileFromZipArchive ($file_regexp, $file)
+function PMA_findFileFromZipArchive($file_regexp, $file)
 {
     $zip_handle = zip_open($file);
     if (is_resource($zip_handle)) {
@@ -110,12 +114,14 @@ function PMA_findFileFromZipArchive ($file_regexp, $file)
             if (preg_match($file_regexp, zip_entry_name($entry))) {
                 $file_name = zip_entry_name($entry);
                 zip_close($zip_handle);
+
                 return $file_name;
             }
             $entry = zip_read($zip_handle);
         }
     }
     zip_close($zip_handle);
+
     return false;
 }
 
@@ -128,7 +134,7 @@ function PMA_findFileFromZipArchive ($file_regexp, $file)
  */
 function PMA_getNoOfFilesInZip($file)
 {
-    $count = 0;
+    $count      = 0;
     $zip_handle = zip_open($file);
     if (is_resource($zip_handle)) {
         $entry = zip_read($zip_handle);
@@ -138,6 +144,7 @@ function PMA_getNoOfFilesInZip($file)
         }
     }
     zip_close($zip_handle);
+
     return $count;
 }
 
@@ -155,40 +162,44 @@ function PMA_zipExtract($zip_path, $entry)
     if ($zip->open($zip_path) === true) {
         $result = $zip->getFromName($entry);
         $zip->close();
+
         return $result;
     }
+
     return false;
 }
 
 /**
-  * Gets zip error message
-  *
-  * @param resource $code error code
-  *
-  * @return string error message
+ * Gets zip error message
+ *
+ * @param resource $code error code
+ *
+ * @return string error message
  */
 function PMA_getZipError($code)
 {
     // I don't think this needs translation
     switch ($code) {
-    case ZIPARCHIVE::ER_MULTIDISK:
-        $message = 'Multi-disk zip archives not supported';
-        break;
-    case ZIPARCHIVE::ER_READ:
-        $message = 'Read error';
-        break;
-    case ZIPARCHIVE::ER_CRC:
-        $message = 'CRC error';
-        break;
-    case ZIPARCHIVE::ER_NOZIP:
-        $message = 'Not a zip archive';
-        break;
-    case ZIPARCHIVE::ER_INCONS:
-        $message = 'Zip archive inconsistent';
-        break;
-    default:
-        $message = $code;
+        case ZIPARCHIVE::ER_MULTIDISK:
+            $message = 'Multi-disk zip archives not supported';
+            break;
+        case ZIPARCHIVE::ER_READ:
+            $message = 'Read error';
+            break;
+        case ZIPARCHIVE::ER_CRC:
+            $message = 'CRC error';
+            break;
+        case ZIPARCHIVE::ER_NOZIP:
+            $message = 'Not a zip archive';
+            break;
+        case ZIPARCHIVE::ER_INCONS:
+            $message = 'Zip archive inconsistent';
+            break;
+        default:
+            $message = $code;
     }
+
     return $message;
 }
+
 ?>

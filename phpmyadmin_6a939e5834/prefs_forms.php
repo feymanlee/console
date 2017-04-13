@@ -24,7 +24,7 @@ PMA_userprefsPageInit($cf);
 // handle form processing
 
 $form_param = filter_input(INPUT_GET, 'form');
-if (! isset($forms[$form_param])) {
+if (!isset($forms[$form_param])) {
     $forms_keys = array_keys($forms);
     $form_param = array_shift($forms_keys);
 }
@@ -42,7 +42,7 @@ if (isset($_POST['revert'])) {
     // revert erroneous fields to their default values
     $form_display->fixErrors();
     // redirect
-    $url_params = array('form' => $form_param);
+    $url_params = ['form' => $form_param];
     PMA_sendHeaderLocation(
         $cfg['PmaAbsoluteUri'] . 'prefs_forms.php'
         . PMA_URL_getCommon($url_params, 'text')
@@ -60,7 +60,7 @@ if ($form_display->process(false) && !$form_display->hasErrors()) {
         $hash = ltrim(filter_input(INPUT_POST, 'tab_hash'), '#');
         PMA_userprefsRedirect(
             'prefs_forms.php',
-            array('form' => $form_param),
+            ['form' => $form_param],
             $hash
         );
         exit;
@@ -82,9 +82,9 @@ if ($error) {
 if ($form_display->hasErrors()) {
     // form has errors
     ?>
-    <div class="error config-form">
+  <div class="error config-form">
         <b><?php echo __('Cannot save settings, submitted form contains errors!') ?></b>
-        <?php $form_display->displayErrors(); ?>
+      <?php $form_display->displayErrors(); ?>
     </div>
     <?php
 }

@@ -116,7 +116,7 @@ class PMA_SeleniumTableOperationsTest extends PMA_SeleniumBase
         );
 
         $result = $this->dbQuery("SHOW TABLES");
-        $row = $result->fetch_assoc();
+        $row    = $result->fetch_assoc();
         $this->assertEquals(
             "test_table2",
             $row["Tables_in_" . $this->database_name]
@@ -153,7 +153,7 @@ class PMA_SeleniumTableOperationsTest extends PMA_SeleniumBase
         );
 
         $result = $this->dbQuery("SHOW TABLES");
-        $row = $result->fetch_assoc();
+        $row    = $result->fetch_assoc();
         $this->assertEquals(
             "test_table2",
             $row["Tables_in_" . $this->database_name]
@@ -182,7 +182,7 @@ class PMA_SeleniumTableOperationsTest extends PMA_SeleniumBase
         );
 
         $result = $this->dbQuery("SELECT COUNT(*) as c FROM test_table2");
-        $row = $result->fetch_assoc();
+        $row    = $result->fetch_assoc();
         $this->assertEquals(
             2,
             $row["c"]
@@ -208,7 +208,7 @@ class PMA_SeleniumTableOperationsTest extends PMA_SeleniumBase
         );
 
         $result = $this->dbQuery("SELECT COUNT(*) as c FROM test_table");
-        $row = $result->fetch_assoc();
+        $row    = $result->fetch_assoc();
         $this->assertEquals(
             0,
             $row["c"]

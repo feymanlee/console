@@ -34,7 +34,7 @@ $table_search = new PMA_TableSearch($db, $table, "normal");
 // Request to column min-max value.
 if (isset($_REQUEST['range_search'])) {
     $response = PMA_Response::getInstance();
-    $min_max = $table_search->getColumnMinMax($_REQUEST['column']);
+    $min_max  = $table_search->getColumnMinMax($_REQUEST['column']);
     $response->addJSON('column_data', $min_max);
     exit;
 }
@@ -42,7 +42,7 @@ if (isset($_REQUEST['range_search'])) {
 /**
  * No selection criteria received -> display the selection form
  */
-if (! isset($_POST['columnsToDisplay']) && ! isset($_POST['displayAllColumns'])) {
+if (!isset($_POST['columnsToDisplay']) && !isset($_POST['displayAllColumns'])) {
     // Gets some core libraries
     include_once 'libraries/tbl_common.inc.php';
     //$err_url   = 'tbl_select.php' . $err_url;
@@ -52,11 +52,11 @@ if (! isset($_POST['columnsToDisplay']) && ! isset($_POST['displayAllColumns']))
      */
     include_once 'libraries/tbl_info.inc.php';
 
-    if (! isset($goto)) {
+    if (!isset($goto)) {
         $goto = $GLOBALS['cfg']['DefaultTabTable'];
     }
     // Defines the url to return to in case of error in the next sql statement
-    $err_url   = $goto . PMA_URL_getCommon(array('db' => $db, 'table' => $table));
+    $err_url = $goto . PMA_URL_getCommon(['db' => $db, 'table' => $table]);
     // Displays the table search form
     $response->addHTML($table_search->getSecondaryTabs());
     $response->addHTML($table_search->getSelectionForm($goto));

@@ -40,116 +40,116 @@ if (!defined('TESTSUITE')) {
      * - Some of these parameters are not used, as the code below directly
      *   verifies from the superglobal $_POST or $_REQUEST
      */
-    $post_params = array(
-            'db',
-            'table',
-            'single_table',
-            'export_type',
-            'export_method',
-            'quick_or_custom',
-            'db_select',
-            'table_select',
-            'limit_to',
-            'limit_from',
-            'allrows',
-            'output_format',
-            'filename_template',
-            'maxsize',
-            'remember_template',
-            'charset_of_file',
-            'compression',
-            'knjenc',
-            'xkana',
-            'htmlword_structure_or_data',
-            'htmlword_null',
-            'htmlword_columns',
-            'mediawiki_headers',
-            'mediawiki_structure_or_data',
-            'mediawiki_caption',
-            'pdf_structure_or_data',
-            'odt_structure_or_data',
-            'odt_relation',
-            'odt_comments',
-            'odt_mime',
-            'odt_columns',
-            'odt_null',
-            'codegen_structure_or_data',
-            'codegen_format',
-            'excel_null',
-            'excel_removeCRLF',
-            'excel_columns',
-            'excel_edition',
-            'excel_structure_or_data',
-            'yaml_structure_or_data',
-            'ods_null',
-            'ods_structure_or_data',
-            'ods_columns',
-            'json_structure_or_data',
-            'xml_structure_or_data',
-            'xml_export_events',
-            'xml_export_functions',
-            'xml_export_procedures',
-            'xml_export_tables',
-            'xml_export_triggers',
-            'xml_export_views',
-            'xml_export_contents',
-            'texytext_structure_or_data',
-            'texytext_columns',
-            'texytext_null',
-            'phparray_structure_or_data',
-            'sql_include_comments',
-            'sql_header_comment',
-            'sql_dates',
-            'sql_relation',
-            'sql_mime',
-            'sql_use_transaction',
-            'sql_disable_fk',
-            'sql_compatibility',
-            'sql_structure_or_data',
-            'sql_create_database',
-            'sql_drop_table',
-            'sql_procedure_function',
-            'sql_create_table_statements',
-            'sql_create_table',
-            'sql_create_view',
-            'sql_create_trigger',
-            'sql_if_not_exists',
-            'sql_auto_increment',
-            'sql_backquotes',
-            'sql_truncate',
-            'sql_delayed',
-            'sql_ignore',
-            'sql_type',
-            'sql_insert_syntax',
-            'sql_max_query_size',
-            'sql_hex_for_binary',
-            'sql_utc_time',
-            'sql_drop_database',
-            'sql_views_as_tables',
-            'csv_separator',
-            'csv_enclosed',
-            'csv_escaped',
-            'csv_terminated',
-            'csv_null',
-            'csv_removeCRLF',
-            'csv_columns',
-            'csv_structure_or_data',
-            // csv_replace should have been here but we use it directly from $_POST
-            'latex_caption',
-            'latex_structure_or_data',
-            'latex_structure_caption',
-            'latex_structure_continued_caption',
-            'latex_structure_label',
-            'latex_relation',
-            'latex_comments',
-            'latex_mime',
-            'latex_columns',
-            'latex_data_caption',
-            'latex_data_continued_caption',
-            'latex_data_label',
-            'latex_null',
-            'aliases'
-    );
+    $post_params = [
+        'db',
+        'table',
+        'single_table',
+        'export_type',
+        'export_method',
+        'quick_or_custom',
+        'db_select',
+        'table_select',
+        'limit_to',
+        'limit_from',
+        'allrows',
+        'output_format',
+        'filename_template',
+        'maxsize',
+        'remember_template',
+        'charset_of_file',
+        'compression',
+        'knjenc',
+        'xkana',
+        'htmlword_structure_or_data',
+        'htmlword_null',
+        'htmlword_columns',
+        'mediawiki_headers',
+        'mediawiki_structure_or_data',
+        'mediawiki_caption',
+        'pdf_structure_or_data',
+        'odt_structure_or_data',
+        'odt_relation',
+        'odt_comments',
+        'odt_mime',
+        'odt_columns',
+        'odt_null',
+        'codegen_structure_or_data',
+        'codegen_format',
+        'excel_null',
+        'excel_removeCRLF',
+        'excel_columns',
+        'excel_edition',
+        'excel_structure_or_data',
+        'yaml_structure_or_data',
+        'ods_null',
+        'ods_structure_or_data',
+        'ods_columns',
+        'json_structure_or_data',
+        'xml_structure_or_data',
+        'xml_export_events',
+        'xml_export_functions',
+        'xml_export_procedures',
+        'xml_export_tables',
+        'xml_export_triggers',
+        'xml_export_views',
+        'xml_export_contents',
+        'texytext_structure_or_data',
+        'texytext_columns',
+        'texytext_null',
+        'phparray_structure_or_data',
+        'sql_include_comments',
+        'sql_header_comment',
+        'sql_dates',
+        'sql_relation',
+        'sql_mime',
+        'sql_use_transaction',
+        'sql_disable_fk',
+        'sql_compatibility',
+        'sql_structure_or_data',
+        'sql_create_database',
+        'sql_drop_table',
+        'sql_procedure_function',
+        'sql_create_table_statements',
+        'sql_create_table',
+        'sql_create_view',
+        'sql_create_trigger',
+        'sql_if_not_exists',
+        'sql_auto_increment',
+        'sql_backquotes',
+        'sql_truncate',
+        'sql_delayed',
+        'sql_ignore',
+        'sql_type',
+        'sql_insert_syntax',
+        'sql_max_query_size',
+        'sql_hex_for_binary',
+        'sql_utc_time',
+        'sql_drop_database',
+        'sql_views_as_tables',
+        'csv_separator',
+        'csv_enclosed',
+        'csv_escaped',
+        'csv_terminated',
+        'csv_null',
+        'csv_removeCRLF',
+        'csv_columns',
+        'csv_structure_or_data',
+        // csv_replace should have been here but we use it directly from $_POST
+        'latex_caption',
+        'latex_structure_or_data',
+        'latex_structure_caption',
+        'latex_structure_continued_caption',
+        'latex_structure_label',
+        'latex_relation',
+        'latex_comments',
+        'latex_mime',
+        'latex_columns',
+        'latex_data_caption',
+        'latex_data_continued_caption',
+        'latex_data_label',
+        'latex_null',
+        'aliases',
+    ];
 
     foreach ($post_params as $one_post_param) {
         if (isset($_POST[$one_post_param])) {
@@ -161,24 +161,24 @@ if (!defined('TESTSUITE')) {
     // sanitize this parameter which will be used below in a file inclusion
     $what = PMA_securePath($_POST['what']);
 
-    PMA_Util::checkParameters(array('what', 'export_type'));
+    PMA_Util::checkParameters(['what', 'export_type']);
 
     // export class instance, not array of properties, as before
     $export_plugin = PMA_getPlugin(
         "export",
         $what,
         'libraries/plugins/export/',
-        array(
-            'export_type' => $export_type,
-            'single_table' => isset($single_table)
-        )
+        [
+            'export_type'  => $export_type,
+            'single_table' => isset($single_table),
+        ]
     );
 
     // Backward compatibility
     $type = $what;
 
     // Check export type
-    if (! isset($export_plugin)) {
+    if (!isset($export_plugin)) {
         PMA_fatalError(__('Bad type!'));
     }
 
@@ -190,23 +190,23 @@ if (!defined('TESTSUITE')) {
     /**
      * valid compression methods
      */
-    $compression_methods = array(
+    $compression_methods = [
         'zip',
-        'gzip'
-    );
+        'gzip',
+    ];
 
     /**
      * init and variable checking
      */
-    $compression = false;
-    $onserver = false;
+    $compression    = false;
+    $onserver       = false;
     $save_on_server = false;
-    $buffer_needed = false;
-    $back_button = '';
-    $save_filename = '';
-    $file_handle = '';
-    $err_url = '';
-    $filename = '';
+    $buffer_needed  = false;
+    $back_button    = '';
+    $save_filename  = '';
+    $file_handle    = '';
+    $err_url        = '';
+    $filename       = '';
 
     // Is it a quick or custom export?
     if ($_REQUEST['quick_or_custom'] == 'quick') {
@@ -220,11 +220,11 @@ if (!defined('TESTSUITE')) {
     } else {
         $asfile = true;
         if (in_array($_REQUEST['compression'], $compression_methods)) {
-            $compression = $_REQUEST['compression'];
+            $compression   = $_REQUEST['compression'];
             $buffer_needed = true;
         }
-        if (($quick_export && ! empty($_REQUEST['quick_export_onserver']))
-            || (! $quick_export && ! empty($_REQUEST['onserver']))
+        if (($quick_export && !empty($_REQUEST['quick_export_onserver']))
+            || (!$quick_export && !empty($_REQUEST['onserver']))
         ) {
             if ($quick_export) {
                 $onserver = $_REQUEST['quick_export_onserver'];
@@ -232,7 +232,7 @@ if (!defined('TESTSUITE')) {
                 $onserver = $_REQUEST['onserver'];
             }
             // Will we save dump on server?
-            $save_on_server = ! empty($cfg['SaveDir']) && $onserver;
+            $save_on_server = !empty($cfg['SaveDir']) && $onserver;
         }
     }
 
@@ -242,23 +242,26 @@ if (!defined('TESTSUITE')) {
     if ($export_type == 'server') {
         $err_url = 'server_export.php' . PMA_URL_getCommon();
     } elseif ($export_type == 'database'
-        && /*overload*/mb_strlen($db)
+        && /*overload*/
+        mb_strlen($db)
     ) {
-        $err_url = 'db_export.php' . PMA_URL_getCommon(array('db' => $db));
+        $err_url = 'db_export.php' . PMA_URL_getCommon(['db' => $db]);
         // Check if we have something to export
         if (isset($table_select)) {
             $tables = $table_select;
         } else {
-            $tables = array();
+            $tables = [];
         }
-    } elseif ($export_type == 'table' && /*overload*/mb_strlen($db)
-        && /*overload*/mb_strlen($table)
+    } elseif ($export_type == 'table' && /*overload*/
+        mb_strlen($db)
+        && /*overload*/
+        mb_strlen($table)
     ) {
         $err_url = 'tbl_export.php' . PMA_URL_getCommon(
-            array(
-                'db' => $db, 'table' => $table
-            )
-        );
+                [
+                    'db' => $db, 'table' => $table,
+                ]
+            );
     } else {
         PMA_fatalError(__('Bad parameters!'));
     }
@@ -267,7 +270,7 @@ if (!defined('TESTSUITE')) {
     // export page, Export page aliases are given more
     // preference over SQL Query aliases.
     if (!empty($_REQUEST['aliases'])) {
-        $aliases = PMA_mergeAliases(
+        $aliases                       = PMA_mergeAliases(
             PMA_SQP_getAliasesFromQuery($sql_query, $db),
             $_REQUEST['aliases']
         );
@@ -280,12 +283,12 @@ if (!defined('TESTSUITE')) {
      * Increase time limit for script execution and initializes some variables
      */
     @set_time_limit($cfg['ExecTimeLimit']);
-    if (! empty($cfg['MemoryLimit'])) {
+    if (!empty($cfg['MemoryLimit'])) {
         @ini_set('memory_limit', $cfg['MemoryLimit']);
     }
     register_shutdown_function('PMA_shutdownDuringExport');
     // Start with empty buffer
-    $dump_buffer = '';
+    $dump_buffer     = '';
     $dump_buffer_len = 0;
 
     // We send fake headers to avoid browser timeout when buffering
@@ -335,7 +338,7 @@ if (!defined('TESTSUITE')) {
         );
 
         // problem opening export file on server?
-        if (! empty($message)) {
+        if (!empty($message)) {
             PMA_showExportPage($db, $table, $export_type);
         }
     } else {
@@ -356,7 +359,7 @@ if (!defined('TESTSUITE')) {
             if ($export_type == 'database') {
                 $num_tables = count($tables);
                 if ($num_tables == 0) {
-                    $message = PMA_Message::error(
+                    $message     = PMA_Message::error(
                         __('No tables found in database.')
                     );
                     $active_page = 'db_export.php';
@@ -377,14 +380,14 @@ if (!defined('TESTSUITE')) {
     do {
 
         // Add possibly some comments to export
-        if (! $export_plugin->exportHeader($db)) {
+        if (!$export_plugin->exportHeader($db)) {
             break;
         }
 
         // Will we need relation & co. setup?
         $do_relation = isset($GLOBALS[$what . '_relation']);
         $do_comments = isset($GLOBALS[$what . '_include_comments'])
-            || isset($GLOBALS[$what . '_comments']) ;
+            || isset($GLOBALS[$what . '_comments']);
         $do_mime     = isset($GLOBALS[$what . '_mime']);
         if ($do_relation || $do_comments || $do_mime) {
             $cfgRelation = PMA_getRelationsParam();
@@ -402,7 +405,7 @@ if (!defined('TESTSUITE')) {
          * Builds the dump
          */
         if ($export_type == 'server') {
-            if (! isset($db_select)) {
+            if (!isset($db_select)) {
                 $db_select = '';
             }
             PMA_exportServer(
@@ -419,13 +422,13 @@ if (!defined('TESTSUITE')) {
         } else {
             // We export just one table
             // $allrows comes from the form when "Dump all rows" has been selected
-            if (! isset($allrows)) {
+            if (!isset($allrows)) {
                 $allrows = '';
             }
-            if (! isset($limit_to)) {
+            if (!isset($limit_to)) {
                 $limit_to = 0;
             }
-            if (! isset($limit_from)) {
+            if (!isset($limit_from)) {
                 $limit_from = 0;
             }
             PMA_exportTable(
@@ -434,21 +437,21 @@ if (!defined('TESTSUITE')) {
                 $allrows, $limit_to, $limit_from, $sql_query, $aliases
             );
         }
-        if (! $export_plugin->exportFooter()) {
+        if (!$export_plugin->exportFooter()) {
             break;
         }
 
     } while (false);
     // End of fake loop
 
-    if ($save_on_server && ! empty($message)) {
+    if ($save_on_server && !empty($message)) {
         PMA_showExportPage($db, $table, $export_type);
     }
 
     /**
      * Send the dump as a file...
      */
-    if (! empty($asfile)) {
+    if (!empty($asfile)) {
         // Convert the charset if required.
         if ($output_charset_conversion) {
             $dump_buffer = PMA_convertString(

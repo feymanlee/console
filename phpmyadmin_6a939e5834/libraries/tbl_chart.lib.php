@@ -8,7 +8,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -25,6 +25,7 @@ function PMA_getHtmlForPmaTokenAndUrlQuery($url_query)
         . "pma_token = '" . $_SESSION[' PMA_token '] . "';"
         . "url_query = '" . $url_query . "';"
         . '</script>';
+
     return $htmlString;
 }
 
@@ -77,11 +78,11 @@ function PMA_getHtmlForChartTypeOptions()
 function PMA_getHtmlForStackedOption()
 {
     $html = '<span class="barStacked" style="display:none;">'
-    . '<input type="checkbox" name="barStacked" value="1"'
-    . ' id="checkbox_barStacked" />'
-    . '<label for ="checkbox_barStacked">' . __('Stacked') . '</label>'
-    . '</span>'
-    . '<br /><br />';
+        . '<input type="checkbox" name="barStacked" value="1"'
+        . ' id="checkbox_barStacked" />'
+        . '<label for ="checkbox_barStacked">' . __('Stacked') . '</label>'
+        . '</span>'
+        . '<br /><br />';
 
     return $html;
 }
@@ -97,7 +98,7 @@ function PMA_getHtmlForStackedOption()
 function PMA_getHtmlForChartXAxisOptions($keys, &$xaxis)
 {
     $htmlString = '<div style="float:left; padding-left:40px;">'
-        . '<label for="select_chartXAxis">' .  __('X-Axis:') . '</label>'
+        . '<label for="select_chartXAxis">' . __('X-Axis:') . '</label>'
         . '<select name="chartXAxis" id="select_chartXAxis">';
 
     foreach ($keys as $idx => $key) {
@@ -146,6 +147,7 @@ function PMA_getHtmlForChartSeriesOptions($keys, $fields_meta, $numeric_types,
         }
     }
     $htmlString .= '</select>';
+
     return $htmlString;
 }
 
@@ -161,7 +163,7 @@ function PMA_getHtmlForDateTimeCols($keys, $fields_meta)
 {
     $htmlString = '<input type="hidden" name="dateTimeCols" value="';
 
-    $date_time_types = array('date', 'datetime', 'timestamp');
+    $date_time_types = ['date', 'datetime', 'timestamp'];
     foreach ($keys as $idx => $key) {
         if (in_array($fields_meta[$idx]->type, $date_time_types)) {
             $htmlString .= $idx . " ";
@@ -205,15 +207,15 @@ function PMA_getHtmlForNumericCols($keys, $fields_meta, $numeric_types)
 function PMA_getHtmlForTableAxisLabelOptions($xaxis, $keys)
 {
     $htmlString = '<div style="float:left; padding-left:40px;">'
-    . '<label for="xaxis_label">' . __('X-Axis label:') . '</label>'
-    . '<input style="margin-top:0;" type="text" name="xaxis_label" id="xaxis_label"'
-    . ' value="'
-    . (($xaxis == -1) ? __('X Values') : htmlspecialchars($keys[$xaxis]))
-    . '" /><br />'
-    . '<label for="yaxis_label">' . __('Y-Axis label:') . '</label>'
-    . '<input type="text" name="yaxis_label" id="yaxis_label" value="'
-    . __('Y Values') . '" /><br />'
-    . '</div>';
+        . '<label for="xaxis_label">' . __('X-Axis label:') . '</label>'
+        . '<input style="margin-top:0;" type="text" name="xaxis_label" id="xaxis_label"'
+        . ' value="'
+        . (($xaxis == -1) ? __('X Values') : htmlspecialchars($keys[$xaxis]))
+        . '" /><br />'
+        . '<label for="yaxis_label">' . __('Y-Axis label:') . '</label>'
+        . '<input type="text" name="yaxis_label" id="yaxis_label" value="'
+        . __('Y Values') . '" /><br />'
+        . '</div>';
 
     return $htmlString;
 }
@@ -256,7 +258,7 @@ function PMA_getHtmlForAlternativeDataFormat($keys, $fields_meta, $numeric_types
     $selected = false;
     foreach ($keys as $idx => $key) {
         if (in_array($fields_meta[$idx]->type, $numeric_types)) {
-            if (! $selected && $idx != $xaxis && $idx != $seriesColumn) {
+            if (!$selected && $idx != $xaxis && $idx != $seriesColumn) {
                 $htmlString .= '<option value="' . htmlspecialchars($idx)
                     . '" selected="selected">' . htmlspecialchars($key)
                     . '</option>';
@@ -268,6 +270,7 @@ function PMA_getHtmlForAlternativeDataFormat($keys, $fields_meta, $numeric_types
         }
     }
     $htmlString .= '</select></div>';
+
     return $htmlString;
 }
 
@@ -381,4 +384,5 @@ function PMA_getHtmlForTableChartDisplay($url_query, $url_params, $keys,
 
     return $htmlString;
 }
+
 ?>

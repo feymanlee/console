@@ -25,15 +25,15 @@ class Node_Table_Test extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $GLOBALS['server'] = 0;
+        $GLOBALS['server']                               = 0;
         $GLOBALS['cfg']['NavigationTreeDefaultTabTable'] = 'b_browse';
-        $GLOBALS['cfg']['DefaultTabTable'] = 'sql.php';
-        $GLOBALS['cfg']['MaxNavigationItems'] = 250;
-        $GLOBALS['cfg']['NavigationTreeEnableGrouping'] = true;
-        $GLOBALS['cfg']['NavigationTreeDbSeparator'] = '_';
-        $GLOBALS['cfg']['NavigationTreeTableSeparator'] = '__';
-        $GLOBALS['cfg']['NavigationTreeTableLevel'] = 1;
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
+        $GLOBALS['cfg']['DefaultTabTable']               = 'sql.php';
+        $GLOBALS['cfg']['MaxNavigationItems']            = 250;
+        $GLOBALS['cfg']['NavigationTreeEnableGrouping']  = true;
+        $GLOBALS['cfg']['NavigationTreeDbSeparator']     = '_';
+        $GLOBALS['cfg']['NavigationTreeTableSeparator']  = '__';
+        $GLOBALS['cfg']['NavigationTreeTableLevel']      = 1;
+        $_SESSION['PMA_Theme']                           = PMA_Theme::load('./themes/pmahomme');
     }
 
 
@@ -68,7 +68,7 @@ class Node_Table_Test extends PHPUnit_Framework_TestCase
     public function testIcon($target, $imageName)
     {
         $GLOBALS['cfg']['NavigationTreeDefaultTabTable'] = $target;
-        $node = PMA_NodeFactory::getInstance('Node_Table');
+        $node                                            = PMA_NodeFactory::getInstance('Node_Table');
         $this->assertContains($imageName, $node->icon[0]);
     }
 
@@ -79,13 +79,14 @@ class Node_Table_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestIcon()
     {
-        return array(
-            array('tbl_structure.php', 'b_props'),
-            array('tbl_select.php', 'b_search'),
-            array('tbl_change.php', 'b_insrow'),
-            array('tbl_sql.php', 'b_sql'),
-            array('sql.php', 'b_browse'),
-        );
+        return [
+            ['tbl_structure.php', 'b_props'],
+            ['tbl_select.php', 'b_search'],
+            ['tbl_change.php', 'b_insrow'],
+            ['tbl_sql.php', 'b_sql'],
+            ['sql.php', 'b_browse'],
+        ];
     }
 }
+
 ?>

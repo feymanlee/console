@@ -6,7 +6,7 @@
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -42,23 +42,23 @@ $server_slave_replication = $GLOBALS['dbi']->fetchResult('SHOW SLAVE STATUS');
 /**
  * replication types
  */
-$replication_types = array('master', 'slave');
+$replication_types = ['master', 'slave'];
 
 
 /**
  * define variables for master status
  */
-$master_variables = array(
+$master_variables = [
     'File',
     'Position',
     'Binlog_Do_DB',
     'Binlog_Ignore_DB',
-);
+];
 
 /**
  * Define variables for slave status
  */
-$slave_variables  = array(
+$slave_variables = [
     'Slave_IO_State',
     'Master_Host',
     'Master_User',
@@ -92,7 +92,7 @@ $slave_variables  = array(
     'Master_SSL_Cipher',
     'Master_SSL_Key',
     'Seconds_Behind_Master',
-);
+];
 /**
  * define important variables, which need to be watched for
  * correct running of replication in slave mode
@@ -102,20 +102,20 @@ $slave_variables  = array(
 // TODO change to regexp or something, to allow for negative match.
 // To e.g. highlight 'Last_Error'
 //
-$slave_variables_alerts = array(
-    'Slave_IO_Running' => 'No',
+$slave_variables_alerts = [
+    'Slave_IO_Running'  => 'No',
     'Slave_SQL_Running' => 'No',
-);
-$slave_variables_oks = array(
-    'Slave_IO_Running' => 'Yes',
+];
+$slave_variables_oks    = [
+    'Slave_IO_Running'  => 'Yes',
     'Slave_SQL_Running' => 'Yes',
-);
+];
 
 // check which replication is available and
 // set $server_{master/slave}_status and assign values
 
 // replication info is more easily passed to functions
-$GLOBALS['replication_info'] = array();
+$GLOBALS['replication_info'] = [];
 
 foreach ($replication_types as $type) {
     if (count(${"server_{$type}_replication"}) > 0) {
@@ -183,11 +183,11 @@ function PMA_fillReplicationInfo(
 ) {
     $GLOBALS['replication_info'][$type][$replicationInfoKey]
         = empty($mysqlInfo[$mysqlKey])
-            ? array()
-            : explode(
-                ",",
-                $mysqlInfo[$mysqlKey]
-            );
+        ? []
+        : explode(
+            ",",
+            $mysqlInfo[$mysqlKey]
+        );
 
     return $GLOBALS['replication_info'][$type][$replicationInfoKey];
 }
@@ -224,8 +224,10 @@ function PMA_extractDbOrTable($string, $what = 'db')
  */
 function PMA_Replication_Slave_control($action, $control = null, $link = null)
 {
-    $action = /*overload*/mb_strtoupper($action);
-    $control = /*overload*/mb_strtoupper($control);
+    $action  = /*overload*/
+        mb_strtoupper($action);
+    $control = /*overload*/
+        mb_strtoupper($control);
 
     if ($action != "START" && $action != "STOP") {
         return -1;
@@ -290,15 +292,16 @@ function PMA_Replication_Slave_changeMaster($user, $password, $host, $port,
 function PMA_Replication_connectToMaster(
     $user, $password, $host = null, $port = null, $socket = null
 ) {
-    $server = array();
-    $server["host"] = PMA_sanitizeMySQLHost($host);
-    $server["port"] = $port;
+    $server           = [];
+    $server["host"]   = PMA_sanitizeMySQLHost($host);
+    $server["port"]   = $port;
     $server["socket"] = $socket;
 
     // 5th parameter set to true means that it's an auxiliary connection
     // and we must not go back to login page if it fails
     return PMA_DBI_connect($user, $password, false, $server, true);
 }
+
 /**
  * Fetches position and file of current binary log on master
  *
@@ -309,13 +312,15 @@ function PMA_Replication_connectToMaster(
  */
 function PMA_Replication_Slave_binLogMaster($link = null)
 {
-    $data = $GLOBALS['dbi']->fetchResult('SHOW MASTER STATUS', null, null, $link);
-    $output = array();
+    $data   = $GLOBALS['dbi']->fetchResult('SHOW MASTER STATUS', null, null, $link);
+    $output = [];
 
-    if (! empty($data)) {
-        $output["File"] = $data[0]["File"];
+    if (!empty($data)) {
+        $output["File"]     = $data[0]["File"];
         $output["Position"] = $data[0]["Position"];
     }
+
     return $output;
 }
+
 ?>

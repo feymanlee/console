@@ -6,7 +6,7 @@
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -20,23 +20,23 @@ if (! defined('PHPMYADMIN')) {
 function PMA_getHtmlForSubMenusOnUsersPage($selfUrl)
 {
     $url_params = PMA_URL_getCommon();
-    $items = array(
-        array(
-            'name' => __('Users overview'),
-            'url' => 'server_privileges.php',
-            'specific_params' => '&viewing_mode=server'
-        )
-    );
+    $items      = [
+        [
+            'name'            => __('Users overview'),
+            'url'             => 'server_privileges.php',
+            'specific_params' => '&viewing_mode=server',
+        ],
+    ];
 
     if ($GLOBALS['is_superuser']) {
-        $items[] = array(
-            'name' => __('User groups'),
-            'url' => 'server_user_groups.php',
-            'specific_params' => ''
-        );
+        $items[] = [
+            'name'            => __('User groups'),
+            'url'             => 'server_user_groups.php',
+            'specific_params' => '',
+        ];
     }
 
-    $retval  = '<ul id="topmenu2">';
+    $retval = '<ul id="topmenu2">';
     foreach ($items as $item) {
         $class = '';
         if ($item['url'] === $selfUrl) {
@@ -55,4 +55,5 @@ function PMA_getHtmlForSubMenusOnUsersPage($selfUrl)
 
     return $retval;
 }
+
 ?>

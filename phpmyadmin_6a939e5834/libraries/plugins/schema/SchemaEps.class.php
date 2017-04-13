@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Schema
  * @subpackage EPS
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -71,10 +71,10 @@ class SchemaEps extends SchemaPlugin
         $leaf->setName("orientation");
         $leaf->setText(__('Orientation'));
         $leaf->setValues(
-            array(
+            [
                 'L' => __('Landscape'),
                 'P' => __('Portrait'),
-            )
+            ]
         );
         $specificOptions->addProperty($leaf);
 
@@ -99,4 +99,5 @@ class SchemaEps extends SchemaPlugin
         $export->showOutput();
     }
 }
+
 ?>

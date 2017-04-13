@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage DateFormat
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -50,7 +50,7 @@ abstract class DateFormatTransformationsPlugin extends TransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         // possibly use a global transform and feed it with special options
 
@@ -62,7 +62,8 @@ abstract class DateFormatTransformationsPlugin extends TransformationsPlugin
         if (empty($options[2])) {
             $options[2] = 'local';
         } else {
-            $options[2] = /*overload*/mb_strtolower($options[2]);
+            $options[2] = /*overload*/
+                mb_strtolower($options[2]);
         }
 
         if (empty($options[1])) {
@@ -87,21 +88,29 @@ abstract class DateFormatTransformationsPlugin extends TransformationsPlugin
             // for example TIMESTAMP(8) means YYYYMMDD)
         } else if (preg_match('/^(\d{2}){3,7}$/', $buffer)) {
 
-            if (/*overload*/mb_strlen($buffer) == 14
-                || /*overload*/mb_strlen($buffer) == 8
+            if (/*overload*/
+                mb_strlen($buffer) == 14
+                || /*overload*/
+                mb_strlen($buffer) == 8
             ) {
                 $offset = 4;
             } else {
                 $offset = 2;
             }
 
-            $aDate = array();
-            $aDate['year']   = (int)/*overload*/mb_substr($buffer, 0, $offset);
-            $aDate['month']  = (int)/*overload*/mb_substr($buffer, $offset, 2);
-            $aDate['day']    = (int)/*overload*/mb_substr($buffer, $offset + 2, 2);
-            $aDate['hour']   = (int)/*overload*/mb_substr($buffer, $offset + 4, 2);
-            $aDate['minute'] = (int)/*overload*/mb_substr($buffer, $offset + 6, 2);
-            $aDate['second'] = (int)/*overload*/mb_substr($buffer, $offset + 8, 2);
+            $aDate           = [];
+            $aDate['year']   = (int)/*overload*/
+            mb_substr($buffer, 0, $offset);
+            $aDate['month']  = (int)/*overload*/
+            mb_substr($buffer, $offset, 2);
+            $aDate['day']    = (int)/*overload*/
+            mb_substr($buffer, $offset + 2, 2);
+            $aDate['hour']   = (int)/*overload*/
+            mb_substr($buffer, $offset + 4, 2);
+            $aDate['minute'] = (int)/*overload*/
+            mb_substr($buffer, $offset + 6, 2);
+            $aDate['second'] = (int)/*overload*/
+            mb_substr($buffer, $offset + 8, 2);
 
             if (checkdate($aDate['month'], $aDate['day'], $aDate['year'])) {
                 $timestamp = mktime(
@@ -142,6 +151,7 @@ abstract class DateFormatTransformationsPlugin extends TransformationsPlugin
             } else {
                 $text = 'INVALID DATE TYPE';
             }
+
             return '<dfn onclick="alert(\'' . PMA_jsFormat($source, false) . '\');" title="'
                 . htmlspecialchars($source) . '">' . htmlspecialchars($text) . '</dfn>';
         } else {
@@ -162,4 +172,5 @@ abstract class DateFormatTransformationsPlugin extends TransformationsPlugin
         return "Date Format";
     }
 }
+
 ?>

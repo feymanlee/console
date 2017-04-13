@@ -41,17 +41,17 @@ class PMA_SelectServer_Test extends PHPUnit_Framework_TestCase
         $_REQUEST['pos'] = 3;
 
         //$GLOBALS
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['server'] = 1;
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['RememberSorting'] = true;
-        $GLOBALS['cfg']['SQP'] = array();
+        $GLOBALS['cfg']['MaxRows']                     = 10;
+        $GLOBALS['server']                             = 1;
+        $GLOBALS['cfg']['ServerDefault']               = "server";
+        $GLOBALS['cfg']['RememberSorting']             = true;
+        $GLOBALS['cfg']['SQP']                         = [];
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
-        $GLOBALS['cfg']['ShowSQL'] = true;
-        $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
+        $GLOBALS['cfg']['ShowSQL']                     = true;
+        $GLOBALS['cfg']['TableNavigationLinksMode']    = 'icons';
+        $GLOBALS['cfg']['LimitChars']                  = 100;
 
-        $GLOBALS['table'] = "table";
+        $GLOBALS['table']         = "table";
         $GLOBALS['pmaThemeImage'] = 'image';
 
         //$_SESSION
@@ -67,29 +67,29 @@ class PMA_SelectServer_Test extends PHPUnit_Framework_TestCase
     public function testPMASelectServer()
     {
         $not_only_options = false;
-        $omit_fieldset = false;
+        $omit_fieldset    = false;
 
         $GLOBALS['cfg']['DefaultTabServer'] = "DefaultTabServer";
 
-        $GLOBALS['cfg']['Servers'] = array(
-            '0' => array(
-                'host'=>'host0',
-                'port'=>'port0',
-                'only_db'=>'only_db0',
-                'user'=>'user0',
-                'auth_type'=>'config',
-            ),
-            '1' => array(
-                'host'=>'host1',
-                'port'=>'port1',
-                'only_db'=>'only_db1',
-                'user'=>'user1',
-                'auth_type'=>'config',
-            ),
-        );
+        $GLOBALS['cfg']['Servers'] = [
+            '0' => [
+                'host'      => 'host0',
+                'port'      => 'port0',
+                'only_db'   => 'only_db0',
+                'user'      => 'user0',
+                'auth_type' => 'config',
+            ],
+            '1' => [
+                'host'      => 'host1',
+                'port'      => 'port1',
+                'only_db'   => 'only_db1',
+                'user'      => 'user1',
+                'auth_type' => 'config',
+            ],
+        ];
 
         //$not_only_options=false & $omit_fieldset=false
-        $html = PMA_selectServer($not_only_options, $omit_fieldset);
+        $html   = PMA_selectServer($not_only_options, $omit_fieldset);
         $server = $GLOBALS['cfg']['Servers']['0'];
 
         //server items
@@ -110,8 +110,8 @@ class PMA_SelectServer_Test extends PHPUnit_Framework_TestCase
             $html
         );
 
-        $not_only_options = true;
-        $omit_fieldset = true;
+        $not_only_options                     = true;
+        $omit_fieldset                        = true;
         $GLOBALS['cfg']['DisplayServersList'] = null;
 
         //$not_only_options=true & $omit_fieldset=true

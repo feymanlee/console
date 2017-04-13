@@ -38,17 +38,17 @@ class PMA_safeUnserialize_test extends PHPUnit_Framework_TestCase
      */
     function provideMySQLHosts()
     {
-        return array(
-            array('s:6:"foobar";', 'foobar'),
-            array('foobar', null),
-            array('b:0;', false),
-            array('O:1:"a":1:{s:5:"value";s:3:"100";}', null),
-            array('O:8:"stdClass":1:{s:5:"field";O:8:"stdClass":0:{}}', null),
-            array(serialize(array(1, 2, 3)), array(1, 2, 3)),
-            array(serialize('string""'), 'string""'),
-            array(serialize(array('foo' => 'bar')), array('foo' => 'bar')),
-            array(serialize(array('1', new stdClass(), '2')), null),
-        );
+        return [
+            ['s:6:"foobar";', 'foobar'],
+            ['foobar', null],
+            ['b:0;', false],
+            ['O:1:"a":1:{s:5:"value";s:3:"100";}', null],
+            ['O:8:"stdClass":1:{s:5:"field";O:8:"stdClass":0:{}}', null],
+            [serialize([1, 2, 3]), [1, 2, 3]],
+            [serialize('string""'), 'string""'],
+            [serialize(['foo' => 'bar']), ['foo' => 'bar']],
+            [serialize(['1', new stdClass(), '2']), null],
+        ];
     }
 
 }

@@ -8,7 +8,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -46,6 +46,7 @@ function PMA_getAjaxReturnForGetVal($variable_doc_links)
         );
     }
 }
+
 /**
  * Get Ajax return when $_REQUEST['type'] === 'setval'
  *
@@ -57,8 +58,8 @@ function PMA_getAjaxReturnForSetVal($variable_doc_links)
 {
     $response = PMA_Response::getInstance();
 
-    $value = $_REQUEST['varValue'];
-    $matches = array();
+    $value   = $_REQUEST['varValue'];
+    $matches = [];
 
     if (isset($variable_doc_links[$_REQUEST['varName']][3])
         && $variable_doc_links[$_REQUEST['varName']][3] == 'byte'
@@ -68,27 +69,28 @@ function PMA_getAjaxReturnForSetVal($variable_doc_links)
             $matches
         )
     ) {
-        $exp = array(
-            'kb' => 1,
+        $exp   = [
+            'kb'  => 1,
             'kib' => 1,
-            'mb' => 2,
+            'mb'  => 2,
             'mib' => 2,
-            'gb' => 3,
-            'gib' => 3
-        );
+            'gb'  => 3,
+            'gib' => 3,
+        ];
         $value = floatval($matches[1]) * PMA_Util::pow(
-            1024,
-            $exp[/*overload*/mb_strtolower($matches[3])]
-        );
+                1024,
+                $exp[/*overload*/
+                mb_strtolower($matches[3])]
+            );
     } else {
         $value = PMA_Util::sqlAddSlashes($value);
     }
 
-    if (! is_numeric($value)) {
-        $value="'" . $value . "'";
+    if (!is_numeric($value)) {
+        $value = "'" . $value . "'";
     }
 
-    if (! preg_match("/[^a-zA-Z0-9_]+/", $_REQUEST['varName'])
+    if (!preg_match("/[^a-zA-Z0-9_]+/", $_REQUEST['varName'])
         && $GLOBALS['dbi']->query(
             'SET GLOBAL ' . $_REQUEST['varName'] . ' = ' . $value
         )
@@ -129,7 +131,7 @@ function PMA_formatVariable($name, $value, $variable_doc_links)
 {
     if (is_numeric($value)) {
         if (isset($variable_doc_links[$name][3])
-            && $variable_doc_links[$name][3]=='byte'
+            && $variable_doc_links[$name][3] == 'byte'
         ) {
             return '<abbr title="'
                 . PMA_Util::formatNumber($value, 0) . '">'
@@ -139,6 +141,7 @@ function PMA_formatVariable($name, $value, $variable_doc_links)
             return PMA_Util::formatNumber($value, 0);
         }
     }
+
     return htmlspecialchars($value);
 }
 
@@ -149,8 +152,8 @@ function PMA_formatVariable($name, $value, $variable_doc_links)
  */
 function PMA_getHtmlForLinkTemplates()
 {
-    $url = 'server_variables.php' . PMA_URL_getCommon();
-    $output  = '<a style="display: none;" href="'
+    $url    = 'server_variables.php' . PMA_URL_getCommon();
+    $output = '<a style="display: none;" href="'
         . $url . '" class="ajax saveLink">';
     $output .= PMA_Util::getIcon('b_save.png', __('Save')) . '</a> ';
     $output .= '<a style="display: none;" href="#" class="cancelLink">';
@@ -158,8 +161,9 @@ function PMA_getHtmlForLinkTemplates()
     $output .= PMA_Util::getImage(
         'b_help.png',
         __('Documentation'),
-        array('style' => 'display:none', 'id' => 'docImage')
+        ['style' => 'display:none', 'id' => 'docImage']
     );
+
     return $output;
 }
 
@@ -172,13 +176,13 @@ function PMA_getHtmlForLinkTemplates()
  */
 function PMA_getHtmlForServerVariables($variable_doc_links)
 {
-    $value = ! empty($_REQUEST['filter'])
+    $value  = !empty($_REQUEST['filter'])
         ? htmlspecialchars($_REQUEST['filter'])
         : '';
     $output = '<fieldset id="tableFilter">'
         . '<legend>' . __('Filters') . '</legend>'
         . '<div class="formelement">'
-        . '<label for="filterText">' .  __('Containing the word:') . '</label>'
+        . '<label for="filterText">' . __('Containing the word:') . '</label>'
         . '<input name="filterText" type="text" id="filterText"'
         . ' style="vertical-align: baseline;" value="' . $value . '" />'
         . '</div>'
@@ -187,7 +191,7 @@ function PMA_getHtmlForServerVariables($variable_doc_links)
     $output .= '<table id="serverVariables" class="data filteredData noclick">'
         . '<thead><tr class="var-header var-row">'
         . '<td class="var-action">' . __('Action') . '</td>'
-        . '<td class="var-name">' .  __('Variable') . '</td>'
+        . '<td class="var-name">' . __('Variable') . '</td>'
         . '<td class="var-value">'
         . __('Session value') . ' / ' . __('Global value')
         . '</td>'
@@ -215,21 +219,21 @@ function PMA_getHtmlForServerVariablesItems($variable_doc_links)
      * Sends the queries and buffers the results
      */
     $serverVarsSession
-        = $GLOBALS['dbi']->fetchResult('SHOW SESSION VARIABLES;', 0, 1);
+                = $GLOBALS['dbi']->fetchResult('SHOW SESSION VARIABLES;', 0, 1);
     $serverVars = $GLOBALS['dbi']->fetchResult('SHOW GLOBAL VARIABLES;', 0, 1);
 
-    $output = '<tbody>';
+    $output  = '<tbody>';
     $odd_row = true;
     foreach ($serverVars as $name => $value) {
         $has_session_value = isset($serverVarsSession[$name])
             && $serverVarsSession[$name] != $value;
-        $row_class = ($odd_row ? ' odd' : ' even')
+        $row_class         = ($odd_row ? ' odd' : ' even')
             . ($has_session_value ? ' diffSession' : '');
 
         $output .= '<tr class="var-row' . $row_class . '">';
 
         $output .= '<td class="var-action">';
-        $output .=  '<a href="#" class="editLink">'
+        $output .= '<a href="#" class="editLink">'
             . PMA_Util::getIcon('b_edit.png', __('Edit')) . '</a>';
         $output .= '</td>';
 
@@ -271,7 +275,7 @@ function PMA_getHtmlForServerVariablesItems($variable_doc_links)
                 . '</tr>';
         }
 
-        $odd_row = ! $odd_row;
+        $odd_row = !$odd_row;
     }
     $output .= '</tbody>';
 
@@ -296,1387 +300,1388 @@ function PMA_getHtmlForServerVariablesItems($variable_doc_links)
  */
 function PMA_getArrayForDocumentLinks()
 {
-    $variable_doc_links = array();
-    $variable_doc_links['auto_increment_increment'] = array(
+    $variable_doc_links                                                      = [];
+    $variable_doc_links['auto_increment_increment']                          = [
         'auto_increment_increment',
         'replication-options-master',
-        'sysvar');
-    $variable_doc_links['auto_increment_offset'] = array(
+        'sysvar'];
+    $variable_doc_links['auto_increment_offset']                             = [
         'auto_increment_offset',
         'replication-options-master',
-        'sysvar');
-    $variable_doc_links['autocommit'] = array(
+        'sysvar'];
+    $variable_doc_links['autocommit']                                        = [
         'autocommit',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['automatic_sp_privileges'] = array(
+        'sysvar'];
+    $variable_doc_links['automatic_sp_privileges']                           = [
         'automatic_sp_privileges',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['back_log'] = array(
+        'sysvar'];
+    $variable_doc_links['back_log']                                          = [
         'back_log',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['basedir'] = array(
+        'sysvar'];
+    $variable_doc_links['basedir']                                           = [
         'basedir',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['big_tables'] = array(
+        'option_mysqld'];
+    $variable_doc_links['big_tables']                                        = [
         'big-tables',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['bind_address'] = array(
+        'option_mysqld'];
+    $variable_doc_links['bind_address']                                      = [
         'bind-address',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['binlog_cache_size'] = array(
+        'option_mysqld'];
+    $variable_doc_links['binlog_cache_size']                                 = [
         'binlog_cache_size',
         'replication-options-binary-log',
         'sysvar',
-        'byte');
-    $variable_doc_links['binlog_direct_non_transactional_updates'] = array(
+        'byte'];
+    $variable_doc_links['binlog_direct_non_transactional_updates']           = [
         'binlog_direct_non_transactional_updates',
         'replication-options-binary-log',
-        'sysvar');
-    $variable_doc_links['binlog_format'] = array(
+        'sysvar'];
+    $variable_doc_links['binlog_format']                                     = [
         'binlog-format',
         'server-options',
-        'sysvar');
-    $variable_doc_links['binlog_stmt_cache_size'] = array(
+        'sysvar'];
+    $variable_doc_links['binlog_stmt_cache_size']                            = [
         'binlog_stmt_cache_size',
         'replication-options-binary-log',
         'sysvar',
-        'byte');
-    $variable_doc_links['bulk_insert_buffer_size'] = array(
+        'byte'];
+    $variable_doc_links['bulk_insert_buffer_size']                           = [
         'bulk_insert_buffer_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['character_set_client'] = array(
+        'byte'];
+    $variable_doc_links['character_set_client']                              = [
         'character_set_client',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['character_set_connection'] = array(
+        'sysvar'];
+    $variable_doc_links['character_set_connection']                          = [
         'character_set_connection',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['character_set_database'] = array(
+        'sysvar'];
+    $variable_doc_links['character_set_database']                            = [
         'character_set_database',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['character_set_filesystem'] = array(
+        'sysvar'];
+    $variable_doc_links['character_set_filesystem']                          = [
         'character-set-filesystem',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['character_set_results'] = array(
+        'option_mysqld'];
+    $variable_doc_links['character_set_results']                             = [
         'character_set_results',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['character_set_server'] = array(
+        'sysvar'];
+    $variable_doc_links['character_set_server']                              = [
         'character-set-server',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['character_set_system'] = array(
+        'option_mysqld'];
+    $variable_doc_links['character_set_system']                              = [
         'character_set_system',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['character_sets_dir'] = array(
+        'sysvar'];
+    $variable_doc_links['character_sets_dir']                                = [
         'character-sets-dir',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['collation_connection'] = array(
+        'option_mysqld'];
+    $variable_doc_links['collation_connection']                              = [
         'collation_connection',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['collation_database'] = array(
+        'sysvar'];
+    $variable_doc_links['collation_database']                                = [
         'collation_database',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['collation_server'] = array(
+        'sysvar'];
+    $variable_doc_links['collation_server']                                  = [
         'collation-server',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['completion_type'] = array(
+        'option_mysqld'];
+    $variable_doc_links['completion_type']                                   = [
         'completion_type',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['concurrent_insert'] = array(
+        'sysvar'];
+    $variable_doc_links['concurrent_insert']                                 = [
         'concurrent_insert',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['connect_timeout'] = array(
+        'sysvar'];
+    $variable_doc_links['connect_timeout']                                   = [
         'connect_timeout',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['datadir'] = array(
+        'sysvar'];
+    $variable_doc_links['datadir']                                           = [
         'datadir',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['date_format'] = array(
+        'option_mysqld'];
+    $variable_doc_links['date_format']                                       = [
         'date_format',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['datetime_format'] = array(
+        'sysvar'];
+    $variable_doc_links['datetime_format']                                   = [
         'datetime_format',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['debug'] = array(
+        'sysvar'];
+    $variable_doc_links['debug']                                             = [
         'debug',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['debug_sync'] = array(
+        'option_mysqld'];
+    $variable_doc_links['debug_sync']                                        = [
         'debug_sync',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['default_storage_engine'] = array(
+        'sysvar'];
+    $variable_doc_links['default_storage_engine']                            = [
         'default-storage-engine',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['default_week_format'] = array(
+        'option_mysqld'];
+    $variable_doc_links['default_week_format']                               = [
         'default_week_format',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['delay_key_write'] = array(
+        'sysvar'];
+    $variable_doc_links['delay_key_write']                                   = [
         'delay-key-write',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['delayed_insert_limit'] = array(
+        'option_mysqld'];
+    $variable_doc_links['delayed_insert_limit']                              = [
         'delayed_insert_limit',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['delayed_insert_timeout'] = array(
+        'sysvar'];
+    $variable_doc_links['delayed_insert_timeout']                            = [
         'delayed_insert_timeout',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['delayed_queue_size'] = array(
+        'sysvar'];
+    $variable_doc_links['delayed_queue_size']                                = [
         'delayed_queue_size',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['div_precision_increment'] = array(
+        'sysvar'];
+    $variable_doc_links['div_precision_increment']                           = [
         'div_precision_increment',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['engine_condition_pushdown'] = array(
+        'sysvar'];
+    $variable_doc_links['engine_condition_pushdown']                         = [
         'engine-condition-pushdown',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['error_count'] = array(
+        'option_mysqld'];
+    $variable_doc_links['error_count']                                       = [
         'error_count',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['event_scheduler'] = array(
+        'sysvar'];
+    $variable_doc_links['event_scheduler']                                   = [
         'event-scheduler',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['expire_logs_days'] = array(
+        'option_mysqld'];
+    $variable_doc_links['expire_logs_days']                                  = [
         'expire_logs_days',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['external_user'] = array(
+        'sysvar'];
+    $variable_doc_links['external_user']                                     = [
         'external_user',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['flush'] = array(
+        'sysvar'];
+    $variable_doc_links['flush']                                             = [
         'flush',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['flush_time'] = array(
+        'sysvar'];
+    $variable_doc_links['flush_time']                                        = [
         'flush_time',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['foreign_key_checks'] = array(
+        'sysvar'];
+    $variable_doc_links['foreign_key_checks']                                = [
         'foreign_key_checks',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['ft_boolean_syntax'] = array(
+        'sysvar'];
+    $variable_doc_links['ft_boolean_syntax']                                 = [
         'ft_boolean_syntax',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['ft_max_word_len'] = array(
+        'sysvar'];
+    $variable_doc_links['ft_max_word_len']                                   = [
         'ft_max_word_len',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['ft_min_word_len'] = array(
+        'sysvar'];
+    $variable_doc_links['ft_min_word_len']                                   = [
         'ft_min_word_len',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['ft_query_expansion_limit'] = array(
+        'sysvar'];
+    $variable_doc_links['ft_query_expansion_limit']                          = [
         'ft_query_expansion_limit',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['ft_stopword_file'] = array(
+        'sysvar'];
+    $variable_doc_links['ft_stopword_file']                                  = [
         'ft_stopword_file',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['general_log'] = array(
+        'sysvar'];
+    $variable_doc_links['general_log']                                       = [
         'general-log',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['general_log_file'] = array(
+        'option_mysqld'];
+    $variable_doc_links['general_log_file']                                  = [
         'general_log_file',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['group_concat_max_len'] = array(
+        'sysvar'];
+    $variable_doc_links['group_concat_max_len']                              = [
         'group_concat_max_len',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_compress'] = array(
+        'sysvar'];
+    $variable_doc_links['have_compress']                                     = [
         'have_compress',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_crypt'] = array(
+        'sysvar'];
+    $variable_doc_links['have_crypt']                                        = [
         'have_crypt',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_csv'] = array(
+        'sysvar'];
+    $variable_doc_links['have_csv']                                          = [
         'have_csv',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_dynamic_loading'] = array(
+        'sysvar'];
+    $variable_doc_links['have_dynamic_loading']                              = [
         'have_dynamic_loading',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_geometry'] = array(
+        'sysvar'];
+    $variable_doc_links['have_geometry']                                     = [
         'have_geometry',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_innodb'] = array(
+        'sysvar'];
+    $variable_doc_links['have_innodb']                                       = [
         'have_innodb',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_openssl'] = array(
+        'sysvar'];
+    $variable_doc_links['have_openssl']                                      = [
         'have_openssl',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_partitioning'] = array(
+        'sysvar'];
+    $variable_doc_links['have_partitioning']                                 = [
         'have_partitioning',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_profiling'] = array(
+        'sysvar'];
+    $variable_doc_links['have_profiling']                                    = [
         'have_profiling',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_query_cache'] = array(
+        'sysvar'];
+    $variable_doc_links['have_query_cache']                                  = [
         'have_query_cache',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_rtree_keys'] = array(
+        'sysvar'];
+    $variable_doc_links['have_rtree_keys']                                   = [
         'have_rtree_keys',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_ssl'] = array(
+        'sysvar'];
+    $variable_doc_links['have_ssl']                                          = [
         'have_ssl',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['have_symlink'] = array(
+        'sysvar'];
+    $variable_doc_links['have_symlink']                                      = [
         'have_symlink',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['hostname'] = array(
+        'sysvar'];
+    $variable_doc_links['hostname']                                          = [
         'hostname',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['identity'] = array(
+        'sysvar'];
+    $variable_doc_links['identity']                                          = [
         'identity',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['ignore_builtin_innodb'] = array(
+        'sysvar'];
+    $variable_doc_links['ignore_builtin_innodb']                             = [
         'ignore-builtin-innodb',
         'innodb-parameters',
-        'option_mysqld');
-    $variable_doc_links['init_connect'] = array(
+        'option_mysqld'];
+    $variable_doc_links['init_connect']                                      = [
         'init_connect',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['init_file'] = array(
+        'sysvar'];
+    $variable_doc_links['init_file']                                         = [
         'init-file',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['init_slave'] = array(
+        'option_mysqld'];
+    $variable_doc_links['init_slave']                                        = [
         'init_slave',
         'replication-options-slave',
-        'sysvar');
-    $variable_doc_links['innodb_adaptive_flushing'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_adaptive_flushing']                          = [
         'innodb_adaptive_flushing',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_adaptive_hash_index'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_adaptive_hash_index']                        = [
         'innodb_adaptive_hash_index',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_additional_mem_pool_size'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_additional_mem_pool_size']                   = [
         'innodb_additional_mem_pool_size',
         'innodb-parameters',
         'sysvar',
-        'byte');
-    $variable_doc_links['innodb_autoextend_increment'] = array(
+        'byte'];
+    $variable_doc_links['innodb_autoextend_increment']                       = [
         'innodb_autoextend_increment',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_autoinc_lock_mode'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_autoinc_lock_mode']                          = [
         'innodb_autoinc_lock_mode',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_buffer_pool_instances'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_buffer_pool_instances']                      = [
         'innodb_buffer_pool_instances',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_buffer_pool_size'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_buffer_pool_size']                           = [
         'innodb_buffer_pool_size',
         'innodb-parameters',
         'sysvar',
-        'byte');
-    $variable_doc_links['innodb_change_buffering'] = array(
+        'byte'];
+    $variable_doc_links['innodb_change_buffering']                           = [
         'innodb_change_buffering',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_checksums'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_checksums']                                  = [
         'innodb_checksums',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_commit_concurrency'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_commit_concurrency']                         = [
         'innodb_commit_concurrency',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_concurrency_tickets'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_concurrency_tickets']                        = [
         'innodb_concurrency_tickets',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_data_file_path'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_data_file_path']                             = [
         'innodb_data_file_path',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_data_home_dir'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_data_home_dir']                              = [
         'innodb_data_home_dir',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_doublewrite'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_doublewrite']                                = [
         'innodb_doublewrite',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_fast_shutdown'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_fast_shutdown']                              = [
         'innodb_fast_shutdown',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_file_format'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_file_format']                                = [
         'innodb_file_format',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_file_format_check'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_file_format_check']                          = [
         'innodb_file_format_check',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_file_format_max'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_file_format_max']                            = [
         'innodb_file_format_max',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_file_per_table'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_file_per_table']                             = [
         'innodb_file_per_table',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_flush_log_at_trx_commit'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_flush_log_at_trx_commit']                    = [
         'innodb_flush_log_at_trx_commit',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_flush_method'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_flush_method']                               = [
         'innodb_flush_method',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_force_recovery'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_force_recovery']                             = [
         'innodb_force_recovery',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_io_capacity'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_io_capacity']                                = [
         'innodb_io_capacity',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_lock_wait_timeout'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_lock_wait_timeout']                          = [
         'innodb_lock_wait_timeout',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_locks_unsafe_for_binlog'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_locks_unsafe_for_binlog']                    = [
         'innodb_locks_unsafe_for_binlog',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_log_buffer_size'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_log_buffer_size']                            = [
         'innodb_log_buffer_size',
         'innodb-parameters',
         'sysvar',
-        'byte');
-    $variable_doc_links['innodb_log_file_size'] = array(
+        'byte'];
+    $variable_doc_links['innodb_log_file_size']                              = [
         'innodb_log_file_size',
         'innodb-parameters',
         'sysvar',
-        'byte');
-    $variable_doc_links['innodb_log_files_in_group'] = array(
+        'byte'];
+    $variable_doc_links['innodb_log_files_in_group']                         = [
         'innodb_log_files_in_group',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_log_group_home_dir'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_log_group_home_dir']                         = [
         'innodb_log_group_home_dir',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_max_dirty_pages_pct'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_max_dirty_pages_pct']                        = [
         'innodb_max_dirty_pages_pct',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_max_purge_lag'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_max_purge_lag']                              = [
         'innodb_max_purge_lag',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_mirrored_log_groups'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_mirrored_log_groups']                        = [
         'innodb_mirrored_log_groups',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_old_blocks_pct'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_old_blocks_pct']                             = [
         'innodb_old_blocks_pct',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_old_blocks_time'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_old_blocks_time']                            = [
         'innodb_old_blocks_time',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_open_files'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_open_files']                                 = [
         'innodb_open_files',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_purge_batch_size'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_purge_batch_size']                           = [
         'innodb_purge_batch_size',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_purge_threads'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_purge_threads']                              = [
         'innodb_purge_threads',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_read_ahead_threshold'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_read_ahead_threshold']                       = [
         'innodb_read_ahead_threshold',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_read_io_threads'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_read_io_threads']                            = [
         'innodb_read_io_threads',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_replication_delay'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_replication_delay']                          = [
         'innodb_replication_delay',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_rollback_on_timeout'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_rollback_on_timeout']                        = [
         'innodb_rollback_on_timeout',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_spin_wait_delay'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_spin_wait_delay']                            = [
         'innodb_spin_wait_delay',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_stats_on_metadata'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_stats_on_metadata']                          = [
         'innodb_stats_on_metadata',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_stats_sample_pages'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_stats_sample_pages']                         = [
         'innodb_stats_sample_pages',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_strict_mode'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_strict_mode']                                = [
         'innodb_strict_mode',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_support_xa'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_support_xa']                                 = [
         'innodb_support_xa',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_sync_spin_loops'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_sync_spin_loops']                            = [
         'innodb_sync_spin_loops',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_table_locks'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_table_locks']                                = [
         'innodb_table_locks',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_thread_concurrency'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_thread_concurrency']                         = [
         'innodb_thread_concurrency',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_thread_sleep_delay'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_thread_sleep_delay']                         = [
         'innodb_thread_sleep_delay',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_use_native_aio'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_use_native_aio']                             = [
         'innodb_use_native_aio',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_use_sys_malloc'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_use_sys_malloc']                             = [
         'innodb_use_sys_malloc',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_version'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_version']                                    = [
         'innodb_version',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['innodb_write_io_threads'] = array(
+        'sysvar'];
+    $variable_doc_links['innodb_write_io_threads']                           = [
         'innodb_write_io_threads',
         'innodb-parameters',
-        'sysvar');
-    $variable_doc_links['insert_id'] = array(
+        'sysvar'];
+    $variable_doc_links['insert_id']                                         = [
         'insert_id',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['interactive_timeout'] = array(
+        'sysvar'];
+    $variable_doc_links['interactive_timeout']                               = [
         'interactive_timeout',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['join_buffer_size'] = array(
+        'sysvar'];
+    $variable_doc_links['join_buffer_size']                                  = [
         'join_buffer_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['keep_files_on_create'] = array(
+        'byte'];
+    $variable_doc_links['keep_files_on_create']                              = [
         'keep_files_on_create',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['key_buffer_size'] = array(
+        'sysvar'];
+    $variable_doc_links['key_buffer_size']                                   = [
         'key_buffer_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['key_cache_age_threshold'] = array(
+        'byte'];
+    $variable_doc_links['key_cache_age_threshold']                           = [
         'key_cache_age_threshold',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['key_cache_block_size'] = array(
+        'sysvar'];
+    $variable_doc_links['key_cache_block_size']                              = [
         'key_cache_block_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['key_cache_division_limit'] = array(
+        'byte'];
+    $variable_doc_links['key_cache_division_limit']                          = [
         'key_cache_division_limit',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['language'] = array(
+        'sysvar'];
+    $variable_doc_links['language']                                          = [
         'language',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['large_files_support'] = array(
+        'option_mysqld'];
+    $variable_doc_links['large_files_support']                               = [
         'large_files_support',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['large_page_size'] = array(
+        'sysvar'];
+    $variable_doc_links['large_page_size']                                   = [
         'large_page_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['large_pages'] = array(
+        'byte'];
+    $variable_doc_links['large_pages']                                       = [
         'large-pages',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['last_insert_id'] = array(
+        'option_mysqld'];
+    $variable_doc_links['last_insert_id']                                    = [
         'last_insert_id',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['lc_messages'] = array(
+        'sysvar'];
+    $variable_doc_links['lc_messages']                                       = [
         'lc-messages',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['lc_messages_dir'] = array(
+        'option_mysqld'];
+    $variable_doc_links['lc_messages_dir']                                   = [
         'lc-messages-dir',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['lc_time_names'] = array(
+        'option_mysqld'];
+    $variable_doc_links['lc_time_names']                                     = [
         'lc_time_names',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['license'] = array(
+        'sysvar'];
+    $variable_doc_links['license']                                           = [
         'license',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['local_infile'] = array(
+        'sysvar'];
+    $variable_doc_links['local_infile']                                      = [
         'local_infile',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['lock_wait_timeout'] = array(
+        'sysvar'];
+    $variable_doc_links['lock_wait_timeout']                                 = [
         'lock_wait_timeout',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['locked_in_memory'] = array(
+        'sysvar'];
+    $variable_doc_links['locked_in_memory']                                  = [
         'locked_in_memory',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['log'] = array(
+        'sysvar'];
+    $variable_doc_links['log']                                               = [
         'log',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['log_bin'] = array(
+        'option_mysqld'];
+    $variable_doc_links['log_bin']                                           = [
         'log_bin',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['log-bin'] = array(
+        'sysvar'];
+    $variable_doc_links['log-bin']                                           = [
         'log-bin',
         'replication-options-binary-log',
-        'option_mysqld');
-    $variable_doc_links['log_bin_trust_function_creators'] = array(
+        'option_mysqld'];
+    $variable_doc_links['log_bin_trust_function_creators']                   = [
         'log-bin-trust-function-creators',
         'replication-options-binary-log',
-        'option_mysqld');
-    $variable_doc_links['log_error'] = array(
+        'option_mysqld'];
+    $variable_doc_links['log_error']                                         = [
         'log-error',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['log_output'] = array(
+        'option_mysqld'];
+    $variable_doc_links['log_output']                                        = [
         'log-output',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['log_queries_not_using_indexes'] = array(
+        'option_mysqld'];
+    $variable_doc_links['log_queries_not_using_indexes']                     = [
         'log-queries-not-using-indexes',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['log_slave_updates'] = array(
+        'option_mysqld'];
+    $variable_doc_links['log_slave_updates']                                 = [
         'log-slave-updates',
         'replication-options-slave',
-        'option_mysqld');
-    $variable_doc_links['log_slow_queries'] = array(
+        'option_mysqld'];
+    $variable_doc_links['log_slow_queries']                                  = [
         'log-slow-queries',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['log_warnings'] = array(
+        'option_mysqld'];
+    $variable_doc_links['log_warnings']                                      = [
         'log-warnings',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['long_query_time'] = array(
+        'option_mysqld'];
+    $variable_doc_links['long_query_time']                                   = [
         'long_query_time',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['low_priority_updates'] = array(
+        'sysvar'];
+    $variable_doc_links['low_priority_updates']                              = [
         'low-priority-updates',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['lower_case_file_system'] = array(
+        'option_mysqld'];
+    $variable_doc_links['lower_case_file_system']                            = [
         'lower_case_file_system',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['lower_case_table_names'] = array(
+        'sysvar'];
+    $variable_doc_links['lower_case_table_names']                            = [
         'lower_case_table_names',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['master-bind'] = array(
+        'sysvar'];
+    $variable_doc_links['master-bind']                                       = [
         '',
         'replication-options',
-        0);
-    $variable_doc_links['max_allowed_packet'] = array(
+        0];
+    $variable_doc_links['max_allowed_packet']                                = [
         'max_allowed_packet',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_binlog_cache_size'] = array(
+        'sysvar'];
+    $variable_doc_links['max_binlog_cache_size']                             = [
         'max_binlog_cache_size',
         'replication-options-binary-log',
         'sysvar',
-        'byte');
-    $variable_doc_links['max_binlog_size'] = array(
+        'byte'];
+    $variable_doc_links['max_binlog_size']                                   = [
         'max_binlog_size',
         'replication-options-binary-log',
         'sysvar',
-        'byte');
-    $variable_doc_links['max_binlog_stmt_cache_size'] = array(
+        'byte'];
+    $variable_doc_links['max_binlog_stmt_cache_size']                        = [
         'max_binlog_stmt_cache_size',
         'replication-options-binary-log',
         'sysvar',
-        'byte');
-    $variable_doc_links['max_connect_errors'] = array(
+        'byte'];
+    $variable_doc_links['max_connect_errors']                                = [
         'max_connect_errors',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_connections'] = array(
+        'sysvar'];
+    $variable_doc_links['max_connections']                                   = [
         'max_connections',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_delayed_threads'] = array(
+        'sysvar'];
+    $variable_doc_links['max_delayed_threads']                               = [
         'max_delayed_threads',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_error_count'] = array(
+        'sysvar'];
+    $variable_doc_links['max_error_count']                                   = [
         'max_error_count',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_heap_table_size'] = array(
+        'sysvar'];
+    $variable_doc_links['max_heap_table_size']                               = [
         'max_heap_table_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['max_insert_delayed_threads'] = array(
+        'byte'];
+    $variable_doc_links['max_insert_delayed_threads']                        = [
         'max_insert_delayed_threads',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_join_size'] = array(
+        'sysvar'];
+    $variable_doc_links['max_join_size']                                     = [
         'max_join_size',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_length_for_sort_data'] = array(
+        'sysvar'];
+    $variable_doc_links['max_length_for_sort_data']                          = [
         'max_length_for_sort_data',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_prepared_stmt_count'] = array(
+        'sysvar'];
+    $variable_doc_links['max_prepared_stmt_count']                           = [
         'max_prepared_stmt_count',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_relay_log_size'] = array(
+        'sysvar'];
+    $variable_doc_links['max_relay_log_size']                                = [
         'max_relay_log_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['max_seeks_for_key'] = array(
+        'byte'];
+    $variable_doc_links['max_seeks_for_key']                                 = [
         'max_seeks_for_key',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_sort_length'] = array(
+        'sysvar'];
+    $variable_doc_links['max_sort_length']                                   = [
         'max_sort_length',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_sp_recursion_depth'] = array(
+        'sysvar'];
+    $variable_doc_links['max_sp_recursion_depth']                            = [
         'max_sp_recursion_depth',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_tmp_tables'] = array(
+        'sysvar'];
+    $variable_doc_links['max_tmp_tables']                                    = [
         'max_tmp_tables',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_user_connections'] = array(
+        'sysvar'];
+    $variable_doc_links['max_user_connections']                              = [
         'max_user_connections',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['max_write_lock_count'] = array(
+        'sysvar'];
+    $variable_doc_links['max_write_lock_count']                              = [
         'max_write_lock_count',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['memlock'] = array(
+        'sysvar'];
+    $variable_doc_links['memlock']                                           = [
         'memlock',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['min_examined_row_limit'] = array(
+        'option_mysqld'];
+    $variable_doc_links['min_examined_row_limit']                            = [
         'min-examined-row-limit',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['myisam_data_pointer_size'] = array(
+        'option_mysqld'];
+    $variable_doc_links['myisam_data_pointer_size']                          = [
         'myisam_data_pointer_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['myisam_max_sort_file_size'] = array(
+        'byte'];
+    $variable_doc_links['myisam_max_sort_file_size']                         = [
         'myisam_max_sort_file_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['myisam_mmap_size'] = array(
+        'byte'];
+    $variable_doc_links['myisam_mmap_size']                                  = [
         'myisam_mmap_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['myisam_recover_options'] = array(
+        'byte'];
+    $variable_doc_links['myisam_recover_options']                            = [
         'myisam_recover_options',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['myisam_repair_threads'] = array(
+        'sysvar'];
+    $variable_doc_links['myisam_repair_threads']                             = [
         'myisam_repair_threads',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['myisam_sort_buffer_size'] = array(
+        'sysvar'];
+    $variable_doc_links['myisam_sort_buffer_size']                           = [
         'myisam_sort_buffer_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['myisam_stats_method'] = array(
+        'byte'];
+    $variable_doc_links['myisam_stats_method']                               = [
         'myisam_stats_method',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['myisam_use_mmap'] = array(
+        'sysvar'];
+    $variable_doc_links['myisam_use_mmap']                                   = [
         'myisam_use_mmap',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['named_pipe'] = array(
+        'sysvar'];
+    $variable_doc_links['named_pipe']                                        = [
         'named_pipe',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['net_buffer_length'] = array(
+        'sysvar'];
+    $variable_doc_links['net_buffer_length']                                 = [
         'net_buffer_length',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['net_read_timeout'] = array(
+        'sysvar'];
+    $variable_doc_links['net_read_timeout']                                  = [
         'net_read_timeout',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['net_retry_count'] = array(
+        'sysvar'];
+    $variable_doc_links['net_retry_count']                                   = [
         'net_retry_count',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['net_write_timeout'] = array(
+        'sysvar'];
+    $variable_doc_links['net_write_timeout']                                 = [
         'net_write_timeout',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['new'] = array(
+        'sysvar'];
+    $variable_doc_links['new']                                               = [
         'new',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['old'] = array(
+        'sysvar'];
+    $variable_doc_links['old']                                               = [
         'old',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['old_alter_table'] = array(
+        'sysvar'];
+    $variable_doc_links['old_alter_table']                                   = [
         'old-alter-table',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['old_passwords'] = array(
+        'option_mysqld'];
+    $variable_doc_links['old_passwords']                                     = [
         'old-passwords',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['open_files_limit'] = array(
+        'option_mysqld'];
+    $variable_doc_links['open_files_limit']                                  = [
         'open-files-limit',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['optimizer_prune_level'] = array(
+        'option_mysqld'];
+    $variable_doc_links['optimizer_prune_level']                             = [
         'optimizer_prune_level',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['optimizer_search_depth'] = array(
+        'sysvar'];
+    $variable_doc_links['optimizer_search_depth']                            = [
         'optimizer_search_depth',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['optimizer_switch'] = array(
+        'sysvar'];
+    $variable_doc_links['optimizer_switch']                                  = [
         'optimizer_switch',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['partition'] = array(
+        'sysvar'];
+    $variable_doc_links['partition']                                         = [
         'partition',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['performance_schema'] = array(
+        'option_mysqld'];
+    $variable_doc_links['performance_schema']                                = [
         'performance_schema',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_events_waits_history_long_size'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_events_waits_history_long_size'] = [
         'performance_schema_events_waits_history_long_size',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_events_waits_history_size'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_events_waits_history_size']      = [
         'performance_schema_events_waits_history_size',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_cond_classes'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_cond_classes']               = [
         'performance_schema_max_cond_classes',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_cond_instances'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_cond_instances']             = [
         'performance_schema_max_cond_instances',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_file_classes'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_file_classes']               = [
         'performance_schema_max_file_classes',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_file_handles'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_file_handles']               = [
         'performance_schema_max_file_handles',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_file_instances'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_file_instances']             = [
         'performance_schema_max_file_instances',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_mutex_classes'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_mutex_classes']              = [
         'performance_schema_max_mutex_classes',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_mutex_instances'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_mutex_instances']            = [
         'performance_schema_max_mutex_instances',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_rwlock_classes'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_rwlock_classes']             = [
         'performance_schema_max_rwlock_classes',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_rwlock_instances'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_rwlock_instances']           = [
         'performance_schema_max_rwlock_instances',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_table_handles'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_table_handles']              = [
         'performance_schema_max_table_handles',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_table_instances'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_table_instances']            = [
         'performance_schema_max_table_instances',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_thread_classes'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_thread_classes']             = [
         'performance_schema_max_thread_classes',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['performance_schema_max_thread_instances'] = array(
+        'sysvar'];
+    $variable_doc_links['performance_schema_max_thread_instances']           = [
         'performance_schema_max_thread_instances',
         'performance-schema-system-variables',
-        'sysvar');
-    $variable_doc_links['pid_file'] = array(
+        'sysvar'];
+    $variable_doc_links['pid_file']                                          = [
         'pid-file',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['plugin_dir'] = array(
+        'option_mysqld'];
+    $variable_doc_links['plugin_dir']                                        = [
         'plugin_dir',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['port'] = array(
+        'sysvar'];
+    $variable_doc_links['port']                                              = [
         'port',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['preload_buffer_size'] = array(
+        'option_mysqld'];
+    $variable_doc_links['preload_buffer_size']                               = [
         'preload_buffer_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['profiling'] = array(
+        'byte'];
+    $variable_doc_links['profiling']                                         = [
         'profiling',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['profiling_history_size'] = array(
+        'sysvar'];
+    $variable_doc_links['profiling_history_size']                            = [
         'profiling_history_size',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['protocol_version'] = array(
+        'sysvar'];
+    $variable_doc_links['protocol_version']                                  = [
         'protocol_version',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['proxy_user'] = array(
+        'sysvar'];
+    $variable_doc_links['proxy_user']                                        = [
         'proxy_user',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['pseudo_thread_id'] = array(
+        'sysvar'];
+    $variable_doc_links['pseudo_thread_id']                                  = [
         'pseudo_thread_id',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['query_alloc_block_size'] = array(
+        'sysvar'];
+    $variable_doc_links['query_alloc_block_size']                            = [
         'query_alloc_block_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['query_cache_limit'] = array(
+        'byte'];
+    $variable_doc_links['query_cache_limit']                                 = [
         'query_cache_limit',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['query_cache_min_res_unit'] = array(
+        'byte'];
+    $variable_doc_links['query_cache_min_res_unit']                          = [
         'query_cache_min_res_unit',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['query_cache_size'] = array(
+        'sysvar'];
+    $variable_doc_links['query_cache_size']                                  = [
         'query_cache_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['query_cache_type'] = array(
+        'byte'];
+    $variable_doc_links['query_cache_type']                                  = [
         'query_cache_type',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['query_cache_wlock_invalidate'] = array(
+        'sysvar'];
+    $variable_doc_links['query_cache_wlock_invalidate']                      = [
         'query_cache_wlock_invalidate',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['query_prealloc_size'] = array(
+        'sysvar'];
+    $variable_doc_links['query_prealloc_size']                               = [
         'query_prealloc_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['rand_seed1'] = array(
+        'byte'];
+    $variable_doc_links['rand_seed1']                                        = [
         'rand_seed1',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['rand_seed2'] = array(
+        'sysvar'];
+    $variable_doc_links['rand_seed2']                                        = [
         'rand_seed2',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['range_alloc_block_size'] = array(
+        'sysvar'];
+    $variable_doc_links['range_alloc_block_size']                            = [
         'range_alloc_block_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['read_buffer_size'] = array(
+        'byte'];
+    $variable_doc_links['read_buffer_size']                                  = [
         'read_buffer_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['read_only'] = array(
+        'byte'];
+    $variable_doc_links['read_only']                                         = [
         'read_only',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['read_rnd_buffer_size'] = array(
+        'sysvar'];
+    $variable_doc_links['read_rnd_buffer_size']                              = [
         'read_rnd_buffer_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['relay-log-index'] = array(
+        'byte'];
+    $variable_doc_links['relay-log-index']                                   = [
         'relay-log-index',
         'replication-options-slave',
-        'option_mysqld');
-    $variable_doc_links['relay_log_index'] = array(
+        'option_mysqld'];
+    $variable_doc_links['relay_log_index']                                   = [
         'relay_log_index',
         'replication-options-slave',
-        'sysvar');
-    $variable_doc_links['relay_log_info_file'] = array(
+        'sysvar'];
+    $variable_doc_links['relay_log_info_file']                               = [
         'relay_log_info_file',
         'replication-options-slave',
-        'sysvar');
-    $variable_doc_links['relay_log_purge'] = array(
+        'sysvar'];
+    $variable_doc_links['relay_log_purge']                                   = [
         'relay_log_purge',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['relay_log_recovery'] = array(
+        'sysvar'];
+    $variable_doc_links['relay_log_recovery']                                = [
         'relay_log_recovery',
         'replication-options-slave',
-        'sysvar');
-    $variable_doc_links['relay_log_space_limit'] = array(
+        'sysvar'];
+    $variable_doc_links['relay_log_space_limit']                             = [
         'relay_log_space_limit',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['report_host'] = array(
+        'sysvar'];
+    $variable_doc_links['report_host']                                       = [
         'report-host',
         'replication-options-slave',
-        'option_mysqld');
-    $variable_doc_links['report_password'] = array(
+        'option_mysqld'];
+    $variable_doc_links['report_password']                                   = [
         'report-password',
         'replication-options-slave',
-        'option_mysqld');
-    $variable_doc_links['report_port'] = array(
+        'option_mysqld'];
+    $variable_doc_links['report_port']                                       = [
         'report-port',
         'replication-options-slave',
-        'option_mysqld');
-    $variable_doc_links['report_user'] = array(
+        'option_mysqld'];
+    $variable_doc_links['report_user']                                       = [
         'report-user',
         'replication-options-slave',
-        'option_mysqld');
-    $variable_doc_links['rpl_recovery_rank'] = array(
+        'option_mysqld'];
+    $variable_doc_links['rpl_recovery_rank']                                 = [
         'rpl_recovery_rank',
         'replication-options-slave',
-        'option_mysqld');
-    $variable_doc_links['rpl_semi_sync_master_enabled'] = array(
+        'option_mysqld'];
+    $variable_doc_links['rpl_semi_sync_master_enabled']                      = [
         'rpl_semi_sync_master_enabled',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['rpl_semi_sync_master_timeout'] = array(
+        'sysvar'];
+    $variable_doc_links['rpl_semi_sync_master_timeout']                      = [
         'rpl_semi_sync_master_timeout',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['rpl_semi_sync_master_trace_level'] = array(
+        'sysvar'];
+    $variable_doc_links['rpl_semi_sync_master_trace_level']                  = [
         'rpl_semi_sync_master_trace_level',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['rpl_semi_sync_master_wait_no_slave'] = array(
+        'sysvar'];
+    $variable_doc_links['rpl_semi_sync_master_wait_no_slave']                = [
         'rpl_semi_sync_master_wait_no_slave',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['rpl_semi_sync_slave_enabled'] = array(
+        'sysvar'];
+    $variable_doc_links['rpl_semi_sync_slave_enabled']                       = [
         'rpl_semi_sync_slave_enabled',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['rpl_semi_sync_slave_trace_level'] = array(
+        'sysvar'];
+    $variable_doc_links['rpl_semi_sync_slave_trace_level']                   = [
         'rpl_semi_sync_slave_trace_level',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['safe_show_database'] = array(
+        'sysvar'];
+    $variable_doc_links['safe_show_database']                                = [
         'safe-show-database',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['secure_auth'] = array(
+        'option_mysqld'];
+    $variable_doc_links['secure_auth']                                       = [
         'secure-auth',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['secure_file_priv'] = array(
+        'option_mysqld'];
+    $variable_doc_links['secure_file_priv']                                  = [
         'secure-file-priv',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['server_id'] = array(
+        'option_mysqld'];
+    $variable_doc_links['server_id']                                         = [
         'server-id',
         'replication-options',
-        'option_mysqld');
-    $variable_doc_links['shared_memory'] = array(
+        'option_mysqld'];
+    $variable_doc_links['shared_memory']                                     = [
         'shared_memory',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['shared_memory_base_name'] = array(
+        'sysvar'];
+    $variable_doc_links['shared_memory_base_name']                           = [
         'shared_memory_base_name',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['skip_external_locking'] = array(
+        'sysvar'];
+    $variable_doc_links['skip_external_locking']                             = [
         'skip-external-locking',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['skip_name_resolve'] = array(
+        'option_mysqld'];
+    $variable_doc_links['skip_name_resolve']                                 = [
         'skip-name-resolve',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['skip_networking'] = array(
+        'option_mysqld'];
+    $variable_doc_links['skip_networking']                                   = [
         'skip-networking',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['skip_show_database'] = array(
+        'option_mysqld'];
+    $variable_doc_links['skip_show_database']                                = [
         'skip-show-database',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['slave_compressed_protocol'] = array(
+        'option_mysqld'];
+    $variable_doc_links['slave_compressed_protocol']                         = [
         'slave_compressed_protocol',
         'replication-options-slave',
-        'sysvar');
-    $variable_doc_links['slave_exec_mode'] = array(
+        'sysvar'];
+    $variable_doc_links['slave_exec_mode']                                   = [
         'slave_exec_mode',
         'replication-options-slave',
-        'sysvar');
-    $variable_doc_links['slave_load_tmpdir'] = array(
+        'sysvar'];
+    $variable_doc_links['slave_load_tmpdir']                                 = [
         'slave-load-tmpdir',
         'replication-options-slave',
-        'option_mysqld');
-    $variable_doc_links['slave_net_timeout'] = array(
+        'option_mysqld'];
+    $variable_doc_links['slave_net_timeout']                                 = [
         'slave-net-timeout',
         'replication-options-slave',
-        'option_mysqld');
-    $variable_doc_links['slave_skip_errors'] = array(
+        'option_mysqld'];
+    $variable_doc_links['slave_skip_errors']                                 = [
         'slave-skip-errors',
         'replication-options-slave',
-        'option_mysqld');
-    $variable_doc_links['slave_transaction_retries'] = array(
+        'option_mysqld'];
+    $variable_doc_links['slave_transaction_retries']                         = [
         'slave_transaction_retries',
         'replication-options-slave',
-        'sysvar');
-    $variable_doc_links['slave_type_conversions'] = array(
+        'sysvar'];
+    $variable_doc_links['slave_type_conversions']                            = [
         'slave_type_conversions',
         'replication-options-slave',
-        'sysvar');
-    $variable_doc_links['slow_launch_time'] = array(
+        'sysvar'];
+    $variable_doc_links['slow_launch_time']                                  = [
         'slow_launch_time',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['slow_query_log'] = array(
+        'sysvar'];
+    $variable_doc_links['slow_query_log']                                    = [
         'slow-query-log',
         'server-options',
-        'server-system-variables');
-    $variable_doc_links['slow_query_log_file'] = array(
+        'server-system-variables'];
+    $variable_doc_links['slow_query_log_file']                               = [
         'slow_query_log_file',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['socket'] = array(
+        'sysvar'];
+    $variable_doc_links['socket']                                            = [
         'socket',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['sort_buffer_size'] = array(
+        'option_mysqld'];
+    $variable_doc_links['sort_buffer_size']                                  = [
         'sort_buffer_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['sql_auto_is_null'] = array(
+        'byte'];
+    $variable_doc_links['sql_auto_is_null']                                  = [
         'sql_auto_is_null',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sql_big_selects'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_big_selects']                                   = [
         'sql_big_selects',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sql_big_tables'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_big_tables']                                    = [
         'big-tables',
         'server-options',
-        'server-system-variables');
-    $variable_doc_links['sql_buffer_result'] = array(
+        'server-system-variables'];
+    $variable_doc_links['sql_buffer_result']                                 = [
         'sql_buffer_result',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sql_log_bin'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_log_bin']                                       = [
         'sql_log_bin',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sql_log_off'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_log_off']                                       = [
         'sql_log_off',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sql_log_update'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_log_update']                                    = [
         'sql_log_update',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sql_low_priority_updates'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_low_priority_updates']                          = [
         'sql_low_priority_updates',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sql_max_join_size'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_max_join_size']                                 = [
         'sql_max_join_size',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sql_mode'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_mode']                                          = [
         'sql-mode',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['sql_notes'] = array(
+        'option_mysqld'];
+    $variable_doc_links['sql_notes']                                         = [
         'sql_notes',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sql_quote_show_create'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_quote_show_create']                             = [
         'sql_quote_show_create',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sql_safe_updates'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_safe_updates']                                  = [
         'sql_safe_updates',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sql_select_limit'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_select_limit']                                  = [
         'sql_select_limit',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sql_slave_skip_counter'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_slave_skip_counter']                            = [
         'sql_slave_skip_counter',
         'replication-options-slave',
-        'sysvar');
-    $variable_doc_links['sql_warnings'] = array(
+        'sysvar'];
+    $variable_doc_links['sql_warnings']                                      = [
         'sql_warnings',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['ssl_ca'] = array(
+        'sysvar'];
+    $variable_doc_links['ssl_ca']                                            = [
         'ssl-ca',
         'ssl-options',
-        'option_general');
-    $variable_doc_links['ssl_capath'] = array(
+        'option_general'];
+    $variable_doc_links['ssl_capath']                                        = [
         'ssl-capath',
         'ssl-options',
-        'option_general');
-    $variable_doc_links['ssl_cert'] = array(
+        'option_general'];
+    $variable_doc_links['ssl_cert']                                          = [
         'ssl-cert',
         'ssl-options',
-        'option_general');
-    $variable_doc_links['ssl_cipher'] = array(
+        'option_general'];
+    $variable_doc_links['ssl_cipher']                                        = [
         'ssl-cipher',
         'ssl-options',
-        'option_general');
-    $variable_doc_links['ssl_key'] = array(
+        'option_general'];
+    $variable_doc_links['ssl_key']                                           = [
         'ssl-key',
         'ssl-options',
-        'option_general');
-    $variable_doc_links['storage_engine'] = array(
+        'option_general'];
+    $variable_doc_links['storage_engine']                                    = [
         'storage_engine',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sync_binlog'] = array(
+        'sysvar'];
+    $variable_doc_links['sync_binlog']                                       = [
         'sync_binlog',
         'replication-options-binary-log',
-        'sysvar');
-    $variable_doc_links['sync_frm'] = array(
+        'sysvar'];
+    $variable_doc_links['sync_frm']                                          = [
         'sync_frm',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['sync_master_info'] = array(
+        'sysvar'];
+    $variable_doc_links['sync_master_info']                                  = [
         'sync_master_info',
         'replication-options-slave',
-        'sysvar');
-    $variable_doc_links['sync_relay_log'] = array(
+        'sysvar'];
+    $variable_doc_links['sync_relay_log']                                    = [
         'sync_relay_log',
         'replication-options-slave',
-        'sysvar');
-    $variable_doc_links['sync_relay_log_info'] = array(
+        'sysvar'];
+    $variable_doc_links['sync_relay_log_info']                               = [
         'sync_relay_log_info',
         'replication-options-slave',
-        'sysvar');
-    $variable_doc_links['system_time_zone'] = array(
+        'sysvar'];
+    $variable_doc_links['system_time_zone']                                  = [
         'system_time_zone',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['table_definition_cache'] = array(
+        'sysvar'];
+    $variable_doc_links['table_definition_cache']                            = [
         'table_definition_cache',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['table_lock_wait_timeout'] = array(
+        'sysvar'];
+    $variable_doc_links['table_lock_wait_timeout']                           = [
         'table_lock_wait_timeout',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['table_open_cache'] = array(
+        'sysvar'];
+    $variable_doc_links['table_open_cache']                                  = [
         'table_open_cache',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['table_type'] = array(
+        'sysvar'];
+    $variable_doc_links['table_type']                                        = [
         'table_type',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['thread_cache_size'] = array(
+        'sysvar'];
+    $variable_doc_links['thread_cache_size']                                 = [
         'thread_cache_size',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['thread_concurrency'] = array(
+        'sysvar'];
+    $variable_doc_links['thread_concurrency']                                = [
         'thread_concurrency',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['thread_handling'] = array(
+        'sysvar'];
+    $variable_doc_links['thread_handling']                                   = [
         'thread_handling',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['thread_stack'] = array(
+        'sysvar'];
+    $variable_doc_links['thread_stack']                                      = [
         'thread_stack',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['time_format'] = array(
+        'sysvar'];
+    $variable_doc_links['time_format']                                       = [
         'time_format',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['time_zone'] = array(
+        'sysvar'];
+    $variable_doc_links['time_zone']                                         = [
         'time_zone',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['timed_mutexes'] = array(
+        'sysvar'];
+    $variable_doc_links['timed_mutexes']                                     = [
         'timed_mutexes',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['timestamp'] = array(
+        'sysvar'];
+    $variable_doc_links['timestamp']                                         = [
         'timestamp',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['tmp_table_size'] = array(
+        'sysvar'];
+    $variable_doc_links['tmp_table_size']                                    = [
         'tmp_table_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['tmpdir'] = array(
+        'byte'];
+    $variable_doc_links['tmpdir']                                            = [
         'tmpdir',
         'server-options',
-        'option_mysqld');
-    $variable_doc_links['transaction_alloc_block_size'] = array(
+        'option_mysqld'];
+    $variable_doc_links['transaction_alloc_block_size']                      = [
         'transaction_alloc_block_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['transaction_prealloc_size'] = array(
+        'byte'];
+    $variable_doc_links['transaction_prealloc_size']                         = [
         'transaction_prealloc_size',
         'server-system-variables',
         'sysvar',
-        'byte');
-    $variable_doc_links['tx_isolation'] = array(
+        'byte'];
+    $variable_doc_links['tx_isolation']                                      = [
         'tx_isolation',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['unique_checks'] = array(
+        'sysvar'];
+    $variable_doc_links['unique_checks']                                     = [
         'unique_checks',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['updatable_views_with_limit'] = array(
+        'sysvar'];
+    $variable_doc_links['updatable_views_with_limit']                        = [
         'updatable_views_with_limit',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['version'] = array(
+        'sysvar'];
+    $variable_doc_links['version']                                           = [
         'version',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['version_comment'] = array(
+        'sysvar'];
+    $variable_doc_links['version_comment']                                   = [
         'version_comment',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['version_compile_machine'] = array(
+        'sysvar'];
+    $variable_doc_links['version_compile_machine']                           = [
         'version_compile_machine',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['version_compile_os'] = array(
+        'sysvar'];
+    $variable_doc_links['version_compile_os']                                = [
         'version_compile_os',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['wait_timeout'] = array(
+        'sysvar'];
+    $variable_doc_links['wait_timeout']                                      = [
         'wait_timeout',
         'server-system-variables',
-        'sysvar');
-    $variable_doc_links['warning_count'] = array(
+        'sysvar'];
+    $variable_doc_links['warning_count']                                     = [
         'warning_count',
         'server-system-variables',
-        'sysvar');
+        'sysvar'];
+
     return $variable_doc_links;
 }
 

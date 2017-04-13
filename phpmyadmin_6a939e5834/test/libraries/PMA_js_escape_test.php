@@ -34,7 +34,7 @@ class PMA_JS_Escape_Test extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($expected, PMA_getJsValue($key, $value));
         $this->assertEquals('foo = 100', PMA_getJsValue('foo', '100', false));
-        $array = array('1','2','3');
+        $array = ['1', '2', '3'];
         $this->assertEquals(
             "foo = [\"1\",\"2\",\"3\",];\n",
             PMA_getJsValue('foo', $array)
@@ -58,15 +58,16 @@ class PMA_JS_Escape_Test extends PHPUnit_Framework_TestCase
      */
     public function variables()
     {
-        return array(
-            array('foo', true, "foo = true;\n"),
-            array('foo', false, "foo = false;\n"),
-            array('foo', 100, "foo = 100;\n"),
-            array('foo', 0, "foo = 0;\n"),
-            array('foo', 'text', "foo = \"text\";\n"),
-            array('foo', 'quote"', "foo = \"quote\\\"\";\n"),
-            array('foo', 'apostroph\'', "foo = \"apostroph\\'\";\n"),
-        );
+        return [
+            ['foo', true, "foo = true;\n"],
+            ['foo', false, "foo = false;\n"],
+            ['foo', 100, "foo = 100;\n"],
+            ['foo', 0, "foo = 0;\n"],
+            ['foo', 'text', "foo = \"text\";\n"],
+            ['foo', 'quote"', "foo = \"quote\\\"\";\n"],
+            ['foo', 'apostroph\'', "foo = \"apostroph\\'\";\n"],
+        ];
     }
 }
+
 ?>

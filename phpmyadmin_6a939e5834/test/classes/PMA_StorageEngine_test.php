@@ -39,7 +39,7 @@ class PMA_StorageEngineTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->object = $this->getMockForAbstractClass(
-            'PMA_StorageEngine', array('dummy')
+            'PMA_StorageEngine', ['dummy']
         );
     }
 
@@ -64,23 +64,23 @@ class PMA_StorageEngineTest extends PHPUnit_Framework_TestCase
     {
 
         $this->assertEquals(
-            array(
-                'dummy' => array(
-                    'Engine' => 'dummy',
+            [
+                'dummy'     => [
+                    'Engine'  => 'dummy',
                     'Support' => 'YES',
                     'Comment' => 'dummy comment',
-                ),
-                'dummy2' => array(
-                    'Engine' => 'dummy2',
+                ],
+                'dummy2'    => [
+                    'Engine'  => 'dummy2',
                     'Support' => 'NO',
                     'Comment' => 'dummy2 comment',
-                ),
-                'FEDERATED' => array(
-                    'Engine' => 'FEDERATED',
+                ],
+                'FEDERATED' => [
+                    'Engine'  => 'FEDERATED',
                     'Support' => 'NO',
-                    'Comment' => 'Federated MySQL storage engine'
-                ),
-            ),
+                    'Comment' => 'Federated MySQL storage engine',
+                ],
+            ],
             $this->object->getStorageEngines()
         );
     }
@@ -161,7 +161,7 @@ class PMA_StorageEngineTest extends PHPUnit_Framework_TestCase
     {
 
         $this->assertEquals(
-            array(),
+            [],
             $this->object->getInfoPages()
         );
     }
@@ -203,7 +203,7 @@ class PMA_StorageEngineTest extends PHPUnit_Framework_TestCase
     {
 
         $this->assertEquals(
-            array(),
+            [],
             $this->object->getVariables()
         );
     }
@@ -276,10 +276,10 @@ class PMA_StorageEngineTest extends PHPUnit_Framework_TestCase
     {
 
         $this->assertEquals(
-            array(
+            [
                 0 => 12,
-                1 => 'B'
-            ),
+                1 => 'B',
+            ],
             $this->object->resolveTypeSize(12)
         );
     }

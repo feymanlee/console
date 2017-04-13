@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -73,4 +73,5 @@ abstract class SchemaPlugin
         $propertyGroup->addProperty($leaf);
     }
 }
+
 ?>

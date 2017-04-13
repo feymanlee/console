@@ -28,7 +28,7 @@ class PMA_Gettext_Test extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $reader = new StringReader("cchars/nint");
+        $reader       = new StringReader("cchars/nint");
         $this->object = new gettext_reader($reader);
 
     }
@@ -67,9 +67,9 @@ class PMA_Gettext_Test extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $this->object->readintarray(1),
-            array(
-                1 => 1848603506
-            )
+            [
+                1 => 1848603506,
+            ]
         );
     }
 
@@ -126,20 +126,20 @@ class PMA_Gettext_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestFind_string()
     {
-        return array(
-            array(
+        return [
+            [
                 'sample_string/string',
                 2,
                 5,
-                -1
-            ),
-            array(
+                -1,
+            ],
+            [
                 'sample_string/string',
                 -1,
                 -1,
-                -1
-            )
-        );
+                -1,
+            ],
+        ];
     }
 
     /**
@@ -180,16 +180,16 @@ class PMA_Gettext_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestSanitize_plural_expression()
     {
-        return array(
-            array(
+        return [
+            [
                 'employeeId = 1',
-                'employeeId=1;'
-            ),
-            array(
+                'employeeId=1;',
+            ],
+            [
                 'id = 1 ? true : false',
-                'id=1 ? (true) : (false);'
-            )
-        );
+                'id=1 ? (true) : (false);',
+            ],
+        ];
     }
 
     /**

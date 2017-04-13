@@ -14,11 +14,12 @@ require_once 'libraries/php-gettext/gettext.inc';
 require_once 'libraries/config.default.php';
 require_once 'libraries/database_interface.inc.php';
 require_once 'export.php';
+
 /**
  * tests for ExportYaml class
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_ExportYaml_Test extends PHPUnit_Framework_TestCase
 {
@@ -31,14 +32,14 @@ class PMA_ExportYaml_Test extends PHPUnit_Framework_TestCase
      */
     function setup()
     {
-        $GLOBALS['server'] = 0;
+        $GLOBALS['server']                  = 0;
         $GLOBALS['output_kanji_conversion'] = false;
-        $GLOBALS['buffer_needed'] = false;
-        $GLOBALS['asfile'] = false;
-        $GLOBALS['save_on_server'] = false;
-        $GLOBALS['crlf'] = "\n";
+        $GLOBALS['buffer_needed']           = false;
+        $GLOBALS['asfile']                  = false;
+        $GLOBALS['save_on_server']          = false;
+        $GLOBALS['crlf']                    = "\n";
         $GLOBALS['cfgRelation']['relation'] = true;
-        $this->object = new ExportYaml();
+        $this->object                       = new ExportYaml();
     }
 
     /**
@@ -234,7 +235,7 @@ class PMA_ExportYaml_Test extends PHPUnit_Framework_TestCase
             ->with(true)
             ->will(
                 $this->returnValue(
-                    array(null, '123', "\"c\\a\nb\r")
+                    [null, '123', "\"c\\a\nb\r"]
                 )
             );
 
@@ -243,7 +244,7 @@ class PMA_ExportYaml_Test extends PHPUnit_Framework_TestCase
             ->with(true)
             ->will(
                 $this->returnValue(
-                    array(null)
+                    [null]
                 )
             );
 
@@ -267,4 +268,5 @@ class PMA_ExportYaml_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Export
  * @subpackage PHP
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -87,7 +87,7 @@ class ExportPhparray extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportHeader ()
+    public function exportHeader()
     {
         PMA_exportOutputHandler(
             '<?php' . $GLOBALS['crlf']
@@ -96,6 +96,7 @@ class ExportPhparray extends ExportPlugin
             . ' * @version 0.2b' . $GLOBALS['crlf']
             . ' */' . $GLOBALS['crlf'] . $GLOBALS['crlf']
         );
+
         return true;
     }
 
@@ -104,7 +105,7 @@ class ExportPhparray extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportFooter ()
+    public function exportFooter()
     {
         return true;
     }
@@ -117,7 +118,7 @@ class ExportPhparray extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportDBHeader ($db, $db_alias = '')
+    public function exportDBHeader($db, $db_alias = '')
     {
         if (empty($db_alias)) {
             $db_alias = $db;
@@ -127,6 +128,7 @@ class ExportPhparray extends ExportPlugin
             . ' * Database ' . $this->commentString(PMA_Util::backquote($db_alias))
             . $GLOBALS['crlf'] . ' */' . $GLOBALS['crlf']
         );
+
         return true;
     }
 
@@ -137,7 +139,7 @@ class ExportPhparray extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportDBFooter ($db)
+    public function exportDBFooter($db)
     {
         return true;
     }
@@ -168,9 +170,9 @@ class ExportPhparray extends ExportPlugin
      * @return bool Whether it succeeded
      */
     public function exportData(
-        $db, $table, $crlf, $error_url, $sql_query, $aliases = array()
+        $db, $table, $crlf, $error_url, $sql_query, $aliases = []
     ) {
-        $db_alias = $db;
+        $db_alias    = $db;
         $table_alias = $table;
         $this->initAlias($aliases, $db_alias, $table_alias);
 
@@ -179,7 +181,7 @@ class ExportPhparray extends ExportPlugin
         );
 
         $columns_cnt = $GLOBALS['dbi']->numFields($result);
-        $columns = array();
+        $columns     = [];
         for ($i = 0; $i < $columns_cnt; $i++) {
             $col_as = $GLOBALS['dbi']->fieldName($result, $i);
             if (!empty($aliases[$db]['tables'][$table]['columns'][$col_as])) {
@@ -190,10 +192,11 @@ class ExportPhparray extends ExportPlugin
 
         // fix variable names (based on
         // http://www.php.net/manual/language.variables.basics.php)
-        if (! preg_match(
+        if (!preg_match(
             '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/',
             $table_alias
-        )) {
+        )
+        ) {
             // fix invalid characters in variable names by replacing them with
             // underscores
             $tablefixed = preg_replace(
@@ -208,7 +211,7 @@ class ExportPhparray extends ExportPlugin
             $tablefixed = $table;
         }
 
-        $buffer = '';
+        $buffer     = '';
         $record_cnt = 0;
         // Output table name as comment
         $buffer .= $crlf . '/* '
@@ -235,12 +238,14 @@ class ExportPhparray extends ExportPlugin
         }
 
         $buffer .= $crlf . ');' . $crlf;
-        if (! PMA_exportOutputHandler($buffer)) {
+        if (!PMA_exportOutputHandler($buffer)) {
             return false;
         }
 
         $GLOBALS['dbi']->freeResult($result);
+
         return true;
     }
 }
+
 ?>

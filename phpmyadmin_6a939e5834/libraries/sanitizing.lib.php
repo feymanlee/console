@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -18,22 +18,26 @@ if (! defined('PHPMYADMIN')) {
  */
 function PMA_checkLink($url)
 {
-    $valid_starts = array(
+    $valid_starts = [
         'http://',
         'https://',
         './url.php?url=http%3A%2F%2F',
         './url.php?url=https%3A%2F%2F',
         './doc/html/',
-    );
+    ];
     if (defined('PMA_SETUP')) {
         $valid_starts[] = '?page=form&';
         $valid_starts[] = '?page=servers&';
     }
     foreach ($valid_starts as $val) {
-        if (/*overload*/mb_substr($url, 0, /*overload*/mb_strlen($val)) == $val) {
+        if (/*overload*/
+            mb_substr($url, 0, /*overload*/
+                mb_strlen($val)) == $val
+        ) {
             return true;
         }
     }
+
     return false;
 }
 
@@ -47,17 +51,17 @@ function PMA_checkLink($url)
 function PMA_replaceBBLink($found)
 {
     /* Check for valid link */
-    if (! PMA_checkLink($found[1])) {
+    if (!PMA_checkLink($found[1])) {
         return $found[0];
     }
     /* a-z and _ allowed in target */
-    if (! empty($found[3]) && preg_match('/[^a-z_]+/i', $found[3])) {
+    if (!empty($found[3]) && preg_match('/[^a-z_]+/i', $found[3])) {
         return $found[0];
     }
 
     /* Construct target */
     $target = '';
-    if (! empty($found[3])) {
+    if (!empty($found[3])) {
         $target = ' target="' . $found[3] . '"';
         if ($found[3] == '_blank') {
             $target .= ' rel="noopener noreferrer"';
@@ -93,6 +97,7 @@ function PMA_replaceDocLink($found)
         $page = 'setup';
     }
     $link = PMA_Util::getDocuLink($page, $anchor);
+
     return '<a href="' . $link . '" target="documentation">';
 }
 
@@ -117,11 +122,11 @@ function PMA_replaceDocLink($found)
 function PMA_sanitize($message, $escape = false, $safe = false)
 {
     if (!$safe) {
-        $message = strtr($message, array('<' => '&lt;', '>' => '&gt;'));
+        $message = strtr($message, ['<' => '&lt;', '>' => '&gt;']);
     }
 
     /* Interpret bb code */
-    $replace_pairs = array(
+    $replace_pairs = [
         '[em]'      => '<em>',
         '[/em]'     => '</em>',
         '[strong]'  => '<strong>',
@@ -132,12 +137,12 @@ function PMA_sanitize($message, $escape = false, $safe = false)
         '[/kbd]'    => '</kbd>',
         '[br]'      => '<br />',
         '[/a]'      => '</a>',
-        '[/doc]'      => '</a>',
+        '[/doc]'    => '</a>',
         '[sup]'     => '<sup>',
         '[/sup]'    => '</sup>',
-         // used in common.inc.php:
+        // used in common.inc.php:
         '[conferr]' => '<iframe src="show_config_errors.php" />',
-    );
+    ];
 
     $message = strtr($message, $replace_pairs);
 
@@ -182,12 +187,13 @@ function PMA_sanitizeFilename($filename, $replaceDots = false)
 {
     $pattern = '/[^A-Za-z0-9_';
     // if we don't have to replace dots
-    if (! $replaceDots) {
+    if (!$replaceDots) {
         // then add the dot to the list of legit characters
         $pattern .= '.';
     }
     $pattern .= '-]/';
     $filename = preg_replace($pattern, '_', $filename);
+
     return $filename;
 }
 

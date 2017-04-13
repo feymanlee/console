@@ -46,10 +46,10 @@ class PMA_OptionsPropertyOneItem_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetSetValues()
     {
-        $this->stub->setValues(array(1, 2));
+        $this->stub->setValues([1, 2]);
 
         $this->assertEquals(
-            array(1, 2),
+            [1, 2],
             $this->stub->getValues()
         );
     }
@@ -122,4 +122,5 @@ class PMA_OptionsPropertyOneItem_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

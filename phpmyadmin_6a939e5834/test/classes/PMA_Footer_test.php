@@ -34,7 +34,7 @@ class PMA_Footer_Test extends PHPUnit_Framework_TestCase
     /**
      * @var array store private attributes of PMA_Footer
      */
-    public $privates = array();
+    public $privates = [];
 
     /**
      * @access protected
@@ -50,21 +50,21 @@ class PMA_Footer_Test extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $_SERVER['SCRIPT_NAME'] = 'index.php';
-        $GLOBALS['PMA_PHP_SELF'] = 'index.php';
-        $GLOBALS['db'] = '';
-        $GLOBALS['table'] = '';
-        $GLOBALS['text_dir'] = 'ltr';
+        $_SERVER['SCRIPT_NAME']   = 'index.php';
+        $GLOBALS['PMA_PHP_SELF']  = 'index.php';
+        $GLOBALS['db']            = '';
+        $GLOBALS['table']         = '';
+        $GLOBALS['text_dir']      = 'ltr';
         $GLOBALS['pmaThemeImage'] = 'image';
-        $GLOBALS['PMA_Config'] = new PMA_Config();
+        $GLOBALS['PMA_Config']    = new PMA_Config();
         $GLOBALS['PMA_Config']->enableBc();
-        $GLOBALS['collation_connection'] = 'utf8_general_ci';
-        $GLOBALS['cfg']['Server']['verbose'] = 'verbose host';
+        $GLOBALS['collation_connection']      = 'utf8_general_ci';
+        $GLOBALS['cfg']['Server']['verbose']  = 'verbose host';
         $GLOBALS['cfg']['DefaultTabDatabase'] = 'db_structure.php';
-        $GLOBALS['server'] = '1';
-        $_GET['reload_left_frame'] = '1';
-        $GLOBALS['focus_querywindow'] = 'main_pane_left';
-        $this->object = new PMA_Footer();
+        $GLOBALS['server']                    = '1';
+        $_GET['reload_left_frame']            = '1';
+        $GLOBALS['focus_querywindow']         = 'main_pane_left';
+        $this->object                         = new PMA_Footer();
         unset($GLOBALS['error_message']);
         unset($GLOBALS['sql_query']);
         $GLOBALS['error_handler'] = new PMA_Error_Handler();
@@ -96,9 +96,10 @@ class PMA_Footer_Test extends PHPUnit_Framework_TestCase
      */
     private function _callPrivateFunction($name, $params)
     {
-        $class = new ReflectionClass('PMA_Footer');
+        $class  = new ReflectionClass('PMA_Footer');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
+
         return $method->invokeArgs($this->object, $params);
     }
 
@@ -112,18 +113,18 @@ class PMA_Footer_Test extends PHPUnit_Framework_TestCase
     public function testGetDebugMessage()
     {
 
-        $_SESSION['debug']['queries'] = array(
-            'abc' => array(
+        $_SESSION['debug']['queries'] = [
+            'abc' => [
                 'count' => 1,
-                'time' => 0.2,
+                'time'  => 0.2,
                 'query' => 'SELECT * FROM `pma_bookmark` WHERE 1',
-            ),
-            'def' => array(
+            ],
+            'def' => [
                 'count' => 1,
-                'time' => 2.5,
+                'time'  => 2.5,
                 'query' => 'SELECT * FROM `db` WHERE 1',
-            ),
-        );
+            ],
+        ];
 
         $this->assertRegExp(
             '/<div id="session_debug">2 queries executed 2 times in 2.7 seconds'
@@ -140,7 +141,7 @@ class PMA_Footer_Test extends PHPUnit_Framework_TestCase
     public function testGetSelfLink()
     {
 
-        $GLOBALS['cfg']['TabsMode'] = 'text';
+        $GLOBALS['cfg']['TabsMode']      = 'text';
         $GLOBALS['cfg']['ServerDefault'] = 1;
 
         $this->assertEquals(
@@ -150,9 +151,9 @@ class PMA_Footer_Test extends PHPUnit_Framework_TestCase
             . 'target="_blank">Open new phpMyAdmin window</a></div>',
             $this->_callPrivateFunction(
                 '_getSelfLink',
-                array(
-                    $this->object->getSelfUrl()
-                )
+                [
+                    $this->object->getSelfUrl(),
+                ]
             )
         );
     }
@@ -165,10 +166,10 @@ class PMA_Footer_Test extends PHPUnit_Framework_TestCase
     public function testGetSelfLinkWithImage()
     {
 
-        $GLOBALS['cfg']['TabsMode'] = 'icons';
+        $GLOBALS['cfg']['TabsMode']      = 'icons';
         $GLOBALS['cfg']['ServerDefault'] = 1;
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
-        $GLOBALS['pmaThemeImage'] = 'image';
+        $_SESSION['PMA_Theme']           = new PMA_Theme();
+        $GLOBALS['pmaThemeImage']        = 'image';
 
         $this->assertEquals(
             '<div id="selflink" class="print_ignore"><a href="index.php?db=&amp;'
@@ -178,9 +179,9 @@ class PMA_Footer_Test extends PHPUnit_Framework_TestCase
             . 'phpMyAdmin window" alt="Open new phpMyAdmin window" /></a></div>',
             $this->_callPrivateFunction(
                 '_getSelfLink',
-                array(
-                    $this->object->getSelfUrl()
-                )
+                [
+                    $this->object->getSelfUrl(),
+                ]
             )
         );
     }

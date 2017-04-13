@@ -5,12 +5,13 @@
  *
  * @package PhpMyAdmin-String
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
 require_once 'libraries/StringType.int.php';
 require_once 'libraries/StringByte.int.php';
+
 /**
  * Specialized string class for phpMyAdmin.
  * The SQL Parser code relies heavily on these functions.
@@ -49,9 +50,10 @@ class PMA_String implements PMA_StringType
      */
     public function charIsEscaped($string, $pos, $start = 0)
     {
-        $pos = max(intval($pos), 0);
+        $pos   = max(intval($pos), 0);
         $start = max(intval($start), 0);
-        $len = /*overload*/mb_strlen($string);
+        $len   = /*overload*/
+            mb_strlen($string);
         // Base case:
         // Check for string length or invalid input or special case of input
         // (pos == $start)
@@ -60,8 +62,9 @@ class PMA_String implements PMA_StringType
         }
 
         $pos--;
-        $escaped     = false;
-        while ($pos >= $start && /*overload*/mb_substr($string, $pos, 1) == '\\') {
+        $escaped = false;
+        while ($pos >= $start && /*overload*/
+            mb_substr($string, $pos, 1) == '\\') {
             $escaped = !$escaped;
             $pos--;
         } // end while
@@ -80,7 +83,8 @@ class PMA_String implements PMA_StringType
     public function isSqlIdentifier($c, $dot_is_valid = false)
     {
         return ($this->isAlnum($c)
-            || ($ord_c = /*overload*/mb_ord($c)) && $ord_c >= 192 && $ord_c != 215 &&
+            || ($ord_c = /*overload*/
+                mb_ord($c)) && $ord_c >= 192 && $ord_c != 215 &&
             $ord_c != 249
             || $c == '_'
             || $c == '$'
@@ -185,4 +189,5 @@ class PMA_String implements PMA_StringType
         return $this->_type->numberInRangeInclusive($num, $lower, $upper);
     }
 }
+
 ?>

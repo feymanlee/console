@@ -18,14 +18,14 @@ echo '<li><a href="index.php' . PMA_URL_getCommon() . '"'
     . ($formset_id === null ? ' class="active' : '')
     . '">' . __('Overview') . '</a></li>';
 
-$formsets = array(
+$formsets = [
     'Features'    => __('Features'),
     'Sql_queries' => __('SQL queries'),
     'Navi_panel'  => __('Navigation panel'),
     'Main_panel'  => __('Main panel'),
     'Import'      => __('Import'),
-    'Export'      => __('Export')
-);
+    'Export'      => __('Export'),
+];
 
 foreach ($formsets as $formset => $label) {
     echo '<li><a href="' . PMA_URL_getCommon() . $separator . 'page=form'

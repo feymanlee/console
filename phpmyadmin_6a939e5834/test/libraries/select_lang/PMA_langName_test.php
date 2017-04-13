@@ -4,7 +4,7 @@
  * Test for PMA_languageName from select_lang.lib.php
  *
  * @package PhpMyAdmin-test
- * @group select_lang.lib-tests
+ * @group   select_lang.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/select_lang.lib.php';
  * Test for PMA_languageName from select_lang.lib.php
  *
  * @package PhpMyAdmin-test
- * @group select_lang.lib-tests
+ * @group   select_lang.lib-tests
  */
 class PMA_LangName_Test extends PHPUnit_Framework_TestCase
 {
@@ -27,17 +27,17 @@ class PMA_LangName_Test extends PHPUnit_Framework_TestCase
      */
     function dataProvider()
     {
-        return array(
-            array(array('en|english', 'en', ''),'English'),
-            array(
-                array('fr|french', 'fr', 'Fran&ccedil;ais'),
-                'Fran&ccedil;ais - French'
-            ),
-            array(
-                array('zh|chinese simplified', 'zh', '&#20013;&#25991;'),
-                '&#20013;&#25991; - Chinese simplified'
-            ),
-        );
+        return [
+            [['en|english', 'en', ''], 'English'],
+            [
+                ['fr|french', 'fr', 'Fran&ccedil;ais'],
+                'Fran&ccedil;ais - French',
+            ],
+            [
+                ['zh|chinese simplified', 'zh', '&#20013;&#25991;'],
+                '&#20013;&#25991; - Chinese simplified',
+            ],
+        ];
     }
 
     /**

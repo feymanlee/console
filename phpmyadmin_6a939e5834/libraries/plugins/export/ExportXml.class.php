@@ -6,11 +6,12 @@
  * @package    PhpMyAdmin-Export
  * @subpackage XML
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 if (!/*overload*/mb_strlen($GLOBALS['db'])) { /* Can't do server export */
     $GLOBALS['skip_import'] = true;
+
     return;
 }
 
@@ -101,7 +102,7 @@ class ExportXml extends ExportPlugin
         $structure->setName("structure");
         $structure->setText(__('Object creation options (all are recommended)'));
         // create primary items and add them to the group
-        if (! PMA_DRIZZLE) {
+        if (!PMA_DRIZZLE) {
             $leaf = new BoolPropertyItem();
             $leaf->setName("export_events");
             $leaf->setText(__('Events'));
@@ -119,7 +120,7 @@ class ExportXml extends ExportPlugin
         $leaf->setName("export_tables");
         $leaf->setText(__('Tables'));
         $structure->addProperty($leaf);
-        if (! PMA_DRIZZLE) {
+        if (!PMA_DRIZZLE) {
             $leaf = new BoolPropertyItem();
             $leaf->setName("export_triggers");
             $leaf->setText(__('Triggers'));
@@ -153,11 +154,11 @@ class ExportXml extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportHeader ()
+    public function exportHeader()
     {
         $this->initSpecificVariables();
         global $crlf, $cfg, $db;
-        $table = $this->_getTable();
+        $table  = $this->_getTable();
         $tables = $this->_getTables();
 
         $export_struct = isset($GLOBALS['xml_export_functions'])
@@ -165,7 +166,7 @@ class ExportXml extends ExportPlugin
             || isset($GLOBALS['xml_export_tables'])
             || isset($GLOBALS['xml_export_triggers'])
             || isset($GLOBALS['xml_export_views']);
-        $export_data = isset($GLOBALS['xml_export_contents']) ? true : false;
+        $export_data   = isset($GLOBALS['xml_export_contents']) ? true : false;
 
         if ($GLOBALS['output_charset_conversion']) {
             $charset = $GLOBALS['charset_of_file'];
@@ -173,15 +174,15 @@ class ExportXml extends ExportPlugin
             $charset = 'utf-8';
         }
 
-        $head  =  '<?xml version="1.0" encoding="' . $charset . '"?>' . $crlf
-               .  '<!--' . $crlf
-               .  '- phpMyAdmin XML Dump' . $crlf
-               .  '- version ' . PMA_VERSION . $crlf
-               .  '- https://www.phpmyadmin.net' . $crlf
-               .  '-' . $crlf
-               .  '- ' . __('Host:') . ' ' . htmlspecialchars($cfg['Server']['host']);
-        if (! empty($cfg['Server']['port'])) {
-             $head .= ':' . $cfg['Server']['port'];
+        $head = '<?xml version="1.0" encoding="' . $charset . '"?>' . $crlf
+            . '<!--' . $crlf
+            . '- phpMyAdmin XML Dump' . $crlf
+            . '- version ' . PMA_VERSION . $crlf
+            . '- https://www.phpmyadmin.net' . $crlf
+            . '-' . $crlf
+            . '- ' . __('Host:') . ' ' . htmlspecialchars($cfg['Server']['host']);
+        if (!empty($cfg['Server']['port'])) {
+            $head .= ':' . $cfg['Server']['port'];
         }
         $head .= $crlf
             . '- ' . __('Generation Time:') . ' '
@@ -192,8 +193,8 @@ class ExportXml extends ExportPlugin
 
         $head .= '<pma_xml_export version="1.0"'
             . (($export_struct)
-            ? ' xmlns:pma="https://www.phpmyadmin.net/some_doc_url/"'
-            : '')
+                ? ' xmlns:pma="https://www.phpmyadmin.net/some_doc_url/"'
+                : '')
             . '>' . $crlf;
 
         if ($export_struct) {
@@ -214,7 +215,7 @@ class ExportXml extends ExportPlugin
                 );
             }
             $db_collation = $result[0]['DEFAULT_COLLATION_NAME'];
-            $db_charset = $result[0]['DEFAULT_CHARACTER_SET_NAME'];
+            $db_charset   = $result[0]['DEFAULT_CHARACTER_SET_NAME'];
 
             $head .= '    <!--' . $crlf;
             $head .= '    - Structure schemas' . $crlf;
@@ -235,7 +236,7 @@ class ExportXml extends ExportPlugin
                     . PMA_Util::backquote($table),
                     0
                 );
-                $tbl =  $result[$table][1];
+                $tbl    = $result[$table][1];
 
                 $is_view = PMA_Table::isView($db, $table);
 
@@ -245,11 +246,11 @@ class ExportXml extends ExportPlugin
                     $type = 'table';
                 }
 
-                if ($is_view && ! isset($GLOBALS['xml_export_views'])) {
+                if ($is_view && !isset($GLOBALS['xml_export_views'])) {
                     continue;
                 }
 
-                if (! $is_view && ! isset($GLOBALS['xml_export_tables'])) {
+                if (!$is_view && !isset($GLOBALS['xml_export_tables'])) {
                     continue;
                 }
 
@@ -274,7 +275,8 @@ class ExportXml extends ExportPlugin
                                 . htmlspecialchars($trigger['name']) . '">' . $crlf;
 
                             // Do some formatting
-                            $code = /*overload*/mb_substr(rtrim($code), 0, -3);
+                            $code = /*overload*/
+                                mb_substr(rtrim($code), 0, -3);
                             $code = "                " . htmlspecialchars($code);
                             $code = str_replace("\n", "\n                ", $code);
 
@@ -393,7 +395,7 @@ class ExportXml extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportFooter ()
+    public function exportFooter()
     {
         $foot = '</pma_xml_export>';
 
@@ -408,7 +410,7 @@ class ExportXml extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportDBHeader ($db, $db_alias = '')
+    public function exportDBHeader($db, $db_alias = '')
     {
         global $crlf;
 
@@ -419,10 +421,10 @@ class ExportXml extends ExportPlugin
             && $GLOBALS['xml_export_contents']
         ) {
             $head = '    <!--' . $crlf
-                  . '    - ' . __('Database:') . ' ' .  '\''
-                  . htmlspecialchars($db_alias) . '\'' . $crlf
-                  . '    -->' . $crlf . '    <database name="'
-                  . htmlspecialchars($db_alias) . '">' . $crlf;
+                . '    - ' . __('Database:') . ' ' . '\''
+                . htmlspecialchars($db_alias) . '\'' . $crlf
+                . '    -->' . $crlf . '    <database name="'
+                . htmlspecialchars($db_alias) . '">' . $crlf;
 
             return PMA_exportOutputHandler($head);
         } else {
@@ -437,7 +439,7 @@ class ExportXml extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportDBFooter ($db)
+    public function exportDBFooter($db)
     {
         global $crlf;
 
@@ -476,9 +478,9 @@ class ExportXml extends ExportPlugin
      * @return bool Whether it succeeded
      */
     public function exportData(
-        $db, $table, $crlf, $error_url, $sql_query, $aliases = array()
+        $db, $table, $crlf, $error_url, $sql_query, $aliases = []
     ) {
-        $db_alias = $db;
+        $db_alias    = $db;
         $table_alias = $table;
         $this->initAlias($aliases, $db_alias, $table_alias);
         if (isset($GLOBALS['xml_export_contents'])
@@ -489,7 +491,7 @@ class ExportXml extends ExportPlugin
             );
 
             $columns_cnt = $GLOBALS['dbi']->numFields($result);
-            $columns = array();
+            $columns     = [];
             for ($i = 0; $i < $columns_cnt; $i++) {
                 $columns[$i] = stripslashes($GLOBALS['dbi']->fieldName($result, $i));
             }
@@ -497,7 +499,7 @@ class ExportXml extends ExportPlugin
 
             $buffer = '        <!-- ' . __('Table') . ' '
                 . htmlspecialchars($table_alias) . ' -->' . $crlf;
-            if (! PMA_exportOutputHandler($buffer)) {
+            if (!PMA_exportOutputHandler($buffer)) {
                 return false;
             }
 
@@ -513,17 +515,17 @@ class ExportXml extends ExportPlugin
                     }
                     // If a cell is NULL, still export it to preserve
                     // the XML structure
-                    if (! isset($record[$i]) || is_null($record[$i])) {
+                    if (!isset($record[$i]) || is_null($record[$i])) {
                         $record[$i] = 'NULL';
                     }
                     $buffer .= '            <column name="'
                         . htmlspecialchars($col_as) . '">'
                         . htmlspecialchars((string)$record[$i])
-                        .  '</column>' . $crlf;
+                        . '</column>' . $crlf;
                 }
-                $buffer     .= '        </table>' . $crlf;
+                $buffer .= '        </table>' . $crlf;
 
-                if (! PMA_exportOutputHandler($buffer)) {
+                if (!PMA_exportOutputHandler($buffer)) {
                     return false;
                 }
             }
@@ -581,4 +583,5 @@ class ExportXml extends ExportPlugin
         $this->_tables = $tables;
     }
 }
+
 ?>

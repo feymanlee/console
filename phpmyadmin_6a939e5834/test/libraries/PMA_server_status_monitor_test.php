@@ -49,19 +49,19 @@ class PMA_ServerStatusMonitor_Test extends PHPUnit_Framework_TestCase
         $_REQUEST['pos'] = 3;
 
         //$GLOBALS
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['RememberSorting'] = true;
-        $GLOBALS['cfg']['SQP'] = array();
-        $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
-        $GLOBALS['cfg']['ShowSQL'] = true;
-        $GLOBALS['cfg']['Server']['host'] = "localhost";
-        $GLOBALS['cfg']['ShowHint'] = true;
-        $GLOBALS['PMA_PHP_SELF'] = PMA_getenv('PHP_SELF');
+        $GLOBALS['cfg']['MaxRows']                       = 10;
+        $GLOBALS['cfg']['ServerDefault']                 = "server";
+        $GLOBALS['cfg']['RememberSorting']               = true;
+        $GLOBALS['cfg']['SQP']                           = [];
+        $GLOBALS['cfg']['MaxCharactersInDisplayedSQL']   = 1000;
+        $GLOBALS['cfg']['ShowSQL']                       = true;
+        $GLOBALS['cfg']['Server']['host']                = "localhost";
+        $GLOBALS['cfg']['ShowHint']                      = true;
+        $GLOBALS['PMA_PHP_SELF']                         = PMA_getenv('PHP_SELF');
         $GLOBALS['replication_info']['master']['status'] = false;
-        $GLOBALS['replication_info']['slave']['status'] = false;
+        $GLOBALS['replication_info']['slave']['status']  = false;
 
-        $GLOBALS['table'] = "table";
+        $GLOBALS['table']         = "table";
         $GLOBALS['pmaThemeImage'] = 'image';
 
         //$_SESSION
@@ -74,49 +74,49 @@ class PMA_ServerStatusMonitor_Test extends PHPUnit_Framework_TestCase
             ->getMock();
 
         //this data is needed when PMA_ServerStatusData constructs
-        $server_status = array(
-            "Aborted_clients" => "0",
-            "Aborted_connects" => "0",
-            "Com_delete_multi" => "0",
+        $server_status = [
+            "Aborted_clients"     => "0",
+            "Aborted_connects"    => "0",
+            "Com_delete_multi"    => "0",
             "Com_create_function" => "0",
-            "Com_empty_query" => "0",
-        );
+            "Com_empty_query"     => "0",
+        ];
 
-        $server_variables= array(
+        $server_variables = [
             "auto_increment_increment" => "1",
-            "auto_increment_offset" => "1",
-            "automatic_sp_privileges" => "ON",
-            "back_log" => "50",
-            "big_tables" => "OFF",
-        );
+            "auto_increment_offset"    => "1",
+            "automatic_sp_privileges"  => "ON",
+            "back_log"                 => "50",
+            "big_tables"               => "OFF",
+        ];
 
-        $fetchResult = array(
-            array(
+        $fetchResult = [
+            [
                 "SHOW GLOBAL STATUS",
                 0,
                 1,
                 null,
                 0,
-                $server_status
-            ),
-            array(
+                $server_status,
+            ],
+            [
                 "SHOW GLOBAL VARIABLES",
                 0,
                 1,
                 null,
                 0,
-                $server_variables
-            ),
-            array(
+                $server_variables,
+            ],
+            [
                 "SELECT concat('Com_', variable_name), variable_value "
-                    . "FROM data_dictionary.GLOBAL_STATEMENTS",
+                . "FROM data_dictionary.GLOBAL_STATEMENTS",
                 0,
                 1,
                 null,
                 0,
-                $server_status
-            ),
-        );
+                $server_status,
+            ],
+        ];
 
         $dbi->expects($this->any())->method('fetchResult')
             ->will($this->returnValueMap($fetchResult));
@@ -243,15 +243,15 @@ class PMA_ServerStatusMonitor_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $value = array(
+        $value = [
             'sql_text' => 'insert sql_text',
-            '#' => 'types',
-        );
+            '#'        => 'types',
+        ];
 
-        $value2 = array(
+        $value2 = [
             'sql_text' => 'update sql_text',
-            '#' => 'types2',
-        );
+            '#'        => 'types2',
+        ];
 
         $dbi->expects($this->at(1))->method('fetchAssoc')
             ->will($this->returnValue($value));
@@ -264,14 +264,14 @@ class PMA_ServerStatusMonitor_Test extends PHPUnit_Framework_TestCase
 
         //Call the test function
         $start = 0;
-        $end = 10;
-        $ret = PMA_getJsonForLogDataTypeSlow($start, $end);
+        $end   = 10;
+        $ret   = PMA_getJsonForLogDataTypeSlow($start, $end);
 
-        $result_rows = array(
-            array('sql_text' => 'insert sql_text', '#' => 'types'),
-            array('sql_text' => 'update sql_text', '#' => 'types2')
-        );
-        $result_sum = array('insert' =>0, 'TOTAL' =>0, 'update' => 0);
+        $result_rows = [
+            ['sql_text' => 'insert sql_text', '#' => 'types'],
+            ['sql_text' => 'update sql_text', '#' => 'types2'],
+        ];
+        $result_sum  = ['insert' => 0, 'TOTAL' => 0, 'update' => 0];
         $this->assertEquals(
             2,
             $ret['numRows']
@@ -300,17 +300,17 @@ class PMA_ServerStatusMonitor_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $value = array(
+        $value = [
             'sql_text' => 'insert sql_text',
-            '#' => 'types',
+            '#'        => 'types',
             'argument' => 'argument argument2',
-        );
+        ];
 
-        $value2 = array(
+        $value2 = [
             'sql_text' => 'update sql_text',
-            '#' => 'types2',
+            '#'        => 'types2',
             'argument' => 'argument3 argument4',
-        );
+        ];
 
         $dbi->expects($this->at(1))->method('fetchAssoc')
             ->will($this->returnValue($value));
@@ -323,14 +323,14 @@ class PMA_ServerStatusMonitor_Test extends PHPUnit_Framework_TestCase
 
         //Call the test function
         $start = 0;
-        $end = 10;
-        $ret = PMA_getJsonForLogDataTypeGeneral($start, $end);
+        $end   = 10;
+        $ret   = PMA_getJsonForLogDataTypeGeneral($start, $end);
 
-        $result_rows = array(
+        $result_rows = [
             $value,
             $value2,
-        );
-        $result_sum = array('argument' =>0, 'TOTAL' =>0, 'argument3' => 0);
+        ];
+        $result_sum  = ['argument' => 0, 'TOTAL' => 0, 'argument3' => 0];
 
         $this->assertEquals(
             2,
@@ -360,11 +360,11 @@ class PMA_ServerStatusMonitor_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $value = array(
+        $value = [
             'sql_text' => 'insert sql_text',
-            '#' => 'types',
+            '#'        => 'types',
             'argument' => 'argument argument2',
-        );
+        ];
 
         $dbi->expects($this->any())->method('fetchResult')
             ->will($this->returnValue($value));
@@ -388,10 +388,10 @@ class PMA_ServerStatusMonitor_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetJsonForQueryAnalyzer()
     {
-        $_REQUEST['database'] = "database";
-        $_REQUEST['query'] = 'query';
-        $GLOBALS['server'] = 'server';
-        $GLOBALS['cached_affected_rows'] = 'cached_affected_rows';
+        $_REQUEST['database']                                      = "database";
+        $_REQUEST['query']                                         = 'query';
+        $GLOBALS['server']                                         = 'server';
+        $GLOBALS['cached_affected_rows']                           = 'cached_affected_rows';
         $_SESSION['cache']['server_server']['profiling_supported'] = true;
 
         //Mock DBI
@@ -399,11 +399,11 @@ class PMA_ServerStatusMonitor_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $value = array(
+        $value = [
             'sql_text' => 'insert sql_text',
-            '#' => 'types',
+            '#'        => 'types',
             'argument' => 'argument argument2',
-        );
+        ];
 
         $dbi->expects($this->at(4))->method('fetchAssoc')
             ->will($this->returnValue($value));
@@ -420,11 +420,11 @@ class PMA_ServerStatusMonitor_Test extends PHPUnit_Framework_TestCase
             $ret['affectedRows']
         );
         $this->assertEquals(
-            array(),
+            [],
             $ret['profiling']
         );
         $this->assertEquals(
-            array($value),
+            [$value],
             $ret['explain']
         );
     }

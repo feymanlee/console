@@ -7,7 +7,7 @@
  *
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -58,12 +58,12 @@ class PMA
     public function __get($param)
     {
         switch ($param) {
-        case 'databases' :
-            return $this->getDatabaseList();
-        case 'userlink' :
-            return $this->userlink;
-        case 'controllink' :
-            return $this->controllink;
+            case 'databases' :
+                return $this->getDatabaseList();
+            case 'userlink' :
+                return $this->userlink;
+            case 'controllink' :
+                return $this->controllink;
         }
 
         return null;
@@ -81,12 +81,12 @@ class PMA
     public function __set($param, $value)
     {
         switch ($param) {
-        case 'userlink' :
-            $this->userlink = $value;
-            break;
-        case 'controllink' :
-            $this->controllink = $value;
-            break;
+            case 'userlink' :
+                $this->userlink = $value;
+                break;
+            case 'controllink' :
+                $this->controllink = $value;
+                break;
         }
     }
 
@@ -106,4 +106,5 @@ class PMA
         return $this->databases;
     }
 }
+
 ?>

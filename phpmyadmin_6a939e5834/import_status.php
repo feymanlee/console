@@ -88,7 +88,7 @@ if (isset($_GET["message"]) && $_GET["message"]) {
     usleep(300000);
 
     $maximumTime = ini_get('max_execution_time');
-    $timestamp = time();
+    $timestamp   = time();
     // wait until message is available
     while ($_SESSION['Import_message']['message'] == null) {
         // close session before sleeping

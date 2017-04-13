@@ -3,7 +3,7 @@
 /**
  * handles creation of VIEWs
  *
- * @todo js error when view name is empty (strFormEmpty)
+ * @todo    js error when view name is empty (strFormEmpty)
  * @todo (also validate if js is disabled, after form submission?)
  * @package PhpMyAdmin
  */
@@ -20,21 +20,21 @@ require './libraries/db_common.inc.php';
 $url_params['goto'] = 'tbl_structure.php';
 $url_params['back'] = 'view_create.php';
 
-$view_algorithm_options = array(
+$view_algorithm_options = [
     'UNDEFINED',
     'MERGE',
     'TEMPTABLE',
-);
+];
 
-$view_with_options = array(
+$view_with_options = [
     'CASCADED',
-    'LOCAL'
-);
+    'LOCAL',
+];
 
-$view_security_options = array(
+$view_security_options = [
     'DEFINER',
-    'INVOKER'
-);
+    'INVOKER',
+];
 
 if (empty($sql_query)) {
     $sql_query = '';
@@ -59,7 +59,7 @@ if (isset($_REQUEST['createview']) || isset($_REQUEST['alterview'])) {
         $sql_query .= $sep . ' ALGORITHM = ' . $_REQUEST['view']['algorithm'];
     }
 
-    if (! empty($_REQUEST['view']['definer'])) {
+    if (!empty($_REQUEST['view']['definer'])) {
         $sql_query .= $sep . ' DEFINER = ' . $_REQUEST['view']['definer'];
     }
 
@@ -72,7 +72,7 @@ if (isset($_REQUEST['createview']) || isset($_REQUEST['alterview'])) {
 
     $sql_query .= $sep . ' VIEW ' . PMA_Util::backquote($_REQUEST['view']['name']);
 
-    if (! empty($_REQUEST['view']['column_names'])) {
+    if (!empty($_REQUEST['view']['column_names'])) {
         $sql_query .= $sep . ' (' . $_REQUEST['view']['column_names'] . ')';
     }
 
@@ -90,12 +90,12 @@ if (isset($_REQUEST['createview']) || isset($_REQUEST['alterview'])) {
         include_once './libraries/tbl_views.lib.php';
 
         // If different column names defined for VIEW
-        $view_columns = array();
+        $view_columns = [];
         if (isset($_REQUEST['view']['column_names'])) {
             $view_columns = explode(',', $_REQUEST['view']['column_names']);
         }
 
-        $column_map = PMA_getColumnMap($_REQUEST['view']['as'], $view_columns);
+        $column_map             = PMA_getColumnMap($_REQUEST['view']['as'], $view_columns);
         $pma_tranformation_data = PMA_getExistingTransformationData($GLOBALS['db']);
 
         if ($pma_tranformation_data !== false) {
@@ -114,7 +114,7 @@ if (isset($_REQUEST['createview']) || isset($_REQUEST['alterview'])) {
         }
         unset($pma_tranformation_data);
 
-        if (! isset($_REQUEST['ajax_dialog'])) {
+        if (!isset($_REQUEST['ajax_dialog'])) {
             $message = PMA_Message::success();
             include 'tbl_structure.php';
         } else {
@@ -131,7 +131,7 @@ if (isset($_REQUEST['createview']) || isset($_REQUEST['alterview'])) {
         exit;
 
     } else {
-        if (! isset($_REQUEST['ajax_dialog'])) {
+        if (!isset($_REQUEST['ajax_dialog'])) {
             $message = PMA_Message::rawError($GLOBALS['dbi']->getError());
         } else {
             $response = PMA_Response::getInstance();
@@ -149,23 +149,23 @@ if (isset($_REQUEST['createview']) || isset($_REQUEST['alterview'])) {
 }
 
 // prefill values if not already filled from former submission
-$view = array(
-    'operation' => 'create',
-    'or_replace' => '',
-    'algorithm' => '',
-    'definer' => '',
+$view = [
+    'operation'    => 'create',
+    'or_replace'   => '',
+    'algorithm'    => '',
+    'definer'      => '',
     'sql_security' => '',
-    'name' => '',
+    'name'         => '',
     'column_names' => '',
-    'as' => $sql_query,
-    'with' => '',
-);
+    'as'           => $sql_query,
+    'with'         => '',
+];
 
 if (PMA_isValid($_REQUEST['view'], 'array')) {
     $view = array_merge($view, $_REQUEST['view']);
 }
 
-$url_params['db'] = $GLOBALS['db'];
+$url_params['db']     = $GLOBALS['db'];
 $url_params['reload'] = 1;
 
 /**
@@ -269,16 +269,16 @@ $htmlString .= '<select>'
 $htmlString .= '</table>'
     . '</fieldset>';
 
-if (! isset($_REQUEST['ajax_dialog'])) {
+if (!isset($_REQUEST['ajax_dialog'])) {
     $htmlString .= '<fieldset class="tblFooters">'
         . '<input type="hidden" name="'
-        . ($view['operation'] == 'create' ? 'createview' : 'alterview' )
+        . ($view['operation'] == 'create' ? 'createview' : 'alterview')
         . '" value="1" />'
         . '<input type="submit" name="" value="' . __('Go') . '" />'
         . '</fieldset>';
 } else {
     $htmlString .= '<input type="hidden" name="'
-        . ($view['operation'] == 'create' ? 'createview' : 'alterview' )
+        . ($view['operation'] == 'create' ? 'createview' : 'alterview')
         . '" value="1" />'
         . '<input type="hidden" name="ajax_dialog" value="1" />'
         . '<input type="hidden" name="ajax_request" value="1" />';

@@ -29,12 +29,12 @@ require_once './libraries/common.inc.php';
 include_once './libraries/OutputBuffering.class.php';
 $buffer = PMA_OutputBuffering::getInstance();
 $buffer->start();
-register_shutdown_function(function() {
+register_shutdown_function(function () {
     echo PMA_OutputBuffering::getInstance()->getContents();
 });
 
 $_GET['scripts'] = json_decode($_GET['scripts']);
-if (! empty($_GET['scripts']) && is_array($_GET['scripts'])) {
+if (!empty($_GET['scripts']) && is_array($_GET['scripts'])) {
     // Only up to 10 scripts as this is what we generate
     foreach (array_slice($_GET['scripts'], 0, 10) as $script) {
         // Sanitise filename

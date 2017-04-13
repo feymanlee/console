@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -46,23 +46,23 @@ class UploadSession implements UploadInterface
             return null;
         }
 
-        if (! array_key_exists($id, $_SESSION[$SESSION_KEY])) {
-            $_SESSION[$SESSION_KEY][$id] = array(
+        if (!array_key_exists($id, $_SESSION[$SESSION_KEY])) {
+            $_SESSION[$SESSION_KEY][$id] = [
                 'id'       => $id,
                 'finished' => false,
                 'percent'  => 0,
                 'total'    => 0,
                 'complete' => 0,
-                'plugin'   => UploadSession::getIdKey()
-            );
+                'plugin'   => UploadSession::getIdKey(),
+            ];
         }
         $ret = $_SESSION[$SESSION_KEY][$id];
 
-        if (! PMA_Import_sessionCheck() || $ret['finished']) {
+        if (!PMA_Import_sessionCheck() || $ret['finished']) {
             return $ret;
         }
 
-        $status = false;
+        $status     = false;
         $sessionkey = ini_get('session.upload_progress.prefix') . $id;
 
         if (isset($_SESSION[$sessionkey])) {
@@ -78,14 +78,14 @@ class UploadSession implements UploadInterface
                 $ret['percent'] = $ret['complete'] / $ret['total'] * 100;
             }
         } else {
-            $ret = array(
+            $ret = [
                 'id'       => $id,
                 'finished' => true,
                 'percent'  => 100,
                 'total'    => $ret['total'],
                 'complete' => $ret['total'],
-                'plugin'   => UploadSession::getIdKey()
-            );
+                'plugin'   => UploadSession::getIdKey(),
+            ];
         }
 
         $_SESSION[$SESSION_KEY][$id] = $ret;
@@ -93,4 +93,5 @@ class UploadSession implements UploadInterface
         return $ret;
     }
 }
+
 ?>

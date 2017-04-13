@@ -45,17 +45,17 @@ class PMA_FatalError_Test extends PHPUnit_Framework_TestCase
     {
         $GLOBALS['PMA_Config'] = new PMA_Config();
         $GLOBALS['PMA_Config']->enableBc();
-        $GLOBALS['cfg']['Server'] = array(
-            'host' => 'host',
+        $GLOBALS['cfg']['Server'] = [
+            'host'    => 'host',
             'verbose' => 'verbose',
-        );
+        ];
         $GLOBALS['cfg']['OBGzip'] = false;
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
+        $_SESSION['PMA_Theme']    = new PMA_Theme();
         $GLOBALS['pmaThemeImage'] = 'theme/';
-        $GLOBALS['pmaThemePath'] = $_SESSION['PMA_Theme']->getPath();
-        $GLOBALS['server'] = 1;
-        $GLOBALS['db'] = '';
-        $GLOBALS['table'] = '';
+        $GLOBALS['pmaThemePath']  = $_SESSION['PMA_Theme']->getPath();
+        $GLOBALS['server']        = 1;
+        $GLOBALS['db']            = '';
+        $GLOBALS['table']         = '';
     }
 
     /**
@@ -77,7 +77,7 @@ class PMA_FatalError_Test extends PHPUnit_Framework_TestCase
     public function testFatalErrorMessageWithArgs()
     {
         $message = "Fatal error #%d in file %s.";
-        $params = array(1, 'error_file.php');
+        $params  = [1, 'error_file.php'];
 
         $this->expectOutputRegex(
             "/Fatal error #1 in file error_file.php./",
@@ -86,7 +86,7 @@ class PMA_FatalError_Test extends PHPUnit_Framework_TestCase
         PMA_fatalError($message, $params);
 
         $message = "Fatal error in file %s.";
-        $params = 'error_file.php';
+        $params  = 'error_file.php';
 
         $this->expectOutputRegex("/Fatal error in file error_file.php./");
         PMA_fatalError($message, $params);

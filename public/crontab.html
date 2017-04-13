@@ -6,8 +6,9 @@
 				</div>
 				<div class="search">
 					<form target="hid" onsubmit='getWeb(1,$("#SearchValue").prop("value"))'>
-						<input type="text" id="SearchValue" class="ser-text" />
-						<button type="button" class="ser-sub"onclick='getWeb(1,$("#SearchValue").prop("value"))'></button>
+						<input type="text" id="SearchValue" class="ser-text"/>
+						<button type="button" class="ser-sub"
+                                onclick='getWeb(1,$("#SearchValue").prop("value"))'></button>
 					</form>
 				</div>
 			</div>
@@ -23,7 +24,8 @@
 						<div class="row plan">
 							<span class="typename">周期</span>
 							<div class="dropdown plancycle">
-							  <button class="btn btn-default dropdown-toggle" type="button" id="cycle" data-toggle="dropdown" style="width:94px">
+							  <button class="btn btn-default dropdown-toggle" type="button" id="cycle"
+                                      data-toggle="dropdown" style="width:94px">
 								<b val="week">每星期</b>
 								<span class="caret"></span>
 							  </button>
@@ -42,12 +44,14 @@
 						<div class="row plan">
 							<span class="typename">执行</span>
 							<div class="dropdown planjs">
-							  <button class="btn btn-default dropdown-toggle" type="button" id="excode" data-toggle="dropdown" style="width:auto">
+							  <button class="btn btn-default dropdown-toggle" type="button" id="excode"
+                                      data-toggle="dropdown" style="width:auto">
 								<b val='toShell'>Shell脚本</b>
 								<span class="caret"></span>
 							  </button>
 							  <ul class="dropdown-menu" role="menu" aria-labelledby="excode">
-								<li><a role="menuitem" tabindex="-1" href="javascript:;" value="toShell">Shell脚本</a></li>
+								<li><a role="menuitem" tabindex="-1" href="javascript:;"
+                                       value="toShell">Shell脚本</a></li>
 								<li><a role="menuitem" tabindex="-1" href="javascript:;" value="toFile">脚本文件</a></li>
 								<li><a role="menuitem" tabindex="-1" href="javascript:;" value="site">备份网站</a></li>
 								<li><a role="menuitem" tabindex="-1" href="javascript:;" value="database">备份数据库</a></li>
@@ -60,19 +64,20 @@
 							<div class="plan-submit" onclick="planAdd()">添加</div>
 						</div>
 				</div>
-				<form id="set-Config" action="/crontab.php?action=AddCrontab" enctype="multipart/form-data" method="post" style="display: none;">
-					<input type="text" name="name" value="" />
-					<input type="text" name="type" value="" />
-					<input type="number" name="where1" value="" />
-					<input type="number" name="hour" value="" />
-					<input type="number" name="minute" value="" />
-					<input type="text" name="week" value="" />
-					<input type="text" name="sType" value="" />
+				<form id="set-Config" action="/crontab.php?action=AddCrontab" enctype="multipart/form-data"
+                      method="post" style="display: none;">
+					<input type="text" name="name" value=""/>
+					<input type="text" name="type" value=""/>
+					<input type="number" name="where1" value=""/>
+					<input type="number" name="hour" value=""/>
+					<input type="number" name="minute" value=""/>
+					<input type="text" name="week" value=""/>
+					<input type="text" name="sType" value=""/>
 					<textarea name='sBody'></textarea>
-					<input id="sFile" type="file" name="sFile" value="" />
-					<input id="sName" type="text" name="sName" value="" />
-					<input type="number" name="save" value="" />
-					<input type="submit" />
+					<input id="sFile" type="file" name="sFile" value=""/>
+					<input id="sName" type="text" name="sName" value=""/>
+					<input type="number" name="save" value=""/>
+					<input type="submit"/>
 				</form>
 			</div>
 			<div class="setbox">
@@ -92,14 +97,18 @@
 						</thead>
 						<tbody>
 							<?php foreach($cronData as $value){ ?>
-								<tr>
+                            <tr>
 									<td><?php echo $value['name']; ?></td>
 									<td><?php echo $value['type']; ?></td>
 									<td><?php echo $value['cycle']; ?></td>
 									<td><?php echo $value['addtime']; ?></td>
-									<td><a href="javascript:OnlineEditFile(0,'/www/server/cron/<?php echo $value['echo']; ?>');" class="link">脚本</a> | <a href="javascript:GetLogs(<?php echo $value['id']; ?>);" class="link">日志</a> | <a href="javascript:planDel(<?php echo $value['id']; ?>,'<?php echo $value["name"]; ?>');" class="link">删除</a></td>
+									<td><a href="javascript:OnlineEditFile(0,'/www/server/cron/<?php echo $value['echo']; ?>');"
+                                           class="link">脚本</a> | <a
+                                            href="javascript:GetLogs(<?php echo $value['id']; ?>);" class="link">日志</a> | <a
+                                            href="javascript:planDel(<?php echo $value['id']; ?>,'<?php echo $value["
+                                            name"]; ?>');" class="link">删除</a></td>
 								</tr>
-							<?php } ?>
+                            <?php } ?>
 						</tbody>
 					</table>
 				</div>
@@ -108,314 +117,320 @@
 	</div>
 </div>
 <script type="text/javascript">
-	setCookie('serverType','<?php echo $_SESSION["server_type"]; ?>');
-	toWeek();
-	toHour();
-	toMinute();
-	toShell();
-	
-	var status = '<?php echo $_SESSION["crontab"]["status"]; ?>';
-	if(status != ''){
-		layer.msg("<?php echo $_SESSION['crontab']['msg']; ?>",{icon:status=='true'?1:5});
-	}
-	
-	<?php unset($_SESSION["crontab"]); ?>
-	var num = 0;
-	
-	
-	//查看任务日志
-	function GetLogs(id){
-		layer.msg('正在获取...',{icon:16,time:0});
-		$.get('/crontab.php?action=GetLogs&id='+id,function(rdata){
-			layer.closeAll();
-			if(!rdata.status) {
-				layer.msg(rdata.msg,{icon:5});
-				return;
-			};
-			layer.open({
-				type:1,
-				title:'任务执行日志',
-				area: ['60%','500px'], 
-				shadeClose:false,
-				closeBtn:2,
-				content:'<div class="setchmod zun-form-new" style="padding-top: 0px;">'
-						+'<pre style="overflow: auto; border: 0px none; padding: 15px; margin: 0px; height: 410px; background-color: rgb(255, 255, 255);">'+rdata.msg+'</pre>'
-						+'<div class="submit-btn" style="margin-top: 0px;">'
-						+'<button type="button" class="btn btn-success btn-sm btn-title" onclick="CloseLogs('+id+')">清空</button>'
-						+'<button type="button" class="btn btn-danger btn-sm btn-title" onclick="layer.closeAll()">关闭</button>'
-					    +'</div>'
-						+'</div>'
-			});
-		});
-	}
-	
-	
-	//清空日志
-	function CloseLogs(id){
-		layer.msg('正在处理...',{icon:16,time:0});
-		$.get('/crontab.php?action=DelLogs&id='+id,function(rdata){
-			layer.closeAll();
-			layer.msg(rdata.msg,{icon:rdata.status?1:5});
-		});
-	}
-	
-	
-	//删除
-	function planDel(id,name){
-		layer.open({
-			type: 1,
-		    title: "删除计划任务["+name+"]",
-		    area: '350px',
-		    closeBtn: 2,
-		    shadeClose: true,
-		    content:"<div class='zun-form-new webDelete'>\
+	setCookie('serverType', '<?php echo $_SESSION["server_type"]; ?>');
+    toWeek();
+    toHour();
+    toMinute();
+    toShell();
+
+    var status = '<?php echo $_SESSION["crontab"]["status"]; ?>';
+    if (status != '') {
+      layer.msg("<?php echo $_SESSION['crontab']['msg']; ?>", {icon: status == 'true' ? 1 : 5});
+    }
+
+    <
+      ? php unset($_SESSION["crontab"]);
+      ?
+    >
+    var num = 0;
+
+
+    //查看任务日志
+    function GetLogs(id) {
+      layer.msg('正在获取...', {icon: 16, time: 0});
+      $.get('/crontab.php?action=GetLogs&id=' + id, function (rdata) {
+        layer.closeAll();
+        if (!rdata.status) {
+          layer.msg(rdata.msg, {icon: 5});
+          return;
+        }
+        ;
+        layer.open({
+          type: 1,
+          title: '任务执行日志',
+          area: ['60%', '500px'],
+          shadeClose: false,
+          closeBtn: 2,
+          content: '<div class="setchmod zun-form-new" style="padding-top: 0px;">'
+          + '<pre style="overflow: auto; border: 0px none; padding: 15px; margin: 0px; height: 410px; background-color: rgb(255, 255, 255);">' + rdata.msg + '</pre>'
+          + '<div class="submit-btn" style="margin-top: 0px;">'
+          + '<button type="button" class="btn btn-success btn-sm btn-title" onclick="CloseLogs(' + id + ')">清空</button>'
+          + '<button type="button" class="btn btn-danger btn-sm btn-title" onclick="layer.closeAll()">关闭</button>'
+          + '</div>'
+          + '</div>'
+        });
+      });
+    }
+
+
+    //清空日志
+    function CloseLogs(id) {
+      layer.msg('正在处理...', {icon: 16, time: 0});
+      $.get('/crontab.php?action=DelLogs&id=' + id, function (rdata) {
+        layer.closeAll();
+        layer.msg(rdata.msg, {icon: rdata.status ? 1 : 5});
+      });
+    }
+
+
+    //删除
+    function planDel(id, name) {
+      layer.open({
+        type: 1,
+        title: "删除计划任务[" + name + "]",
+        area: '350px',
+        closeBtn: 2,
+        shadeClose: true,
+        content: "<div class='zun-form-new webDelete'>\
 		    	<p>您确定要删除该任务吗？</p>\
 				<div class='vcode'>计算结果：<span class='text'></span>=<input type='text' id='vcodeResult' value=''></div>\
 		    	<div class='submit-btn' style='margin-top:15px'>\
 					<button type='button' id='web_end_time' class='btn btn-danger btn-sm btn-title' onclick='layer.closeAll()'>取消</button>\
-			        <button type='button' id='web_del_send' class='btn btn-success btn-sm btn-title'  onclick=\"ftpall('"+id+"')\">提交</button>\
+			        <button type='button' id='web_del_send' class='btn btn-success btn-sm btn-title'  onclick=\"ftpall('" + id + "')\">提交</button>\
 		        </div>\
 		    </div>"
-		});
-		randomSum();
-	}
-	
-	//随机生成验证计算
-	function randomSum(){
-		var a = Math.round(Math.random()*9+1);
-		var b = Math.round(Math.random()*9+1);
-		var sum = '';
-		sum = a + b;
-		$(".vcode .text").text(a+' + '+b);
-		setCookie("vcodesum",sum);
-		$("#vcodeResult").focus().keyup(function(e){
-			if(e.keyCode == 13) $("#web_del_send").click();
-		});
-	}
-	//删除操作
-	function ftpall(id){
-		var sum = $("#vcodeResult").val();
-		if(sum == undefined || sum ==''){
-			layer.msg("输入计算结果，否则无法删除");
-			return;
-		}
-		else{
-			window.location.href = "/crontab.php?action=DelCrontab&id="+id;
-		}
-	}
-	
+      });
+      randomSum();
+    }
 
-	
-	//提交
-	function planAdd(){
-		var name = $(".planname input[name='name']").val();
-		if(name == ''){
-			$(".planname input[name='name']").focus();
-			layer.msg('任务名称不能为空!',{icon:5});
-			return;
-		}
-		$("#set-Config input[name='name']").val(name);
-		
-		var type = $(".plancycle").find("b").attr("val");
-		$("#set-Config input[name='type']").val(type);
-		
-		var where1 = $("#ptime input[name='where1']").val();
-		var is1;
-		var is2 = 1;
-		switch(type){
-			case 'day-n':
-				is1=31;
-				break;
-			case 'hour-n':
-				is1=23;
-				break;
-			case 'minute-n':
-				is1=59;
-				break;
-			case 'month':
-				is1=31;
-				break;
-			
-		}
-		
-		if(where1 > is1 || where1 < is2){
-			$("#ptime input[name='where1']").focus();
-			layer.msg('表单不合法,请重新输入!',{icon:5});
-			return;
-		}
-		
-		$("#set-Config input[name='where1']").val(where1);
-		
-		var hour = $("#ptime input[name='hour']").val();
-		if(hour > 23 || hour < 0){
-			$("#ptime input[name='hour']").focus();
-			layer.msg('小时值不合法!',{icon:5});
-			return;
-		}
-		$("#set-Config input[name='hour']").val(hour);
-		var minute = $("#ptime input[name='minute']").val();
-		if(minute > 59 || minute < 0){
-			$("#ptime input[name='minute']").focus();
-			layer.msg('分钟值不合法!',{icon:5});
-			return;
-		}
-		$("#set-Config input[name='minute']").val(minute);
-		
-		var save = $("#save").val();
-		
-		
-		$("#set-Config input[name='save']").val(save);
-		
-		$("#set-Config input[name='week']").val($(".planweek").find("b").attr("val"));
-		var sType = $(".planjs").find("b").attr("val");
-		var sBody = $("#implement textarea[name='sBody']").val();
-		
-		if(sType == 'toFile'){
-			if($("#viewfile").val() == ''){
-				layer.msg('请选择脚本文件!',{icon:5});
-				return;
-			}
-		}else{
-			if(sBody == ''){
-				$("#implement textarea[name='sBody']").focus();
-				layer.msg('脚本代码不能为空!',{icon:5});
-				return;
-			}
-		}
-		
-		$("#set-Config input[name='sType']").val(sType);
-		$("#set-Config textarea[name='sBody']").val(sBody);
-		
-		var sName = $("#sName").attr("val");
-		$("#set-Config input[name='sName']").val(sName);
-		$("#set-Config").submit();
-		
-	}
-	
-	$(".dropdown ul li a").click(function(){
-		var txt = $(this).text();
-		var type = $(this).attr("value");
-		$(this).parents(".dropdown").find("button b").text(txt).attr("val",type);
-		switch(type){
-			case 'day':
-				closeOpt();
-				toHour();
-				toMinute();
-				break;
-			case 'day-n':
-				closeOpt();
-				toWhere1('天');
-				toHour();
-				toMinute();
-				break;
-			case 'hour':
-				closeOpt();
-				toMinute();
-				break;
-			case 'hour-n':
-				closeOpt();
-				toWhere1('小时');
-				toMinute();
-				break;
-			case 'minute-n':
-				closeOpt();
-				toWhere1('分钟');
-				break;
-			case 'week':
-				closeOpt();
-				toWeek();
-				toHour();
-				toMinute();
-				break;
-			case 'month':
-				closeOpt();
-				toWhere1('日');
-				toHour();
-				toMinute();
-				break;
-			case 'toFile':
-				toFile();
-				break;
-			case 'toShell':
-				toShell();
-				break;
-			case 'site':
-				toBackup('sites');
-				break;
-			case 'database':
-				toBackup('databases');
-				break;
-			case 'logs':
-				toBackup('logs');
-				break;
-		}
-	})
-	
-	
-	//备份
-	function toBackup(type){
-		var sMsg = "";
-		switch(type){
-			case 'sites':
-				sMsg = '备份网站';
-				sType = "sites";
-				break;
-			case 'databases':
-				sMsg = '备份数据库';
-				sType = "databases";
-				break;
-			case 'logs':
-				sMsg = '切割日志';
-				sType = "sites";
-				break;
-		}
-		$.get('/crontab.php?action=GetDataList&type='+sType,function(rdata){
-			$(".planname input[name='name']").attr('readonly','true').css({"background-color":"#f6f6f6","color":"#666"});
-			var sOpt = "";
+    //随机生成验证计算
+    function randomSum() {
+      var a = Math.round(Math.random() * 9 + 1);
+      var b = Math.round(Math.random() * 9 + 1);
+      var sum = '';
+      sum = a + b;
+      $(".vcode .text").text(a + ' + ' + b);
+      setCookie("vcodesum", sum);
+      $("#vcodeResult").focus().keyup(function (e) {
+        if (e.keyCode == 13) $("#web_del_send").click();
+      });
+    }
+    //删除操作
+    function ftpall(id) {
+      var sum = $("#vcodeResult").val();
+      if (sum == undefined || sum == '') {
+        layer.msg("输入计算结果，否则无法删除");
+        return;
+      }
+      else {
+        window.location.href = "/crontab.php?action=DelCrontab&id=" + id;
+      }
+    }
 
-			for(var i=0;i<rdata.length;i++){
-				if(i==0){
-					$(".planname input[name='name']").val(sMsg+'['+rdata[i].name+']');
-				}
-				sOpt += '<li><a role="menuitem" tabindex="-1" href="javascript:;" value="'+rdata[i].name+'">'+rdata[i].name+'['+rdata[i].ps+']</a></li>';			
-			}
-	
-			var sBody = '<div class="dropdown">\
+
+    //提交
+    function planAdd() {
+      var name = $(".planname input[name='name']").val();
+      if (name == '') {
+        $(".planname input[name='name']").focus();
+        layer.msg('任务名称不能为空!', {icon: 5});
+        return;
+      }
+      $("#set-Config input[name='name']").val(name);
+
+      var type = $(".plancycle").find("b").attr("val");
+      $("#set-Config input[name='type']").val(type);
+
+      var where1 = $("#ptime input[name='where1']").val();
+      var is1;
+      var is2 = 1;
+      switch (type) {
+        case 'day-n':
+          is1 = 31;
+          break;
+        case 'hour-n':
+          is1 = 23;
+          break;
+        case 'minute-n':
+          is1 = 59;
+          break;
+        case 'month':
+          is1 = 31;
+          break;
+
+      }
+
+      if (where1 > is1 || where1 < is2) {
+        $("#ptime input[name='where1']").focus();
+        layer.msg('表单不合法,请重新输入!', {icon: 5});
+        return;
+      }
+
+      $("#set-Config input[name='where1']").val(where1);
+
+      var hour = $("#ptime input[name='hour']").val();
+      if (hour > 23 || hour < 0) {
+        $("#ptime input[name='hour']").focus();
+        layer.msg('小时值不合法!', {icon: 5});
+        return;
+      }
+      $("#set-Config input[name='hour']").val(hour);
+      var minute = $("#ptime input[name='minute']").val();
+      if (minute > 59 || minute < 0) {
+        $("#ptime input[name='minute']").focus();
+        layer.msg('分钟值不合法!', {icon: 5});
+        return;
+      }
+      $("#set-Config input[name='minute']").val(minute);
+
+      var save = $("#save").val();
+
+
+      $("#set-Config input[name='save']").val(save);
+
+      $("#set-Config input[name='week']").val($(".planweek").find("b").attr("val"));
+      var sType = $(".planjs").find("b").attr("val");
+      var sBody = $("#implement textarea[name='sBody']").val();
+
+      if (sType == 'toFile') {
+        if ($("#viewfile").val() == '') {
+          layer.msg('请选择脚本文件!', {icon: 5});
+          return;
+        }
+      } else {
+        if (sBody == '') {
+          $("#implement textarea[name='sBody']").focus();
+          layer.msg('脚本代码不能为空!', {icon: 5});
+          return;
+        }
+      }
+
+      $("#set-Config input[name='sType']").val(sType);
+      $("#set-Config textarea[name='sBody']").val(sBody);
+
+      var sName = $("#sName").attr("val");
+      $("#set-Config input[name='sName']").val(sName);
+      $("#set-Config").submit();
+
+    }
+
+    $(".dropdown ul li a").click(function () {
+      var txt = $(this).text();
+      var type = $(this).attr("value");
+      $(this).parents(".dropdown").find("button b").text(txt).attr("val", type);
+      switch (type) {
+        case 'day':
+          closeOpt();
+          toHour();
+          toMinute();
+          break;
+        case 'day-n':
+          closeOpt();
+          toWhere1('天');
+          toHour();
+          toMinute();
+          break;
+        case 'hour':
+          closeOpt();
+          toMinute();
+          break;
+        case 'hour-n':
+          closeOpt();
+          toWhere1('小时');
+          toMinute();
+          break;
+        case 'minute-n':
+          closeOpt();
+          toWhere1('分钟');
+          break;
+        case 'week':
+          closeOpt();
+          toWeek();
+          toHour();
+          toMinute();
+          break;
+        case 'month':
+          closeOpt();
+          toWhere1('日');
+          toHour();
+          toMinute();
+          break;
+        case 'toFile':
+          toFile();
+          break;
+        case 'toShell':
+          toShell();
+          break;
+        case 'site':
+          toBackup('sites');
+          break;
+        case 'database':
+          toBackup('databases');
+          break;
+        case 'logs':
+          toBackup('logs');
+          break;
+      }
+    })
+
+
+    //备份
+    function toBackup(type) {
+      var sMsg = "";
+      switch (type) {
+        case 'sites':
+          sMsg = '备份网站';
+          sType = "sites";
+          break;
+        case 'databases':
+          sMsg = '备份数据库';
+          sType = "databases";
+          break;
+        case 'logs':
+          sMsg = '切割日志';
+          sType = "sites";
+          break;
+      }
+      $.get('/crontab.php?action=GetDataList&type=' + sType, function (rdata) {
+        $(".planname input[name='name']").attr('readonly', 'true').css({
+          "background-color": "#f6f6f6",
+          "color": "#666"
+        });
+        var sOpt = "";
+
+        for (var i = 0; i < rdata.length; i++) {
+          if (i == 0) {
+            $(".planname input[name='name']").val(sMsg + '[' + rdata[i].name + ']');
+          }
+          sOpt += '<li><a role="menuitem" tabindex="-1" href="javascript:;" value="' + rdata[i].name + '">' + rdata[i].name + '[' + rdata[i].ps + ']</a></li>';
+        }
+
+        var sBody = '<div class="dropdown">\
 						  <button class="btn btn-default dropdown-toggle" type="button" id="backdata" data-toggle="dropdown" style="width:auto">\
-							<b id="sName" val="'+rdata[0].name+'">'+rdata[0].name+'['+rdata[0].ps+']</b> <span class="caret"></span>\
+							<b id="sName" val="' + rdata[0].name + '">' + rdata[0].name + '[' + rdata[0].ps + ']</b> <span class="caret"></span>\
 						  </button>\
-						  <ul class="dropdown-menu" role="menu" aria-labelledby="backdata">'+sOpt+'</ul>\
+						  <ul class="dropdown-menu" role="menu" aria-labelledby="backdata">' + sOpt + '</ul>\
 						</div>\
 						<div class="textname">保留最新</div><div class="plan_hms">\
 						<span><input type="number" name="save" id="save" value="3" maxlength="4" max="100" min="1"></span>\
 						<span class="name">份</span>\
 						</div>';
-			$("#implement").html(sBody);
-			getselectname();
-			$(".dropdown ul li a").click(function(){
-				var sName = $("#sName").attr("val");
-				if(!sName) return;
-				$(".planname input[name='name']").val(sMsg+'['+sName+']');
-			});
-		});
-	}
-	
-	
-	//下拉菜单名称
-	function getselectname(){
-		$(".dropdown ul li a").click(function(){
-			var txt = $(this).text();
-			var type = $(this).attr("value");
-			$(this).parents(".dropdown").find("button b").text(txt).attr("val",type);
-		});
-	}
-	//清理
-	function closeOpt(){
-		$("#ptime").html('');
-	}
-	//星期
-	function toWeek(){
-		var mBody = '<div class="dropdown planweek">\
+        $("#implement").html(sBody);
+        getselectname();
+        $(".dropdown ul li a").click(function () {
+          var sName = $("#sName").attr("val");
+          if (!sName) return;
+          $(".planname input[name='name']").val(sMsg + '[' + sName + ']');
+        });
+      });
+    }
+
+
+    //下拉菜单名称
+    function getselectname() {
+      $(".dropdown ul li a").click(function () {
+        var txt = $(this).text();
+        var type = $(this).attr("value");
+        $(this).parents(".dropdown").find("button b").text(txt).attr("val", type);
+      });
+    }
+    //清理
+    function closeOpt() {
+      $("#ptime").html('');
+    }
+    //星期
+    function toWeek() {
+      var mBody = '<div class="dropdown planweek">\
 						  <button class="btn btn-default dropdown-toggle" type="button" id="excode" data-toggle="dropdown">\
 							<b val="1">周一</b> <span class="caret"></span>\
 						  </button>\
@@ -429,57 +444,57 @@
 							<li><a role="menuitem" tabindex="-1" href="javascript:;" value="0">周日</a></li>\
 						  </ul>\
 						</div>';
-		$("#ptime").html(mBody);
-		getselectname()
-	}
-	//指定1
-	function toWhere1(ix){
-		var mBody ='<div class="plan_hms">\
+      $("#ptime").html(mBody);
+      getselectname()
+    }
+    //指定1
+    function toWhere1(ix) {
+      var mBody = '<div class="plan_hms">\
 						<span><input type="number" name="where1" value="3" maxlength="2" max="31" min="0"></span>\
-						<span class="name">'+ix+'</span>\
+						<span class="name">' + ix + '</span>\
 						</div>';
-		$("#ptime").append(mBody);
-	}
-	//小时
-	function toHour(){
-		var mBody = '<div class="plan_hms">\
+      $("#ptime").append(mBody);
+    }
+    //小时
+    function toHour() {
+      var mBody = '<div class="plan_hms">\
 						<span><input type="number" name="hour" value="1" maxlength="2" max="23" min="0"></span>\
 						<span class="name">时</span>\
 						</div>';
-		$("#ptime").append(mBody);
-	}
-	
-	//分钟
-	function toMinute(){
-		var mBody = '<div class="plan_hms">\
+      $("#ptime").append(mBody);
+    }
+
+    //分钟
+    function toMinute() {
+      var mBody = '<div class="plan_hms">\
 						<span><input type="number" name="minute" value="30" maxlength="2" max="59" min="0"></span>\
 						<span class="name">分</span>\
 						</div>';
-		$("#ptime").append(mBody);
-		
-	}
-	
-	//从文件
-	function toFile(){
-		var tBody = '<input type="text" value="" name="file" id="viewfile" onclick="fileupload()" readonly="true">\
+      $("#ptime").append(mBody);
+
+    }
+
+    //从文件
+    function toFile() {
+      var tBody = '<input type="text" value="" name="file" id="viewfile" onclick="fileupload()" readonly="true">\
 					<button class="btn btn-default" onclick="fileupload()">上传</button>';
-		$("#implement").html(tBody);
-		$(".planname input[name='name']").removeAttr('readonly style').val("");
-	}
-	
-	//从脚本
-	function toShell(){
-		var tBody = "<textarea class='txtsjs' name='sBody'></textarea>";
-		$("#implement").html(tBody);
-		$(".planname input[name='name']").removeAttr('readonly style').val("");
-	}
-	//上传
-	function fileupload(){
-		$("#sFile").change(function(){
-			$("#viewfile").val($("#sFile").val());
-		});
-		$("#sFile").click();
-	}
+      $("#implement").html(tBody);
+      $(".planname input[name='name']").removeAttr('readonly style').val("");
+    }
+
+    //从脚本
+    function toShell() {
+      var tBody = "<textarea class='txtsjs' name='sBody'></textarea>";
+      $("#implement").html(tBody);
+      $(".planname input[name='name']").removeAttr('readonly style').val("");
+    }
+    //上传
+    function fileupload() {
+      $("#sFile").change(function () {
+        $("#viewfile").val($("#sFile").val());
+      });
+      $("#sFile").click();
+    }
 	
 	
 </script>

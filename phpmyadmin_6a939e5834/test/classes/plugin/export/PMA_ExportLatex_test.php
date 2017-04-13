@@ -16,11 +16,12 @@ require_once 'libraries/config.default.php';
 require_once 'libraries/relation.lib.php';
 require_once 'libraries/transformations.lib.php';
 require_once 'export.php';
+
 /**
  * tests for ExportLatex class
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
 {
@@ -37,17 +38,17 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
             define("PMA_DRIZZLE", false);
         }
 
-        $GLOBALS['server'] = 0;
-        $GLOBALS['output_kanji_conversion'] = false;
-        $GLOBALS['output_charset_conversion'] = false;
-        $GLOBALS['buffer_needed'] = false;
-        $GLOBALS['asfile'] = true;
-        $GLOBALS['save_on_server'] = false;
-        $GLOBALS['plugin_param'] = array();
-        $GLOBALS['plugin_param']['export_type'] = 'table';
+        $GLOBALS['server']                       = 0;
+        $GLOBALS['output_kanji_conversion']      = false;
+        $GLOBALS['output_charset_conversion']    = false;
+        $GLOBALS['buffer_needed']                = false;
+        $GLOBALS['asfile']                       = true;
+        $GLOBALS['save_on_server']               = false;
+        $GLOBALS['plugin_param']                 = [];
+        $GLOBALS['plugin_param']['export_type']  = 'table';
         $GLOBALS['plugin_param']['single_table'] = false;
-        $GLOBALS['cfgRelation']['relation'] = true;
-        $this->object = new ExportLatex();
+        $GLOBALS['cfgRelation']['relation']      = true;
+        $this->object                            = new ExportLatex();
     }
 
     /**
@@ -67,9 +68,9 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
      */
     public function testSetProperties()
     {
-        $GLOBALS['plugin_param']['export_type'] = '';
+        $GLOBALS['plugin_param']['export_type']  = '';
         $GLOBALS['plugin_param']['single_table'] = false;
-        $GLOBALS['cfgRelation']['mimework'] = true;
+        $GLOBALS['cfgRelation']['mimework']      = true;
 
         $method = new ReflectionMethod('ExportLatex', 'setProperties');
         $method->setAccessible(true);
@@ -181,11 +182,11 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array(
-                'structure' => __('structure'),
-                'data' => __('data'),
-                'structure_and_data' => __('structure and data')
-            ),
+            [
+                'structure'          => __('structure'),
+                'data'               => __('data'),
+                'structure_and_data' => __('structure and data'),
+            ],
             $property->getValues()
         );
 
@@ -457,7 +458,7 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
         );
 
         // case 2
-        $GLOBALS['plugin_param']['export_type'] = 'table';
+        $GLOBALS['plugin_param']['export_type']  = 'table';
         $GLOBALS['plugin_param']['single_table'] = false;
 
         $method->invoke($this->object, null);
@@ -482,7 +483,7 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
             define("PMA_MYSQL_STR_VERSION", "5.0.0");
         }
 
-        $GLOBALS['crlf'] = "\n";
+        $GLOBALS['crlf']                  = "\n";
         $GLOBALS['cfg']['Server']['port'] = 80;
         $GLOBALS['cfg']['Server']['host'] = 'localhost';
 
@@ -559,15 +560,15 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
      */
     public function testExportData()
     {
-        $GLOBALS['latex_caption'] = true;
-        $GLOBALS['latex_data_caption'] = 'latex data caption';
+        $GLOBALS['latex_caption']                = true;
+        $GLOBALS['latex_data_caption']           = 'latex data caption';
         $GLOBALS['latex_data_continued_caption'] = 'continued caption';
-        $GLOBALS['latex_columns'] = true;
-        $GLOBALS['latex_data_label'] = 'datalabel';
-        $GLOBALS['latex_null'] = 'null';
-        $GLOBALS['cfg']['Server']['host'] = 'localhost';
-        $GLOBALS['cfg']['Server']['verbose'] = 'verb';
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $GLOBALS['latex_columns']                = true;
+        $GLOBALS['latex_data_label']             = 'datalabel';
+        $GLOBALS['latex_null']                   = 'null';
+        $GLOBALS['cfg']['Server']['host']        = 'localhost';
+        $GLOBALS['cfg']['Server']['verbose']     = 'verb';
+        $dbi                                     = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -584,12 +585,12 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(3))
             ->method('fetchAssoc')
             ->with(null)
-            ->will($this->returnValue(array('f1' => 'foo$%')));
+            ->will($this->returnValue(['f1' => 'foo$%']));
 
         $dbi->expects($this->at(4))
             ->method('fetchAssoc')
             ->with(null)
-            ->will($this->returnValue(array('f1' => null)));
+            ->will($this->returnValue(['f1' => null]));
 
         $dbi->expects($this->at(5))
             ->method('fetchAssoc')
@@ -640,12 +641,12 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(3))
             ->method('fetchAssoc')
             ->with(null)
-            ->will($this->returnValue(array('f1' => 'foo$%')));
+            ->will($this->returnValue(['f1' => 'foo$%']));
 
         $dbi->expects($this->at(4))
             ->method('fetchAssoc')
             ->with(null)
-            ->will($this->returnValue(array('f1' => null)));
+            ->will($this->returnValue(['f1' => null]));
 
         $dbi->expects($this->at(5))
             ->method('fetchAssoc')
@@ -677,16 +678,16 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
         //     ->setMethods(array('formatOneColumnDefinition'))
         //     ->getMock();
 
-        $keys = array(
-            array(
-                'Non_unique' => 0,
-                'Column_name' => 'name1'
-            ),
-            array(
-                'Non_unique' => 1,
-                'Column_name' => 'name2'
-            )
-        );
+        $keys = [
+            [
+                'Non_unique'  => 0,
+                'Column_name' => 'name1',
+            ],
+            [
+                'Non_unique'  => 1,
+                'Column_name' => 'name2',
+            ],
+        ];
 
         // case 1
 
@@ -701,37 +702,37 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
 
         $dbi->expects($this->at(2))
             ->method('fetchResult')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $dbi->expects($this->at(7))
             ->method('fetchResult')
             ->will(
                 $this->returnValue(
-                    array(
-                        'name1' => array(
-                            'values' => 'test-',
+                    [
+                        'name1' => [
+                            'values'         => 'test-',
                             'transformation' => 'testfoo',
-                            'mimetype' => 'testmimetype_'
-                        )
-                    )
+                            'mimetype'       => 'testmimetype_',
+                        ],
+                    ]
                 )
             );
 
-        $columns = array(
-            array(
-                'Null' => 'Yes',
+        $columns = [
+            [
+                'Null'  => 'Yes',
                 'Field' => 'name1',
-                'Key' => 'PRI',
-                'Type' => 'set(abc)enum123'
-            ),
-            array(
-                'Null' => 'NO',
-                'Field' => 'fields',
-                'Key' => 'COMP',
-                'Type' => '',
-                'Default' => 'def'
-            )
-        );
+                'Key'   => 'PRI',
+                'Type'  => 'set(abc)enum123',
+            ],
+            [
+                'Null'    => 'NO',
+                'Field'   => 'fields',
+                'Key'     => 'COMP',
+                'Type'    => '',
+                'Default' => 'def',
+            ],
+        ];
         $dbi->expects($this->once())
             ->method('getColumns')
             ->with('database', '')
@@ -749,9 +750,9 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
             ->method('fetchAssoc')
             ->will(
                 $this->returnValue(
-                    array(
-                        'comment' => array('name1' => 'testComment')
-                    )
+                    [
+                        'comment' => ['name1' => 'testComment'],
+                    ]
                 )
             );
 
@@ -761,15 +762,15 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
         }
 
         $GLOBALS['cfgRelation']['relation'] = true;
-        $GLOBALS['cfg']['LimitChars'] = 40;
-        $_SESSION['relation'][0] = array(
-            'relwork' => true,
-            'commwork' => true,
-            'mimework' => true,
-            'db' => 'database',
-            'relation' => 'rel',
-            'column_info' => 'col'
-        );
+        $GLOBALS['cfg']['LimitChars']       = 40;
+        $_SESSION['relation'][0]            = [
+            'relwork'     => true,
+            'commwork'    => true,
+            'mimework'    => true,
+            'db'          => 'database',
+            'relation'    => 'rel',
+            'column_info' => 'col',
+        ];
 
         ob_start();
         $this->assertTrue(
@@ -821,13 +822,13 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
             ->method('fetchResult')
             ->will(
                 $this->returnValue(
-                    array(
-                        'name1' => array(
+                    [
+                        'name1'             => [
                             'foreign_table' => 'ftable',
-                            'foreign_field' => 'ffield'
-                        ),
-                        'foreign_keys_data' => array()
-                    )
+                            'foreign_field' => 'ffield',
+                        ],
+                        'foreign_keys_data' => [],
+                    ]
                 )
             );
 
@@ -835,13 +836,13 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
             ->method('fetchResult')
             ->will(
                 $this->returnValue(
-                    array(
-                        'field' => array(
-                            'values' => 'test-',
+                    [
+                        'field' => [
+                            'values'         => 'test-',
                             'transformation' => 'testfoo',
-                            'mimetype' => 'test<'
-                        )
-                    )
+                            'mimetype'       => 'test<',
+                        ],
+                    ]
                 )
             );
 
@@ -867,23 +868,23 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
             ->method('fetchAssoc')
             ->will(
                 $this->returnValue(
-                    array(
-                        'comment' => array('field' => 'testComment')
-                    )
+                    [
+                        'comment' => ['field' => 'testComment'],
+                    ]
                 )
             );
 
         $GLOBALS['dbi'] = $dbi;
 
         $GLOBALS['cfgRelation']['relation'] = true;
-        $_SESSION['relation'][0] = array(
-            'relwork' => true,
-            'commwork' => true,
-            'mimework' => true,
-            'db' => 'database',
-            'relation' => 'rel',
-            'column_info' => 'col'
-        );
+        $_SESSION['relation'][0]            = [
+            'relwork'     => true,
+            'commwork'    => true,
+            'mimework'    => true,
+            'db'          => 'database',
+            'relation'    => 'rel',
+            'column_info' => 'col',
+        ];
 
         ob_start();
         $this->assertTrue(
@@ -935,30 +936,30 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
             ->method('fetchAssoc')
             ->will(
                 $this->returnValue(
-                    array(
-                        'comment' => array('field' => 'testComment')
-                    )
+                    [
+                        'comment' => ['field' => 'testComment'],
+                    ]
                 )
             );
 
         $GLOBALS['dbi'] = $dbi;
 
-        $GLOBALS['cfgRelation']['relation'] = true;
-        $GLOBALS['latex_caption'] = true;
-        $GLOBALS['latex_structure_caption'] = 'latexstructure';
-        $GLOBALS['latex_structure_label'] = 'latexlabel';
+        $GLOBALS['cfgRelation']['relation']           = true;
+        $GLOBALS['latex_caption']                     = true;
+        $GLOBALS['latex_structure_caption']           = 'latexstructure';
+        $GLOBALS['latex_structure_label']             = 'latexlabel';
         $GLOBALS['latex_structure_continued_caption'] = 'latexcontinued';
-        $GLOBALS['cfg']['Server']['host'] = 'localhost';
-        $GLOBALS['cfg']['Server']['verbose'] = 'verb';
+        $GLOBALS['cfg']['Server']['host']             = 'localhost';
+        $GLOBALS['cfg']['Server']['verbose']          = 'verb';
 
-        $_SESSION['relation'][0] = array(
-            'relwork' => false,
-            'commwork' => false,
-            'mimework' => false,
-            'db' => 'database',
-            'relation' => 'rel',
-            'column_info' => 'col'
-        );
+        $_SESSION['relation'][0] = [
+            'relwork'     => false,
+            'commwork'    => false,
+            'mimework'    => false,
+            'db'          => 'database',
+            'relation'    => 'rel',
+            'column_info' => 'col',
+        ];
 
         ob_start();
         $this->assertTrue(
@@ -1009,4 +1010,5 @@ class PMA_ExportLatex_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

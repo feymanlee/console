@@ -14,807 +14,808 @@
  */
 function PMA_sprites()
 {
-    return array(
-        'asc_order' => array(
+    return [
+        'asc_order'                   => [
             'position' => '1',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_bookmark' => array(
+            'height'   => '16',
+        ],
+        'b_bookmark'                  => [
             'position' => '2',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_browse' => array(
+            'height'   => '16',
+        ],
+        'b_browse'                    => [
             'position' => '3',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_calendar' => array(
+            'height'   => '16',
+        ],
+        'b_calendar'                  => [
             'position' => '4',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_chart' => array(
+            'height'   => '16',
+        ],
+        'b_chart'                     => [
             'position' => '5',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_close' => array(
+            'height'   => '16',
+        ],
+        'b_close'                     => [
             'position' => '6',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_column_add' => array(
+            'height'   => '16',
+        ],
+        'b_column_add'                => [
             'position' => '7',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_comment' => array(
+            'height'   => '16',
+        ],
+        'b_comment'                   => [
             'position' => '8',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_dbstatistics' => array(
+            'height'   => '16',
+        ],
+        'b_dbstatistics'              => [
             'position' => '9',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_deltbl' => array(
+            'height'   => '16',
+        ],
+        'b_deltbl'                    => [
             'position' => '10',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_docs' => array(
+            'height'   => '16',
+        ],
+        'b_docs'                      => [
             'position' => '11',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_docsql' => array(
+            'height'   => '16',
+        ],
+        'b_docsql'                    => [
             'position' => '12',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_drop' => array(
+            'height'   => '16',
+        ],
+        'b_drop'                      => [
             'position' => '13',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_edit' => array(
+            'height'   => '16',
+        ],
+        'b_edit'                      => [
             'position' => '14',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_empty' => array(
+            'height'   => '16',
+        ],
+        'b_empty'                     => [
             'position' => '15',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_engine' => array(
+            'height'   => '16',
+        ],
+        'b_engine'                    => [
             'position' => '16',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_event_add' => array(
+            'height'   => '16',
+        ],
+        'b_event_add'                 => [
             'position' => '17',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_events' => array(
+            'height'   => '16',
+        ],
+        'b_events'                    => [
             'position' => '18',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_export' => array(
+            'height'   => '16',
+        ],
+        'b_export'                    => [
             'position' => '19',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_favorite' => array(
+            'height'   => '16',
+        ],
+        'b_favorite'                  => [
             'position' => '20',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_find_replace' => array(
+            'height'   => '16',
+        ],
+        'b_find_replace'              => [
             'position' => '21',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_firstpage' => array(
+            'height'   => '16',
+        ],
+        'b_firstpage'                 => [
             'position' => '22',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_ftext' => array(
+            'height'   => '16',
+        ],
+        'b_ftext'                     => [
             'position' => '23',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_group' => array(
+            'height'   => '16',
+        ],
+        'b_group'                     => [
             'position' => '24',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_help' => array(
+            'height'   => '16',
+        ],
+        'b_help'                      => [
             'position' => '25',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_home' => array(
+            'height'   => '16',
+        ],
+        'b_home'                      => [
             'position' => '26',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_import' => array(
+            'height'   => '16',
+        ],
+        'b_import'                    => [
             'position' => '27',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_index' => array(
+            'height'   => '16',
+        ],
+        'b_index'                     => [
             'position' => '28',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_index_add' => array(
+            'height'   => '16',
+        ],
+        'b_index_add'                 => [
             'position' => '29',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_info' => array(
+            'height'   => '16',
+        ],
+        'b_info'                      => [
             'position' => '30',
             'width'    => '11',
-            'height'   => '11'
-        ),
-        'b_inline_edit' => array(
+            'height'   => '11',
+        ],
+        'b_inline_edit'               => [
             'position' => '31',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_insrow' => array(
+            'height'   => '16',
+        ],
+        'b_insrow'                    => [
             'position' => '32',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_lastpage' => array(
+            'height'   => '16',
+        ],
+        'b_lastpage'                  => [
             'position' => '33',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_minus' => array(
+            'height'   => '16',
+        ],
+        'b_minus'                     => [
             'position' => '34',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_more' => array(
+            'height'   => '16',
+        ],
+        'b_more'                      => [
             'position' => '35',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_move' => array(
+            'height'   => '16',
+        ],
+        'b_move'                      => [
             'position' => '36',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_newdb' => array(
+            'height'   => '16',
+        ],
+        'b_newdb'                     => [
             'position' => '37',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_newtbl' => array(
+            'height'   => '16',
+        ],
+        'b_newtbl'                    => [
             'position' => '38',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_nextpage' => array(
+            'height'   => '16',
+        ],
+        'b_nextpage'                  => [
             'position' => '39',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_no_favorite' => array(
+            'height'   => '16',
+        ],
+        'b_no_favorite'               => [
             'position' => '40',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_pdfdoc' => array(
+            'height'   => '16',
+        ],
+        'b_pdfdoc'                    => [
             'position' => '41',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_plus' => array(
+            'height'   => '16',
+        ],
+        'b_plus'                      => [
             'position' => '42',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_prevpage' => array(
+            'height'   => '16',
+        ],
+        'b_prevpage'                  => [
             'position' => '43',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_primary' => array(
+            'height'   => '16',
+        ],
+        'b_primary'                   => [
             'position' => '44',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_print' => array(
+            'height'   => '16',
+        ],
+        'b_print'                     => [
             'position' => '45',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_props' => array(
+            'height'   => '16',
+        ],
+        'b_props'                     => [
             'position' => '46',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_relations' => array(
+            'height'   => '16',
+        ],
+        'b_relations'                 => [
             'position' => '47',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_report' => array(
+            'height'   => '16',
+        ],
+        'b_report'                    => [
             'position' => '48',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_routine_add' => array(
+            'height'   => '16',
+        ],
+        'b_routine_add'               => [
             'position' => '49',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_routines' => array(
+            'height'   => '16',
+        ],
+        'b_routines'                  => [
             'position' => '50',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_save' => array(
+            'height'   => '16',
+        ],
+        'b_save'                      => [
             'position' => '51',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_saveimage' => array(
+            'height'   => '16',
+        ],
+        'b_saveimage'                 => [
             'position' => '52',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_sbrowse' => array(
+            'height'   => '16',
+        ],
+        'b_sbrowse'                   => [
             'position' => '53',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_sdb' => array(
+            'height'   => '16',
+        ],
+        'b_sdb'                       => [
             'position' => '54',
             'width'    => '10',
-            'height'   => '10'
-        ),
-        'b_search' => array(
+            'height'   => '10',
+        ],
+        'b_search'                    => [
             'position' => '55',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_selboard' => array(
+            'height'   => '16',
+        ],
+        'b_selboard'                  => [
             'position' => '56',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_select' => array(
+            'height'   => '16',
+        ],
+        'b_select'                    => [
             'position' => '57',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_snewtbl' => array(
+            'height'   => '16',
+        ],
+        'b_snewtbl'                   => [
             'position' => '58',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_spatial' => array(
+            'height'   => '16',
+        ],
+        'b_spatial'                   => [
             'position' => '59',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_sql' => array(
+            'height'   => '16',
+        ],
+        'b_sql'                       => [
             'position' => '60',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_sqldoc' => array(
+            'height'   => '16',
+        ],
+        'b_sqldoc'                    => [
             'position' => '61',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_sqlhelp' => array(
+            'height'   => '16',
+        ],
+        'b_sqlhelp'                   => [
             'position' => '62',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_table_add' => array(
+            'height'   => '16',
+        ],
+        'b_table_add'                 => [
             'position' => '63',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_tblanalyse' => array(
+            'height'   => '16',
+        ],
+        'b_tblanalyse'                => [
             'position' => '64',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_tblexport' => array(
+            'height'   => '16',
+        ],
+        'b_tblexport'                 => [
             'position' => '65',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_tblimport' => array(
+            'height'   => '16',
+        ],
+        'b_tblimport'                 => [
             'position' => '66',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_tblops' => array(
+            'height'   => '16',
+        ],
+        'b_tblops'                    => [
             'position' => '67',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_tbloptimize' => array(
+            'height'   => '16',
+        ],
+        'b_tbloptimize'               => [
             'position' => '68',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_tipp' => array(
+            'height'   => '16',
+        ],
+        'b_tipp'                      => [
             'position' => '69',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_trigger_add' => array(
+            'height'   => '16',
+        ],
+        'b_trigger_add'               => [
             'position' => '70',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_triggers' => array(
+            'height'   => '16',
+        ],
+        'b_triggers'                  => [
             'position' => '71',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_undo' => array(
+            'height'   => '16',
+        ],
+        'b_undo'                      => [
             'position' => '72',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_unique' => array(
+            'height'   => '16',
+        ],
+        'b_unique'                    => [
             'position' => '73',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_usradd' => array(
+            'height'   => '16',
+        ],
+        'b_usradd'                    => [
             'position' => '74',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_usrcheck' => array(
+            'height'   => '16',
+        ],
+        'b_usrcheck'                  => [
             'position' => '75',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_usrdrop' => array(
+            'height'   => '16',
+        ],
+        'b_usrdrop'                   => [
             'position' => '76',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_usredit' => array(
+            'height'   => '16',
+        ],
+        'b_usredit'                   => [
             'position' => '77',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_usrlist' => array(
+            'height'   => '16',
+        ],
+        'b_usrlist'                   => [
             'position' => '78',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_versions' => array(
+            'height'   => '16',
+        ],
+        'b_versions'                  => [
             'position' => '79',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_view' => array(
+            'height'   => '16',
+        ],
+        'b_view'                      => [
             'position' => '80',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_view_add' => array(
+            'height'   => '16',
+        ],
+        'b_view_add'                  => [
             'position' => '81',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'b_views' => array(
+            'height'   => '16',
+        ],
+        'b_views'                     => [
             'position' => '82',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_browse' => array(
+            'height'   => '16',
+        ],
+        'bd_browse'                   => [
             'position' => '83',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_deltbl' => array(
+            'height'   => '16',
+        ],
+        'bd_deltbl'                   => [
             'position' => '84',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_drop' => array(
+            'height'   => '16',
+        ],
+        'bd_drop'                     => [
             'position' => '85',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_edit' => array(
+            'height'   => '16',
+        ],
+        'bd_edit'                     => [
             'position' => '86',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_empty' => array(
+            'height'   => '16',
+        ],
+        'bd_empty'                    => [
             'position' => '87',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_export' => array(
+            'height'   => '16',
+        ],
+        'bd_export'                   => [
             'position' => '88',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_firstpage' => array(
+            'height'   => '16',
+        ],
+        'bd_firstpage'                => [
             'position' => '89',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_ftext' => array(
+            'height'   => '16',
+        ],
+        'bd_ftext'                    => [
             'position' => '90',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_index' => array(
+            'height'   => '16',
+        ],
+        'bd_index'                    => [
             'position' => '91',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_insrow' => array(
+            'height'   => '16',
+        ],
+        'bd_insrow'                   => [
             'position' => '92',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_lastpage' => array(
+            'height'   => '16',
+        ],
+        'bd_lastpage'                 => [
             'position' => '93',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_nextpage' => array(
+            'height'   => '16',
+        ],
+        'bd_nextpage'                 => [
             'position' => '94',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_prevpage' => array(
+            'height'   => '16',
+        ],
+        'bd_prevpage'                 => [
             'position' => '95',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_primary' => array(
+            'height'   => '16',
+        ],
+        'bd_primary'                  => [
             'position' => '96',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_routine_add' => array(
+            'height'   => '16',
+        ],
+        'bd_routine_add'              => [
             'position' => '97',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_sbrowse' => array(
+            'height'   => '16',
+        ],
+        'bd_sbrowse'                  => [
             'position' => '98',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_select' => array(
+            'height'   => '16',
+        ],
+        'bd_select'                   => [
             'position' => '99',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_spatial' => array(
+            'height'   => '16',
+        ],
+        'bd_spatial'                  => [
             'position' => '100',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'bd_unique' => array(
+            'height'   => '16',
+        ],
+        'bd_unique'                   => [
             'position' => '101',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'centralColumns' => array(
+            'height'   => '16',
+        ],
+        'centralColumns'              => [
             'position' => '102',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'centralColumns_add' => array(
+            'height'   => '16',
+        ],
+        'centralColumns_add'          => [
             'position' => '103',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'centralColumns_delete' => array(
+            'height'   => '16',
+        ],
+        'centralColumns_delete'       => [
             'position' => '104',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'col_drop' => array(
+            'height'   => '16',
+        ],
+        'col_drop'                    => [
             'position' => '105',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'console' => array(
+            'height'   => '16',
+        ],
+        'console'                     => [
             'position' => '106',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'database' => array(
+            'height'   => '16',
+        ],
+        'database'                    => [
             'position' => '107',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'eye' => array(
+            'height'   => '16',
+        ],
+        'eye'                         => [
             'position' => '108',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'eye_grey' => array(
+            'height'   => '16',
+        ],
+        'eye_grey'                    => [
             'position' => '109',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'item' => array(
+            'height'   => '16',
+        ],
+        'item'                        => [
             'position' => '110',
             'width'    => '9',
-            'height'   => '9'
-        ),
-        'lightbulb' => array(
+            'height'   => '9',
+        ],
+        'lightbulb'                   => [
             'position' => '111',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'lightbulb_off' => array(
+            'height'   => '16',
+        ],
+        'lightbulb_off'               => [
             'position' => '112',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'more' => array(
+            'height'   => '16',
+        ],
+        'more'                        => [
             'position' => '113',
             'width'    => '13',
-            'height'   => '16'
-        ),
-        'new_data' => array(
+            'height'   => '16',
+        ],
+        'new_data'                    => [
             'position' => '114',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'new_data_hovered' => array(
+            'height'   => '16',
+        ],
+        'new_data_hovered'            => [
             'position' => '115',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'new_data_selected' => array(
+            'height'   => '16',
+        ],
+        'new_data_selected'           => [
             'position' => '116',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'new_data_selected_hovered' => array(
+            'height'   => '16',
+        ],
+        'new_data_selected_hovered'   => [
             'position' => '117',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'new_struct' => array(
+            'height'   => '16',
+        ],
+        'new_struct'                  => [
             'position' => '118',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'new_struct_hovered' => array(
+            'height'   => '16',
+        ],
+        'new_struct_hovered'          => [
             'position' => '119',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'new_struct_selected' => array(
+            'height'   => '16',
+        ],
+        'new_struct_selected'         => [
             'position' => '120',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'new_struct_selected_hovered' => array(
+            'height'   => '16',
+        ],
+        'new_struct_selected_hovered' => [
             'position' => '121',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'normalize' => array(
+            'height'   => '16',
+        ],
+        'normalize'                   => [
             'position' => '122',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'pause' => array(
+            'height'   => '16',
+        ],
+        'pause'                       => [
             'position' => '123',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'php_sym' => array(
+            'height'   => '16',
+        ],
+        'php_sym'                     => [
             'position' => '124',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'play' => array(
+            'height'   => '16',
+        ],
+        'play'                        => [
             'position' => '125',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_asc' => array(
+            'height'   => '16',
+        ],
+        's_asc'                       => [
             'position' => '126',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_asci' => array(
+            'height'   => '16',
+        ],
+        's_asci'                      => [
             'position' => '127',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_attention' => array(
+            'height'   => '16',
+        ],
+        's_attention'                 => [
             'position' => '128',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_cancel' => array(
+            'height'   => '16',
+        ],
+        's_cancel'                    => [
             'position' => '129',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_cancel2' => array(
+            'height'   => '16',
+        ],
+        's_cancel2'                   => [
             'position' => '130',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_cog' => array(
+            'height'   => '16',
+        ],
+        's_cog'                       => [
             'position' => '131',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_db' => array(
+            'height'   => '16',
+        ],
+        's_db'                        => [
             'position' => '132',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_desc' => array(
+            'height'   => '16',
+        ],
+        's_desc'                      => [
             'position' => '133',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_error' => array(
+            'height'   => '16',
+        ],
+        's_error'                     => [
             'position' => '134',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_error2' => array(
+            'height'   => '16',
+        ],
+        's_error2'                    => [
             'position' => '135',
             'width'    => '11',
-            'height'   => '11'
-        ),
-        's_host' => array(
+            'height'   => '11',
+        ],
+        's_host'                      => [
             'position' => '136',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_info' => array(
+            'height'   => '16',
+        ],
+        's_info'                      => [
             'position' => '137',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_lang' => array(
+            'height'   => '16',
+        ],
+        's_lang'                      => [
             'position' => '138',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_link' => array(
+            'height'   => '16',
+        ],
+        's_link'                      => [
             'position' => '139',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_lock' => array(
+            'height'   => '16',
+        ],
+        's_lock'                      => [
             'position' => '140',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_loggoff' => array(
+            'height'   => '16',
+        ],
+        's_loggoff'                   => [
             'position' => '141',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_notice' => array(
+            'height'   => '16',
+        ],
+        's_notice'                    => [
             'position' => '142',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_okay' => array(
+            'height'   => '16',
+        ],
+        's_okay'                      => [
             'position' => '143',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_passwd' => array(
+            'height'   => '16',
+        ],
+        's_passwd'                    => [
             'position' => '144',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_process' => array(
+            'height'   => '16',
+        ],
+        's_process'                   => [
             'position' => '145',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_really' => array(
+            'height'   => '16',
+        ],
+        's_really'                    => [
             'position' => '146',
             'width'    => '11',
-            'height'   => '11'
-        ),
-        's_reload' => array(
+            'height'   => '11',
+        ],
+        's_reload'                    => [
             'position' => '147',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_replication' => array(
+            'height'   => '16',
+        ],
+        's_replication'               => [
             'position' => '148',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_rights' => array(
+            'height'   => '16',
+        ],
+        's_rights'                    => [
             'position' => '149',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_sortable' => array(
+            'height'   => '16',
+        ],
+        's_sortable'                  => [
             'position' => '150',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_status' => array(
+            'height'   => '16',
+        ],
+        's_status'                    => [
             'position' => '151',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_success' => array(
+            'height'   => '16',
+        ],
+        's_success'                   => [
             'position' => '152',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_sync' => array(
+            'height'   => '16',
+        ],
+        's_sync'                      => [
             'position' => '153',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_tbl' => array(
+            'height'   => '16',
+        ],
+        's_tbl'                       => [
             'position' => '154',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_theme' => array(
+            'height'   => '16',
+        ],
+        's_theme'                     => [
             'position' => '155',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_top' => array(
+            'height'   => '16',
+        ],
+        's_top'                       => [
             'position' => '156',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_unlink' => array(
+            'height'   => '16',
+        ],
+        's_unlink'                    => [
             'position' => '157',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_vars' => array(
+            'height'   => '16',
+        ],
+        's_vars'                      => [
             'position' => '158',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        's_views' => array(
+            'height'   => '16',
+        ],
+        's_views'                     => [
             'position' => '159',
             'width'    => '16',
-            'height'   => '16'
-        ),
-        'window-new' => array(
+            'height'   => '16',
+        ],
+        'window-new'                  => [
             'position' => '160',
             'width'    => '16',
-            'height'   => '16'
-        ),
-    );
+            'height'   => '16',
+        ],
+    ];
 }
+
 ?>

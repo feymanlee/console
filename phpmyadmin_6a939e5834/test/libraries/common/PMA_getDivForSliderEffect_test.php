@@ -4,7 +4,7 @@
  ** Test for PMA_Util::getDivForSliderEffect from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  ** Test for PMA_Util::getDivForSliderEffect from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_GetDivForSliderEffectTest extends PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,7 @@ class PMA_GetDivForSliderEffectTest extends PHPUnit_Framework_TestCase
         global $cfg;
         $cfg['InitialSlidersState'] = 'undefined';
 
-        $id = "test_id";
+        $id      = "test_id";
         $message = "test_message";
 
         $this->assertEquals(
@@ -50,7 +50,7 @@ class PMA_GetDivForSliderEffectTest extends PHPUnit_Framework_TestCase
         global $cfg;
         $cfg['InitialSlidersState'] = 'closed';
 
-        $id = "test_id";
+        $id      = "test_id";
         $message = "test_message";
 
         $this->assertEquals(
@@ -71,7 +71,7 @@ class PMA_GetDivForSliderEffectTest extends PHPUnit_Framework_TestCase
         global $cfg;
         $cfg['InitialSlidersState'] = 'disabled';
 
-        $id = "test_id";
+        $id      = "test_id";
         $message = "test_message";
 
         $this->assertEquals(

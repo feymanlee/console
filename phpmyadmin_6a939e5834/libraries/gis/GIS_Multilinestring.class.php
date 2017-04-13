@@ -6,7 +6,7 @@
  * @package PhpMyAdmin-GIS
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -38,7 +38,7 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
     public static function singleton()
     {
         if (!isset(self::$_instance)) {
-            $class = __CLASS__;
+            $class           = __CLASS__;
             self::$_instance = new $class;
         }
 
@@ -55,14 +55,16 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
      */
     public function scaleRow($spatial)
     {
-        $min_max = array();
+        $min_max = [];
 
         // Trim to remove leading 'MULTILINESTRING((' and trailing '))'
-        $multilinestirng = /*overload*/mb_substr(
-            $spatial,
-            17,
-            /*overload*/mb_strlen($spatial) - 19
-        );
+        $multilinestirng = /*overload*/
+            mb_substr(
+                $spatial,
+                17,
+                /*overload*/
+                mb_strlen($spatial) - 19
+            );
         // Separate each linestring
         $linestirngs = explode("),(", $multilinestirng);
 
@@ -90,17 +92,22 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
     ) {
         // allocate colors
         $black = imagecolorallocate($image, 0, 0, 0);
-        $red   = hexdec(/*overload*/mb_substr($line_color, 1, 2));
-        $green = hexdec(/*overload*/mb_substr($line_color, 3, 2));
-        $blue  = hexdec(/*overload*/mb_substr($line_color, 4, 2));
+        $red   = hexdec(/*overload*/
+            mb_substr($line_color, 1, 2));
+        $green = hexdec(/*overload*/
+            mb_substr($line_color, 3, 2));
+        $blue  = hexdec(/*overload*/
+            mb_substr($line_color, 4, 2));
         $color = imagecolorallocate($image, $red, $green, $blue);
 
         // Trim to remove leading 'MULTILINESTRING((' and trailing '))'
-        $multilinestirng = /*overload*/mb_substr(
-            $spatial,
-            17,
-            /*overload*/mb_strlen($spatial) - 19
-        );
+        $multilinestirng = /*overload*/
+            mb_substr(
+                $spatial,
+                17,
+                /*overload*/
+                mb_strlen($spatial) - 19
+            );
         // Separate each linestring
         $linestirngs = explode("),(", $multilinestirng);
 
@@ -108,7 +115,7 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
         foreach ($linestirngs as $linestring) {
             $points_arr = $this->extractPoints($linestring, $scale_data);
             foreach ($points_arr as $point) {
-                if (! isset($temp_point)) {
+                if (!isset($temp_point)) {
                     $temp_point = $point;
                 } else {
                     // draw line section
@@ -129,6 +136,7 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
             }
             $first_line = false;
         }
+
         return $image;
     }
 
@@ -147,16 +155,21 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
     public function prepareRowAsPdf($spatial, $label, $line_color, $scale_data, $pdf)
     {
         // allocate colors
-        $red   = hexdec(/*overload*/mb_substr($line_color, 1, 2));
-        $green = hexdec(/*overload*/mb_substr($line_color, 3, 2));
-        $blue  = hexdec(/*overload*/mb_substr($line_color, 4, 2));
-        $line  = array('width' => 1.5, 'color' => array($red, $green, $blue));
+        $red   = hexdec(/*overload*/
+            mb_substr($line_color, 1, 2));
+        $green = hexdec(/*overload*/
+            mb_substr($line_color, 3, 2));
+        $blue  = hexdec(/*overload*/
+            mb_substr($line_color, 4, 2));
+        $line  = ['width' => 1.5, 'color' => [$red, $green, $blue]];
 
         // Trim to remove leading 'MULTILINESTRING((' and trailing '))'
-        $multilinestirng = /*overload*/mb_substr(
-            $spatial,
-            17, /*overload*/mb_strlen($spatial) - 19
-        );
+        $multilinestirng = /*overload*/
+            mb_substr(
+                $spatial,
+                17, /*overload*/
+                mb_strlen($spatial) - 19
+            );
         // Separate each linestring
         $linestirngs = explode("),(", $multilinestirng);
 
@@ -164,7 +177,7 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
         foreach ($linestirngs as $linestring) {
             $points_arr = $this->extractPoints($linestring, $scale_data);
             foreach ($points_arr as $point) {
-                if (! isset($temp_point)) {
+                if (!isset($temp_point)) {
                     $temp_point = $point;
                 } else {
                     // draw line section
@@ -183,6 +196,7 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
             }
             $first_line = false;
         }
+
         return $pdf;
     }
 
@@ -199,20 +213,22 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
      */
     public function prepareRowAsSvg($spatial, $label, $line_color, $scale_data)
     {
-        $line_options = array(
-            'name'        => $label,
-            'class'       => 'linestring vector',
-            'fill'        => 'none',
-            'stroke'      => $line_color,
-            'stroke-width'=> 2,
-        );
+        $line_options = [
+            'name'         => $label,
+            'class'        => 'linestring vector',
+            'fill'         => 'none',
+            'stroke'       => $line_color,
+            'stroke-width' => 2,
+        ];
 
         // Trim to remove leading 'MULTILINESTRING((' and trailing '))'
-        $multilinestirng = /*overload*/mb_substr(
-            $spatial,
-            17,
-            /*overload*/mb_strlen($spatial) - 19
-        );
+        $multilinestirng = /*overload*/
+            mb_substr(
+                $spatial,
+                17,
+                /*overload*/
+                mb_strlen($spatial) - 19
+            );
         // Separate each linestring
         $linestirngs = explode("),(", $multilinestirng);
 
@@ -250,23 +266,25 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
      */
     public function prepareRowAsOl($spatial, $srid, $label, $line_color, $scale_data)
     {
-        $style_options = array(
+        $style_options = [
             'strokeColor' => $line_color,
             'strokeWidth' => 2,
             'label'       => $label,
             'fontSize'    => 10,
-        );
+        ];
         if ($srid == 0) {
             $srid = 4326;
         }
         $row = $this->getBoundsForOl($srid, $scale_data);
 
         // Trim to remove leading 'MULTILINESTRING((' and trailing '))'
-        $multilinestirng = /*overload*/mb_substr(
-            $spatial,
-            17,
-            /*overload*/mb_strlen($spatial) - 19
-        );
+        $multilinestirng = /*overload*/
+            mb_substr(
+                $spatial,
+                17,
+                /*overload*/
+                mb_strlen($spatial) - 19
+            );
         // Separate each linestring
         $linestirngs = explode("),(", $multilinestirng);
 
@@ -274,6 +292,7 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
             . 'new OpenLayers.Geometry.MultiLineString('
             . $this->getLineArrayForOpenLayers($linestirngs, $srid)
             . '), null, ' . json_encode($style_options) . '));';
+
         return $row;
     }
 
@@ -307,17 +326,22 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
             $wkt .= '(';
             for ($j = 0; $j < $no_of_points; $j++) {
                 $wkt .= ((isset($data_row[$i][$j]['x'])
-                    && trim($data_row[$i][$j]['x']) != '')
-                    ? $data_row[$i][$j]['x'] : $empty)
+                        && trim($data_row[$i][$j]['x']) != '')
+                        ? $data_row[$i][$j]['x'] : $empty)
                     . ' ' . ((isset($data_row[$i][$j]['y'])
-                    && trim($data_row[$i][$j]['y']) != '')
-                    ? $data_row[$i][$j]['y'] : $empty) . ',';
+                        && trim($data_row[$i][$j]['y']) != '')
+                        ? $data_row[$i][$j]['y'] : $empty) . ',';
             }
-            $wkt = /*overload*/mb_substr($wkt, 0, /*overload*/mb_strlen($wkt) - 1);
+            $wkt = /*overload*/
+                mb_substr($wkt, 0, /*overload*/
+                    mb_strlen($wkt) - 1);
             $wkt .= '),';
         }
-        $wkt = /*overload*/mb_substr($wkt, 0, /*overload*/mb_strlen($wkt) - 1);
+        $wkt = /*overload*/
+            mb_substr($wkt, 0, /*overload*/
+                mb_strlen($wkt) - 1);
         $wkt .= ')';
+
         return $wkt;
     }
 
@@ -337,11 +361,16 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
             foreach ($row_data['parts'][$i]['points'] as $point) {
                 $wkt .= $point['x'] . ' ' . $point['y'] . ',';
             }
-            $wkt = /*overload*/mb_substr($wkt, 0, /*overload*/mb_strlen($wkt) - 1);
+            $wkt = /*overload*/
+                mb_substr($wkt, 0, /*overload*/
+                    mb_strlen($wkt) - 1);
             $wkt .= '),';
         }
-        $wkt = /*overload*/mb_substr($wkt, 0, /*overload*/mb_strlen($wkt) - 1);
+        $wkt = /*overload*/
+            mb_substr($wkt, 0, /*overload*/
+                mb_strlen($wkt) - 1);
         $wkt .= ')';
+
         return $wkt;
     }
 
@@ -356,31 +385,33 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
      */
     public function generateParams($value, $index = -1)
     {
-        $params = array();
+        $params = [];
         if ($index == -1) {
-            $index = 0;
-            $data = PMA_GIS_Geometry::generateParams($value);
+            $index          = 0;
+            $data           = PMA_GIS_Geometry::generateParams($value);
             $params['srid'] = $data['srid'];
-            $wkt = $data['wkt'];
+            $wkt            = $data['wkt'];
         } else {
             $params[$index]['gis_type'] = 'MULTILINESTRING';
-            $wkt = $value;
+            $wkt                        = $value;
         }
 
         // Trim to remove leading 'MULTILINESTRING((' and trailing '))'
-        $multilinestirng = /*overload*/mb_substr(
-            $wkt,
-            17,
-            /*overload*/mb_strlen($wkt) - 19
-        );
+        $multilinestirng = /*overload*/
+            mb_substr(
+                $wkt,
+                17,
+                /*overload*/
+                mb_strlen($wkt) - 19
+            );
         // Separate each linestring
-        $linestirngs = explode("),(", $multilinestirng);
+        $linestirngs                                      = explode("),(", $multilinestirng);
         $params[$index]['MULTILINESTRING']['no_of_lines'] = count($linestirngs);
 
         $j = 0;
         foreach ($linestirngs as $linestring) {
-            $points_arr = $this->extractPoints($linestring, null);
-            $no_of_points = count($points_arr);
+            $points_arr                                            = $this->extractPoints($linestring, null);
+            $no_of_points                                          = count($points_arr);
             $params[$index]['MULTILINESTRING'][$j]['no_of_points'] = $no_of_points;
             for ($i = 0; $i < $no_of_points; $i++) {
                 $params[$index]['MULTILINESTRING'][$j][$i]['x'] = $points_arr[$i][0];
@@ -388,7 +419,9 @@ class PMA_GIS_Multilinestring extends PMA_GIS_Geometry
             }
             $j++;
         }
+
         return $params;
     }
 }
+
 ?>

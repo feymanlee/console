@@ -47,50 +47,50 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public static function browsers()
     {
-        if (! empty($GLOBALS['TESTSUITE_BROWSERSTACK_USER'])
-            && ! empty($GLOBALS['TESTSUITE_BROWSERSTACK_KEY'])
+        if (!empty($GLOBALS['TESTSUITE_BROWSERSTACK_USER'])
+            && !empty($GLOBALS['TESTSUITE_BROWSERSTACK_KEY'])
         ) {
             /* BrowserStack integration */
             self::$_selenium_enabled = true;
 
-            $strategy = 'shared';
-            $build_local = false;
-            $build_id = 'Manual';
+            $strategy     = 'shared';
+            $build_local  = false;
+            $build_id     = 'Manual';
             $project_name = 'phpMyAdmin';
             if (getenv('BUILD_TAG')) {
-                $build_id = getenv('BUILD_TAG');
-                $strategy = 'isolated';
+                $build_id     = getenv('BUILD_TAG');
+                $strategy     = 'isolated';
                 $project_name = 'phpMyAdmin (Jenkins)';
             } elseif (getenv('TRAVIS_JOB_NUMBER')) {
-                $build_id = 'travis-' . getenv('TRAVIS_JOB_NUMBER');
-                $build_local = true;
-                $strategy = 'isolated';
+                $build_id     = 'travis-' . getenv('TRAVIS_JOB_NUMBER');
+                $build_local  = true;
+                $strategy     = 'isolated';
                 $project_name = 'phpMyAdmin (Travis)';
             }
 
-            $capabilities = array(
-                'browserstack.user' => $GLOBALS['TESTSUITE_BROWSERSTACK_USER'],
-                'browserstack.key' => $GLOBALS['TESTSUITE_BROWSERSTACK_KEY'],
+            $capabilities = [
+                'browserstack.user'  => $GLOBALS['TESTSUITE_BROWSERSTACK_USER'],
+                'browserstack.key'   => $GLOBALS['TESTSUITE_BROWSERSTACK_KEY'],
                 'browserstack.debug' => false,
-                'project' => $project_name,
-                'build' => $build_id,
-            );
+                'project'            => $project_name,
+                'build'              => $build_id,
+            ];
 
             if ($build_local) {
-                $capabilities['browserstack.local'] = $build_local;
+                $capabilities['browserstack.local']           = $build_local;
                 $capabilities['browserstack.localIdentifier'] = $build_id;
-                $capabilities['browserstack.debug'] = true;
+                $capabilities['browserstack.debug']           = true;
             }
 
-            $result = array();
-            $result[] = array(
-                'browserName' => 'chrome',
-                'host' => 'hub.browserstack.com',
-                'port' => 80,
-                'timeout' => 30000,
-                'sessionStrategy' => $strategy,
+            $result   = [];
+            $result[] = [
+                'browserName'         => 'chrome',
+                'host'                => 'hub.browserstack.com',
+                'port'                => 80,
+                'timeout'             => 30000,
+                'sessionStrategy'     => $strategy,
                 'desiredCapabilities' => $capabilities,
-            );
+            ];
 
             /* Only one browser for continuous integration for speed */
             if (empty($GLOBALS['TESTSUITE_FULL'])) {
@@ -113,14 +113,15 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
                 )
             );
             */
-            $result[] = array(
-                'browserName' => 'firefox',
-                'host' => 'hub.browserstack.com',
-                'port' => 80,
-                'timeout' => 30000,
-                'sessionStrategy' => $strategy,
+            $result[] = [
+                'browserName'         => 'firefox',
+                'host'                => 'hub.browserstack.com',
+                'port'                => 80,
+                'timeout'             => 30000,
+                'sessionStrategy'     => $strategy,
                 'desiredCapabilities' => $capabilities,
-            );
+            ];
+
             /* TODO: testing is MSIE is currently broken, so disabled
             $result[] = array(
                 'browserName' => 'internet explorer',
@@ -137,18 +138,20 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
                 )
             );
             */
+
             return $result;
-        } elseif (! empty($GLOBALS['TESTSUITE_SELENIUM_HOST'])) {
+        } elseif (!empty($GLOBALS['TESTSUITE_SELENIUM_HOST'])) {
             self::$_selenium_enabled = true;
-            return array(
-                array(
+
+            return [
+                [
                     'browserName' => $GLOBALS['TESTSUITE_SELENIUM_BROWSER'],
-                    'host' => $GLOBALS['TESTSUITE_SELENIUM_HOST'],
-                    'port' => intval($GLOBALS['TESTSUITE_SELENIUM_PORT']),
-                )
-            );
+                    'host'        => $GLOBALS['TESTSUITE_SELENIUM_HOST'],
+                    'port'        => intval($GLOBALS['TESTSUITE_SELENIUM_PORT']),
+                ],
+            ];
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -161,7 +164,7 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
      */
     protected function setUp()
     {
-        if (! self::$_selenium_enabled) {
+        if (!self::$_selenium_enabled) {
             $this->markTestSkipped('Selenium testing not configured.');
         }
 
@@ -169,7 +172,7 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
         $this->setDesiredCapabilities(
             array_merge(
                 $caps,
-                array('name' => get_class($this) . '__' . $this->getName())
+                ['name' => get_class($this) . '__' . $this->getName()]
             )
         );
 
@@ -186,7 +189,8 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
             );
         }
         $this->database_name = $GLOBALS['TESTSUITE_DATABASE']
-            . /*overload*/mb_substr(md5(rand()), 0, 7);
+            . /*overload*/
+            mb_substr(md5(rand()), 0, 7);
         $this->dbQuery(
             'CREATE DATABASE IF NOT EXISTS ' . $this->database_name
         );
@@ -205,8 +209,10 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
         $result = $this->dbQuery('SELECT COUNT(*) FROM mysql.user');
         if ($result !== false) {
             $result->free();
+
             return true;
         }
+
         return false;
     }
 
@@ -217,7 +223,7 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
      */
     protected function skipIfNotSuperUser()
     {
-        if (! $this->isSuperUser()) {
+        if (!$this->isSuperUser()) {
             $this->markTestSkipped('Test user is not a superuser.');
         }
     }
@@ -296,10 +302,10 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
-    * Checks whether the login is unsuccessful
-    *
-    * @return boolean
-    */
+     * Checks whether the login is unsuccessful
+     *
+     * @return boolean
+     */
     public function isUnsuccessLogin()
     {
         if ($this->isElementPresent("byCssSelector", "div.error")) {
@@ -310,10 +316,10 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
-    * Used to go to the homepage
-    *
-    * @return void
-    */
+     * Used to go to the homepage
+     *
+     * @return void
+     */
     public function gotoHomepage()
     {
         $e = $this->byPartialLinkText("Server: ");
@@ -371,9 +377,10 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $this->timeouts()->implicitWait(10000);
         $element = call_user_func_array(
-            array($this, $func), array($arg)
+            [$this, $func], [$arg]
         );
         $this->timeouts()->implicitWait(0);
+
         return $element;
     }
 
@@ -420,12 +427,13 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
     {
         try {
             $element = call_user_func_array(
-                array($this, $func), array($arg)
+                [$this, $func], [$arg]
             );
         } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {
             // Element not present
             return false;
         }
+
         // Element Present
         return true;
     }
@@ -441,11 +449,12 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function getCellByTableId($tableID, $row, $column)
     {
-        $sel = "table#{$tableID} tbody tr:nth-child({$row}) "
+        $sel     = "table#{$tableID} tbody tr:nth-child({$row}) "
             . "td:nth-child({$column})";
         $element = $this->byCssSelector(
             $sel
         );
+
         return $element->text();
     }
 
@@ -460,11 +469,12 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function getCellByTableClass($tableClass, $row, $column)
     {
-        $sel = "table.{$tableClass} tbody tr:nth-child({$row}) "
+        $sel     = "table.{$tableClass} tbody tr:nth-child({$row}) "
             . "td:nth-child({$column})";
         $element = $this->byCssSelector(
             $sel
         );
+
         return $element->text();
     }
 
@@ -482,7 +492,9 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
          * Not supported in Safari Webdriver, see
          * http://code.google.com/p/selenium/issues/detail?id=4136
          */
-        if (/*overload*/mb_strtolower($this->getBrowser()) == 'safari') {
+        if (/*overload*/
+            mb_strtolower($this->getBrowser()) == 'safari'
+        ) {
             $this->markTestSkipped('Can not send keys to Safari browser.');
         }
         parent::keys($text);
@@ -502,7 +514,9 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
          * Not supported in Safari Webdriver, see
          * http://code.google.com/p/selenium/issues/detail?id=4136
          */
-        if (/*overload*/mb_strtolower($this->getBrowser()) == 'safari') {
+        if (/*overload*/
+            mb_strtolower($this->getBrowser()) == 'safari'
+        ) {
             $this->markTestSkipped('MoveTo not supported on Safari browser.');
         }
         parent::moveto($element);
@@ -520,9 +534,12 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
          * Not supported in Safari Webdriver, see
          * http://code.google.com/p/selenium/issues/detail?id=4136
          */
-        if (/*overload*/mb_strtolower($this->getBrowser()) == 'safari') {
+        if (/*overload*/
+            mb_strtolower($this->getBrowser()) == 'safari'
+        ) {
             $this->markTestSkipped('Alerts not supported on Safari browser.');
         }
+
         return parent::alertText();
     }
 
@@ -539,7 +556,9 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
          * Firefox needs some escaping of a text, see
          * http://code.google.com/p/selenium/issues/detail?id=1723
          */
-        if (/*overload*/mb_strtolower($this->getBrowser()) == 'firefox') {
+        if (/*overload*/
+            mb_strtolower($this->getBrowser()) == 'firefox'
+        ) {
             $text = str_replace(
                 "(",
                 PHPUnit_Extensions_Selenium2TestCase_Keys::SHIFT
@@ -567,11 +586,11 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
         }
         /* We need to resize to ensure it fits into accessible area */
         $this->execute(
-            array(
+            [
                 'script' => "$('#topmenu').css('font-size', '50%');"
                     . "$(window).resize()",
-                'args' => array()
-            )
+                'args'   => [],
+            ]
         );
         $this->sleep();
     }
@@ -610,4 +629,5 @@ abstract class PMA_SeleniumBase extends PHPUnit_Extensions_Selenium2TestCase
         );
     }
 }
+
 ?>

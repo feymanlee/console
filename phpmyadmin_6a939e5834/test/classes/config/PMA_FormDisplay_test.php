@@ -36,13 +36,13 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
      */
     function setup()
     {
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
-        $GLOBALS['pmaThemePath'] = $_SESSION['PMA_Theme']->getPath();
+        $_SESSION['PMA_Theme']    = new PMA_Theme();
+        $GLOBALS['pmaThemePath']  = $_SESSION['PMA_Theme']->getPath();
         $GLOBALS['pmaThemeImage'] = 'theme/';
-        $GLOBALS['PMA_Config'] = new PMA_Config();
+        $GLOBALS['PMA_Config']    = new PMA_Config();
         $GLOBALS['PMA_Config']->enableBc();
         $GLOBALS['server'] = 0;
-        $this->object = new FormDisplay(new ConfigFile());
+        $this->object      = new FormDisplay(new ConfigFile());
     }
 
     /**
@@ -82,14 +82,14 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
         $attrForms = $reflection->getProperty('_forms');
         $attrForms->setAccessible(true);
 
-        $array = array(
-            "Servers" => array(
-                "1" => array(
+        $array = [
+            "Servers" => [
+                "1" => [
                     'test' => 1,
-                    1 => ':group:end'
-                )
-            )
-        );
+                    1      => ':group:end',
+                ],
+            ],
+        ];
 
         $this->object->registerForm('pma_testform', $array, 2);
         $_forms = $attrForms->getValue($this->object);
@@ -99,18 +99,18 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array(
-                "Servers/2/test" => "Servers/1/test",
-                "Servers/2/:group:end:0" => "Servers/1/:group:end:0"
-            ),
+            [
+                "Servers/2/test"         => "Servers/1/test",
+                "Servers/2/:group:end:0" => "Servers/1/:group:end:0",
+            ],
             $this->readAttribute($this->object, '_systemPaths')
         );
 
         $this->assertEquals(
-            array(
-                "Servers/2/test" => "Servers-2-test",
-                "Servers/2/:group:end:0" => "Servers-2-:group:end:0"
-            ),
+            [
+                "Servers/2/test"         => "Servers-2-test",
+                "Servers/2/:group:end:0" => "Servers-2-:group:end:0",
+            ],
             $this->readAttribute($this->object, '_translatedPaths')
         );
     }
@@ -129,23 +129,23 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
 
         $this->object = $this->getMockBuilder('FormDisplay')
             ->disableOriginalConstructor()
-            ->setMethods(array('save'))
+            ->setMethods(['save'])
             ->getMock();
 
         $attrForms = new \ReflectionProperty('FormDisplay', '_forms');
         $attrForms->setAccessible(true);
-        $attrForms->setValue($this->object, array(1, 2, 3));
+        $attrForms->setValue($this->object, [1, 2, 3]);
 
         $this->object->expects($this->once())
             ->method('save')
-            ->with(array(0, 1, 2), false)
+            ->with([0, 1, 2], false)
             ->will($this->returnValue(true));
 
         $this->assertTrue(
             $this->object->process(false, false)
         );
 
-        $attrForms->setValue($this->object, array());
+        $attrForms->setValue($this->object, []);
 
         $this->assertFalse(
             $this->object->process(false, false)
@@ -167,20 +167,20 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
 
         $attrIsValidated = $reflection->getProperty('_errors');
         $attrIsValidated->setAccessible(true);
-        $attrIsValidated->setValue($this->object, array());
+        $attrIsValidated->setValue($this->object, []);
 
         $this->assertNull(
             $this->object->displayErrors()
         );
 
-        $arr = array(
-            "Servers/1/test" => array('e1'),
-            "foobar" => array('e2', 'e3')
-        );
+        $arr = [
+            "Servers/1/test" => ['e1'],
+            "foobar"         => ['e2', 'e3'],
+        ];
 
-        $sysArr = array(
-            "Servers/1/test" => "Servers/1/test2"
-        );
+        $sysArr = [
+            "Servers/1/test" => "Servers/1/test2",
+        ];
 
         $attrSystemPaths = $reflection->getProperty('_systemPaths');
         $attrSystemPaths->setAccessible(true);
@@ -214,21 +214,21 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
 
         $attrIsValidated = $reflection->getProperty('_errors');
         $attrIsValidated->setAccessible(true);
-        $attrIsValidated->setValue($this->object, array());
+        $attrIsValidated->setValue($this->object, []);
 
         $this->assertNull(
             $this->object->fixErrors()
         );
 
-        $arr = array(
-            "Servers/1/test" => array('e1'),
-            "Servers/2/test" => array('e2', 'e3'),
-            "Servers/3/test" => array()
-        );
+        $arr = [
+            "Servers/1/test" => ['e1'],
+            "Servers/2/test" => ['e2', 'e3'],
+            "Servers/3/test" => [],
+        ];
 
-        $sysArr = array(
-            "Servers/1/test" => "Servers/1/connect_type"
-        );
+        $sysArr = [
+            "Servers/1/test" => "Servers/1/connect_type",
+        ];
 
         $attrSystemPaths = $reflection->getProperty('_systemPaths');
         $attrSystemPaths->setAccessible(true);
@@ -239,13 +239,13 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
         $this->object->fixErrors();
 
         $this->assertEquals(
-            array(
-                'Servers' => array(
-                    '1' => array(
-                        'test' => 'tcp'
-                    )
-                )
-            ),
+            [
+                'Servers' => [
+                    '1' => [
+                        'test' => 'tcp',
+                    ],
+                ],
+            ],
             $_SESSION['ConfigFile0']
         );
     }
@@ -263,21 +263,21 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
         );
         $attrValidateSelect->setAccessible(true);
 
-        $arr = array('foo' => 'var');
+        $arr   = ['foo' => 'var'];
         $value = 'foo';
         $this->assertTrue(
             $attrValidateSelect->invokeArgs(
                 $this->object,
-                array(&$value, $arr)
+                [&$value, $arr]
             )
         );
 
-        $arr = array('' => 'foobar');
+        $arr   = ['' => 'foobar'];
         $value = null;
         $this->assertTrue(
             $attrValidateSelect->invokeArgs(
                 $this->object,
-                array(&$value, $arr)
+                [&$value, $arr]
             )
         );
         $this->assertEquals(
@@ -285,21 +285,21 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
             gettype($value)
         );
 
-        $arr = array(0 => 'foobar');
+        $arr   = [0 => 'foobar'];
         $value = 0;
         $this->assertTrue(
             $attrValidateSelect->invokeArgs(
                 $this->object,
-                array(&$value, $arr)
+                [&$value, $arr]
             )
         );
 
-        $arr = array('1' => 'foobar');
+        $arr   = ['1' => 'foobar'];
         $value = 0;
         $this->assertFalse(
             $attrValidateSelect->invokeArgs(
                 $this->object,
-                array(&$value, $arr)
+                [&$value, $arr]
             )
         );
     }
@@ -320,7 +320,7 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
 
         $attrErrors->setValue(
             $this->object,
-            array(1, 2)
+            [1, 2]
         );
 
         $this->assertTrue(
@@ -391,7 +391,7 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
         $attrUserprefs->setAccessible(true);
         $method->invoke($this->object, null);
         $this->assertEquals(
-            array(),
+            [],
             $attrUserprefs->getValue($this->object)
         );
     }
@@ -403,7 +403,7 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
      */
     public function testSetComments()
     {
-        if (! PMA_HAS_RUNKIT) {
+        if (!PMA_HAS_RUNKIT) {
             $this->markTestSkipped('Cannot redefine constant');
         }
 
@@ -411,15 +411,15 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
         $method->setAccessible(true);
 
         // recoding
-        $opts = array('values' => array());
-        $opts['values']['iconv'] = 'testIconv';
+        $opts                     = ['values' => []];
+        $opts['values']['iconv']  = 'testIconv';
         $opts['values']['recode'] = 'testRecode';
 
         $expect = $opts;
 
         $method->invokeArgs(
             $this->object,
-            array('RecodingEngine', &$opts)
+            ['RecodingEngine', &$opts]
         );
 
         $expect['comment'] = '';
@@ -442,7 +442,7 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
         // ZipDump, GZipDump, BZipDump
         $method->invokeArgs(
             $this->object,
-            array('ZipDump', &$opts)
+            ['ZipDump', &$opts]
         );
 
         $comment = '';
@@ -452,7 +452,7 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
         }
         if (!function_exists("gzcompress")) {
             $comment .= ($comment ? '; ' : '') . 'Compressed export will not work ' .
-            'due to missing function gzcompress.';
+                'due to missing function gzcompress.';
         }
 
         $this->assertEquals(
@@ -466,7 +466,7 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
 
         $method->invokeArgs(
             $this->object,
-            array('GZipDump', &$opts)
+            ['GZipDump', &$opts]
         );
 
         $comment = '';
@@ -476,7 +476,7 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
         }
         if (!function_exists("gzencode")) {
             $comment .= ($comment ? '; ' : '') . 'Compressed export will not work ' .
-            'due to missing function gzencode.';
+                'due to missing function gzencode.';
         }
 
         $this->assertEquals(
@@ -490,7 +490,7 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
 
         $method->invokeArgs(
             $this->object,
-            array('BZipDump', &$opts)
+            ['BZipDump', &$opts]
         );
 
         $comment = '';
@@ -500,7 +500,7 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
         }
         if (!function_exists("bzcompress")) {
             $comment .= ($comment ? '; ' : '') . 'Compressed export will not work ' .
-            'due to missing function bzcompress.';
+                'due to missing function bzcompress.';
         }
 
         $this->assertEquals(
@@ -516,13 +516,13 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
             runkit_constant_remove('PMA_SETUP');
         }
 
-        $GLOBALS['cfg']['MaxDbList'] = 10;
-        $GLOBALS['cfg']['MaxTableList'] = 10;
+        $GLOBALS['cfg']['MaxDbList']       = 10;
+        $GLOBALS['cfg']['MaxTableList']    = 10;
         $GLOBALS['cfg']['QueryHistoryMax'] = 10;
 
         $method->invokeArgs(
             $this->object,
-            array('MaxDbList', &$opts)
+            ['MaxDbList', &$opts]
         );
 
         $this->assertEquals(
@@ -532,7 +532,7 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
 
         $method->invokeArgs(
             $this->object,
-            array('MaxTableList', &$opts)
+            ['MaxTableList', &$opts]
         );
 
         $this->assertEquals(
@@ -542,7 +542,7 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
 
         $method->invokeArgs(
             $this->object,
-            array('QueryHistoryMax', &$opts)
+            ['QueryHistoryMax', &$opts]
         );
 
         $this->assertEquals(
@@ -554,4 +554,5 @@ class PMA_FormDisplay_Test extends PHPUnit_Framework_TestCase
 
 
 }
+
 ?>

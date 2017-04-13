@@ -41,17 +41,17 @@ class PMA_ServerPlugins_Test extends PHPUnit_Framework_TestCase
         $_REQUEST['pos'] = 3;
 
         //$GLOBALS
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['RememberSorting'] = true;
-        $GLOBALS['cfg']['SQP'] = array();
+        $GLOBALS['cfg']['MaxRows']                     = 10;
+        $GLOBALS['cfg']['ServerDefault']               = "server";
+        $GLOBALS['cfg']['RememberSorting']             = true;
+        $GLOBALS['cfg']['SQP']                         = [];
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
-        $GLOBALS['cfg']['ShowSQL'] = true;
-        $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
-        $GLOBALS['cfg']['DBG']['sql'] = false;
+        $GLOBALS['cfg']['ShowSQL']                     = true;
+        $GLOBALS['cfg']['TableNavigationLinksMode']    = 'icons';
+        $GLOBALS['cfg']['LimitChars']                  = 100;
+        $GLOBALS['cfg']['DBG']['sql']                  = false;
 
-        $GLOBALS['table'] = "table";
+        $GLOBALS['table']         = "table";
         $GLOBALS['pmaThemeImage'] = 'image';
 
         //$_SESSION
@@ -78,21 +78,21 @@ class PMA_ServerPlugins_Test extends PHPUnit_Framework_TestCase
          * Prepare plugin list
          */
 
-        $plugins = array();
-        $modules = array();
+        $plugins = [];
+        $modules = [];
 
-        $row = array();
-        $row["plugin_name"] = "plugin_name1";
-        $row["plugin_type"] = "plugin_type1";
-        $row["module_name"] = "module_name1";
-        $row["module_library"] = "module_library1";
-        $row["module_version"] = "module_version1";
-        $row["module_author"] = "module_author1";
-        $row["module_license"] = "module_license1";
-        $row["module_description"] = "module_description1";
-        $row["is_active"] = true;
-        $plugins[$row['plugin_type']][] = $row;
-        $modules[$row['module_name']]['info'] = $row;
+        $row                                                            = [];
+        $row["plugin_name"]                                             = "plugin_name1";
+        $row["plugin_type"]                                             = "plugin_type1";
+        $row["module_name"]                                             = "module_name1";
+        $row["module_library"]                                          = "module_library1";
+        $row["module_version"]                                          = "module_version1";
+        $row["module_author"]                                           = "module_author1";
+        $row["module_license"]                                          = "module_license1";
+        $row["module_description"]                                      = "module_description1";
+        $row["is_active"]                                               = true;
+        $plugins[$row['plugin_type']][]                                 = $row;
+        $modules[$row['module_name']]['info']                           = $row;
         $modules[$row['module_name']]['plugins'][$row['plugin_type']][] = $row;
 
         $html = PMA_getPluginAndModuleInfo($plugins, $modules);

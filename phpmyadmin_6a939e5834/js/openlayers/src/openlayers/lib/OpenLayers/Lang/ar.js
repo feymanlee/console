@@ -15,24 +15,24 @@
  */
 OpenLayers.Lang["ar"] = OpenLayers.Util.applyDefaults({
 
-    'permalink': "وصلة دائمة",
+  'permalink': "وصلة دائمة",
 
-    'baseLayer': "الطبقة الاساسية",
+  'baseLayer': "الطبقة الاساسية",
 
-    'readNotImplemented': "القراءة غير محققة.",
+  'readNotImplemented': "القراءة غير محققة.",
 
-    'writeNotImplemented': "الكتابة غير محققة",
+  'writeNotImplemented': "الكتابة غير محققة",
 
-    'errorLoadingGML': "خطأ عند تحميل الملف جي ام ال ${url}",
+  'errorLoadingGML': "خطأ عند تحميل الملف جي ام ال ${url}",
 
-    'scale': "النسبة = 1 : ${scaleDenom}",
+  'scale': "النسبة = 1 : ${scaleDenom}",
 
-    'W': "غ",
+  'W': "غ",
 
-    'E': "شر",
+  'E': "شر",
 
-    'N': "شم",
+  'N': "شم",
 
-    'S': "ج"
+  'S': "ج"
 
 });

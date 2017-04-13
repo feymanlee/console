@@ -60,10 +60,10 @@ class PMA_StorageEngine_Ndbcluster_Test extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $this->object->getVariables(),
-            array(
-                'ndb_connectstring' => array(
-                ),
-            )
+            [
+                'ndb_connectstring' => [
+                ],
+            ]
         );
     }
 

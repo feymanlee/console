@@ -49,21 +49,21 @@ class PMA_ServerStatusVariables_Test extends PHPUnit_Framework_TestCase
         $_REQUEST['pos'] = 3;
 
         //$GLOBALS
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['RememberSorting'] = true;
-        $GLOBALS['cfg']['SQP'] = array();
-        $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
-        $GLOBALS['cfg']['ShowSQL'] = true;
-        $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
-        $GLOBALS['cfg']['DBG']['sql'] = false;
-        $GLOBALS['cfg']['Server']['host'] = "localhost";
-        $GLOBALS['PMA_PHP_SELF'] = PMA_getenv('PHP_SELF');
+        $GLOBALS['cfg']['MaxRows']                       = 10;
+        $GLOBALS['cfg']['ServerDefault']                 = "server";
+        $GLOBALS['cfg']['RememberSorting']               = true;
+        $GLOBALS['cfg']['SQP']                           = [];
+        $GLOBALS['cfg']['MaxCharactersInDisplayedSQL']   = 1000;
+        $GLOBALS['cfg']['ShowSQL']                       = true;
+        $GLOBALS['cfg']['TableNavigationLinksMode']      = 'icons';
+        $GLOBALS['cfg']['LimitChars']                    = 100;
+        $GLOBALS['cfg']['DBG']['sql']                    = false;
+        $GLOBALS['cfg']['Server']['host']                = "localhost";
+        $GLOBALS['PMA_PHP_SELF']                         = PMA_getenv('PHP_SELF');
         $GLOBALS['replication_info']['master']['status'] = false;
-        $GLOBALS['replication_info']['slave']['status'] = false;
+        $GLOBALS['replication_info']['slave']['status']  = false;
 
-        $GLOBALS['table'] = "table";
+        $GLOBALS['table']         = "table";
         $GLOBALS['pmaThemeImage'] = 'image';
 
         //$_SESSION
@@ -76,54 +76,54 @@ class PMA_ServerStatusVariables_Test extends PHPUnit_Framework_TestCase
             ->getMock();
 
         //this data is needed when PMA_ServerStatusData constructs
-        $server_status = array(
-            "Aborted_clients" => "0",
-            "Aborted_connects" => "0",
-            "Com_delete_multi" => "0",
+        $server_status = [
+            "Aborted_clients"     => "0",
+            "Aborted_connects"    => "0",
+            "Com_delete_multi"    => "0",
             "Com_create_function" => "0",
-            "Com_empty_query" => "0",
-        );
+            "Com_empty_query"     => "0",
+        ];
 
-        $server_variables= array(
+        $server_variables = [
             "auto_increment_increment" => "1",
-            "auto_increment_offset" => "1",
-            "automatic_sp_privileges" => "ON",
-            "back_log" => "50",
-            "big_tables" => "OFF",
-        );
+            "auto_increment_offset"    => "1",
+            "automatic_sp_privileges"  => "ON",
+            "back_log"                 => "50",
+            "big_tables"               => "OFF",
+        ];
 
-        $fetchResult = array(
-            array(
+        $fetchResult = [
+            [
                 "SHOW GLOBAL STATUS",
                 0,
                 1,
                 null,
                 0,
-                $server_status
-            ),
-            array(
+                $server_status,
+            ],
+            [
                 "SHOW GLOBAL VARIABLES",
                 0,
                 1,
                 null,
                 0,
-                $server_variables
-            ),
-            array(
+                $server_variables,
+            ],
+            [
                 "SELECT concat('Com_', variable_name), variable_value "
-                    . "FROM data_dictionary.GLOBAL_STATEMENTS",
+                . "FROM data_dictionary.GLOBAL_STATEMENTS",
                 0,
                 1,
                 null,
                 0,
-                $server_status
-            ),
-        );
+                $server_status,
+            ],
+        ];
 
         $dbi->expects($this->any())->method('fetchResult')
             ->will($this->returnValueMap($fetchResult));
 
-        $GLOBALS['dbi'] = $dbi;
+        $GLOBALS['dbi']         = $dbi;
         $this->ServerStatusData = new PMA_ServerStatusData();
     }
 

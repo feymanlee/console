@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -65,4 +65,5 @@ class OptionsPropertySubgroup extends OptionsPropertyGroup
         $this->_subgroupHeader = $subgroupHeader;
     }
 }
+
 ?>

@@ -2,7 +2,7 @@
  * full list of contributors). Published under the Clear BSD license.  
  * See http://svn.openlayers.org/trunk/openlayers/license.txt for the
  * full text of the license. */
- 
+
 /**
  * @requires OpenLayers/Format/XML.js
  * @requires OpenLayers/Format/GML/v3.js
@@ -18,8 +18,8 @@
  *  - <OpenLayers.Format.XML>
  */
 OpenLayers.Format.SOSGetFeatureOfInterest = OpenLayers.Class(
-    OpenLayers.Format.XML, {
-    
+  OpenLayers.Format.XML, {
+
     /**
      * Constant: VERSION
      * {String} 1.0.0
@@ -31,10 +31,10 @@ OpenLayers.Format.SOSGetFeatureOfInterest = OpenLayers.Class(
      * {Object} Mapping of namespace aliases to namespace URIs.
      */
     namespaces: {
-        sos: "http://www.opengis.net/sos/1.0",
-        gml: "http://www.opengis.net/gml",
-        sa: "http://www.opengis.net/sampling/1.0",
-        xsi: "http://www.w3.org/2001/XMLSchema-instance"
+      sos: "http://www.opengis.net/sos/1.0",
+      gml: "http://www.opengis.net/gml",
+      sa: "http://www.opengis.net/sampling/1.0",
+      xsi: "http://www.w3.org/2001/XMLSchema-instance"
     },
 
     /**
@@ -53,12 +53,12 @@ OpenLayers.Format.SOSGetFeatureOfInterest = OpenLayers.Class(
      * Compiled regular expressions for manipulating strings.
      */
     regExes: {
-        trimSpace: (/^\s*|\s*$/g),
-        removeSpace: (/\s*/g),
-        splitSpace: (/\s+/),
-        trimComma: (/\s*,\s*/g)
+      trimSpace: (/^\s*|\s*$/g),
+      removeSpace: (/\s*/g),
+      splitSpace: (/\s+/),
+      trimComma: (/\s*,\s*/g)
     },
-    
+
     /**
      * Constructor: OpenLayers.Format.SOSGetFeatureOfInterest
      *
@@ -66,46 +66,46 @@ OpenLayers.Format.SOSGetFeatureOfInterest = OpenLayers.Class(
      * options - {Object} An optional object whose properties will be set on
      *     this instance.
      */
-    initialize: function(options) {
-        OpenLayers.Format.XML.prototype.initialize.apply(this, [options]);
+    initialize: function (options) {
+      OpenLayers.Format.XML.prototype.initialize.apply(this, [options]);
     },
 
     /**
      * APIMethod: read
      * Parse a GetFeatureOfInterest response and return an array of features
-     * 
-     * Parameters: 
+     *
+     * Parameters:
      * data - {String} or {DOMElement} data to read/parse.
      *
      * Returns:
-     * {Array(<OpenLayers.Feature.Vector>)} An array of features. 
+     * {Array(<OpenLayers.Feature.Vector>)} An array of features.
      */
-    read: function(data) {
-        if(typeof data == "string") {
-            data = OpenLayers.Format.XML.prototype.read.apply(this, [data]);
-        }
-        if(data && data.nodeType == 9) {
-            data = data.documentElement;
-        }
+    read: function (data) {
+      if (typeof data == "string") {
+        data = OpenLayers.Format.XML.prototype.read.apply(this, [data]);
+      }
+      if (data && data.nodeType == 9) {
+        data = data.documentElement;
+      }
 
-        var info = {features: []};
-        this.readNode(data, info);
-       
-        var features = [];
-        for (var i=0, len=info.features.length; i<len; i++) {
-            var container = info.features[i];
-            // reproject features if needed
-            if(this.internalProjection && this.externalProjection &&
-                container.components[0]) {
-                    container.components[0].transform(
-                        this.externalProjection, this.internalProjection
-                    );
-            }             
-            var feature = new OpenLayers.Feature.Vector(
-                container.components[0], container.attributes);
-            features.push(feature);
+      var info = {features: []};
+      this.readNode(data, info);
+
+      var features = [];
+      for (var i = 0, len = info.features.length; i < len; i++) {
+        var container = info.features[i];
+        // reproject features if needed
+        if (this.internalProjection && this.externalProjection &&
+          container.components[0]) {
+          container.components[0].transform(
+            this.externalProjection, this.internalProjection
+          );
         }
-        return features;
+        var feature = new OpenLayers.Feature.Vector(
+          container.components[0], container.attributes);
+        features.push(feature);
+      }
+      return features;
     },
 
     /**
@@ -117,49 +117,49 @@ OpenLayers.Format.SOSGetFeatureOfInterest = OpenLayers.Class(
      *     from the parent.
      */
     readers: {
-        "sa": {
-            "SamplingPoint": function(node, obj) {
-                // sampling point can also be without a featureMember if 
-                // there is only 1
-                if (!obj.attributes) {
-                    var feature = {attributes: {}};
-                    obj.features.push(feature);
-                    obj = feature;
-                }
-                obj.attributes.id = this.getAttributeNS(node, 
-                    this.namespaces.gml, "id");
-                this.readChildNodes(node, obj);
-            },
-            "position": function (node, obj) {
-                this.readChildNodes(node, obj);
-            }
+      "sa": {
+        "SamplingPoint": function (node, obj) {
+          // sampling point can also be without a featureMember if 
+          // there is only 1
+          if (!obj.attributes) {
+            var feature = {attributes: {}};
+            obj.features.push(feature);
+            obj = feature;
+          }
+          obj.attributes.id = this.getAttributeNS(node,
+            this.namespaces.gml, "id");
+          this.readChildNodes(node, obj);
         },
-        "gml": OpenLayers.Util.applyDefaults({
-            "FeatureCollection": function(node, obj) {
-                this.readChildNodes(node, obj);
-            },
-            "featureMember": function(node, obj) {
-                var feature = {attributes: {}};
-                obj.features.push(feature);
-                this.readChildNodes(node, feature);
-            },
-            "name": function(node, obj) {
-                obj.attributes.name = this.getChildValue(node);
-            },
-            "pos": function(node, obj) {
-                // we need to parse the srsName to get to the 
-                // externalProjection, that's why we cannot use
-                // GML v3 for this
-                if (!this.externalProjection) {
-                    this.externalProjection = new OpenLayers.Projection(
-                        node.getAttribute("srsName"));
-                }
-             OpenLayers.Format.GML.v3.prototype.readers.gml.pos.apply(
-                    this, [node, obj]);
-            }
-        }, OpenLayers.Format.GML.v3.prototype.readers.gml)
+        "position": function (node, obj) {
+          this.readChildNodes(node, obj);
+        }
+      },
+      "gml": OpenLayers.Util.applyDefaults({
+        "FeatureCollection": function (node, obj) {
+          this.readChildNodes(node, obj);
+        },
+        "featureMember": function (node, obj) {
+          var feature = {attributes: {}};
+          obj.features.push(feature);
+          this.readChildNodes(node, feature);
+        },
+        "name": function (node, obj) {
+          obj.attributes.name = this.getChildValue(node);
+        },
+        "pos": function (node, obj) {
+          // we need to parse the srsName to get to the 
+          // externalProjection, that's why we cannot use
+          // GML v3 for this
+          if (!this.externalProjection) {
+            this.externalProjection = new OpenLayers.Projection(
+              node.getAttribute("srsName"));
+          }
+          OpenLayers.Format.GML.v3.prototype.readers.gml.pos.apply(
+            this, [node, obj]);
+        }
+      }, OpenLayers.Format.GML.v3.prototype.readers.gml)
     },
-    
+
     /**
      * Property: writers
      * As a compliment to the readers property, this structure contains public
@@ -167,27 +167,27 @@ OpenLayers.Format.SOSGetFeatureOfInterest = OpenLayers.Class(
      *     node names they produce.
      */
     writers: {
-        "sos": {
-            "GetFeatureOfInterest": function(options) {
-                var node = this.createElementNSPlus("GetFeatureOfInterest", {
-                    attributes: {
-                        version: this.VERSION,
-                        service: 'SOS',
-                        "xsi:schemaLocation": this.schemaLocation
-                    } 
-                }); 
-                for (var i=0, len=options.fois.length; i<len; i++) {
-                    this.writeNode("FeatureOfInterestId", {foi: options.fois[i]}, node);
-                }
-                return node; 
-            },
-            "FeatureOfInterestId": function(options) {
-                var node = this.createElementNSPlus("FeatureOfInterestId", {value: options.foi});
-                return node;
+      "sos": {
+        "GetFeatureOfInterest": function (options) {
+          var node = this.createElementNSPlus("GetFeatureOfInterest", {
+            attributes: {
+              version: this.VERSION,
+              service: 'SOS',
+              "xsi:schemaLocation": this.schemaLocation
             }
+          });
+          for (var i = 0, len = options.fois.length; i < len; i++) {
+            this.writeNode("FeatureOfInterestId", {foi: options.fois[i]}, node);
+          }
+          return node;
+        },
+        "FeatureOfInterestId": function (options) {
+          var node = this.createElementNSPlus("FeatureOfInterestId", {value: options.foi});
+          return node;
         }
+      }
     },
 
-    CLASS_NAME: "OpenLayers.Format.SOSGetFeatureOfInterest" 
+    CLASS_NAME: "OpenLayers.Format.SOSGetFeatureOfInterest"
 
-});
+  });

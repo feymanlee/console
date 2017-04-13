@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -169,4 +169,5 @@ abstract class OptionsPropertyOneItem extends OptionsPropertyItem
         $this->_size = $size;
     }
 }
+
 ?>

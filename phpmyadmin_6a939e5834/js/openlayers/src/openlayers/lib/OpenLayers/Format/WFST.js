@@ -14,15 +14,15 @@
  * Returns:
  * {<OpenLayers.Format>} A WFST format of the given version.
  */
-OpenLayers.Format.WFST = function(options) {
-    options = OpenLayers.Util.applyDefaults(
-        options, OpenLayers.Format.WFST.DEFAULTS
-    );
-    var cls = OpenLayers.Format.WFST["v"+options.version.replace(/\./g, "_")];
-    if(!cls) {
-        throw "Unsupported WFST version: " + options.version;
-    }
-    return new cls(options);
+OpenLayers.Format.WFST = function (options) {
+  options = OpenLayers.Util.applyDefaults(
+    options, OpenLayers.Format.WFST.DEFAULTS
+  );
+  var cls = OpenLayers.Format.WFST["v" + options.version.replace(/\./g, "_")];
+  if (!cls) {
+    throw "Unsupported WFST version: " + options.version;
+  }
+  return new cls(options);
 };
 
 /**
@@ -30,5 +30,5 @@ OpenLayers.Format.WFST = function(options) {
  * {Object} Default properties for the WFST format.
  */
 OpenLayers.Format.WFST.DEFAULTS = {
-    "version": "1.0.0"
+  "version": "1.0.0"
 };

@@ -27,6 +27,7 @@ function PMA_lang($lang_key)
     } else {
         $args = func_get_args();
         array_shift($args);
+
         return vsprintf($message, $args);
     }
 }
@@ -43,12 +44,14 @@ function PMA_lang($lang_key)
 function PMA_langName($canonical_path, $type = 'name', $default = 'key')
 {
     $lang_key = str_replace(
-        array('Servers/1/', '/'),
-        array('Servers/', '_'),
-        $canonical_path
-    ) . '_' . $type;
+            ['Servers/1/', '/'],
+            ['Servers/', '_'],
+            $canonical_path
+        ) . '_' . $type;
+
     return isset($GLOBALS["strConfig$lang_key"])
         ? ($type == 'desc' ? PMA_lang($lang_key) : $GLOBALS["strConfig$lang_key"])
         : ($default == 'key' ? $lang_key : $default);
 }
+
 ?>

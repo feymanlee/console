@@ -23,20 +23,20 @@ define('TESTSUITE', 1);
 define('PMA_MYSQL_INT_VERSION', 55000);
 
 // Selenium tests setup
-$test_defaults = array(
-    'TESTSUITE_SERVER' => 'localhost',
-    'TESTSUITE_USER' => 'root',
-    'TESTSUITE_PASSWORD' => '',
-    'TESTSUITE_DATABASE' => 'test',
-    'TESTSUITE_URL' => 'http://localhost/phpmyadmin/',
-    'TESTSUITE_SELENIUM_HOST' => '',
-    'TESTSUITE_SELENIUM_PORT' => '4444',
-    'TESTSUITE_SELENIUM_BROWSER' => 'firefox',
+$test_defaults = [
+    'TESTSUITE_SERVER'            => 'localhost',
+    'TESTSUITE_USER'              => 'root',
+    'TESTSUITE_PASSWORD'          => '',
+    'TESTSUITE_DATABASE'          => 'test',
+    'TESTSUITE_URL'               => 'http://localhost/phpmyadmin/',
+    'TESTSUITE_SELENIUM_HOST'     => '',
+    'TESTSUITE_SELENIUM_PORT'     => '4444',
+    'TESTSUITE_SELENIUM_BROWSER'  => 'firefox',
     'TESTSUITE_SELENIUM_COVERAGE' => '',
     'TESTSUITE_BROWSERSTACK_USER' => '',
-    'TESTSUITE_BROWSERSTACK_KEY' => '',
-    'TESTSUITE_FULL' => '',
-);
+    'TESTSUITE_BROWSERSTACK_KEY'  => '',
+    'TESTSUITE_FULL'              => '',
+];
 foreach ($test_defaults as $varname => $defvalue) {
     $envvar = getenv($varname);
     if ($envvar) {
@@ -59,10 +59,10 @@ unset($CFG);
 session_start();
 
 // Standard environment for tests
-$_SESSION[' PMA_token '] = 'token';
+$_SESSION[' PMA_token ']      = 'token';
 $_SESSION['tmpval']['pftext'] = 'F';
-$GLOBALS['lang'] = 'en';
-$GLOBALS['is_ajax_request'] = false;
+$GLOBALS['lang']              = 'en';
+$GLOBALS['is_ajax_request']   = false;
 
 // Check whether we have runkit extension
 define('PMA_HAS_RUNKIT', function_exists('runkit_constant_redefine'));
@@ -80,8 +80,8 @@ $GLOBALS['runkit_internal_override'] = ini_get('runkit.internal_override');
  */
 function test_header($string, $replace = true, $http_response_code = 200)
 {
-    if (! isset($GLOBALS['header'])) {
-        $GLOBALS['header'] = array();
+    if (!isset($GLOBALS['header'])) {
+        $GLOBALS['header'] = [];
     }
 
     $GLOBALS['header'][] = $string;
@@ -131,6 +131,7 @@ function setupForTestsUsingDate()
     if (PMA_HAS_RUNKIT && $GLOBALS['runkit_internal_override']) {
         runkit_function_rename('date', 'test_date_override');
         runkit_function_rename('test_date', 'date');
+
         return true;
     } else {
         return false;
@@ -149,4 +150,5 @@ function tearDownForTestsUsingDate()
         runkit_function_rename('test_date_override', 'date');
     }
 }
+
 ?>

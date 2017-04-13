@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage RegexValidation
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -43,4 +43,5 @@ class Text_Plain_RegexValidation extends RegexValidationTransformationsPlugin
         return "Plain";
     }
 }
+
 ?>

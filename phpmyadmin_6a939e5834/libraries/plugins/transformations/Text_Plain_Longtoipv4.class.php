@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage LongToIPv4
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -41,4 +41,5 @@ class Text_Plain_Longtoipv4 extends LongToIPv4TransformationsPlugin
         return "Plain";
     }
 }
+
 ?>

@@ -9,7 +9,7 @@
  * we must set $GLOBALS['server'] here
  * since 'check_user_privileges.lib.php' will use it globally
  */
-$GLOBALS['server'] = 0;
+$GLOBALS['server']       = 0;
 $GLOBALS['plugin_param'] = "table";
 
 /*
@@ -49,30 +49,30 @@ class ImportLdi_Test extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         //setting
-        $GLOBALS['finished'] = false;
-        $GLOBALS['read_limit'] = 100000000;
-        $GLOBALS['offset'] = 0;
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['cfg']['ServerDefault'] = 0;
+        $GLOBALS['finished']                     = false;
+        $GLOBALS['read_limit']                   = 100000000;
+        $GLOBALS['offset']                       = 0;
+        $GLOBALS['cfg']['Server']['DisableIS']   = false;
+        $GLOBALS['cfg']['ServerDefault']         = 0;
         $GLOBALS['cfg']['AllowUserDropDatabase'] = false;
 
-        $GLOBALS['import_file'] = 'test/test_data/db_test_ldi.csv';
-        $GLOBALS['import_text'] = 'ImportLdi_Test';
-        $GLOBALS['compression'] = 'none';
+        $GLOBALS['import_file']   = 'test/test_data/db_test_ldi.csv';
+        $GLOBALS['import_text']   = 'ImportLdi_Test';
+        $GLOBALS['compression']   = 'none';
         $GLOBALS['read_multiply'] = 10;
-        $GLOBALS['import_type'] = 'csv';
+        $GLOBALS['import_type']   = 'csv';
         $GLOBALS['import_handle'] = @fopen($GLOBALS['import_file'], 'r');
 
         //setting for Ldi
-        $GLOBALS['cfg']['Import']['ldi_replace'] = false;
-        $GLOBALS['cfg']['Import']['ldi_ignore'] = false;
-        $GLOBALS['cfg']['Import']['ldi_terminated'] = ';';
-        $GLOBALS['cfg']['Import']['ldi_enclosed'] = '"';
-        $GLOBALS['cfg']['Import']['ldi_escaped'] = '\\';
-        $GLOBALS['cfg']['Import']['ldi_new_line'] = 'auto';
-        $GLOBALS['cfg']['Import']['ldi_columns'] = '';
+        $GLOBALS['cfg']['Import']['ldi_replace']      = false;
+        $GLOBALS['cfg']['Import']['ldi_ignore']       = false;
+        $GLOBALS['cfg']['Import']['ldi_terminated']   = ';';
+        $GLOBALS['cfg']['Import']['ldi_enclosed']     = '"';
+        $GLOBALS['cfg']['Import']['ldi_escaped']      = '\\';
+        $GLOBALS['cfg']['Import']['ldi_new_line']     = 'auto';
+        $GLOBALS['cfg']['Import']['ldi_columns']      = '';
         $GLOBALS['cfg']['Import']['ldi_local_option'] = false;
-        $GLOBALS['table'] = "phpmyadmintest";
+        $GLOBALS['table']                             = "phpmyadmintest";
 
         //Mock DBI
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
@@ -85,10 +85,10 @@ class ImportLdi_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->any())->method('numRows')
             ->will($this->returnValue(10));
 
-        $fetchRowResult = array(
+        $fetchRowResult = [
             "PMA_row",
-            "ON"
-        );
+            "ON",
+        ];
 
         $dbi->expects($this->any())->method('fetchRow')
             ->will($this->returnValue($fetchRowResult));
@@ -140,8 +140,8 @@ class ImportLdi_Test extends PHPUnit_Framework_TestCase
     public function testGetPropertiesAutoLdi()
     {
         $GLOBALS['cfg']['Import']['ldi_local_option'] = 'auto';
-        $this->object = new ImportLdi();
-        $properties = $this->object->getProperties();
+        $this->object                                 = new ImportLdi();
+        $properties                                   = $this->object->getProperties();
         $this->assertEquals(
             true,
             $GLOBALS['cfg']['Import']['ldi_local_option']
@@ -222,19 +222,19 @@ class ImportLdi_Test extends PHPUnit_Framework_TestCase
     public function testDoImportLDISetting()
     {
         global $ldi_local_option, $ldi_replace, $ldi_ignore, $ldi_terminated,
-        $ldi_enclosed, $ldi_new_line, $skip_queries;
+               $ldi_enclosed, $ldi_new_line, $skip_queries;
 
         //$sql_query_disabled will show the import SQL detail
         global $sql_query, $sql_query_disabled;
         $sql_query_disabled = false;
 
         $ldi_local_option = true;
-        $ldi_replace = true;
-        $ldi_ignore = true;
-        $ldi_terminated = ',';
-        $ldi_enclosed = ')';
-        $ldi_new_line = 'newline_mark';
-        $skip_queries = true;
+        $ldi_replace      = true;
+        $ldi_ignore       = true;
+        $ldi_terminated   = ',';
+        $ldi_enclosed     = ')';
+        $ldi_new_line     = 'newline_mark';
+        $skip_queries     = true;
 
         //Test function called
         $this->object->doImport();

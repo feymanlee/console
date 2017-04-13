@@ -40,8 +40,8 @@ class PMA_Error_Test extends PHPUnit_Framework_TestCase
         $this->object = new PMA_Error('2', 'Compile Error', 'error.txt', 15);
 
         $GLOBALS['pmaThemeImage'] = 'image';
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
+        $_SESSION['PMA_Theme']    = PMA_Theme::load('./themes/pmahomme');
+        $_SESSION['PMA_Theme']    = new PMA_Theme();
     }
 
     /**
@@ -63,8 +63,8 @@ class PMA_Error_Test extends PHPUnit_Framework_TestCase
      */
     public function testSetBacktrace()
     {
-        $this->object->setBacktrace(array('bt1','bt2'));
-        $this->assertEquals(array('bt1','bt2'), $this->object->getBacktrace());
+        $this->object->setBacktrace(['bt1', 'bt2']);
+        $this->assertEquals(['bt1', 'bt2'], $this->object->getBacktrace());
     }
 
     /**
@@ -89,7 +89,7 @@ class PMA_Error_Test extends PHPUnit_Framework_TestCase
         $this->assertStringStartsWith(
             implode(
                 DIRECTORY_SEPARATOR,
-                array('.', '..', '..')
+                ['.', '..', '..']
             ), $this->object->getFile()
         );
     }
@@ -160,14 +160,14 @@ class PMA_Error_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetBacktrace()
     {
-        $this->object->setBacktrace(array('bt1','bt2','bt3','bt4'));
+        $this->object->setBacktrace(['bt1', 'bt2', 'bt3', 'bt4']);
         // case: full backtrace
         $this->assertEquals(
-            array('bt1','bt2','bt3','bt4'),
+            ['bt1', 'bt2', 'bt3', 'bt4'],
             $this->object->getBacktrace()
         );
 
         // case: first 2 frames
-        $this->assertEquals(array('bt1','bt2'), $this->object->getBacktrace(2));
+        $this->assertEquals(['bt1', 'bt2'], $this->object->getBacktrace(2));
     }
 }

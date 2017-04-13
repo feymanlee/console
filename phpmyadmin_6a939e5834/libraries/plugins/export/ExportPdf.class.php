@@ -6,15 +6,16 @@
  * @package    PhpMyAdmin-Export
  * @subpackage PDF
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
 /**
  * Skip the plugin if TCPDF is not available.
  */
-if (! file_exists(TCPDF_INC)) {
+if (!file_exists(TCPDF_INC)) {
     $GLOBALS['skip_import'] = true;
+
     return;
 }
 
@@ -63,7 +64,7 @@ class ExportPdf extends ExportPlugin
      */
     protected function initSpecificVariables()
     {
-        if (! empty($_POST['pdf_report_title'])) {
+        if (!empty($_POST['pdf_report_title'])) {
             $this->_setPdfReportTitle($_POST['pdf_report_title']);
         }
         $this->_setPdf(new PMA_ExportPdf('L', 'pt', 'A3'));
@@ -127,13 +128,13 @@ class ExportPdf extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportHeader ()
+    public function exportHeader()
     {
         $pdf_report_title = $this->_getPdfReportTitle();
-        $pdf = $this->_getPdf();
+        $pdf              = $this->_getPdf();
         $pdf->Open();
 
-        $attr = array('titleFontSize' => 18, 'titleText' => $pdf_report_title);
+        $attr = ['titleFontSize' => 18, 'titleText' => $pdf_report_title];
         $pdf->setAttributes($attr);
         $pdf->setTopMargin(30);
 
@@ -145,12 +146,12 @@ class ExportPdf extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportFooter ()
+    public function exportFooter()
     {
         $pdf = $this->_getPdf();
 
         // instead of $pdf->Output():
-        if (! PMA_exportOutputHandler($pdf->getPDFData())) {
+        if (!PMA_exportOutputHandler($pdf->getPDFData())) {
             return false;
         }
 
@@ -165,7 +166,7 @@ class ExportPdf extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportDBHeader ($db, $db_alias = '')
+    public function exportDBHeader($db, $db_alias = '')
     {
         return true;
     }
@@ -177,7 +178,7 @@ class ExportPdf extends ExportPlugin
      *
      * @return bool Whether it succeeded
      */
-    public function exportDBFooter ($db)
+    public function exportDBFooter($db)
     {
         return true;
     }
@@ -194,6 +195,7 @@ class ExportPdf extends ExportPlugin
     {
         return true;
     }
+
     /**
      * Outputs the content of a table in NHibernate format
      *
@@ -207,18 +209,18 @@ class ExportPdf extends ExportPlugin
      * @return bool Whether it succeeded
      */
     public function exportData(
-        $db, $table, $crlf, $error_url, $sql_query, $aliases = array()
+        $db, $table, $crlf, $error_url, $sql_query, $aliases = []
     ) {
-        $db_alias = $db;
+        $db_alias    = $db;
         $table_alias = $table;
         $this->initAlias($aliases, $db_alias, $table_alias);
         $pdf = $this->_getPdf();
 
-        $attr = array(
+        $attr = [
             'currentDb' => $db, 'currentTable' => $table,
-            'dbAlias' => $db_alias, 'tableAlias' => $table_alias,
-            'aliases' => $aliases
-        );
+            'dbAlias'   => $db_alias, 'tableAlias' => $table_alias,
+            'aliases'   => $aliases,
+        ];
         $pdf->setAttributes($attr);
         $pdf->mysqlReport($sql_query);
 
@@ -273,4 +275,5 @@ class ExportPdf extends ExportPlugin
         $this->_pdfReportTitle = $pdfReportTitle;
     }
 }
+
 ?>

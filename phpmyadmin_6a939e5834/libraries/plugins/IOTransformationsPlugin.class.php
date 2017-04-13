@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -54,7 +54,7 @@ abstract class IOTransformationsPlugin extends TransformationsPlugin
      */
     public function getScripts()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -85,7 +85,8 @@ abstract class IOTransformationsPlugin extends TransformationsPlugin
     public function reset()
     {
         $this->success = true;
-        $this->error = '';
+        $this->error   = '';
     }
 }
+
 ?>

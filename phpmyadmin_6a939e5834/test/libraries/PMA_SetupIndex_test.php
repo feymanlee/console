@@ -44,30 +44,30 @@ class PMA_SetupIndex_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAmessagesBegin()
     {
-        $_SESSION['messages'] = array(
-            array(
-                array('foo'),
-                array('bar')
-            )
-        );
+        $_SESSION['messages'] = [
+            [
+                ['foo'],
+                ['bar'],
+            ],
+        ];
 
         PMA_messagesBegin();
 
         $this->assertEquals(
-            array(
-                array(
-                    array(
-                        0 => 'foo',
-                        'fresh' => false,
-                        'active' => false
-                    ),
-                    array(
-                        0 => 'bar',
-                        'fresh' => false,
-                        'active' => false
-                    )
-                )
-            ),
+            [
+                [
+                    [
+                        0        => 'foo',
+                        'fresh'  => false,
+                        'active' => false,
+                    ],
+                    [
+                        0        => 'bar',
+                        'fresh'  => false,
+                        'active' => false,
+                    ],
+                ],
+            ],
             $_SESSION['messages']
         );
 
@@ -76,10 +76,10 @@ class PMA_SetupIndex_Test extends PHPUnit_Framework_TestCase
         unset($_SESSION['messages']);
         PMA_messagesBegin();
         $this->assertEquals(
-            array(
-                'error' => array(),
-                'notice' => array()
-            ),
+            [
+                'error'  => [],
+                'notice' => [],
+            ],
             $_SESSION['messages']
         );
     }
@@ -94,12 +94,12 @@ class PMA_SetupIndex_Test extends PHPUnit_Framework_TestCase
         PMA_messagesSet('type', '123', 'testTitle', 'msg');
 
         $this->assertEquals(
-            array(
-                'fresh' => true,
-                'active' => true,
-                'title' => 'testTitle',
-                'message' => 'msg'
-            ),
+            [
+                'fresh'   => true,
+                'active'  => true,
+                'title'   => 'testTitle',
+                'message' => 'msg',
+            ],
             $_SESSION['messages']['type']['123']
         );
     }
@@ -111,24 +111,24 @@ class PMA_SetupIndex_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAmessagesEnd()
     {
-        $_SESSION['messages'] = array(
-            array(
-                array('msg' => 'foo', 'active' => false),
-                array('msg' => 'bar', 'active' => true),
-            )
-        );
+        $_SESSION['messages'] = [
+            [
+                ['msg' => 'foo', 'active' => false],
+                ['msg' => 'bar', 'active' => true],
+            ],
+        ];
 
         PMA_messagesEnd();
 
         $this->assertEquals(
-            array(
-                array(
-                    '1' => array(
-                        'msg' => 'bar',
-                        'active' => 1
-                    )
-                )
-            ),
+            [
+                [
+                    '1' => [
+                        'msg'    => 'bar',
+                        'active' => 1,
+                    ],
+                ],
+            ],
             $_SESSION['messages']
         );
     }
@@ -140,12 +140,12 @@ class PMA_SetupIndex_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAMessagesShowHTML()
     {
-        $_SESSION['messages'] = array(
-            'type' => array(
-                array('title' => 'foo', 'message' => '123', 'fresh' => false),
-                array('title' => 'bar', 'message' => '321', 'fresh' => true),
-            )
-        );
+        $_SESSION['messages'] = [
+            'type' => [
+                ['title' => 'foo', 'message' => '123', 'fresh' => false],
+                ['title' => 'bar', 'message' => '321', 'fresh' => true],
+            ],
+        ];
 
         ob_start();
         PMA_messagesShowHtml();
@@ -184,14 +184,14 @@ class PMA_SetupIndex_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMACheckConfigRw()
     {
-        if (! PMA_HAS_RUNKIT) {
+        if (!PMA_HAS_RUNKIT) {
             $this->markTestSkipped('Cannot redefine constant');
         }
 
-        $redefine = null;
-        $GLOBALS['cfg']['AvailableCharsets'] = array();
-        $GLOBALS['server'] = 0;
-        $GLOBALS['ConfigFile'] = new ConfigFile();
+        $redefine                            = null;
+        $GLOBALS['cfg']['AvailableCharsets'] = [];
+        $GLOBALS['server']                   = 0;
+        $GLOBALS['ConfigFile']               = new ConfigFile();
         if (!defined('SETUP_CONFIG_FILE')) {
             define('SETUP_CONFIG_FILE', 'test/test_data/configfile');
         } else {
@@ -254,41 +254,41 @@ class PMA_SetupIndex_Test extends PHPUnit_Framework_TestCase
     public function testServerConfigChecksPerformConfigChecks()
     {
 
-        $GLOBALS['cfg']['AvailableCharsets'] = array();
-        $GLOBALS['cfg']['ServerDefault'] = 0;
-        $GLOBALS['server'] = 0;
+        $GLOBALS['cfg']['AvailableCharsets'] = [];
+        $GLOBALS['cfg']['ServerDefault']     = 0;
+        $GLOBALS['server']                   = 0;
 
-        $cf = new ConfigFile();
+        $cf                    = new ConfigFile();
         $GLOBALS['ConfigFile'] = $cf;
 
         $reflection = new \ReflectionProperty('ConfigFile', '_id');
         $reflection->setAccessible(true);
         $sessionID = $reflection->getValue($cf);
 
-        $_SESSION[$sessionID]['Servers'] = array(
-            '1' => array(
-                'host' => 'localhost',
-                'ssl' => false,
-                'extension' => 'mysql',
-                'auth_type' => 'config',
-                'user' => 'username',
-                'password' => 'password',
-                'AllowRoot' => true,
+        $_SESSION[$sessionID]['Servers'] = [
+            '1' => [
+                'host'            => 'localhost',
+                'ssl'             => false,
+                'extension'       => 'mysql',
+                'auth_type'       => 'config',
+                'user'            => 'username',
+                'password'        => 'password',
+                'AllowRoot'       => true,
                 'AllowNoPassword' => true,
-            )
-        );
+            ],
+        ];
 
-        $_SESSION[$sessionID]['ForceSSL'] = false;
+        $_SESSION[$sessionID]['ForceSSL']             = false;
         $_SESSION[$sessionID]['AllowArbitraryServer'] = true;
-        $_SESSION[$sessionID]['LoginCookieValidity'] = 5000;
-        $_SESSION[$sessionID]['LoginCookieStore'] = 4000;
-        $_SESSION[$sessionID]['SaveDir'] = true;
-        $_SESSION[$sessionID]['TempDir'] = true;
-        $_SESSION[$sessionID]['GZipDump'] = true;
-        $_SESSION[$sessionID]['BZipDump'] = true;
-        $_SESSION[$sessionID]['ZipDump'] = true;
+        $_SESSION[$sessionID]['LoginCookieValidity']  = 5000;
+        $_SESSION[$sessionID]['LoginCookieStore']     = 4000;
+        $_SESSION[$sessionID]['SaveDir']              = true;
+        $_SESSION[$sessionID]['TempDir']              = true;
+        $_SESSION[$sessionID]['GZipDump']             = true;
+        $_SESSION[$sessionID]['BZipDump']             = true;
+        $_SESSION[$sessionID]['ZipDump']              = true;
 
-        $noticeArrayKeys = array(
+        $noticeArrayKeys = [
             'TempDir',
             'SaveDir',
             'LoginCookieValidity',
@@ -296,12 +296,12 @@ class PMA_SetupIndex_Test extends PHPUnit_Framework_TestCase
             'ForceSSL',
             'Servers/1/AllowNoPassword',
             'Servers/1/auth_type',
-            'Servers/1/ssl'
-        );
+            'Servers/1/ssl',
+        ];
 
-        $errorArrayKeys = array(
-            'LoginCookieValidity'
-        );
+        $errorArrayKeys = [
+            'LoginCookieValidity',
+        ];
 
         if (@!function_exists('gzopen') || @!function_exists('gzencode')) {
             $errorArrayKeys[] = 'GZipDump';
@@ -341,25 +341,25 @@ class PMA_SetupIndex_Test extends PHPUnit_Framework_TestCase
         unset($_SESSION['messages']);
         unset($_SESSION[$sessionID]);
 
-        $_SESSION[$sessionID]['Servers'] = array(
-            '1' => array(
-                'host' => 'localhost',
-                'ssl' => true,
+        $_SESSION[$sessionID]['Servers'] = [
+            '1' => [
+                'host'      => 'localhost',
+                'ssl'       => true,
                 'extension' => 'mysqli',
                 'auth_type' => 'cookie',
-                'AllowRoot' => false
-            )
-        );
+                'AllowRoot' => false,
+            ],
+        ];
 
-        $_SESSION[$sessionID]['ForceSSL'] = true;
+        $_SESSION[$sessionID]['ForceSSL']             = true;
         $_SESSION[$sessionID]['AllowArbitraryServer'] = false;
-        $_SESSION[$sessionID]['LoginCookieValidity'] = -1;
-        $_SESSION[$sessionID]['LoginCookieStore'] = 0;
-        $_SESSION[$sessionID]['SaveDir'] = '';
-        $_SESSION[$sessionID]['TempDir'] = '';
-        $_SESSION[$sessionID]['GZipDump'] = false;
-        $_SESSION[$sessionID]['BZipDump'] = false;
-        $_SESSION[$sessionID]['ZipDump'] = false;
+        $_SESSION[$sessionID]['LoginCookieValidity']  = -1;
+        $_SESSION[$sessionID]['LoginCookieStore']     = 0;
+        $_SESSION[$sessionID]['SaveDir']              = '';
+        $_SESSION[$sessionID]['TempDir']              = '';
+        $_SESSION[$sessionID]['GZipDump']             = false;
+        $_SESSION[$sessionID]['BZipDump']             = false;
+        $_SESSION[$sessionID]['ZipDump']              = false;
 
         $configChecker = new ServerConfigChecks($GLOBALS['ConfigFile']);
         $configChecker->performConfigChecks();
@@ -385,12 +385,12 @@ class PMA_SetupIndex_Test extends PHPUnit_Framework_TestCase
 
         $_SESSION[$sessionID]['blowfish_secret'] = 'sec';
 
-        $_SESSION[$sessionID]['Servers'] = array(
-            '1' => array(
-                'host' => 'localhost',
-                'auth_type' => 'cookie'
-            )
-        );
+        $_SESSION[$sessionID]['Servers'] = [
+            '1' => [
+                'host'      => 'localhost',
+                'auth_type' => 'cookie',
+            ],
+        ];
 
         $configChecker = new ServerConfigChecks($GLOBALS['ConfigFile']);
         $configChecker->performConfigChecks();
@@ -401,4 +401,5 @@ class PMA_SetupIndex_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

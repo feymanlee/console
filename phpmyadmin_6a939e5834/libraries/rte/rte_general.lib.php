@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -69,7 +69,7 @@ function PMA_RTE_sendEditor($type, $mode, $item, $title, $db, $operation = null)
         }
         exit;
     } else {
-        $message  = __('Error in processing request:') . ' ';
+        $message = __('Error in processing request:') . ' ';
         $message .= sprintf(
             PMA_RTE_getWord('not_found'),
             htmlspecialchars(PMA_Util::backquote($_REQUEST['item_name'])),

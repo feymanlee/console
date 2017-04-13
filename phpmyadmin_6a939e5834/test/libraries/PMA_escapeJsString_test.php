@@ -39,17 +39,18 @@ class PMA_EscapeJsString_Test extends PHPUnit_Framework_TestCase
      */
     public function escapeDataProvider()
     {
-        return array(
-            array('\\\';', '\';'),
-            array('\r\n\\\'<scrIpt></\' + \'script>', "\r\n'<scrIpt></sCRIPT>"),
-            array('\\\';[XSS]', '\';[XSS]'),
-            array(
+        return [
+            ['\\\';', '\';'],
+            ['\r\n\\\'<scrIpt></\' + \'script>', "\r\n'<scrIpt></sCRIPT>"],
+            ['\\\';[XSS]', '\';[XSS]'],
+            [
                 '</\' + \'script></head><body>[HTML]',
-                '</SCRIPT></head><body>[HTML]'
-            ),
-            array('\"\\\'\\\\\\\'\"', '"\'\\\'"'),
-            array("\\\\\'\'\'\'\'\'\'\'\'\'\'\'\\\\", "\\''''''''''''\\")
-        );
+                '</SCRIPT></head><body>[HTML]',
+            ],
+            ['\"\\\'\\\\\\\'\"', '"\'\\\'"'],
+            ["\\\\\'\'\'\'\'\'\'\'\'\'\'\'\\\\", "\\''''''''''''\\"],
+        ];
     }
 }
+
 ?>

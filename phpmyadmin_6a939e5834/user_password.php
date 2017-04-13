@@ -21,10 +21,10 @@ $scripts->addFile('server_privileges.js');
  * Displays an error message and exits if the user isn't allowed to use this
  * script
  */
-if (! $GLOBALS['cfg']['ShowChgPassword']) {
+if (!$GLOBALS['cfg']['ShowChgPassword']) {
     $GLOBALS['cfg']['ShowChgPassword'] = $GLOBALS['dbi']->selectDb('mysql');
 }
-if ($cfg['Server']['auth_type'] == 'config' || ! $cfg['ShowChgPassword']) {
+if ($cfg['Server']['auth_type'] == 'config' || !$cfg['ShowChgPassword']) {
     PMA_Message::error(
         __('You don\'t have sufficient privileges to be here right now!')
     )->display();
@@ -42,8 +42,8 @@ if (isset($_REQUEST['nopass'])) {
         $password = $_REQUEST['pma_pw'];
     }
     $change_password_message = PMA_setChangePasswordMsg();
-    $msg = $change_password_message['msg'];
-    if (! $change_password_message['error']) {
+    $msg                     = $change_password_message['msg'];
+    if (!$change_password_message['error']) {
         PMA_changePassword($password, $msg, $change_password_message);
     } else {
         PMA_getChangePassMessage($change_password_message);
@@ -102,22 +102,23 @@ function PMA_getChangePassMessage($change_password_message, $sql_query = '')
  */
 function PMA_setChangePasswordMsg()
 {
-    $error = false;
+    $error   = false;
     $message = PMA_Message::success(__('The profile has been updated.'));
 
     if (($_REQUEST['nopass'] != '1')) {
         if (empty($_REQUEST['pma_pw']) || empty($_REQUEST['pma_pw2'])) {
             $message = PMA_Message::error(__('The password is empty!'));
-            $error = true;
+            $error   = true;
         } elseif ($_REQUEST['pma_pw'] != $_REQUEST['pma_pw2']) {
             $message = PMA_Message::error(__('The passwords aren\'t the same!'));
-            $error = true;
+            $error   = true;
         } elseif (strlen($_REQUEST['pma_pw']) > 256) {
             $message = PMA_Message::error(__('Password is too long!'));
-            $error = true;
+            $error   = true;
         }
     }
-    return array('error' => $error, 'msg' => $message);
+
+    return ['error' => $error, 'msg' => $message];
 }
 
 /**
@@ -134,7 +135,7 @@ function PMA_changePassword($password, $message, $change_password_message)
     global $auth_plugin;
 
     $hashing_function = PMA_changePassHashingFunction();
-    $sql_query = 'SET password = '
+    $sql_query        = 'SET password = '
         . (($password == '') ? '\'\'' : $hashing_function . '(\'***\')');
     PMA_changePassUrlParamsAndSubmitQuery(
         $password, $sql_query, $hashing_function
@@ -157,6 +158,7 @@ function PMA_changePassHashingFunction()
     } else {
         $hashing_function = 'PASSWORD';
     }
+
     return $hashing_function;
 }
 
@@ -172,11 +174,11 @@ function PMA_changePassHashingFunction()
 function PMA_changePassUrlParamsAndSubmitQuery(
     $password, $sql_query, $hashing_function
 ) {
-    $err_url = 'user_password.php' . PMA_URL_getCommon();
+    $err_url     = 'user_password.php' . PMA_URL_getCommon();
     $local_query = 'SET password = ' . (($password == '')
-        ? '\'\''
-        : $hashing_function . '(\'' . PMA_Util::sqlAddSlashes($password) . '\')');
-    if (! @$GLOBALS['dbi']->tryQuery($local_query)) {
+            ? '\'\''
+            : $hashing_function . '(\'' . PMA_Util::sqlAddSlashes($password) . '\')');
+    if (!@$GLOBALS['dbi']->tryQuery($local_query)) {
         PMA_Util::mysqlDie($GLOBALS['dbi']->getError(), $sql_query, false, $err_url);
     }
 }
@@ -200,4 +202,5 @@ function PMA_changePassDisplayPage($message, $sql_query)
         . '<strong>' . __('Back') . '</strong></a>';
     exit;
 }
+
 ?>

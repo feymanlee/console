@@ -6,8 +6,9 @@
 				</div>
 				<div class="search">
 					<form target="hid" onsubmit='getWeb(1,$("#SearchValue").prop("value"))'>
-						<input type="text" id="SearchValue" class="ser-text" />
-						<button type="button" class="ser-sub"onclick='getWeb(1,$("#SearchValue").prop("value"))'></button>
+						<input type="text" id="SearchValue" class="ser-text"/>
+						<button type="button" class="ser-sub"
+                                onclick='getWeb(1,$("#SearchValue").prop("value"))'></button>
 					</form>
 				</div>
 			</div>
@@ -17,14 +18,29 @@
 				</div>
 				<div class="setting-con">
 					<form id="set-Config">
-						<p><span class="set-tit">面板端口</span><input id="banport" name="port" class="inputtxt" type="numner" value="<?php echo $Panel['port']; ?>" maxlength="5"></p>
-						<p><span class="set-tit">绑定域名</span><input name="domain" class="inputtxt" type="text" value="<?php echo $Panel['domain']; ?>"><span class="set-info">为面板绑定一个域名</span></p>
-						<p><span class="set-tit">默认建站目录</span><input name="sites_path" class="inputtxt" type="text" value="<?php echo $ConfigInfo['sites_path']; ?>"></p>
-						<p><span class="set-tit">默认备份目录</span><input name="backup_path" class="inputtxt" type="text" value="<?php echo $ConfigInfo['backup_path']; ?>"></p>
-						<p><span class="set-tit">管理员邮箱</span><input name="email" class="inputtxt" type="email" value="<?php echo $ConfigInfo['email']; ?>"><span class="set-info">用于找回管理员密码</span></p>
-						<p><span class="set-tit">服务器IP</span><input name="ip" class="inputtxt" type="text" value="<?php echo $_SESSION['iplist']; ?>"><span class="set-info">用于检查域名解析,多个请使用逗号隔开</span></p>
-						<p><span class="set-tit">面板用户</span><input name="username_" class="inputtxt disable" type="text" value="<?php echo $_SESSION['username']; ?>" disabled><span class="modify btn btn-xs btn-success" onclick="setUserName()">修改</span></p>
-						<p><span class="set-tit">面板密码</span><input name="password_" class="inputtxt disable" type="text" value="******" disabled><span class="modify btn btn-xs btn-success" onclick="setPassword()">修改</span></p>
+						<p><span class="set-tit">面板端口</span><input id="banport" name="port" class="inputtxt"
+                                                                   type="numner" value="<?php echo $Panel['port']; ?>"
+                                                                   maxlength="5"></p>
+						<p><span class="set-tit">绑定域名</span><input name="domain" class="inputtxt" type="text"
+                                                                   value="<?php echo $Panel['domain']; ?>"><span
+                                class="set-info">为面板绑定一个域名</span></p>
+						<p><span class="set-tit">默认建站目录</span><input name="sites_path" class="inputtxt" type="text"
+                                                                     value="<?php echo $ConfigInfo['sites_path']; ?>"></p>
+						<p><span class="set-tit">默认备份目录</span><input name="backup_path" class="inputtxt" type="text"
+                                                                     value="<?php echo $ConfigInfo['backup_path']; ?>"></p>
+						<p><span class="set-tit">管理员邮箱</span><input name="email" class="inputtxt" type="email"
+                                                                    value="<?php echo $ConfigInfo['email']; ?>"><span
+                                class="set-info">用于找回管理员密码</span></p>
+						<p><span class="set-tit">服务器IP</span><input name="ip" class="inputtxt" type="text"
+                                                                    value="<?php echo $_SESSION['iplist']; ?>"><span
+                                class="set-info">用于检查域名解析,多个请使用逗号隔开</span></p>
+						<p><span class="set-tit">面板用户</span><input name="username_" class="inputtxt disable" type="text"
+                                                                   value="<?php echo $_SESSION['username']; ?>"
+                                                                   disabled><span class="modify btn btn-xs btn-success"
+                                                                                  onclick="setUserName()">修改</span></p>
+						<p><span class="set-tit">面板密码</span><input name="password_" class="inputtxt disable" type="text"
+                                                                   value="******" disabled><span
+                                class="modify btn btn-xs btn-success" onclick="setPassword()">修改</span></p>
 					</form>
 					<div class="set-submit">保存</div>
 				</div>
@@ -49,68 +65,94 @@
 								<tr>
 									<td><?php echo $ConfigInfo['web']['type'].$ConfigInfo['web']['version']; ?> </td>
 									<td><a href="javascript:openPath('/www/server/<?php echo $ConfigInfo['web']['type']; ?>');">/www/server/<?php echo $ConfigInfo['web']['type']; ?></a></td>
-									<td><a class="link" href="javascript:GetConfigFile('<?php echo $ConfigInfo['web']['type']; ?>');">修改</a> | <a class="link" href="javascript:ServiceAdmin('<?php echo $ConfigInfo['web']['type']; ?>','reload');">重载</a>
-										<?php if($_SESSION['server_type'] == 'nginx'){ ?>
-											 | <a class="link"><input id="defaultSite" name="defaultSite" type="checkbox" onchange="SetDefaultSite();" style="vertical-align: -2px; margin-right: 3px; margin-left: 1px;" <?php if($Panel['defaultSite']){ echo 'checked';}else{echo '';} ?> /><label style="font-weight:normal" for="defaultSite">启用防恶意解析</label></a>
-										<?php } ?>
+									<td><a class="link"
+                                           href="javascript:GetConfigFile('<?php echo $ConfigInfo['web']['type']; ?>');">修改</a> | <a
+                                            class="link"
+                                            href="javascript:ServiceAdmin('<?php echo $ConfigInfo['web']['type']; ?>','reload');">重载</a>
+                                      <?php if($_SESSION['server_type'] == 'nginx'){ ?>
+                                      | <a class="link"><input id="defaultSite" name="defaultSite" type="checkbox"
+                                                               onchange="SetDefaultSite();"
+                                                               style="vertical-align: -2px; margin-right: 3px; margin-left: 1px;" <?php if($Panel['defaultSite']){ echo 'checked';}else{echo '';} ?>
+                                        /><label style="font-weight:normal" for="defaultSite">启用防恶意解析</label></a>
+                                      <?php } ?>
 									</td>
 									<td><span class="ico-start glyphicon glyphicon-play"></span></td>
-									<td style="text-align: right;"><a class="link" href="javascript:ServiceAdmin('<?php echo $ConfigInfo['web']['type']; ?>','restart');">重启</a>
+									<td style="text-align: right;"><a class="link"
+                                                                      href="javascript:ServiceAdmin('<?php echo $ConfigInfo['web']['type']; ?>','restart');">重启</a>
 								</tr>
 								<tr>
 									<td>MySQL <?php echo $ConfigInfo['mysql']['version']; ?></td>
 									<td><a href="javascript:openPath('/www/server/mysql');">/www/server/mysql</a></td>
-									<td><a class="link" href="javascript:GetConfigFile('mysql');">修改</a> | <a class="link" href="javascript:ServiceAdmin('mysqld','reload');">重载</a></td>
-									<td><span class="<?php if($ConfigInfo['mysql']['status']){ echo 'ico-start glyphicon glyphicon-play';}else{echo 'ico-stop glyphicon glyphicon-stop';}?>"></span></td>
-									<td style="text-align: right;"><a class="link" href="javascript:ServiceAdmin('mysqld','restart');">重启</a>
-										<?php if($ConfigInfo['mysql']['status']){ ?>
-											<!-- | <a class="link" href="javascript:ServiceAdmin('mysqld','stop');">停止</a></td>-->
-										<?php }else{ ?>
-											<a class="link" href="javascript:ServiceAdmin('mysqld','start');">启动</a></td>
-										<?php } ?>
+									<td><a class="link" href="javascript:GetConfigFile('mysql');">修改</a> | <a
+                                            class="link" href="javascript:ServiceAdmin('mysqld','reload');">重载</a></td>
+									<td><span
+                                            class="<?php if($ConfigInfo['mysql']['status']){ echo 'ico-start glyphicon glyphicon-play';}else{echo 'ico-stop glyphicon glyphicon-stop';}?>"></span></td>
+									<td style="text-align: right;"><a class="link"
+                                                                      href="javascript:ServiceAdmin('mysqld','restart');">重启</a>
+                                      <?php if($ConfigInfo['mysql']['status']){ ?>
+                                      <!-- | <a class="link" href="javascript:ServiceAdmin('mysqld','stop');">停止</a></td>-->
+                                      <?php }else{ ?>
+                                      <a class="link" href="javascript:ServiceAdmin('mysqld','start');">启动</a></td>
+                                  <?php } ?>
 								</tr>
 								<tr>
 									<td>Pure-Ftpd <?php echo $ConfigInfo['pure-ftpd']['version']; ?> </td>
 									<td><a href="javascript:openPath('/www/server/pure-ftpd');">/www/server/pure-ftpd</a></td>
-									<td><a class="link" href="javascript:GetConfigFile('pure-ftpd');">修改</a> | <a class="link" href="javascript:ServiceAdmin('pure-ftpd','reload');">重载</a></td>
-									<td><span class="<?php if($ConfigInfo['pure-ftpd']['status']){ echo 'ico-start glyphicon glyphicon-play';}else{echo 'ico-stop glyphicon glyphicon-stop';}?>"></span></td>
-									<td style="text-align: right;"><a class="link" href="javascript:ServiceAdmin('pure-ftpd','restart');">重启</a> | 
-										<?php if($ConfigInfo['pure-ftpd']['status']){ ?>
-											<a class="link" href="javascript:ServiceAdmin('pure-ftpd','stop');">停止</a></td>
-										<?php }else{ ?>
-											<a class="link" href="javascript:ServiceAdmin('pure-ftpd','start');">启动</a></td>
-										<?php } ?>
+									<td><a class="link" href="javascript:GetConfigFile('pure-ftpd');">修改</a> | <a
+                                            class="link"
+                                            href="javascript:ServiceAdmin('pure-ftpd','reload');">重载</a></td>
+									<td><span
+                                            class="<?php if($ConfigInfo['pure-ftpd']['status']){ echo 'ico-start glyphicon glyphicon-play';}else{echo 'ico-stop glyphicon glyphicon-stop';}?>"></span></td>
+									<td style="text-align: right;"><a class="link"
+                                                                      href="javascript:ServiceAdmin('pure-ftpd','restart');">重启</a> |
+                                      <?php if($ConfigInfo['pure-ftpd']['status']){ ?>
+                                      <a class="link" href="javascript:ServiceAdmin('pure-ftpd','stop');">停止</a></td>
+                                  <?php }else{ ?>
+                                  <a class="link" href="javascript:ServiceAdmin('pure-ftpd','start');">启动</a></td>
+                                  <?php } ?>
 								</tr>
-								<?php foreach($ConfigInfo['php'] as $key=>$value){ if(!$value['setup']) continue; ?>
+                                <?php foreach($ConfigInfo['php'] as $key=>$value){ if(!$value['setup']) continue; ?>
 								<tr>
 									<td>PHP版本：<?php echo $key; ?> </td>
 									<td><a href="javascript:openPath('/www/server/php/<?php echo $key; ?>');">/www/server/php/<?php echo $key; ?></a></td>
 									<td>
-										<a class="link" href="javascript:GetConfigFile('<?php echo $key; ?>');">修改</a> | 
-										<?php if(trim($ConfigInfo['web']['version']) != '2.2.31'){ ?>
-										<a class="link" href="javascript:ServiceAdmin('php-fpm-<?php echo $key; ?>','reload');">重载</a> | 
-										<?php } ?>
-										<a class="link" href="javascript:SetPathInfo('<?php echo $key; ?>','<?php if(!$value['pathinfo']){echo 'off';}else{echo 'on';}  ?>');" style='color:<?php if(!$value['pathinfo']){echo 'red;';}else{echo 'green';}  ?>'><?php if(!$value['pathinfo']){echo '关闭PATH_INFO';}else{echo '开启PATH_INFO';}  ?></a> | 
-										<a class="link" href="javascript:SetPHPMaxSize('<?php echo $key; ?>','<?php echo $value['max']; ?>');">上传限制(<?php echo $value['max']; ?>M)</a>
-										<?php if($key != '52' && trim($ConfigInfo['web']['version']) != '2.2.31'){ ?>
-										 | <a class="link" href="javascript:SetPHPMaxTime('<?php echo $key; ?>','<?php echo $value['maxTime']; ?>');">超时(<?php echo $value['maxTime']; ?>秒)</a>
-										 | <a class="link" href="javascript:SetFpmConfig('<?php echo $key; ?>');">性能调整</a>
-										<?php } ?>
+										<a class="link" href="javascript:GetConfigFile('<?php echo $key; ?>');">修改</a> |
+                                      <?php if(trim($ConfigInfo['web']['version']) != '2.2.31'){ ?>
+                                      <a class="link"
+                                         href="javascript:ServiceAdmin('php-fpm-<?php echo $key; ?>','reload');">重载</a> |
+                                      <?php } ?>
+                                      <a class="link"
+                                         href="javascript:SetPathInfo('<?php echo $key; ?>','<?php if(!$value['pathinfo']){echo 'off';}else{echo 'on';}  ?>');"
+                                         style='color:<?php if(!$value[' pathinfo']){echo 'red;';}else{echo 'green';}  ?>'><?php if(!$value['pathinfo']){echo '关闭PATH_INFO';}else{echo '开启PATH_INFO';}  ?></a>
+                                      |
+										<a class="link"
+                                           href="javascript:SetPHPMaxSize('<?php echo $key; ?>','<?php echo $value['max']; ?>');">上传限制(<?php echo $value['max']; ?>
+                                          M)</a>
+                                      <?php if($key != '52' && trim($ConfigInfo['web']['version']) != '2.2.31'){ ?>
+                                      | <a class="link"
+                                           href="javascript:SetPHPMaxTime('<?php echo $key; ?>','<?php echo $value['maxTime']; ?>');">超时(<?php echo $value['maxTime']; ?>
+                                      秒)</a>
+										 | <a class="link"
+                                              href="javascript:SetFpmConfig('<?php echo $key; ?>');">性能调整</a>
+                                      <?php } ?>
 									</td>
-									<?php if(trim($ConfigInfo['web']['version']) != '2.2.31'){ ?>
-									<td><span class="<?php if($value['status']){ echo 'ico-start glyphicon glyphicon-play';}else{echo 'ico-stop glyphicon glyphicon-stop';}?>"></span></td>
-									<td style="text-align: right;"><a class="link" href="javascript:ServiceAdmin('php-fpm-<?php echo $key; ?>','restart');">重启</a>
-										<?php if($value['status']){ ?>
-											<!-- | <a class="link" href="javascript:ServiceAdmin('php-fpm-<?php echo $key; ?>','stop');">停止</a></td>-->
-										<?php }else{ ?>
-											<a class="link" href="javascript:ServiceAdmin('php-fpm-<?php echo $key; ?>','start');">启动</a></td>
-										<?php } ?>
-									<?php }else{ ?>
-										<td>php_mod</td>
+                                  <?php if(trim($ConfigInfo['web']['version']) != '2.2.31'){ ?>
+                                  <td><span
+                                          class="<?php if($value['status']){ echo 'ico-start glyphicon glyphicon-play';}else{echo 'ico-stop glyphicon glyphicon-stop';}?>"></span></td>
+									<td style="text-align: right;"><a class="link"
+                                                                      href="javascript:ServiceAdmin('php-fpm-<?php echo $key; ?>','restart');">重启</a>
+                                      <?php if($value['status']){ ?>
+                                      <!-- | <a class="link" href="javascript:ServiceAdmin('php-fpm-<?php echo $key; ?>','stop');">停止</a></td>-->
+                                      <?php }else{ ?>
+                                      <a class="link"
+                                         href="javascript:ServiceAdmin('php-fpm-<?php echo $key; ?>','start');">启动</a></td>
+                                  <?php } ?>
+                                  <?php }else{ ?>
+                                  <td>php_mod</td>
 										<td></td>
-									<?php } ?>
+                                  <?php } ?>
 								</tr>
-								<?php } ?>
+                                <?php } ?>
 							</tbody>
 						</table>
 					</div>
@@ -143,272 +185,275 @@
 	</div>
 </div>
 <script type="text/javascript">
-	setCookie('serverType','<?php echo $_SESSION["server_type"]; ?>');
-	//校验端口格式
-	$(function(){
-		$("#banport").keyup(function(){
-			var text = $(this).val();
-			if(isNaN(text)){
-				text = text.substring(0,text.length-1);
-				$(this).val(text);
-			}
-		})
-	});
-	
-	//性能调整
-	function SetFpmConfig(version,action){
-		if(action == 1){
-			var max_children = Number($("input[name='max_children']").val());
-			var start_servers = Number($("input[name='start_servers']").val());
-			var min_spare_servers = Number($("input[name='min_spare_servers']").val());
-			var max_spare_servers = Number($("input[name='max_spare_servers']").val());
-			if(max_children < max_spare_servers){
-				layer.msg('max_spare_servers 不能大于 max_children',{icon:5});
-				return;
-			}
-			
-			if(min_spare_servers > start_servers) {
-				layer.msg('min_spare_servers 不能大于 start_servers',{icon:5});
-				return;
-			}
-			
-			if(max_spare_servers < min_spare_servers){
-				layer.msg('min_spare_servers 不能大于 max_spare_servers',{icon:5});
-				return;
-			}
-			
-			if(max_children < start_servers){
-				layer.msg('start_servers 不能大于 max_children',{icon:5});
-				return;
-			}
-			
-			if(max_children < 1 || start_servers < 1 || min_spare_servers < 1 || max_spare_servers < 1){
-				layer.msg('配置值不能小于1',{icon:5});
-				return;
-			}
-			
-			var data = 'version='+version+'&max_children='+max_children+'&start_servers='+start_servers+'&min_spare_servers='+min_spare_servers+'&max_spare_servers='+max_spare_servers;
-			layer.msg('正在处理...',{icon:16,time:0});
-			$.post('/config.php?action=SetFpmConfig',data,function(rdata){
-				layer.closeAll();
-				layer.msg(rdata.msg,{icon:rdata.status?1:5});				
-			}).error(function(){
-				layer.closeAll();
-				layer.msg('设置成功!',{icon:1});
-			});
-			return;
-		}
-		
-		$.get('/config.php?action=GetFpmConfig&version='+version,function(rdata){
-			
-			var limitList = "<option value='0'>自定义</option>"
-							+"<option value='1' "+(rdata.max_children==30?'selected':'')+">30并发</option>"
-							+"<option value='2' "+(rdata.max_children==50?'selected':'')+">50并发</option>"
-							+"<option value='3' "+(rdata.max_children==100?'selected':'')+">100并发</option>"
-							+"<option value='4' "+(rdata.max_children==200?'selected':'')+">200并发</option>"
-							+"<option value='5' "+(rdata.max_children==300?'selected':'')+">300并发</option>"
-							+"<option value='6' "+(rdata.max_children==500?'selected':'')+">500并发</option>"
-							+"<option value='7' "+(rdata.max_children==1000?'selected':'')+">1000并发</option>"
-			var body="<div class='zun-form-new bingfa'>"
-							+"<p><span class='span_tit'>并发方案：</span><select name='limit' style='width:90px'>"+limitList+"</select></p>"
-						    +"<p><span class='span_tit'>max_children：</span><input style='width: 90px;' type='number' name='max_children' value='"+rdata.max_children+"' />  *允许创建的最大子进程数</p>"
-						    +"<p><span class='span_tit'>start_servers：</span><input style='width: 90px;' type='number' name='start_servers' value='"+rdata.start_servers+"' />  *起始进程数（服务启动后初始进程数量）</p>"
-						    +"<p><span class='span_tit'>min_spare_servers：</span><input style='width: 90px;' type='number' name='min_spare_servers' value='"+rdata.min_spare_servers+"' />   *最小空闲进程数（清理空闲进程后的保留进程数量）</p>"
-						    +"<p><span class='span_tit'>max_spare_servers：</span><input style='width: 90px;' type='number' name='max_spare_servers' value='"+rdata.max_spare_servers+"' />   *最大空闲进程数（当空闲进程达到此值时开始清理）</p>"
-					    +'<div class="submit-btn">'
-							+'<button type="button" class="btn btn-danger btn-sm btn-title" onclick="layer.closeAll()">取消</button>'
-							+"<button class='btn btn-success btn-sm btn-title' onclick=\"SetFpmConfig('"+version+"',1)\">保存</button>"
-						+'</div>'
-				    +"</div>"
-			
-			layer.open({
-				type: 1,
-				shift: 5,
-				closeBtn: 2,
-				area: '560px', //宽高
-				title: 'PHP-'+version+'性能调整',
-				content: body
-				});
-			
-			$("select[name='limit']").change(function(){
-						var type = $(this).val();
-						var max_children = rdata.max_children;
-						var start_servers = rdata.start_servers;
-						var min_spare_servers = rdata.min_spare_servers;
-						var max_spare_servers = rdata.max_spare_servers;
-						switch(type){
-							case '1':
-								max_children = 30;
-								start_servers = 5;
-								min_spare_servers = 5;
-								max_spare_servers = 20;
-								break;
-							case '2':
-								max_children = 50;
-								start_servers = 15;
-								min_spare_servers = 15;
-								max_spare_servers = 35;
-								break;
-							case '3':
-								max_children = 100;
-								start_servers = 20;
-								min_spare_servers = 20;
-								max_spare_servers = 70;
-								break;
-							case '4':
-								max_children = 200;
-								start_servers = 25;
-								min_spare_servers = 25;
-								max_spare_servers = 150;
-								break;
-							case '5':
-								max_children = 300;
-								start_servers = 30;
-								min_spare_servers = 30;
-								max_spare_servers = 180;
-								break;
-							case '6':
-								max_children = 500;
-								start_servers = 35;
-								min_spare_servers = 35;
-								max_spare_servers = 250;
-								break;
-							case '7':
-								max_children = 1000;
-								start_servers = 40;
-								min_spare_servers = 40;
-								max_spare_servers = 300;
-								break;
-						}
-						
-						$("input[name='max_children']").val(max_children);
-						$("input[name='start_servers']").val(start_servers);
-						$("input[name='min_spare_servers']").val(min_spare_servers);
-						$("input[name='max_spare_servers']").val(max_spare_servers);
-					});
-		});
-	}
-	
-	//设置PATHINFO
-	function SetPathInfo(version,type){
-		layer.msg('正在处理..',{icon:16,time:0});
-		$.get('/config.php?action=SetPathInfo&version='+version+'&type='+type,function(rdata){
-			layer.closeAll();
-			layer.msg(rdata.msg,{icon:1});
-			$.get('/config.php?action=ServiceAdmin&name='+getCookie('serverType')+'&type=reload',function(){});
-			setTimeout(function(){
-				window.location.reload();
-			},3000);
-		}).error(function(){
-			layer.closeAll();
-			layer.msg('操作成功!',{icon:1});
-			setTimeout(function(){
-				window.location.reload();
-			},3000);
-		});
-	}
-	
-	//设置PHP上传限制
-	function SetPHPMaxSize(version,max){
-		if(max == 'submit'){
-			max = $("#max").val();
-			layer.msg('正在保存数据...',{icon:16,time:0});
-			$.get('/config.php?action=SetPHPMaxSize&version='+version+'&max='+max,function(rdata){
-				layer.closeAll();
-				layer.msg(rdata.msg,{icon:1});				
-				setTimeout(function(){
-					window.location.reload();
-				},3000);
-			}).error(function(){
-				layer.closeAll();
-				layer.msg('设置成功!',{icon:1});
-				setTimeout(function(){
-					window.location.reload();
-				},3000);
-			});
-			
-			return;
-		}
-		layer.open({
-		type: 1,
-		shift: 5,
-		closeBtn: 2,
-		area: '320px', //宽高
-		title: '修改PHP-'+version+'上传大小限制(M)',
-		content: '<form class="zun-form-new">\
+	setCookie('serverType', '<?php echo $_SESSION["server_type"]; ?>');
+    //校验端口格式
+    $(function () {
+      $("#banport").keyup(function () {
+        var text = $(this).val();
+        if (isNaN(text)) {
+          text = text.substring(0, text.length - 1);
+          $(this).val(text);
+        }
+      })
+    });
+
+    //性能调整
+    function SetFpmConfig(version, action) {
+      if (action == 1) {
+        var max_children = Number($("input[name='max_children']").val());
+        var start_servers = Number($("input[name='start_servers']").val());
+        var min_spare_servers = Number($("input[name='min_spare_servers']").val());
+        var max_spare_servers = Number($("input[name='max_spare_servers']").val());
+        if (max_children < max_spare_servers) {
+          layer.msg('max_spare_servers 不能大于 max_children', {icon: 5});
+          return;
+        }
+
+        if (min_spare_servers > start_servers) {
+          layer.msg('min_spare_servers 不能大于 start_servers', {icon: 5});
+          return;
+        }
+
+        if (max_spare_servers < min_spare_servers) {
+          layer.msg('min_spare_servers 不能大于 max_spare_servers', {icon: 5});
+          return;
+        }
+
+        if (max_children < start_servers) {
+          layer.msg('start_servers 不能大于 max_children', {icon: 5});
+          return;
+        }
+
+        if (max_children < 1 || start_servers < 1 || min_spare_servers < 1 || max_spare_servers < 1) {
+          layer.msg('配置值不能小于1', {icon: 5});
+          return;
+        }
+
+        var data = 'version=' + version + '&max_children=' + max_children + '&start_servers=' + start_servers + '&min_spare_servers=' + min_spare_servers + '&max_spare_servers=' + max_spare_servers;
+        layer.msg('正在处理...', {icon: 16, time: 0});
+        $.post('/config.php?action=SetFpmConfig', data, function (rdata) {
+          layer.closeAll();
+          layer.msg(rdata.msg, {icon: rdata.status ? 1 : 5});
+        }).error(function () {
+          layer.closeAll();
+          layer.msg('设置成功!', {icon: 1});
+        });
+        return;
+      }
+
+      $.get('/config.php?action=GetFpmConfig&version=' + version, function (rdata) {
+
+        var limitList = "<option value='0'>自定义</option>"
+          + "<option value='1' " + (rdata.max_children == 30 ? 'selected' : '') + ">30并发</option>"
+          + "<option value='2' " + (rdata.max_children == 50 ? 'selected' : '') + ">50并发</option>"
+          + "<option value='3' " + (rdata.max_children == 100 ? 'selected' : '') + ">100并发</option>"
+          + "<option value='4' " + (rdata.max_children == 200 ? 'selected' : '') + ">200并发</option>"
+          + "<option value='5' " + (rdata.max_children == 300 ? 'selected' : '') + ">300并发</option>"
+          + "<option value='6' " + (rdata.max_children == 500 ? 'selected' : '') + ">500并发</option>"
+          + "<option value='7' " + (rdata.max_children == 1000 ? 'selected' : '') + ">1000并发</option>"
+        var body = "<div class='zun-form-new bingfa'>"
+          + "<p><span class='span_tit'>并发方案：</span><select name='limit' style='width:90px'>" + limitList + "</select></p>"
+          + "<p><span class='span_tit'>max_children：</span><input style='width: 90px;' type='number' name='max_children' value='" + rdata.max_children + "' />  *允许创建的最大子进程数</p>"
+          + "<p><span class='span_tit'>start_servers：</span><input style='width: 90px;' type='number' name='start_servers' value='" + rdata.start_servers + "' />  *起始进程数（服务启动后初始进程数量）</p>"
+          + "<p><span class='span_tit'>min_spare_servers：</span><input style='width: 90px;' type='number' name='min_spare_servers' value='" + rdata.min_spare_servers + "' />   *最小空闲进程数（清理空闲进程后的保留进程数量）</p>"
+          + "<p><span class='span_tit'>max_spare_servers：</span><input style='width: 90px;' type='number' name='max_spare_servers' value='" + rdata.max_spare_servers + "' />   *最大空闲进程数（当空闲进程达到此值时开始清理）</p>"
+          + '<div class="submit-btn">'
+          + '<button type="button" class="btn btn-danger btn-sm btn-title" onclick="layer.closeAll()">取消</button>'
+          + "<button class='btn btn-success btn-sm btn-title' onclick=\"SetFpmConfig('" + version + "',1)\">保存</button>"
+          + '</div>'
+          + "</div>"
+
+        layer.open({
+          type: 1,
+          shift: 5,
+          closeBtn: 2,
+          area: '560px', //宽高
+          title: 'PHP-' + version + '性能调整',
+          content: body
+        });
+
+        $("select[name='limit']").change(function () {
+          var type = $(this).val();
+          var max_children = rdata.max_children;
+          var start_servers = rdata.start_servers;
+          var min_spare_servers = rdata.min_spare_servers;
+          var max_spare_servers = rdata.max_spare_servers;
+          switch (type) {
+            case '1':
+              max_children = 30;
+              start_servers = 5;
+              min_spare_servers = 5;
+              max_spare_servers = 20;
+              break;
+            case '2':
+              max_children = 50;
+              start_servers = 15;
+              min_spare_servers = 15;
+              max_spare_servers = 35;
+              break;
+            case '3':
+              max_children = 100;
+              start_servers = 20;
+              min_spare_servers = 20;
+              max_spare_servers = 70;
+              break;
+            case '4':
+              max_children = 200;
+              start_servers = 25;
+              min_spare_servers = 25;
+              max_spare_servers = 150;
+              break;
+            case '5':
+              max_children = 300;
+              start_servers = 30;
+              min_spare_servers = 30;
+              max_spare_servers = 180;
+              break;
+            case '6':
+              max_children = 500;
+              start_servers = 35;
+              min_spare_servers = 35;
+              max_spare_servers = 250;
+              break;
+            case '7':
+              max_children = 1000;
+              start_servers = 40;
+              min_spare_servers = 40;
+              max_spare_servers = 300;
+              break;
+          }
+
+          $("input[name='max_children']").val(max_children);
+          $("input[name='start_servers']").val(start_servers);
+          $("input[name='min_spare_servers']").val(min_spare_servers);
+          $("input[name='max_spare_servers']").val(max_spare_servers);
+        });
+      });
+    }
+
+    //设置PATHINFO
+    function SetPathInfo(version, type) {
+      layer.msg('正在处理..', {icon: 16, time: 0});
+      $.get('/config.php?action=SetPathInfo&version=' + version + '&type=' + type, function (rdata) {
+        layer.closeAll();
+        layer.msg(rdata.msg, {icon: 1});
+        $.get('/config.php?action=ServiceAdmin&name=' + getCookie('serverType') + '&type=reload', function () {
+        });
+        setTimeout(function () {
+          window.location.reload();
+        }, 3000);
+      }).error(function () {
+        layer.closeAll();
+        layer.msg('操作成功!', {icon: 1});
+        setTimeout(function () {
+          window.location.reload();
+        }, 3000);
+      });
+    }
+
+    //设置PHP上传限制
+    function SetPHPMaxSize(version, max) {
+      if (max == 'submit') {
+        max = $("#max").val();
+        layer.msg('正在保存数据...', {icon: 16, time: 0});
+        $.get('/config.php?action=SetPHPMaxSize&version=' + version + '&max=' + max, function (rdata) {
+          layer.closeAll();
+          layer.msg(rdata.msg, {icon: 1});
+          setTimeout(function () {
+            window.location.reload();
+          }, 3000);
+        }).error(function () {
+          layer.closeAll();
+          layer.msg('设置成功!', {icon: 1});
+          setTimeout(function () {
+            window.location.reload();
+          }, 3000);
+        });
+
+        return;
+      }
+      layer.open({
+        type: 1,
+        shift: 5,
+        closeBtn: 2,
+        area: '320px', //宽高
+        title: '修改PHP-' + version + '上传大小限制(M)',
+        content: '<form class="zun-form-new">\
 					<div class="line noborder">\
-					<input type="text" class="form-control" name="Name" id="max" value="'+max+'" placeholder="上传大小限制(MB)" />\
+					<input type="text" class="form-control" name="Name" id="max" value="' + max + '" placeholder="上传大小限制(MB)" />\
 					</div>\
 					<div class="submit-btn">\
 					<button type="button" class="btn btn-danger btn-sm btn-title" onclick="layer.closeAll()">取消</button>\
-					<button type="button" class="btn btn-success btn-sm btn-title" onclick="SetPHPMaxSize(\''+version+'\',\'submit\')">确定</button>\
+					<button type="button" class="btn btn-success btn-sm btn-title" onclick="SetPHPMaxSize(\'' + version + '\',\'submit\')">确定</button>\
 					</div>\
 				</form>'
-		});
-	}
-	
-	//设置PHP超时时间
-	function SetPHPMaxTime(version,max){
-		if(max == 'submit'){
-			max = $("#max").val();
-			layer.msg('正在保存数据...',{icon:16,time:0});
-			$.get('/config.php?action=SetPHPMaxTime&version='+version+'&time='+max,function(rdata){
-				layer.closeAll();
-				layer.msg(rdata.msg,{icon:rdata.status?1:5});
-				$.get('/config.php?action=ServiceAdmin&name=php-fpm-'+version+'&type=reload',function(){});
-				
-				setTimeout(function(){
-					window.location.reload();
-				},3000);
-			}).error(function(){
-				layer.closeAll();
-				layer.msg('设置成功!',{icon:1});
-				setTimeout(function(){
-					window.location.reload();
-				},3000);
-			});
-			
-			return;
-		}
-		layer.open({
-		type: 1,
-		shift: 5,
-		closeBtn: 2,
-		area: '320px', //宽高
-		title: '修改PHP-'+version+'脚本超时限制(秒)',
-		content: '<form class="zun-form-new">\
+      });
+    }
+
+    //设置PHP超时时间
+    function SetPHPMaxTime(version, max) {
+      if (max == 'submit') {
+        max = $("#max").val();
+        layer.msg('正在保存数据...', {icon: 16, time: 0});
+        $.get('/config.php?action=SetPHPMaxTime&version=' + version + '&time=' + max, function (rdata) {
+          layer.closeAll();
+          layer.msg(rdata.msg, {icon: rdata.status ? 1 : 5});
+          $.get('/config.php?action=ServiceAdmin&name=php-fpm-' + version + '&type=reload', function () {
+          });
+
+          setTimeout(function () {
+            window.location.reload();
+          }, 3000);
+        }).error(function () {
+          layer.closeAll();
+          layer.msg('设置成功!', {icon: 1});
+          setTimeout(function () {
+            window.location.reload();
+          }, 3000);
+        });
+
+        return;
+      }
+      layer.open({
+        type: 1,
+        shift: 5,
+        closeBtn: 2,
+        area: '320px', //宽高
+        title: '修改PHP-' + version + '脚本超时限制(秒)',
+        content: '<form class="zun-form-new">\
 					<div class="line noborder">\
-					<input type="text" class="form-control" name="Name" id="max" value="'+max+'" placeholder="脚本超时限制(秒)" />\
+					<input type="text" class="form-control" name="Name" id="max" value="' + max + '" placeholder="脚本超时限制(秒)" />\
 					</div>\
 					<div class="submit-btn">\
 					<button type="button" class="btn btn-danger btn-sm btn-title" onclick="layer.closeAll()">取消</button>\
-					<button type="button" class="btn btn-success btn-sm btn-title" onclick="SetPHPMaxTime(\''+version+'\',\'submit\')">确定</button>\
+					<button type="button" class="btn btn-success btn-sm btn-title" onclick="SetPHPMaxTime(\'' + version + '\',\'submit\')">确定</button>\
 					</div>\
 				</form>'
-		});
-	}
-	
-	$(".set-submit").click(function(){
-		var data = $("#set-Config").serialize();
-		layer.msg('正在保存数据...',{icon:16,time:0});
-		$.post('/config.php?action=SaveConfig',data,function(rdata){
-			layer.closeAll();
-			layer.msg(rdata.msg,{icon:rdata.status?1:5});
-			if(rdata.status){
-				$.get('/config.php?action=ServiceAdmin&name='+getCookie('serverType')+'&type=reload',function(){});
-				setTimeout(function(){
-					window.location.href = 'http://'+rdata.domain+':'+rdata.port+rdata.script_name;
-				},3000);
-			}
-		});
-		
-	});
-	
-	//设置防恶意解析
-	function SetDefaultSite(){
-		$.get('/config.php?action=SetDefaultSite',function(rdata){
-			layer.msg(rdata.msg,{icon:rdata.status?1:5});
-		});
-	}
+      });
+    }
+
+    $(".set-submit").click(function () {
+      var data = $("#set-Config").serialize();
+      layer.msg('正在保存数据...', {icon: 16, time: 0});
+      $.post('/config.php?action=SaveConfig', data, function (rdata) {
+        layer.closeAll();
+        layer.msg(rdata.msg, {icon: rdata.status ? 1 : 5});
+        if (rdata.status) {
+          $.get('/config.php?action=ServiceAdmin&name=' + getCookie('serverType') + '&type=reload', function () {
+          });
+          setTimeout(function () {
+            window.location.href = 'http://' + rdata.domain + ':' + rdata.port + rdata.script_name;
+          }, 3000);
+        }
+      });
+
+    });
+
+    //设置防恶意解析
+    function SetDefaultSite() {
+      $.get('/config.php?action=SetDefaultSite', function (rdata) {
+        layer.msg(rdata.msg, {icon: rdata.status ? 1 : 5});
+      });
+    }
 	
 </script>

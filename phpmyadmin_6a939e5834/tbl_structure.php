@@ -44,8 +44,8 @@ if (isset($_REQUEST['move_columns'])
 if (isset($_REQUEST['reserved_word_check'])) {
     $response = PMA_Response::getInstance();
     if ($GLOBALS['cfg']['ReservedWordDisableWarning'] === false) {
-        $columns_names = $_REQUEST['field_name'];
-        $reserved_keywords_names = array();
+        $columns_names           = $_REQUEST['field_name'];
+        $reserved_keywords_names = [];
         foreach ($columns_names as $column) {
             if (PMA_SQP_isKeyWord(trim($column))) {
                 $reserved_keywords_names[] = trim($column);
@@ -87,7 +87,7 @@ if (isset($_REQUEST['change_column'])) {
  */
 $submit_mult = PMA_getMultipleFieldCommandType();
 
-if (! empty($submit_mult)) {
+if (!empty($submit_mult)) {
     if (isset($_REQUEST['selected_fld'])) {
         if ($submit_mult == 'browse') {
             // browsing the table displaying only selected columns
@@ -174,7 +174,7 @@ $primary = PMA_Index::getPrimary($table, $db);
 $columns_with_unique_index = PMA_getColumnsWithUniqueIndex($db, $table);
 
 // 3. Get fields
-$fields = (array) $GLOBALS['dbi']->getColumns($db, $table, null, true);
+$fields = (array)$GLOBALS['dbi']->getColumns($db, $table, null, true);
 
 // Get more complete field information
 // For now, this is done just for MySQL 4.1.2+ new TIMESTAMP options
@@ -192,7 +192,7 @@ $show_create_table = $GLOBALS['dbi']->fetchValue(
     . PMA_Util::backquote($table),
     0, 1
 );
-$analyzed_sql = PMA_SQP_analyze(PMA_SQP_parse($show_create_table));
+$analyzed_sql      = PMA_SQP_analyze(PMA_SQP_parse($show_create_table));
 
 /**
  * prepare table infos

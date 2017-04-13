@@ -220,7 +220,7 @@ class PMA_Font_Test extends PHPUnit_Framework_TestCase
         // string "a", with invalid charlist (= array without proper structure)
         $this->assertEquals(
             6,
-            PMA_Font::getStringWidth("a", "arial", "10", array("list"))
+            PMA_Font::getStringWidth("a", "arial", "10", ["list"])
         );
 
         // string "a", with invalid charlist (= array without proper structure :
@@ -229,7 +229,7 @@ class PMA_Font_Test extends PHPUnit_Framework_TestCase
             6,
             PMA_Font::getStringWidth(
                 "a", "arial", "10",
-                array(array("chars" => "a"))
+                [["chars" => "a"]]
             )
         );
 
@@ -239,7 +239,7 @@ class PMA_Font_Test extends PHPUnit_Framework_TestCase
             6,
             PMA_Font::getStringWidth(
                 "a", "arial", "10",
-                array(array("modifier" => 0.61))
+                [["modifier" => 0.61]]
             )
         );
 
@@ -249,7 +249,7 @@ class PMA_Font_Test extends PHPUnit_Framework_TestCase
             6,
             PMA_Font::getStringWidth(
                 "a", "arial", "10",
-                array(array("chars" => "a", "modifier" => 0.61))
+                [["chars" => "a", "modifier" => 0.61]]
             )
         );
 
@@ -258,9 +258,10 @@ class PMA_Font_Test extends PHPUnit_Framework_TestCase
             7,
             PMA_Font::getStringWidth(
                 "a", "arial", "10",
-                array(array("chars" => array("a"), "modifier" => 0.61))
+                [["chars" => ["a"], "modifier" => 0.61]]
             )
         );
     }
 }
+
 ?>

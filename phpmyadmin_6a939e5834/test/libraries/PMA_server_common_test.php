@@ -64,7 +64,7 @@ class PMA_ServerCommon_Test extends PHPUnit_Framework_TestCase
         );
 
         //server_replication
-        $html = PMA_getHtmlForSubPageHeader("replication");
+        $html            = PMA_getHtmlForSubPageHeader("replication");
         $replication_img = '<img src="themes/dot.gif" title="" '
             . 'alt="" class="icon ic_s_replication" />';
         $this->assertContains(

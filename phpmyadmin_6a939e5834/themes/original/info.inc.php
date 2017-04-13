@@ -10,6 +10,6 @@
 /**
  *
  */
-$theme_name = 'Original';
+$theme_name         = 'Original';
 $theme_full_version = '2.9';
 ?>

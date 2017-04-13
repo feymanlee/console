@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Authentication
  * @subpackage Cookie
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -19,7 +19,7 @@ require_once 'libraries/plugins/AuthenticationPlugin.class.php';
  * Remember where to redirect the user
  * in case of an expired session.
  */
-if (! empty($_REQUEST['target'])) {
+if (!empty($_REQUEST['target'])) {
     $GLOBALS['target'] = $_REQUEST['target'];
 } else if (PMA_getenv('SCRIPT_NAME')) {
     $GLOBALS['target'] = basename(PMA_getenv('SCRIPT_NAME'));
@@ -28,9 +28,9 @@ if (! empty($_REQUEST['target'])) {
 /**
  * phpseclib
  */
-if (! function_exists('openssl_encrypt')
-    || ! function_exists('openssl_decrypt')
-    || ! function_exists('openssl_random_pseudo_bytes')
+if (!function_exists('openssl_encrypt')
+    || !function_exists('openssl_decrypt')
+    || !function_exists('openssl_random_pseudo_bytes')
     || PHP_VERSION_ID < 50304
 ) {
     require PHPSECLIB_INC_DIR . '/Crypt/Base.php';
@@ -77,8 +77,8 @@ class AuthenticationCookie extends AuthenticationPlugin
         }
 
         /* Perform logout to custom URL */
-        if (! empty($_REQUEST['old_usr'])
-            && ! empty($GLOBALS['cfg']['Server']['LogoutURL'])
+        if (!empty($_REQUEST['old_usr'])
+            && !empty($GLOBALS['cfg']['Server']['LogoutURL'])
         ) {
             PMA_sendHeaderLocation($GLOBALS['cfg']['Server']['LogoutURL']);
             if (defined('TESTSUITE')) {
@@ -91,7 +91,7 @@ class AuthenticationCookie extends AuthenticationPlugin
         // No recall if blowfish secret is not configured as it would produce
         // garbage
         if ($GLOBALS['cfg']['LoginCookieRecall']
-            && ! empty($GLOBALS['cfg']['blowfish_secret'])
+            && !empty($GLOBALS['cfg']['blowfish_secret'])
         ) {
             $default_user   = $GLOBALS['PHP_AUTH_USER'];
             $default_server = $GLOBALS['pma_auth_server'];
@@ -100,7 +100,7 @@ class AuthenticationCookie extends AuthenticationPlugin
             $default_user   = '';
             $default_server = '';
             // skip the IE autocomplete feature.
-            $autocomplete   = ' autocomplete="off"';
+            $autocomplete = ' autocomplete="off"';
         }
 
         $response->getFooter()->setMinimal();
@@ -136,7 +136,7 @@ class AuthenticationCookie extends AuthenticationPlugin
         echo "</h1>";
 
         // Show error message
-        if (! empty($conn_error)) {
+        if (!empty($conn_error)) {
             PMA_Message::rawError($conn_error)->display();
         } elseif (isset($_GET['session_expired'])
             && intval($_GET['session_expired']) == 1
@@ -185,19 +185,20 @@ class AuthenticationCookie extends AuthenticationPlugin
             echo '" size="24" class="textfield" title="';
             echo __(
                 'You can enter hostname/IP address and port separated by space.'
-            ); echo '" />
+            );
+            echo '" />
             </div>';
         }
-            echo '<div class="item">
+        echo '<div class="item">
                 <label for="input_username">' . __('Username:') . '</label>
                 <input type="text" name="pma_username" id="input_username" '
-                . 'value="' . htmlspecialchars($default_user) . '" size="24"'
-                . ' class="textfield"/>
+            . 'value="' . htmlspecialchars($default_user) . '" size="24"'
+            . ' class="textfield"/>
             </div>
             <div class="item">
                 <label for="input_password">' . __('Password:') . '</label>
                 <input type="password" name="pma_password" id="input_password"'
-                . ' value="" size="24" class="textfield" />
+            . ' value="" size="24" class="textfield" />
             </div>';
         if (count($GLOBALS['cfg']['Servers']) > 1) {
             echo '<div class="item">
@@ -219,7 +220,7 @@ class AuthenticationCookie extends AuthenticationPlugin
         } // end if (server choice)
 
         // Add captcha input field if reCaptcha is enabled
-        if (  !empty($GLOBALS['cfg']['CaptchaLoginPrivateKey'])
+        if (!empty($GLOBALS['cfg']['CaptchaLoginPrivateKey'])
             && !empty($GLOBALS['cfg']['CaptchaLoginPublicKey'])
         ) {
             // If enabled show captcha to the user on the login screen.
@@ -232,14 +233,14 @@ class AuthenticationCookie extends AuthenticationPlugin
         echo '</fieldset>
         <fieldset class="tblFooters">
             <input value="' . __('Go') . '" type="submit" id="input_go" />';
-        $_form_params = array();
-        if (! empty($GLOBALS['target'])) {
+        $_form_params = [];
+        if (!empty($GLOBALS['target'])) {
             $_form_params['target'] = $GLOBALS['target'];
         }
-        if (! empty($GLOBALS['db'])) {
+        if (!empty($GLOBALS['db'])) {
             $_form_params['db'] = $GLOBALS['db'];
         }
-        if (! empty($GLOBALS['table'])) {
+        if (!empty($GLOBALS['table'])) {
             $_form_params['table'] = $GLOBALS['table'];
         }
         // do not generate a "server" hidden field as we want the "server"
@@ -257,7 +258,7 @@ class AuthenticationCookie extends AuthenticationPlugin
         if (file_exists(CUSTOM_FOOTER_FILE)) {
             include CUSTOM_FOOTER_FILE;
         }
-        if (! defined('TESTSUITE')) {
+        if (!defined('TESTSUITE')) {
             exit;
         } else {
             return true;
@@ -286,30 +287,31 @@ class AuthenticationCookie extends AuthenticationPlugin
 
         // Initialization
         /**
-         * @global $GLOBALS['pma_auth_server'] the user provided server to
-         * connect to
+         * @global $GLOBALS ['pma_auth_server'] the user provided server to
+         *                  connect to
          */
         $GLOBALS['pma_auth_server'] = '';
 
         $GLOBALS['PHP_AUTH_USER'] = $GLOBALS['PHP_AUTH_PW'] = '';
-        $GLOBALS['from_cookie'] = false;
+        $GLOBALS['from_cookie']   = false;
 
         if (defined('PMA_CLEAR_COOKIES')) {
             foreach ($GLOBALS['cfg']['Servers'] as $key => $val) {
                 $GLOBALS['PMA_Config']->removeCookie('pmaAuth-' . $key);
                 $GLOBALS['PMA_Config']->removeCookie('pmaUser-' . $key);
             }
+
             return false;
         }
 
-        if (! empty($_REQUEST['old_usr'])) {
+        if (!empty($_REQUEST['old_usr'])) {
             // The user wants to be logged out
             // -> delete his choices that were stored in session
 
             // according to the PHP manual we should do this before the destroy:
             //$_SESSION = array();
 
-            if (! defined('TESTSUITE')) {
+            if (!defined('TESTSUITE')) {
                 session_destroy();
             }
             // -> delete password cookie(s)
@@ -330,13 +332,13 @@ class AuthenticationCookie extends AuthenticationPlugin
             }
         }
 
-        if (! empty($_REQUEST['pma_username'])) {
+        if (!empty($_REQUEST['pma_username'])) {
 
             // Verify Captcha if it is required.
-            if (! empty($GLOBALS['cfg']['CaptchaLoginPrivateKey'])
-                && ! empty($GLOBALS['cfg']['CaptchaLoginPublicKey'])
+            if (!empty($GLOBALS['cfg']['CaptchaLoginPrivateKey'])
+                && !empty($GLOBALS['cfg']['CaptchaLoginPublicKey'])
             ) {
-                if (! empty($_POST["g-recaptcha-response"])) {
+                if (!empty($_POST["g-recaptcha-response"])) {
 
                     include_once 'libraries/plugins/auth/recaptcha/autoload.php';
                     $reCaptcha = new \ReCaptcha\ReCaptcha(
@@ -350,12 +352,14 @@ class AuthenticationCookie extends AuthenticationPlugin
                     );
 
                     // Check if the captcha entered is valid, if not stop the login.
-                    if ($resp == null || ! $resp->isSuccess()) {
+                    if ($resp == null || !$resp->isSuccess()) {
                         $conn_error = __('Entered captcha is wrong, try again!');
+
                         return false;
                     }
                 } else {
                     $conn_error = __('Please enter correct captcha!');
+
                     return false;
                 }
             }
@@ -379,15 +383,17 @@ class AuthenticationCookie extends AuthenticationPlugin
                     $match = preg_match(
                         $GLOBALS['cfg']['ArbitraryServerRegexp'], $tmp_host
                     );
-                    if (! $match) {
+                    if (!$match) {
                         $conn_error = __(
                             'You are not allowed to log in to this MySQL server!'
                         );
+
                         return false;
                     }
                 }
                 $GLOBALS['pma_auth_server'] = PMA_sanitizeMySQLHost($_REQUEST['pma_servername']);
             }
+
             return true;
         }
 
@@ -421,7 +427,7 @@ class AuthenticationCookie extends AuthenticationPlugin
             PMA_Util::cacheUnset('dbs_to_test');
             $GLOBALS['no_activity'] = true;
             $this->authFails();
-            if (! defined('TESTSUITE')) {
+            if (!defined('TESTSUITE')) {
                 exit;
             } else {
                 return false;
@@ -440,11 +446,11 @@ class AuthenticationCookie extends AuthenticationPlugin
             ),
             true
         );
-        if (! is_array($auth_data) || ! isset($auth_data['password'])) {
+        if (!is_array($auth_data) || !isset($auth_data['password'])) {
             return false;
         }
         $GLOBALS['PHP_AUTH_PW'] = $auth_data['password'];
-        if ($GLOBALS['cfg']['AllowArbitraryServer'] && ! empty($auth_data['server'])) {
+        if ($GLOBALS['cfg']['AllowArbitraryServer'] && !empty($auth_data['server'])) {
             $GLOBALS['pma_auth_server'] = $auth_data['server'];
         }
 
@@ -481,7 +487,7 @@ class AuthenticationCookie extends AuthenticationPlugin
         } // end if
 
         if ($GLOBALS['cfg']['AllowArbitraryServer']
-            && ! empty($GLOBALS['pma_auth_server'])
+            && !empty($GLOBALS['pma_auth_server'])
         ) {
             /* Allow to specify 'host port' */
             $parts = explode(' ', $GLOBALS['pma_auth_server']);
@@ -494,7 +500,7 @@ class AuthenticationCookie extends AuthenticationPlugin
             }
             if ($cfg['Server']['host'] != $GLOBALS['pma_auth_server']) {
                 $cfg['Server']['host'] = $tmp_host;
-                if (! empty($tmp_port)) {
+                if (!empty($tmp_port)) {
                     $cfg['Server']['port'] = $tmp_port;
                 }
             }
@@ -531,20 +537,24 @@ class AuthenticationCookie extends AuthenticationPlugin
 
         // Set server cookies if required (once per session) and, in this case,
         // force reload to ensure the client accepts cookies
-        if (! $GLOBALS['from_cookie']) {
+        if (!$GLOBALS['from_cookie']) {
             // URL where to go:
             $redirect_url = $cfg['PmaAbsoluteUri'] . 'index.php';
 
             // any parameters to pass?
-            $url_params = array();
-            if (/*overload*/mb_strlen($GLOBALS['db'])) {
+            $url_params = [];
+            if (/*overload*/
+            mb_strlen($GLOBALS['db'])
+            ) {
                 $url_params['db'] = $GLOBALS['db'];
             }
-            if (/*overload*/mb_strlen($GLOBALS['table'])) {
+            if (/*overload*/
+            mb_strlen($GLOBALS['table'])
+            ) {
                 $url_params['table'] = $GLOBALS['table'];
             }
             // any target to pass?
-            if (! empty($GLOBALS['target'])
+            if (!empty($GLOBALS['target'])
                 && $GLOBALS['target'] != 'index.php'
             ) {
                 $url_params['target'] = $GLOBALS['target'];
@@ -561,7 +571,7 @@ class AuthenticationCookie extends AuthenticationPlugin
                 $redirect_url . PMA_URL_getCommon($url_params, 'text'),
                 true
             );
-            if (! defined('TESTSUITE')) {
+            if (!defined('TESTSUITE')) {
                 exit;
             } else {
                 return false;
@@ -600,8 +610,8 @@ class AuthenticationCookie extends AuthenticationPlugin
      */
     public function storePasswordCookie($password)
     {
-        $payload = array('password' => $password);
-        if ($GLOBALS['cfg']['AllowArbitraryServer'] && ! empty($GLOBALS['pma_auth_server'])) {
+        $payload = ['password' => $password];
+        if ($GLOBALS['cfg']['AllowArbitraryServer'] && !empty($GLOBALS['pma_auth_server'])) {
             $payload['server'] = $GLOBALS['pma_auth_server'];
         }
         // Duration = as configured
@@ -671,6 +681,7 @@ class AuthenticationCookie extends AuthenticationPlugin
                 $_SESSION['encryption_key'] = Crypt\Random::string(32);
             }
         }
+
         return $_SESSION['encryption_key'];
     }
 
@@ -704,6 +715,7 @@ class AuthenticationCookie extends AuthenticationPlugin
         while (strlen($secret) < 16) {
             $secret .= $secret;
         }
+
         return substr($secret, 0, 16);
     }
 
@@ -722,6 +734,7 @@ class AuthenticationCookie extends AuthenticationPlugin
         if ($length > 16) {
             return substr($secret, 0, 16);
         }
+
         return $this->enlargeSecret(
             $length == 1 ? $secret : substr($secret, 0, -1)
         );
@@ -742,6 +755,7 @@ class AuthenticationCookie extends AuthenticationPlugin
         if ($length > 16) {
             return substr($secret, -16);
         }
+
         return $this->enlargeSecret(
             $length == 1 ? $secret : substr($secret, 1)
         );
@@ -760,7 +774,7 @@ class AuthenticationCookie extends AuthenticationPlugin
     {
         $mac_secret = $this->getMACSecret($secret);
         $aes_secret = $this->getAESSecret($secret);
-        $iv = $this->createIV();
+        $iv         = $this->createIV();
         if ($this->_useOpenSSL()) {
             $result = openssl_encrypt(
                 $data,
@@ -776,12 +790,13 @@ class AuthenticationCookie extends AuthenticationPlugin
             $result = base64_encode($cipher->encrypt($data));
         }
         $iv = base64_encode($iv);
+
         return json_encode(
-            array(
-                'iv' => $iv,
-                'mac' => hash_hmac('sha1', $iv . $result, $mac_secret),
+            [
+                'iv'      => $iv,
+                'mac'     => hash_hmac('sha1', $iv . $result, $mac_secret),
                 'payload' => $result,
-            )
+            ]
         );
     }
 
@@ -798,17 +813,17 @@ class AuthenticationCookie extends AuthenticationPlugin
     {
         $data = json_decode($encdata, true);
 
-        if (! is_array($data) || ! isset($data['mac']) || ! isset($data['iv']) || ! isset($data['payload'])
-            || ! is_string($data['mac']) || ! is_string($data['iv']) || ! is_string($data['payload'])
-            ) {
+        if (!is_array($data) || !isset($data['mac']) || !isset($data['iv']) || !isset($data['payload'])
+            || !is_string($data['mac']) || !is_string($data['iv']) || !is_string($data['payload'])
+        ) {
             return false;
         }
 
         $mac_secret = $this->getMACSecret($secret);
         $aes_secret = $this->getAESSecret($secret);
-        $newmac = hash_hmac('sha1', $data['iv'] . $data['payload'], $mac_secret);
+        $newmac     = hash_hmac('sha1', $data['iv'] . $data['payload'], $mac_secret);
 
-        if (! hash_equals($data['mac'], $newmac)) {
+        if (!hash_equals($data['mac'], $newmac)) {
             return false;
         }
 
@@ -824,6 +839,7 @@ class AuthenticationCookie extends AuthenticationPlugin
             $cipher = new Crypt\AES(Crypt\Base::MODE_CBC);
             $cipher->setIV(base64_decode($data['iv']));
             $cipher->setKey($aes_secret);
+
             return $cipher->decrypt(base64_decode($data['payload']));
         }
     }
@@ -839,6 +855,7 @@ class AuthenticationCookie extends AuthenticationPlugin
             return openssl_cipher_iv_length('AES-128-CBC');
         }
         $cipher = new Crypt\AES(Crypt\Base::MODE_CBC);
+
         return $cipher->block_size;
     }
 
@@ -853,7 +870,7 @@ class AuthenticationCookie extends AuthenticationPlugin
     public function createIV()
     {
         /* Testsuite shortcut only to allow predictable IV */
-        if (! is_null($this->_cookie_iv)) {
+        if (!is_null($this->_cookie_iv)) {
             return $this->_cookie_iv;
         }
         if ($this->_useOpenSSL()) {

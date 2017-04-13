@@ -11,7 +11,7 @@
  */
 require_once 'libraries/common.inc.php';
 
-if (! isset($selected_tbl)) {
+if (!isset($selected_tbl)) {
     include 'libraries/db_common.inc.php';
     include 'libraries/db_info.inc.php';
 }
@@ -23,7 +23,7 @@ $header->enablePrintView();
 /**
  * Gets the relations settings
  */
-$cfgRelation  = PMA_getRelationsParam();
+$cfgRelation = PMA_getRelationsParam();
 
 require_once 'libraries/transformations.lib.php';
 require_once 'libraries/Index.class.php';
@@ -31,12 +31,12 @@ require_once 'libraries/Index.class.php';
 /**
  * Check parameters
  */
-PMA_Util::checkParameters(array('db'));
+PMA_Util::checkParameters(['db']);
 
 /**
  * Defines the url to return to in case of error in a sql statement
  */
-$err_url = 'db_sql.php' . PMA_URL_getCommon(array('db' => $db));
+$err_url = 'db_sql.php' . PMA_URL_getCommon(['db' => $db]);
 
 if ($cfgRelation['commwork']) {
     $comment = PMA_getDbComment($db);
@@ -56,7 +56,7 @@ if ($cfgRelation['commwork']) {
 $GLOBALS['dbi']->selectDb($db);
 $tables = $GLOBALS['dbi']->getTables($db);
 
-$count  = 0;
+$count = 0;
 foreach ($tables as $table) {
     $comments = PMA_getComments($db, $table);
 
@@ -84,7 +84,7 @@ foreach ($tables as $table) {
 
     // Check if we can use Relations
     list($res_rel, $have_rel) = PMA_getRelationsAndStatus(
-        ! empty($cfgRelation['relation']), $db, $table
+        !empty($cfgRelation['relation']), $db, $table
     );
 
     /**
@@ -126,14 +126,14 @@ foreach ($tables as $table) {
         if ('set' == $extracted_columnspec['type']
             || 'enum' == $extracted_columnspec['type']
         ) {
-            $type_nowrap  = '';
+            $type_nowrap = '';
 
         } else {
-            $type_nowrap  = ' class="nowrap"';
+            $type_nowrap = ' class="nowrap"';
         }
-        $type = htmlspecialchars($extracted_columnspec['print_type']);
-        $attribute     = $extracted_columnspec['attribute'];
-        if (! isset($row['Default'])) {
+        $type      = htmlspecialchars($extracted_columnspec['print_type']);
+        $attribute = $extracted_columnspec['attribute'];
+        if (!isset($row['Default'])) {
             if ($row['Null'] != 'NO') {
                 $row['Default'] = '<i>NULL</i>';
             }
@@ -143,7 +143,8 @@ foreach ($tables as $table) {
         $column_name = $row['Field'];
 
         echo '<tr class="';
-        echo $odd_row ? 'odd' : 'even'; $odd_row = ! $odd_row;
+        echo $odd_row ? 'odd' : 'even';
+        $odd_row = !$odd_row;
         echo '">';
         echo '<td class="nowrap">';
         echo htmlspecialchars($column_name);
@@ -154,7 +155,7 @@ foreach ($tables as $table) {
         echo '</td>';
         echo '<td' . $type_nowrap . ' lang="en" dir="ltr">' . $type . '</td>';
         echo '<td>';
-        echo (($row['Null'] == 'NO') ? __('No') : __('Yes'));
+        echo(($row['Null'] == 'NO') ? __('No') : __('Yes'));
         echo '</td>';
         echo '<td class="nowrap">';
         if (isset($row['Default'])) {

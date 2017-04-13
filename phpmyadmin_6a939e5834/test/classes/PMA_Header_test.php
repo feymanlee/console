@@ -28,7 +28,7 @@ require_once 'libraries/js_escape.lib.php';
  * Test for PMA_Header class
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_Header_Test extends PHPUnit_Framework_TestCase
 {
@@ -42,22 +42,22 @@ class PMA_Header_Test extends PHPUnit_Framework_TestCase
         if (!defined('PMA_IS_WINDOWS')) {
             define('PMA_IS_WINDOWS', false);
         }
-        $GLOBALS['server'] = 0;
-        $GLOBALS['message'] = 'phpmyadminmessage';
+        $GLOBALS['server']          = 0;
+        $GLOBALS['message']         = 'phpmyadminmessage';
         $GLOBALS['is_ajax_request'] = false;
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
-        $GLOBALS['pmaThemePath'] = $_SESSION['PMA_Theme']->getPath();
-        $GLOBALS['pmaThemeImage'] = 'theme/';
-        $GLOBALS['PMA_PHP_SELF'] = PMA_getenv('PHP_SELF');
-        $GLOBALS['server'] = 'server';
-        $GLOBALS['db'] = 'pma_test';
-        $GLOBALS['table'] = 'table1';
-        $GLOBALS['PMA_Config'] = new PMA_Config();
+        $_SESSION['PMA_Theme']      = new PMA_Theme();
+        $GLOBALS['pmaThemePath']    = $_SESSION['PMA_Theme']->getPath();
+        $GLOBALS['pmaThemeImage']   = 'theme/';
+        $GLOBALS['PMA_PHP_SELF']    = PMA_getenv('PHP_SELF');
+        $GLOBALS['server']          = 'server';
+        $GLOBALS['db']              = 'pma_test';
+        $GLOBALS['table']           = 'table1';
+        $GLOBALS['PMA_Config']      = new PMA_Config();
         $GLOBALS['PMA_Config']->enableBc();
         $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['cfg']['Server']['verbose'] = 'verbose host';
-        $GLOBALS['cfg']['Server']['pmadb'] = '';
-        $GLOBALS['cfg']['Server']['user'] = '';
+        $GLOBALS['cfg']['Server']['verbose']   = 'verbose host';
+        $GLOBALS['cfg']['Server']['pmadb']     = '';
+        $GLOBALS['cfg']['Server']['user']      = '';
     }
 
     /**

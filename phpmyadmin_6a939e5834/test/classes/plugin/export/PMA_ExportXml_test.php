@@ -16,11 +16,12 @@ require_once 'libraries/Config.class.php';
 require_once 'libraries/php-gettext/gettext.inc';
 require_once 'libraries/config.default.php';
 require_once 'export.php';
+
 /**
  * tests for ExportXml class
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
 {
@@ -37,16 +38,16 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
             define("PMA_DRIZZLE", false);
         }
 
-        $GLOBALS['server'] = 0;
-        $GLOBALS['output_kanji_conversion'] = false;
-        $GLOBALS['buffer_needed'] = false;
-        $GLOBALS['asfile'] = false;
-        $GLOBALS['save_on_server'] = false;
-        $GLOBALS['plugin_param'] = array();
-        $GLOBALS['plugin_param']['export_type'] = 'table';
+        $GLOBALS['server']                       = 0;
+        $GLOBALS['output_kanji_conversion']      = false;
+        $GLOBALS['buffer_needed']                = false;
+        $GLOBALS['asfile']                       = false;
+        $GLOBALS['save_on_server']               = false;
+        $GLOBALS['plugin_param']                 = [];
+        $GLOBALS['plugin_param']['export_type']  = 'table';
         $GLOBALS['plugin_param']['single_table'] = false;
-        $GLOBALS['cfgRelation']['relation'] = true;
-        $this->object = new ExportXml();
+        $GLOBALS['cfgRelation']['relation']      = true;
+        $this->object                            = new ExportXml();
     }
 
     /**
@@ -243,29 +244,29 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
             }
         }
 
-        $GLOBALS['xml_export_functions'] = 1;
-        $GLOBALS['xml_export_contents'] = 1;
-        $GLOBALS['output_charset_conversion'] = 1;
-        $GLOBALS['charset_of_file'] = 'iso-8859-1';
-        $GLOBALS['cfg']['Server']['port'] = 80;
-        $GLOBALS['cfg']['Server']['host'] = 'localhost';
+        $GLOBALS['xml_export_functions']       = 1;
+        $GLOBALS['xml_export_contents']        = 1;
+        $GLOBALS['output_charset_conversion']  = 1;
+        $GLOBALS['charset_of_file']            = 'iso-8859-1';
+        $GLOBALS['cfg']['Server']['port']      = 80;
+        $GLOBALS['cfg']['Server']['host']      = 'localhost';
         $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['xml_export_tables'] = 1;
-        $GLOBALS['xml_export_triggers'] = 1;
-        $GLOBALS['xml_export_procedures'] = 1;
-        $GLOBALS['xml_export_functions'] = 1;
-        $GLOBALS['crlf'] = "\n";
-        $GLOBALS['db'] = 'd<"b';
+        $GLOBALS['xml_export_tables']          = 1;
+        $GLOBALS['xml_export_triggers']        = 1;
+        $GLOBALS['xml_export_procedures']      = 1;
+        $GLOBALS['xml_export_functions']       = 1;
+        $GLOBALS['crlf']                       = "\n";
+        $GLOBALS['db']                         = 'd<"b';
 
-        $result = array(
-            0 => array(
-                'DEFAULT_COLLATION_NAME' => 'utf8_general_ci',
+        $result = [
+            0       => [
+                'DEFAULT_COLLATION_NAME'     => 'utf8_general_ci',
                 'DEFAULT_CHARACTER_SET_NAME' => 'utf-8',
 
-            ),
-            'table' => array(null, '"tbl"')
-        );
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+            ],
+            'table' => [null, '"tbl"'],
+        ];
+        $dbi    = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -296,12 +297,12 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
             ->with('d<"b', 'table')
             ->will(
                 $this->returnValue(
-                    array(
-                        array(
+                    [
+                        [
                             'create' => 'crt',
-                            'name' => 'trname'
-                        )
-                    )
+                            'name'   => 'trname',
+                        ],
+                    ]
                 )
             );
 
@@ -310,9 +311,9 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
             ->with('d<"b', 'FUNCTION')
             ->will(
                 $this->returnValue(
-                    array(
-                        'fn'
-                    )
+                    [
+                        'fn',
+                    ]
                 )
             );
 
@@ -330,9 +331,9 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
             ->with('d<"b', 'PROCEDURE')
             ->will(
                 $this->returnValue(
-                    array(
-                        'pr'
-                    )
+                    [
+                        'pr',
+                    ]
                 )
             );
 
@@ -347,8 +348,8 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
 
         $GLOBALS['dbi'] = $dbi;
 
-        $GLOBALS['tables'] = array();
-        $GLOBALS['table'] = 'table';
+        $GLOBALS['tables'] = [];
+        $GLOBALS['table']  = 'table';
 
         ob_start();
         $this->assertTrue(
@@ -392,14 +393,14 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
         unset($GLOBALS['xml_export_procedures']);
         $GLOBALS['output_charset_conversion'] = 0;
 
-        $result = array(
-            array(
-                'DEFAULT_COLLATION_NAME' => 'utf8_general_ci',
+        $result = [
+            [
+                'DEFAULT_COLLATION_NAME'     => 'utf8_general_ci',
                 'DEFAULT_CHARACTER_SET_NAME' => 'utf-8',
 
-            )
-        );
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+            ],
+        ];
+        $dbi    = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -412,9 +413,9 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($result));
 
-        $result = array(
-            't1' => array(null, '"tbl"')
-        );
+        $result = [
+            't1' => [null, '"tbl"'],
+        ];
 
         $dbi->expects($this->at(1))
             ->method('fetchResult')
@@ -429,9 +430,9 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
             ->method('fetchResult')
             ->will($this->returnValue(true));
 
-        $result = array(
-            't2' => array(null, '"tbl"')
-        );
+        $result = [
+            't2' => [null, '"tbl"'],
+        ];
 
         $dbi->expects($this->at(3))
             ->method('fetchResult')
@@ -448,7 +449,7 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
 
         $GLOBALS['dbi'] = $dbi;
 
-        $GLOBALS['tables'] = array('t1', 't2');
+        $GLOBALS['tables'] = ['t1', 't2'];
 
         ob_start();
         $this->assertTrue(
@@ -491,23 +492,23 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
             }
         }
 
-        $GLOBALS['output_charset_conversion'] = false;
-        $GLOBALS['xml_export_triggers'] = true;
-        $GLOBALS['cfg']['Server']['port'] = 80;
-        $GLOBALS['cfg']['Server']['host'] = 'localhost';
+        $GLOBALS['output_charset_conversion']  = false;
+        $GLOBALS['xml_export_triggers']        = true;
+        $GLOBALS['cfg']['Server']['port']      = 80;
+        $GLOBALS['cfg']['Server']['host']      = 'localhost';
         $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['crlf'] = "\n";
-        $GLOBALS['db'] = 'd<b';
+        $GLOBALS['crlf']                       = "\n";
+        $GLOBALS['db']                         = 'd<b';
 
-        $result = array(
-            0 => array(
-                'DEFAULT_COLLATION_NAME' => 'utf8_general_ci',
+        $result = [
+            0       => [
+                'DEFAULT_COLLATION_NAME'     => 'utf8_general_ci',
                 'DEFAULT_CHARACTER_SET_NAME' => 'utf-8',
 
-            ),
-            'table' => array(null, '"tbl"')
-        );
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+            ],
+            'table' => [null, '"tbl"'],
+        ];
+        $dbi    = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -537,8 +538,8 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
 
         $GLOBALS['dbi'] = $dbi;
 
-        $GLOBALS['tables'] = array();
-        $GLOBALS['table'] = 'table';
+        $GLOBALS['tables'] = [];
+        $GLOBALS['table']  = 'table';
 
         ob_start();
         $this->assertTrue(
@@ -670,7 +671,7 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(5))
             ->method('fetchRow')
             ->with(true)
-            ->will($this->returnValue(array(null, '<a>')));
+            ->will($this->returnValue([null, '<a>']));
 
         $GLOBALS['dbi'] = $dbi;
 
@@ -714,4 +715,5 @@ class PMA_ExportXml_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

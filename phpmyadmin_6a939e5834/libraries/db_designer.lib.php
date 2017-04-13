@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -31,6 +31,7 @@ function PMA_getHtmlForPageSelector($cfgRelation, $db)
         }
     }
     $html .= '</select>';
+
     return $html;
 }
 
@@ -45,7 +46,7 @@ function PMA_getHtmlForPageSelector($cfgRelation, $db)
 function PMA_getHtmlForEditOrDeletePages($db, $operation)
 {
     $cfgRelation = PMA_getRelationsParam();
-    $html  = '<form action="db_designer.php" method="post"'
+    $html        = '<form action="db_designer.php" method="post"'
         . ' name="edit_delete_pages" id="edit_delete_pages" class="ajax">';
     $html .= PMA_URL_getHiddenInputs($db);
     $html .= '<fieldset id="page_edit_delete_options">';
@@ -60,6 +61,7 @@ function PMA_getHtmlForEditOrDeletePages($db, $operation)
     $html .= PMA_getHtmlForPageSelector($cfgRelation, $db);
     $html .= '</fieldset>';
     $html .= '</form>';
+
     return $html;
 }
 
@@ -73,12 +75,12 @@ function PMA_getHtmlForEditOrDeletePages($db, $operation)
 function PMA_getHtmlForPageSaveAs($db)
 {
     $cfgRelation = PMA_getRelationsParam();
-    $choices = array(
+    $choices     = [
         'same' => __('Save to selected page'),
-        'new' => __('Create a page and save to it')
-    );
+        'new'  => __('Create a page and save to it'),
+    ];
 
-    $html  = '<form action="db_designer.php" method="post"'
+    $html = '<form action="db_designer.php" method="post"'
         . ' name="save_as_pages" id="save_as_pages" class="ajax">';
     $html .= PMA_URL_getHiddenInputs($db);
     $html .= '<fieldset id="page_save_as_options">';
@@ -121,19 +123,20 @@ function PMA_getHtmlForPageSaveAs($db)
 function PMA_getPageIdsAndNames($db)
 {
     $cfgRelation = PMA_getRelationsParam();
-    $page_query = "SELECT `page_nr`, `page_descr` FROM "
+    $page_query  = "SELECT `page_nr`, `page_descr` FROM "
         . PMA_Util::backquote($cfgRelation['db']) . "."
         . PMA_Util::backquote($cfgRelation['pdf_pages'])
         . " WHERE db_name = '" . PMA_Util::sqlAddSlashes($db) . "'"
         . " ORDER BY `page_nr`";
-    $page_rs = PMA_queryAsControlUser(
+    $page_rs     = PMA_queryAsControlUser(
         $page_query, false, PMA_DatabaseInterface::QUERY_STORE
     );
 
-    $result = array();
+    $result = [];
     while ($curr_page = $GLOBALS['dbi']->fetchAssoc($page_rs)) {
         $result[intval($curr_page['page_nr'])] = $curr_page['page_descr'];
     }
+
     return $result;
 }
 
@@ -161,7 +164,7 @@ function PMA_getHtmlForSchemaExport($db, $page)
         )->getDisplay();
     }
 
-    $htmlString  = '<form method="post" action="schema_export.php"'
+    $htmlString = '<form method="post" action="schema_export.php"'
         . ' class="disableAjax" id="id_export_pages">';
     $htmlString .= '<fieldset>';
     $htmlString .= PMA_URL_getHiddenInputs($db);
@@ -194,7 +197,7 @@ function PMA_getHtmlForJSFields(
 ) {
     $cfgRelation = PMA_getRelationsParam();
 
-    $html  = '<div id="script_server" class="hide">';
+    $html = '<div id="script_server" class="hide">';
     $html .= htmlspecialchars($GLOBALS['server']);
     $html .= '</div>';
     $html .= '<div id="script_db" class="hide">';
@@ -268,7 +271,7 @@ function PMA_getDesignerPageMenu($visualBuilder, $selected_page)
     $html .= '" data-enter="' . __('View in fullscreen') . '">' . __('View in fullscreen') . '</span>';
     $html .= '</a>';
 
-    if (! $visualBuilder) {
+    if (!$visualBuilder) {
 
         $html .= '<a id="newPage" href="#" ';
         $html .= 'class="M_butt" target="_self">';
@@ -365,9 +368,9 @@ function PMA_getDesignerPageMenu($visualBuilder, $selected_page)
 
     $html .= '<a href="#" class="M_butt" target="_self" id="key_SB_all">';
     $html .= '<img class="' . $iconClass . '" title="' . __('Small/Big All') . '" alt="v" ';
-    $html .= 'src="' . $_SESSION['PMA_Theme']->getImgPath('pmd/downarrow1.png') .'" '
-        . 'data-right="' . $_SESSION['PMA_Theme']->getImgPath('pmd/rightarrow1.png') .'" '
-        . 'data-down="' . $_SESSION['PMA_Theme']->getImgPath('pmd/downarrow1.png') .'"" />';
+    $html .= 'src="' . $_SESSION['PMA_Theme']->getImgPath('pmd/downarrow1.png') . '" '
+        . 'data-right="' . $_SESSION['PMA_Theme']->getImgPath('pmd/rightarrow1.png') . '" '
+        . 'data-down="' . $_SESSION['PMA_Theme']->getImgPath('pmd/downarrow1.png') . '"" />';
     $html .= '<span class="' . $textClass . '">' . __('Small/Big All') . '</span>';
     $html .= '</a>';
 
@@ -387,7 +390,7 @@ function PMA_getDesignerPageMenu($visualBuilder, $selected_page)
     $html .= '<span class="' . $textClass . '">' . __('Toggle relation lines') . '</span>';
     $html .= '</a>';
 
-    if (! $visualBuilder) {
+    if (!$visualBuilder) {
 
         $html .= '<a href="#" id="exportPages" ';
         $html .= 'class="M_butt" target="_self" >';
@@ -434,7 +437,7 @@ function PMA_getDesignerPageMenu($visualBuilder, $selected_page)
  */
 function PMA_getHTMLCanvas()
 {
-    $html  = '<div id="osn_tab">';
+    $html = '<div id="osn_tab">';
     $html .= '<canvas class="pmd" id="canvas" width="100" height="100" ';
     $html .= '></canvas>';
     $html .= '</div>';
@@ -452,7 +455,7 @@ function PMA_getHTMLCanvas()
  */
 function PMA_getHTMLTableList($tab_pos, $display_page)
 {
-    $html  = '<div id="layer_menu" style="display:none;">';
+    $html = '<div id="layer_menu" style="display:none;">';
 
     $html .= '<div class="center">';
 
@@ -489,7 +492,7 @@ function PMA_getHTMLTableList($tab_pos, $display_page)
         $html .= 'onmouseout="this.className=\'L_butt2_1\'" class="L_butt2_1">';
         $html .= '<img alt="" ';
         $html .= 'table_name="' . $GLOBALS['PMD_URL']['TABLE_NAME_SMALL'][$i] . '"'
-                . ' class="scroll_tab_struct" ';
+            . ' class="scroll_tab_struct" ';
         $html .= 'src="' . $_SESSION['PMA_Theme']->getImgPath('pmd/exec.png')
             . '"/>';
         $html .= '</td>';
@@ -502,7 +505,7 @@ function PMA_getHTMLTableList($tab_pos, $display_page)
         $html .= 'value="' . $GLOBALS['PMD_URL']["TABLE_NAME"][$i] . '"';
 
         if ((isset($tab_pos[$GLOBALS['PMD']["TABLE_NAME"][$i]])
-            && $tab_pos[$GLOBALS['PMD']["TABLE_NAME"][$i]]["H"])
+                && $tab_pos[$GLOBALS['PMD']["TABLE_NAME"][$i]]["H"])
             || $display_page == -1
         ) {
             $html .= 'checked="checked"';
@@ -550,9 +553,9 @@ function PMA_getHTMLTableList($tab_pos, $display_page)
 function PMA_getDatabaseTables(
     $tab_pos, $display_page, $tab_column, $tables_all_keys, $tables_pk_or_unique_keys
 ) {
-    $html  = '';
+    $html = '';
     for ($i = 0; $i < count($GLOBALS['PMD']["TABLE_NAME"]); $i++) {
-        $t_n = $GLOBALS['PMD']["TABLE_NAME"][$i];
+        $t_n     = $GLOBALS['PMD']["TABLE_NAME"][$i];
         $t_n_url = $GLOBALS['PMD_URL']["TABLE_NAME"][$i];
 
         $html .= '<input name="t_x[' . $t_n_url . ']" type="hidden" id="t_x_'
@@ -601,7 +604,7 @@ function PMA_getDatabaseTables(
 
         // no space allowed here, between tags and content !!!
         // JavaScript function does require this
-        if (! isset($tab_pos[$t_n]) || ! empty($tab_pos[$t_n]["V"])) {
+        if (!isset($tab_pos[$t_n]) || !empty($tab_pos[$t_n]["V"])) {
             $html .= 'v';
         } else {
             $html .= '&gt;';
@@ -612,7 +615,7 @@ function PMA_getDatabaseTables(
         $html .= '<td class="small_tab_pref small_tab_pref_1" ';
         $html .= 'table_name_small="' . $GLOBALS['PMD_URL']["TABLE_NAME_SMALL"][$i]
             . '" onmouseover="this.className='
-                . '\'small_tab_pref2 small_tab_pref_1\';" ';
+            . '\'small_tab_pref2 small_tab_pref_1\';" ';
         $html .= 'onmouseout="this.className=\'small_tab_pref small_tab_pref_1\';" ';
         $html .= '>';
         $html .= '<img alt="" ';
@@ -625,7 +628,7 @@ function PMA_getDatabaseTables(
         $html .= 'onmousedown="cur_click=document.getElementById(\''
             . $t_n_url . '\');" ';
         $html .= 'table_name="' . htmlspecialchars($t_n_url) . ''
-            . '" query_set="' . (isset($_REQUEST['query']) ? 1 : 0 ) . '" ';
+            . '" query_set="' . (isset($_REQUEST['query']) ? 1 : 0) . '" ';
         $html .= '>';
         $html .= '<span class="owner">';
         $html .= $GLOBALS['PMD_OUT']["OWNER"][$i] . '.';
@@ -656,8 +659,8 @@ function PMA_getDatabaseTables(
         );
         for (
             $j = 0, $id_cnt = count($tab_column[$t_n]["COLUMN_ID"]);
-        $j < $id_cnt;
-        $j++
+            $j < $id_cnt;
+            $j++
         ) {
             $html .= '<tr id="id_tr_'
                 . $GLOBALS['PMD_URL']["TABLE_NAME_SMALL"][$i] . '.'
@@ -755,7 +758,7 @@ function PMA_getDatabaseTables(
                 $html .= 'Click_option_param="pmd_optionse,'
                     . urlencode($tab_column[$t_n]['COLUMN_NAME'][$j]) . ','
                     . $GLOBALS['PMD_OUT']['TABLE_NAME_SMALL'][$i] . '" >';
-                $html .=  '<img src="'
+                $html .= '<img src="'
                     . $_SESSION['PMA_Theme']->getImgPath('pmd/exec_small.png')
                     . '" title="options" alt="" /></td> ';
             }
@@ -775,7 +778,7 @@ function PMA_getDatabaseTables(
  */
 function PMA_getNewRelationPanel()
 {
-    $html  = '<table id="layer_new_relation" style="display:none;" ';
+    $html = '<table id="layer_new_relation" style="display:none;" ';
     $html .= 'width="5%" cellpadding="0" cellspacing="0">';
     $html .= '<tbody>';
     $html .= '<tr>';
@@ -857,7 +860,7 @@ function PMA_getNewRelationPanel()
  */
 function PMA_getDeleteRelationPanel()
 {
-    $html  = '<table id="layer_upd_relation" style="display:none;" ';
+    $html = '<table id="layer_upd_relation" style="display:none;" ';
     $html .= 'width="5%" cellpadding="0" cellspacing="0">';
     $html .= '<tbody>';
     $html .= '<tr>';
@@ -904,7 +907,7 @@ function PMA_getDeleteRelationPanel()
  */
 function PMA_getOptionsPanel()
 {
-    $html  = '<table id="pmd_optionse" style="display:none;" ';
+    $html = '<table id="pmd_optionse" style="display:none;" ';
     $html .= 'width="5%" cellpadding="0" cellspacing="0">';
     $html .= '<tbody>';
 
@@ -1009,8 +1012,8 @@ function PMA_getOptionsPanel()
     $html .= '</tr>';
     $html .= '<tr>';
     $html .= '<td width="58" class="nowrap">';
-    $html .=  __('Value') . '<br/>';
-    $html .=  __('subquery');
+    $html .= __('Value') . '<br/>';
+    $html .= __('subquery');
     $html .= '</td>';
     $html .= '<td width="102">';
     $html .= '<textarea id="having" value="" cols="18"></textarea>';
@@ -1050,7 +1053,7 @@ function PMA_getOptionsPanel()
  */
 function PMA_getRenameToPanel()
 {
-    $html  = '<table id="query_rename_to" style="display:none;" ';
+    $html = '<table id="query_rename_to" style="display:none;" ';
     $html .= 'width="5%" cellpadding="0" cellspacing="0">';
     $html .= '<tbody>';
 
@@ -1113,7 +1116,7 @@ function PMA_getRenameToPanel()
  */
 function PMA_getHavingQueryPanel()
 {
-    $html  = '<table id="query_having" style="display:none;" ';
+    $html = '<table id="query_having" style="display:none;" ';
     $html .= 'width="5%" cellpadding="0" cellspacing="0">';
     $html .= '<tbody>';
     $html .= '<tr>';
@@ -1202,7 +1205,7 @@ function PMA_getHavingQueryPanel()
  */
 function PMA_getAggregateQueryPanel()
 {
-    $html  = '<table id="query_Aggregate" style="display:none;"';
+    $html = '<table id="query_Aggregate" style="display:none;"';
     $html .= 'width="5%" cellpadding="0" cellspacing="0">';
     $html .= '<tbody>';
 
@@ -1271,7 +1274,7 @@ function PMA_getAggregateQueryPanel()
  */
 function PMA_getWhereQueryPanel()
 {
-    $html  = '<table id="query_where" style="display:none;"';
+    $html = '<table id="query_where" style="display:none;"';
     $html .= 'width="5%" cellpadding="0" cellspacing="0">';
     $html .= '<tbody>';
 
@@ -1349,7 +1352,7 @@ function PMA_getWhereQueryPanel()
  */
 function PMA_getQueryDetails()
 {
-    $html  = '<div class="panel">';
+    $html = '<div class="panel">';
     $html .= '<div style="clear:both;"></div>';
     $html .= '<div id="ab"></div>';
     $html .= '<div style="clear:both;"></div>';
@@ -1378,7 +1381,7 @@ function PMA_getQueryDetails()
  */
 function PMA_getCacheImages()
 {
-    $html  = '<img src="';
+    $html = '<img src="';
     $html .= $_SESSION['PMA_Theme']->getImgPath('pmd/2leftarrow_m.png');
     $html .= '" width="0" height="0" alt="" />';
     $html .= '<img src="';
@@ -1394,4 +1397,5 @@ function PMA_getCacheImages()
 
     return $html;
 }
+
 ?>

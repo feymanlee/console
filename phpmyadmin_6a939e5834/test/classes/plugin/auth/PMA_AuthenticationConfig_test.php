@@ -16,6 +16,7 @@ require_once 'libraries/config.default.php';
 require_once 'libraries/js_escape.lib.php';
 require_once 'libraries/Error_Handler.class.php';
 require_once 'libraries/Response.class.php';
+
 /**
  * tests for AuthenticationConfig class
  *
@@ -34,10 +35,10 @@ class PMA_AuthenticationConfig_Test extends PHPUnit_Framework_TestCase
     {
         $GLOBALS['PMA_Config'] = new PMA_Config();
         $GLOBALS['PMA_Config']->enableBc();
-        $GLOBALS['server'] = 0;
+        $GLOBALS['server']         = 0;
         $GLOBALS['token_provided'] = true;
         $GLOBALS['token_mismatch'] = false;
-        $this->object = new AuthenticationConfig();
+        $this->object              = new AuthenticationConfig();
     }
 
     /**
@@ -93,28 +94,28 @@ class PMA_AuthenticationConfig_Test extends PHPUnit_Framework_TestCase
      */
     public function testAuthFails()
     {
-        $removeConstant = false;
-        $GLOBALS['error_handler'] = new PMA_Error_Handler;
-        $GLOBALS['cfg']['Servers'] = array(1);
+        $removeConstant                 = false;
+        $GLOBALS['error_handler']       = new PMA_Error_Handler;
+        $GLOBALS['cfg']['Servers']      = [1];
         $GLOBALS['allowDeny_forbidden'] = false;
         if (!defined('PMA_USR_BROWSER_AGENT')) {
             define('PMA_USR_BROWSER_AGENT', 'chrome');
 
             $removeConstant = true;
 
-            if (! PMA_HAS_RUNKIT) {
+            if (!PMA_HAS_RUNKIT) {
                 $this->markTestSkipped('Cannot remove constant');
             }
         }
 
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi            = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $GLOBALS['dbi'] = $dbi;
 
         ob_start();
         $result = $this->object->authFails();
-        $html = ob_get_clean();
+        $html   = ob_get_clean();
 
         $this->assertTrue(
             $result
@@ -151,4 +152,5 @@ class PMA_AuthenticationConfig_Test extends PHPUnit_Framework_TestCase
         }
     }
 }
+
 ?>

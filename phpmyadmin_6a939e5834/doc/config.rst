@@ -39,7 +39,7 @@ Basic settings
 .. config:option:: $cfg['PmaAbsoluteUri']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Sets here the complete :term:`URL` (with full path) to your phpMyAdmin
     installation's directory. E.g.
@@ -63,10 +63,10 @@ Basic settings
 .. config:option:: $cfg['PmaNoRelation_DisableWarning']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Starting with version 2.3.0 phpMyAdmin offers a lot of features to
-    work with master / foreign – tables (see :config:option:`$cfg['Servers'][$i]['pmadb']`).
+        Starting with version 2.3.0 phpMyAdmin offers a lot of features to
+        work with master / foreign – tables (see :config:option:`$cfg['Servers'][$i]['pmadb']`).
 
     If you tried to set this
     up and it does not work for you, have a look on the :guilabel:`Structure` page
@@ -79,54 +79,54 @@ Basic settings
 .. config:option:: $cfg['SuhosinDisableWarning']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    A warning is displayed on the main page if Suhosin is detected.
+        A warning is displayed on the main page if Suhosin is detected.
 
-    You can set this parameter to ``true`` to stop this message from appearing.
+        You can set this parameter to ``true`` to stop this message from appearing.
 
 .. config:option:: $cfg['LoginCookieValidityDisableWarning']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    A warning is displayed on the main page if the PHP parameter
-    session.gc_maxlifetime is lower than cookie validity configured in phpMyAdmin.
+        A warning is displayed on the main page if the PHP parameter
+        session.gc_maxlifetime is lower than cookie validity configured in phpMyAdmin.
 
-    You can set this parameter to ``true`` to stop this message from appearing.
+        You can set this parameter to ``true`` to stop this message from appearing.
 
 .. config:option:: $cfg['ServerLibraryDifference_DisableWarning']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    A warning is displayed on the main page if there is a difference
-    between the MySQL library and server version.
+        A warning is displayed on the main page if there is a difference
+        between the MySQL library and server version.
 
-    You can set this parameter to ``true`` to stop this message from appearing.
+        You can set this parameter to ``true`` to stop this message from appearing.
 
 .. config:option:: $cfg['ReservedWordDisableWarning']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    This warning is displayed on the Structure page of a table if one or more
-    column names match with words which are MySQL reserved.
+        This warning is displayed on the Structure page of a table if one or more
+        column names match with words which are MySQL reserved.
 
-    If you want to turn off this warning, you can set it to ``true`` and
+        If you want to turn off this warning, you can set it to ``true`` and
     warning will no longer be displayed.
 
 .. config:option:: $cfg['TranslationWarningThreshold']
 
     :type: integer
-    :default: 80
+        :default: 80
 
-    Show warning about incomplete translations on certain threshold.
+        Show warning about incomplete translations on certain threshold.
 
 .. config:option:: $cfg['SendErrorReports']
 
     :type: string
-    :default: ``'ask'``
+        :default: ``'ask'``
 
     Sets the default behavior for JavaScript error reporting.
 
@@ -147,9 +147,9 @@ Basic settings
 .. config:option:: $cfg['AllowThirdPartyFraming']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Setting this to ``true`` allows phpMyAdmin to be included inside a frame,
+        Setting this to ``true`` allows phpMyAdmin to be included inside a frame,
     and is a potential security hole allowing cross-frame scripting attacks or
     clickjacking.
 
@@ -159,10 +159,10 @@ Server connection settings
 .. config:option:: $cfg['Servers']
 
     :type: array
-    :default: one server array with settings listed bellow
+        :default: one server array with settings listed bellow
 
-    Since version 1.4.2, phpMyAdmin supports the administration of multiple
-    MySQL servers. Therefore, a :config:option:`$cfg['Servers']`-array has been
+        Since version 1.4.2, phpMyAdmin supports the administration of multiple
+        MySQL servers. Therefore, a :config:option:`$cfg['Servers']`-array has been
     added which contains the login information for the different servers. The
     first :config:option:`$cfg['Servers'][$i]['host']` contains the hostname of
     the first server, the second :config:option:`$cfg['Servers'][$i]['host']`
@@ -184,7 +184,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['host']
 
     :type: string
-    :default: ``'localhost'``
+        :default: ``'localhost'``
 
     The hostname or :term:`IP` address of your $i-th MySQL-server. E.g.
     ``localhost``.
@@ -204,7 +204,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['port']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     The port-number of your $i-th MySQL-server. Default is 3306 (leave
     blank).
@@ -219,7 +219,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['socket']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     The path to the socket to use. Leave blank for default. To determine
     the correct socket, check your MySQL configuration or, using the
@@ -229,11 +229,11 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['ssl']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Whether to enable SSL for the connection between phpMyAdmin and the MySQL server.
+        Whether to enable SSL for the connection between phpMyAdmin and the MySQL server.
 
-    When using the ``'mysql'`` extension,
+        When using the ``'mysql'`` extension,
     none of the remaining ``'ssl...'`` configuration options apply.
 
     We strongly recommend the ``'mysqli'`` extension when using this option.
@@ -241,48 +241,48 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['ssl_key']
 
     :type: string
-    :default: NULL
+        :default: NULL
 
-    Path to the key file when using SSL for connecting to the MySQL server.
+        Path to the key file when using SSL for connecting to the MySQL server.
 
-    For example:
+        For example:
 
-    .. code-block:: php
+        .. code-block:: php
 
         $cfg['Servers'][$i]['ssl_key'] = '/etc/mysql/server-key.pem';
 
 .. config:option:: $cfg['Servers'][$i]['ssl_cert']
 
     :type: string
-    :default: NULL
+        :default: NULL
 
-    Path to the cert file when using SSL for connecting to the MySQL server.
+        Path to the cert file when using SSL for connecting to the MySQL server.
 
 .. config:option:: $cfg['Servers'][$i]['ssl_ca']
 
     :type: string
-    :default: NULL
+        :default: NULL
 
-    Path to the CA file when using SSL for connecting to the MySQL server.
+        Path to the CA file when using SSL for connecting to the MySQL server.
 
 .. config:option:: $cfg['Servers'][$i]['ssl_ca_path']
 
     :type: string
-    :default: NULL
+        :default: NULL
 
-    Directory containing trusted SSL CA certificates in PEM format.
+        Directory containing trusted SSL CA certificates in PEM format.
 
 .. config:option:: $cfg['Servers'][$i]['ssl_ciphers']
 
     :type: string
-    :default: NULL
+        :default: NULL
 
-    List of allowable ciphers for SSL connections to the MySQL server.
+        List of allowable ciphers for SSL connections to the MySQL server.
 
 .. config:option:: $cfg['Servers'][$i]['connect_type']
 
     :type: string
-    :default: ``'tcp'``
+        :default: ``'tcp'``
 
     What type connection to use with the MySQL server. Your options are
     ``'socket'`` and ``'tcp'``. It defaults to tcp as that is nearly guaranteed
@@ -293,16 +293,16 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['compress']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Whether to use a compressed protocol for the MySQL server connection
-    or not (experimental).
+        Whether to use a compressed protocol for the MySQL server connection
+        or not (experimental).
 
 .. _controlhost:
 .. config:option:: $cfg['Servers'][$i]['controlhost']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Permits to use an alternate host to hold the configuration storage
     data.
@@ -311,7 +311,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['controlport']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Permits to use an alternate port to connect to the host that
     holds the configuration storage.
@@ -320,25 +320,25 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['controluser']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
 .. config:option:: $cfg['Servers'][$i]['controlpass']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     This special account is used for 2 distinct purposes: to make possible all
     relational features (see :config:option:`$cfg['Servers'][$i]['pmadb']`).
 
     .. versionchanged:: 2.2.5
-        those were called ``stduser`` and ``stdpass``
+those were called ``stduser`` and ``stdpass``
 
     .. seealso:: :ref:`setup`, :ref:`authentication_modes`, :ref:`linked-tables`
 
 .. config:option:: $cfg['Servers'][$i]['auth_type']
 
     :type: string
-    :default: ``'cookie'``
+        :default: ``'cookie'``
 
     Whether config or cookie or :term:`HTTP` or signon authentication should be
     used for this server.
@@ -358,7 +358,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['auth_http_realm']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     When using auth\_type = ``http``, this field allows to define a custom
     :term:`HTTP` Basic Auth Realm which will be displayed to the user. If not
@@ -370,12 +370,12 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['user']
 
     :type: string
-    :default: ``'root'``
+        :default: ``'root'``
 
 .. config:option:: $cfg['Servers'][$i]['password']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     When using :config:option:`$cfg['Servers'][$i]['auth_type']` set to
     'config', this is the user/password-pair which phpMyAdmin will use to
@@ -387,20 +387,20 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['nopassword']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Allow attempt to log in without password when a login with password
-    fails. This can be used together with http authentication, when
-    authentication is done some other way and phpMyAdmin gets user name
-    from auth and uses empty password for connecting to MySQL. Password
-    login is still tried first, but as fallback, no password method is
-    tried.
+        Allow attempt to log in without password when a login with password
+        fails. This can be used together with http authentication, when
+        authentication is done some other way and phpMyAdmin gets user name
+        from auth and uses empty password for connecting to MySQL. Password
+        login is still tried first, but as fallback, no password method is
+        tried.
 
 .. _servers_only_db:
 .. config:option:: $cfg['Servers'][$i]['only_db']
 
     :type: string or array
-    :default: ``''``
+        :default: ``''``
 
     If set to a (an array of) database name(s), only this (these)
     database(s) will be shown to the user. Since phpMyAdmin 2.2.1,
@@ -421,13 +421,13 @@ Server connection settings
         $cfg['Servers'][$i]['only_db'] = array('db1', 'db2');
 
     .. versionchanged:: 4.0.0
-        Previous versions permitted to specify the display order of
+Previous versions permitted to specify the display order of
         the database names via this directive.
 
 .. config:option:: $cfg['Servers'][$i]['hide_db']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Regular expression for hiding some databases from unprivileged users.
     This only hides them from listing, but a user is still able to access
@@ -453,7 +453,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['verbose']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Only useful when using phpMyAdmin with multiple server entries. If
     set, this string will be displayed instead of the hostname in the
@@ -464,7 +464,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['pmadb']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     The name of the database containing the phpMyAdmin configuration
     storage.
@@ -483,7 +483,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['bookmarktable']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 2.2.0 phpMyAdmin allows users to bookmark queries. This
     can be useful for queries you often run. To allow the usage of this
@@ -497,7 +497,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['relation']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 2.2.4 you can describe, in a special 'relation' table,
     which column is a key in another table (a foreign key). phpMyAdmin
@@ -536,7 +536,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['table_info']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 2.3.0 you can describe, in a special 'table\_info'
     table, which column is to be displayed as a tool-tip when moving the
@@ -557,12 +557,12 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['table_coords']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
 .. config:option:: $cfg['Servers'][$i]['pdf_pages']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 2.3.0 you can have phpMyAdmin create :term:`PDF` pages
     showing the relations between your tables. Further, the designer interface
@@ -584,7 +584,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['column_info']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     This part requires a content update!  Since release 2.3.0 you can
     store comments to describe each column for each table. These will then
@@ -643,7 +643,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['history']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 2.5.0 you can store your :term:`SQL` history, which means all
     queries you entered manually into the phpMyAdmin interface. If you don't
@@ -668,7 +668,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['recent']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 3.5.0 you can show recently used tables in the
     navigation panel. It helps you to jump across table directly, without
@@ -691,7 +691,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['table_uiprefs']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 3.5.0 phpMyAdmin can be configured to remember several
     things (sorted column :config:option:`$cfg['RememberSorting']`, column order,
@@ -709,12 +709,12 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['users']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
 .. config:option:: $cfg['Servers'][$i]['usergroups']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 4.1.0 you can create different user groups with menu items
     attached to them. Users can be assigned to these groups and the logged in
@@ -733,7 +733,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['navigationhiding']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 4.1.0 you can hide/show items in the navigation tree.
 
@@ -747,7 +747,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['central_columns']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 4.3.0 you can have a central list of columns per database.
     You can add/remove columns to the list as per your requirement. These columns
@@ -766,7 +766,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['savedsearches']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 4.2.0 you can save and load query-by-example searches from the Database > Query panel.
 
@@ -780,7 +780,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['tracking']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 3.3.x a tracking mechanism is available. It helps you to
     track every :term:`SQL` command which is
@@ -813,24 +813,24 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['tracking_version_auto_create']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Whether the tracking mechanism creates versions for tables and views
-    automatically.
+        Whether the tracking mechanism creates versions for tables and views
+        automatically.
 
-    If this is set to true and you create a table or view with
+        If this is set to true and you create a table or view with
 
-    * CREATE TABLE ...
-    * CREATE VIEW ...
+        * CREATE TABLE ...
+        * CREATE VIEW ...
 
-    and no version exists for it, the mechanism will create a version for
-    you automatically.
+        and no version exists for it, the mechanism will create a version for
+        you automatically.
 
 .. _tracking3:
 .. config:option:: $cfg['Servers'][$i]['tracking_default_statements']
 
     :type: string
-    :default: ``'CREATE TABLE,ALTER TABLE,DROP TABLE,RENAME TABLE,CREATE INDEX,DROP INDEX,INSERT,UPDATE,DELETE,TRUNCATE,REPLACE,CREATE VIEW,ALTER VIEW,DROP VIEW,CREATE DATABASE,ALTER DATABASE,DROP DATABASE'``
+        :default: ``'CREATE TABLE,ALTER TABLE,DROP TABLE,RENAME TABLE,CREATE INDEX,DROP INDEX,INSERT,UPDATE,DELETE,TRUNCATE,REPLACE,CREATE VIEW,ALTER VIEW,DROP VIEW,CREATE DATABASE,ALTER DATABASE,DROP DATABASE'``
 
     Defines the list of statements the auto-creation uses for new
     versions.
@@ -839,34 +839,34 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['tracking_add_drop_view']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Whether a DROP VIEW IF EXISTS statement will be added as first line to
-    the log when creating a view.
+        Whether a DROP VIEW IF EXISTS statement will be added as first line to
+        the log when creating a view.
 
 .. _tracking5:
 .. config:option:: $cfg['Servers'][$i]['tracking_add_drop_table']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Whether a DROP TABLE IF EXISTS statement will be added as first line
-    to the log when creating a table.
+        Whether a DROP TABLE IF EXISTS statement will be added as first line
+        to the log when creating a table.
 
 .. _tracking6:
 .. config:option:: $cfg['Servers'][$i]['tracking_add_drop_database']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Whether a DROP DATABASE IF EXISTS statement will be added as first
-    line to the log when creating a database.
+        Whether a DROP DATABASE IF EXISTS statement will be added as first
+        line to the log when creating a database.
 
 .. _userconfig:
 .. config:option:: $cfg['Servers'][$i]['userconfig']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Since release 3.4.x phpMyAdmin allows users to set most preferences by
     themselves and store them in the database.
@@ -884,10 +884,10 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['MaxTableUiprefs']
 
     :type: integer
-    :default: 100
+        :default: 100
 
-    Maximum number of rows saved in
-    :config:option:`$cfg['Servers'][$i]['table_uiprefs']` table.
+        Maximum number of rows saved in
+        :config:option:`$cfg['Servers'][$i]['table_uiprefs']` table.
 
     When tables are dropped or renamed,
     :config:option:`$cfg['Servers'][$i]['table_uiprefs']` may contain invalid data
@@ -898,7 +898,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['SessionTimeZone']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Sets the time zone used by phpMyAdmin. Leave blank to use the time zone of your
     database server. Possible values are explained at
@@ -910,18 +910,18 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['AllowRoot']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Whether to allow root access. This is just a shortcut for the
-    :config:option:`$cfg['Servers'][$i]['AllowDeny']['rules']` below.
+        Whether to allow root access. This is just a shortcut for the
+        :config:option:`$cfg['Servers'][$i]['AllowDeny']['rules']` below.
 
 .. config:option:: $cfg['Servers'][$i]['AllowNoPassword']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Whether to allow logins without a password. The default value of
-    ``false`` for this parameter prevents unintended access to a MySQL
+        Whether to allow logins without a password. The default value of
+        ``false`` for this parameter prevents unintended access to a MySQL
     server with was left with an empty password for root or on which an
     anonymous (blank) user is defined.
 
@@ -929,7 +929,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['AllowDeny']['order']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     If your rule order is empty, then :term:`IP`
     authorization is disabled.
@@ -961,11 +961,11 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['AllowDeny']['rules']
 
     :type: array of strings
-    :default: array()
+        :default: array()
 
-    The general format for the rules is as such:
+        The general format for the rules is as such:
 
-    .. code-block:: none
+        .. code-block:: none
 
         <'allow' | 'deny'> <username> [from] <ipmask>
 
@@ -1014,9 +1014,9 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['DisableIS']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Disable using ``INFORMATION_SCHEMA`` to retrieve information (use
+        Disable using ``INFORMATION_SCHEMA`` to retrieve information (use
     ``SHOW`` commands instead), because of speed issues when many
     databases are present. Currently used in some parts of the code, more
     to come.
@@ -1024,7 +1024,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['SignonScript']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Name of PHP script to be sourced and executed to obtain login
     credentials. This is alternative approach to session based single
@@ -1034,14 +1034,14 @@ Server connection settings
     empty). See :file:`examples/signon-script.php` for an example:
 
     .. literalinclude:: ../examples/signon-script.php
-        :language: php
+:language: php
 
-    .. seealso:: :ref:`auth_signon`
+        .. seealso:: :ref:`auth_signon`
 
 .. config:option:: $cfg['Servers'][$i]['SignonSession']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Name of session which will be used for signon authentication method.
     You should use something different than ``phpMyAdmin``, because this
@@ -1053,7 +1053,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['SignonURL']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     :term:`URL` where user will be redirected
     to log in for signon authentication method. Should be absolute
@@ -1064,7 +1064,7 @@ Server connection settings
 .. config:option:: $cfg['Servers'][$i]['LogoutURL']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     :term:`URL` where user will be redirected
     after logout (doesn't affect config authentication method). Should be
@@ -1076,10 +1076,10 @@ Generic settings
 .. config:option:: $cfg['ServerDefault']
 
     :type: integer
-    :default: 1
+        :default: 1
 
-    If you have more than one server configured, you can set
-    :config:option:`$cfg['ServerDefault']` to any one of them to autoconnect to that
+        If you have more than one server configured, you can set
+        :config:option:`$cfg['ServerDefault']` to any one of them to autoconnect to that
     server when phpMyAdmin is started, or set it to 0 to be given a list
     of servers without logging in.
 
@@ -1089,12 +1089,12 @@ Generic settings
 .. config:option:: $cfg['VersionCheck']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Enables check for latest versions using javascript on main phpMyAdmin
-    page.
+        Enables check for latest versions using javascript on main phpMyAdmin
+        page.
 
-    .. note::
+        .. note::
 
         This setting can be adjusted by your vendor.
 
@@ -1103,60 +1103,60 @@ Generic settings
     :type: string
     :default: ""
 
-    The url of the proxy to be used when phpmyadmin needs to access the outside
-    internet such as when retrieving the latest version info or submitting error
-    reports.  You need this if the server where phpMyAdmin is installed does not
-    have direct access to the internet.
-    The format is: "hostname:portnumber"
+        The url of the proxy to be used when phpmyadmin needs to access the outside
+        internet such as when retrieving the latest version info or submitting error
+        reports.  You need this if the server where phpMyAdmin is installed does not
+        have direct access to the internet.
+        The format is: "hostname:portnumber"
 
 .. config:option:: $cfg['ProxyUser']
 
     :type: string
-    :default: ""
+        :default: ""
 
-    The username for authenticating with the proxy. By default, no
-    authentication is performed. If a username is supplied, Basic
-    Authentication will be performed. No other types of authentication
-    are currently supported.
+        The username for authenticating with the proxy. By default, no
+        authentication is performed. If a username is supplied, Basic
+        Authentication will be performed. No other types of authentication
+        are currently supported.
 
 .. config:option:: $cfg['ProxyPass']
 
     :type: string
-    :default: ""
+        :default: ""
 
-    The password for authenticating with the proxy.
+        The password for authenticating with the proxy.
 
 .. config:option:: $cfg['MaxDbList']
 
     :type: integer
-    :default: 100
+        :default: 100
 
-    The maximum number of database names to be displayed in the main panel's
-    database list.
+        The maximum number of database names to be displayed in the main panel's
+        database list.
 
 .. config:option:: $cfg['MaxTableList']
 
     :type: integer
-    :default: 250
+        :default: 250
 
-    The maximum number of table names to be displayed in the main panel's
-    list (except on the Export page). This limit is also enforced in the
-    navigation panel when in Light mode.
+        The maximum number of table names to be displayed in the main panel's
+        list (except on the Export page). This limit is also enforced in the
+        navigation panel when in Light mode.
 
 .. config:option:: $cfg['ShowHint']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Whether or not to show hints (for example, hints when hovering over
-    table headers).
+        Whether or not to show hints (for example, hints when hovering over
+        table headers).
 
 .. config:option:: $cfg['MaxCharactersInDisplayedSQL']
 
     :type: integer
-    :default: 1000
+        :default: 1000
 
-    The maximum number of characters when a :term:`SQL` query is displayed. The
+        The maximum number of characters when a :term:`SQL` query is displayed. The
     default limit of 1000 should be correct to avoid the display of tons of
     hexadecimal codes that represent BLOBs, but some users have real
     :term:`SQL` queries that are longer than 1000 characters. Also, if a
@@ -1165,9 +1165,9 @@ Generic settings
 .. config:option:: $cfg['PersistentConnections']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Whether `persistent connections <http://php.net/manual/en/features
+        Whether `persistent connections <http://php.net/manual/en/features
     .persistent-connections.php>`_ should be used or not. Works with
     following extensions:
 
@@ -1179,10 +1179,10 @@ Generic settings
 .. config:option:: $cfg['ForceSSL']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Whether to force using https while accessing phpMyAdmin. In a reverse
-    proxy setup, setting this to ``true`` is not supported.
+        Whether to force using https while accessing phpMyAdmin. In a reverse
+        proxy setup, setting this to ``true`` is not supported.
 
     .. note::
 
@@ -1193,17 +1193,17 @@ Generic settings
 .. config:option:: $cfg['ExecTimeLimit']
 
     :type: integer [number of seconds]
-    :default: 300
+        :default: 300
 
-    Set the number of seconds a script is allowed to run. If seconds is
-    set to zero, no time limit is imposed. This setting is used while
-    importing/exporting dump files but has
-    no effect when PHP is running in safe mode.
+        Set the number of seconds a script is allowed to run. If seconds is
+        set to zero, no time limit is imposed. This setting is used while
+        importing/exporting dump files but has
+        no effect when PHP is running in safe mode.
 
 .. config:option:: $cfg['SessionSavePath']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Path for storing session data (`session\_save\_path PHP parameter
     <http://php.net/session_save_path>`_).
@@ -1211,7 +1211,7 @@ Generic settings
 .. config:option:: $cfg['MemoryLimit']
 
     :type: string [number of bytes]
-    :default: ``'-1'``
+        :default: ``'-1'``
 
     Set the number of bytes a script is allowed to allocate. If set to
     ``'-1'``, no limit is imposed.
@@ -1226,45 +1226,45 @@ Generic settings
 .. config:option:: $cfg['SkipLockedTables']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Mark used tables and make it possible to show databases with locked
-    tables (since MySQL 3.23.30).
+        Mark used tables and make it possible to show databases with locked
+        tables (since MySQL 3.23.30).
 
 .. config:option:: $cfg['ShowSQL']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether :term:`SQL` queries
+        Defines whether :term:`SQL` queries
     generated by phpMyAdmin should be displayed or not.
 
 .. config:option:: $cfg['RetainQueryBox']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Defines whether the :term:`SQL` query box
+        Defines whether the :term:`SQL` query box
     should be kept displayed after its submission.
 
 .. config:option:: $cfg['CodemirrorEnable']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether to use a Javascript code editor for SQL query boxes.
-    CodeMirror provides syntax highlighting and line numbers.  However,
-    middle-clicking for pasting the clipboard contents in some Linux
-    distributions (such as Ubuntu) is not supported by all browsers.
+        Defines whether to use a Javascript code editor for SQL query boxes.
+        CodeMirror provides syntax highlighting and line numbers.  However,
+        middle-clicking for pasting the clipboard contents in some Linux
+        distributions (such as Ubuntu) is not supported by all browsers.
 
 .. config:option:: $cfg['AllowUserDropDatabase']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Defines whether normal users (non-administrator) are allowed to delete
-    their own database or not. If set as false, the link :guilabel:`Drop
-    Database` will not be shown, and even a ``DROP DATABASE mydatabase`` will
+        Defines whether normal users (non-administrator) are allowed to delete
+        their own database or not. If set as false, the link :guilabel:`Drop
+        Database` will not be shown, and even a ``DROP DATABASE mydatabase`` will
     be rejected. Quite practical for :term:`ISP` 's with many customers.
 
     .. note::
@@ -1278,25 +1278,25 @@ Generic settings
 .. config:option:: $cfg['Confirm']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Whether a warning ("Are your really sure...") should be displayed when
-    you're about to lose data.
+        Whether a warning ("Are your really sure...") should be displayed when
+        you're about to lose data.
 
 .. config:option:: $cfg['UseDbSearch']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Define whether the "search string inside database" is enabled or not.
+        Define whether the "search string inside database" is enabled or not.
 
 .. config:option:: $cfg['IgnoreMultiSubmitErrors']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Define whether phpMyAdmin will continue executing a multi-query
-    statement if one of the queries fails. Default is to abort execution.
+        Define whether phpMyAdmin will continue executing a multi-query
+        statement if one of the queries fails. Default is to abort execution.
 
 Cookie authentication options
 -----------------------------
@@ -1304,7 +1304,7 @@ Cookie authentication options
 .. config:option:: $cfg['blowfish_secret']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     The "cookie" auth\_type uses AES algorithm to encrypt the password. If you
     are using the "cookie" auth\_type, enter here a random passphrase of your
@@ -1320,7 +1320,7 @@ Cookie authentication options
         Blowfish algorithm was originally used to do the encryption.
 
     .. versionchanged:: 3.1.0
-        Since version 3.1.0 phpMyAdmin can generate this on the fly, but it
+Since version 3.1.0 phpMyAdmin can generate this on the fly, but it
         makes a bit weaker security as this generated secret is stored in
         session and furthermore it makes impossible to recall user name from
         cookie.
@@ -1328,21 +1328,21 @@ Cookie authentication options
 .. config:option:: $cfg['LoginCookieRecall']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Define whether the previous login should be recalled or not in cookie
-    authentication mode.
+        Define whether the previous login should be recalled or not in cookie
+        authentication mode.
 
-    This is automatically disabled if you do not have
-    configured :config:option:`$cfg['blowfish_secret']`.
+        This is automatically disabled if you do not have
+        configured :config:option:`$cfg['blowfish_secret']`.
 
 .. config:option:: $cfg['LoginCookieValidity']
 
     :type: integer [number of seconds]
-    :default: 1440
+        :default: 1440
 
-    Define how long a login cookie is valid. Please note that php
-    configuration option `session.gc\_maxlifetime
+        Define how long a login cookie is valid. Please note that php
+        configuration option `session.gc\_maxlifetime
     <http://php.net/manual/en/session.configuration.php#ini.session.gc-
     maxlifetime>`_ might limit session validity and if the session is lost,
     the login cookie is also invalidated. So it is a good idea to set
@@ -1352,31 +1352,31 @@ Cookie authentication options
 .. config:option:: $cfg['LoginCookieStore']
 
     :type: integer [number of seconds]
-    :default: 0
+        :default: 0
 
-    Define how long login cookie should be stored in browser. Default 0
-    means that it will be kept for existing session. This is recommended
-    for not trusted environments.
+        Define how long login cookie should be stored in browser. Default 0
+        means that it will be kept for existing session. This is recommended
+        for not trusted environments.
 
 .. config:option:: $cfg['LoginCookieDeleteAll']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    If enabled (default), logout deletes cookies for all servers,
-    otherwise only for current one. Setting this to false makes it easy to
-    forget to log out from other server, when you are using more of them.
+        If enabled (default), logout deletes cookies for all servers,
+        otherwise only for current one. Setting this to false makes it easy to
+        forget to log out from other server, when you are using more of them.
 
 .. _AllowArbitraryServer:
 .. config:option:: $cfg['AllowArbitraryServer']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    If enabled, allows you to log in to arbitrary servers using cookie
-    authentication.
+        If enabled, allows you to log in to arbitrary servers using cookie
+        authentication.
 
-    .. note::
+        .. note::
 
         Please use this carefully, as this may allow users access to MySQL servers
         behind the firewall where your :term:`HTTP` server is placed.
@@ -1385,7 +1385,7 @@ Cookie authentication options
 .. config:option:: $cfg['ArbitraryServerRegexp']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Restricts the MySQL servers to which the user can log in when
     :config:option:`$cfg['AllowArbitraryServer']` is enabled by
@@ -1396,7 +1396,7 @@ Cookie authentication options
 .. config:option:: $cfg['CaptchaLoginPublicKey']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     The public key for the reCaptcha service that can be obtained from
     http://www.google.com/recaptcha.
@@ -1406,7 +1406,7 @@ Cookie authentication options
 .. config:option:: $cfg['CaptchaLoginPrivateKey']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     The private key for the reCaptcha service that can be obtain from
     http://www.google.com/recaptcha.
@@ -1419,38 +1419,38 @@ Navigation panel setup
 .. config:option:: $cfg['ShowDatabasesNavigationAsTree']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    In the navigation panel, replaces the database tree with a selector
+        In the navigation panel, replaces the database tree with a selector
 
 .. config:option:: $cfg['FirstLevelNavigationItems']
 
     :type: integer
-    :default: 100
+        :default: 100
 
-    The number of first level databases that can be displayed on each page
-    of navigation tree.
+        The number of first level databases that can be displayed on each page
+        of navigation tree.
 
 .. config:option:: $cfg['MaxNavigationItems']
 
     :type: integer
-    :default: 50
+        :default: 50
 
-    The number of items (tables, columns, indexes) that can be displayed on each
-    page of the navigation tree.
+        The number of items (tables, columns, indexes) that can be displayed on each
+        page of the navigation tree.
 
 .. config:option:: $cfg['NavigationTreeEnableGrouping']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether to group the databases based on a common prefix
-    in their name :config:option:`$cfg['NavigationTreeDbSeparator']`.
+        Defines whether to group the databases based on a common prefix
+        in their name :config:option:`$cfg['NavigationTreeDbSeparator']`.
 
 .. config:option:: $cfg['NavigationTreeDbSeparator']
 
     :type: string or array
-    :default: ``'_'``
+        :default: ``'_'``
 
     The string used to separate the parts of the database name when
     showing them in a tree. Alternatively you can specify more strings in
@@ -1459,7 +1459,7 @@ Navigation panel setup
 .. config:option:: $cfg['NavigationTreeTableSeparator']
 
     :type: string or array
-    :default: ``'__'``
+        :default: ``'__'``
 
     Defines a string to be used to nest table spaces. This means if you have
     tables like ``first__second__third`` this will be shown as a three-level
@@ -1471,52 +1471,52 @@ Navigation panel setup
 .. config:option:: $cfg['NavigationTreeTableLevel']
 
     :type: integer
-    :default: 1
+        :default: 1
 
-    Defines how many sublevels should be displayed when splitting up
-    tables by the above separator.
+        Defines how many sublevels should be displayed when splitting up
+        tables by the above separator.
 
 .. config:option:: $cfg['NumRecentTables']
 
     :type: integer
-    :default: 10
+        :default: 10
 
-    The maximum number of recently used tables shown in the navigation
-    panel. Set this to 0 (zero) to disable the listing of recent tables.
+        The maximum number of recently used tables shown in the navigation
+        panel. Set this to 0 (zero) to disable the listing of recent tables.
 
 .. config:option:: $cfg['ZeroConf']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Enables Zero Configuration mode in which the user will be offered a choice to
-    create phpMyAdmin configuration storage in the current database
-    or use the existing one, if already present.
+        Enables Zero Configuration mode in which the user will be offered a choice to
+        create phpMyAdmin configuration storage in the current database
+        or use the existing one, if already present.
 
-    This setting has no effect if the phpMyAdmin configuration storage database
-    is properly created and the related configuration directives (such as
-    :config:option:`$cfg['Servers'][$i]['pmadb']` and so on) are configured.
+        This setting has no effect if the phpMyAdmin configuration storage database
+        is properly created and the related configuration directives (such as
+        :config:option:`$cfg['Servers'][$i]['pmadb']` and so on) are configured.
 
 .. config:option:: $cfg['NavigationLinkWithMainPanel']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether or not to link with main panel by highlighting
-    the current database or table.
+        Defines whether or not to link with main panel by highlighting
+        the current database or table.
 
 .. config:option:: $cfg['NavigationDisplayLogo']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether or not to display the phpMyAdmin logo at the top of
-    the navigation panel.
+        Defines whether or not to display the phpMyAdmin logo at the top of
+        the navigation panel.
 
 .. config:option:: $cfg['NavigationLogoLink']
 
     :type: string
-    :default: ``'index.php'``
+        :default: ``'index.php'``
 
     Enter :term:`URL` where logo in the navigation panel will point to. 
     For use especially with self made theme which changes this.
@@ -1525,7 +1525,7 @@ Navigation panel setup
 .. config:option:: $cfg['NavigationLogoLinkWindow']
 
     :type: string
-    :default: ``'main'``
+        :default: ``'main'``
 
     Whether to open the linked page in the main window (``main``) or in a
     new one (``new``). Note: use ``new`` if you are linking to
@@ -1534,45 +1534,45 @@ Navigation panel setup
 .. config:option:: $cfg['NavigationTreeDisplayItemFilterMinimum']
 
     :type: integer
-    :default: 30
+        :default: 30
 
-    Defines the minimum number of items (tables, views, routines and
-    events) to display a JavaScript filter box above the list of items in
-    the navigation tree.
+        Defines the minimum number of items (tables, views, routines and
+        events) to display a JavaScript filter box above the list of items in
+        the navigation tree.
 
-    To disable the filter completely some high number can be used (e.g. 9999)
+        To disable the filter completely some high number can be used (e.g. 9999)
 
 .. config:option:: $cfg['NavigationTreeDisplayDbFilterMinimum']
 
     :type: integer
-    :default: 30
+        :default: 30
 
-    Defines the minimum number of databases to display a JavaScript filter
-    box above the list of databases in the navigation tree.
+        Defines the minimum number of databases to display a JavaScript filter
+        box above the list of databases in the navigation tree.
 
-    To disable the filter completely some high number can be used
-    (e.g. 9999)
+        To disable the filter completely some high number can be used
+        (e.g. 9999)
 
 .. config:option:: $cfg['NavigationDisplayServers']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether or not to display a server choice at the top of the
-    navigation panel.
+        Defines whether or not to display a server choice at the top of the
+        navigation panel.
 
 .. config:option:: $cfg['DisplayServersList']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Defines whether to display this server choice as links instead of in a
-    drop-down.
+        Defines whether to display this server choice as links instead of in a
+        drop-down.
 
 .. config:option:: $cfg['NavigationTreeDefaultTabTable']
 
     :type: string
-    :default: ``'tbl_structure.php'``
+        :default: ``'tbl_structure.php'``
 
     Defines the tab displayed by default when clicking the small icon next
     to each table name in the navigation panel. Possible values:
@@ -1586,12 +1586,12 @@ Navigation panel setup
 .. config:option:: $cfg['NavigationTreeDefaultTabTable2']
 
     :type: string
-    :default: null
+        :default: null
 
-    Defines the tab displayed by default when clicking the second small icon next
-    to each table name in the navigation panel. Possible values:
+        Defines the tab displayed by default when clicking the second small icon next
+        to each table name in the navigation panel. Possible values:
 
-    * ``(empty)``
+        * ``(empty)``
     * ``tbl_structure.php``
     * ``tbl_sql.php``
     * ``tbl_select.php``
@@ -1601,9 +1601,9 @@ Navigation panel setup
 .. config:option:: $cfg['NavigationTreeEnableExpansion']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Whether to offer the possibility of tree expansion in the navigation panel.
+        Whether to offer the possibility of tree expansion in the navigation panel.
 
 Main panel
 ----------
@@ -1611,34 +1611,34 @@ Main panel
 .. config:option:: $cfg['ShowStats']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether or not to display space usage and statistics about
-    databases and tables. Note that statistics requires at least MySQL
-    3.23.3 and that, at this date, MySQL doesn't return such information
-    for Berkeley DB tables.
+        Defines whether or not to display space usage and statistics about
+        databases and tables. Note that statistics requires at least MySQL
+        3.23.3 and that, at this date, MySQL doesn't return such information
+        for Berkeley DB tables.
 
 .. config:option:: $cfg['ShowServerInfo']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether to display detailed server information on main page.
-    You can additionally hide more information by using
-    :config:option:`$cfg['Servers'][$i]['verbose']`.
+        Defines whether to display detailed server information on main page.
+        You can additionally hide more information by using
+        :config:option:`$cfg['Servers'][$i]['verbose']`.
 
 .. config:option:: $cfg['ShowChgPassword']
 
     :type: boolean
-    :default: true
+        :default: true
 
 .. config:option:: $cfg['ShowCreateDb']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether to display the 
-    :guilabel:`Change password` links and form for creating database or not at
+        Defines whether to display the
+        :guilabel:`Change password` links and form for creating database or not at
     the starting main (right) frame. This setting does not check MySQL commands
     entered directly.
 
@@ -1653,34 +1653,34 @@ Database structure
 .. config:option:: $cfg['ShowDbStructureCreation']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Defines whether the database structure page (tables list) has a
-    "Creation" column that displays when each table was created.
+        Defines whether the database structure page (tables list) has a
+        "Creation" column that displays when each table was created.
 
 .. config:option:: $cfg['ShowDbStructureLastUpdate']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Defines whether the database structure page (tables list) has a "Last
-    update" column that displays when each table was last updated.
+        Defines whether the database structure page (tables list) has a "Last
+        update" column that displays when each table was last updated.
 
 .. config:option:: $cfg['ShowDbStructureLastCheck']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Defines whether the database structure page (tables list) has a "Last
-    check" column that displays when each table was last checked.
+        Defines whether the database structure page (tables list) has a "Last
+        check" column that displays when each table was last checked.
 
 .. config:option:: $cfg['HideStructureActions']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether the table structure actions are hidden under a "More"
-    drop-down.
+        Defines whether the table structure actions are hidden under a "More"
+        drop-down.
 
 Browse mode
 -----------
@@ -1688,7 +1688,7 @@ Browse mode
 .. config:option:: $cfg['TableNavigationLinksMode']
 
     :type: string
-    :default: ``'icons'``
+        :default: ``'icons'``
 
     Defines whether the table navigation links contain ``'icons'``, ``'text'``
     or ``'both'``.
@@ -1696,7 +1696,7 @@ Browse mode
 .. config:option:: $cfg['ActionLinksMode']
 
     :type: string
-    :default: ``'both'``
+        :default: ``'both'``
 
     If set to ``icons``, will display icons instead of text for db and table
     properties links (like :guilabel:`Browse`, :guilabel:`Select`,
@@ -1706,7 +1706,7 @@ Browse mode
 .. config:option:: $cfg['RowActionType']
 
     :type: string
-    :default: ``'both'``
+        :default: ``'both'``
 
     Whether to display icons or text or both icons and text in table row action
     segment. Value can be either of ``'icons'``, ``'text'`` or ``'both'``.
@@ -1714,25 +1714,25 @@ Browse mode
 .. config:option:: $cfg['ShowAll']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Defines whether a user should be displayed a "Show all" button in browse
-    mode or not in all cases. By default it is shown only on small tables (less
-    than 500 rows) to avoid performance issues while getting too many rows.
+        Defines whether a user should be displayed a "Show all" button in browse
+        mode or not in all cases. By default it is shown only on small tables (less
+        than 500 rows) to avoid performance issues while getting too many rows.
 
 .. config:option:: $cfg['MaxRows']
 
     :type: integer
-    :default: 25
+        :default: 25
 
-    Number of rows displayed when browsing a result set and no LIMIT
-    clause is used. If the result set contains more rows, "Previous" and
-    "Next" links will be shown. Possible values: 25,50,100,250,500.
+        Number of rows displayed when browsing a result set and no LIMIT
+        clause is used. If the result set contains more rows, "Previous" and
+        "Next" links will be shown. Possible values: 25,50,100,250,500.
 
 .. config:option:: $cfg['Order']
 
     :type: string
-    :default: ``'SMART'``
+        :default: ``'SMART'``
 
     Defines whether columns are displayed in ascending (``ASC``) order, in
     descending (``DESC``) order or in a "smart" (``SMART``) order - I.E.
@@ -1742,7 +1742,7 @@ Browse mode
 .. config:option:: $cfg['GridEditing']
 
     :type: string
-    :default: ``'double-click'``
+        :default: ``'double-click'``
 
     Defines which action (``double-click`` or ``click``) triggers grid
     editing. Can be deactivated with the ``disabled`` value.
@@ -1750,7 +1750,7 @@ Browse mode
 .. config:option:: $cfg['RelationalDisplay']
 
     :type: string
-    :default: ``'K'``
+        :default: ``'K'``
 
     Defines the initial behavior for Options > Relational. ``K``, which
     is the default, displays the key while ``D`` shows the display column.
@@ -1758,10 +1758,10 @@ Browse mode
 .. config:option:: $cfg['SaveCellsAtOnce']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Defines whether or not to save all edited cells at once for grid
-    editing.
+        Defines whether or not to save all edited cells at once for grid
+        editing.
 
 Editing mode
 ------------
@@ -1769,7 +1769,7 @@ Editing mode
 .. config:option:: $cfg['ProtectBinary']
 
     :type: boolean or string
-    :default: ``'blob'``
+        :default: ``'blob'``
 
     Defines whether ``BLOB`` or ``BINARY`` columns are protected from
     editing when browsing a table's content. Valid values are:
@@ -1783,44 +1783,44 @@ Editing mode
 .. config:option:: $cfg['ShowFunctionFields']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether or not MySQL functions fields should be initially
-    displayed in edit/insert mode. Since version 2.10, the user can toggle
-    this setting from the interface.
+        Defines whether or not MySQL functions fields should be initially
+        displayed in edit/insert mode. Since version 2.10, the user can toggle
+        this setting from the interface.
 
 .. config:option:: $cfg['ShowFieldTypesInDataEditView']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether or not type fields should be initially displayed in
-    edit/insert mode. The user can toggle this setting from the interface.
+        Defines whether or not type fields should be initially displayed in
+        edit/insert mode. The user can toggle this setting from the interface.
 
 .. config:option:: $cfg['InsertRows']
 
     :type: integer
-    :default: 2
+        :default: 2
 
-    Defines the maximum number of concurrent entries for the Insert page.
+        Defines the maximum number of concurrent entries for the Insert page.
 
 .. config:option:: $cfg['ForeignKeyMaxLimit']
 
     :type: integer
-    :default: 100
+        :default: 100
 
-    If there are fewer items than this in the set of foreign keys, then a
-    drop-down box of foreign keys is presented, in the style described by
-    the :config:option:`$cfg['ForeignKeyDropdownOrder']` setting.
+        If there are fewer items than this in the set of foreign keys, then a
+        drop-down box of foreign keys is presented, in the style described by
+        the :config:option:`$cfg['ForeignKeyDropdownOrder']` setting.
 
 .. config:option:: $cfg['ForeignKeyDropdownOrder']
 
     :type: array
-    :default: array('content-id', 'id-content')
+        :default: array('content-id', 'id-content')
 
-    For the foreign key drop-down fields, there are several methods of
-    display, offering both the key and value data. The contents of the
-    array should be one or both of the following strings: ``content-id``,
+        For the foreign key drop-down fields, there are several methods of
+        display, offering both the key and value data. The contents of the
+        array should be one or both of the following strings: ``content-id``,
     ``id-content``.
 
 Export and import settings
@@ -1829,45 +1829,45 @@ Export and import settings
 .. config:option:: $cfg['ZipDump']
 
     :type: boolean
-    :default: true
+        :default: true
 
 .. config:option:: $cfg['GZipDump']
 
     :type: boolean
-    :default: true
+        :default: true
 
 .. config:option:: $cfg['BZipDump']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether to allow the use of zip/GZip/BZip2 compression when
-    creating a dump file
+        Defines whether to allow the use of zip/GZip/BZip2 compression when
+        creating a dump file
 
 .. config:option:: $cfg['CompressOnFly']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether to allow on the fly compression for GZip/BZip2
-    compressed exports. This doesn't affect smaller dumps and allows users
-    to create larger dumps that won't otherwise fit in memory due to php
-    memory limit. Produced files contain more GZip/BZip2 headers, but all
-    normal programs handle this correctly.
+        Defines whether to allow on the fly compression for GZip/BZip2
+        compressed exports. This doesn't affect smaller dumps and allows users
+        to create larger dumps that won't otherwise fit in memory due to php
+        memory limit. Produced files contain more GZip/BZip2 headers, but all
+        normal programs handle this correctly.
 
 .. config:option:: $cfg['Export']
 
     :type: array
-    :default: array(...)
+        :default: array(...)
 
-    In this array are defined default parameters for export, names of
-    items are similar to texts seen on export page, so you can easily
-    identify what they mean.
+        In this array are defined default parameters for export, names of
+        items are similar to texts seen on export page, so you can easily
+        identify what they mean.
 
 .. config:option:: $cfg['Export']['method']
 
     :type: string
-    :default: ``'quick'``
+        :default: ``'quick'``
 
     Defines how the export form is displayed when it loads. Valid values
     are:
@@ -1882,11 +1882,11 @@ Export and import settings
 .. config:option:: $cfg['Import']
 
     :type: array
-    :default: array(...)
+        :default: array(...)
 
-    In this array are defined default parameters for import, names of
-    items are similar to texts seen on import page, so you can easily
-    identify what they mean.
+        In this array are defined default parameters for import, names of
+        items are similar to texts seen on import page, so you can easily
+        identify what they mean.
 
 
 Tabs display settings
@@ -1895,23 +1895,23 @@ Tabs display settings
 .. config:option:: $cfg['TabsMode']
 
     :type: string
-    :default: ``'both'``
+        :default: ``'both'``
 
     Defines whether the menu tabs contain ``'icons'``, ``'text'`` or ``'both'``.
 
 .. config:option:: $cfg['PropertiesNumColumns']
 
     :type: integer
-    :default: 1
+        :default: 1
 
-    How many columns will be utilized to display the tables on the database
-    property view? When setting this to a value larger than 1, the type of the
-    database will be omitted for more display space.
+        How many columns will be utilized to display the tables on the database
+        property view? When setting this to a value larger than 1, the type of the
+        database will be omitted for more display space.
 
 .. config:option:: $cfg['DefaultTabServer']
 
     :type: string
-    :default: ``'index.php'``
+        :default: ``'index.php'``
 
     Defines the tab displayed by default on server view. Possible values:
 
@@ -1924,7 +1924,7 @@ Tabs display settings
 .. config:option:: $cfg['DefaultTabDatabase']
 
     :type: string
-    :default: ``'db_structure.php'``
+        :default: ``'db_structure.php'``
 
     Defines the tab displayed by default on database view. Possible
     values:
@@ -1936,7 +1936,7 @@ Tabs display settings
 .. config:option:: $cfg['DefaultTabTable']
 
     :type: string
-    :default: ``'sql.php'``
+        :default: ``'sql.php'``
 
     Defines the tab displayed by default on table view. Possible values:
 
@@ -1952,7 +1952,7 @@ PDF Options
 .. config:option:: $cfg['PDFPageSizes']
 
     :type: array
-    :default: ``array('A3', 'A4', 'A5', 'letter', 'legal')``
+        :default: ``array('A3', 'A4', 'A5', 'letter', 'legal')``
 
     Array of possible paper sizes for creating PDF pages.
 
@@ -1961,7 +1961,7 @@ PDF Options
 .. config:option:: $cfg['PDFDefaultPageSize']
 
     :type: string
-    :default: ``'A4'``
+        :default: ``'A4'``
 
     Default page size to use when creating PDF pages. Valid values are any
     listed in :config:option:`$cfg['PDFPageSizes']`.
@@ -1972,7 +1972,7 @@ Languages
 .. config:option:: $cfg['DefaultLang']
 
     :type: string
-    :default: ``'en'``
+        :default: ``'en'``
 
     Defines the default language to use, if not browser-defined or user-
     defined. The corresponding language file needs to be in
@@ -1981,7 +1981,7 @@ Languages
 .. config:option:: $cfg['DefaultConnectionCollation']
 
     :type: string
-    :default: ``'utf8_general_ci'``
+        :default: ``'utf8_general_ci'``
 
     Defines the default connection collation to use, if not user-defined.
     See the `MySQL documentation for charsets 
@@ -1992,15 +1992,15 @@ Languages
 .. config:option:: $cfg['Lang']
 
     :type: string
-    :default: not set
+        :default: not set
 
-    Force language to use. The corresponding language file needs to be in
-    locale/*code*/LC\_MESSAGES/phpmyadmin.mo.
+        Force language to use. The corresponding language file needs to be in
+        locale/*code*/LC\_MESSAGES/phpmyadmin.mo.
 
 .. config:option:: $cfg['FilterLanguages']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Limit list of available languages to those matching the given regular
     expression. For example if you want only Czech and English, you should
@@ -2009,7 +2009,7 @@ Languages
 .. config:option:: $cfg['RecodingEngine']
 
     :type: string
-    :default: ``'auto'``
+        :default: ``'auto'``
 
     You can select here which functions will be used for character set
     conversion. Possible values are:
@@ -2029,7 +2029,7 @@ Languages
 .. config:option:: $cfg['IconvExtraParams']
 
     :type: string
-    :default: ``'//TRANSLIT'``
+        :default: ``'//TRANSLIT'``
 
     Specify some parameters for iconv used in charset conversion. See
     `iconv documentation <http://www.gnu.org/software/libiconv/documentati
@@ -2040,12 +2040,12 @@ Languages
 .. config:option:: $cfg['AvailableCharsets']
 
     :type: array
-    :default: array(...)
+        :default: array(...)
 
-    Available character sets for MySQL conversion. You can add your own
-    (any of supported by recode/iconv) or remove these which you don't
-    use. Character sets will be shown in same order as here listed, so if
-    you frequently use some of these move them to the top.
+        Available character sets for MySQL conversion. You can add your own
+        (any of supported by recode/iconv) or remove these which you don't
+        use. Character sets will be shown in same order as here listed, so if
+        you frequently use some of these move them to the top.
 
 Web server settings
 -------------------
@@ -2053,7 +2053,7 @@ Web server settings
 .. config:option:: $cfg['OBGzip']
 
     :type: string/boolean
-    :default: ``'auto'``
+        :default: ``'auto'``
 
     Defines whether to use GZip output buffering for increased speed in
     :term:`HTTP` transfers. Set to
@@ -2066,10 +2066,10 @@ Web server settings
 .. config:option:: $cfg['TrustedProxies']
 
     :type: array
-    :default: array()
+        :default: array()
 
-    Lists proxies and HTTP headers which are trusted for
-    :config:option:`$cfg['Servers'][$i]['AllowDeny']['order']`. This list is by
+        Lists proxies and HTTP headers which are trusted for
+        :config:option:`$cfg['Servers'][$i]['AllowDeny']['order']`. This list is by
     default empty, you need to fill in some trusted proxy servers if you
     want to use rules for IP addresses behind proxy.
 
@@ -2087,7 +2087,7 @@ Web server settings
 .. config:option:: $cfg['GD2Available']
 
     :type: string
-    :default: ``'auto'``
+        :default: ``'auto'``
 
     Specifies whether GD >= 2 is available. If yes it can be used for MIME
     transformations. Possible values are:
@@ -2099,27 +2099,27 @@ Web server settings
 .. config:option:: $cfg['CheckConfigurationPermissions']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    We normally check the permissions on the configuration file to ensure
-    it's not world writable. However, phpMyAdmin could be installed on a
-    NTFS filesystem mounted on a non-Windows server, in which case the
-    permissions seems wrong but in fact cannot be detected. In this case a
-    sysadmin would set this parameter to ``false``.
+        We normally check the permissions on the configuration file to ensure
+        it's not world writable. However, phpMyAdmin could be installed on a
+        NTFS filesystem mounted on a non-Windows server, in which case the
+        permissions seems wrong but in fact cannot be detected. In this case a
+        sysadmin would set this parameter to ``false``.
 
 .. config:option:: $cfg['LinkLengthLimit']
 
     :type: integer
-    :default: 1000
+        :default: 1000
 
-    Limit for length of :term:`URL` in links.  When length would be above this
+        Limit for length of :term:`URL` in links.  When length would be above this
     limit, it is replaced by form with button. This is required as some web
     servers (:term:`IIS`) have problems with long :term:`URL` .
 
 .. config:option:: $cfg['CSPAllow']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Additional string to include in allowed script and image sources in Content
     Security Policy header.
@@ -2139,11 +2139,11 @@ Web server settings
 .. config:option:: $cfg['DisableMultiTableMaintenance']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    In the database Structure page, it's possible to mark some tables then
-    choose an operation like optimizing for many tables. This can slow
-    down a server; therefore, setting this to ``true`` prevents this kind
+        In the database Structure page, it's possible to mark some tables then
+        choose an operation like optimizing for many tables. This can slow
+        down a server; therefore, setting this to ``true`` prevents this kind
     of multiple maintenance operation.
 
 Theme settings
@@ -2152,126 +2152,126 @@ Theme settings
 .. config:option:: $cfg['NaviWidth']
 
     :type: integer
-    :default:
+        :default:
 
-    Navigation panel width in pixels. See
-    :file:`themes/themename/layout.inc.php`.
+        Navigation panel width in pixels. See
+        :file:`themes/themename/layout.inc.php`.
 
 .. config:option:: $cfg['NaviBackground']
 
     :type: string [CSS color for background]
-    :default:
+        :default:
 
 .. config:option:: $cfg['MainBackground']
 
     :type: string [CSS color for background]
-    :default:
+        :default:
 
-    The background styles used for both the frames. See
-    :file:`themes/themename/layout.inc.php`.
+        The background styles used for both the frames. See
+        :file:`themes/themename/layout.inc.php`.
 
 .. config:option:: $cfg['NaviPointerBackground']
 
     :type: string [CSS color for background]
-    :default:
+        :default:
 
 .. config:option:: $cfg['NaviPointerColor']
 
     :type: string [CSS color]
-    :default:
+        :default:
 
-    The style used for the pointer in the navigation panel. See
-    :file:`themes/themename/layout.inc.php`.
+        The style used for the pointer in the navigation panel. See
+        :file:`themes/themename/layout.inc.php`.
 
 .. config:option:: $cfg['Border']
 
     :type: integer
-    :default:
+        :default:
 
-    The size of a table's border. See :file:`themes/themename/layout.inc.php`.
+        The size of a table's border. See :file:`themes/themename/layout.inc.php`.
 
 .. config:option:: $cfg['ThBackground']
 
     :type: string [CSS color for background]
-    :default:
+        :default:
 
 .. config:option:: $cfg['ThColor']
 
     :type: string [CSS color]
-    :default:
+        :default:
 
-    The style used for table headers. See
-    :file:`themes/themename/layout.inc.php`.
+        The style used for table headers. See
+        :file:`themes/themename/layout.inc.php`.
 
 .. _cfg_BgcolorOne:
 .. config:option:: $cfg['BgOne']
 
     :type: string [CSS color]
-    :default:
+        :default:
 
-    The color (HTML) #1 for table rows. See
-    :file:`themes/themename/layout.inc.php`.
+        The color (HTML) #1 for table rows. See
+        :file:`themes/themename/layout.inc.php`.
 
 .. _cfg_BgcolorTwo:
 .. config:option:: $cfg['BgTwo']
 
     :type: string [CSS color]
-    :default:
+        :default:
 
-    The color (HTML) #2 for table rows. See
-    :file:`themes/themename/layout.inc.php`.
+        The color (HTML) #2 for table rows. See
+        :file:`themes/themename/layout.inc.php`.
 
 .. config:option:: $cfg['BrowsePointerBackground']
 
     :type: string [CSS color]
-    :default:
+        :default:
 
-    The background color used when hovering over a row in the Browse panel.
-    See :file:`themes/themename/layout.inc.php`.
+        The background color used when hovering over a row in the Browse panel.
+        See :file:`themes/themename/layout.inc.php`.
 
 .. config:option:: $cfg['BrowsePointerColor']
 
     :type: string [CSS color]
-    :default:
+        :default:
 
-    The text color used when hovering over a row in the Browse panel.
-    Used when :config:option:`$cfg['BrowsePointerEnable']` is true.
+        The text color used when hovering over a row in the Browse panel.
+        Used when :config:option:`$cfg['BrowsePointerEnable']` is true.
     See :file:`themes/themename/layout.inc.php`.
 
 .. config:option:: $cfg['BrowseMarkerBackground']
 
     :type: string [CSS color]
-    :default:
+        :default:
 
-    The background color used to highlight a row selected by checkbox in the Browse panel or
-    when a column is selected.
-    Used when :config:option:`$cfg['BrowsePointerEnable']` is true.
+        The background color used to highlight a row selected by checkbox in the Browse panel or
+        when a column is selected.
+        Used when :config:option:`$cfg['BrowsePointerEnable']` is true.
     See :file:`themes/themename/layout.inc.php`.
 
 .. config:option:: $cfg['BrowseMarkerColor']
 
     :type: string [CSS color]
-    :default:
+        :default:
 
-    The color used when you visually mark a row or column in the Browse panel.
-    Rows can be marked by clicking the checkbox to the left of the row and columns can be
-    marked by clicking the column's header (outside of the header text).
-    See :file:`themes/themename/layout.inc.php`.
+        The color used when you visually mark a row or column in the Browse panel.
+        Rows can be marked by clicking the checkbox to the left of the row and columns can be
+        marked by clicking the column's header (outside of the header text).
+        See :file:`themes/themename/layout.inc.php`.
 
 .. config:option:: $cfg['FontFamily']
 
     :type: string
-    :default:
+        :default:
 
-    You put here a valid CSS font family value, for example ``arial, sans-
-    serif``. See :file:`themes/themename/layout.inc.php`.
+        You put here a valid CSS font family value, for example ``arial, sans-
+        serif``. See :file:`themes/themename/layout.inc.php`.
 
 .. config:option:: $cfg['FontFamilyFixed']
 
     :type: string
-    :default:
+        :default:
 
-    You put here a valid CSS font family value, for example ``monospace``.
+        You put here a valid CSS font family value, for example ``monospace``.
     This one is used in textarea. See :file:`themes/themename/layout.inc.php`.
 
 Design customization
@@ -2280,39 +2280,39 @@ Design customization
 .. config:option:: $cfg['NavigationTreePointerEnable']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    When set to true, hovering over an item in the navigation panel causes that item to be marked
-    (the background is highlighted).
+        When set to true, hovering over an item in the navigation panel causes that item to be marked
+        (the background is highlighted).
 
 .. config:option:: $cfg['BrowsePointerEnable']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    When set to true, hovering over a row in the Browse page causes that row to be marked (the background
-    is highlighted).
+        When set to true, hovering over a row in the Browse page causes that row to be marked (the background
+        is highlighted).
 
 .. config:option:: $cfg['BrowseMarkerEnable']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    When set to true, a data row is marked (the background is highlighted) when the row is selected
-    with the checkbox.
+        When set to true, a data row is marked (the background is highlighted) when the row is selected
+        with the checkbox.
 
 .. config:option:: $cfg['LimitChars']
 
     :type: integer
-    :default: 50
+        :default: 50
 
-    Maximum number of characters shown in any non-numeric field on browse
-    view. Can be turned off by a toggle button on the browse page.
+        Maximum number of characters shown in any non-numeric field on browse
+        view. Can be turned off by a toggle button on the browse page.
 
 .. config:option:: $cfg['RowActionLinks']
 
     :type: string
-    :default: ``'left'``
+        :default: ``'left'``
 
     Defines the place where table row links (Edit, Copy, Delete) would be
     put when tables contents are displayed (you may have them displayed at
@@ -2321,14 +2321,14 @@ Design customization
 .. config:option:: $cfg['RememberSorting']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    If enabled, remember the sorting of each table when browsing them.
+        If enabled, remember the sorting of each table when browsing them.
 
 .. config:option:: $cfg['TablePrimaryKeyOrder']
 
     :type: string
-    :default: ``'NONE'``
+        :default: ``'NONE'``
 
     This defines the default sort order for the tables, having a primary key,
     when there is no sort order defines externally.
@@ -2337,14 +2337,14 @@ Design customization
 .. config:option:: $cfg['ShowBrowseComments']
 
     :type: boolean
-    :default: true
+        :default: true
 
 .. config:option:: $cfg['ShowPropertyComments']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    By setting the corresponding variable to ``true`` you can enable the
+        By setting the corresponding variable to ``true`` you can enable the
     display of column comments in Browse or Property display. In browse
     mode, the comments are shown inside the header. In property mode,
     comments are displayed using a CSS-formatted dashed-line below the
@@ -2357,7 +2357,7 @@ Text fields
 .. config:option:: $cfg['CharEditing']
 
     :type: string
-    :default: ``'input'``
+        :default: ``'input'``
 
     Defines which type of editing controls should be used for CHAR and
     VARCHAR columns. Applies to data editing and also to the default values
@@ -2371,41 +2371,41 @@ Text fields
 .. config:option:: $cfg['MinSizeForInputField']
 
     :type: integer
-    :default: 4
+        :default: 4
 
-    Defines the minimum size for input fields generated for CHAR and
-    VARCHAR columns.
+        Defines the minimum size for input fields generated for CHAR and
+        VARCHAR columns.
 
 .. config:option:: $cfg['MaxSizeForInputField']
 
     :type: integer
-    :default: 60
+        :default: 60
 
-    Defines the maximum size for input fields generated for CHAR and
-    VARCHAR columns.
+        Defines the maximum size for input fields generated for CHAR and
+        VARCHAR columns.
 
 .. config:option:: $cfg['TextareaCols']
 
     :type: integer
-    :default: 40
+        :default: 40
 
 .. config:option:: $cfg['TextareaRows']
 
     :type: integer
-    :default: 15
+        :default: 15
 
 .. config:option:: $cfg['CharTextareaCols']
 
     :type: integer
-    :default: 40
+        :default: 40
 
 .. config:option:: $cfg['CharTextareaRows']
 
     :type: integer
-    :default: 2
+        :default: 2
 
-    Number of columns and rows for the textareas. This value will be
-    emphasized (\*2) for :term:`SQL` query
+        Number of columns and rows for the textareas. This value will be
+        emphasized (\*2) for :term:`SQL` query
     textareas and (\*1.25) for :term:`SQL`
     textareas inside the query window.
 
@@ -2415,17 +2415,17 @@ Text fields
 .. config:option:: $cfg['LongtextDoubleTextarea']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Defines whether textarea for LONGTEXT columns should have double size.
+        Defines whether textarea for LONGTEXT columns should have double size.
 
 .. config:option:: $cfg['TextareaAutoSelect']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Defines if the whole textarea of the query box will be selected on
-    click.
+        Defines if the whole textarea of the query box will be selected on
+        click.
 
 
 SQL query box settings
@@ -2434,33 +2434,33 @@ SQL query box settings
 .. config:option:: $cfg['SQLQuery']['Edit']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Whether to display an edit link to change a query in any SQL Query
-    box.
+        Whether to display an edit link to change a query in any SQL Query
+        box.
 
 .. config:option:: $cfg['SQLQuery']['Explain']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Whether to display a link to explain a SELECT query in any SQL Query
-    box.
+        Whether to display a link to explain a SELECT query in any SQL Query
+        box.
 
 .. config:option:: $cfg['SQLQuery']['ShowAsPHP']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Whether to display a link to wrap a query in PHP code in any SQL Query
-    box.
+        Whether to display a link to wrap a query in PHP code in any SQL Query
+        box.
 
 .. config:option:: $cfg['SQLQuery']['Refresh']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Whether to display a link to refresh a query in any SQL Query box.
+        Whether to display a link to refresh a query in any SQL Query box.
 
 Web server upload/save/import directories
 -----------------------------------------
@@ -2468,7 +2468,7 @@ Web server upload/save/import directories
 .. config:option:: $cfg['UploadDir']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     The name of the directory where :term:`SQL` files have been uploaded by
     other means than phpMyAdmin (for example, ftp). Those files are available
@@ -2496,7 +2496,7 @@ Web server upload/save/import directories
 .. config:option:: $cfg['SaveDir']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     The name of the directory where dumps can be saved.
 
@@ -2514,7 +2514,7 @@ Web server upload/save/import directories
 .. config:option:: $cfg['TempDir']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     The name of the directory where temporary files can be stored.
 
@@ -2560,21 +2560,21 @@ Various display setting
 .. config:option:: $cfg['RepeatCells']
 
     :type: integer
-    :default: 100
+        :default: 100
 
-    Repeat the headers every X cells, or 0 to deactivate.
+        Repeat the headers every X cells, or 0 to deactivate.
 
 .. config:option:: $cfg['QueryHistoryDB']
 
     :type: boolean
-    :default: false
+        :default: false
 
 .. config:option:: $cfg['QueryHistoryMax']
 
     :type: integer
-    :default: 25
+        :default: 25
 
-    If :config:option:`$cfg['QueryHistoryDB']` is set to ``true``, all your
+        If :config:option:`$cfg['QueryHistoryDB']` is set to ``true``, all your
     Queries are logged to a table, which has to be created by you (see
     :config:option:`$cfg['Servers'][$i]['history']`). If set to false, all your
     queries will be appended to the form, but only as long as your window is
@@ -2584,32 +2584,32 @@ Various display setting
     when you click on a new table/db to browse and will focus if you click on
     :guilabel:`Edit SQL` after using a query. You can suppress updating the
     query window by checking the box :guilabel:`Do not overwrite this query
-    from outside the window` below the query textarea. Then you can browse
-    tables/databases in the background without losing the contents of the
-    textarea, so this is especially useful when composing a query with tables
-    you first have to look in. The checkbox will get automatically checked
-    whenever you change the contents of the textarea. Please uncheck the button
-    whenever you definitely want the query window to get updated even though
-    you have made alterations.
+        from outside the window` below the query textarea. Then you can browse
+        tables/databases in the background without losing the contents of the
+        textarea, so this is especially useful when composing a query with tables
+        you first have to look in. The checkbox will get automatically checked
+        whenever you change the contents of the textarea. Please uncheck the button
+        whenever you definitely want the query window to get updated even though
+        you have made alterations.
 
-    If :config:option:`$cfg['QueryHistoryDB']` is set to ``true`` you can
+        If :config:option:`$cfg['QueryHistoryDB']` is set to ``true`` you can
     specify the amount of saved history items using
     :config:option:`$cfg['QueryHistoryMax']`.
 
 .. config:option:: $cfg['BrowseMIME']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Enable :ref:`transformations`.
+        Enable :ref:`transformations`.
 
 .. config:option:: $cfg['MaxExactCount']
 
     :type: integer
-    :default: 500000
+        :default: 500000
 
-    For InnoDB tables, determines for how large tables phpMyAdmin should
-    get the exact row count using ``SELECT COUNT``. If the approximate row
+        For InnoDB tables, determines for how large tables phpMyAdmin should
+        get the exact row count using ``SELECT COUNT``. If the approximate row
     count as returned by ``SHOW TABLE STATUS`` is smaller than this value,
     ``SELECT COUNT`` will be used, otherwise the approximate count will be
     used.
@@ -2617,26 +2617,26 @@ Various display setting
 .. config:option:: $cfg['MaxExactCountViews']
 
     :type: integer
-    :default: 0
+        :default: 0
 
-    For VIEWs, since obtaining the exact count could have an impact on
-    performance, this value is the maximum to be displayed, using a
-    ``SELECT COUNT ... LIMIT``. Setting this to 0 bypasses any row
+        For VIEWs, since obtaining the exact count could have an impact on
+        performance, this value is the maximum to be displayed, using a
+        ``SELECT COUNT ... LIMIT``. Setting this to 0 bypasses any row
     counting.
 
 .. config:option:: $cfg['NaturalOrder']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Sorts database and table names according to natural order (for
-    example, t1, t2, t10). Currently implemented in the navigation panel
-    and in Database view, for the table list.
+        Sorts database and table names according to natural order (for
+        example, t1, t2, t10). Currently implemented in the navigation panel
+        and in Database view, for the table list.
 
 .. config:option:: $cfg['InitialSlidersState']
 
     :type: string
-    :default: ``'closed'``
+        :default: ``'closed'``
 
     If set to ``'closed'``, the visual sliders are initially in a closed
     state. A value of ``'open'`` does the reverse. To completely disable
@@ -2645,19 +2645,19 @@ Various display setting
 .. config:option:: $cfg['UserprefsDisallow']
 
     :type: array
-    :default: array()
+        :default: array()
 
-    Contains names of configuration options (keys in ``$cfg`` array) that
+        Contains names of configuration options (keys in ``$cfg`` array) that
     users can't set through user preferences. For possible values, refer
     to :file:`libraries/config/user_preferences.forms.php`.
 
 .. config:option:: $cfg['UserprefsDeveloperTab']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Activates in the user preferences a tab containing options for
-    developers of phpMyAdmin.
+        Activates in the user preferences a tab containing options for
+        developers of phpMyAdmin.
 
 Page titles
 -----------
@@ -2665,22 +2665,22 @@ Page titles
 .. config:option:: $cfg['TitleTable']
 
     :type: string
-    :default: ``'@HTTP_HOST@ / @VSERVER@ / @DATABASE@ / @TABLE@ | @PHPMYADMIN@'``
+        :default: ``'@HTTP_HOST@ / @VSERVER@ / @DATABASE@ / @TABLE@ | @PHPMYADMIN@'``
 
 .. config:option:: $cfg['TitleDatabase']
 
     :type: string
-    :default: ``'@HTTP_HOST@ / @VSERVER@ / @DATABASE@ | @PHPMYADMIN@'``
+        :default: ``'@HTTP_HOST@ / @VSERVER@ / @DATABASE@ | @PHPMYADMIN@'``
 
 .. config:option:: $cfg['TitleServer']
 
     :type: string
-    :default: ``'@HTTP_HOST@ / @VSERVER@ | @PHPMYADMIN@'``
+        :default: ``'@HTTP_HOST@ / @VSERVER@ | @PHPMYADMIN@'``
 
 .. config:option:: $cfg['TitleDefault']
 
     :type: string
-    :default: ``'@HTTP_HOST@ | @PHPMYADMIN@'``
+        :default: ``'@HTTP_HOST@ | @PHPMYADMIN@'``
 
     Allows you to specify window's title bar. You can use :ref:`faq6_27`.
 
@@ -2690,7 +2690,7 @@ Theme manager settings
 .. config:option:: $cfg['ThemePath']
 
     :type: string
-    :default: ``'./themes'``
+        :default: ``'./themes'``
 
     If theme manager is active, use this as the path of the subdirectory
     containing all the themes.
@@ -2698,23 +2698,23 @@ Theme manager settings
 .. config:option:: $cfg['ThemeManager']
 
     :type: boolean
-    :default: true
+        :default: true
 
-    Enables user-selectable themes. See :ref:`faqthemes`.
+        Enables user-selectable themes. See :ref:`faqthemes`.
 
 .. config:option:: $cfg['ThemeDefault']
 
     :type: string
-    :default: ``'pmahomme'``
+        :default: ``'pmahomme'``
 
     The default theme (a subdirectory under :config:option:`$cfg['ThemePath']`).
 
 .. config:option:: $cfg['ThemePerServer']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Whether to allow different theme for each server.
+        Whether to allow different theme for each server.
 
 Default queries
 ---------------
@@ -2722,12 +2722,12 @@ Default queries
 .. config:option:: $cfg['DefaultQueryTable']
 
     :type: string
-    :default: ``'SELECT * FROM @TABLE@ WHERE 1'``
+        :default: ``'SELECT * FROM @TABLE@ WHERE 1'``
 
 .. config:option:: $cfg['DefaultQueryDatabase']
 
     :type: string
-    :default: ``''``
+        :default: ``''``
 
     Default queries that will be displayed in query boxes when user didn't
     specify any. You can use standard :ref:`faq6_27`.
@@ -2739,11 +2739,11 @@ MySQL settings
 .. config:option:: $cfg['DefaultFunctions']
 
     :type: array
-    :default: array(...)
+        :default: array(...)
 
-    Functions selected by default when inserting/changing row, Functions
-    are defined for meta types as (FUNC\_NUMBER, FUNC\_DATE, FUNC\_CHAR,
-    FUNC\_SPATIAL, FUNC\_UUID) and for ``first_timestamp``, which is used
+        Functions selected by default when inserting/changing row, Functions
+        are defined for meta types as (FUNC\_NUMBER, FUNC\_DATE, FUNC\_CHAR,
+        FUNC\_SPATIAL, FUNC\_UUID) and for ``first_timestamp``, which is used
     for first timestamp column in table.
 
 
@@ -2762,16 +2762,16 @@ Developer
 .. config:option:: $cfg['DBG']['sql']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Enable logging queries and execution times to be
-    displayed in the bottom of main page (right frame).
+        Enable logging queries and execution times to be
+        displayed in the bottom of main page (right frame).
 
 .. config:option:: $cfg['DBG']['demo']
 
     :type: boolean
-    :default: false
+        :default: false
 
-    Enable to let server present itself as demo server.
-    This is used for <https://demo.phpmyadmin.net/>.
+        Enable to let server present itself as demo server.
+        This is used for <https://demo.phpmyadmin.net/>.
 

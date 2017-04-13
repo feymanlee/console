@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -14,7 +14,7 @@ require_once 'libraries/bookmark.lib.php';
 require_once 'libraries/sql.lib.php';
 require_once 'libraries/mult_submits.lib.php';
 
-$request_params = array(
+$request_params = [
     'clause_is_unique',
     'from_prefix',
     'goto',
@@ -29,8 +29,8 @@ $request_params = array(
     'submit_mult',
     'table_type',
     'to_prefix',
-    'url_query'
-);
+    'url_query',
+];
 
 foreach ($request_params as $one_request_param) {
     if (isset($_REQUEST[$one_request_param])) {
@@ -41,20 +41,20 @@ foreach ($request_params as $one_request_param) {
 /**
  * Prepares the work and runs some other scripts if required
  */
-if (! empty($submit_mult)
+if (!empty($submit_mult)
     && $submit_mult != __('With selected:')
-    && (! empty($selected_db)
-    || ! empty($_POST['selected_tbl'])
-    || ! empty($selected_fld)
-    || ! empty($_REQUEST['rows_to_delete']))
+    && (!empty($selected_db)
+        || !empty($_POST['selected_tbl'])
+        || !empty($selected_fld)
+        || !empty($_REQUEST['rows_to_delete']))
 ) {
     define('PMA_SUBMIT_MULT', 1);
     if (isset($selected_db) && !empty($selected_db)) {
         // coming from server database view - do something with
         // selected databases
-        $selected     = $selected_db;
-        $what         = 'drop_db';
-    } elseif (! empty($_POST['selected_tbl'])) {
+        $selected = $selected_db;
+        $what     = 'drop_db';
+    } elseif (!empty($_POST['selected_tbl'])) {
         // coming from database structure view - do something with
         // selected tables
         if ($submit_mult == 'print') {
@@ -62,48 +62,48 @@ if (! empty($submit_mult)
         } else {
             $selected = $_POST['selected_tbl'];
             switch ($submit_mult) {
-            case 'add_prefix_tbl':
-            case 'replace_prefix_tbl':
-            case 'copy_tbl_change_prefix':
-            case 'drop_db':
-            case 'drop_tbl':
-            case 'empty_tbl':
-                $what = $submit_mult;
-                break;
-            case 'check_tbl':
-            case 'optimize_tbl':
-            case 'repair_tbl':
-            case 'analyze_tbl':
-                $query_type = $submit_mult;
-                unset($submit_mult);
-                $mult_btn   = __('Yes');
-                break;
-            case 'export':
-                unset($submit_mult);
-                include 'db_export.php';
-                exit;
-                break;
-            case 'show_create':
-                $show_create = PMA_getHtmlShowCreate($GLOBALS['db'], $selected);
-                // Send response to client.
-                $response = PMA_Response::getInstance();
-                $response->addJSON('message', $show_create);
-                exit;
-            case 'sync_unique_columns_central_list':
-                include_once 'libraries/central_columns.lib.php';
-                $centralColsError = PMA_syncUniqueColumns($selected);
-                break;
-            case 'delete_unique_columns_central_list':
-                include_once 'libraries/central_columns.lib.php';
-                $centralColsError = PMA_deleteColumnsFromList($selected);
-                break;
-            case 'make_consistent_with_central_list':
-                include_once 'libraries/central_columns.lib.php';
-                $centralColsError = PMA_makeConsistentWithList(
-                    $GLOBALS['db'],
-                    $selected
-                );
-                break;
+                case 'add_prefix_tbl':
+                case 'replace_prefix_tbl':
+                case 'copy_tbl_change_prefix':
+                case 'drop_db':
+                case 'drop_tbl':
+                case 'empty_tbl':
+                    $what = $submit_mult;
+                    break;
+                case 'check_tbl':
+                case 'optimize_tbl':
+                case 'repair_tbl':
+                case 'analyze_tbl':
+                    $query_type = $submit_mult;
+                    unset($submit_mult);
+                    $mult_btn = __('Yes');
+                    break;
+                case 'export':
+                    unset($submit_mult);
+                    include 'db_export.php';
+                    exit;
+                    break;
+                case 'show_create':
+                    $show_create = PMA_getHtmlShowCreate($GLOBALS['db'], $selected);
+                    // Send response to client.
+                    $response = PMA_Response::getInstance();
+                    $response->addJSON('message', $show_create);
+                    exit;
+                case 'sync_unique_columns_central_list':
+                    include_once 'libraries/central_columns.lib.php';
+                    $centralColsError = PMA_syncUniqueColumns($selected);
+                    break;
+                case 'delete_unique_columns_central_list':
+                    include_once 'libraries/central_columns.lib.php';
+                    $centralColsError = PMA_deleteColumnsFromList($selected);
+                    break;
+                case 'make_consistent_with_central_list':
+                    include_once 'libraries/central_columns.lib.php';
+                    $centralColsError = PMA_makeConsistentWithList(
+                        $GLOBALS['db'],
+                        $selected
+                    );
+                    break;
             } // end switch
         }
     } elseif (isset($selected_fld) && !empty($selected_fld)) {
@@ -111,13 +111,13 @@ if (! empty($submit_mult)
         // selected columns
         $selected = $selected_fld;
         list(
-                $what_ret, $query_type_ret, $is_unset_submit_mult, $mult_btn_ret,
-                $centralColsError
-                )
-                    = PMA_getDataForSubmitMult(
-                        $submit_mult, $GLOBALS['db'], $table,
-                        $selected, $action
-                    );
+            $what_ret, $query_type_ret, $is_unset_submit_mult, $mult_btn_ret,
+            $centralColsError
+            )
+            = PMA_getDataForSubmitMult(
+            $submit_mult, $GLOBALS['db'], $table,
+            $selected, $action
+        );
         //update the existing variables
         if (isset($what_ret)) {
             $what = $what_ret;
@@ -133,7 +133,7 @@ if (! empty($submit_mult)
         }
     } else {
         // coming from browsing - do something with selected rows
-        $what = 'row_delete';
+        $what     = 'row_delete';
         $selected = $_REQUEST['rows_to_delete'];
     }
 } // end if
@@ -154,11 +154,15 @@ if (!empty($submit_mult) && !empty($what)) {
 
     /** @var PMA_String $pmaString */
     $pmaString = $GLOBALS['PMA_String'];
-    if (/*overload*/mb_strlen($table)) {
+    if (/*overload*/
+    mb_strlen($table)
+    ) {
         include './libraries/tbl_common.inc.php';
         $url_query .= '&amp;goto=tbl_sql.php&amp;back=tbl_sql.php';
         include './libraries/tbl_info.inc.php';
-    } elseif (/*overload*/mb_strlen($db)) {
+    } elseif (/*overload*/
+    mb_strlen($db)
+    ) {
         include './libraries/db_common.inc.php';
         include './libraries/db_info.inc.php';
     } else {
@@ -168,14 +172,14 @@ if (!empty($submit_mult) && !empty($what)) {
     // Builds the query
     list($full_query, $reload, $full_query_views)
         = PMA_getQueryFromSelected(
-            $what, $db, $table, $selected, $views
-        );
+        $what, $db, $table, $selected, $views
+    );
 
     // Displays the confirmation form
     $_url_params = PMA_getUrlParams(
         $what, $reload, $action, $db, $table, $selected, $views,
-        isset($original_sql_query)? $original_sql_query : null,
-        isset($original_url_query)? $original_url_query : null
+        isset($original_sql_query) ? $original_sql_query : null,
+        isset($original_url_query) ? $original_url_query : null
     );
 
     if ($what == 'replace_prefix_tbl' || $what == 'copy_tbl_change_prefix') {
@@ -187,7 +191,7 @@ if (!empty($submit_mult) && !empty($what)) {
     }
     exit;
 
-} elseif (! empty($mult_btn) && $mult_btn == __('Yes')) {
+} elseif (!empty($mult_btn) && $mult_btn == __('Yes')) {
     /**
      * Executes the query - dropping rows, columns/fields, tables or dbs
      */
@@ -201,7 +205,7 @@ if (!empty($submit_mult) && !empty($what)) {
     if ($query_type == 'primary_fld') {
         // Gets table primary key
         $GLOBALS['dbi']->selectDb($db);
-        $result = $GLOBALS['dbi']->query(
+        $result  = $GLOBALS['dbi']->query(
             'SHOW KEYS FROM ' . PMA_Util::backquote($table) . ';'
         );
         $primary = '';
@@ -214,14 +218,14 @@ if (!empty($submit_mult) && !empty($what)) {
         $GLOBALS['dbi']->freeResult($result);
     }
 
-    if (! isset($_REQUEST['fk_check'])
+    if (!isset($_REQUEST['fk_check'])
         && ($query_type == 'drop_tbl'
-        || $query_type == 'empty_tbl'
-        || $query_type == 'row_delete')
+            || $query_type == 'empty_tbl'
+            || $query_type == 'row_delete')
     ) {
         $default_fk_check_value = $GLOBALS['dbi']->fetchValue(
-            'SHOW VARIABLES LIKE \'foreign_key_checks\';', 0, 1
-        ) == 'ON';
+                'SHOW VARIABLES LIKE \'foreign_key_checks\';', 0, 1
+            ) == 'ON';
 
         // for disabling foreign key checks while dropping tables
         $GLOBALS['dbi']->query('SET FOREIGN_KEY_CHECKS = 0;');
@@ -230,7 +234,7 @@ if (!empty($submit_mult) && !empty($what)) {
     list(
         $result, $rebuild_database_list, $reload_ret,
         $run_parts, $use_sql, $sql_query, $sql_query_views
-    ) = PMA_getQueryStrFromSelected(
+        ) = PMA_getQueryStrFromSelected(
         $query_type, $selected, $db, $table, $views,
         isset($primary) ? $primary : null,
         isset($from_prefix) ? $from_prefix : null,
@@ -270,14 +274,14 @@ if (!empty($submit_mult) && !empty($what)) {
             unset($sql_query_views);
         }
 
-        if (! $result) {
+        if (!$result) {
             $message = PMA_Message::error($GLOBALS['dbi']->getError());
         }
     }
-    if (! isset($_REQUEST['fk_check'])
+    if (!isset($_REQUEST['fk_check'])
         && ($query_type == 'drop_tbl'
-        || $query_type == 'empty_tbl'
-        || $query_type == 'row_delete')
+            || $query_type == 'empty_tbl'
+            || $query_type == 'row_delete')
         && $default_fk_check_value
     ) {
         $GLOBALS['dbi']->query('SET FOREIGN_KEY_CHECKS = 1;');
@@ -290,10 +294,10 @@ if (!empty($submit_mult) && !empty($what)) {
 } else {
     if (isset($submit_mult)
         && ($submit_mult == 'sync_unique_columns_central_list'
-        || $submit_mult == 'delete_unique_columns_central_list'
-        || $submit_mult == 'add_to_central_columns'
-        || $submit_mult == 'remove_from_central_columns'
-        || $submit_mult == 'make_consistent_with_central_list')
+            || $submit_mult == 'delete_unique_columns_central_list'
+            || $submit_mult == 'add_to_central_columns'
+            || $submit_mult == 'remove_from_central_columns'
+            || $submit_mult == 'make_consistent_with_central_list')
     ) {
         if (isset($centralColsError) && $centralColsError !== true) {
             $message = $centralColsError;

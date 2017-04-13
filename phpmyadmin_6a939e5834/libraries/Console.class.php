@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -77,7 +77,7 @@ class PMA_Console
      */
     public static function getBookmarkContent()
     {
-        $output = '';
+        $output      = '';
         $cfgBookmark = PMA_Bookmark_getParams();
         if ($cfgBookmark) {
 
@@ -86,7 +86,7 @@ class PMA_Console
                 . '<span class="action expand">' . __('Expand') . '</span> '
                 . '<span class="action requery">' . __('Requery') . '</span> '
                 . '<span class="action edit_bookmark">' . __('Edit') . '</span> '
-                .  '<span class="action delete_bookmark">' . __('Delete')
+                . '<span class="action delete_bookmark">' . __('Delete')
                 . '</span> '
                 . '<span class="text targetdb">' . __('Database')
                 . ': <span>%s</span></span>';
@@ -103,16 +103,16 @@ class PMA_Console
                     ),
                     $count_bookmarks
                 );
-                $private_message = sprintf(
+                $private_message   = sprintf(
                     '<span class="bookmark_label">%1$s</span>',
                     __('private')
                 );
-                $shared_message = sprintf(
+                $shared_message    = sprintf(
                     '<span class="bookmark_label shared">%1$s</span>',
                     __('shared')
                 );
                 $output .= sprintf(
-                    /* l10n: First parameter will be replaced with the translation for Total and the number of bookmarks, second one with the translation for private and the third one, with the translation for shared */
+                /* l10n: First parameter will be replaced with the translation for Total and the number of bookmarks, second one with the translation for private and the third one, with the translation for shared */
                     __('%1$s, %2$s and %3$s bookmarks included'),
                     $bookmarks_message,
                     $private_message,
@@ -125,17 +125,18 @@ class PMA_Console
             $output .= '</span></div>';
             foreach ($bookmarks as $key => $val) {
                 $output .= '<div class="message collapsed bookmark" bookmarkid="'
-                .  $val['id'] . '" targetdb="' . htmlspecialchars($val['db'])
-                .  '"><div class="action_content">'
-                .  sprintf($tpl_bookmark_actions, htmlspecialchars($val['db']))
-                .  '</div><span class="bookmark_label '
-                . ($val['shared'] ? 'shared' : '') . '">'
-                .  htmlspecialchars($val['label'])
-                .  '</span> <span class="query">'
-                .  htmlspecialchars($val['query'])
-                .  '</span></div>';
+                    . $val['id'] . '" targetdb="' . htmlspecialchars($val['db'])
+                    . '"><div class="action_content">'
+                    . sprintf($tpl_bookmark_actions, htmlspecialchars($val['db']))
+                    . '</div><span class="bookmark_label '
+                    . ($val['shared'] ? 'shared' : '') . '">'
+                    . htmlspecialchars($val['label'])
+                    . '</span> <span class="query">'
+                    . htmlspecialchars($val['query'])
+                    . '</span></div>';
             }
         }
+
         return $output;
     }
 
@@ -146,7 +147,7 @@ class PMA_Console
      */
     public function getScripts()
     {
-        return array('console.js');
+        return ['console.js'];
     }
 
     /**
@@ -157,8 +158,8 @@ class PMA_Console
      */
     public function getDisplay()
     {
-        $output  = '';
-        if ((! $this->_isAjax) && $this->_isEnabled) {
+        $output = '';
+        if ((!$this->_isAjax) && $this->_isEnabled) {
             $cfgBookmark = PMA_Bookmark_getParams();
             $output .= '<div id="pma_console_container"><div id="pma_console">';
 
@@ -173,7 +174,7 @@ class PMA_Console
                 . '<span class="action explain">' . __('Explain') . '</span> '
                 . '<span class="action profiling">' . __('Profiling') . '</span> '
                 . ($cfgBookmark ? '<span class="action bookmark">'
-                . __('Bookmark') . '</span> ' : '')
+                    . __('Bookmark') . '</span> ' : '')
                 . '<span class="text failed">' . __('Query failed') . '</span> '
                 . '<span class="text targetdb">' . __('Database')
                 . ': <span>%s</span></span> '
@@ -189,17 +190,17 @@ class PMA_Console
             $output .= '<span>' . __('Console') . '</span></div>';
 
             $output .= '<div class="button clear"><span>'
-                    . __('Clear') . '</span></div>';
+                . __('Clear') . '</span></div>';
 
             $output .= '<div class="button history"><span>'
-                    . __('History') . '</span></div>';
+                . __('History') . '</span></div>';
 
             $output .= '<div class="button options"><span>'
-                    . __('Options') . '</span></div>';
+                . __('Options') . '</span></div>';
 
             if ($cfgBookmark) {
                 $output .= '<div class="button bookmarks"><span>'
-                        . __('Bookmarks') . '</span></div>';
+                    . __('Bookmarks') . '</span></div>';
             }
 
             $output .= '</div>'; // Toolbar end
@@ -207,9 +208,9 @@ class PMA_Console
             // Console messages
             $output .= '<div class="content">';
             $output .= '<div class="console_message_container">'
-                    .  '<div class="message welcome"><span>'
-                    .  __('Press Ctrl+Enter to execute query')
-                    .  '</span></div>';
+                . '<div class="message welcome"><span>'
+                . __('Press Ctrl+Enter to execute query')
+                . '</span></div>';
 
             // History support
             $_sql_history = PMA_getHistory($GLOBALS['cfg']['Server']['user']);
@@ -219,29 +220,29 @@ class PMA_Console
                         '@^SELECT[[:space:]]+@i', $record['sqlquery']
                     );
                     $output .= '<div class="message history collapsed hide'
-                            . ($isSelect ? ' select' : '')
-                            . '" targetdb="'
-                            . htmlspecialchars($record['db'])
-                            . '" targettable="' . htmlspecialchars($record['table'])
-                            . '"><div class="action_content">'
-                            . sprintf(
-                                $tpl_query_actions,
-                                htmlspecialchars($record['db']),
-                                (isset($record['timevalue'])
-                                    ? $record['timevalue']
-                                    : __('During current session')
-                                )
+                        . ($isSelect ? ' select' : '')
+                        . '" targetdb="'
+                        . htmlspecialchars($record['db'])
+                        . '" targettable="' . htmlspecialchars($record['table'])
+                        . '"><div class="action_content">'
+                        . sprintf(
+                            $tpl_query_actions,
+                            htmlspecialchars($record['db']),
+                            (isset($record['timevalue'])
+                                ? $record['timevalue']
+                                : __('During current session')
                             )
-                            . '</div><span class="query">'
-                            . htmlspecialchars($record['sqlquery'])
-                            . '</span></div>';
+                        )
+                        . '</div><span class="query">'
+                        . htmlspecialchars($record['sqlquery'])
+                        . '</span></div>';
                 }
             }
 
             $output .= '</div>'; // .console_message_container
             $output .= '<div class="query_input">'
-                    . '<span class="console_query_input"></span>'
-                    . '</div>';
+                . '<span class="console_query_input"></span>'
+                . '</div>';
             $output .= '</div>'; // Messages end
 
             // Dark the console while other cards cover it
@@ -252,68 +253,69 @@ class PMA_Console
             if ($cfgBookmark) {
                 $output .= '<div class="card" id="pma_bookmarks">';
                 $output .= '<div class="toolbar">'
-                        .  '<div class="switch_button"><span>' . __('Bookmarks')
-                        .  '</span></div>';
+                    . '<div class="switch_button"><span>' . __('Bookmarks')
+                    . '</span></div>';
 
                 $output .= '<div class="button refresh"><span>'
-                        . __('Refresh') . '</span></div>';
+                    . __('Refresh') . '</span></div>';
 
                 $output .= '<div class="button add"><span>'
-                        . __('Add') . '</span></div>';
+                    . __('Add') . '</span></div>';
 
                 $output .= '</div><div class="content bookmark">';
                 $output .= $this->getBookmarkContent();
                 $output .= '</div>';
-                    $output .= '<div class="mid_layer"></div>';
-                    $output .= '<div class="card add">';
-                    $output .= '<div class="toolbar">'
-                            . '<div class="switch_button"><span>'
-                            . __('Add bookmark')
-                            . '</span></div>';
-                    $output .= '</div><div class="content add_bookmark">'
-                            . '<div class="options">'
-                            . '<label>' . __('Label')
-                            . ': <input type="text" name="label"></label> '
-                            . '<label>' . __('Target database')
-                            . ': <input type="text" name="targetdb"></label> '
-                            . '<label><input type="checkbox" name="shared">'
-                            . __('Share this bookmark') . '</label>'
-                            . '<button type="submit" name="submit">Ok</button>'
-                            . '</div>' // .options
-                            . '<div class="query_input">'
-                            . '<span class="bookmark_add_input"></span></div>';
-                    $output .= '</div>';
-                    $output .= '</div>'; // Add bookmark card
+                $output .= '<div class="mid_layer"></div>';
+                $output .= '<div class="card add">';
+                $output .= '<div class="toolbar">'
+                    . '<div class="switch_button"><span>'
+                    . __('Add bookmark')
+                    . '</span></div>';
+                $output .= '</div><div class="content add_bookmark">'
+                    . '<div class="options">'
+                    . '<label>' . __('Label')
+                    . ': <input type="text" name="label"></label> '
+                    . '<label>' . __('Target database')
+                    . ': <input type="text" name="targetdb"></label> '
+                    . '<label><input type="checkbox" name="shared">'
+                    . __('Share this bookmark') . '</label>'
+                    . '<button type="submit" name="submit">Ok</button>'
+                    . '</div>' // .options
+                    . '<div class="query_input">'
+                    . '<span class="bookmark_add_input"></span></div>';
+                $output .= '</div>';
+                $output .= '</div>'; // Add bookmark card
                 $output .= '</div>'; // Bookmarks card
             }
 
             // Options card:
             $output .= '<div class="card" id="pma_console_options">';
             $output .= '<div class="toolbar">'
-                    .  '<div class="switch_button"><span>' . __('Options')
-                    . '</span></div>';
+                . '<div class="switch_button"><span>' . __('Options')
+                . '</span></div>';
 
             $output .= '<div class="button default"><span>'
-                    . __('Set default') . '</span></div>';
+                . __('Set default') . '</span></div>';
 
             $output .= '</div><div class="content">'
-                    .  '<label><input type="checkbox" name="always_expand">'
-                    .  __('Always expand query messages') . '</label><br>'
-                    .  '<label><input type="checkbox" name="start_history">'
-                    .  __('Show query history at start') . '</label><br>'
-                    .  '<label><input type="checkbox" name="current_query">'
-                    .  __('Show current browsing query') . '</label><br>'
-                    .  '</div>';
+                . '<label><input type="checkbox" name="always_expand">'
+                . __('Always expand query messages') . '</label><br>'
+                . '<label><input type="checkbox" name="start_history">'
+                . __('Show query history at start') . '</label><br>'
+                . '<label><input type="checkbox" name="current_query">'
+                . __('Show current browsing query') . '</label><br>'
+                . '</div>';
             $output .= '</div>'; // Options card
 
             $output .= '<div class="templates">'
-            // Templates for console message actions
-                    .  '<div class="query_actions">'
-                    .  sprintf($tpl_query_actions, '', '')
-                    .  '</div>'
-                    .  '</div>';
+                // Templates for console message actions
+                . '<div class="query_actions">'
+                . sprintf($tpl_query_actions, '', '')
+                . '</div>'
+                . '</div>';
             $output .= '</div></div>'; // #console and #pma_console_container ends
         }
+
         return $output;
     }
 

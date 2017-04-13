@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -22,15 +22,17 @@ function PMA_RTE_getFooterLinks($docu, $priv, $name)
 {
     global $db, $table, $url_query, $ajax_class;
 
-    $icon = /*overload*/mb_strtolower($name) . '_add.png';
-    $retval  = "";
+    $icon   = /*overload*/
+        mb_strtolower($name) . '_add.png';
+    $retval = "";
     $retval .= "<!-- ADD " . $name . " FORM START -->\n";
     $retval .= "<fieldset class='left'>\n";
     $retval .= "<legend>" . _pgettext('Create new procedure', 'New') . "</legend>\n";
     $retval .= "        <div class='wrap'>\n";
     if (PMA_Util::currentUserHasPrivilege($priv, $db, $table)) {
         $retval .= "            <a {$ajax_class['add']} ";
-        $retval .= "href='db_" . /*overload*/mb_strtolower($name) . "s.php";
+        $retval .= "href='db_" . /*overload*/
+            mb_strtolower($name) . "s.php";
         $retval .= "$url_query&amp;add_item=1' ";
         $retval .= "onclick='$.datepicker.initialized = false;'>";
         $icon = 'b_' . $icon;
@@ -88,21 +90,22 @@ function PMA_EVN_getFooterLinks()
         0,
         1
     );
-    $es_state = /*overload*/mb_strtolower($es_state);
-    $options = array(
-                    0 => array(
-                        'label' => __('OFF'),
-                        'value' => "SET GLOBAL event_scheduler=\"OFF\"",
-                        'selected' => ($es_state != 'on')
-                    ),
-                    1 => array(
-                        'label' => __('ON'),
-                        'value' => "SET GLOBAL event_scheduler=\"ON\"",
-                        'selected' => ($es_state == 'on')
-                    )
-               );
+    $es_state = /*overload*/
+        mb_strtolower($es_state);
+    $options  = [
+        0 => [
+            'label'    => __('OFF'),
+            'value'    => "SET GLOBAL event_scheduler=\"OFF\"",
+            'selected' => ($es_state != 'on'),
+        ],
+        1 => [
+            'label'    => __('ON'),
+            'value'    => "SET GLOBAL event_scheduler=\"ON\"",
+            'selected' => ($es_state == 'on'),
+        ],
+    ];
     // Generate output
-    $retval  = "<!-- FOOTER LINKS START -->\n";
+    $retval = "<!-- FOOTER LINKS START -->\n";
     $retval .= "<div class='doubleFieldset'>\n";
     // show the usual footer
     $retval .= PMA_RTE_getFooterLinks('CREATE_EVENT', 'EVENT', 'EVENT');

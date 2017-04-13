@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -25,7 +25,7 @@ function PMA_getHtmlForRelationalFieldSelection($db, $table, $field, $foreignDat
     $fieldkey, $data
 ) {
     $gotopage = PMA_getHtmlForGotoPage($foreignData);
-    $showall = PMA_getHtmlForShowAll($foreignData);
+    $showall  = PMA_getHtmlForShowAll($foreignData);
 
     $output = '<form class="ajax" '
         . 'id="browse_foreign_form" name="browse_foreign_from" '
@@ -51,7 +51,7 @@ function PMA_getHtmlForRelationalFieldSelection($db, $table, $field, $foreignDat
         . 'value="' . $filter_value . '" data-old="' . $filter_value . '" '
         . '/>'
         . '<input type="submit" name="submit_foreign_filter" value="'
-        .  __('Go') . '" />'
+        . __('Go') . '" />'
         . '</span>'
         . '<span class="formelement">' . $gotopage . '</span>'
         . '<span class="formelement">' . $showall . '</span>'
@@ -79,8 +79,8 @@ function PMA_getHtmlForRelationalFieldSelection($db, $table, $field, $foreignDat
         . '<tfoot>' . $header . '</tfoot>' . "\n"
         . '<tbody>' . "\n";
 
-    $descriptions = array();
-    $keys   = array();
+    $descriptions = [];
+    $keys         = [];
     foreach ($foreignData['disp_row'] as $relrow) {
         if ($foreignData['foreign_display'] != false) {
             $descriptions[] = $relrow[$foreignData['foreign_display']];
@@ -93,13 +93,13 @@ function PMA_getHtmlForRelationalFieldSelection($db, $table, $field, $foreignDat
 
     asort($keys);
 
-    $hcount = 0;
-    $odd_row = true;
+    $hcount             = 0;
+    $odd_row            = true;
     $indexByDescription = 0;
 
     // whether the key name corresponds to the selected value in the form
     $rightKeynameIsSelected = false;
-    $leftKeynameIsSelected = false;
+    $leftKeynameIsSelected  = false;
 
     foreach ($keys as $indexByKeyname => $value) {
         $hcount++;
@@ -108,7 +108,7 @@ function PMA_getHtmlForRelationalFieldSelection($db, $table, $field, $foreignDat
             && $hcount > $GLOBALS['cfg']['RepeatCells']
         ) {
             $output .= $header;
-            $hcount = 0;
+            $hcount  = 0;
             $odd_row = true;
         }
 
@@ -118,7 +118,7 @@ function PMA_getHtmlForRelationalFieldSelection($db, $table, $field, $foreignDat
         list(
             $leftDescription,
             $leftDescriptionTitle
-        ) = PMA_getDescriptionAndTitle($descriptions[$indexByKeyname]);
+            ) = PMA_getDescriptionAndTitle($descriptions[$indexByKeyname]);
 
         // key names and descriptions for the right section,
         // sorted by descriptions
@@ -126,17 +126,17 @@ function PMA_getHtmlForRelationalFieldSelection($db, $table, $field, $foreignDat
         list(
             $rightDescription,
             $rightDescriptionTitle
-        ) = PMA_getDescriptionAndTitle($descriptions[$indexByDescription]);
+            ) = PMA_getDescriptionAndTitle($descriptions[$indexByDescription]);
 
         $indexByDescription++;
 
-        if (! empty($data)) {
+        if (!empty($data)) {
             $rightKeynameIsSelected = $rightKeyname == $data;
-            $leftKeynameIsSelected = $leftKeyname == $data;
+            $leftKeynameIsSelected  = $leftKeyname == $data;
         }
 
         $output .= '<tr class="noclick ' . ($odd_row ? 'odd' : 'even') . '">';
-        $odd_row = ! $odd_row;
+        $odd_row = !$odd_row;
 
         $output .= PMA_getHtmlForColumnElement(
             'class="nowrap"', $leftKeynameIsSelected,
@@ -181,8 +181,10 @@ function PMA_getHtmlForRelationalFieldSelection($db, $table, $field, $foreignDat
 function PMA_getDescriptionAndTitle($description)
 {
     $limitChars = $GLOBALS['cfg']['LimitChars'];
-    if (/*overload*/mb_strlen($description) <= $limitChars) {
-        $description = htmlspecialchars(
+    if (/*overload*/
+        mb_strlen($description) <= $limitChars
+    ) {
+        $description      = htmlspecialchars(
             $description
         );
         $descriptionTitle = '';
@@ -190,14 +192,16 @@ function PMA_getDescriptionAndTitle($description)
         $descriptionTitle = htmlspecialchars(
             $description
         );
-        $description = htmlspecialchars(
-            /*overload*/mb_substr(
+        $description      = htmlspecialchars(
+        /*overload*/
+            mb_substr(
                 $description, 0, $limitChars
             )
             . '...'
         );
     }
-    return array($description, $descriptionTitle);
+
+    return [$description, $descriptionTitle];
 }
 
 /**
@@ -215,8 +219,8 @@ function PMA_getHtmlForColumnElement($cssClass, $isSelected, $keyname,
     $description, $title
 ) {
     $keyname = htmlspecialchars($keyname);
-    $output = '<td';
-    if (! empty($cssClass)) {
+    $output  = '<td';
+    if (!empty($cssClass)) {
         $output .= ' ' . $cssClass;
     }
     $output .= '>'
@@ -233,7 +237,7 @@ function PMA_getHtmlForColumnElement($cssClass, $isSelected, $keyname,
         $output .= $description;
     }
 
-    $output .=  '</a>' . ($isSelected ? '</strong>' : '') . '</td>';
+    $output .= '</a>' . ($isSelected ? '</strong>' : '') . '</td>';
 
     return $output;
 }
@@ -277,8 +281,8 @@ function PMA_getHtmlForGotoPage($foreignData)
     }
 
     $session_max_rows = $GLOBALS['cfg']['MaxRows'];
-    $pageNow = @floor($pos / $session_max_rows) + 1;
-    $nbTotalPage = @ceil($foreignData['the_total'] / $session_max_rows);
+    $pageNow          = @floor($pos / $session_max_rows) + 1;
+    $nbTotalPage      = @ceil($foreignData['the_total'] / $session_max_rows);
 
     if ($foreignData['the_total'] > $GLOBALS['cfg']['MaxRows']) {
         $gotopage = PMA_Util::pageselector(
@@ -311,6 +315,8 @@ function PMA_getForeignLimit($foreign_showAll)
         return null;
     }
     isset($_REQUEST['pos']) ? $pos = $_REQUEST['pos'] : $pos = 0;
+
     return 'LIMIT ' . $pos . ', ' . $GLOBALS['cfg']['MaxRows'] . ' ';
 }
+
 ?>

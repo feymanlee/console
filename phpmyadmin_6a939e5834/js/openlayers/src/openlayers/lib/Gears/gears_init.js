@@ -34,7 +34,7 @@
  * when that happens.
  */
 
-(function() {
+(function () {
   // We are already defined. Hooray!
   if (window.google && google.gears) {
     return;
@@ -56,7 +56,7 @@
     } catch (e) {
       // Safari
       if ((typeof navigator.mimeTypes != 'undefined')
-           && navigator.mimeTypes["application/x-googlegears"]) {
+        && navigator.mimeTypes["application/x-googlegears"]) {
         factory = document.createElement("object");
         factory.style.display = "none";
         factory.width = 0;

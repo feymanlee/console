@@ -26,11 +26,11 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <title>phpMyAdmin <?php echo PMA_VERSION; ?> -
         <?php echo htmlspecialchars($_SERVER['HTTP_HOST']); ?> - Theme Test</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" type="text/css"
-        href="../phpmyadmin.css.php?<?php echo PMA_URL_getCommon(); ?>&amp;nocache=<?php echo $GLOBALS['PMA_Config']->getThemeUniqueValue(); ?>" />
+          href="../phpmyadmin.css.php?<?php echo PMA_URL_getCommon(); ?>&amp;nocache=<?php echo $GLOBALS['PMA_Config']->getThemeUniqueValue(); ?>"/>
     <link rel="stylesheet" type="text/css" media="print"
-        href="../print.css" />
+          href="../print.css"/>
     <script src="../js/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
     <script src="../js/messages.php" type="text/javascript"></script>
     <script type="text/javascript">
@@ -44,7 +44,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 
 $separator = '<span class=\'separator item\'>&nbsp;»</span>' . "\n";
-$item = '<a href="%1$s?%2$s" class="item">'
+$item      = '<a href="%1$s?%2$s" class="item">'
     . ' <img class="icon %5$s" src="../themes/dot.gif"'
     . ' width="16" height="16" alt="" /> ' . "\n"
     . '%4$s: %3$s</a>' . "\n";
@@ -92,7 +92,7 @@ echo '</div>';
 /**
  * Displays tab links
  */
-$tabs = array();
+$tabs = [];
 
 $tabs['databases']['icon'] = 's_db.png';
 $tabs['databases']['link'] = 'server_databases.php';
@@ -129,22 +129,22 @@ $tabs['binlog']['text'] = __('Binary log');
 $tabs['export']['icon'] = 'b_export.png';
 $tabs['export']['text'] = 'disabled';
 
-$tabs['export2']['icon'] = 'b_export.png';
-$tabs['export2']['text'] = 'disabled caution';
+$tabs['export2']['icon']  = 'b_export.png';
+$tabs['export2']['text']  = 'disabled caution';
 $tabs['export2']['class'] = 'caution';
 
-$tabs['import']['icon'] = 'b_import.png';
-$tabs['import']['link'] = 'server_import.php';
-$tabs['import']['text'] = 'active';
+$tabs['import']['icon']  = 'b_import.png';
+$tabs['import']['link']  = 'server_import.php';
+$tabs['import']['text']  = 'active';
 $tabs['import']['class'] = 'active';
 
-echo PMA_Util::getHtmlTabs($tabs, array(), 'topmenu');
+echo PMA_Util::getHtmlTabs($tabs, [], 'topmenu');
 unset($tabs);
 
 if (@file_exists($pmaThemeImage . 'logo_right.png')) {
     ?>
-    <img id="pmalogoright" src="../<?php echo $pmaThemeImage; ?>logo_right.png"
-        alt="phpMyAdmin" />
+  <img id="pmalogoright" src="../<?php echo $pmaThemeImage; ?>logo_right.png"
+       alt="phpMyAdmin"/>
     <?php
 }
 ?>
@@ -157,18 +157,18 @@ echo sprintf(
 ?>
 </h1>
 
-<hr class="clearfloat" />
+<hr class="clearfloat"/>
 
 <form method="post" action="theme.php">
 <fieldset>
     <legend><?php echo __('Theme'); ?></legend>
-<?php
+    <?php
     echo $_SESSION['PMA_Theme_Manager']->getHtmlSelectBox(false);
-?>
+    ?>
 </fieldset>
 </form>
 
-<hr />
+<hr/>
 
 <h1>H1 Header</h1>
 <h2>H2 Header</h2>
@@ -203,11 +203,11 @@ echo sprintf(
     <code>QUERY TO EXECUTE;</code>
 </fieldset>
 <fieldset class="tblFooters">
-    <input type="submit" name="yes" value="YES" />
-    <input type="submit" name="no" value="NO" />
+    <input type="submit" name="yes" value="YES"/>
+    <input type="submit" name="no" value="NO"/>
 </fieldset>
 
-<hr />
+<hr/>
 
 <div class="success">
     success message box content!
@@ -215,55 +215,55 @@ echo sprintf(
 <code class="sql">
 <span class="syntax">
 <span class="syntax_alpha syntax_alpha_reservedWord">SELECT</span>
-<span class="syntax_punct">*</span> <br />
+<span class="syntax_punct">*</span> <br/>
 <span class="syntax_alpha syntax_alpha_reservedWord">FROM</span>
 <span class="syntax_quote syntax_quote_backtick">`test`</span>
-<span class="syntax_white syntax_white_newline"></span><br />
+<span class="syntax_white syntax_white_newline"></span><br/>
 <span class="syntax_alpha syntax_alpha_reservedWord">LIMIT</span>
 <span class="syntax_digit syntax_digit_integer">0</span>
 <span class="syntax_punct syntax_punct_listsep">,</span>
-<span class="syntax_digit syntax_digit_integer">30</span>;<br />
+<span class="syntax_digit syntax_digit_integer">30</span>;<br/>
 <span class="syntax_alpha syntax_alpha_reservedWord">SELECT</span>
-<span class="syntax_punct">*</span> <br />
+<span class="syntax_punct">*</span> <br/>
 <span class="syntax_alpha syntax_alpha_reservedWord">FROM</span>
 <span class="syntax_quote syntax_quote_backtick">`test`</span>
-<span class="syntax_white syntax_white_newline"></span><br />
+<span class="syntax_white syntax_white_newline"></span><br/>
 <span class="syntax_alpha syntax_alpha_reservedWord">LIMIT</span>
 <span class="syntax_digit syntax_digit_integer">0</span>
 <span class="syntax_punct syntax_punct_listsep">,</span>
-<span class="syntax_digit syntax_digit_integer">30</span>;<br />
+<span class="syntax_digit syntax_digit_integer">30</span>;<br/>
 <span class="syntax_alpha syntax_alpha_reservedWord">SELECT</span>
-<span class="syntax_punct">*</span> <br />
+<span class="syntax_punct">*</span> <br/>
 <span class="syntax_alpha syntax_alpha_reservedWord">FROM</span>
 <span class="syntax_quote syntax_quote_backtick">`test`</span>
-<span class="syntax_white syntax_white_newline"></span><br />
+<span class="syntax_white syntax_white_newline"></span><br/>
 <span class="syntax_alpha syntax_alpha_reservedWord">LIMIT</span>
 <span class="syntax_digit syntax_digit_integer">0</span>
 <span class="syntax_punct syntax_punct_listsep">,</span>
-<span class="syntax_digit syntax_digit_integer">30</span>;<br />
+<span class="syntax_digit syntax_digit_integer">30</span>;<br/>
 <span class="syntax_alpha syntax_alpha_reservedWord">SELECT</span>
-<span class="syntax_punct">*</span> <br />
+<span class="syntax_punct">*</span> <br/>
 <span class="syntax_alpha syntax_alpha_reservedWord">FROM</span>
 <span class="syntax_quote syntax_quote_backtick">`test`</span>
-<span class="syntax_white syntax_white_newline"></span><br />
+<span class="syntax_white syntax_white_newline"></span><br/>
 <span class="syntax_alpha syntax_alpha_reservedWord">LIMIT</span>
 <span class="syntax_digit syntax_digit_integer">0</span>
 <span class="syntax_punct syntax_punct_listsep">,</span>
-<span class="syntax_digit syntax_digit_integer">30</span>;<br />
+<span class="syntax_digit syntax_digit_integer">30</span>;<br/>
 </span>
 </code>
 <div class="tools">
 [
-<a href="tbl_sql.php?db=test;table=test;sql_query=SELECT+%2A+FROM+%60test%60;show_query=1;token=266edabf70fa6368498d89b4054d01bf#querybox" >Bearbeiten</a>
+<a href="tbl_sql.php?db=test;table=test;sql_query=SELECT+%2A+FROM+%60test%60;show_query=1;token=266edabf70fa6368498d89b4054d01bf#querybox">Bearbeiten</a>
 ] [
-<a href="import.php?db=test;table=test;sql_query=EXPLAIN+SELECT+%2A+FROM+%60test%60;token=266edabf70fa6368498d89b4054d01bf" >SQL erklären</a>
+<a href="import.php?db=test;table=test;sql_query=EXPLAIN+SELECT+%2A+FROM+%60test%60;token=266edabf70fa6368498d89b4054d01bf">SQL erklären</a>
 ] [
-<a href="import.php?db=test;table=test;sql_query=SELECT+%2A+FROM+%60test%60;show_query=1;show_as_php=1;token=266edabf70fa6368498d89b4054d01bf" >PHP-Code erzeugen</a>
+<a href="import.php?db=test;table=test;sql_query=SELECT+%2A+FROM+%60test%60;show_query=1;show_as_php=1;token=266edabf70fa6368498d89b4054d01bf">PHP-Code erzeugen</a>
 ] [
-<a href="import.php?db=test;table=test;sql_query=SELECT+%2A+FROM+%60test%60;show_query=1;token=266edabf70fa6368498d89b4054d01bf" >Aktualisieren</a>
+<a href="import.php?db=test;table=test;sql_query=SELECT+%2A+FROM+%60test%60;show_query=1;token=266edabf70fa6368498d89b4054d01bf">Aktualisieren</a>
 ]</div>
 
-<hr />
+<hr/>
 
 <table class="data">
     <caption>table.data caption</caption>
@@ -286,7 +286,7 @@ echo sprintf(
     <tbody>
         <tr class="odd">
             <td><input type="checkbox" id="checkbox_1" name="checkbox_1"
-                    value="1" /></td>
+                       value="1"/></td>
             <th><label for="checkbox_1">th label</label></th>
             <td class="value">td.value</td>
             <td>
@@ -296,13 +296,13 @@ echo sprintf(
                 <img class="icon ic_bd_drop" src="../themes/dot.gif" alt="drop"/>
             </td>
             <td>
-                <img class="icon ic_bd_drop" src="../themes/dot.gif" alt="drop" />
+                <img class="icon ic_bd_drop" src="../themes/dot.gif" alt="drop"/>
             </td>
             <td>table.data tbody tr.odd td</td>
         </tr>
         <tr class="even">
             <td><input type="checkbox" id="checkbox_2" name="checkbox_2"
-                    value="1" /></td>
+                       value="1"/></td>
             <th><label for="checkbox_2">th label</label></th>
             <td class="value">td.value</td>
             <td>
@@ -312,13 +312,13 @@ echo sprintf(
                 <img class="icon ic_bd_drop" src="../themes/dot.gif" alt="drop"/>
             </td>
             <td>
-                <img class="icon ic_bd_drop" src="../themes/dot.gif" alt="drop" />
+                <img class="icon ic_bd_drop" src="../themes/dot.gif" alt="drop"/>
             </td>
             <td>table.data tbody tr.even td</td>
         </tr>
         <tr class="odd">
             <td><input type="checkbox" id="checkbox_3" name="checkbox_3"
-                    value="1" /></td>
+                       value="1"/></td>
             <th><label for="checkbox_3">th label</label></th>
             <td class="value">td.value</td>
             <td>
@@ -334,7 +334,7 @@ echo sprintf(
         </tr>
         <tr class="even">
             <td><input type="checkbox" id="checkbox_4" name="checkbox_4"
-                    value="1" /></td>
+                       value="1"/></td>
             <th><label for="checkbox_4">th label</label></th>
             <td class="value">td.value</td>
             <td>

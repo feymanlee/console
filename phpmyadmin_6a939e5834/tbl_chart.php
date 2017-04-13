@@ -18,16 +18,18 @@ if (isset($_REQUEST['ajax_request'])
 ) {
     $response = PMA_Response::getInstance();
 
-    $tableLength = /*overload*/mb_strlen($GLOBALS['table']);
-    $dbLength = /*overload*/mb_strlen($GLOBALS['db']);
+    $tableLength = /*overload*/
+        mb_strlen($GLOBALS['table']);
+    $dbLength    = /*overload*/
+        mb_strlen($GLOBALS['db']);
     if ($tableLength && $dbLength) {
         include './libraries/tbl_common.inc.php';
     }
 
     $sql_with_limit = 'SELECT * FROM( ' . $sql_query . ' ) AS `temp_res` LIMIT '
         . $_REQUEST['pos'] . ', ' . $_REQUEST['session_max_rows'];
-    $data = array();
-    $result = $GLOBALS['dbi']->tryQuery($sql_with_limit);
+    $data           = [];
+    $result         = $GLOBALS['dbi']->tryQuery($sql_with_limit);
     while ($row = $GLOBALS['dbi']->fetchAssoc($result)) {
         $data[] = $row;
     }
@@ -37,10 +39,10 @@ if (isset($_REQUEST['ajax_request'])
         $response->addJSON('message', __('No data to display'));
         exit;
     }
-    $sanitized_data = array();
+    $sanitized_data = [];
 
     foreach ($data as $data_row_number => $data_row) {
-        $tmp_row = array();
+        $tmp_row = [];
         foreach ($data_row as $data_column => $data_value) {
             $tmp_row[htmlspecialchars($data_column)] = htmlspecialchars($data_value);
         }
@@ -55,15 +57,15 @@ if (isset($_REQUEST['ajax_request'])
 
 $response = PMA_Response::getInstance();
 // Throw error if no sql query is set
-if (! isset($sql_query) || $sql_query == '') {
+if (!isset($sql_query) || $sql_query == '') {
     $response->isSuccess(false);
     $response->addHTML(
         PMA_Message::error(__('No SQL query was set to fetch data.'))
     );
     exit;
 }
-$header   = $response->getHeader();
-$scripts  = $header->getScripts();
+$header  = $response->getHeader();
+$scripts = $header->getScripts();
 $scripts->addFile('chart.js');
 $scripts->addFile('tbl_chart.js');
 $scripts->addFile('jqplot/jquery.jqplot.js');
@@ -79,12 +81,16 @@ $scripts->addFile('jqplot/plugins/jqplot.highlighter.js');
 /**
  * Runs common work
  */
-if (/*overload*/mb_strlen($GLOBALS['table'])) {
+if (/*overload*/
+mb_strlen($GLOBALS['table'])
+) {
     $url_params['goto'] = $cfg['DefaultTabTable'];
     $url_params['back'] = 'tbl_sql.php';
     include 'libraries/tbl_common.inc.php';
     include 'libraries/tbl_info.inc.php';
-} elseif (/*overload*/mb_strlen($GLOBALS['db'])) {
+} elseif (/*overload*/
+mb_strlen($GLOBALS['db'])
+) {
     $url_params['goto'] = $cfg['DefaultTabDatabase'];
     $url_params['back'] = 'sql.php';
     include 'libraries/db_common.inc.php';
@@ -95,9 +101,9 @@ if (/*overload*/mb_strlen($GLOBALS['table'])) {
     include 'libraries/server_common.inc.php';
 }
 
-$data = array();
+$data = [];
 
-$result = $GLOBALS['dbi']->tryQuery($sql_query);
+$result      = $GLOBALS['dbi']->tryQuery($sql_query);
 $fields_meta = $GLOBALS['dbi']->getFieldsMeta($result);
 while ($row = $GLOBALS['dbi']->fetchAssoc($result)) {
     $data[] = $row;
@@ -105,7 +111,7 @@ while ($row = $GLOBALS['dbi']->fetchAssoc($result)) {
 
 $keys = array_keys($data[0]);
 
-$numeric_types = array('int', 'real');
+$numeric_types        = ['int', 'real'];
 $numeric_column_count = 0;
 foreach ($keys as $idx => $key) {
     if (in_array($fields_meta[$idx]->type, $numeric_types)) {
@@ -122,12 +128,12 @@ if ($numeric_column_count == 0) {
 }
 
 // get settings if any posted
-$chartSettings = array();
+$chartSettings = [];
 if (PMA_isValid($_REQUEST['chartSettings'], 'array')) {
     $chartSettings = $_REQUEST['chartSettings'];
 }
 
-$url_params['db'] = $GLOBALS['db'];
+$url_params['db']     = $GLOBALS['db'];
 $url_params['reload'] = 1;
 
 /**

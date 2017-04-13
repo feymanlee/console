@@ -24,7 +24,7 @@ function PMA_GIS_modifyQuery($sql_query, $visualizationSettings)
 {
     $modified_query = 'SELECT ';
     // If label column is chosen add it to the query
-    if (! empty($visualizationSettings['labelColumn'])) {
+    if (!empty($visualizationSettings['labelColumn'])) {
         $modified_query .= PMA_Util::backquote($visualizationSettings['labelColumn'])
             . ', ';
     }
@@ -60,7 +60,7 @@ function PMA_GIS_visualizationResults($data, &$visualizationSettings, $format)
     include_once './libraries/gis/GIS_Visualization.class.php';
     include_once './libraries/gis/GIS_Factory.class.php';
 
-    if (! isset($data[0])) {
+    if (!isset($data[0])) {
         // empty data
         return __('No data found for GIS visualization.');
     }
@@ -68,7 +68,7 @@ function PMA_GIS_visualizationResults($data, &$visualizationSettings, $format)
     $visualization = new PMA_GIS_Visualization($data, $visualizationSettings);
     if ($visualizationSettings != null) {
         foreach ($visualization->getSettings() as $setting => $val) {
-            if (! isset($visualizationSettings[$setting])) {
+            if (!isset($visualizationSettings[$setting])) {
                 $visualizationSettings[$setting] = $val;
             }
         }
@@ -126,7 +126,7 @@ function PMA_GIS_saveToFile($data, $visualizationSettings, $format, $fileName)
 function PMA_getHtmlForSelect($column, $columnCandidates, $visualizationSettings)
 {
     $html = '<label for="' . $column . '">';
-    $html .= ($column=="labelColumn") ? __("Label column") : __("Spatial column");
+    $html .= ($column == "labelColumn") ? __("Label column") : __("Spatial column");
     $html .= '</label>';
 
     $html .= '<select name="visualizationSettings[' . $column . ']" id="'
@@ -138,7 +138,7 @@ function PMA_getHtmlForSelect($column, $columnCandidates, $visualizationSettings
 
     $html .= PMA_getHtmlForOptionsList(
         array_map("htmlspecialchars", $columnCandidates),
-        array(htmlspecialchars($visualizationSettings[$column]))
+        [htmlspecialchars($visualizationSettings[$column])]
     );
 
     $html .= '</select>';
@@ -181,7 +181,7 @@ function PMA_getHtmlForUseOpenStreetMaps($isSelected)
  */
 function PMA_getHtmlForGisDownloadLink($url, $name, $label)
 {
-    $html  = '<li class="warp_link">';
+    $html = '<li class="warp_link">';
     $html .= '<a href="' . $url . '&fileFormat=' . $name . '"'
         . ' class="disableAjax">' . $label . '</a>';
     $html .= '</li>';
@@ -227,7 +227,7 @@ function PMA_getHtmlForGisVisualization(
     $html .= htmlspecialchars($sql_query) . '" />';
     $html .= '</form>';
 
-    if (! $GLOBALS['PMA_Config']->isHttps()) {
+    if (!$GLOBALS['PMA_Config']->isHttps()) {
         $isSelected = isset($visualizationSettings['choice']) ? true : false;
         $html .= PMA_getHtmlForUseOpenStreetMaps($isSelected);
     }
@@ -239,9 +239,9 @@ function PMA_getHtmlForGisVisualization(
     $html .= PMA_Util::getImage('b_saveimage', __('Save'));
     $html .= '</span>';
 
-    $url_params['sql_query'] = $sql_query;
+    $url_params['sql_query']  = $sql_query;
     $url_params['saveToFile'] = 'download';
-    $url = 'tbl_gis_visualization.php' . PMA_URL_getCommon($url_params);
+    $url                      = 'tbl_gis_visualization.php' . PMA_URL_getCommon($url_params);
 
     $html .= '<ul>';
     $html .= PMA_getHtmlForGisDownloadLink($url, 'png', 'PNG');
@@ -269,7 +269,7 @@ function PMA_getHtmlForGisVisualization(
     $html .= 'function drawOpenLayers()';
     $html .= '{';
 
-    if (! $GLOBALS['PMA_Config']->isHttps()) {
+    if (!$GLOBALS['PMA_Config']->isHttps()) {
         $html .= PMA_GIS_visualizationResults($data, $visualizationSettings, 'ol');
     }
     $html .= '}';
@@ -279,4 +279,5 @@ function PMA_getHtmlForGisVisualization(
 
     return $html;
 }
+
 ?>

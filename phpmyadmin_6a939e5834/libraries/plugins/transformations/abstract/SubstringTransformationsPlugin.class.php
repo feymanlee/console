@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage Substring
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -45,23 +45,27 @@ abstract class SubstringTransformationsPlugin extends TransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         // possibly use a global transform and feed it with special options
 
         // further operations on $buffer using the $options[] array.
-        $options = $this->getOptions($options, array(0, 'all', '…'));
+        $options = $this->getOptions($options, [0, 'all', '…']);
 
         if ($options[1] != 'all') {
-            $newtext = /*overload*/mb_substr(
-                $buffer, $options[0], $options[1]
-            );
+            $newtext = /*overload*/
+                mb_substr(
+                    $buffer, $options[0], $options[1]
+                );
         } else {
-            $newtext = /*overload*/mb_substr($buffer, $options[0]);
+            $newtext = /*overload*/
+                mb_substr($buffer, $options[0]);
         }
 
-        $length = /*overload*/mb_strlen($newtext);
-        $baselength = /*overload*/mb_strlen($buffer);
+        $length     = /*overload*/
+            mb_strlen($newtext);
+        $baselength = /*overload*/
+            mb_strlen($buffer);
         if ($length != $baselength) {
             if ($options[0] != 0) {
                 $newtext = $options[2] . $newtext;
@@ -89,4 +93,5 @@ abstract class SubstringTransformationsPlugin extends TransformationsPlugin
         return "Substring";
     }
 }
+
 ?>

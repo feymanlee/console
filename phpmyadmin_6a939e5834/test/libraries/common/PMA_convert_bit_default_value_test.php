@@ -4,7 +4,7 @@
  ** Test for PMA_Util::convertBitDefaultValue from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  ** Test for PMA_Util::convertBitDefaultValue from common.lib
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_ConvertBitDefaultValueTest extends PHPUnit_Framework_TestCase
 {
@@ -30,11 +30,11 @@ class PMA_ConvertBitDefaultValueTest extends PHPUnit_Framework_TestCase
      */
     public function dataProvider()
     {
-        return array(
-            array("b'",""),
-            array("b'01'","01"),
-            array("b'010111010'","010111010")
-        );
+        return [
+            ["b'", ""],
+            ["b'01'", "01"],
+            ["b'010111010'", "010111010"],
+        ];
     }
 
     /**

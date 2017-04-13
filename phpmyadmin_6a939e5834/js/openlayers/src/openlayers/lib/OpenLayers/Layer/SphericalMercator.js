@@ -27,161 +27,161 @@
  *
  * WKT:
  *     900913=PROJCS["WGS84 / Simple Mercator", GEOGCS["WGS 84",
- *     DATUM["WGS_1984", SPHEROID["WGS_1984", 6378137.0, 298.257223563]], 
- *     PRIMEM["Greenwich", 0.0], UNIT["degree", 0.017453292519943295], 
+ *     DATUM["WGS_1984", SPHEROID["WGS_1984", 6378137.0, 298.257223563]],
+ *     PRIMEM["Greenwich", 0.0], UNIT["degree", 0.017453292519943295],
  *     AXIS["Longitude", EAST], AXIS["Latitude", NORTH]],
- *     PROJECTION["Mercator_1SP_Google"], 
- *     PARAMETER["latitude_of_origin", 0.0], PARAMETER["central_meridian", 0.0], 
- *     PARAMETER["scale_factor", 1.0], PARAMETER["false_easting", 0.0], 
+ *     PROJECTION["Mercator_1SP_Google"],
+ *     PARAMETER["latitude_of_origin", 0.0], PARAMETER["central_meridian", 0.0],
+ *     PARAMETER["scale_factor", 1.0], PARAMETER["false_easting", 0.0],
  *     PARAMETER["false_northing", 0.0], UNIT["m", 1.0], AXIS["x", EAST],
  *     AXIS["y", NORTH], AUTHORITY["EPSG","900913"]]
  */
 OpenLayers.Layer.SphericalMercator = {
 
-    /**
-     * Method: getExtent
-     * Get the map's extent.
-     *
-     * Returns:
-     * {<OpenLayers.Bounds>} The map extent.
-     */
-    getExtent: function() {
-        var extent = null;
-        if (this.sphericalMercator) {
-            extent = this.map.calculateBounds();
-        } else {
-            extent = OpenLayers.Layer.FixedZoomLevels.prototype.getExtent.apply(this);
-        }
-        return extent;
-    },
-
-    /**
-     * Method: getLonLatFromViewPortPx
-     * Get a map location from a pixel location
-     * 
-     * Parameters:
-     * viewPortPx - {<OpenLayers.Pixel>}
-     *
-     * Returns:
-     *  {<OpenLayers.LonLat>} An OpenLayers.LonLat which is the passed-in view
-     *  port OpenLayers.Pixel, translated into lon/lat by map lib
-     *  If the map lib is not loaded or not centered, returns null
-     */
-    getLonLatFromViewPortPx: function (viewPortPx) {
-        return OpenLayers.Layer.prototype.getLonLatFromViewPortPx.apply(this, arguments);
-    },
-    
-    /**
-     * Method: getViewPortPxFromLonLat
-     * Get a pixel location from a map location
-     *
-     * Parameters:
-     * lonlat - {<OpenLayers.LonLat>}
-     *
-     * Returns:
-     * {<OpenLayers.Pixel>} An OpenLayers.Pixel which is the passed-in
-     * OpenLayers.LonLat, translated into view port pixels by map lib
-     * If map lib is not loaded or not centered, returns null
-     */
-    getViewPortPxFromLonLat: function (lonlat) {
-        return OpenLayers.Layer.prototype.getViewPortPxFromLonLat.apply(this, arguments);
-    },
-
-    /** 
-     * Method: initMercatorParameters 
-     * Set up the mercator parameters on the layer: resolutions,
-     *     projection, units.
-     */
-    initMercatorParameters: function() {
-        // set up properties for Mercator - assume EPSG:900913
-        this.RESOLUTIONS = [];
-        var maxResolution = 156543.0339;
-        for(var zoom=0; zoom<=this.MAX_ZOOM_LEVEL; ++zoom) {
-            this.RESOLUTIONS[zoom] = maxResolution / Math.pow(2, zoom);
-        }
-        this.units = "m";
-        this.projection = this.projection || "EPSG:900913";
-    },
-
-    /**
-     * APIMethod: forwardMercator
-     * Given a lon,lat in EPSG:4326, return a point in Spherical Mercator.
-     *
-     * Parameters:
-     * lon - {float} 
-     * lat - {float}
-     * 
-     * Returns:
-     * {<OpenLayers.LonLat>} The coordinates transformed to Mercator.
-     */
-    forwardMercator: function(lon, lat) {
-        var x = lon * 20037508.34 / 180;
-        var y = Math.log(Math.tan((90 + lat) * Math.PI / 360)) / (Math.PI / 180);
-
-        y = y * 20037508.34 / 180;
-        
-        return new OpenLayers.LonLat(x, y);
-    },
-
-    /**
-     * APIMethod: inverseMercator
-     * Given a x,y in Spherical Mercator, return a point in EPSG:4326.
-     *
-     * Parameters:
-     * x - {float} A map x in Spherical Mercator.
-     * y - {float} A map y in Spherical Mercator.
-     * 
-     * Returns:
-     * {<OpenLayers.LonLat>} The coordinates transformed to EPSG:4326.
-     */
-    inverseMercator: function(x, y) {
-
-        var lon = (x / 20037508.34) * 180;
-        var lat = (y / 20037508.34) * 180;
-
-        lat = 180/Math.PI * (2 * Math.atan(Math.exp(lat * Math.PI / 180)) - Math.PI / 2);
-        
-        return new OpenLayers.LonLat(lon, lat);
-    },
-
-    /**
-     * Method: projectForward 
-     * Given an object with x and y properties in EPSG:4326, modify the x,y
-     * properties on the object to be the Spherical Mercator projected
-     * coordinates.
-     *
-     * Parameters:
-     * point - {Object} An object with x and y properties. 
-     * 
-     * Returns:
-     * {Object} The point, with the x and y properties transformed to spherical
-     * mercator.
-     */
-    projectForward: function(point) {
-        var lonlat = OpenLayers.Layer.SphericalMercator.forwardMercator(point.x, point.y);
-        point.x = lonlat.lon;
-        point.y = lonlat.lat;
-        return point;
-    },
-    
-    /**
-     * Method: projectInverse
-     * Given an object with x and y properties in Spherical Mercator, modify
-     * the x,y properties on the object to be the unprojected coordinates.
-     *
-     * Parameters:
-     * point - {Object} An object with x and y properties. 
-     * 
-     * Returns:
-     * {Object} The point, with the x and y properties transformed from
-     * spherical mercator to unprojected coordinates..
-     */
-    projectInverse: function(point) {
-        var lonlat = OpenLayers.Layer.SphericalMercator.inverseMercator(point.x, point.y);
-        point.x = lonlat.lon;
-        point.y = lonlat.lat;
-        return point;
+  /**
+   * Method: getExtent
+   * Get the map's extent.
+   *
+   * Returns:
+   * {<OpenLayers.Bounds>} The map extent.
+   */
+  getExtent: function () {
+    var extent = null;
+    if (this.sphericalMercator) {
+      extent = this.map.calculateBounds();
+    } else {
+      extent = OpenLayers.Layer.FixedZoomLevels.prototype.getExtent.apply(this);
     }
+    return extent;
+  },
+
+  /**
+   * Method: getLonLatFromViewPortPx
+   * Get a map location from a pixel location
+   *
+   * Parameters:
+   * viewPortPx - {<OpenLayers.Pixel>}
+   *
+   * Returns:
+   *  {<OpenLayers.LonLat>} An OpenLayers.LonLat which is the passed-in view
+   *  port OpenLayers.Pixel, translated into lon/lat by map lib
+   *  If the map lib is not loaded or not centered, returns null
+   */
+  getLonLatFromViewPortPx: function (viewPortPx) {
+    return OpenLayers.Layer.prototype.getLonLatFromViewPortPx.apply(this, arguments);
+  },
+
+  /**
+   * Method: getViewPortPxFromLonLat
+   * Get a pixel location from a map location
+   *
+   * Parameters:
+   * lonlat - {<OpenLayers.LonLat>}
+   *
+   * Returns:
+   * {<OpenLayers.Pixel>} An OpenLayers.Pixel which is the passed-in
+   * OpenLayers.LonLat, translated into view port pixels by map lib
+   * If map lib is not loaded or not centered, returns null
+   */
+  getViewPortPxFromLonLat: function (lonlat) {
+    return OpenLayers.Layer.prototype.getViewPortPxFromLonLat.apply(this, arguments);
+  },
+
+  /**
+   * Method: initMercatorParameters
+   * Set up the mercator parameters on the layer: resolutions,
+   *     projection, units.
+   */
+  initMercatorParameters: function () {
+    // set up properties for Mercator - assume EPSG:900913
+    this.RESOLUTIONS = [];
+    var maxResolution = 156543.0339;
+    for (var zoom = 0; zoom <= this.MAX_ZOOM_LEVEL; ++zoom) {
+      this.RESOLUTIONS[zoom] = maxResolution / Math.pow(2, zoom);
+    }
+    this.units = "m";
+    this.projection = this.projection || "EPSG:900913";
+  },
+
+  /**
+   * APIMethod: forwardMercator
+   * Given a lon,lat in EPSG:4326, return a point in Spherical Mercator.
+   *
+   * Parameters:
+   * lon - {float}
+   * lat - {float}
+   *
+   * Returns:
+   * {<OpenLayers.LonLat>} The coordinates transformed to Mercator.
+   */
+  forwardMercator: function (lon, lat) {
+    var x = lon * 20037508.34 / 180;
+    var y = Math.log(Math.tan((90 + lat) * Math.PI / 360)) / (Math.PI / 180);
+
+    y = y * 20037508.34 / 180;
+
+    return new OpenLayers.LonLat(x, y);
+  },
+
+  /**
+   * APIMethod: inverseMercator
+   * Given a x,y in Spherical Mercator, return a point in EPSG:4326.
+   *
+   * Parameters:
+   * x - {float} A map x in Spherical Mercator.
+   * y - {float} A map y in Spherical Mercator.
+   *
+   * Returns:
+   * {<OpenLayers.LonLat>} The coordinates transformed to EPSG:4326.
+   */
+  inverseMercator: function (x, y) {
+
+    var lon = (x / 20037508.34) * 180;
+    var lat = (y / 20037508.34) * 180;
+
+    lat = 180 / Math.PI * (2 * Math.atan(Math.exp(lat * Math.PI / 180)) - Math.PI / 2);
+
+    return new OpenLayers.LonLat(lon, lat);
+  },
+
+  /**
+   * Method: projectForward
+   * Given an object with x and y properties in EPSG:4326, modify the x,y
+   * properties on the object to be the Spherical Mercator projected
+   * coordinates.
+   *
+   * Parameters:
+   * point - {Object} An object with x and y properties.
+   *
+   * Returns:
+   * {Object} The point, with the x and y properties transformed to spherical
+   * mercator.
+   */
+  projectForward: function (point) {
+    var lonlat = OpenLayers.Layer.SphericalMercator.forwardMercator(point.x, point.y);
+    point.x = lonlat.lon;
+    point.y = lonlat.lat;
+    return point;
+  },
+
+  /**
+   * Method: projectInverse
+   * Given an object with x and y properties in Spherical Mercator, modify
+   * the x,y properties on the object to be the unprojected coordinates.
+   *
+   * Parameters:
+   * point - {Object} An object with x and y properties.
+   *
+   * Returns:
+   * {Object} The point, with the x and y properties transformed from
+   * spherical mercator to unprojected coordinates..
+   */
+  projectInverse: function (point) {
+    var lonlat = OpenLayers.Layer.SphericalMercator.inverseMercator(point.x, point.y);
+    point.x = lonlat.lon;
+    point.y = lonlat.lat;
+    return point;
+  }
 
 };
 
@@ -191,6 +191,6 @@ OpenLayers.Layer.SphericalMercator = {
  *     are set by this class.
  */
 OpenLayers.Projection.addTransform("EPSG:4326", "EPSG:900913",
-    OpenLayers.Layer.SphericalMercator.projectForward);
+  OpenLayers.Layer.SphericalMercator.projectForward);
 OpenLayers.Projection.addTransform("EPSG:900913", "EPSG:4326",
-    OpenLayers.Layer.SphericalMercator.projectInverse);
+  OpenLayers.Layer.SphericalMercator.projectInverse);

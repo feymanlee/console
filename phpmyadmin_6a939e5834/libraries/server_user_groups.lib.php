@@ -6,7 +6,7 @@
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -19,16 +19,16 @@ if (! defined('PHPMYADMIN')) {
  */
 function PMA_getHtmlForListingUsersofAGroup($userGroup)
 {
-    $html_output  = '<h2>'
+    $html_output = '<h2>'
         . sprintf(__('Users of \'%s\' user group'), htmlspecialchars($userGroup))
         . '</h2>';
 
     $cfgRelation = PMA_getRelationsParam();
-    $usersTable = PMA_Util::backquote($cfgRelation['db'])
+    $usersTable  = PMA_Util::backquote($cfgRelation['db'])
         . "." . PMA_Util::backquote($cfgRelation['users']);
-    $sql_query = "SELECT `username` FROM " . $usersTable
+    $sql_query   = "SELECT `username` FROM " . $usersTable
         . " WHERE `usergroup`='" . PMA_Util::sqlAddSlashes($userGroup) . "'";
-    $result = PMA_queryAsControlUser($sql_query, false);
+    $result      = PMA_queryAsControlUser($sql_query, false);
     if ($result) {
         if ($GLOBALS['dbi']->numRows($result) == 0) {
             $html_output .= '<p>'
@@ -51,6 +51,7 @@ function PMA_getHtmlForListingUsersofAGroup($userGroup)
         }
     }
     $GLOBALS['dbi']->freeResult($result);
+
     return $html_output;
 }
 
@@ -61,12 +62,12 @@ function PMA_getHtmlForListingUsersofAGroup($userGroup)
  */
 function PMA_getHtmlForUserGroupsTable()
 {
-    $html_output  = '<h2>' . __('User groups') . '</h2>';
+    $html_output = '<h2>' . __('User groups') . '</h2>';
     $cfgRelation = PMA_getRelationsParam();
-    $groupTable = PMA_Util::backquote($cfgRelation['db'])
+    $groupTable  = PMA_Util::backquote($cfgRelation['db'])
         . "." . PMA_Util::backquote($cfgRelation['usergroups']);
-    $sql_query = "SELECT * FROM " . $groupTable . " ORDER BY `usergroup` ASC";
-    $result = PMA_queryAsControlUser($sql_query, false);
+    $sql_query   = "SELECT * FROM " . $groupTable . " ORDER BY `usergroup` ASC";
+    $result      = PMA_queryAsControlUser($sql_query, false);
 
     if ($result && $GLOBALS['dbi']->numRows($result)) {
         $html_output .= '<form name="userGroupsForm" id="userGroupsForm"'
@@ -83,12 +84,12 @@ function PMA_getHtmlForUserGroupsTable()
         $html_output .= '</tr></thead>';
         $html_output .= '<tbody>';
 
-        $odd = true;
-        $userGroups = array();
+        $odd        = true;
+        $userGroups = [];
         while ($row = $GLOBALS['dbi']->fetchAssoc($result)) {
             $groupName = $row['usergroup'];
-            if (! isset($userGroups[$groupName])) {
-                $userGroups[$groupName] = array();
+            if (!isset($userGroups[$groupName])) {
+                $userGroups[$groupName] = [];
             }
             $userGroups[$groupName][$row['tab']] = $row['allowed'];
         }
@@ -102,18 +103,18 @@ function PMA_getHtmlForUserGroupsTable()
             $html_output .= '<td>';
             $html_output .= '<a class="" href="server_user_groups.php'
                 . PMA_URL_getCommon(
-                    array(
-                        'viewUsers' => 1, 'userGroup' => $groupName
-                    )
+                    [
+                        'viewUsers' => 1, 'userGroup' => $groupName,
+                    ]
                 )
                 . '">'
                 . PMA_Util::getIcon('b_usrlist.png', __('View users')) . '</a>';
             $html_output .= '&nbsp;&nbsp;';
             $html_output .= '<a class="" href="server_user_groups.php'
                 . PMA_URL_getCommon(
-                    array(
-                        'editUserGroup' => 1, 'userGroup' => $groupName
-                    )
+                    [
+                        'editUserGroup' => 1, 'userGroup' => $groupName,
+                    ]
                 )
                 . '">'
                 . PMA_Util::getIcon('b_edit.png', __('Edit')) . '</a>';
@@ -121,9 +122,9 @@ function PMA_getHtmlForUserGroupsTable()
             $html_output .= '<a class="deleteUserGroup ajax"'
                 . ' href="server_user_groups.php'
                 . PMA_URL_getCommon(
-                    array(
-                        'deleteUserGroup' => 1, 'userGroup' => $groupName
-                    )
+                    [
+                        'deleteUserGroup' => 1, 'userGroup' => $groupName,
+                    ]
                 )
                 . '">'
                 . PMA_Util::getIcon('b_drop.png', __('Delete')) . '</a>';
@@ -131,7 +132,7 @@ function PMA_getHtmlForUserGroupsTable()
 
             $html_output .= '</tr>';
 
-            $odd = ! $odd;
+            $odd = !$odd;
         }
 
         $html_output .= '</tbody>';
@@ -142,7 +143,7 @@ function PMA_getHtmlForUserGroupsTable()
 
     $html_output .= '<fieldset id="fieldset_add_user_group">';
     $html_output .= '<a href="server_user_groups.php'
-        . PMA_URL_getCommon(array('addUserGroup' => 1)) . '">'
+        . PMA_URL_getCommon(['addUserGroup' => 1]) . '">'
         . PMA_Util::getIcon('b_usradd.png')
         . __('Add user group') . '</a>';
     $html_output .= '</fieldset>';
@@ -161,15 +162,16 @@ function PMA_getHtmlForUserGroupsTable()
  */
 function _getAllowedTabNames($row, $level)
 {
-    $tabNames = array();
-    $tabs = PMA_Util::getMenuTabList($level);
+    $tabNames = [];
+    $tabs     = PMA_Util::getMenuTabList($level);
     foreach ($tabs as $tab => $tabName) {
-        if (! isset($row[$level . '_' . $tab])
+        if (!isset($row[$level . '_' . $tab])
             || $row[$level . '_' . $tab] == 'Y'
         ) {
             $tabNames[] = $tabName;
         }
     }
+
     return implode(', ', $tabNames);
 }
 
@@ -183,11 +185,11 @@ function _getAllowedTabNames($row, $level)
 function PMA_deleteUserGroup($userGroup)
 {
     $cfgRelation = PMA_getRelationsParam();
-    $userTable = PMA_Util::backquote($cfgRelation['db'])
+    $userTable   = PMA_Util::backquote($cfgRelation['db'])
         . "." . PMA_Util::backquote($cfgRelation['users']);
-    $groupTable = PMA_Util::backquote($cfgRelation['db'])
+    $groupTable  = PMA_Util::backquote($cfgRelation['db'])
         . "." . PMA_Util::backquote($cfgRelation['usergroups']);
-    $sql_query = "DELETE FROM " . $userTable
+    $sql_query   = "DELETE FROM " . $userTable
         . " WHERE `usergroup`='" . PMA_Util::sqlAddSlashes($userGroup) . "'";
     PMA_queryAsControlUser($sql_query, true);
     $sql_query = "DELETE FROM " . $groupTable
@@ -215,9 +217,9 @@ function PMA_getHtmlToEditUserGroup($userGroup = null)
 
     $html_output .= '<form name="userGroupForm" id="userGroupForm"'
         . ' action="server_user_groups.php" method="post">';
-    $urlParams = array();
+    $urlParams = [];
     if ($userGroup != null) {
-        $urlParams['userGroup'] = $userGroup;
+        $urlParams['userGroup']           = $userGroup;
         $urlParams['editUserGroupSubmit'] = '1';
     } else {
         $urlParams['addUserGroupSubmit'] = '1';
@@ -238,30 +240,33 @@ function PMA_getHtmlToEditUserGroup($userGroup = null)
         $html_output .= '<div class="clearfloat"></div>';
     }
 
-    $allowedTabs = array(
-        'server' => array(),
-        'db'     => array(),
-        'table'  => array()
-    );
+    $allowedTabs = [
+        'server' => [],
+        'db'     => [],
+        'table'  => [],
+    ];
     if ($userGroup != null) {
         $cfgRelation = PMA_getRelationsParam();
-        $groupTable = PMA_Util::backquote($cfgRelation['db'])
+        $groupTable  = PMA_Util::backquote($cfgRelation['db'])
             . "." . PMA_Util::backquote($cfgRelation['usergroups']);
-        $sql_query = "SELECT * FROM " . $groupTable
+        $sql_query   = "SELECT * FROM " . $groupTable
             . " WHERE `usergroup`='" . PMA_Util::sqlAddSlashes($userGroup) . "'";
-        $result = PMA_queryAsControlUser($sql_query, false);
+        $result      = PMA_queryAsControlUser($sql_query, false);
         if ($result) {
             while ($row = $GLOBALS['dbi']->fetchAssoc($result)) {
-                $key = $row['tab'];
+                $key   = $row['tab'];
                 $value = $row['allowed'];
                 if (substr($key, 0, 7) == 'server_' && $value == 'Y') {
-                    $allowedTabs['server'][] = /*overload*/mb_substr($key, 7);
+                    $allowedTabs['server'][] = /*overload*/
+                        mb_substr($key, 7);
                 } elseif (substr($key, 0, 3) == 'db_' && $value == 'Y') {
-                    $allowedTabs['db'][] = /*overload*/mb_substr($key, 3);
+                    $allowedTabs['db'][] = /*overload*/
+                        mb_substr($key, 3);
                 } elseif (substr($key, 0, 6) == 'table_'
                     && $value == 'Y'
                 ) {
-                    $allowedTabs['table'][] = /*overload*/mb_substr($key, 6);
+                    $allowedTabs['table'][] = /*overload*/
+                        mb_substr($key, 6);
                 }
             }
         }
@@ -300,20 +305,21 @@ function PMA_getHtmlToEditUserGroup($userGroup = null)
  */
 function _getTabList($title, $level, $selected)
 {
-    $tabs = PMA_Util::getMenuTabList($level);
+    $tabs        = PMA_Util::getMenuTabList($level);
     $html_output = '<fieldset>';
     $html_output .= '<legend>' . $title . '</legend>';
     foreach ($tabs as $tab => $tabName) {
         $html_output .= '<div class="item">';
         $html_output .= '<input type="checkbox" class="checkall"'
             . (in_array($tab, $selected) ? ' checked="checked"' : '')
-            . ' name="' . $level . '_' . $tab .  '" value="Y" />';
-        $html_output .= '<label for="' . $level . '_' . $tab .  '">'
+            . ' name="' . $level . '_' . $tab . '" value="Y" />';
+        $html_output .= '<label for="' . $level . '_' . $tab . '">'
             . '<code>' . $tabName . '</code>'
             . '</label>';
         $html_output .= '</div>';
     }
     $html_output .= '</fieldset>';
+
     return $html_output;
 }
 
@@ -327,12 +333,12 @@ function _getTabList($title, $level, $selected)
  */
 function PMA_editUserGroup($userGroup, $new = false)
 {
-    $tabs = PMA_Util::getMenuTabList();
+    $tabs        = PMA_Util::getMenuTabList();
     $cfgRelation = PMA_getRelationsParam();
-    $groupTable = PMA_Util::backquote($cfgRelation['db'])
+    $groupTable  = PMA_Util::backquote($cfgRelation['db'])
         . "." . PMA_Util::backquote($cfgRelation['usergroups']);
 
-    if (! $new) {
+    if (!$new) {
         $sql_query = "DELETE FROM " . $groupTable
             . " WHERE `usergroup`='" . PMA_Util::sqlAddSlashes($userGroup) . "';";
         PMA_queryAsControlUser($sql_query, true);
@@ -341,10 +347,10 @@ function PMA_editUserGroup($userGroup, $new = false)
     $sql_query = "INSERT INTO " . $groupTable
         . "(`usergroup`, `tab`, `allowed`)"
         . " VALUES ";
-    $first = true;
+    $first     = true;
     foreach ($tabs as $tabGroupName => $tabGroup) {
         foreach ($tabs[$tabGroupName] as $tab => $tabName) {
-            if (! $first) {
+            if (!$first) {
                 $sql_query .= ", ";
             }
             $tabName = $tabGroupName . '_' . $tab;
@@ -357,4 +363,5 @@ function PMA_editUserGroup($userGroup, $new = false)
     $sql_query .= ";";
     PMA_queryAsControlUser($sql_query, true);
 }
+
 ?>

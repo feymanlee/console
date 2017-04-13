@@ -11,7 +11,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -66,9 +66,9 @@ function PMA_Kanji_changeOrder()
  * Kanji string encoding convert
  * 2002/1/4 by Y.Kawada
  *
- * @param string $str  the string to convert
- * @param string $enc  the destination encoding code
- * @param string $kana set 'kana' convert to JIS-X208-kana
+ * @param string   $str                 the string to convert
+ * @param string   $enc                 the destination encoding code
+ * @param string   $kana                set 'kana' convert to JIS-X208-kana
  *
  * @global  string $kanji_encoding_list the available encoding codes list
  *
@@ -92,6 +92,7 @@ function PMA_Kanji_strConv($str, $enc, $kana)
     } else {
         $dist = $str;
     }
+
     return $dist;
 } // end of the 'PMA_Kanji_strConv' function
 
@@ -158,8 +159,7 @@ function PMA_Kanji_encodingForm()
         . __('Convert to Kana')
         . '</label><br />'
         . "\n"
-        . '</li>' . "\n" . '</ul>'
-        ;
+        . '</li>' . "\n" . '</ul>';
 } // end of the 'PMA_Kanji_encodingForm' function
 
 

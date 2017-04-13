@@ -31,22 +31,22 @@ class PMA_ConfigGenerator_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetConfigFile()
     {
-        $GLOBALS['cfg']['AvailableCharsets'] = array();
+        $GLOBALS['cfg']['AvailableCharsets'] = [];
         unset($_SESSION['eol']);
 
         $GLOBALS['PMA_Config'] = new PMA_Config();
 
-        $GLOBALS['server'] = 0;
-        $cf = new ConfigFile();
-        $_SESSION['ConfigFile0'] = array('a', 'b', 'c');
-        $_SESSION['ConfigFile0']['Servers'] = array(
-            array(1, 2, 3)
-        );
+        $GLOBALS['server']                  = 0;
+        $cf                                 = new ConfigFile();
+        $_SESSION['ConfigFile0']            = ['a', 'b', 'c'];
+        $_SESSION['ConfigFile0']['Servers'] = [
+            [1, 2, 3],
+        ];
 
-        $cf->setPersistKeys(array("1/", 2));
+        $cf->setPersistKeys(["1/", 2]);
 
         /* TODO: This is sometimes one second off... */
-        $date = date(DATE_RFC1123);
+        $date   = date(DATE_RFC1123);
         $result = ConfigGenerator::getConfigFile($cf);
 
         $this->assertContains(
@@ -86,7 +86,7 @@ class PMA_ConfigGenerator_Test extends PHPUnit_Framework_TestCase
     public function testGetVarExport()
     {
         $reflection = new \ReflectionClass('ConfigGenerator');
-        $method = $reflection->getMethod('_getVarExport');
+        $method     = $reflection->getMethod('_getVarExport');
         $method->setAccessible(true);
 
         $this->assertEquals(
@@ -97,7 +97,7 @@ class PMA_ConfigGenerator_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             '$cfg[\'var_name\'] = array (' .
             "\n);\n",
-            $method->invoke(null, 'var_name', array(), "\n")
+            $method->invoke(null, 'var_name', [], "\n")
         );
 
         $this->assertEquals(
@@ -105,7 +105,7 @@ class PMA_ConfigGenerator_Test extends PHPUnit_Framework_TestCase
             $method->invoke(
                 null,
                 'var_name',
-                array(1, 2, 3),
+                [1, 2, 3],
                 "\n"
             )
         );
@@ -116,10 +116,10 @@ class PMA_ConfigGenerator_Test extends PHPUnit_Framework_TestCase
             $method->invoke(
                 null,
                 'var_name',
-                array(
+                [
                     '1a' => 'foo',
-                    'b' => 'bar'
-                ),
+                    'b'  => 'bar',
+                ],
                 "\n"
             )
         );
@@ -133,41 +133,41 @@ class PMA_ConfigGenerator_Test extends PHPUnit_Framework_TestCase
     public function testIsZeroBasedArray()
     {
         $reflection = new \ReflectionClass('ConfigGenerator');
-        $method = $reflection->getMethod('_isZeroBasedArray');
+        $method     = $reflection->getMethod('_isZeroBasedArray');
         $method->setAccessible(true);
 
         $this->assertFalse(
             $method->invoke(
                 null,
-                array(
+                [
                     'a' => 1,
-                    'b' => 2
-                )
+                    'b' => 2,
+                ]
             )
         );
 
         $this->assertFalse(
             $method->invoke(
                 null,
-                array(
+                [
                     0 => 1,
                     1 => 2,
                     3 => 3,
-                )
+                ]
             )
         );
 
         $this->assertTrue(
             $method->invoke(
                 null,
-                array()
+                []
             )
         );
 
         $this->assertTrue(
             $method->invoke(
                 null,
-                array(1, 2, 3)
+                [1, 2, 3]
             )
         );
     }
@@ -180,10 +180,10 @@ class PMA_ConfigGenerator_Test extends PHPUnit_Framework_TestCase
     public function testExportZeroBasedArray()
     {
         $reflection = new \ReflectionClass('ConfigGenerator');
-        $method = $reflection->getMethod('_exportZeroBasedArray');
+        $method     = $reflection->getMethod('_exportZeroBasedArray');
         $method->setAccessible(true);
 
-        $arr = array(1, 2, 3, 4);
+        $arr = [1, 2, 3, 4];
 
         $result = $method->invoke(null, $arr, "\n");
 
@@ -192,7 +192,7 @@ class PMA_ConfigGenerator_Test extends PHPUnit_Framework_TestCase
             $result
         );
 
-        $arr = array(1, 2, 3, 4, 7, 'foo');
+        $arr = [1, 2, 3, 4, 7, 'foo'];
 
         $result = $method->invoke(null, $arr, "\n");
 
@@ -208,4 +208,5 @@ class PMA_ConfigGenerator_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

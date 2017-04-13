@@ -43,18 +43,18 @@ class PMA_Structure_Test extends PHPUnit_Framework_TestCase
         $_REQUEST['pos'] = 3;
 
         //$GLOBALS
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['server'] = 1;
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['RememberSorting'] = true;
-        $GLOBALS['cfg']['SQP'] = array();
+        $GLOBALS['cfg']['MaxRows']                     = 10;
+        $GLOBALS['server']                             = 1;
+        $GLOBALS['cfg']['ServerDefault']               = "server";
+        $GLOBALS['cfg']['RememberSorting']             = true;
+        $GLOBALS['cfg']['SQP']                         = [];
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
-        $GLOBALS['cfg']['ShowSQL'] = true;
-        $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
+        $GLOBALS['cfg']['ShowSQL']                     = true;
+        $GLOBALS['cfg']['TableNavigationLinksMode']    = 'icons';
+        $GLOBALS['cfg']['LimitChars']                  = 100;
+        $GLOBALS['cfg']['Server']['DisableIS']         = false;
 
-        $GLOBALS['table'] = "table";
+        $GLOBALS['table']         = "table";
         $GLOBALS['pmaThemeImage'] = 'image';
 
         //$_SESSION
@@ -69,30 +69,30 @@ class PMA_Structure_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForActionLinks()
     {
-        $current_table = array(
-            'TABLE_ROWS' => 3,
-            'TABLE_NAME' => 'name1',
-            'TABLE_COMMENT' => 'This is a test comment'
-        );
+        $current_table = [
+            'TABLE_ROWS'    => 3,
+            'TABLE_NAME'    => 'name1',
+            'TABLE_COMMENT' => 'This is a test comment',
+        ];
         $table_is_view = false;
         $tbl_url_query = 'tbl_url_query';
-        $titles = array(
-            'Browse' => 'Browse1',
+        $titles        = [
+            'Browse'   => 'Browse1',
             'NoBrowse' => 'NoBrowse1',
-            'Search' => 'Search1',
+            'Search'   => 'Search1',
             'NoSearch' => 'NoSearch1',
-            'Empty' => 'Empty1',
-            'NoEmpty' => 'NoEmpty1',
-        );;
-        $truename = 'truename';
+            'Empty'    => 'Empty1',
+            'NoEmpty'  => 'NoEmpty1',
+        ];;
+        $truename            = 'truename';
         $db_is_system_schema = null;
-        $url_query = 'url_query';
+        $url_query           = 'url_query';
 
         //$table_is_view = true;
         list(
-            $browse_table, $search_table,$browse_table_label,
+            $browse_table, $search_table, $browse_table_label,
             $empty_table, $tracking_icon
-        ) = PMA_getHtmlForActionLinks(
+            ) = PMA_getHtmlForActionLinks(
             $current_table, $table_is_view, $tbl_url_query,
             $titles, $truename, $db_is_system_schema, $url_query
         );
@@ -136,16 +136,16 @@ class PMA_Structure_Test extends PHPUnit_Framework_TestCase
         );
 
         //$table_is_view = false;
-        $current_table = array(
-            'TABLE_ROWS' => 0,
-            'TABLE_NAME' => 'name1',
-            'TABLE_COMMENT' => 'This is a test comment'
-        );
+        $current_table = [
+            'TABLE_ROWS'    => 0,
+            'TABLE_NAME'    => 'name1',
+            'TABLE_COMMENT' => 'This is a test comment',
+        ];
         $table_is_view = false;
         list(
-            $browse_table, $search_table,$browse_table_label,
+            $browse_table, $search_table, $browse_table_label,
             $empty_table, $tracking_icon
-        ) = PMA_getHtmlForActionLinks(
+            ) = PMA_getHtmlForActionLinks(
             $current_table, $table_is_view, $tbl_url_query,
             $titles, $truename, $db_is_system_schema, $url_query
         );
@@ -180,11 +180,11 @@ class PMA_Structure_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetTableDropQueryAndMessage()
     {
-        $current_table = array(
+        $current_table = [
             'TABLE_ROWS' => 3,
             'TABLE_NAME' => 'name1',
-            'ENGINE' => 'ENGINE1',
-        );
+            'ENGINE'     => 'ENGINE1',
+        ];
         $table_is_view = false;
 
         list($drop_query, $drop_message) = PMA_getTableDropQueryAndMessage(
@@ -218,8 +218,8 @@ class PMA_Structure_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $db = 'PMA';
-        $table = 'PMA_Table';
+        $db            = 'PMA';
+        $table         = 'PMA_Table';
         $is_view_query = "SELECT TABLE_NAME
             FROM information_schema.VIEWS
             WHERE TABLE_SCHEMA = '" . PMA_Util::sqlAddSlashes($db) . "'
@@ -227,7 +227,7 @@ class PMA_Structure_Test extends PHPUnit_Framework_TestCase
 
         $show_create_query = 'SHOW CREATE TABLE ' . PMA_Util::backquote($db) . '.'
             . PMA_Util::backquote($table);
-        $expected_result = 'CREATE TABLE `PMA_Table` ( '
+        $expected_result   = 'CREATE TABLE `PMA_Table` ( '
             . '`id` numeric '
             . ') ENGINE=InnoDB DEFAULT CHARSET=latin1';
 
@@ -241,16 +241,16 @@ class PMA_Structure_Test extends PHPUnit_Framework_TestCase
             ->with($show_create_query)
             ->will(
                 $this->returnValue(
-                    array(
-                        'Table' => 'PMA_Table',
-                        'Create Table' => $expected_result
-                    )
+                    [
+                        'Table'        => 'PMA_Table',
+                        'Create Table' => $expected_result,
+                    ]
                 )
             );
 
         $GLOBALS['dbi'] = $dbi;
 
-        $output = PMA_getHtmlShowCreate($db, array($table));
+        $output = PMA_getHtmlShowCreate($db, [$table]);
 
         $this->assertContains(
             'Showing create queries',

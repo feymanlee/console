@@ -60,11 +60,11 @@ class PMA_StorageEngine_Memory_Test extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             $this->object->getVariables(),
-            array(
-                'max_heap_table_size' => array(
-                                            'type'  => 1,
-                                         )
-                )
+            [
+                'max_heap_table_size' => [
+                    'type' => 1,
+                ],
+            ]
         );
     }
 }

@@ -6,7 +6,7 @@
  * @package PhpMyAdmin-GIS
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -142,21 +142,22 @@ abstract class PMA_GIS_Geometry
             // Extract coordinates of the point
             $cordinates = explode(" ", $point);
 
-            $x = (float) $cordinates[0];
-            if (! isset($min_max['maxX']) || $x > $min_max['maxX']) {
+            $x = (float)$cordinates[0];
+            if (!isset($min_max['maxX']) || $x > $min_max['maxX']) {
                 $min_max['maxX'] = $x;
             }
-            if (! isset($min_max['minX']) || $x < $min_max['minX']) {
+            if (!isset($min_max['minX']) || $x < $min_max['minX']) {
                 $min_max['minX'] = $x;
             }
-            $y = (float) $cordinates[1];
-            if (! isset($min_max['maxY']) || $y > $min_max['maxY']) {
+            $y = (float)$cordinates[1];
+            if (!isset($min_max['maxY']) || $y > $min_max['maxY']) {
                 $min_max['maxY'] = $y;
             }
-            if (! isset($min_max['minY']) || $y < $min_max['minY']) {
+            if (!isset($min_max['minY']) || $y < $min_max['minY']) {
                 $min_max['minY'] = $y;
             }
         }
+
         return $min_max;
     }
 
@@ -174,17 +175,21 @@ abstract class PMA_GIS_Geometry
     {
         $geom_types = '(POINT|MULTIPOINT|LINESTRING|MULTILINESTRING'
             . '|POLYGON|MULTIPOLYGON|GEOMETRYCOLLECTION)';
-        $srid = 0;
-        $wkt = '';
+        $srid       = 0;
+        $wkt        = '';
 
         if (preg_match("/^'" . $geom_types . "\(.*\)',[0-9]*$/i", $value)) {
-            $last_comma = /*overload*/mb_strripos($value, ",");
-            $srid = trim(/*overload*/mb_substr($value, $last_comma + 1));
-            $wkt = trim(/*overload*/mb_substr($value, 1, $last_comma - 2));
+            $last_comma = /*overload*/
+                mb_strripos($value, ",");
+            $srid       = trim(/*overload*/
+                mb_substr($value, $last_comma + 1));
+            $wkt        = trim(/*overload*/
+                mb_substr($value, 1, $last_comma - 2));
         } elseif (preg_match("/^" . $geom_types . "\(.*\)$/i", $value)) {
             $wkt = $value;
         }
-        return array('srid' => $srid, 'wkt' => $wkt);
+
+        return ['srid' => $srid, 'wkt' => $wkt];
     }
 
     /**
@@ -199,7 +204,7 @@ abstract class PMA_GIS_Geometry
      */
     protected function extractPoints($point_set, $scale_data, $linear = false)
     {
-        $points_arr = array();
+        $points_arr = [];
 
         // Separate each point
         $points = explode(",", $point_set);
@@ -224,8 +229,8 @@ abstract class PMA_GIS_Geometry
                 $y = '';
             }
 
-            if (! $linear) {
-                $points_arr[] = array($x, $y);
+            if (!$linear) {
+                $points_arr[] = [$x, $y];
             } else {
                 $points_arr[] = $x;
                 $points_arr[] = $y;
@@ -252,11 +257,13 @@ abstract class PMA_GIS_Geometry
             $ol_array .= $this->getPolygonForOpenLayers($rings, $srid) . ', ';
         }
 
-        $ol_array = /*overload*/mb_substr(
-            $ol_array,
-            0,
-            /*overload*/mb_strlen($ol_array) - 2
-        );
+        $ol_array = /*overload*/
+            mb_substr(
+                $ol_array,
+                0,
+                /*overload*/
+                mb_strlen($ol_array) - 2
+            );
         $ol_array .= ')';
 
         return $ol_array;
@@ -302,11 +309,13 @@ abstract class PMA_GIS_Geometry
             $ol_array .= ', ';
         }
 
-        $ol_array = /*overload*/mb_substr(
-            $ol_array,
-            0,
-            /*overload*/mb_strlen($ol_array) - 2
-        );
+        $ol_array = /*overload*/
+            mb_substr(
+                $ol_array,
+                0,
+                /*overload*/
+                mb_strlen($ol_array) - 2
+            );
         $ol_array .= ')';
 
         return $ol_array;
@@ -347,11 +356,13 @@ abstract class PMA_GIS_Geometry
             $ol_array .= $this->getPointForOpenLayers($point, $srid) . ', ';
         }
 
-        $ol_array = /*overload*/mb_substr(
-            $ol_array,
-            0,
-            /*overload*/mb_strlen($ol_array) - 2
-        );
+        $ol_array = /*overload*/
+            mb_substr(
+                $ol_array,
+                0,
+                /*overload*/
+                mb_strlen($ol_array) - 2
+            );
         $ol_array .= ')';
 
         return $ol_array;
@@ -373,4 +384,5 @@ abstract class PMA_GIS_Geometry
             . intval($srid) . '"), map.getProjectionObject())';
     }
 }
+
 ?>

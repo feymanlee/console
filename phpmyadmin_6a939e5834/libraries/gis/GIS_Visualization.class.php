@@ -6,7 +6,7 @@
  * @package PhpMyAdmin-GIS
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -25,10 +25,10 @@ class PMA_GIS_Visualization
     /**
      * @var array   Set of default settings values are here.
      */
-    private $_settings = array(
+    private $_settings = [
 
         // Array of colors to be used for GIS visualizations.
-        'colors' => array(
+        'colors' => [
             '#B02EE0',
             '#E0642E',
             '#E0D62E',
@@ -46,14 +46,14 @@ class PMA_GIS_Visualization
             '#238C74',
             '#4C489B',
             '#87C9BF',
-        ),
+        ],
 
         // The width of the GIS visualization.
-        'width' => 600,
+        'width'  => 600,
 
-         // The height of the GIS visualization.
+        // The height of the GIS visualization.
         'height' => 450,
-    );
+    ];
 
     /**
      * @var array   Options that the user has specified.
@@ -82,7 +82,7 @@ class PMA_GIS_Visualization
     public function __construct($data, $options)
     {
         $this->_userSpecifiedSettings = $options;
-        $this->_data = $data;
+        $this->_data                  = $data;
     }
 
     /**
@@ -105,7 +105,7 @@ class PMA_GIS_Visualization
      */
     private function _handleOptions()
     {
-        if (! is_null($this->_userSpecifiedSettings)) {
+        if (!is_null($this->_userSpecifiedSettings)) {
             $this->_settings = array_merge(
                 $this->_settings,
                 $this->_userSpecifiedSettings
@@ -128,15 +128,22 @@ class PMA_GIS_Visualization
 
         // Check if the user already added extension;
         // get the substring where the extension would be if it was included
-        $extension_start_pos = /*overload*/mb_strlen($file_name)
-            - /*overload*/mb_strlen($ext) - 1;
-        $user_extension = /*overload*/mb_substr(
-            $file_name, $extension_start_pos, /*overload*/mb_strlen($file_name)
-        );
-        $required_extension = "." . $ext;
-        if (/*overload*/mb_strtolower($user_extension) != $required_extension) {
-            $file_name  .= $required_extension;
+        $extension_start_pos = /*overload*/
+            mb_strlen($file_name)
+            - /*overload*/
+            mb_strlen($ext) - 1;
+        $user_extension      = /*overload*/
+            mb_substr(
+                $file_name, $extension_start_pos, /*overload*/
+                mb_strlen($file_name)
+            );
+        $required_extension  = "." . $ext;
+        if (/*overload*/
+            mb_strtolower($user_extension) != $required_extension
+        ) {
+            $file_name .= $required_extension;
         }
+
         return $file_name;
     }
 
@@ -166,8 +173,8 @@ class PMA_GIS_Visualization
     {
         $this->init();
 
-        $output   = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . "\n";
-        $output  .= '<svg version="1.1" xmlns:svg="http://www.w3.org/2000/svg"'
+        $output = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . "\n";
+        $output .= '<svg version="1.1" xmlns:svg="http://www.w3.org/2000/svg"'
             . ' xmlns="http://www.w3.org/2000/svg"'
             . ' width="' . $this->_settings['width'] . '"'
             . ' height="' . $this->_settings['height'] . '">';
@@ -191,6 +198,7 @@ class PMA_GIS_Visualization
     public function asSVG()
     {
         $output = $this->_svg();
+
         return $output;
     }
 
@@ -233,7 +241,7 @@ class PMA_GIS_Visualization
         );
 
         $scale_data = $this->_scaleDataSet($this->_data);
-        $image = $this->_prepareDataSet($this->_data, $scale_data, 'png', $image);
+        $image      = $this->_prepareDataSet($this->_data, $scale_data, 'png', $image);
 
         return $image;
     }
@@ -257,6 +265,7 @@ class PMA_GIS_Visualization
 
         // base64 encode
         $encoded = base64_encode($output);
+
         return '<img src="data:image/png;base64,' . $encoded . '" />';
     }
 
@@ -287,16 +296,16 @@ class PMA_GIS_Visualization
         $this->init();
         $scale_data = $this->_scaleDataSet($this->_data);
         $output
-            = 'var options = {'
-                . 'projection: new OpenLayers.Projection("EPSG:900913"),'
-                . 'displayProjection: new OpenLayers.Projection("EPSG:4326"),'
-                . 'units: "m",'
-                . 'numZoomLevels: 18,'
-                . 'maxResolution: 156543.0339,'
-                . 'maxExtent: new OpenLayers.Bounds('
-                . '-20037508, -20037508, 20037508, 20037508),'
-                . 'restrictedExtent: new OpenLayers.Bounds('
-                . '-20037508, -20037508, 20037508, 20037508)'
+                    = 'var options = {'
+            . 'projection: new OpenLayers.Projection("EPSG:900913"),'
+            . 'displayProjection: new OpenLayers.Projection("EPSG:4326"),'
+            . 'units: "m",'
+            . 'numZoomLevels: 18,'
+            . 'maxResolution: 156543.0339,'
+            . 'maxExtent: new OpenLayers.Bounds('
+            . '-20037508, -20037508, 20037508, 20037508),'
+            . 'restrictedExtent: new OpenLayers.Bounds('
+            . '-20037508, -20037508, 20037508, 20037508)'
             . '};'
             . 'var map = new OpenLayers.Map("openlayersmap", options);'
             . 'var layerNone = new OpenLayers.Layer.Boxes('
@@ -308,13 +317,14 @@ class PMA_GIS_Visualization
             . 'var bound;';
         $output .= $this->_prepareDataSet($this->_data, $scale_data, 'ol', '');
         $output .=
-              'map.addLayer(vectorLayer);'
+            'map.addLayer(vectorLayer);'
             . 'map.zoomToExtent(bound);'
             . 'if (map.getZoom() < 2) {'
-                . 'map.zoomTo(2);'
+            . 'map.zoomTo(2);'
             . '}'
             . 'map.addControl(new OpenLayers.Control.LayerSwitcher());'
             . 'map.addControl(new OpenLayers.Control.MousePosition());';
+
         return $output;
     }
 
@@ -348,7 +358,7 @@ class PMA_GIS_Visualization
         $pdf->AddPage();
 
         $scale_data = $this->_scaleDataSet($this->_data);
-        $pdf = $this->_prepareDataSet($this->_data, $scale_data, 'pdf', $pdf);
+        $pdf        = $this->_prepareDataSet($this->_data, $scale_data, 'pdf', $pdf);
 
         // sanitize file name
         $file_name = $this->_sanitizeName($file_name, 'pdf');
@@ -365,21 +375,23 @@ class PMA_GIS_Visualization
      */
     private function _scaleDataSet($data)
     {
-        $min_max = array();
-        $border = 15;
+        $min_max = [];
+        $border  = 15;
         // effective width and height of the plot
-        $plot_width = $this->_settings['width'] - 2 * $border;
+        $plot_width  = $this->_settings['width'] - 2 * $border;
         $plot_height = $this->_settings['height'] - 2 * $border;
 
         foreach ($data as $row) {
 
             // Figure out the data type
             $ref_data = $row[$this->_settings['spatialColumn']];
-            $type_pos = /*overload*/mb_stripos($ref_data, '(');
-            $type = /*overload*/mb_substr($ref_data, 0, $type_pos);
+            $type_pos = /*overload*/
+                mb_stripos($ref_data, '(');
+            $type     = /*overload*/
+                mb_substr($ref_data, 0, $type_pos);
 
             $gis_obj = PMA_GIS_Factory::factory($type);
-            if (! $gis_obj) {
+            if (!$gis_obj) {
                 continue;
             }
             $scale_data = $gis_obj->scaleRow(
@@ -387,23 +399,23 @@ class PMA_GIS_Visualization
             );
 
             // Update minimum/maximum values for x and y coordinates.
-            $c_maxX = (float) $scale_data['maxX'];
-            if (! isset($min_max['maxX']) || $c_maxX > $min_max['maxX']) {
+            $c_maxX = (float)$scale_data['maxX'];
+            if (!isset($min_max['maxX']) || $c_maxX > $min_max['maxX']) {
                 $min_max['maxX'] = $c_maxX;
             }
 
-            $c_minX = (float) $scale_data['minX'];
-            if (! isset($min_max['minX']) || $c_minX < $min_max['minX']) {
+            $c_minX = (float)$scale_data['minX'];
+            if (!isset($min_max['minX']) || $c_minX < $min_max['minX']) {
                 $min_max['minX'] = $c_minX;
             }
 
-            $c_maxY = (float) $scale_data['maxY'];
-            if (! isset($min_max['maxY']) || $c_maxY > $min_max['maxY']) {
+            $c_maxY = (float)$scale_data['maxY'];
+            if (!isset($min_max['maxY']) || $c_maxY > $min_max['maxY']) {
                 $min_max['maxY'] = $c_maxY;
             }
 
-            $c_minY = (float) $scale_data['minY'];
-            if (! isset($min_max['minY']) || $c_minY < $min_max['minY']) {
+            $c_minY = (float)$scale_data['minY'];
+            if (!isset($min_max['minY']) || $c_minY < $min_max['minY']) {
                 $min_max['minY'] = $c_minY;
             }
         }
@@ -411,7 +423,7 @@ class PMA_GIS_Visualization
         // scale the visualization
         $x_ratio = ($min_max['maxX'] - $min_max['minX']) / $plot_width;
         $y_ratio = ($min_max['maxY'] - $min_max['minY']) / $plot_height;
-        $ratio = ($x_ratio > $y_ratio) ? $x_ratio : $y_ratio;
+        $ratio   = ($x_ratio > $y_ratio) ? $x_ratio : $y_ratio;
 
         $scale = ($ratio != 0) ? (1 / $ratio) : 1;
 
@@ -424,10 +436,10 @@ class PMA_GIS_Visualization
             // fit horizontally
             $x = $min_max['minX'] - ($border / $scale);
             // center vertically
-            $y =($min_max['maxY'] + $min_max['minY'] - $plot_height / $scale) / 2;
+            $y = ($min_max['maxY'] + $min_max['minY'] - $plot_height / $scale) / 2;
         }
 
-        return array(
+        return [
             'scale'  => $scale,
             'x'      => $x,
             'y'      => $y,
@@ -436,7 +448,7 @@ class PMA_GIS_Visualization
             'minY'   => $min_max['minY'],
             'maxY'   => $min_max['maxY'],
             'height' => $this->_settings['height'],
-        );
+        ];
     }
 
     /**
@@ -461,11 +473,13 @@ class PMA_GIS_Visualization
 
             // Figure out the data type
             $ref_data = $row[$this->_settings['spatialColumn']];
-            $type_pos = /*overload*/mb_stripos($ref_data, '(');
-            $type = /*overload*/mb_substr($ref_data, 0, $type_pos);
+            $type_pos = /*overload*/
+                mb_stripos($ref_data, '(');
+            $type     = /*overload*/
+                mb_substr($ref_data, 0, $type_pos);
 
             $gis_obj = PMA_GIS_Factory::factory($type);
-            if (! $gis_obj) {
+            if (!$gis_obj) {
                 continue;
             }
             $label = '';
@@ -498,7 +512,9 @@ class PMA_GIS_Visualization
             }
             $color_number++;
         }
+
         return $results;
     }
 }
+
 ?>

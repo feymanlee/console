@@ -23,12 +23,12 @@ if (false === @include_once 'OpenID/RelyingParty.php') {
 /**
  * Map of authenticated users to MySQL user/password pairs.
  */
-$AUTH_MAP = array(
-    'http://launchpad.net/~username' => array(
-        'user' => 'root',
+$AUTH_MAP = [
+    'http://launchpad.net/~username' => [
+        'user'     => 'root',
         'password' => '',
-        ),
-    );
+    ],
+];
 
 /**
  * Simple function to show HTML page with given content.
@@ -42,12 +42,12 @@ function Show_page($contents)
     header('Content-Type: text/html; charset=utf-8');
     echo '<?xml version="1.0" encoding="utf-8"?>' . "\n";
     ?>
-    <!DOCTYPE HTML>
-    <html lang="en" dir="ltr">
+  <!DOCTYPE HTML>
+  <html lang="en" dir="ltr">
     <head>
-    <link rel="icon" href="../favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon" />
-    <meta charset="utf-8" />
+    <link rel="icon" href="../favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon"/>
+    <meta charset="utf-8"/>
     <title>phpMyAdmin OpenID signon example</title>
     </head>
     <body>
@@ -87,9 +87,11 @@ if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
 }
 $base .= '://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
 
-$realm = $base . '/';
+$realm    = $base . '/';
 $returnTo = $base . dirname($_SERVER['PHP_SELF']);
-if ($returnTo[/*overload*/mb_strlen($returnTo) - 1] != '/') {
+if ($returnTo[/*overload*/
+    mb_strlen($returnTo) - 1] != '/'
+) {
     $returnTo .= '/';
 }
 $returnTo .= 'openid.php';
@@ -154,7 +156,7 @@ if (isset($_POST['start'])) {
     $id = $message->get('openid.claimed_id');
 
     if (!empty($id) && isset($AUTH_MAP[$id])) {
-        $_SESSION['PMA_single_signon_user'] = $AUTH_MAP[$id]['user'];
+        $_SESSION['PMA_single_signon_user']     = $AUTH_MAP[$id]['user'];
         $_SESSION['PMA_single_signon_password'] = $AUTH_MAP[$id]['password'];
         session_write_close();
         /* Redirect to phpMyAdmin (should use absolute URL here!) */

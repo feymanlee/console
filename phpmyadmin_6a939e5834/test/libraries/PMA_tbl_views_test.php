@@ -34,7 +34,7 @@ class PMA_TblViewsTest extends PHPUnit_Framework_TestCase
         /**
          * SET these to avoid undefined index error
          */
-        $GLOBALS['server'] = 1;
+        $GLOBALS['server']                 = 1;
         $GLOBALS['cfg']['Server']['pmadb'] = '';
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
@@ -46,39 +46,39 @@ class PMA_TblViewsTest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue('executeResult2'));
 
         //_SESSION
-        $_SESSION['relation'][$GLOBALS['server']] = array(
+        $_SESSION['relation'][$GLOBALS['server']] = [
             'table_coords' => "table_name",
-            'displaywork' => 'displaywork',
-            'db' => "information_schema",
-            'table_info' => 'table_info',
-            'relwork' => 'relwork',
-            'relation' => 'relation',
-            'column_info' => 'column_info',
-        );
+            'displaywork'  => 'displaywork',
+            'db'           => "information_schema",
+            'table_info'   => 'table_info',
+            'relwork'      => 'relwork',
+            'relation'     => 'relation',
+            'column_info'  => 'column_info',
+        ];
 
         //_SESSION
-        $_SESSION['relation'][$GLOBALS['server']] = array(
+        $_SESSION['relation'][$GLOBALS['server']] = [
             'table_coords' => "table_name",
-            'displaywork' => 'displaywork',
-            'db' => "information_schema",
-            'table_info' => 'table_info',
-            'relwork' => 'relwork',
-            'commwork' => 'commwork',
-            'displaywork' => 'displaywork',
-            'pdfwork' => 'pdfwork',
-            'column_info' => 'column_info',
-            'relation' => 'relation',
-            'relwork' => 'relwork',
-        );
+            'displaywork'  => 'displaywork',
+            'db'           => "information_schema",
+            'table_info'   => 'table_info',
+            'relwork'      => 'relwork',
+            'commwork'     => 'commwork',
+            'displaywork'  => 'displaywork',
+            'pdfwork'      => 'pdfwork',
+            'column_info'  => 'column_info',
+            'relation'     => 'relation',
+            'relwork'      => 'relwork',
+        ];
 
-        $meta1 = new FieldMeta();
+        $meta1        = new FieldMeta();
         $meta1->table = "meta1_table";
-        $meta1->name = "meta1_name";
-        $meta2 = new FieldMeta();
+        $meta1->name  = "meta1_name";
+        $meta2        = new FieldMeta();
         $meta2->table = "meta2_table";
-        $meta2->name = "meta2_name";
+        $meta2->name  = "meta2_name";
 
-        $getFieldsMeta = array($meta1, $meta2);
+        $getFieldsMeta = [$meta1, $meta2];
 
         $dbi->expects($this->any())
             ->method('getFieldsMeta')
@@ -95,27 +95,27 @@ class PMA_TblViewsTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetColumnMap()
     {
-        $sql_query = "PMA_sql_query";
-        $view_columns = array(
-            "view_columns1", "view_columns2"
-        );
+        $sql_query    = "PMA_sql_query";
+        $view_columns = [
+            "view_columns1", "view_columns2",
+        ];
 
         $column_map = PMA_getColumnMap($sql_query, $view_columns);
 
         $this->assertEquals(
-            array(
-                'table_name' => 'meta1_table',
+            [
+                'table_name'      => 'meta1_table',
                 'refering_column' => 'meta1_name',
-                'real_column' => 'view_columns1'
-            ),
+                'real_column'     => 'view_columns1',
+            ],
             $column_map[0]
         );
         $this->assertEquals(
-            array(
-                'table_name' => 'meta2_table',
+            [
+                'table_name'      => 'meta2_table',
                 'refering_column' => 'meta2_name',
-                'real_column' => 'view_columns2'
-            ),
+                'real_column'     => 'view_columns2',
+            ],
             $column_map[1]
         );
     }
@@ -128,7 +128,7 @@ class PMA_TblViewsTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetExistingTransformationData()
     {
-        $db = "PMA_db";
+        $db  = "PMA_db";
         $ret = PMA_getExistingTransformationData($db);
 
         //validate that is the same as $GLOBALS['dbi']->tryQuery
@@ -146,30 +146,30 @@ class PMA_TblViewsTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetNewTransformationDataSql()
     {
-        $dbi = $GLOBALS['dbi'];
-        $value = array(
-            'table_name' => "table_name",
-            'column_name' => "column_name",
-            'comment' => "comment",
-            'mimetype' => "mimetype",
-            'transformation' => "transformation",
+        $dbi   = $GLOBALS['dbi'];
+        $value = [
+            'table_name'             => "table_name",
+            'column_name'            => "column_name",
+            'comment'                => "comment",
+            'mimetype'               => "mimetype",
+            'transformation'         => "transformation",
             'transformation_options' => "transformation_options",
-        );
+        ];
 
         $dbi->expects($this->at(0))->method('fetchAssoc')
             ->will($this->returnValue($value));
 
         $GLOBALS['dbi'] = $dbi;
 
-        $db = "PMA_db";
-        $pma_tranformation_data = array();
-        $column_map = array(
-            array(
-                "table_name" => "table_name",
-                "refering_column" => "column_name"
-            )
-        );
-        $view_name = "view_name";
+        $db                     = "PMA_db";
+        $pma_tranformation_data = [];
+        $column_map             = [
+            [
+                "table_name"      => "table_name",
+                "refering_column" => "column_name",
+            ],
+        ];
+        $view_name              = "view_name";
 
         $ret = PMA_getNewTransformationDataSql(
             $pma_tranformation_data, $column_map, $view_name, $db

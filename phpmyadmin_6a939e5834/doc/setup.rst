@@ -247,7 +247,7 @@ options which the setup script does not provide.
    :ref:`faq1_42`.
 
 .. index::
-    single: Configuration storage
+single: Configuration storage
     single: phpMyAdmin configuration storage
     single: pmadb
 
@@ -443,24 +443,24 @@ The very basic example of saving credentials in a session is available as
 :file:`examples/signon.php`:
 
 .. literalinclude:: ../examples/signon.php
-    :language: php
+:language: php
 
-Alternatively you can also use this way to integrate with OpenID as shown
-in :file:`examples/openid.php`:
+    Alternatively you can also use this way to integrate with OpenID as shown
+    in :file:`examples/openid.php`:
 
 .. literalinclude:: ../examples/openid.php
-    :language: php
+:language: php
 
-If you intend to pass the credentials using some other means than, you have to
-implement wrapper in PHP to get that data and set it to
-:config:option:`$cfg['Servers'][$i]['SignonScript']`. There is very minimal example
+    If you intend to pass the credentials using some other means than, you have to
+    implement wrapper in PHP to get that data and set it to
+    :config:option:`$cfg['Servers'][$i]['SignonScript']`. There is very minimal example
 in :file:`examples/signon-script.php`:
 
 .. literalinclude:: ../examples/signon-script.php
-    :language: php
+:language: php
 
 .. seealso::
-    :config:option:`$cfg['Servers'][$i]['auth_type']`,
+:config:option:`$cfg['Servers'][$i]['auth_type']`,
     :config:option:`$cfg['Servers'][$i]['SignonSession']`,
     :config:option:`$cfg['Servers'][$i]['SignonScript']`,
     :config:option:`$cfg['Servers'][$i]['SignonURL']`

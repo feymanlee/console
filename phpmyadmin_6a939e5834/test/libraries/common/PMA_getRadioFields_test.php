@@ -4,7 +4,7 @@
  ** Test for PMA_Util::getRadioFields from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -16,7 +16,7 @@ require_once 'libraries/Util.class.php';
  ** Test for PMA_Util::getRadioFields from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_GetRadioFieldsTest extends PHPUnit_Framework_TestCase
 {
@@ -27,8 +27,8 @@ class PMA_GetRadioFieldsTest extends PHPUnit_Framework_TestCase
      */
     function testGetRadioFieldsEmpty()
     {
-        $name = "test_display_radio";
-        $choices = array();
+        $name    = "test_display_radio";
+        $choices = [];
 
         $this->assertEquals(
             PMA_Util::getRadioFields($name, $choices),
@@ -43,8 +43,8 @@ class PMA_GetRadioFieldsTest extends PHPUnit_Framework_TestCase
      */
     function testGetRadioFields()
     {
-        $name = "test_display_radio";
-        $choices = array('value_1'=>'choice_1', 'value_2'=>'choice_2');
+        $name    = "test_display_radio";
+        $choices = ['value_1' => 'choice_1', 'value_2' => 'choice_2'];
 
         $out = "";
         foreach ($choices as $choice_value => $choice_label) {
@@ -71,8 +71,8 @@ class PMA_GetRadioFieldsTest extends PHPUnit_Framework_TestCase
      */
     function testGetRadioFieldsWithChecked()
     {
-        $name = "test_display_radio";
-        $choices = array('value_1'=>'choice_1', 'value_2'=>'choice_2');
+        $name           = "test_display_radio";
+        $choices        = ['value_1' => 'choice_1', 'value_2' => 'choice_2'];
         $checked_choice = "value_2";
 
         $out = "";
@@ -105,10 +105,10 @@ class PMA_GetRadioFieldsTest extends PHPUnit_Framework_TestCase
      */
     function testGetRadioFieldsWithCheckedWithClass()
     {
-        $name = "test_display_radio";
-        $choices = array('value_1'=>'choice_1', 'value_2'=>'choice_2');
+        $name           = "test_display_radio";
+        $choices        = ['value_1' => 'choice_1', 'value_2' => 'choice_2'];
         $checked_choice = "value_2";
-        $class = "test_class";
+        $class          = "test_class";
 
         $out = "";
         foreach ($choices as $choice_value => $choice_label) {
@@ -142,8 +142,8 @@ class PMA_GetRadioFieldsTest extends PHPUnit_Framework_TestCase
      */
     function testGetRadioFieldsWithoutBR()
     {
-        $name = "test_display_radio";
-        $choices = array('value_1'=>'choice_1', 'value&_&lt;2&gt;'=>'choice_2');
+        $name           = "test_display_radio";
+        $choices        = ['value_1' => 'choice_1', 'value&_&lt;2&gt;' => 'choice_2'];
         $checked_choice = "choice_2";
 
         $out = "";
@@ -175,8 +175,8 @@ class PMA_GetRadioFieldsTest extends PHPUnit_Framework_TestCase
      */
     function testGetRadioFieldsEscapeLabelEscapeLabel()
     {
-        $name = "test_display_radio";
-        $choices = array('value_1'=>'choice_1', 'value_&2'=>'choice&_&lt;2&gt;');
+        $name           = "test_display_radio";
+        $choices        = ['value_1' => 'choice_1', 'value_&2' => 'choice&_&lt;2&gt;'];
         $checked_choice = "value_2";
 
         $out = "";
@@ -209,8 +209,8 @@ class PMA_GetRadioFieldsTest extends PHPUnit_Framework_TestCase
      */
     function testGetRadioFieldsEscapeLabelNotEscapeLabel()
     {
-        $name = "test_display_radio";
-        $choices = array('value_1'=>'choice_1', 'value_&2'=>'choice&_&lt;2&gt;');
+        $name           = "test_display_radio";
+        $choices        = ['value_1' => 'choice_1', 'value_&2' => 'choice&_&lt;2&gt;'];
         $checked_choice = "value_2";
 
         $out = "";
@@ -243,10 +243,10 @@ class PMA_GetRadioFieldsTest extends PHPUnit_Framework_TestCase
      */
     function testGetRadioFieldsEscapeLabelEscapeLabelWithClass()
     {
-        $name = "test_display_radio";
-        $choices = array('value_1'=>'choice_1', 'value_&2'=>'choice&_&lt;2&gt;');
+        $name           = "test_display_radio";
+        $choices        = ['value_1' => 'choice_1', 'value_&2' => 'choice&_&lt;2&gt;'];
         $checked_choice = "value_2";
-        $class = "test_class";
+        $class          = "test_class";
 
         $out = "";
         foreach ($choices as $choice_value => $choice_label) {

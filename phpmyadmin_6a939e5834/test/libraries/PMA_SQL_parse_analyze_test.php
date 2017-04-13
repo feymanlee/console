@@ -30,16 +30,16 @@ class PMA_SQLParserAnalyze_Test extends PHPUnit_Framework_TestCase
     {
         //select statement
         $sql_query = "select * from PMA.PMAParse";
-        $db = "PMA";
-        $data = PMA_SQP_getParserAnalyzeMap($sql_query, $db);
+        $db        = "PMA";
+        $data      = PMA_SQP_getParserAnalyzeMap($sql_query, $db);
 
         $this->assertEquals(
-            array(
-                'type' => 'alpha_reservedWord',
-                'data' => 'select',
-                'pos' => 6,
+            [
+                'type'      => 'alpha_reservedWord',
+                'data'      => 'select',
+                'pos'       => 6,
                 'forbidden' => true,
-            ),
+            ],
             $data['parsed_sql'][0]
         );
         $this->assertEquals(
@@ -53,16 +53,16 @@ class PMA_SQLParserAnalyze_Test extends PHPUnit_Framework_TestCase
 
         //update statement
         $sql_query = "UPDATE `11`.`pma_bookmark` SET `id` = '2' WHERE `pma_bookmark`.`id` = 1;";
-        $db = "PMA";
-        $data = PMA_SQP_getParserAnalyzeMap($sql_query, $db);
+        $db        = "PMA";
+        $data      = PMA_SQP_getParserAnalyzeMap($sql_query, $db);
 
         $this->assertEquals(
-            array(
-                'type' => 'alpha_reservedWord',
-                'data' => 'UPDATE',
-                'pos' => 6,
+            [
+                'type'      => 'alpha_reservedWord',
+                'data'      => 'UPDATE',
+                'pos'       => 6,
                 'forbidden' => true,
-            ),
+            ],
             $data['parsed_sql'][0]
         );
         $this->assertEquals(

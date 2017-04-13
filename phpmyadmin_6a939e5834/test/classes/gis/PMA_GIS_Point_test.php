@@ -55,38 +55,38 @@ class PMA_GIS_PointTest extends PMA_GIS_GeomTest
      */
     public function providerForTestGenerateWkt()
     {
-        return array(
-            array(
-                array(0 => array('POINT' => array('x' => 5.02, 'y' => 8.45))),
+        return [
+            [
+                [0 => ['POINT' => ['x' => 5.02, 'y' => 8.45]]],
                 0,
                 null,
-                'POINT(5.02 8.45)'
-            ),
-            array(
-                array(0 => array('POINT' => array('x' => 5.02, 'y' => 8.45))),
+                'POINT(5.02 8.45)',
+            ],
+            [
+                [0 => ['POINT' => ['x' => 5.02, 'y' => 8.45]]],
                 1,
                 null,
-                'POINT( )'
-            ),
-            array(
-                array(0 => array('POINT' => array('x' => 5.02))),
+                'POINT( )',
+            ],
+            [
+                [0 => ['POINT' => ['x' => 5.02]]],
                 0,
                 null,
-                'POINT(5.02 )'
-            ),
-            array(
-                array(0 => array('POINT' => array('y' => 8.45))),
+                'POINT(5.02 )',
+            ],
+            [
+                [0 => ['POINT' => ['y' => 8.45]]],
                 0,
                 null,
-                'POINT( 8.45)'
-            ),
-            array(
-                array(0 => array('POINT' => array())),
+                'POINT( 8.45)',
+            ],
+            [
+                [0 => ['POINT' => []]],
                 0,
                 null,
-                'POINT( )'
-            ),
-        );
+                'POINT( )',
+            ],
+        ];
     }
 
     /**
@@ -110,12 +110,12 @@ class PMA_GIS_PointTest extends PMA_GIS_GeomTest
      */
     public function providerForTestGetShape()
     {
-        return array(
-            array(
-                array('x' => 5.02, 'y' => 8.45),
-                'POINT(5.02 8.45)'
-            )
-        );
+        return [
+            [
+                ['x' => 5.02, 'y' => 8.45],
+                'POINT(5.02 8.45)',
+            ],
+        ];
     }
 
     /**
@@ -125,28 +125,28 @@ class PMA_GIS_PointTest extends PMA_GIS_GeomTest
      */
     public function providerForTestGenerateParams()
     {
-        return array(
-            array(
+        return [
+            [
                 "'POINT(5.02 8.45)',124",
                 null,
-                array(
+                [
                     'srid' => '124',
-                    0      => array(
-                        'POINT'    => array('x' => '5.02', 'y' => '8.45')
-                    ),
-                )
-            ),
-            array(
+                    0      => [
+                        'POINT' => ['x' => '5.02', 'y' => '8.45'],
+                    ],
+                ],
+            ],
+            [
                 'POINT(5.02 8.45)',
                 2,
-                array(
-                    2 => array(
+                [
+                    2 => [
                         'gis_type' => 'POINT',
-                        'POINT'    => array('x' => '5.02', 'y' => '8.45')
-                    ),
-                )
-            )
-        );
+                        'POINT'    => ['x' => '5.02', 'y' => '8.45'],
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -156,17 +156,17 @@ class PMA_GIS_PointTest extends PMA_GIS_GeomTest
      */
     public function providerForTestScaleRow()
     {
-        return array(
-            array(
+        return [
+            [
                 'POINT(12 35)',
-                array(
+                [
                     'minX' => 12,
                     'maxX' => 12,
                     'minY' => 35,
                     'maxY' => 35,
-                )
-            )
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -197,20 +197,20 @@ class PMA_GIS_PointTest extends PMA_GIS_GeomTest
      */
     public function providerForPrepareRowAsPng()
     {
-        return array(
-            array(
+        return [
+            [
                 'POINT(12 35)',
                 'image',
                 '#B02EE0',
-                array(
-                    'x' => 12,
-                    'y' => 69,
-                    'scale' => 2,
-                    'height' => 150
-                ),
-                imagecreatetruecolor('120', '150')
-            )
-        );
+                [
+                    'x'      => 12,
+                    'y'      => 69,
+                    'scale'  => 2,
+                    'height' => 150,
+                ],
+                imagecreatetruecolor('120', '150'),
+            ],
+        ];
     }
 
     /**
@@ -241,20 +241,20 @@ class PMA_GIS_PointTest extends PMA_GIS_GeomTest
      */
     public function providerForPrepareRowAsPdf()
     {
-        return array(
-            array(
+        return [
+            [
                 'POINT(12 35)',
                 'pdf',
                 '#B02EE0',
-                array(
-                    'x' => 12,
-                    'y' => 69,
-                    'scale' => 2,
-                    'height' => 150
-                ),
+                [
+                    'x'      => 12,
+                    'y'      => 69,
+                    'scale'  => 2,
+                    'height' => 150,
+                ],
                 new TCPDF(),
-            )
-        );
+            ],
+        ];
     }
 
     /**
@@ -287,20 +287,20 @@ class PMA_GIS_PointTest extends PMA_GIS_GeomTest
      */
     public function providerForPrepareRowAsSvg()
     {
-        return array(
-            array(
+        return [
+            [
                 'POINT(12 35)',
                 'svg',
                 '#B02EE0',
-                array(
-                    'x' => 12,
-                    'y' => 69,
-                    'scale' => 2,
-                    'height' => 150
-                ),
-                ''
-            )
-        );
+                [
+                    'x'      => 12,
+                    'y'      => 69,
+                    'scale'  => 2,
+                    'height' => 150,
+                ],
+                '',
+            ],
+        ];
     }
 
     /**
@@ -334,18 +334,18 @@ class PMA_GIS_PointTest extends PMA_GIS_GeomTest
      */
     public function providerForPrepareRowAsOl()
     {
-        return array(
-            array(
+        return [
+            [
                 'POINT(12 35)',
                 4326,
                 'Ol',
                 '#B02EE0',
-                array(
+                [
                     'minX' => '0',
                     'minY' => '0',
                     'maxX' => '1',
                     'maxY' => '1',
-                ),
+                ],
                 'bound = new OpenLayers.Bounds(); bound.extend(new OpenLayers.'
                 . 'LonLat(0, 0).transform(new OpenLayers.Projection("EPSG:4326"), '
                 . 'map.getProjectionObject())); bound.extend(new OpenLayers.LonLat'
@@ -355,9 +355,10 @@ class PMA_GIS_PointTest extends PMA_GIS_GeomTest
                 . 'transform(new OpenLayers.Projection("EPSG:4326"), map.get'
                 . 'ProjectionObject()), null, {"pointRadius":3,"fillColor":"#ffffff"'
                 . ',"strokeColor":"#B02EE0","strokeWidth":2,"label":"Ol","labelY'
-                . 'Offset":-8,"fontSize":10}));'
-            )
-        );
+                . 'Offset":-8,"fontSize":10}));',
+            ],
+        ];
     }
 }
+
 ?>

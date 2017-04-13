@@ -30,23 +30,23 @@ foreach ($types['mimetype'] as $key => $mimetype) {
     }
 
 }
-$transformation_types = array(
-    'transformation', 'input_transformation'
-);
-$label = array(
-    'transformation' => __('Available browser display transformations'),
-    'input_transformation' => __('Available input transformations')
-);
-$th = array(
-    'transformation' => __('Browser display transformation'),
-    'input_transformation' => __('Input transformation')
-);
+$transformation_types = [
+    'transformation', 'input_transformation',
+];
+$label                = [
+    'transformation'       => __('Available browser display transformations'),
+    'input_transformation' => __('Available input transformations'),
+];
+$th                   = [
+    'transformation'       => __('Browser display transformation'),
+    'input_transformation' => __('Input transformation'),
+];
 ?>
-<br />
+<br/>
 <?php foreach ($transformation_types as $ttype) { ?>
-    <a name="<?php echo $ttype; ?>"></a>
-    <h2><?php echo $label[$ttype] ?></h2>
-    <table width="90%">
+  <a name="<?php echo $ttype; ?>"></a>
+  <h2><?php echo $label[$ttype] ?></h2>
+  <table width="90%">
     <thead>
     <tr>
         <th><?php echo $th[$ttype] ?></th>
@@ -59,7 +59,7 @@ $th = array(
     foreach ($types[$ttype] as $key => $transform) {
         $desc = PMA_getTransformationDescription($types[$ttype . '_file'][$key]);
         ?>
-        <tr class="<?php echo $odd_row ? 'odd' : 'even'; ?>">
+      <tr class="<?php echo $odd_row ? 'odd' : 'even'; ?>">
             <td><?php echo $transform; ?></td>
             <td><?php echo $desc; ?></td>
         </tr>

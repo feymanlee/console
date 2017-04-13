@@ -24,40 +24,43 @@ function PMA_Process_formset(FormDisplay $form_display)
     if (!$form_display->process(false)) {
         // handle form view and failed POST
         $form_display->display(true, true);
+
         return;
     }
 
     // check for form errors
     if (!$form_display->hasErrors()) {
         PMA_generateHeader303();
+
         return;
     }
 
     // form has errors, show warning
     $separator = PMA_URL_getArgSeparator('html');
-    $page = isset($_GET['page']) ? $_GET['page'] : null;
-    $formset = isset($_GET['formset']) ? $_GET['formset'] : null;
-    $formset = $formset ? "{$separator}formset=$formset" : '';
-    $formId = PMA_isValid($_GET['id'], 'numeric') ? $_GET['id'] : null;
+    $page      = isset($_GET['page']) ? $_GET['page'] : null;
+    $formset   = isset($_GET['formset']) ? $_GET['formset'] : null;
+    $formset   = $formset ? "{$separator}formset=$formset" : '';
+    $formId    = PMA_isValid($_GET['id'], 'numeric') ? $_GET['id'] : null;
     if ($formId === null && $page == 'servers') {
         // we've just added a new server, get its id
         $formId = $form_display->getConfigFile()->getServerCount();
     }
     $formId = $formId ? "{$separator}id=$formId" : '';
     ?>
-    <div class="error">
+  <div class="error">
         <h4><?php echo __('Warning') ?></h4>
-        <?php echo __('Submitted form contains errors') ?><br />
+      <?php echo __('Submitted form contains errors') ?><br/>
         <a href="<?php echo PMA_URL_getCommon() . $separator ?>page=<?php echo $page . $formset . $formId . $separator ?>mode=revert">
             <?php echo __('Try to revert erroneous fields to their default values') ?>
         </a>
     </div>
     <?php $form_display->displayErrors() ?>
-    <a class="btn" href="index.php<?php echo PMA_URL_getCommon() ?>">
+  <a class="btn" href="index.php<?php echo PMA_URL_getCommon() ?>">
         <?php echo __('Ignore errors') ?>
     </a>
-    &nbsp;
-    <a class="btn" href="<?php echo PMA_URL_getCommon() . $separator ?>page=<?php echo $page . $formset . $formId . $separator ?>mode=edit">
+  &nbsp;
+  <a class="btn"
+     href="<?php echo PMA_URL_getCommon() . $separator ?>page=<?php echo $page . $formset . $formId . $separator ?>mode=edit">
         <?php echo __('Show form') ?>
     </a>
     <?php
@@ -78,4 +81,5 @@ function PMA_generateHeader303()
         exit;
     }
 }
+
 ?>

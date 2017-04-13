@@ -6,7 +6,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -239,13 +239,14 @@ class PMA_Export_Relation_Schema
      */
     protected function getTablesFromRequest()
     {
-        $tables = array();
+        $tables   = [];
         $dbLength = mb_strlen($GLOBALS['db']);
         foreach ($_REQUEST['t_h'] as $key => $value) {
             if ($value) {
                 $tables[] = mb_substr($key, $dbLength + 1);
             }
         }
+
         return $tables;
     }
 
@@ -258,14 +259,14 @@ class PMA_Export_Relation_Schema
     {
         $filename = $GLOBALS['db'] . $extension;
         // Get the name of this page to use as filename
-        if ($this->pageNumber != -1 && ! $this->offline) {
+        if ($this->pageNumber != -1 && !$this->offline) {
             $_name_sql = 'SELECT page_descr FROM '
                 . PMA_Util::backquote($GLOBALS['cfgRelation']['db']) . '.'
                 . PMA_Util::backquote($GLOBALS['cfgRelation']['pdf_pages'])
                 . ' WHERE page_nr = ' . $this->pageNumber;
-            $_name_rs = PMA_queryAsControlUser($_name_sql);
+            $_name_rs  = PMA_queryAsControlUser($_name_sql);
             $_name_row = $GLOBALS['dbi']->fetchRow($_name_rs);
-            $filename = $_name_row[0] . $extension;
+            $filename  = $_name_row[0] . $extension;
         }
 
         return $filename;
@@ -284,7 +285,7 @@ class PMA_Export_Relation_Schema
      */
     public static function dieSchema($pageNumber, $type = '', $error_message = '')
     {
-        echo "<p><strong>" . __("SCHEMA ERROR: ") .  $type . "</strong></p>" . "\n";
+        echo "<p><strong>" . __("SCHEMA ERROR: ") . $type . "</strong></p>" . "\n";
         if (!empty($error_message)) {
             $error_message = htmlspecialchars($error_message);
         }
@@ -292,10 +293,11 @@ class PMA_Export_Relation_Schema
         echo '    ' . $error_message . "\n";
         echo '</p>' . "\n";
         echo '<a href="db_designer.php'
-            . PMA_URL_getCommon(array('db' => $GLOBALS['db']))
+            . PMA_URL_getCommon(['db' => $GLOBALS['db']])
             . '&page=' . htmlspecialchars($pageNumber) . '">' . __('Back') . '</a>';
         echo "\n";
         exit;
     }
 }
+
 ?>

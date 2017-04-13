@@ -14,11 +14,12 @@ require_once 'libraries/Config.class.php';
 require_once 'libraries/php-gettext/gettext.inc';
 require_once 'libraries/config.default.php';
 require_once 'export.php';
+
 /**
  * tests for ExportOds class
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_ExportOds_Test extends PHPUnit_Framework_TestCase
 {
@@ -31,13 +32,13 @@ class PMA_ExportOds_Test extends PHPUnit_Framework_TestCase
      */
     function setup()
     {
-        $GLOBALS['server'] = 0;
-        $GLOBALS['output_kanji_conversion'] = false;
+        $GLOBALS['server']                    = 0;
+        $GLOBALS['output_kanji_conversion']   = false;
         $GLOBALS['output_charset_conversion'] = false;
-        $GLOBALS['buffer_needed'] = false;
-        $GLOBALS['asfile'] = true;
-        $GLOBALS['save_on_server'] = false;
-        $this->object = new ExportOds();
+        $GLOBALS['buffer_needed']             = false;
+        $GLOBALS['asfile']                    = true;
+        $GLOBALS['save_on_server']            = false;
+        $this->object                         = new ExportOds();
     }
 
     /**
@@ -107,7 +108,7 @@ class PMA_ExportOds_Test extends PHPUnit_Framework_TestCase
         );
 
         $generalOptionsArray = $options->getProperties();
-        $generalOptions = $generalOptionsArray[0];
+        $generalOptions      = $generalOptionsArray[0];
 
         $this->assertInstanceOf(
             'OptionsPropertyMainGroup',
@@ -269,46 +270,46 @@ class PMA_ExportOds_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $flags = array();
-        $a = new StdClass;
+        $flags   = [];
+        $a       = new StdClass;
         $flags[] = $a;
 
-        $a = new StdClass;
+        $a       = new StdClass;
         $a->blob = true;
         $flags[] = $a;
 
-        $a = new StdClass;
+        $a       = new StdClass;
         $a->blob = false;
         $a->type = 'date';
         $flags[] = $a;
 
-        $a = new StdClass;
+        $a       = new StdClass;
         $a->blob = false;
         $a->type = 'time';
         $flags[] = $a;
 
-        $a = new StdClass;
+        $a       = new StdClass;
         $a->blob = false;
         $a->type = 'datetime';
         $flags[] = $a;
 
-        $a = new StdClass;
+        $a          = new StdClass;
         $a->numeric = true;
-        $a->type = 'none';
-        $a->blob = false;
-        $flags[] = $a;
+        $a->type    = 'none';
+        $a->blob    = false;
+        $flags[]    = $a;
 
-        $a = new StdClass;
+        $a          = new StdClass;
         $a->numeric = true;
-        $a->type = 'real';
-        $a->blob = true;
-        $flags[] = $a;
+        $a->type    = 'real';
+        $a->blob    = true;
+        $flags[]    = $a;
 
-        $a = new StdClass;
-        $a->type = "dummy";
-        $a->blob = false;
+        $a          = new StdClass;
+        $a->type    = "dummy";
+        $a->blob    = false;
         $a->numeric = false;
-        $flags[] = $a;
+        $flags[]    = $a;
 
         $dbi->expects($this->once())
             ->method('getFieldsMeta')
@@ -338,10 +339,10 @@ class PMA_ExportOds_Test extends PHPUnit_Framework_TestCase
             ->with(true)
             ->will(
                 $this->returnValue(
-                    array(
+                    [
                         null, '01-01-2000', '01-01-2000', '01-01-2000 10:00:00',
-                        "01-01-2014 10:02:00", "t>s", "a&b", "<"
-                    )
+                        "01-01-2014 10:02:00", "t>s", "a&b", "<",
+                    ]
                 )
             );
 
@@ -350,11 +351,11 @@ class PMA_ExportOds_Test extends PHPUnit_Framework_TestCase
             ->with(true)
             ->will($this->returnValue(null));
 
-        $GLOBALS['dbi'] = $dbi;
+        $GLOBALS['dbi']               = $dbi;
         $GLOBALS['mediawiki_caption'] = true;
         $GLOBALS['mediawiki_headers'] = true;
-        $GLOBALS['what'] = 'foo';
-        $GLOBALS['foo_null'] = "&";
+        $GLOBALS['what']              = 'foo';
+        $GLOBALS['foo_null']          = "&";
 
         $this->assertTrue(
             $this->object->exportData(
@@ -394,7 +395,7 @@ class PMA_ExportOds_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $flags = array();
+        $flags = [];
 
         $dbi->expects($this->once())
             ->method('getFieldsMeta')
@@ -432,12 +433,12 @@ class PMA_ExportOds_Test extends PHPUnit_Framework_TestCase
                 )
             );
 
-        $GLOBALS['dbi'] = $dbi;
+        $GLOBALS['dbi']               = $dbi;
         $GLOBALS['mediawiki_caption'] = true;
         $GLOBALS['mediawiki_headers'] = true;
-        $GLOBALS['what'] = 'foo';
-        $GLOBALS['foo_null'] = "&";
-        $GLOBALS['foo_columns'] = true;
+        $GLOBALS['what']              = 'foo';
+        $GLOBALS['foo_null']          = "&";
+        $GLOBALS['foo_columns']       = true;
 
         $this->assertTrue(
             $this->object->exportData(
@@ -459,7 +460,7 @@ class PMA_ExportOds_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $flags = array();
+        $flags = [];
 
         $dbi->expects($this->once())
             ->method('getFieldsMeta')
@@ -485,12 +486,12 @@ class PMA_ExportOds_Test extends PHPUnit_Framework_TestCase
                 )
             );
 
-        $GLOBALS['dbi'] = $dbi;
+        $GLOBALS['dbi']               = $dbi;
         $GLOBALS['mediawiki_caption'] = true;
         $GLOBALS['mediawiki_headers'] = true;
-        $GLOBALS['what'] = 'foo';
-        $GLOBALS['foo_null'] = "&";
-        $GLOBALS['ods_buffer'] = '';
+        $GLOBALS['what']              = 'foo';
+        $GLOBALS['foo_null']          = "&";
+        $GLOBALS['ods_buffer']        = '';
 
         $this->assertTrue(
             $this->object->exportData(
@@ -505,4 +506,5 @@ class PMA_ExportOds_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

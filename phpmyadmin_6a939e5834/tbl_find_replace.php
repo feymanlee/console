@@ -14,7 +14,7 @@
 require_once 'libraries/common.inc.php';
 require_once 'libraries/TableSearch.class.php';
 
-$response = PMA_Response::getInstance();
+$response     = PMA_Response::getInstance();
 $table_search = new PMA_TableSearch($db, $table, "replace");
 
 $connectionCharSet = $GLOBALS['dbi']->fetchValue(
@@ -37,7 +37,7 @@ $scripts = $header->getScripts();
 $scripts->addFile('tbl_find_replace.js');
 
 // Show secondary level of tabs
-$htmlOutput  = $table_search->getSecondaryTabs();
+$htmlOutput = $table_search->getSecondaryTabs();
 
 if (isset($_POST['replace'])) {
     $htmlOutput .= $table_search->replace(
@@ -53,11 +53,11 @@ if (isset($_POST['replace'])) {
     );
 }
 
-if (! isset($goto)) {
+if (!isset($goto)) {
     $goto = $GLOBALS['cfg']['DefaultTabTable'];
 }
 // Defines the url to return to in case of error in the next sql statement
-$params = array('db' => $db, 'table' => $table);
+$params  = ['db' => $db, 'table' => $table];
 $err_url = $goto . '?' . PMA_URL_getCommon($params);
 // Displays the find and replace form
 $htmlOutput .= $table_search->getSelectionForm($goto);

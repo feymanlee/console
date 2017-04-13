@@ -14,11 +14,12 @@ require_once 'libraries/Config.class.php';
 require_once 'libraries/php-gettext/gettext.inc';
 require_once 'libraries/config.default.php';
 require_once 'export.php';
+
 /**
  * tests for ExportMediawiki class
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_ExportMediawiki_Test extends PHPUnit_Framework_TestCase
 {
@@ -31,13 +32,13 @@ class PMA_ExportMediawiki_Test extends PHPUnit_Framework_TestCase
      */
     function setup()
     {
-        $GLOBALS['server'] = 0;
-        $GLOBALS['output_kanji_conversion'] = false;
+        $GLOBALS['server']                    = 0;
+        $GLOBALS['output_kanji_conversion']   = false;
         $GLOBALS['output_charset_conversion'] = false;
-        $GLOBALS['buffer_needed'] = false;
-        $GLOBALS['asfile'] = true;
-        $GLOBALS['save_on_server'] = false;
-        $this->object = new ExportMediawiki();
+        $GLOBALS['buffer_needed']             = false;
+        $GLOBALS['asfile']                    = true;
+        $GLOBALS['save_on_server']            = false;
+        $this->object                         = new ExportMediawiki();
     }
 
     /**
@@ -103,7 +104,7 @@ class PMA_ExportMediawiki_Test extends PHPUnit_Framework_TestCase
         );
 
         $generalOptionsArray = $options->getProperties();
-        $generalOptions = $generalOptionsArray[0];
+        $generalOptions      = $generalOptionsArray[0];
 
         $this->assertInstanceOf(
             'OptionsPropertyMainGroup',
@@ -152,11 +153,11 @@ class PMA_ExportMediawiki_Test extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array(
-                'structure' => __('structure'),
-                'data' => __('data'),
-                'structure_and_data' => __('structure and data')
-            ),
+            [
+                'structure'          => __('structure'),
+                'data'               => __('data'),
+                'structure_and_data' => __('structure and data'),
+            ],
             $sgHeader->getValues()
         );
 
@@ -266,31 +267,31 @@ class PMA_ExportMediawiki_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $columns = array(
-            array(
-                'Null' => 'Yes',
-                'Field' => 'name1',
-                'Key' => 'PRI',
-                'Type' => 'set(abc)enum123',
+        $columns = [
+            [
+                'Null'    => 'Yes',
+                'Field'   => 'name1',
+                'Key'     => 'PRI',
+                'Type'    => 'set(abc)enum123',
                 'Default' => '',
-                'Extra' => ''
-            ),
-            array(
-                'Null' => 'NO',
-                'Field' => 'fields',
-                'Key' => 'COMP',
-                'Type' => '',
+                'Extra'   => '',
+            ],
+            [
+                'Null'    => 'NO',
+                'Field'   => 'fields',
+                'Key'     => 'COMP',
+                'Type'    => '',
                 'Default' => 'def',
-                'Extra' => 'ext'
-            )
-        );
+                'Extra'   => 'ext',
+            ],
+        ];
 
         $dbi->expects($this->at(0))
             ->method('getColumns')
             ->with('db', 'table')
             ->will($this->returnValue($columns));
 
-        $GLOBALS['dbi'] = $dbi;
+        $GLOBALS['dbi']               = $dbi;
         $GLOBALS['mediawiki_caption'] = true;
         $GLOBALS['mediawiki_headers'] = true;
 
@@ -335,16 +336,17 @@ class PMA_ExportMediawiki_Test extends PHPUnit_Framework_TestCase
 
         /**
          * This case produces an error, should it be tested?
-
-        ob_start();
-        $this->assertTrue(
-            $this->object->exportStructure(
-                'db', 'table', "\n", "example.com", "defaultTest", "test"
-            )
-        );
-        $result = ob_get_clean();
-        */
+         *
+         * ob_start();
+         * $this->assertTrue(
+         * $this->object->exportStructure(
+         * 'db', 'table', "\n", "example.com", "defaultTest", "test"
+         * )
+         * );
+         * $result = ob_get_clean();
+         */
     }
+
     /**
      * Test for ExportMediawiki::exportData
      *
@@ -359,7 +361,7 @@ class PMA_ExportMediawiki_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->once())
             ->method('getColumnNames')
             ->with('db', 'table')
-            ->will($this->returnValue(array('name1', 'fields')));
+            ->will($this->returnValue(['name1', 'fields']));
 
         $dbi->expects($this->once())
             ->method('query')
@@ -374,19 +376,19 @@ class PMA_ExportMediawiki_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->at(3))
             ->method('fetchRow')
             ->with(true)
-            ->will($this->returnValue(array('r1', 'r2')));
+            ->will($this->returnValue(['r1', 'r2']));
 
         $dbi->expects($this->at(4))
             ->method('fetchRow')
             ->with(true)
-            ->will($this->returnValue(array('r3', '')));
+            ->will($this->returnValue(['r3', '']));
 
         $dbi->expects($this->at(4))
             ->method('fetchRow')
             ->with(true)
             ->will($this->returnValue(null));
 
-        $GLOBALS['dbi'] = $dbi;
+        $GLOBALS['dbi']               = $dbi;
         $GLOBALS['mediawiki_caption'] = true;
         $GLOBALS['mediawiki_headers'] = true;
 
@@ -420,4 +422,5 @@ class PMA_ExportMediawiki_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

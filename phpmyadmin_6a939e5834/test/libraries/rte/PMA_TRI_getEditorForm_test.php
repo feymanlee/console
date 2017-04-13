@@ -31,7 +31,7 @@ class PMA_TRI_GetEditorForm_Test extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $GLOBALS['cfg']['ServerDefault'] = '';
-        $GLOBALS['db'] = 'pma_test';
+        $GLOBALS['db']                   = 'pma_test';
     }
 
 
@@ -44,7 +44,7 @@ class PMA_TRI_GetEditorForm_Test extends PHPUnit_Framework_TestCase
      * @return void
      *
      * @dataProvider providerAdd
-     * @group medium
+     * @group        medium
      */
     public function testGetEditorFormAdd($data, $matcher)
     {
@@ -63,50 +63,50 @@ class PMA_TRI_GetEditorForm_Test extends PHPUnit_Framework_TestCase
      */
     public function providerAdd()
     {
-        $data = array(
+        $data = [
             'item_name'               => '',
             'item_table'              => 'table1',
             'item_original_name'      => '',
             'item_action_timing'      => '',
             'item_event_manipulation' => '',
             'item_definition'         => '',
-            'item_definer'            => ''
-        );
+            'item_definer'            => '',
+        ];
 
-        return array(
-            array(
+        return [
+            [
                 $data,
-                "name='add_item'"
-            ),
-            array(
+                "name='add_item'",
+            ],
+            [
                 $data,
-                "name='item_name'"
-            ),
-            array(
+                "name='item_name'",
+            ],
+            [
                 $data,
-                "name='item_table'"
-            ),
-            array(
+                "name='item_table'",
+            ],
+            [
                 $data,
-                "name='item_timing'"
-            ),
-            array(
+                "name='item_timing'",
+            ],
+            [
                 $data,
-                "name='item_event'"
-            ),
-            array(
+                "name='item_event'",
+            ],
+            [
                 $data,
-                "name='item_definition'"
-            ),
-            array(
+                "name='item_definition'",
+            ],
+            [
                 $data,
-                "name='item_definer'"
-            ),
-            array(
+                "name='item_definer'",
+            ],
+            [
                 $data,
-                "name='editor_process_add'"
-            )
-        );
+                "name='editor_process_add'",
+            ],
+        ];
     }
 
     /**
@@ -118,7 +118,7 @@ class PMA_TRI_GetEditorForm_Test extends PHPUnit_Framework_TestCase
      * @return void
      *
      * @dataProvider providerEdit
-     * @group medium
+     * @group        medium
      */
     public function testGetEditorFormEdit($data, $matcher)
     {
@@ -137,50 +137,50 @@ class PMA_TRI_GetEditorForm_Test extends PHPUnit_Framework_TestCase
      */
     public function providerEdit()
     {
-        $data = array(
+        $data = [
             'item_name'               => 'foo',
             'item_table'              => 'table1',
             'item_original_name'      => 'bar',
             'item_action_timing'      => 'BEFORE',
             'item_event_manipulation' => 'INSERT',
             'item_definition'         => 'SET @A=1;',
-            'item_definer'            => ''
-        );
+            'item_definer'            => '',
+        ];
 
-        return array(
-            array(
+        return [
+            [
                 $data,
-                "name='edit_item'"
-            ),
-            array(
+                "name='edit_item'",
+            ],
+            [
                 $data,
-                "name='item_name'"
-            ),
-            array(
+                "name='item_name'",
+            ],
+            [
                 $data,
-                "name='item_table'"
-            ),
-            array(
+                "name='item_table'",
+            ],
+            [
                 $data,
-                "name='item_timing'"
-            ),
-            array(
+                "name='item_timing'",
+            ],
+            [
                 $data,
-                "name='item_event'"
-            ),
-            array(
+                "name='item_event'",
+            ],
+            [
                 $data,
-                "name='item_definition'"
-            ),
-            array(
+                "name='item_definition'",
+            ],
+            [
                 $data,
-                "name='item_definer'"
-            ),
-            array(
+                "name='item_definer'",
+            ],
+            [
                 $data,
-                "name='editor_process_edit'"
-            )
-        );
+                "name='editor_process_edit'",
+            ],
+        ];
     }
 
     /**
@@ -210,26 +210,27 @@ class PMA_TRI_GetEditorForm_Test extends PHPUnit_Framework_TestCase
      */
     public function providerAjax()
     {
-        $data = array(
+        $data = [
             'item_name'               => 'foo',
             'item_table'              => 'table1',
             'item_original_name'      => 'bar',
             'item_action_timing'      => 'BEFORE',
             'item_event_manipulation' => 'INSERT',
             'item_definition'         => 'SET @A=1;',
-            'item_definer'            => ''
-        );
+            'item_definer'            => '',
+        ];
 
-        return array(
-            array(
+        return [
+            [
                 $data,
-                "name='editor_process_edit'"
-            ),
-            array(
+                "name='editor_process_edit'",
+            ],
+            [
                 $data,
-                "name='ajax_request'"
-            )
-        );
+                "name='ajax_request'",
+            ],
+        ];
     }
 }
+
 ?>

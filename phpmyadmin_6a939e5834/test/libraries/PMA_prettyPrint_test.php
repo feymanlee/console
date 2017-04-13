@@ -41,7 +41,7 @@ class PMA_PrettyPrint_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             "key[test0]: \"value0\"\nkey[test1]: \"value1\"\n",
             PMA_prettyPrint(
-                array('key' => array('test0' => 'value0', 'test1' => 'value1'))
+                ['key' => ['test0' => 'value0', 'test1' => 'value1']]
             )
         );
     }
@@ -55,8 +55,9 @@ class PMA_PrettyPrint_Test extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             "key[0]: \"value0\"\nkey[1]: \"value1\"\n",
-            PMA_prettyPrint(array('key' => array('value0', 'value1')))
+            PMA_prettyPrint(['key' => ['value0', 'value1']])
         );
     }
 }
+
 ?>

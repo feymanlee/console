@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Navigation
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -31,15 +31,15 @@ class Node_Event extends Node_DatabaseChild
     public function __construct($name, $type = Node::OBJECT, $is_group = false)
     {
         parent::__construct($name, $type, $is_group);
-        $this->icon  = PMA_Util::getImage('b_events.png');
-        $this->links = array(
+        $this->icon    = PMA_Util::getImage('b_events.png');
+        $this->links   = [
             'text' => 'db_events.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%2$s&amp;item_name=%1$s&amp;edit_item=1'
-                    . '&amp;token=' . $_SESSION[' PMA_token '],
+                . '&amp;db=%2$s&amp;item_name=%1$s&amp;edit_item=1'
+                . '&amp;token=' . $_SESSION[' PMA_token '],
             'icon' => 'db_events.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%2$s&amp;item_name=%1$s&amp;export_item=1'
-                    . '&amp;token=' . $_SESSION[' PMA_token ']
-        );
+                . '&amp;db=%2$s&amp;item_name=%1$s&amp;export_item=1'
+                . '&amp;token=' . $_SESSION[' PMA_token '],
+        ];
         $this->classes = 'event';
     }
 

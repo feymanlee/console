@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage RegexValidation
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -45,16 +45,17 @@ abstract class RegexValidationTransformationsPlugin extends IOTransformationsPlu
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         // reset properties of object
         $this->reset();
         if (!empty($options[0]) && !preg_match($options[0], $buffer)) {
             $this->success = false;
-            $this->error = sprintf(
+            $this->error   = sprintf(
                 __('Validation failed for the input string %s.'), htmlspecialchars($buffer)
             );
         }
+
         return $buffer;
     }
 
@@ -71,4 +72,5 @@ abstract class RegexValidationTransformationsPlugin extends IOTransformationsPlu
         return "Regex Validation";
     }
 }
+
 ?>

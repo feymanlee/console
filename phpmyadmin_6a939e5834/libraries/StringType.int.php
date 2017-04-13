@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Defines a set of specialized string functions.
  *
@@ -81,4 +82,5 @@ interface PMA_StringType
      */
     public function numberInRangeInclusive($num, $lower, $upper);
 }
+
 ?>

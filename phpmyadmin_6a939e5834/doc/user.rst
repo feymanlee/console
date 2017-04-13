@@ -2,9 +2,9 @@ User Guide
 ==========
 
 .. toctree::
-    :maxdepth: 2
+:maxdepth: 2
 
-    transformations
-    privileges
-    other
-    import_export
+        transformations
+        privileges
+        other
+        import_export

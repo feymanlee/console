@@ -21,7 +21,7 @@ require_once 'libraries/sqlparser.lib.php';
 /**
  * Tests for PMA_DBQbe class
  *
- *  @package PhpMyAdmin-test
+ * @package PhpMyAdmin-test
  */
 class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
 {
@@ -39,9 +39,9 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new PMA_DBQbe('pma_test');
+        $this->object      = new PMA_DBQbe('pma_test');
         $GLOBALS['server'] = 0;
-        $GLOBALS['db'] = 'pma_test';
+        $GLOBALS['db']     = 'pma_test';
         //mock DBI
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
@@ -61,7 +61,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
 
         $dbi->expects($this->any())
             ->method('getTableIndexes')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $GLOBALS['dbi'] = $dbi;
     }
@@ -88,9 +88,10 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
      */
     private function _callProtectedFunction($name, $params)
     {
-        $class = new ReflectionClass('PMA_DBQbe');
+        $class  = new ReflectionClass('PMA_DBQbe');
         $method = $class->getMethod($name);
         $method->setAccessible(true);
+
         return $method->invokeArgs($this->object, $params);
     }
 
@@ -108,7 +109,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             . '</select></td>',
             $this->_callProtectedFunction(
                 '_getSortSelectCell',
-                array(1)
+                [1]
             )
         );
     }
@@ -134,7 +135,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             . '</option><option value="DESC">Descending</option></select></td></tr>',
             $this->_callProtectedFunction(
                 '_getSortRow',
-                array()
+                []
             )
         );
     }
@@ -154,7 +155,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             . '</td></tr>',
             $this->_callProtectedFunction(
                 '_getShowRow',
-                array()
+                []
             )
         );
     }
@@ -179,7 +180,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             . 'style="width: 12ex" size="20" /></td></tr>',
             $this->_callProtectedFunction(
                 '_getCriteriaInputboxRow',
-                array()
+                []
             )
         );
     }
@@ -200,7 +201,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             . '</select></div>',
             $this->_callProtectedFunction(
                 '_getFootersOptions',
-                array('row')
+                ['row']
             )
         );
     }
@@ -227,7 +228,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             . 'name="modify"value="Update Query" /></div></fieldset>',
             $this->_callProtectedFunction(
                 '_getTableFooters',
-                array()
+                []
             )
         );
     }
@@ -248,7 +249,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             . 'name="criteriaColumnDelete[1]" /></td>',
             $this->_callProtectedFunction(
                 '_getAndOrColCell',
-                array(1)
+                [1]
             )
         );
     }
@@ -280,7 +281,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             . '<input type="checkbox" name="criteriaColumnDelete[2]" /></td></tr>',
             $this->_callProtectedFunction(
                 '_getModifyColumnsRow',
-                array()
+                []
             )
         );
     }
@@ -305,7 +306,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             . 'value="or" checked="checked" /></td></tr></table></td>',
             $this->_callProtectedFunction(
                 '_getInsDelAndOrCell',
-                array(3, array('and' => '', 'or' => ' checked="checked"'))
+                [3, ['and' => '', 'or' => ' checked="checked"']]
             )
         );
     }
@@ -326,7 +327,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             . '12ex" size="20" /></td>',
             $this->_callProtectedFunction(
                 '_getInputboxRow',
-                array(2)
+                [2]
             )
         );
     }
@@ -357,7 +358,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             . '"textfield" style="width: 12ex" size="20" /></td></tr>',
             $this->_callProtectedFunction(
                 '_getInsDelAndOrCriteriaRows',
-                array(2,3)
+                [2, 3]
             )
         );
     }
@@ -373,7 +374,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             '',
             $this->_callProtectedFunction(
                 '_getSelectClause',
-                array()
+                []
             )
         );
     }
@@ -389,7 +390,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             '',
             $this->_callProtectedFunction(
                 '_getWhereClause',
-                array()
+                []
             )
         );
     }
@@ -405,7 +406,7 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             '',
             $this->_callProtectedFunction(
                 '_getOrderByClause',
-                array()
+                []
             )
         );
     }
@@ -418,17 +419,17 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
     public function testGetIndexes()
     {
         $this->assertEquals(
-            array(
-                'unique' => array(),
-                'index' => array()
-            ),
+            [
+                'unique' => [],
+                'index'  => [],
+            ],
             $this->_callProtectedFunction(
                 '_getIndexes',
-                array(
-                    array('`table1`','table2'),
-                    array('column1', 'column2', 'column3'),
-                    array('column2')
-                )
+                [
+                    ['`table1`', 'table2'],
+                    ['column1', 'column2', 'column3'],
+                    ['column2'],
+                ]
             )
         );
     }
@@ -441,16 +442,16 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
     public function testGetLeftJoinColumnCandidates()
     {
         $this->assertEquals(
-            array(
-                0 => 'column2'
-            ),
+            [
+                0 => 'column2',
+            ],
             $this->_callProtectedFunction(
                 '_getLeftJoinColumnCandidates',
-                array(
-                    array('`table1`','table2'),
-                    array('column1', 'column2', 'column3'),
-                    array('column2')
-                )
+                [
+                    ['`table1`', 'table2'],
+                    ['column1', 'column2', 'column3'],
+                    ['column2'],
+                ]
             )
         );
     }
@@ -466,12 +467,12 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
             0,
             $this->_callProtectedFunction(
                 '_getMasterTable',
-                array(
-                    array('table1','table2'),
-                    array('column1', 'column2', 'column3'),
-                    array('column2'),
-                    array('qbe_test')
-                )
+                [
+                    ['table1', 'table2'],
+                    ['column1', 'column2', 'column3'],
+                    ['column2'],
+                    ['qbe_test'],
+                ]
             )
         );
     }
@@ -483,20 +484,20 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetWhereClauseTablesAndColumns()
     {
-        $_POST['criteriaColumn'] = array(
+        $_POST['criteriaColumn'] = [
             'table1.id',
             'table1.value',
             'table1.name',
-            'table1.deleted'
-        );
+            'table1.deleted',
+        ];
         $this->assertEquals(
-            array(
-                'where_clause_tables' => array(),
-                'where_clause_columns' => array()
-            ),
+            [
+                'where_clause_tables'  => [],
+                'where_clause_columns' => [],
+            ],
             $this->_callProtectedFunction(
                 '_getWhereClauseTablesAndColumns',
-                array()
+                []
             )
         );
     }
@@ -508,16 +509,16 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetFromClause()
     {
-        $_POST['criteriaColumn'] = array(
+        $_POST['criteriaColumn'] = [
             'table1.id',
             'table1.value',
             'table1.name',
-            'table1.deleted'
-        );
+            'table1.deleted',
+        ];
         $this->assertEquals(
             '`table1`',
             $this->_callProtectedFunction(
-                '_getFromClause', array()
+                '_getFromClause', []
             )
         );
     }
@@ -529,18 +530,18 @@ class PMA_DBQbe_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetSQLQuery()
     {
-        $_POST['criteriaColumn'] = array(
+        $_POST['criteriaColumn'] = [
             'table1.id',
             'table1.value',
             'table1.name',
-            'table1.deleted'
-        );
+            'table1.deleted',
+        ];
         $this->assertEquals(
             'FROM `table1`
 ',
             $this->_callProtectedFunction(
                 '_getSQLQuery',
-                array()
+                []
             )
         );
     }

@@ -4,7 +4,7 @@
  *
  * @package PhpMyAdmin-DBI
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -248,7 +248,7 @@ interface PMA_DBI_Extension
  */
 function PMA_defineClientAPI($version)
 {
-    if (! defined('PMA_MYSQL_CLIENT_API')) {
+    if (!defined('PMA_MYSQL_CLIENT_API')) {
         $client_api = explode('.', $version);
         define(
             'PMA_MYSQL_CLIENT_API',
@@ -259,4 +259,5 @@ function PMA_defineClientAPI($version)
         );
     }
 }
+
 ?>

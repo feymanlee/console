@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -22,7 +22,7 @@ if (empty($viewing_mode)) {
 /**
  * Set parameters for links
  */
-$GLOBALS['url_query'] = PMA_URL_getCommon(array('db' => $db));
+$GLOBALS['url_query'] = PMA_URL_getCommon(['db' => $db]);
 
 /**
  * Defines the urls to return to in case of error in a sql statement
@@ -32,17 +32,17 @@ $err_url = 'index.php' . $GLOBALS['url_query'];
 /**
  * @global boolean Checks for superuser privileges
  */
-$GLOBALS['is_superuser'] = $GLOBALS['dbi']->isSuperuser();
-$GLOBALS['is_grantuser'] = $GLOBALS['dbi']->isUserType('grant');
+$GLOBALS['is_superuser']  = $GLOBALS['dbi']->isSuperuser();
+$GLOBALS['is_grantuser']  = $GLOBALS['dbi']->isUserType('grant');
 $GLOBALS['is_createuser'] = $GLOBALS['dbi']->isUserType('create');
 
 // now, select the mysql db
-if ($GLOBALS['is_superuser'] && ! PMA_DRIZZLE) {
+if ($GLOBALS['is_superuser'] && !PMA_DRIZZLE) {
     $GLOBALS['dbi']->selectDb('mysql', $GLOBALS['userlink']);
 }
 
 PMA_Util::checkParameters(
-    array('is_superuser', 'url_query'), false
+    ['is_superuser', 'url_query'], false
 );
 
 /**

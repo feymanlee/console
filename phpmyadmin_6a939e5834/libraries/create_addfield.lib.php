@@ -6,7 +6,7 @@
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -23,10 +23,10 @@ function PMA_getIndexedColumns()
     $field_unique   = json_decode($_REQUEST['unique_indexes'], true);
     $field_fulltext = json_decode($_REQUEST['fulltext_indexes'], true);
 
-    return array(
+    return [
         $field_cnt, $field_primary, $field_index, $field_unique,
-        $field_fulltext
-    );
+        $field_fulltext,
+    ];
 }
 
 /**
@@ -43,7 +43,7 @@ function PMA_getIndexedColumns()
 function PMA_buildColumnCreationStatement(
     $field_cnt, $is_create_tbl = true
 ) {
-    $definitions = array();
+    $definitions = [];
     for ($i = 0; $i < $field_cnt; ++$i) {
         // '0' is also empty for php :-(
         if (empty($_REQUEST['field_name'][$i])
@@ -53,26 +53,26 @@ function PMA_buildColumnCreationStatement(
         }
 
         $definition = PMA_getStatementPrefix($is_create_tbl) .
-                PMA_Table::generateFieldSpec(
-                    trim($_REQUEST['field_name'][$i]),
-                    $_REQUEST['field_type'][$i],
-                    $_REQUEST['field_length'][$i],
-                    $_REQUEST['field_attribute'][$i],
-                    isset($_REQUEST['field_collation'][$i])
+            PMA_Table::generateFieldSpec(
+                trim($_REQUEST['field_name'][$i]),
+                $_REQUEST['field_type'][$i],
+                $_REQUEST['field_length'][$i],
+                $_REQUEST['field_attribute'][$i],
+                isset($_REQUEST['field_collation'][$i])
                     ? $_REQUEST['field_collation'][$i]
                     : '',
-                    isset($_REQUEST['field_null'][$i])
+                isset($_REQUEST['field_null'][$i])
                     ? $_REQUEST['field_null'][$i]
                     : 'NOT NULL',
-                    $_REQUEST['field_default_type'][$i],
-                    $_REQUEST['field_default_value'][$i],
-                    isset($_REQUEST['field_extra'][$i])
+                $_REQUEST['field_default_type'][$i],
+                $_REQUEST['field_default_value'][$i],
+                isset($_REQUEST['field_extra'][$i])
                     ? $_REQUEST['field_extra'][$i]
                     : false,
-                    isset($_REQUEST['field_comments'][$i])
+                isset($_REQUEST['field_comments'][$i])
                     ? $_REQUEST['field_comments'][$i]
                     : ''
-                );
+            );
 
         $definition .= PMA_setColumnCreationStatementSuffix($i, $is_create_tbl);
         $definitions[] = $definition;
@@ -109,13 +109,13 @@ function PMA_setColumnCreationStatementSuffix($current_field_num,
             $sql_suffix .= ' FIRST';
         } else {
             $sql_suffix .= ' AFTER '
-                    . PMA_Util::backquote($_REQUEST['after_field']);
+                . PMA_Util::backquote($_REQUEST['after_field']);
         }
     } else {
         $sql_suffix .= ' AFTER '
-                . PMA_Util::backquote(
-                    $_REQUEST['field_name'][$current_field_num - 1]
-                );
+            . PMA_Util::backquote(
+                $_REQUEST['field_name'][$current_field_num - 1]
+            );
     }
 
     return $sql_suffix;
@@ -135,7 +135,7 @@ function PMA_setColumnCreationStatementSuffix($current_field_num,
 function PMA_buildIndexStatements($index, $index_choice,
     $is_create_tbl = true
 ) {
-    $statement = array();
+    $statement = [];
     if (!count($index)) {
         return $statement;
     }
@@ -143,11 +143,11 @@ function PMA_buildIndexStatements($index, $index_choice,
     $sql_query = PMA_getStatementPrefix($is_create_tbl)
         . ' ' . $index_choice;
 
-    if (! empty($index['Key_name']) && $index['Key_name'] != 'PRIMARY') {
+    if (!empty($index['Key_name']) && $index['Key_name'] != 'PRIMARY') {
         $sql_query .= ' ' . PMA_Util::backquote($index['Key_name']);
     }
 
-    $index_fields = array();
+    $index_fields = [];
     foreach ($index['columns'] as $key => $column) {
         $index_fields[$key] = PMA_Util::backquote(
             $_REQUEST['field_name'][$column['col_index']]
@@ -160,9 +160,9 @@ function PMA_buildIndexStatements($index, $index_choice,
     $sql_query .= ' (' . implode(', ', $index_fields) . ')';
 
     $keyBlockSizes = $index['Key_block_size'];
-    if (! empty($keyBlockSizes)) {
+    if (!empty($keyBlockSizes)) {
         $sql_query .= " KEY_BLOCK_SIZE = "
-             . PMA_Util::sqlAddSlashes($keyBlockSizes);
+            . PMA_Util::sqlAddSlashes($keyBlockSizes);
     }
 
     // specifying index type is allowed only for primary, unique and index only
@@ -175,12 +175,12 @@ function PMA_buildIndexStatements($index, $index_choice,
     }
 
     $parser = $index['Parser'];
-    if ($index['Index_choice'] == 'FULLTEXT' && ! empty($parser)) {
+    if ($index['Index_choice'] == 'FULLTEXT' && !empty($parser)) {
         $sql_query .= " WITH PARSER " . PMA_Util::sqlAddSlashes($parser);
     }
 
     $comment = $index['Index_comment'];
-    if (! empty($comment)) {
+    if (!empty($comment)) {
         $sql_query .= " COMMENT '" . PMA_Util::sqlAddSlashes($comment) . "'";
     }
 
@@ -200,9 +200,10 @@ function PMA_buildIndexStatements($index, $index_choice,
 function PMA_getStatementPrefix($is_create_tbl = true)
 {
     $sql_prefix = " ";
-    if (! $is_create_tbl) {
+    if (!$is_create_tbl) {
         $sql_prefix = ' ADD ';
     }
+
     return $sql_prefix;
 }
 
@@ -221,11 +222,12 @@ function PMA_mergeIndexStatements(
     $definitions, $is_create_tbl, $indexed_columns, $index_keyword
 ) {
     foreach ($indexed_columns as $index) {
-        $statements = PMA_buildIndexStatements(
+        $statements  = PMA_buildIndexStatements(
             $index, " " . $index_keyword . " ", $is_create_tbl
         );
         $definitions = array_merge($definitions, $statements);
     }
+
     return $definitions;
 }
 
@@ -242,19 +244,19 @@ function PMA_getColumnCreationStatements($is_create_tbl = true)
 {
     $sql_statement = "";
     list($field_cnt, $field_primary, $field_index,
-            $field_unique, $field_fulltext
-            ) = PMA_getIndexedColumns();
+        $field_unique, $field_fulltext
+        ) = PMA_getIndexedColumns();
     $definitions = PMA_buildColumnCreationStatement(
         $field_cnt, $is_create_tbl
     );
 
     // Builds the PRIMARY KEY statements
     $primary_key_statements = PMA_buildIndexStatements(
-        isset($field_primary[0]) ? $field_primary[0] : array(),
+        isset($field_primary[0]) ? $field_primary[0] : [],
         " PRIMARY KEY ",
         $is_create_tbl
     );
-    $definitions = array_merge($definitions, $primary_key_statements);
+    $definitions            = array_merge($definitions, $primary_key_statements);
 
     // Builds the INDEX statements
     $definitions = PMA_mergeIndexStatements(
@@ -306,8 +308,8 @@ function PMA_getTableCreationQuery($db, $table)
     if (!empty($_REQUEST['tbl_collation'])) {
         $sql_query .= PMA_generateCharsetQueryPart($_REQUEST['tbl_collation']);
     }
-    if (! empty($_REQUEST['connection'])
-        && ! empty($_REQUEST['tbl_storage_engine'])
+    if (!empty($_REQUEST['connection'])
+        && !empty($_REQUEST['tbl_storage_engine'])
         && $_REQUEST['tbl_storage_engine'] == 'FEDERATED'
     ) {
         $sql_query .= " CONNECTION = '"
@@ -319,8 +321,8 @@ function PMA_getTableCreationQuery($db, $table)
     }
     if (!empty($_REQUEST['partition_definition'])) {
         $sql_query .= ' ' . PMA_Util::sqlAddSlashes(
-            $_REQUEST['partition_definition']
-        );
+                $_REQUEST['partition_definition']
+            );
     }
     $sql_query .= ';';
 
@@ -367,17 +369,19 @@ function PMA_tryColumnCreationQuery($db, $table, $err_url)
     // To allow replication, we first select the db to use and then run queries
     // on this db.
     $GLOBALS['dbi']->selectDb($db)
-        or PMA_Util::mysqlDie(
-            $GLOBALS['dbi']->getError(),
-            'USE ' . PMA_Util::backquote($db), false,
-            $err_url
-        );
-    $sql_query    = 'ALTER TABLE ' .
+    or PMA_Util::mysqlDie(
+        $GLOBALS['dbi']->getError(),
+        'USE ' . PMA_Util::backquote($db), false,
+        $err_url
+    );
+    $sql_query = 'ALTER TABLE ' .
         PMA_Util::backquote($table) . ' ' . $sql_statement . ';';
     // If there is a request for SQL previewing.
     if (isset($_REQUEST['preview_sql'])) {
         PMA_previewSQL($sql_query);
     }
-    return array($GLOBALS['dbi']->tryQuery($sql_query) , $sql_query);
+
+    return [$GLOBALS['dbi']->tryQuery($sql_query), $sql_query];
 }
+
 ?>

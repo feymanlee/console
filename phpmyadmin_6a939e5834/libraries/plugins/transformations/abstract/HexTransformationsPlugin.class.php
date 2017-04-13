@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Transformations
  * @subpackage Hex
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -43,10 +43,10 @@ abstract class HexTransformationsPlugin extends TransformationsPlugin
      *
      * @return string
      */
-    public function applyTransformation($buffer, $options = array(), $meta = '')
+    public function applyTransformation($buffer, $options = [], $meta = '')
     {
         // possibly use a global transform and feed it with special options
-        $options = $this->getOptions($options, array('2'));
+        $options    = $this->getOptions($options, ['2']);
         $options[0] = intval($options[0]);
 
         if ($options[0] < 1) {
@@ -69,4 +69,5 @@ abstract class HexTransformationsPlugin extends TransformationsPlugin
         return "Hex";
     }
 }
+
 ?>

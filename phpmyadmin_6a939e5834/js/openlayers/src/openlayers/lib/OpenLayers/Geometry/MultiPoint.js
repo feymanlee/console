@@ -33,14 +33,14 @@ OpenLayers.Geometry.MultiPoint = OpenLayers.Class(
      * Create a new MultiPoint Geometry
      *
      * Parameters:
-     * components - {Array(<OpenLayers.Geometry.Point>)} 
+     * components - {Array(<OpenLayers.Geometry.Point>)}
      *
      * Returns:
      * {<OpenLayers.Geometry.MultiPoint>}
      */
-    initialize: function(components) {
-        OpenLayers.Geometry.Collection.prototype.initialize.apply(this, 
-                                                                  arguments);
+    initialize: function (components) {
+      OpenLayers.Geometry.Collection.prototype.initialize.apply(this,
+        arguments);
     },
 
     /**
@@ -51,10 +51,10 @@ OpenLayers.Geometry.MultiPoint = OpenLayers.Class(
      * point - {<OpenLayers.Geometry.Point>} Point to be added
      * index - {Integer} Optional index
      */
-    addPoint: function(point, index) {
-        this.addComponent(point, index);
+    addPoint: function (point, index) {
+      this.addComponent(point, index);
     },
-    
+
     /**
      * APIMethod: removePoint
      * Wrapper for <OpenLayers.Geometry.Collection.removeComponent>
@@ -62,9 +62,9 @@ OpenLayers.Geometry.MultiPoint = OpenLayers.Class(
      * Parameters:
      * point - {<OpenLayers.Geometry.Point>} Point to be removed
      */
-    removePoint: function(point){
-        this.removeComponent(point);
+    removePoint: function (point) {
+      this.removeComponent(point);
     },
 
     CLASS_NAME: "OpenLayers.Geometry.MultiPoint"
-});
+  });

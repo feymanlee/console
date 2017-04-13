@@ -45,29 +45,30 @@ class PMA_GIS_ModifyQueryTest extends PHPUnit_Framework_TestCase
      */
     public function provider()
     {
-        return array(
+        return [
             // with label column
-            array(
+            [
                 "SELECT * FROM `foo` WHERE `bar` = `zoo`",
-                array('spatialColumn' => 'moo', 'labelColumn' => 'noo'),
+                ['spatialColumn' => 'moo', 'labelColumn' => 'noo'],
                 "SELECT `noo`, ASTEXT(`moo`) AS `moo`, SRID(`moo`) AS `srid` "
-                    . "FROM (SELECT * FROM `foo` WHERE `bar` = `zoo`) AS `temp_gis`"
-            ),
+                . "FROM (SELECT * FROM `foo` WHERE `bar` = `zoo`) AS `temp_gis`",
+            ],
             // with no label column
-            array(
+            [
                 "SELECT * FROM `foo` WHERE `bar` = `zoo`",
-                array('spatialColumn' => 'moo'),
+                ['spatialColumn' => 'moo'],
                 "SELECT ASTEXT(`moo`) AS `moo`, SRID(`moo`) AS `srid` "
-                    . "FROM (SELECT * FROM `foo` WHERE `bar` = `zoo`) AS `temp_gis`"
-            ),
+                . "FROM (SELECT * FROM `foo` WHERE `bar` = `zoo`) AS `temp_gis`",
+            ],
             // with spatial column generated on the fly
-            array(
+            [
                 "SELECT name, PointFromText( Concat( 'POINT (', geo_lat, ' ', geo_lon, ')' ) ) AS coordinates FROM users",
-                array('spatialColumn' => 'coordinates', 'labelColumn' => 'name'),
+                ['spatialColumn' => 'coordinates', 'labelColumn' => 'name'],
                 "SELECT `name`, ASTEXT(`coordinates`) AS `coordinates`, SRID(`coordinates`) AS `srid` "
-                    . "FROM (SELECT name, PointFromText( Concat( 'POINT (', geo_lat, ' ', geo_lon, ')' ) ) AS coordinates FROM users) AS `temp_gis`"
-            ),
-        );
+                . "FROM (SELECT name, PointFromText( Concat( 'POINT (', geo_lat, ' ', geo_lon, ')' ) ) AS coordinates FROM users) AS `temp_gis`",
+            ],
+        ];
     }
 }
+
 ?>

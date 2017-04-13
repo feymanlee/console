@@ -38,11 +38,11 @@ class PMA_sanitizeMySQLHost_test extends PHPUnit_Framework_TestCase
      */
     function provideMySQLHosts()
     {
-        return array(
-            array('p:foo.bar', 'foo.bar'),
-            array('bar.baz', 'bar.baz'),
-            array('P:example.com', 'example.com'),
-        );
+        return [
+            ['p:foo.bar', 'foo.bar'],
+            ['bar.baz', 'bar.baz'],
+            ['P:example.com', 'example.com'],
+        ];
     }
 
 }

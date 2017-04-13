@@ -19,13 +19,13 @@ require_once 'libraries/display_git_revision.lib.php';
 /**
  * pass variables to child pages
  */
-$drops = array(
+$drops = [
     'lang',
     'server',
     'collation_connection',
     'db',
-    'table'
-);
+    'table',
+];
 foreach ($drops as $each_drop) {
     if (array_key_exists($each_drop, $_GET)) {
         unset($_GET[$each_drop]);
@@ -38,29 +38,29 @@ unset($drops, $each_drop);
  * Such scripts must not be loaded on home page.
  *
  */
- $target_blacklist = array (
-    'import.php', 'export.php'
-    );
+$target_blacklist = [
+    'import.php', 'export.php',
+];
 
 // If we have a valid target, let's load that script instead
-if (! empty($_REQUEST['target'])
+if (!empty($_REQUEST['target'])
     && is_string($_REQUEST['target'])
-    && ! preg_match('/^index/', $_REQUEST['target'])
-    && ! in_array($_REQUEST['target'], $target_blacklist)
+    && !preg_match('/^index/', $_REQUEST['target'])
+    && !in_array($_REQUEST['target'], $target_blacklist)
     && in_array($_REQUEST['target'], $goto_whitelist)
 ) {
     include $_REQUEST['target'];
     exit;
 }
 
-if (isset($_REQUEST['ajax_request']) && ! empty($_REQUEST['access_time'])) {
+if (isset($_REQUEST['ajax_request']) && !empty($_REQUEST['access_time'])) {
     exit;
 }
 
 // See FAQ 1.34
-if (! empty($_REQUEST['db'])) {
+if (!empty($_REQUEST['db'])) {
     $page = null;
-    if (! empty($_REQUEST['table'])) {
+    if (!empty($_REQUEST['table'])) {
         $page = $GLOBALS['cfg']['DefaultTabTable'];
     } else {
         $page = $GLOBALS['cfg']['DefaultTabDatabase'];
@@ -73,7 +73,7 @@ if (! empty($_REQUEST['db'])) {
  * Check if it is an ajax request to reload the recent tables list.
  */
 require_once 'libraries/RecentFavoriteTable.class.php';
-if ($GLOBALS['is_ajax_request'] && ! empty($_REQUEST['recent_table'])) {
+if ($GLOBALS['is_ajax_request'] && !empty($_REQUEST['recent_table'])) {
     $response = PMA_Response::getInstance();
     $response->addJSON(
         'list',
@@ -91,17 +91,17 @@ if ($GLOBALS['PMA_Config']->isGitRevision()) {
 }
 
 // Handles some variables that may have been sent by the calling script
-$GLOBALS['db'] = '';
+$GLOBALS['db']    = '';
 $GLOBALS['table'] = '';
-$show_query = '1';
+$show_query       = '1';
 
 // Any message to display?
-if (! empty($message)) {
+if (!empty($message)) {
     echo PMA_Util::getMessage($message);
     unset($message);
 }
 
-$common_url_query =  PMA_URL_getCommon();
+$common_url_query        = PMA_URL_getCommon();
 $mysql_cur_user_and_host = '';
 
 // when $server > 0, a server has been chosen so we can display
@@ -113,7 +113,7 @@ if ($server > 0) {
     // Use the verbose name of the server instead of the hostname
     // if a value is set
     $server_info = '';
-    if (! empty($cfg['Server']['verbose'])) {
+    if (!empty($cfg['Server']['verbose'])) {
         $server_info .= htmlspecialchars($cfg['Server']['verbose']);
         if ($GLOBALS['cfg']['ShowServerInfo']) {
             $server_info .= ' (';
@@ -122,15 +122,15 @@ if ($server > 0) {
     if ($GLOBALS['cfg']['ShowServerInfo'] || empty($cfg['Server']['verbose'])) {
         $server_info .= $GLOBALS['dbi']->getHostInfo();
     }
-    if (! empty($cfg['Server']['verbose']) && $GLOBALS['cfg']['ShowServerInfo']) {
+    if (!empty($cfg['Server']['verbose']) && $GLOBALS['cfg']['ShowServerInfo']) {
         $server_info .= ')';
     }
     $mysql_cur_user_and_host = $GLOBALS['dbi']->fetchValue('SELECT USER();');
 
     // should we add the port info here?
     $short_server_info = (!empty($GLOBALS['cfg']['Server']['verbose'])
-                ? $GLOBALS['cfg']['Server']['verbose']
-                : $GLOBALS['cfg']['Server']['host']);
+        ? $GLOBALS['cfg']['Server']['verbose']
+        : $GLOBALS['cfg']['Server']['host']);
 }
 
 echo '<div id="maincontainer">' . "\n";
@@ -162,9 +162,9 @@ if ($server > 0 || count($cfg['Servers']) > 1
      * Displays the MySQL servers choice form
      */
     if ($cfg['ServerDefault'] == 0
-        || (! $cfg['NavigationDisplayServers']
-        && (count($cfg['Servers']) > 1
-        || ($server == 0 && count($cfg['Servers']) == 1)))
+        || (!$cfg['NavigationDisplayServers']
+            && (count($cfg['Servers']) > 1
+                || ($server == 0 && count($cfg['Servers']) == 1)))
     ) {
         echo '<li id="li_select_server" class="no_bullets" >';
         include_once 'libraries/select_server.lib.php';
@@ -175,7 +175,7 @@ if ($server > 0 || count($cfg['Servers']) > 1
     /**
      * Displays the mysql server related links
      */
-    if ($server > 0 && ! PMA_DRIZZLE) {
+    if ($server > 0 && !PMA_DRIZZLE) {
         include_once 'libraries/check_user_privileges.lib.php';
 
         // Logout for advanced authentication
@@ -196,25 +196,25 @@ if ($server > 0 || count($cfg['Servers']) > 1
         } // end if
         echo '    <li id="li_select_mysql_collation" class="no_bullets" >';
         echo '        <form method="post" action="index.php">' . "\n"
-           . PMA_URL_getHiddenInputs(null, null, 4, 'collation_connection')
-           . '            <label for="select_collation_connection">' . "\n"
-           . '                ' . PMA_Util::getImage('s_asci.png') . " "
-                               . __('Server connection collation') . "\n"
-           // put the doc link in the form so that it appears on the same line
-           . PMA_Util::showMySQLDocu('Charset-connection')
-           . ': ' .  "\n"
-           . '            </label>' . "\n"
+            . PMA_URL_getHiddenInputs(null, null, 4, 'collation_connection')
+            . '            <label for="select_collation_connection">' . "\n"
+            . '                ' . PMA_Util::getImage('s_asci.png') . " "
+            . __('Server connection collation') . "\n"
+            // put the doc link in the form so that it appears on the same line
+            . PMA_Util::showMySQLDocu('Charset-connection')
+            . ': ' . "\n"
+            . '            </label>' . "\n"
 
-           . PMA_generateCharsetDropdownBox(
-               PMA_CSDROPDOWN_COLLATION,
-               'collation_connection',
-               'select_collation_connection',
-               $collation_connection,
-               true,
-               true
-           )
-           . '        </form>' . "\n"
-           . '    </li>' . "\n";
+            . PMA_generateCharsetDropdownBox(
+                PMA_CSDROPDOWN_COLLATION,
+                'collation_connection',
+                'select_collation_connection',
+                $collation_connection,
+                true,
+                true
+            )
+            . '        </form>' . "\n"
+            . '    </li>' . "\n";
     } // end of if ($server > 0 && !PMA_DRIZZLE)
     echo '</ul>';
     echo '</div>';
@@ -237,7 +237,7 @@ if (empty($cfg['Lang']) && count($GLOBALS['available_languages']) > 1) {
 if ($GLOBALS['cfg']['ThemeManager']) {
     echo '<li id="li_select_theme" class="no_bullets">';
     echo PMA_Util::getImage('s_theme.png') . " "
-            .  $_SESSION['PMA_Theme_Manager']->getHtmlSelectBox();
+        . $_SESSION['PMA_Theme_Manager']->getHtmlSelectBox();
     echo '</li>';
 }
 echo '<li id="li_select_fontsize">';
@@ -299,16 +299,16 @@ if ($server > 0 && $GLOBALS['cfg']['ShowServerInfo']) {
 
     echo '    <li id="li_select_mysql_charset">';
     echo '        ' . __('Server charset:') . ' '
-       . '        <span lang="en" dir="ltr">';
-    if (! PMA_DRIZZLE) {
+        . '        <span lang="en" dir="ltr">';
+    if (!PMA_DRIZZLE) {
         echo '           '
             . $mysql_charsets_descriptions[$mysql_charset_map['utf-8']];
     }
     echo '           (' . $mysql_charset_map['utf-8'] . ')'
-       . '        </span>'
-       . '    </li>'
-       . '  </ul>'
-       . ' </div>';
+        . '        </span>'
+        . '    </li>'
+        . '  </ul>'
+        . ' </div>';
 }
 
 if ($GLOBALS['cfg']['ShowServerInfo']) {
@@ -334,7 +334,7 @@ if ($GLOBALS['cfg']['ShowServerInfo']) {
             } else {
                 $extension = 'mysql';
             }
-            $php_ext_string  .= $extension . ' '
+            $php_ext_string .= $extension . ' '
                 . PMA_Util::showPHPDocu('book.' . $extension . '.php');
 
             PMA_printListItem(
@@ -362,7 +362,7 @@ $class = null;
 // We rely on CSP to allow access to https://www.phpmyadmin.net, but IE lacks
 // support here and does not allow request to http once using https.
 if ($GLOBALS['cfg']['VersionCheck']
-    && (! $GLOBALS['PMA_Config']->get('is_https') || PMA_USR_BROWSER_AGENT != 'IE')
+    && (!$GLOBALS['PMA_Config']->get('is_https') || PMA_USR_BROWSER_AGENT != 'IE')
 ) {
     $class = 'jsversioncheck';
 }
@@ -464,7 +464,7 @@ if (@extension_loaded('mbstring') && @ini_get('mbstring.func_overload') > 1) {
  * mbstring is used for handling multibytes inside parser, so it is good
  * to tell user something might be broken without it, see bug #1063149.
  */
-if (! @extension_loaded('mbstring')) {
+if (!@extension_loaded('mbstring')) {
     trigger_error(
         __(
             'The mbstring PHP extension was not found and you seem to be using'
@@ -481,7 +481,7 @@ if ($cfg['LoginCookieValidityDisableWarning'] == false) {
      * Check whether session.gc_maxlifetime limits session validity.
      */
     $gc_time = (int)@ini_get('session.gc_maxlifetime');
-    if ($gc_time < $GLOBALS['cfg']['LoginCookieValidity'] ) {
+    if ($gc_time < $GLOBALS['cfg']['LoginCookieValidity']) {
         trigger_error(
             __('Your PHP parameter [a@http://php.net/manual/en/session.configuration.php#ini.session.gc-maxlifetime@_blank]session.gc_maxlifetime[/a] is lower than cookie validity configured in phpMyAdmin, because of this, your login might expire sooner than configured in phpMyAdmin.'),
             E_USER_WARNING
@@ -504,7 +504,7 @@ if ($GLOBALS['cfg']['LoginCookieStore'] != 0
 /**
  * Check if user does not have defined blowfish secret and it is being used.
  */
-if (! empty($_SESSION['encryption_key'])) {
+if (!empty($_SESSION['encryption_key'])) {
     if (empty($GLOBALS['cfg']['blowfish_secret'])) {
         trigger_error(
             __(
@@ -536,7 +536,7 @@ if (file_exists('config')) {
 
 if ($server > 0) {
     $cfgRelation = PMA_getRelationsParam();
-    if (! $cfgRelation['allworks']
+    if (!$cfgRelation['allworks']
         && $cfg['PmaNoRelation_DisableWarning'] == false
     ) {
         $msg_text = __(
@@ -586,8 +586,10 @@ if (isset($GLOBALS['dbi'])
 
     $_client_info = $GLOBALS['dbi']->getClientInfo();
     if ($server > 0
-        && /*overload*/mb_strpos($_client_info, 'mysqlnd') === false
-        && /*overload*/mb_strpos(PMA_MYSQL_STR_VERSION, 'MariaDB') === false
+        && /*overload*/
+        mb_strpos($_client_info, 'mysqlnd') === false
+        && /*overload*/
+        mb_strpos(PMA_MYSQL_STR_VERSION, 'MariaDB') === false
         && substr(PMA_MYSQL_CLIENT_API, 0, 3) != substr(
             PMA_MYSQL_INT_VERSION, 0, 3
         )
@@ -702,4 +704,5 @@ function PMA_printListItem($name, $listId = null, $url = null,
     }
     echo '</li>';
 }
+
 ?>

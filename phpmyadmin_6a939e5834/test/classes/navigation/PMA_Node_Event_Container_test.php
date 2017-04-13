@@ -25,7 +25,7 @@ class Node_Event_Container_Test extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $GLOBALS['server'] = 0;
+        $GLOBALS['server']     = 0;
         $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
     }
 
@@ -48,4 +48,5 @@ class Node_Event_Container_Test extends PHPUnit_Framework_TestCase
         $this->assertEquals('events', $parent->real_name);
     }
 }
+
 ?>

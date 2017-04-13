@@ -32,11 +32,11 @@ PMA_noCacheHeader();
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <title>phpMyAdmin setup</title>
-<link href="../favicon.ico" rel="icon" type="image/x-icon" />
-<link href="../favicon.ico" rel="shortcut icon" type="image/x-icon" />
-<link href="styles.css" rel="stylesheet" type="text/css" />
+<link href="../favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="../favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+<link href="styles.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../js/jquery/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="../js/jquery/jquery-ui-1.11.2.min.js">
 </script>

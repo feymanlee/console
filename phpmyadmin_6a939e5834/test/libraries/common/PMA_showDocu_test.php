@@ -4,7 +4,7 @@
  ** Test for PMA_Util::showDocu from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 
 /*
@@ -18,7 +18,7 @@ require_once 'libraries/php-gettext/gettext.inc';
  ** Test for PMA_Util::showDocu from Util.class.php
  *
  * @package PhpMyAdmin-test
- * @group common.lib-tests
+ * @group   common.lib-tests
  */
 class PMA_ShowDocu_Test extends PHPUnit_Framework_TestCase
 {
@@ -29,8 +29,8 @@ class PMA_ShowDocu_Test extends PHPUnit_Framework_TestCase
      */
     function setup()
     {
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
-        $GLOBALS['server'] = '99';
+        $_SESSION['PMA_Theme']           = PMA_Theme::load('./themes/pmahomme');
+        $GLOBALS['server']               = '99';
         $GLOBALS['cfg']['ServerDefault'] = 1;
     }
 

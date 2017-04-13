@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -42,10 +42,10 @@ class Table_Stats_Eps extends TableStats
      * @param boolean $offline          Whether the coordinates are sent
      *                                  from the browser
      *
-     * @global object  $eps         The current eps document
+     * @global object $eps              The current eps document
      *
      * @access private
-     * @see PMA_EPS, Table_Stats_Eps::Table_Stats_setWidth,
+     * @see    PMA_EPS, Table_Stats_Eps::Table_Stats_setWidth,
      *      Table_Stats_Eps::Table_Stats_setHeight
      */
     function __construct(
@@ -91,9 +91,9 @@ class Table_Stats_Eps extends TableStats
      * @return void
      *
      * @access private
-     * @see PMA_EPS
+     * @see    PMA_EPS
      */
-    private function _setWidthTable($font,$fontSize)
+    private function _setWidthTable($font, $fontSize)
     {
         foreach ($this->fields as $field) {
             $this->width = max(
@@ -123,7 +123,7 @@ class Table_Stats_Eps extends TableStats
     private function _setHeightTable($fontSize)
     {
         $this->heightCell = $fontSize + 4;
-        $this->height = (count($this->fields) + 1) * $this->heightCell;
+        $this->height     = (count($this->fields) + 1) * $this->heightCell;
     }
 
     /**
@@ -131,12 +131,12 @@ class Table_Stats_Eps extends TableStats
      *
      * @param boolean $showColor Whether to display color
      *
-     * @global object $eps The current eps document
+     * @global object $eps       The current eps document
      *
      * @return void
      *
      * @access public
-     * @see PMA_EPS,PMA_EPS::line,PMA_EPS::rect
+     * @see    PMA_EPS,PMA_EPS::line,PMA_EPS::rect
      */
     public function tableDraw($showColor)
     {
@@ -147,11 +147,12 @@ class Table_Stats_Eps extends TableStats
         foreach ($this->fields as $field) {
             $this->currentCell += $this->heightCell;
             $eps->rect(
-                $this->x, $this->y + 12  + $this->currentCell,
+                $this->x, $this->y + 12 + $this->currentCell,
                 $this->width, $this->heightCell, 1
             );
             $eps->showXY($field, $this->x + 5, $this->y + 14 + $this->currentCell);
         }
     }
 }
+
 ?>

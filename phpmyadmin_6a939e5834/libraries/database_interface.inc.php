@@ -6,7 +6,7 @@
  *
  * @package PhpMyAdmin-DBI
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -25,17 +25,17 @@ if (defined('TESTSUITE')) {
      * for the MySQL server's version that we support
      */
     $extension = 'mysqli';
-    if (! PMA_DatabaseInterface::checkDbExtension($extension)) {
+    if (!PMA_DatabaseInterface::checkDbExtension($extension)) {
 
-        $docurl = PMA_Util::getDocuLink('faq', 'faqmysql');
+        $docurl  = PMA_Util::getDocuLink('faq', 'faqmysql');
         $doclink = sprintf(
             __('See %sour documentation%s for more information.'),
-            '[a@' . $docurl  . '@documentation]',
+            '[a@' . $docurl . '@documentation]',
             '[/a]'
         );
 
         $extension = 'mysql';
-        if (! PMA_DatabaseInterface::checkDbExtension($extension)) {
+        if (!PMA_DatabaseInterface::checkDbExtension($extension)) {
             // warn about both extensions missing and exit
             PMA_warnMissingExtension(
                 'mysqli|mysql',
@@ -59,15 +59,15 @@ if (defined('TESTSUITE')) {
     /**
      * Including The DBI Plugin
      */
-    switch($extension) {
-    case 'mysql' :
-        include_once './libraries/dbi/DBIMysql.class.php';
-        $extension = new PMA_DBI_Mysql();
-        break;
-    case 'mysqli' :
-        include_once './libraries/dbi/DBIMysqli.class.php';
-        $extension = new PMA_DBI_Mysqli();
-        break;
+    switch ($extension) {
+        case 'mysql' :
+            include_once './libraries/dbi/DBIMysql.class.php';
+            $extension = new PMA_DBI_Mysql();
+            break;
+        case 'mysqli' :
+            include_once './libraries/dbi/DBIMysqli.class.php';
+            $extension = new PMA_DBI_Mysqli();
+            break;
     }
 }
 $GLOBALS['dbi'] = new PMA_DatabaseInterface($extension);

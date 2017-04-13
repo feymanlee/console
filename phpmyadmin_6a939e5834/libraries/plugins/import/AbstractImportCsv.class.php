@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Import
  * @subpackage CSV
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -87,4 +87,5 @@ abstract class AbstractImportCsv extends ImportPlugin
         return $generalOptions;
     }
 }
+
 ?>

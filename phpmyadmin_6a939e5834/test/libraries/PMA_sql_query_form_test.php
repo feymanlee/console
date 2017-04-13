@@ -44,36 +44,36 @@ class PMA_SqlQueryForm_Test extends PHPUnit_Framework_TestCase
     {
         //$GLOBALS
         $GLOBALS['max_upload_size'] = 100;
-        $GLOBALS['PMA_PHP_SELF'] = PMA_getenv('PHP_SELF');
-        $GLOBALS['db'] = "PMA_db";
-        $GLOBALS['table'] = "PMA_table";
-        $GLOBALS['pmaThemeImage'] = 'image';
-        $GLOBALS['text_dir'] = "text_dir";
+        $GLOBALS['PMA_PHP_SELF']    = PMA_getenv('PHP_SELF');
+        $GLOBALS['db']              = "PMA_db";
+        $GLOBALS['table']           = "PMA_table";
+        $GLOBALS['pmaThemeImage']   = 'image';
+        $GLOBALS['text_dir']        = "text_dir";
 
-        $GLOBALS['cfg']['GZipDump'] = false;
-        $GLOBALS['cfg']['BZipDump'] = false;
-        $GLOBALS['cfg']['ZipDump'] = false;
-        $GLOBALS['cfg']['ServerDefault'] = "default";
+        $GLOBALS['cfg']['GZipDump']           = false;
+        $GLOBALS['cfg']['BZipDump']           = false;
+        $GLOBALS['cfg']['ZipDump']            = false;
+        $GLOBALS['cfg']['ServerDefault']      = "default";
         $GLOBALS['cfg']['TextareaAutoSelect'] = true;
-        $GLOBALS['cfg']['TextareaRows'] = 100;
-        $GLOBALS['cfg']['TextareaCols'] = 11;
+        $GLOBALS['cfg']['TextareaRows']       = 100;
+        $GLOBALS['cfg']['TextareaCols']       = 11;
         $GLOBALS['cfg']['DefaultTabDatabase'] = "default_database";
-        $GLOBALS['cfg']['RetainQueryBox'] = true;
-        $GLOBALS['cfg']['ActionLinksMode'] = 'both';
+        $GLOBALS['cfg']['RetainQueryBox']     = true;
+        $GLOBALS['cfg']['ActionLinksMode']    = 'both';
 
         //_SESSION
-        $_SESSION['relation'][0] = array(
+        $_SESSION['relation'][0] = [
             'table_coords' => "table_name",
-            'displaywork' => 'displaywork',
-            'db' => "information_schema",
-            'table_info' => 'table_info',
-            'relwork' => 'relwork',
-            'relation' => 'relation',
+            'displaywork'  => 'displaywork',
+            'db'           => "information_schema",
+            'table_info'   => 'table_info',
+            'relwork'      => 'relwork',
+            'relation'     => 'relation',
             'bookmarkwork' => 'bookmarkwork',
-        );
+        ];
         //$GLOBALS
-        $GLOBALS['cfg']['Server']['user'] = "user";
-        $GLOBALS['cfg']['Server']['pmadb'] = "pmadb";
+        $GLOBALS['cfg']['Server']['user']          = "user";
+        $GLOBALS['cfg']['Server']['pmadb']         = "pmadb";
         $GLOBALS['cfg']['Server']['bookmarktable'] = "bookmarktable";
 
         //$_SESSION
@@ -85,17 +85,17 @@ class PMA_SqlQueryForm_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $fetchResult = array("index1"=>"table1", "index2"=>"table2");
+        $fetchResult = ["index1" => "table1", "index2" => "table2"];
         $dbi->expects($this->any())
             ->method('fetchResult')
             ->will($this->returnValue($fetchResult));
 
-        $getColumns = array(
-            array(
-                "Field" => "field1",
-                "Comment" => "Comment1"
-            )
-        );
+        $getColumns = [
+            [
+                "Field"   => "field1",
+                "Comment" => "Comment1",
+            ],
+        ];
         $dbi->expects($this->any())
             ->method('getColumns')
             ->will($this->returnValue($getColumns));
@@ -148,7 +148,7 @@ class PMA_SqlQueryForm_Test extends PHPUnit_Framework_TestCase
     {
         //Call the test function
         $query = "select * from PMA";
-        $html = PMA_getHtmlForSqlQueryFormInsert($query);
+        $html  = PMA_getHtmlForSqlQueryFormInsert($query);
 
         //validate 1: query
         $this->assertContains(
@@ -211,8 +211,8 @@ class PMA_SqlQueryForm_Test extends PHPUnit_Framework_TestCase
     {
         //Call the test function
         $GLOBALS['is_upload'] = true;
-        $query = "select * from PMA";
-        $html = PMA_getHtmlForSqlQueryForm($query);
+        $query                = "select * from PMA";
+        $html                 = PMA_getHtmlForSqlQueryForm($query);
 
         //validate 1: query
         $this->assertContains(
@@ -234,8 +234,8 @@ class PMA_SqlQueryForm_Test extends PHPUnit_Framework_TestCase
         );
 
         //validate 4: $db, $table
-        $table  = $GLOBALS['table'];
-        $db     = $GLOBALS['db'];
+        $table = $GLOBALS['table'];
+        $db    = $GLOBALS['db'];
         $this->assertContains(
             PMA_URL_getHiddenInputs($db, $table),
             $html

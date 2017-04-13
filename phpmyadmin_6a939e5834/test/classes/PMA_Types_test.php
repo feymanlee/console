@@ -53,12 +53,12 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
     public function testGetUnaryOperators()
     {
         $this->assertEquals(
-            array(
+            [
                 'IS NULL',
                 'IS NOT NULL',
                 "= ''",
                 "!= ''",
-            ),
+            ],
             $this->object->getUnaryOperators()
         );
     }
@@ -71,10 +71,10 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
     public function testGetNullOperators()
     {
         $this->assertEquals(
-            array(
+            [
                 'IS NULL',
                 'IS NOT NULL',
-            ),
+            ],
             $this->object->getNullOperators()
         );
     }
@@ -87,10 +87,10 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
     public function testGetEnumOperators()
     {
         $this->assertEquals(
-            array(
+            [
                 '=',
                 '!=',
-            ),
+            ],
             $this->object->getEnumOperators()
         );
     }
@@ -103,7 +103,7 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
     public function testgetTextOperators()
     {
         $this->assertEquals(
-            array(
+            [
                 'LIKE',
                 'LIKE %...%',
                 'NOT LIKE',
@@ -118,7 +118,7 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
                 'NOT IN (...)',
                 'BETWEEN',
                 'NOT BETWEEN',
-            ),
+            ],
             $this->object->getTextOperators()
         );
     }
@@ -131,7 +131,7 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
     public function testGetNumberOperators()
     {
         $this->assertEquals(
-            array(
+            [
                 '=',
                 '>',
                 '>=',
@@ -145,7 +145,7 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
                 'NOT IN (...)',
                 'BETWEEN',
                 'NOT BETWEEN',
-            ),
+            ],
             $this->object->getNumberOperators()
         );
     }
@@ -176,19 +176,19 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
      */
     public function providerForGetTypeOperators()
     {
-        return array(
-            array(
+        return [
+            [
                 'enum',
                 false,
-                array(
+                [
                     '=',
                     '!=',
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'CHAR',
                 true,
-                array(
+                [
                     '=',
                     '>',
                     '>=',
@@ -204,17 +204,17 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
                     'NOT BETWEEN',
                     'IS NULL',
                     'IS NOT NULL',
-                ),
-                array(
+                ],
+                [
                     'int',
                     false,
-                    array(
+                    [
                         '=',
                         '!=',
-                    )
-                ),
-            )
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -245,15 +245,15 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
      */
     public function providerForTestGetTypeOperatorsHtml()
     {
-        return array(
-            array(
+        return [
+            [
                 'enum',
                 false,
                 '=',
                 '<option value="=" selected="selected">=</option>'
-                . '<option value="!=">!=</option>'
-            )
-        );
+                . '<option value="!=">!=</option>',
+            ],
+        ];
     }
 
     /**
@@ -277,7 +277,7 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
     public function testGetFunctionsClass()
     {
         $this->assertEquals(
-            array(),
+            [],
             $this->object->getFunctionsClass('enum')
         );
     }
@@ -290,7 +290,7 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
     public function testGetFunctions()
     {
         $this->assertEquals(
-            array(),
+            [],
             $this->object->getFunctions('enum')
         );
     }
@@ -303,7 +303,7 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
     public function testGetAllFunctions()
     {
         $this->assertEquals(
-            array(),
+            [],
             $this->object->getAllFunctions()
         );
     }
@@ -316,7 +316,7 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
     public function testGetAttributes()
     {
         $this->assertEquals(
-            array(),
+            [],
             $this->object->getAttributes()
         );
     }
@@ -329,14 +329,15 @@ class PMA_TypesTest extends PHPUnit_Framework_TestCase
     public function testGetColumns()
     {
         $this->assertEquals(
-            array(
+            [
                 'INT',
                 'VARCHAR',
                 'TEXT',
                 'DATE',
-            ),
+            ],
             $this->object->getColumns()
         );
     }
 }
+
 ?>

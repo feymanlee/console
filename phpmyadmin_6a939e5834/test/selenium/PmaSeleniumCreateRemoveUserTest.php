@@ -84,7 +84,7 @@ class PMA_SeleniumCreateRemoveUserTest extends PMA_SeleniumBase
         $this->assertContains('You have added a new user', $success->text());
 
         $this->waitForElement('byLinkText', "Users")->click();
-        $el = $this->waitForElement("byId", "usersForm");
+        $el   = $this->waitForElement("byId", "usersForm");
         $temp = $this->_txtUsername . "&amp;#27;localhost";
 
         $this->byXPath(

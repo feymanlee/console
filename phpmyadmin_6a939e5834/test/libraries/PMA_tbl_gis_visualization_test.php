@@ -35,13 +35,13 @@ class PMA_TblGisVisualizaionTest extends PHPUnit_Framework_TestCase
         /**
          * SET these to avoid undefined index error
          */
-        $GLOBALS['server'] = 1;
+        $GLOBALS['server']                 = 1;
         $GLOBALS['cfg']['Server']['pmadb'] = '';
-        $GLOBALS['pmaThemeImage'] = 'theme/';
-        $GLOBALS['cfg']['ServerDefault'] = "server";
+        $GLOBALS['pmaThemeImage']          = 'theme/';
+        $GLOBALS['cfg']['ServerDefault']   = "server";
 
         $GLOBALS['PMA_Config'] = new PMA_MockConfig();
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi                   = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -56,8 +56,8 @@ class PMA_TblGisVisualizaionTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForOptionsList()
     {
-        $options= array("option1", "option2");
-        $select = array("option2");
+        $options = ["option1", "option2"];
+        $select  = ["option2"];
 
         $html = PMA_getHtmlForOptionsList($options, $select);
 
@@ -98,9 +98,9 @@ class PMA_TblGisVisualizaionTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForSelect()
     {
-        $column = "labelColumn";
-        $columnCandidates = array("option1", "option2", "option3");
-        $visualizationSettings = array("labelColumn" => "option3", "height" => "10");
+        $column                = "labelColumn";
+        $columnCandidates      = ["option1", "option2", "option3"];
+        $visualizationSettings = ["labelColumn" => "option3", "height" => "10"];
 
         $html = PMA_getHtmlForSelect(
             $column, $columnCandidates, $visualizationSettings
@@ -117,7 +117,7 @@ class PMA_TblGisVisualizaionTest extends PHPUnit_Framework_TestCase
         );
 
         $output = PMA_getHtmlForOptionsList(
-            $columnCandidates, array($visualizationSettings[$column])
+            $columnCandidates, [$visualizationSettings[$column]]
         );
         $this->assertContains(
             $output,
@@ -133,20 +133,20 @@ class PMA_TblGisVisualizaionTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForGisVisualization()
     {
-        $url_params = array("url_params");
-        $labelCandidates = array("option1", "option2");
-        $spatialCandidates = array("option2", "option3");
-        $visualizationSettings = array(
-            'width' => 10,
-            'height' => 12,
-            'labelColumn' => 'labelColumn',
+        $url_params            = ["url_params"];
+        $labelCandidates       = ["option1", "option2"];
+        $spatialCandidates     = ["option2", "option3"];
+        $visualizationSettings = [
+            'width'         => 10,
+            'height'        => 12,
+            'labelColumn'   => 'labelColumn',
             'spatialColumn' => 'spatialColumn',
-            'choice' => 'choice',
-        );
-        $sql_query = "sql_query";
-        $visualization = "visualization";
-        $svg_support = array();
-        $data = array();
+            'choice'        => 'choice',
+        ];
+        $sql_query             = "sql_query";
+        $visualization         = "visualization";
+        $svg_support           = [];
+        $data                  = [];
 
         $html = PMA_getHtmlForGisVisualization(
             $url_params, $labelCandidates, $spatialCandidates,
@@ -230,4 +230,5 @@ class PMA_MockConfig
         return true;
     }
 }
+
 ?>

@@ -25,7 +25,7 @@ class PMA_Languages_Test extends PHPUnit_Framework_TestCase
      *
      * @return void
      *
-     * @group large
+     * @group        large
      * @dataProvider listLocales
      */
     public function testGettext($locale)
@@ -50,11 +50,13 @@ class PMA_Languages_Test extends PHPUnit_Framework_TestCase
      */
     public function listLocales()
     {
-        $ret = array();
+        $ret = [];
         foreach ($GLOBALS['available_languages'] as $key => $val) {
-            $ret[] = array($key);
+            $ret[] = [$key];
         }
+
         return $ret;
     }
 }
+
 ?>

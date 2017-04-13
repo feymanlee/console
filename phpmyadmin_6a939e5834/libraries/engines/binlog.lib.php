@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Engines
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 

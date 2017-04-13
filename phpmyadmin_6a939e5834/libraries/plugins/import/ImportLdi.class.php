@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Import
  * @subpackage LDI
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -16,6 +16,7 @@ require_once 'libraries/plugins/import/AbstractImportCsv.class.php';
 // We need relations enabled and we work only on database
 if ($GLOBALS['plugin_param'] !== 'table') {
     $GLOBALS['skip_import'] = true;
+
     return;
 }
 
@@ -88,7 +89,7 @@ class ImportLdi extends AbstractImportCsv
     {
         global $finished, $import_file, $compression, $charset_conversion, $table;
         global $ldi_local_option, $ldi_replace, $ldi_ignore, $ldi_terminated,
-            $ldi_enclosed, $ldi_escaped, $ldi_new_line, $skip_queries, $ldi_columns;
+               $ldi_enclosed, $ldi_escaped, $ldi_new_line, $skip_queries, $ldi_columns;
 
         if ($import_file == 'none'
             || $compression != 'none'
@@ -98,7 +99,8 @@ class ImportLdi extends AbstractImportCsv
             $GLOBALS['message'] = PMA_Message::error(
                 __('This plugin does not support compressed imports!')
             );
-            $GLOBALS['error'] = true;
+            $GLOBALS['error']   = true;
+
             return;
         }
 
@@ -129,8 +131,8 @@ class ImportLdi extends AbstractImportCsv
             if ($ldi_new_line == 'auto') {
                 $ldi_new_line
                     = (PMA_Util::whichCrlf() == "\n")
-                        ? '\n'
-                        : '\r\n';
+                    ? '\n'
+                    : '\r\n';
             }
             $sql .= ' LINES TERMINATED BY \'' . $ldi_new_line . '\'';
         }
@@ -140,7 +142,7 @@ class ImportLdi extends AbstractImportCsv
         }
         if (strlen($ldi_columns) > 0) {
             $sql .= ' (';
-            $tmp   = preg_split('/,( ?)/', $ldi_columns);
+            $tmp     = preg_split('/,( ?)/', $ldi_columns);
             $cnt_tmp = count($tmp);
             for ($i = 0; $i < $cnt_tmp; $i++) {
                 if ($i > 0) {

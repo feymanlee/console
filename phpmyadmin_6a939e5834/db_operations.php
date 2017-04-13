@@ -25,8 +25,8 @@ require_once 'libraries/operations.lib.php';
 
 // add a javascript file for jQuery functions to handle Ajax actions
 $response = PMA_Response::getInstance();
-$header = $response->getHeader();
-$scripts = $header->getScripts();
+$header   = $response->getHeader();
+$scripts  = $header->getScripts();
 $scripts->addFile('db_operations.js');
 
 $sql_query = '';
@@ -36,22 +36,23 @@ $sql_query = '';
  */
 /** @var PMA_String $pmaString */
 $pmaString = $GLOBALS['PMA_String'];
-if (/*overload*/mb_strlen($GLOBALS['db'])
-    && (! empty($_REQUEST['db_rename']) || ! empty($_REQUEST['db_copy']))
+if (/*overload*/
+    mb_strlen($GLOBALS['db'])
+    && (!empty($_REQUEST['db_rename']) || !empty($_REQUEST['db_copy']))
 ) {
-    if (! empty($_REQUEST['db_rename'])) {
+    if (!empty($_REQUEST['db_rename'])) {
         $move = true;
     } else {
         $move = false;
     }
 
-    if (! isset($_REQUEST['newname'])
+    if (!isset($_REQUEST['newname'])
         || ! /*overload*/mb_strlen($_REQUEST['newname'])
     ) {
         $message = PMA_Message::error(__('The database name is empty!'));
     } else {
         $_error = false;
-        if ($move || ! empty($_REQUEST['create_database_before_copying'])) {
+        if ($move || !empty($_REQUEST['create_database_before_copying'])) {
             PMA_createDbBeforeCopy();
         }
 
@@ -74,10 +75,10 @@ if (/*overload*/mb_strlen($GLOBALS['db'])
             "export",
             "sql",
             'libraries/plugins/export/',
-            array(
+            [
                 'single_table' => isset($single_table),
-                'export_type'  => 'database'
-            )
+                'export_type'  => 'database',
+            ]
         );
 
         // create stand-in tables for views
@@ -91,18 +92,18 @@ if (/*overload*/mb_strlen($GLOBALS['db'])
         );
 
         // handle the views
-        if (! $_error) {
+        if (!$_error) {
             PMA_handleTheViews($views, $move, $GLOBALS['db']);
         }
         unset($views);
 
         // now that all tables exist, create all the accumulated constraints
-        if (! $_error && count($sqlConstratints) > 0) {
+        if (!$_error && count($sqlConstratints) > 0) {
             PMA_createAllAccumulatedConstraints($sqlConstratints);
         }
         unset($sqlConstratints);
 
-        if (! PMA_DRIZZLE && PMA_MYSQL_INT_VERSION >= 50100) {
+        if (!PMA_DRIZZLE && PMA_MYSQL_INT_VERSION >= 50100) {
             // here DELIMITER is not used because it's not part of the
             // language; each statement is sent one by one
 
@@ -115,7 +116,7 @@ if (/*overload*/mb_strlen($GLOBALS['db'])
         // Duplicate the bookmarks for this db (done once for each db)
         PMA_duplicateBookmarks($_error, $GLOBALS['db']);
 
-        if (! $_error && $move) {
+        if (!$_error && $move) {
             /**
              * cleanup pmadb stuff for this db
              */
@@ -133,7 +134,7 @@ if (/*overload*/mb_strlen($GLOBALS['db'])
             );
             $message->addParam($GLOBALS['db']);
             $message->addParam($_REQUEST['newname']);
-        } elseif (! $_error) {
+        } elseif (!$_error) {
             $message = PMA_Message::success(
                 __('Database %1$s has been copied to %2$s.')
             );
@@ -142,12 +143,12 @@ if (/*overload*/mb_strlen($GLOBALS['db'])
         } else {
             $message = PMA_Message::error();
         }
-        $reload     = true;
+        $reload = true;
 
         /* Change database to be used */
-        if (! $_error && $move) {
+        if (!$_error && $move) {
             $GLOBALS['db'] = $_REQUEST['newname'];
-        } elseif (! $_error) {
+        } elseif (!$_error) {
             if (isset($_REQUEST['switch_to_new'])
                 && $_REQUEST['switch_to_new'] == 'true'
             ) {
@@ -205,7 +206,7 @@ if (isset($message)) {
 }
 
 $_REQUEST['db_collation'] = PMA_getDbCollation($GLOBALS['db']);
-$is_information_schema = $GLOBALS['dbi']->isSystemSchema($GLOBALS['db']);
+$is_information_schema    = $GLOBALS['dbi']->isSystemSchema($GLOBALS['db']);
 
 $response->addHTML('<div id="boxContainer" data-box-width="300">');
 
@@ -237,7 +238,7 @@ if (!$is_information_schema) {
     // You won't be able to. Believe me. You won't.
     // Don't allow to easily drop mysql database, RFE #1327514.
     if (($is_superuser || $GLOBALS['cfg']['AllowUserDropDatabase'])
-        && ! $db_is_system_schema
+        && !$db_is_system_schema
         && (PMA_DRIZZLE || $GLOBALS['db'] != 'mysql')
     ) {
         $response->addHTML(PMA_getHtmlForDropDatabaseLink($GLOBALS['db']));
@@ -252,7 +253,7 @@ if (!$is_information_schema) {
      */
     $response->addHTML(PMA_getHtmlForChangeDatabaseCharset($GLOBALS['db'], $table));
 
-    if (! $cfgRelation['allworks']
+    if (!$cfgRelation['allworks']
         && $cfg['PmaNoRelation_DisableWarning'] == false
     ) {
         $message = PMA_Message::notice(
@@ -279,9 +280,9 @@ if ($cfgRelation['pdfwork'] && $num_tables > 0) {
     $test_query = '
          SELECT *
            FROM ' . PMA_Util::backquote($GLOBALS['cfgRelation']['db'])
-            . '.' . PMA_Util::backquote($cfgRelation['pdf_pages']) . '
+        . '.' . PMA_Util::backquote($cfgRelation['pdf_pages']) . '
           WHERE db_name = \'' . PMA_Util::sqlAddSlashes($GLOBALS['db']) . '\'';
-    $test_rs = PMA_queryAsControlUser(
+    $test_rs    = PMA_queryAsControlUser(
         $test_query,
         false,
         PMA_DatabaseInterface::QUERY_STORE

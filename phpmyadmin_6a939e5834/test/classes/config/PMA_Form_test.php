@@ -32,14 +32,14 @@ class PMA_Form_Test extends PHPUnit_Framework_TestCase
      */
     function setup()
     {
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
-        $GLOBALS['pmaThemePath'] = $_SESSION['PMA_Theme']->getPath();
+        $_SESSION['PMA_Theme']    = new PMA_Theme();
+        $GLOBALS['pmaThemePath']  = $_SESSION['PMA_Theme']->getPath();
         $GLOBALS['pmaThemeImage'] = 'theme/';
-        $GLOBALS['PMA_Config'] = new PMA_Config();
+        $GLOBALS['PMA_Config']    = new PMA_Config();
         $GLOBALS['PMA_Config']->enableBc();
         $GLOBALS['server'] = 0;
-        $this->object = new Form(
-            'pma_form_name', array('pma_form1','pma_form2'), new ConfigFile(), 1
+        $this->object      = new Form(
+            'pma_form_name', ['pma_form1', 'pma_form2'], new ConfigFile(), 1
         );
     }
 
@@ -86,7 +86,7 @@ class PMA_Form_Test extends PHPUnit_Framework_TestCase
         $attrFieldsTypes->setAccessible(true);
         $attrFieldsTypes->setValue(
             $this->object,
-            array("7" => "Seven")
+            ["7" => "Seven"]
         );
 
         $this->assertNull(
@@ -107,26 +107,26 @@ class PMA_Form_Test extends PHPUnit_Framework_TestCase
     public function testGetOptionValueList()
     {
         $this->assertEquals(
-            array('NHibernate C# DO', 'NHibernate XML'),
+            ['NHibernate C# DO', 'NHibernate XML'],
             $this->object->getOptionValueList("Export/codegen_format")
         );
 
         $this->assertEquals(
-            array(
+            [
                 'auto' => 'auto',
-                '1' => 1,
-                '0' => 0
-            ),
+                '1'    => 1,
+                '0'    => 0,
+            ],
             $this->object->getOptionValueList("OBGzip")
         );
 
         $this->assertEquals(
-            array(
-                'none' => 'Nowhere',
-                'left' => 'Left',
+            [
+                'none'  => 'Nowhere',
+                'left'  => 'Left',
                 'right' => 'Right',
-                'both' =>   "Both"
-            ),
+                'both'  => "Both",
+            ],
             $this->object->getOptionValueList("RowActionLinks")
         );
     }
@@ -139,17 +139,17 @@ class PMA_Form_Test extends PHPUnit_Framework_TestCase
     public function testReadFormPathsCallBack()
     {
         $reflection = new \ReflectionClass('Form');
-        $method = $reflection->getMethod('_readFormPathsCallback');
+        $method     = $reflection->getMethod('_readFormPathsCallback');
         $method->setAccessible(true);
 
-        $array = array(
-            "foo" => array(
-                "bar" => array(
+        $array = [
+            "foo" => [
+                "bar" => [
                     'test' => 1,
-                    1 => ':group:end'
-                )
-            )
-        );
+                    1      => ':group:end',
+                ],
+            ],
+        ];
 
         $method->invoke($this->object, $array, 'foo', 'pref');
 
@@ -191,17 +191,17 @@ class PMA_Form_Test extends PHPUnit_Framework_TestCase
     public function testReadFormPaths()
     {
         $reflection = new \ReflectionClass('Form');
-        $method = $reflection->getMethod('readFormPaths');
+        $method     = $reflection->getMethod('readFormPaths');
         $method->setAccessible(true);
 
-        $array = array(
-            "foo" => array(
-                "bar" => array(
+        $array = [
+            "foo" => [
+                "bar" => [
                     'test' => 1,
-                    1 => ':group:end'
-                )
-            )
-        );
+                    1      => ':group:end',
+                ],
+            ],
+        ];
 
         $method->invoke($this->object, $array);
 
@@ -222,7 +222,7 @@ class PMA_Form_Test extends PHPUnit_Framework_TestCase
         // needs regexp because the counter is static
 
         $keys = array_keys($result);
-        $key = $keys[0];
+        $key  = $keys[0];
 
         $this->assertRegexp(
             "/^\:group\:end\:(\d+)$/",
@@ -246,15 +246,15 @@ class PMA_Form_Test extends PHPUnit_Framework_TestCase
     public function testReadTypes()
     {
         $reflection = new \ReflectionClass('Form');
-        $method = $reflection->getMethod('readTypes');
+        $method     = $reflection->getMethod('readTypes');
         $method->setAccessible(true);
 
-        $this->object->fields = array(
-            "pma_form1" => "Servers/1/port",
-            "pma_form2" => "Servers/1/connect_type",
+        $this->object->fields = [
+            "pma_form1"    => "Servers/1/port",
+            "pma_form2"    => "Servers/1/connect_type",
             ":group:end:0" => "preffoo/foo/bar/test",
-            "1" => "preffoo/foo/bar/:group:end:0"
-        );
+            "1"            => "preffoo/foo/bar/:group:end:0",
+        ];
 
         $attrFieldsTypes = $reflection->getProperty('_fieldsTypes');
         $attrFieldsTypes->setAccessible(true);
@@ -262,12 +262,12 @@ class PMA_Form_Test extends PHPUnit_Framework_TestCase
         $method->invoke($this->object, null);
 
         $this->assertEquals(
-            array(
-                "pma_form1" => "integer",
-                "pma_form2" => "select",
+            [
+                "pma_form1"    => "integer",
+                "pma_form2"    => "select",
                 ":group:end:0" => "group",
-                "1" => "NULL"
-            ),
+                "1"            => "NULL",
+            ],
             $attrFieldsTypes->getValue($this->object)
         );
     }
@@ -281,7 +281,7 @@ class PMA_Form_Test extends PHPUnit_Framework_TestCase
     {
         $this->object = $this->getMockBuilder('Form')
             ->disableOriginalConstructor()
-            ->setMethods(array('readFormPaths', 'readTypes'))
+            ->setMethods(['readFormPaths', 'readTypes'])
             ->getMock();
 
         $this->object->expects($this->exactly(1))
@@ -299,4 +299,5 @@ class PMA_Form_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

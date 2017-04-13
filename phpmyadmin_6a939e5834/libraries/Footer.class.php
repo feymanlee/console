@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -92,7 +92,7 @@ class PMA_Footer
     public function getDebugMessage()
     {
         $retval = '';
-        if (! empty($_SESSION['debug'])) {
+        if (!empty($_SESSION['debug'])) {
             $sum_time = 0;
             $sum_exec = 0;
             foreach ($_SESSION['debug']['queries'] as $query) {
@@ -112,8 +112,9 @@ class PMA_Footer
 
             $retval .= '</pre>';
             $retval .= '</div>';
-            $_SESSION['debug'] = array();
+            $_SESSION['debug'] = [];
         }
+
         return $retval;
     }
 
@@ -126,18 +127,18 @@ class PMA_Footer
      */
     public function getSelfUrl($encode = 'html')
     {
-        $db = ! empty($GLOBALS['db']) ? $GLOBALS['db'] : '';
-        $table = ! empty($GLOBALS['table']) ? $GLOBALS['table'] : '';
-        $target = ! empty($_REQUEST['target']) ? $_REQUEST['target'] : '';
-        $params = array(
-            'db' => $db,
-            'table' => $table,
+        $db     = !empty($GLOBALS['db']) ? $GLOBALS['db'] : '';
+        $table  = !empty($GLOBALS['table']) ? $GLOBALS['table'] : '';
+        $target = !empty($_REQUEST['target']) ? $_REQUEST['target'] : '';
+        $params = [
+            'db'     => $db,
+            'table'  => $table,
             'server' => $GLOBALS['server'],
-            'target' => $target
-        );
+            'target' => $target,
+        ];
         // needed for server privileges tabs
         if (isset($_REQUEST['viewing_mode'])
-            && in_array($_REQUEST['viewing_mode'], array('server', 'db', 'table'))
+            && in_array($_REQUEST['viewing_mode'], ['server', 'db', 'table'])
         ) {
             $params['viewing_mode'] = $_REQUEST['viewing_mode'];
         }
@@ -160,14 +161,15 @@ class PMA_Footer
             $params['checkprivstable'] = $_REQUEST['checkprivstable'];
         }
         if (isset($_REQUEST['single_table'])
-            && in_array($_REQUEST['single_table'], array(true, false))
+            && in_array($_REQUEST['single_table'], [true, false])
         ) {
             $params['single_table'] = $_REQUEST['single_table'];
         }
+
         return basename(PMA_getenv('SCRIPT_NAME')) . PMA_URL_getCommon(
-            $params,
-            $encode
-        );
+                $params,
+                $encode
+            );
     }
 
     /**
@@ -179,7 +181,7 @@ class PMA_Footer
      */
     private function _getSelfLink($url)
     {
-        $retval  = '';
+        $retval = '';
         $retval .= '<div id="selflink" class="print_ignore">';
         $retval .= '<a href="' . $url . '"'
             . ' title="' . __('Open new phpMyAdmin window') . '" target="_blank">';
@@ -189,10 +191,11 @@ class PMA_Footer
                 __('Open new phpMyAdmin window')
             );
         } else {
-            $retval .=  __('Open new phpMyAdmin window');
+            $retval .= __('Open new phpMyAdmin window');
         }
         $retval .= '</a>';
         $retval .= '</div>';
+
         return $retval;
     }
 
@@ -224,9 +227,9 @@ class PMA_Footer
      */
     private function _setHistory()
     {
-        if (! PMA_isValid($_REQUEST['no_history'])
+        if (!PMA_isValid($_REQUEST['no_history'])
             && empty($GLOBALS['error_message'])
-            && ! empty($GLOBALS['sql_query'])
+            && !empty($GLOBALS['sql_query'])
         ) {
             PMA_setHistory(
                 PMA_ifSetOr($GLOBALS['db'], ''),
@@ -290,18 +293,18 @@ class PMA_Footer
         $retval = '';
         $this->_setHistory();
         if ($this->_isEnabled) {
-            if (! $this->_isAjax) {
+            if (!$this->_isAjax) {
                 $retval .= "</div>";
             }
-            if (! $this->_isAjax && ! $this->_isMinimal) {
+            if (!$this->_isAjax && !$this->_isMinimal) {
                 if (PMA_getenv('SCRIPT_NAME')
                     && empty($_POST)
                     && empty($GLOBALS['checked_special'])
-                    && ! $this->_isAjax
+                    && !$this->_isAjax
                 ) {
-                    $url = $this->getSelfUrl('unencoded');
-                    $header = PMA_Response::getInstance()->getHeader();
-                    $scripts = $header->getScripts()->getFiles();
+                    $url      = $this->getSelfUrl('unencoded');
+                    $header   = PMA_Response::getInstance()->getHeader();
+                    $scripts  = $header->getScripts()->getFiles();
                     $menuHash = $header->getMenu()->getHash();
                     // prime the client-side cache
                     $this->_scripts->addCode(
@@ -318,7 +321,7 @@ class PMA_Footer
                     );
                 }
                 if (PMA_getenv('SCRIPT_NAME')
-                    && ! $this->_isAjax
+                    && !$this->_isAjax
                 ) {
                     $url = $this->getSelfUrl();
                     $retval .= $this->_getSelfLink($url);
@@ -341,7 +344,7 @@ class PMA_Footer
                     $retval .= '</div>';
                 }
             }
-            if (! $this->_isAjax) {
+            if (!$this->_isAjax) {
                 $retval .= "</body></html>";
             }
         }

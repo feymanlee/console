@@ -6,7 +6,7 @@
  * @package    PhpMyAdmin-Import
  * @subpackage SQL
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -21,9 +21,9 @@ require_once 'libraries/plugins/ImportPlugin.class.php';
  */
 class ImportSql extends ImportPlugin
 {
-    const BIG_VALUE = 2147483647;
+    const BIG_VALUE     = 2147483647;
     const READ_MB_FALSE = 0;
-    const READ_MB_TRUE = 1;
+    const READ_MB_TRUE  = 1;
 
     /**
      * @var string SQL delimiter
@@ -99,20 +99,20 @@ class ImportSql extends ImportPlugin
      * @var array List of string functions
      * @todo Move this part in string functions definition file.
      */
-    private $_stringFunctions = array(
-        self::READ_MB_FALSE => array(
+    private $_stringFunctions = [
+        self::READ_MB_FALSE => [
             'substr'     => 'substr',
             'strlen'     => 'strlen',
             'strpos'     => 'strpos',
             'strtoupper' => 'strtoupper',
-        ),
-        self::READ_MB_TRUE => array(
+        ],
+        self::READ_MB_TRUE  => [
             'substr'     => 'mb_substr',
             'strlen'     => 'mb_strlen',
             'strpos'     => 'mb_strpos',
             'strtoupper' => 'mb_strtoupper',
-        ),
-    );
+        ],
+    ];
 
     /**
      * @var bool|int List of string functions to use
@@ -149,7 +149,7 @@ class ImportSql extends ImportPlugin
 
         $compats = $GLOBALS['dbi']->getCompatibilities();
         if (count($compats) > 0) {
-            $values = array();
+            $values = [];
             foreach ($compats as $val) {
                 $values[$val] = $val;
             }
@@ -169,10 +169,10 @@ class ImportSql extends ImportPlugin
             $leaf->setText(__('SQL compatibility mode:'));
             $leaf->setValues($values);
             $leaf->setDoc(
-                array(
+                [
                     'manual_MySQL_Database_Administration',
                     'Server_SQL_mode',
-                )
+                ]
             );
             $generalOptions->addProperty($leaf);
             $leaf = new BoolPropertyItem();
@@ -181,11 +181,11 @@ class ImportSql extends ImportPlugin
                 __('Do not use <code>AUTO_INCREMENT</code> for zero values')
             );
             $leaf->setDoc(
-                array(
+                [
                     'manual_MySQL_Database_Administration',
                     'Server_SQL_mode',
-                    'sqlmode_no_auto_value_on_zero'
-                )
+                    'sqlmode_no_auto_value_on_zero',
+                ]
             );
             $generalOptions->addProperty($leaf);
 
@@ -223,7 +223,7 @@ class ImportSql extends ImportPlugin
 
         //Quotes escaped by quote will be considered as 2 consecutive strings
         //and won't pass in this loop.
-        $posEscape = $posClosingString-1;
+        $posEscape = $posClosingString - 1;
         while ($this->_stringFctToUse['substr']($this->_data, $posEscape, 1) == '\\'
         ) {
             $posEscape--;
@@ -240,7 +240,8 @@ class ImportSql extends ImportPlugin
         }
 
         $this->_isInString = false;
-        $this->_quote = null;
+        $this->_quote      = null;
+
         return true;
     }
 
@@ -252,8 +253,8 @@ class ImportSql extends ImportPlugin
     private function _findDelimiterPosition()
     {
         $this->_firstSearchChar = null;
-        $firstSqlDelimiter = null;
-        $matches = null;
+        $firstSqlDelimiter      = null;
+        $matches                = null;
 
         /* while not at end of line */
         while ($this->_delimiterPosition < $this->_dataLength) {
@@ -266,7 +267,7 @@ class ImportSql extends ImportPlugin
             }
 
             if ($this->_isInComment) {
-                if (in_array($this->_openingComment, array('#', '-- '))) {
+                if (in_array($this->_openingComment, ['#', '-- '])) {
                     $posClosingComment = $this->_stringFctToUse['strpos'](
                         $this->_data,
                         "\n",
@@ -277,8 +278,8 @@ class ImportSql extends ImportPlugin
                     }
                     //Move after the end of the line.
                     $this->_delimiterPosition = $posClosingComment + 1;
-                    $this->_isInComment = false;
-                    $this->_openingComment = null;
+                    $this->_isInComment       = false;
+                    $this->_openingComment    = null;
                 } elseif ('/*' === $this->_openingComment) {
                     //Search for closing comment
                     $posClosingComment = $this->_stringFctToUse['strpos'](
@@ -291,8 +292,8 @@ class ImportSql extends ImportPlugin
                     }
                     //Move after closing comment.
                     $this->_delimiterPosition = $posClosingComment + 2;
-                    $this->_isInComment = false;
-                    $this->_openingComment = null;
+                    $this->_isInComment       = false;
+                    $this->_openingComment    = null;
                 } else {
                     //We shouldn't be able to come here.
                     //throw new Exception('Unknown case.');
@@ -312,7 +313,8 @@ class ImportSql extends ImportPlugin
                     ),
                     $matches,
                     PREG_OFFSET_CAPTURE
-                )) {
+                )
+                ) {
                     return false;
                 }
 
@@ -320,10 +322,10 @@ class ImportSql extends ImportPlugin
                 //Start after delimiter and new line.
                 $this->_queryBeginPosition = $this->_delimiterPosition
                     + $matches[1][1] + $this->_delimiterLength + 1;
-                $this->_delimiterPosition = $this->_queryBeginPosition;
-                $this->_isInDelimiter = false;
-                $firstSqlDelimiter = null;
-                $this->_firstSearchChar = null;
+                $this->_delimiterPosition  = $this->_queryBeginPosition;
+                $this->_isInDelimiter      = false;
+                $firstSqlDelimiter         = null;
+                $this->_firstSearchChar    = null;
                 continue;
             }
 
@@ -338,9 +340,10 @@ class ImportSql extends ImportPlugin
             //If first char is delimiter.
             if (false === $this->_firstSearchChar
                 || (false !== $firstSqlDelimiter
-                && $firstSqlDelimiter < $this->_firstSearchChar)
+                    && $firstSqlDelimiter < $this->_firstSearchChar)
             ) {
                 $this->_delimiterPosition = $firstSqlDelimiter;
+
                 return true;
             }
 
@@ -349,17 +352,17 @@ class ImportSql extends ImportPlugin
             $specialChars = $matches[1][0];
 
             //If string is opened.
-            if (in_array($specialChars, array('\'', '"', '`'))) {
+            if (in_array($specialChars, ['\'', '"', '`'])) {
                 $this->_isInString = true;
-                $this->_quote = $specialChars;
+                $this->_quote      = $specialChars;
                 //Move before quote.
                 $this->_delimiterPosition = $this->_firstSearchChar + 1;
                 continue;
             }
 
             //If comment is opened.
-            if (in_array($specialChars, array('#', '-- ', '/*'))) {
-                $this->_isInComment = true;
+            if (in_array($specialChars, ['#', '-- ', '/*'])) {
+                $this->_isInComment    = true;
                 $this->_openingComment = $specialChars;
                 //Move before comment opening.
                 $this->_delimiterPosition = $this->_firstSearchChar
@@ -370,7 +373,7 @@ class ImportSql extends ImportPlugin
             //If DELIMITER is found.
             $specialCharsUpper = $this->_stringFctToUse['strtoupper']($specialChars);
             if ($specialCharsUpper === $this->_delimiterKeyword) {
-                $this->_isInDelimiter =  true;
+                $this->_isInDelimiter     = true;
                 $this->_delimiterPosition = $this->_firstSearchChar
                     + $this->_stringFctToUse['strlen']($specialChars);
                 continue;
@@ -387,7 +390,7 @@ class ImportSql extends ImportPlugin
      *
      * @return void
      */
-    public function doImport(&$sql_data = array())
+    public function doImport(&$sql_data = [])
     {
         global $error, $timeout_passed;
 
@@ -412,10 +415,10 @@ class ImportSql extends ImportPlugin
         /**
          * will be set in PMA_importGetNextChunk()
          *
-         * @global boolean $GLOBALS['finished']
+         * @global boolean $GLOBALS ['finished']
          */
         $GLOBALS['finished'] = false;
-        $delimiterFound = false;
+        $delimiterFound      = false;
 
         while (!$error && !$timeout_passed) {
             if (false === $delimiterFound) {
@@ -468,7 +471,7 @@ class ImportSql extends ImportPlugin
             );
         }
 
-        if (! $timeout_passed) {
+        if (!$timeout_passed) {
             //Commit any possible data in buffers
             PMA_importRunQuery(
                 $this->_stringFctToUse['substr'](
@@ -493,7 +496,7 @@ class ImportSql extends ImportPlugin
      */
     private function _setSQLMode($dbi, $request)
     {
-        $sql_modes = array();
+        $sql_modes = [];
         if (isset($request['sql_compatibility'])
             && 'NONE' != $request['sql_compatibility']
         ) {
@@ -523,7 +526,7 @@ class ImportSql extends ImportPlugin
         //or if it's still after current position.
         if (null === $this->_firstSearchChar
             || (false !== $this->_firstSearchChar
-            && $this->_firstSearchChar < $this->_delimiterPosition)
+                && $this->_firstSearchChar < $this->_delimiterPosition)
         ) {
             $bFind = preg_match(
                 '/(\'|"|#|-- |\/\*|`|(?i)(?<![A-Z0-9_])'
@@ -542,6 +545,7 @@ class ImportSql extends ImportPlugin
                 $this->_firstSearchChar = false;
             }
         }
+
         return $matches;
     }
 
@@ -558,7 +562,7 @@ class ImportSql extends ImportPlugin
         //or if it's still after current position.
         if (null === $firstSqlDelimiter
             || (false !== $firstSqlDelimiter
-            && $firstSqlDelimiter < $this->_delimiterPosition)
+                && $firstSqlDelimiter < $this->_delimiterPosition)
         ) {
             // the cost of doing this one with preg_match() would be too high
             $firstSqlDelimiter = $this->_stringFctToUse['strpos'](
@@ -580,7 +584,7 @@ class ImportSql extends ImportPlugin
      */
     private function _setDelimiter($delimiter)
     {
-        $this->_delimiter = $delimiter;
+        $this->_delimiter       = $delimiter;
         $this->_delimiterLength = $this->_stringFctToUse['strlen']($delimiter);
 
         return $this->_delimiterLength;
@@ -595,10 +599,10 @@ class ImportSql extends ImportPlugin
      */
     private function _setData($data)
     {
-        $this->_data = ltrim($data);
-        $this->_dataLength = $this->_stringFctToUse['strlen']($this->_data);
+        $this->_data               = ltrim($data);
+        $this->_dataLength         = $this->_stringFctToUse['strlen']($this->_data);
         $this->_queryBeginPosition = 0;
-        $this->_delimiterPosition = 0;
+        $this->_delimiterPosition  = 0;
 
         return $this->_dataLength;
     }

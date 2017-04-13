@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -22,7 +22,6 @@ require_once 'libraries/Font.class.php';
  * @access  public
  * @see     http://php.net/manual/en/book.xmlwriter.php
  */
-
 class PMA_EPS
 {
     public $font;
@@ -126,7 +125,7 @@ class PMA_EPS
      */
     function setFont($value, $size)
     {
-        $this->font = $value;
+        $this->font     = $value;
         $this->fontSize = $size;
         $this->stringCommands .= "/" . $value . " findfont   % Get the basic font\n";
         $this->stringCommands .= ""
@@ -180,8 +179,8 @@ class PMA_EPS
     function line($x_from = 0, $y_from = 0, $x_to = 0, $y_to = 0, $lineWidth = 0)
     {
         $this->stringCommands .= $lineWidth . " setlinewidth  \n";
-        $this->stringCommands .= $x_from . ' ' . $y_from  . " moveto \n";
-        $this->stringCommands .= $x_to . ' ' . $y_to  . " lineto \n";
+        $this->stringCommands .= $x_from . ' ' . $y_from . " moveto \n";
+        $this->stringCommands .= $x_to . ' ' . $y_to . " lineto \n";
         $this->stringCommands .= "stroke \n";
     }
 
@@ -192,13 +191,13 @@ class PMA_EPS
      * width of the line. rectangles drawn around the text shown of fields
      *
      * @param integer $x_from    The x_from attribute defines the start
-                                 left position of the element
+     *                           left position of the element
      * @param integer $y_from    The y_from attribute defines the start
-                                 right position of the element
+     *                           right position of the element
      * @param integer $x_to      The x_to attribute defines the end
-                                 left position of the element
+     *                           left position of the element
      * @param integer $y_to      The y_to attribute defines the end
-                                 right position of the element
+     *                           right position of the element
      * @param integer $lineWidth Sets the width of the line e.g 2
      *
      * @return void
@@ -209,10 +208,10 @@ class PMA_EPS
     {
         $this->stringCommands .= $lineWidth . " setlinewidth  \n";
         $this->stringCommands .= "newpath \n";
-        $this->stringCommands .= $x_from . " " . $y_from  . " moveto \n";
-        $this->stringCommands .= "0 " . $y_to  . " rlineto \n";
+        $this->stringCommands .= $x_from . " " . $y_from . " moveto \n";
+        $this->stringCommands .= "0 " . $y_to . " rlineto \n";
         $this->stringCommands .= $x_to . " 0 rlineto \n";
-        $this->stringCommands .= "0 -" . $y_to  . " rlineto \n";
+        $this->stringCommands .= "0 -" . $y_to . " rlineto \n";
         $this->stringCommands .= "closepath \n";
         $this->stringCommands .= "stroke \n";
     }
@@ -247,7 +246,7 @@ class PMA_EPS
      */
     function show($text)
     {
-        $this->stringCommands .=  '(' . $text  . ") show \n";
+        $this->stringCommands .= '(' . $text . ") show \n";
     }
 
     /**
@@ -290,14 +289,15 @@ class PMA_EPS
     function showOutput($fileName)
     {
         // if(ob_get_clean()){
-            //ob_end_clean();
+        //ob_end_clean();
         //}
         $output = $this->stringCommands;
         PMA_Response::getInstance()->disable();
         PMA_downloadHeader(
             $fileName,
             'image/x-eps',
-            /*overload*/mb_strlen($output)
+            /*overload*/
+            mb_strlen($output)
         );
         print $output;
     }
@@ -319,8 +319,8 @@ class PMA_EPS
  */
 class PMA_Eps_Relation_Schema extends PMA_Export_Relation_Schema
 {
-    private $_tables = array();
-    private $_relations = array();
+    private $_tables    = [];
+    private $_relations = [];
 
     /**
      * The "PMA_EPS_Relation_Schema" constructor
@@ -358,7 +358,7 @@ class PMA_Eps_Relation_Schema extends PMA_Export_Relation_Schema
         $alltables = $this->getTablesFromRequest();
 
         foreach ($alltables as $table) {
-            if (! isset($this->_tables[$table])) {
+            if (!isset($this->_tables[$table])) {
                 $this->_tables[$table] = new Table_Stats_Eps(
                     $table, $eps->getFont(), $eps->getFontSize(), $this->pageNumber,
                     $this->_tablewidth, $this->showKeys,
@@ -449,20 +449,20 @@ class PMA_Eps_Relation_Schema extends PMA_Export_Relation_Schema
      * @return void
      *
      * @access private
-     * @see _setMinMax,Table_Stats_Eps::__construct(),
+     * @see    _setMinMax,Table_Stats_Eps::__construct(),
      * Relation_Stats_Eps::__construct()
      */
     private function _addRelation(
         $masterTable, $font, $fontSize, $masterField,
         $foreignTable, $foreignField, $tableDimension
     ) {
-        if (! isset($this->_tables[$masterTable])) {
+        if (!isset($this->_tables[$masterTable])) {
             $this->_tables[$masterTable] = new Table_Stats_Eps(
                 $masterTable, $font, $fontSize, $this->pageNumber,
                 $this->_tablewidth, false, $tableDimension
             );
         }
-        if (! isset($this->_tables[$foreignTable])) {
+        if (!isset($this->_tables[$foreignTable])) {
             $this->_tables[$foreignTable] = new Table_Stats_Eps(
                 $foreignTable, $font, $fontSize, $this->pageNumber,
                 $this->_tablewidth, false, $tableDimension
@@ -481,7 +481,7 @@ class PMA_Eps_Relation_Schema extends PMA_Export_Relation_Schema
      * @return void
      *
      * @access private
-     * @see Relation_Stats_Eps::relationDraw()
+     * @see    Relation_Stats_Eps::relationDraw()
      */
     private function _drawRelations()
     {
@@ -496,7 +496,7 @@ class PMA_Eps_Relation_Schema extends PMA_Export_Relation_Schema
      * @return void
      *
      * @access private
-     * @see Table_Stats_Eps::Table_Stats_tableDraw()
+     * @see    Table_Stats_Eps::Table_Stats_tableDraw()
      */
     private function _drawTables()
     {
@@ -505,4 +505,5 @@ class PMA_Eps_Relation_Schema extends PMA_Export_Relation_Schema
         }
     }
 }
+
 ?>

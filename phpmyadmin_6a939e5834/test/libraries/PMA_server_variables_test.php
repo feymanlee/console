@@ -41,20 +41,20 @@ class PMA_ServerVariables_Test extends PHPUnit_Framework_TestCase
         $_REQUEST['pos'] = 3;
 
         //$GLOBALS
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['RememberSorting'] = true;
-        $GLOBALS['cfg']['SQP'] = array();
+        $GLOBALS['cfg']['MaxRows']                     = 10;
+        $GLOBALS['cfg']['ServerDefault']               = "server";
+        $GLOBALS['cfg']['RememberSorting']             = true;
+        $GLOBALS['cfg']['SQP']                         = [];
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
-        $GLOBALS['cfg']['ShowSQL'] = true;
-        $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
-        $GLOBALS['cfg']['DBG']['sql'] = false;
-        $GLOBALS['cfg']['Server']['host'] = "localhost";
-        $GLOBALS['cfg']['ActionLinksMode'] = 'icons';
-        $GLOBALS['PMA_PHP_SELF'] = PMA_getenv('PHP_SELF');
+        $GLOBALS['cfg']['ShowSQL']                     = true;
+        $GLOBALS['cfg']['TableNavigationLinksMode']    = 'icons';
+        $GLOBALS['cfg']['LimitChars']                  = 100;
+        $GLOBALS['cfg']['DBG']['sql']                  = false;
+        $GLOBALS['cfg']['Server']['host']              = "localhost";
+        $GLOBALS['cfg']['ActionLinksMode']             = 'icons';
+        $GLOBALS['PMA_PHP_SELF']                       = PMA_getenv('PHP_SELF');
 
-        $GLOBALS['table'] = "table";
+        $GLOBALS['table']         = "table";
         $GLOBALS['pmaThemeImage'] = 'image';
 
         //$_SESSION
@@ -67,37 +67,37 @@ class PMA_ServerVariables_Test extends PHPUnit_Framework_TestCase
             ->getMock();
 
         //this data is needed when PMA_ServerStatusData constructs
-        $server_session_variable = array(
+        $server_session_variable = [
             "auto_increment_increment" => "1",
-            "auto_increment_offset" => "13",
-            "automatic_sp_privileges" => "ON",
-            "back_log" => "50",
-            "big_tables" => "OFF",
-        );
+            "auto_increment_offset"    => "13",
+            "automatic_sp_privileges"  => "ON",
+            "back_log"                 => "50",
+            "big_tables"               => "OFF",
+        ];
 
-        $server_global_variables = array(
+        $server_global_variables = [
             "auto_increment_increment" => "0",
-            "auto_increment_offset" => "12"
-        );
+            "auto_increment_offset"    => "12",
+        ];
 
-        $fetchResult = array(
-            array(
+        $fetchResult = [
+            [
                 "SHOW SESSION VARIABLES;",
                 0,
                 1,
                 null,
                 0,
-                $server_session_variable
-            ),
-            array(
+                $server_session_variable,
+            ],
+            [
                 "SHOW GLOBAL VARIABLES;",
                 0,
                 1,
                 null,
                 0,
-                $server_global_variables
-            )
-        );
+                $server_global_variables,
+            ],
+        ];
 
         $dbi->expects($this->any())->method('fetchResult')
             ->will($this->returnValueMap($fetchResult));
@@ -113,9 +113,9 @@ class PMA_ServerVariables_Test extends PHPUnit_Framework_TestCase
     public function testPMAFormatVariable()
     {
         //Call the test function
-        $name_for_value_byte = "binlog_cache_size";
+        $name_for_value_byte     = "binlog_cache_size";
         $name_for_value_not_byte = "auto_increment_increment";
-        $name_for_value_not_num = "PMA_key";
+        $name_for_value_not_num  = "PMA_key";
 
         $variable_doc_links = PMA_getArrayForDocumentLinks();
 
@@ -147,7 +147,7 @@ class PMA_ServerVariables_Test extends PHPUnit_Framework_TestCase
     {
         //Call the test function
         $html = PMA_getHtmlForLinkTemplates();
-        $url = 'server_variables.php' . PMA_URL_getCommon(array());
+        $url  = 'server_variables.php' . PMA_URL_getCommon([]);
 
         //validate 1: URL
         $this->assertContains(
@@ -220,7 +220,7 @@ class PMA_ServerVariables_Test extends PHPUnit_Framework_TestCase
         $html = PMA_getHtmlForServerVariablesItems($variable_doc_links);
 
         //validate 1: variable: auto_increment_increment
-        $name = "auto_increment_increment";
+        $name  = "auto_increment_increment";
         $value = htmlspecialchars(str_replace('_', ' ', $name));
         $this->assertContains(
             $value,
@@ -228,7 +228,7 @@ class PMA_ServerVariables_Test extends PHPUnit_Framework_TestCase
         );
 
         //validate 2: variable: auto_increment_offset
-        $name = "auto_increment_offset";
+        $name  = "auto_increment_offset";
         $value = htmlspecialchars(str_replace('_', ' ', $name));
         $this->assertContains(
             $value,

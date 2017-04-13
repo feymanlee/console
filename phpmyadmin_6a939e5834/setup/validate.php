@@ -11,14 +11,14 @@
  */
 require './lib/common.inc.php';
 
-$validators = array();
+$validators = [];
 require './libraries/config/Validator.class.php';
 
 header('Content-type: application/json');
 
-$ids = PMA_isValid($_POST['id'], 'scalar') ? $_POST['id'] : null;
-$vids = explode(',', $ids);
-$vals = PMA_isValid($_POST['values'], 'scalar') ? $_POST['values'] : null;
+$ids    = PMA_isValid($_POST['id'], 'scalar') ? $_POST['id'] : null;
+$vids   = explode(',', $ids);
+$vals   = PMA_isValid($_POST['values'], 'scalar') ? $_POST['values'] : null;
 $values = json_decode($vals);
 if (!($values instanceof stdClass)) {
     PMA_fatalError(__('Wrong data'));

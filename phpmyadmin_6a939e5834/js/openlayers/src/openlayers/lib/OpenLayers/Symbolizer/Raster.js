@@ -12,23 +12,23 @@
  * A symbolizer used to render raster images.
  */
 OpenLayers.Symbolizer.Raster = OpenLayers.Class(OpenLayers.Symbolizer, {
-    
-    /**
-     * Constructor: OpenLayers.Symbolizer.Raster
-     * Create a symbolizer for rendering rasters.
-     *
-     * Parameters:
-     * config - {Object} An object containing properties to be set on the 
-     *     symbolizer.  Any documented symbolizer property can be set at 
-     *     construction.
-     *
-     * Returns:
-     * A new raster symbolizer.
-     */
-    initialize: function(config) {
-        OpenLayers.Symbolizer.prototype.initialize.apply(this, arguments);
-    },
-    
-    CLASS_NAME: "OpenLayers.Symbolizer.Raster"
-    
+
+  /**
+   * Constructor: OpenLayers.Symbolizer.Raster
+   * Create a symbolizer for rendering rasters.
+   *
+   * Parameters:
+   * config - {Object} An object containing properties to be set on the
+   *     symbolizer.  Any documented symbolizer property can be set at
+   *     construction.
+   *
+   * Returns:
+   * A new raster symbolizer.
+   */
+  initialize: function (config) {
+    OpenLayers.Symbolizer.prototype.initialize.apply(this, arguments);
+  },
+
+  CLASS_NAME: "OpenLayers.Symbolizer.Raster"
+
 });

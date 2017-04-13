@@ -61,14 +61,14 @@ class PMA_String_Test extends PHPUnit_Framework_TestCase
      */
     public function charIsEscapedData()
     {
-        return array(
-            array(false, 'test', -1, 0),
-            array(false, 'test', 5, 3),
-            array(false, 'test', 3, 5),
-            array(true, '\\test', 1, -1),
-            array(false, '\\\\test', 2, -1),
-            array(true, '\\\\tes\\t', 6, 0)
-        );
+        return [
+            [false, 'test', -1, 0],
+            [false, 'test', 5, 3],
+            [false, 'test', 3, 5],
+            [true, '\\test', 1, -1],
+            [false, '\\\\test', 2, -1],
+            [true, '\\\\tes\\t', 6, 0],
+        ];
     }
 
     /**
@@ -99,13 +99,13 @@ class PMA_String_Test extends PHPUnit_Framework_TestCase
      */
     public function numberInRangeData()
     {
-        return array(
-            array(true, 2, 2, 3),
-            array(true, 5, 4, 5),
-            array(true, 50, 0, 100),
-            array(false, -1, 0, 20),
-            array(false, 31, 0, 30)
-        );
+        return [
+            [true, 2, 2, 3],
+            [true, 5, 4, 5],
+            [true, 50, 0, 100],
+            [false, -1, 0, 20],
+            [false, 31, 0, 30],
+        ];
     }
 
     /**
@@ -134,17 +134,18 @@ class PMA_String_Test extends PHPUnit_Framework_TestCase
      */
     public function isSqlIdentifierData()
     {
-        return array(
-            array(true, '2'),
-            array(true, 'a'),
-            array(true, '.', true),
-            array(false, '.'),
-            array(true, 'À'),
-            array(false, '×'),
-            array(false, 'ù'),
-            array(true, '_'),
-            array(true, '$')
-        );
+        return [
+            [true, '2'],
+            [true, 'a'],
+            [true, '.', true],
+            [false, '.'],
+            [true, 'À'],
+            [false, '×'],
+            [false, 'ù'],
+            [true, '_'],
+            [true, '$'],
+        ];
     }
 }
+
 ?>

@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Navigation
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -36,18 +36,18 @@ class Node_Database extends Node
     public function __construct($name, $type = Node::OBJECT, $is_group = false)
     {
         parent::__construct($name, $type, $is_group);
-        $this->icon  = PMA_Util::getImage(
+        $this->icon    = PMA_Util::getImage(
             's_db.png',
             __('Database operations')
         );
-        $this->links = array(
-            'text' => $GLOBALS['cfg']['DefaultTabDatabase']
-                    . '?server=' . $GLOBALS['server']
-                    . '&amp;db=%1$s&amp;token=' . $_SESSION[' PMA_token '],
-            'icon' => 'db_operations.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%1$s&amp;token=' . $_SESSION[' PMA_token '],
-            'title' => __('Structure')
-        );
+        $this->links   = [
+            'text'  => $GLOBALS['cfg']['DefaultTabDatabase']
+                . '?server=' . $GLOBALS['server']
+                . '&amp;db=%1$s&amp;token=' . $_SESSION[' PMA_token '],
+            'icon'  => 'db_operations.php?server=' . $GLOBALS['server']
+                . '&amp;db=%1$s&amp;token=' . $_SESSION[' PMA_token '],
+            'title' => __('Structure'),
+        ];
         $this->classes = 'database';
     }
 
@@ -68,31 +68,32 @@ class Node_Database extends Node
     {
         $retval = 0;
         switch ($type) {
-        case 'tables':
-            $retval = $this->_getTableCount($searchClause, $singleItem);
-            break;
-        case 'views':
-            $retval = $this->_getViewCount($searchClause, $singleItem);
-            break;
-        case 'procedures':
-            $retval = $this->_getProcedureCount($searchClause, $singleItem);
-            break;
-        case 'functions':
-            $retval = $this->_getFunctionCount($searchClause, $singleItem);
-            break;
-        case 'events':
-            $retval = $this->_getEventCount($searchClause, $singleItem);
-            break;
-        default:
-            break;
+            case 'tables':
+                $retval = $this->_getTableCount($searchClause, $singleItem);
+                break;
+            case 'views':
+                $retval = $this->_getViewCount($searchClause, $singleItem);
+                break;
+            case 'procedures':
+                $retval = $this->_getProcedureCount($searchClause, $singleItem);
+                break;
+            case 'functions':
+                $retval = $this->_getFunctionCount($searchClause, $singleItem);
+                break;
+            case 'events':
+                $retval = $this->_getEventCount($searchClause, $singleItem);
+                break;
+            default:
+                break;
         }
+
         return $retval;
     }
 
     /**
      * Returns the number of tables or views present inside this database
      *
-     * @param string  $which        tables|views 
+     * @param string  $which        tables|views
      * @param string  $searchClause A string used to filter the results of
      *                              the query
      * @param boolean $singleItem   Whether to get presence of a single known
@@ -102,16 +103,16 @@ class Node_Database extends Node
      */
     private function _getTableOrViewCount($which, $searchClause, $singleItem)
     {
-        $db     = $this->real_name;
+        $db = $this->real_name;
         if ($which == 'tables') {
             $condition = '=';
         } else {
             $condition = '!=';
         }
 
-        if (! $GLOBALS['cfg']['Server']['DisableIS'] || PMA_DRIZZLE) {
-            $db     = PMA_Util::sqlAddSlashes($db);
-            $query  = "SELECT COUNT(*) ";
+        if (!$GLOBALS['cfg']['Server']['DisableIS'] || PMA_DRIZZLE) {
+            $db    = PMA_Util::sqlAddSlashes($db);
+            $query = "SELECT COUNT(*) ";
             $query .= "FROM `INFORMATION_SCHEMA`.`TABLES` ";
             $query .= "WHERE `TABLE_SCHEMA`='$db' ";
             if (PMA_DRIZZLE) {
@@ -119,25 +120,26 @@ class Node_Database extends Node
             } else {
                 $query .= "AND `TABLE_TYPE`" . $condition . "'BASE TABLE' ";
             }
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "AND " . $this->_getWhereClauseForSearch(
-                    $searchClause, $singleItem, 'TABLE_NAME'
-                );
+                        $searchClause, $singleItem, 'TABLE_NAME'
+                    );
             }
             $retval = (int)$GLOBALS['dbi']->fetchValue($query);
         } else {
-            $query  = "SHOW FULL TABLES FROM ";
+            $query = "SHOW FULL TABLES FROM ";
             $query .= PMA_Util::backquote($db);
             $query .= " WHERE `Table_type`" . $condition . "'BASE TABLE' ";
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "AND " . $this->_getWhereClauseForSearch(
-                    $searchClause, $singleItem, 'Tables_in_' . $db
-                );
+                        $searchClause, $singleItem, 'Tables_in_' . $db
+                    );
             }
             $retval = $GLOBALS['dbi']->numRows(
                 $GLOBALS['dbi']->tryQuery($query)
             );
         }
+
         return $retval;
     }
 
@@ -187,32 +189,33 @@ class Node_Database extends Node
      */
     private function _getProcedureCount($searchClause, $singleItem)
     {
-        $db     = $this->real_name;
-        if (! $GLOBALS['cfg']['Server']['DisableIS']) {
-            $db     = PMA_Util::sqlAddSlashes($db);
-            $query  = "SELECT COUNT(*) ";
+        $db = $this->real_name;
+        if (!$GLOBALS['cfg']['Server']['DisableIS']) {
+            $db    = PMA_Util::sqlAddSlashes($db);
+            $query = "SELECT COUNT(*) ";
             $query .= "FROM `INFORMATION_SCHEMA`.`ROUTINES` ";
             $query .= "WHERE `ROUTINE_SCHEMA` "
                 . PMA_Util::getCollateForIS() . "='$db'";
             $query .= "AND `ROUTINE_TYPE`='PROCEDURE' ";
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "AND " . $this->_getWhereClauseForSearch(
-                    $searchClause, $singleItem, 'ROUTINE_NAME'
-                );
+                        $searchClause, $singleItem, 'ROUTINE_NAME'
+                    );
             }
             $retval = (int)$GLOBALS['dbi']->fetchValue($query);
         } else {
             $db    = PMA_Util::sqlAddSlashes($db);
             $query = "SHOW PROCEDURE STATUS WHERE `Db`='$db' ";
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "AND " . $this->_getWhereClauseForSearch(
-                    $searchClause, $singleItem, 'Name'
-                );
+                        $searchClause, $singleItem, 'Name'
+                    );
             }
             $retval = $GLOBALS['dbi']->numRows(
                 $GLOBALS['dbi']->tryQuery($query)
             );
         }
+
         return $retval;
     }
 
@@ -228,32 +231,33 @@ class Node_Database extends Node
      */
     private function _getFunctionCount($searchClause, $singleItem)
     {
-        $db     = $this->real_name;
-        if (! $GLOBALS['cfg']['Server']['DisableIS']) {
-            $db     = PMA_Util::sqlAddSlashes($db);
-            $query  = "SELECT COUNT(*) ";
+        $db = $this->real_name;
+        if (!$GLOBALS['cfg']['Server']['DisableIS']) {
+            $db    = PMA_Util::sqlAddSlashes($db);
+            $query = "SELECT COUNT(*) ";
             $query .= "FROM `INFORMATION_SCHEMA`.`ROUTINES` ";
             $query .= "WHERE `ROUTINE_SCHEMA` "
                 . PMA_Util::getCollateForIS() . "='$db' ";
             $query .= "AND `ROUTINE_TYPE`='FUNCTION' ";
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "AND " . $this->_getWhereClauseForSearch(
-                    $searchClause, $singleItem, 'ROUTINE_NAME'
-                );
+                        $searchClause, $singleItem, 'ROUTINE_NAME'
+                    );
             }
             $retval = (int)$GLOBALS['dbi']->fetchValue($query);
         } else {
             $db    = PMA_Util::sqlAddSlashes($db);
             $query = "SHOW FUNCTION STATUS WHERE `Db`='$db' ";
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "AND " . $this->_getWhereClauseForSearch(
-                    $searchClause, $singleItem, 'Name'
-                );
+                        $searchClause, $singleItem, 'Name'
+                    );
             }
             $retval = $GLOBALS['dbi']->numRows(
                 $GLOBALS['dbi']->tryQuery($query)
             );
         }
+
         return $retval;
     }
 
@@ -269,31 +273,32 @@ class Node_Database extends Node
      */
     private function _getEventCount($searchClause, $singleItem)
     {
-        $db     = $this->real_name;
-        if (! $GLOBALS['cfg']['Server']['DisableIS']) {
-            $db     = PMA_Util::sqlAddSlashes($db);
-            $query  = "SELECT COUNT(*) ";
+        $db = $this->real_name;
+        if (!$GLOBALS['cfg']['Server']['DisableIS']) {
+            $db    = PMA_Util::sqlAddSlashes($db);
+            $query = "SELECT COUNT(*) ";
             $query .= "FROM `INFORMATION_SCHEMA`.`EVENTS` ";
             $query .= "WHERE `EVENT_SCHEMA` "
                 . PMA_Util::getCollateForIS() . "='$db' ";
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "AND " . $this->_getWhereClauseForSearch(
-                    $searchClause, $singleItem, 'EVENT_NAME'
-                );
+                        $searchClause, $singleItem, 'EVENT_NAME'
+                    );
             }
             $retval = (int)$GLOBALS['dbi']->fetchValue($query);
         } else {
             $db    = PMA_Util::backquote($db);
             $query = "SHOW EVENTS FROM $db ";
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "WHERE " . $this->_getWhereClauseForSearch(
-                    $searchClause, $singleItem, 'Name'
-                );
+                        $searchClause, $singleItem, 'Name'
+                    );
             }
             $retval = $GLOBALS['dbi']->numRows(
                 $GLOBALS['dbi']->tryQuery($query)
             );
         }
+
         return $retval;
     }
 
@@ -317,6 +322,7 @@ class Node_Database extends Node
             $query .= PMA_Util::backquote($columnName) . " LIKE ";
             $query .= "'%" . PMA_Util::sqlAddSlashes($searchClause, true) . "%'";
         }
+
         return $query;
     }
 
@@ -333,26 +339,26 @@ class Node_Database extends Node
      */
     public function getData($type, $pos, $searchClause = '')
     {
-        $retval   = array();
-        $db       = $this->real_name;
+        $retval = [];
+        $db     = $this->real_name;
         switch ($type) {
-        case 'tables':
-            $retval = $this->_getTables($pos, $searchClause);
-            break;
-        case 'views':
-            $retval = $this->_getViews($pos, $searchClause);
-            break;
-        case 'procedures':
-            $retval = $this->_getProcedures($pos, $searchClause);
-            break;
-        case 'functions':
-            $retval = $this->_getFunctions($pos, $searchClause);
-            break;
-        case 'events':
-            $retval = $this->_getEvents($pos, $searchClause);
-            break;
-        default:
-            break;
+            case 'tables':
+                $retval = $this->_getTables($pos, $searchClause);
+                break;
+            case 'views':
+                $retval = $this->_getViews($pos, $searchClause);
+                break;
+            case 'procedures':
+                $retval = $this->_getProcedures($pos, $searchClause);
+                break;
+            case 'functions':
+                $retval = $this->_getFunctions($pos, $searchClause);
+                break;
+            case 'events':
+                $retval = $this->_getEvents($pos, $searchClause);
+                break;
+            default:
+                break;
         }
 
         // Remove hidden items so that they are not displayed in navigation tree
@@ -364,9 +370,9 @@ class Node_Database extends Node
                 . " WHERE `username`='" . $cfgRelation['user'] . "'"
                 . " AND `item_type`='" . substr($type, 0, -1)
                 . "'" . " AND `db_name`='" . PMA_Util::sqlAddSlashes($db) . "'";
-            $result = PMA_queryAsControlUser($sqlQuery, false);
+            $result   = PMA_queryAsControlUser($sqlQuery, false);
             if ($result) {
-                $hiddenItems = array();
+                $hiddenItems = [];
                 while ($row = $GLOBALS['dbi']->fetchArray($result)) {
                     $hiddenItems[] = $row[0];
                 }
@@ -385,7 +391,7 @@ class Node_Database extends Node
     /**
      * Returns the list of tables or views inside this database
      *
-     * @param string $which        tables|views 
+     * @param string $which        tables|views
      * @param int    $pos          The offset of the list within the results
      * @param string $searchClause A string used to filter the results of the query
      *
@@ -399,9 +405,9 @@ class Node_Database extends Node
             $condition = '!=';
         }
         $maxItems = $GLOBALS['cfg']['MaxNavigationItems'];
-        $retval   = array();
+        $retval   = [];
         $db       = $this->real_name;
-        if (! $GLOBALS['cfg']['Server']['DisableIS'] || PMA_DRIZZLE) {
+        if (!$GLOBALS['cfg']['Server']['DisableIS'] || PMA_DRIZZLE) {
             $escdDb = PMA_Util::sqlAddSlashes($db);
             $query  = "SELECT `TABLE_NAME` AS `name` ";
             $query .= "FROM `INFORMATION_SCHEMA`.`TABLES` ";
@@ -411,7 +417,7 @@ class Node_Database extends Node
             } else {
                 $query .= "AND `TABLE_TYPE`" . $condition . "'BASE TABLE' ";
             }
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "AND `TABLE_NAME` LIKE '%";
                 $query .= PMA_Util::sqlAddSlashes(
                     $searchClause, true
@@ -422,16 +428,16 @@ class Node_Database extends Node
             $query .= "LIMIT " . intval($pos) . ", $maxItems";
             $retval = $GLOBALS['dbi']->fetchResult($query);
         } else {
-            $query  = " SHOW FULL TABLES FROM ";
+            $query = " SHOW FULL TABLES FROM ";
             $query .= PMA_Util::backquote($db);
             $query .= " WHERE `Table_type`" . $condition . "'BASE TABLE' ";
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "AND " . PMA_Util::backquote(
-                    "Tables_in_" . $db
-                );
+                        "Tables_in_" . $db
+                    );
                 $query .= " LIKE '%" . PMA_Util::sqlAddSlashes(
-                    $searchClause, true
-                );
+                        $searchClause, true
+                    );
                 $query .= "%'";
             }
             $handle = $GLOBALS['dbi']->tryQuery($query);
@@ -446,6 +452,7 @@ class Node_Database extends Node
                 }
             }
         }
+
         return $retval;
     }
 
@@ -478,7 +485,7 @@ class Node_Database extends Node
     /**
      * Returns the list of procedures or functions inside this database
      *
-     * @param string $routineType  PROCEDURE|FUNCTION 
+     * @param string $routineType  PROCEDURE|FUNCTION
      * @param int    $pos          The offset of the list within the results
      * @param string $searchClause A string used to filter the results of the query
      *
@@ -487,16 +494,16 @@ class Node_Database extends Node
     private function _getRoutines($routineType, $pos, $searchClause)
     {
         $maxItems = $GLOBALS['cfg']['MaxNavigationItems'];
-        $retval   = array();
+        $retval   = [];
         $db       = $this->real_name;
-        if (! $GLOBALS['cfg']['Server']['DisableIS']) {
+        if (!$GLOBALS['cfg']['Server']['DisableIS']) {
             $escdDb = PMA_Util::sqlAddSlashes($db);
             $query  = "SELECT `ROUTINE_NAME` AS `name` ";
             $query .= "FROM `INFORMATION_SCHEMA`.`ROUTINES` ";
             $query .= "WHERE `ROUTINE_SCHEMA` "
                 . PMA_Util::getCollateForIS() . "='$escdDb'";
             $query .= "AND `ROUTINE_TYPE`='" . $routineType . "' ";
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "AND `ROUTINE_NAME` LIKE '%";
                 $query .= PMA_Util::sqlAddSlashes(
                     $searchClause, true
@@ -509,7 +516,7 @@ class Node_Database extends Node
         } else {
             $escdDb = PMA_Util::sqlAddSlashes($db);
             $query  = "SHOW " . $routineType . " STATUS WHERE `Db`='$escdDb' ";
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "AND `Name` LIKE '%";
                 $query .= PMA_Util::sqlAddSlashes(
                     $searchClause, true
@@ -528,6 +535,7 @@ class Node_Database extends Node
                 }
             }
         }
+
         return $retval;
     }
 
@@ -568,15 +576,15 @@ class Node_Database extends Node
     private function _getEvents($pos, $searchClause)
     {
         $maxItems = $GLOBALS['cfg']['MaxNavigationItems'];
-        $retval   = array();
+        $retval   = [];
         $db       = $this->real_name;
-        if (! $GLOBALS['cfg']['Server']['DisableIS']) {
+        if (!$GLOBALS['cfg']['Server']['DisableIS']) {
             $escdDb = PMA_Util::sqlAddSlashes($db);
             $query  = "SELECT `EVENT_NAME` AS `name` ";
             $query .= "FROM `INFORMATION_SCHEMA`.`EVENTS` ";
             $query .= "WHERE `EVENT_SCHEMA` "
                 . PMA_Util::getCollateForIS() . "='$escdDb' ";
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "AND `EVENT_NAME` LIKE '%";
                 $query .= PMA_Util::sqlAddSlashes(
                     $searchClause, true
@@ -589,7 +597,7 @@ class Node_Database extends Node
         } else {
             $escdDb = PMA_Util::backquote($db);
             $query  = "SHOW EVENTS FROM $escdDb ";
-            if (! empty($searchClause)) {
+            if (!empty($searchClause)) {
                 $query .= "WHERE `Name` LIKE '%";
                 $query .= PMA_Util::sqlAddSlashes(
                     $searchClause, true
@@ -608,6 +616,7 @@ class Node_Database extends Node
                 }
             }
         }
+
         return $retval;
     }
 
@@ -618,10 +627,10 @@ class Node_Database extends Node
      */
     public function getHtmlForControlButtons()
     {
-        $ret = '';
+        $ret         = '';
         $cfgRelation = PMA_getRelationsParam();
         if (isset($cfgRelation['navwork']) && $cfgRelation['navwork']) {
-            if ( $this->_hiddenCount > 0) {
+            if ($this->_hiddenCount > 0) {
                 $ret = '<span class="dbItemControls">'
                     . '<a href="navigation.php'
                     . PMA_URL_getCommon()
@@ -634,6 +643,7 @@ class Node_Database extends Node
                     . '</a></span>';
             }
         }
+
         return $ret;
     }
 

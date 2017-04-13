@@ -48,9 +48,9 @@ class PMA_EVN_GetDataFromRequest_Test extends PHPUnit_Framework_TestCase
      */
     public function provider()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'item_name'           => '',
                     'item_type'           => '',
                     'item_original_name'  => '',
@@ -63,9 +63,9 @@ class PMA_EVN_GetDataFromRequest_Test extends PHPUnit_Framework_TestCase
                     'item_definition'     => '',
                     'item_preserve'       => '',
                     'item_comment'        => '',
-                    'item_definer'        => ''
-                ),
-                array(
+                    'item_definer'        => '',
+                ],
+                [
                     'item_name'           => '',
                     'item_type'           => 'ONE TIME',
                     'item_type_toggle'    => 'RECURRING',
@@ -79,11 +79,11 @@ class PMA_EVN_GetDataFromRequest_Test extends PHPUnit_Framework_TestCase
                     'item_definition'     => '',
                     'item_preserve'       => '',
                     'item_comment'        => '',
-                    'item_definer'        => ''
-                )
-            ),
-            array(
-                array(
+                    'item_definer'        => '',
+                ],
+            ],
+            [
+                [
                     'item_name'           => 'foo',
                     'item_type'           => 'RECURRING',
                     'item_original_name'  => 'foo',
@@ -96,9 +96,9 @@ class PMA_EVN_GetDataFromRequest_Test extends PHPUnit_Framework_TestCase
                     'item_definition'     => 'foo',
                     'item_preserve'       => 'foo',
                     'item_comment'        => 'foo',
-                    'item_definer'        => 'foo'
-                ),
-                array(
+                    'item_definer'        => 'foo',
+                ],
+                [
                     'item_name'           => 'foo',
                     'item_type'           => 'RECURRING',
                     'item_type_toggle'    => 'ONE TIME',
@@ -112,10 +112,11 @@ class PMA_EVN_GetDataFromRequest_Test extends PHPUnit_Framework_TestCase
                     'item_definition'     => 'foo',
                     'item_preserve'       => 'foo',
                     'item_comment'        => 'foo',
-                    'item_definer'        => 'foo'
-                )
-            ),
-        );
+                    'item_definer'        => 'foo',
+                ],
+            ],
+        ];
     }
 }
+
 ?>

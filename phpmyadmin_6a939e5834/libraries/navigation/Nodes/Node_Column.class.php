@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin-Navigation
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -30,17 +30,17 @@ class Node_Column extends Node
     {
         parent::__construct($name, $type, $is_group);
         $this->icon  = PMA_Util::getImage('pause.png', __('Column'));
-        $this->links = array(
-            'text' => 'tbl_structure.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%3$s&amp;table=%2$s&amp;field=%1$s'
-                    . '&amp;change_column=1'
-                    . '&amp;token=' . $_SESSION[' PMA_token '],
-            'icon' => 'tbl_structure.php?server=' . $GLOBALS['server']
-                    . '&amp;db=%3$s&amp;table=%2$s&amp;field=%1$s'
-                    . '&amp;change_column=1'
-                    . '&amp;token=' . $_SESSION[' PMA_token '],
-            'title' => __('Structure')
-        );
+        $this->links = [
+            'text'  => 'tbl_structure.php?server=' . $GLOBALS['server']
+                . '&amp;db=%3$s&amp;table=%2$s&amp;field=%1$s'
+                . '&amp;change_column=1'
+                . '&amp;token=' . $_SESSION[' PMA_token '],
+            'icon'  => 'tbl_structure.php?server=' . $GLOBALS['server']
+                . '&amp;db=%3$s&amp;table=%2$s&amp;field=%1$s'
+                . '&amp;change_column=1'
+                . '&amp;token=' . $_SESSION[' PMA_token '],
+            'title' => __('Structure'),
+        ];
     }
 }
 

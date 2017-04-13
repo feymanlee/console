@@ -48,48 +48,49 @@ class PMA_TRI_GetDataFromRequest_Test extends PHPUnit_Framework_TestCase
      */
     public function provider()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'item_name'               => '',
                     'item_table'              => '',
                     'item_original_name'      => '',
                     'item_action_timing'      => '',
                     'item_event_manipulation' => '',
                     'item_definition'         => '',
-                    'item_definer'            => ''
-                ),
-                array(
+                    'item_definer'            => '',
+                ],
+                [
                     'item_name'               => '',
                     'item_table'              => '',
                     'item_original_name'      => '',
                     'item_action_timing'      => '',
                     'item_event_manipulation' => '',
                     'item_definition'         => '',
-                    'item_definer'            => ''
-                )
-            ),
-            array(
-                array(
+                    'item_definer'            => '',
+                ],
+            ],
+            [
+                [
                     'item_name'               => 'foo',
                     'item_table'              => 'foo',
                     'item_original_name'      => 'foo',
                     'item_action_timing'      => 'foo',
                     'item_event_manipulation' => 'foo',
                     'item_definition'         => 'foo',
-                    'item_definer'            => 'foo'
-                ),
-                array(
+                    'item_definer'            => 'foo',
+                ],
+                [
                     'item_name'               => 'foo',
                     'item_table'              => 'foo',
                     'item_original_name'      => 'foo',
                     'item_action_timing'      => 'foo',
                     'item_event_manipulation' => 'foo',
                     'item_definition'         => 'foo',
-                    'item_definer'            => 'foo'
-                )
-            )
-        );
+                    'item_definer'            => 'foo',
+                ],
+            ],
+        ];
     }
 }
+
 ?>

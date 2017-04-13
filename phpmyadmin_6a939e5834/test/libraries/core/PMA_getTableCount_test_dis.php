@@ -48,12 +48,12 @@ class PMA_GetTableCount_Test extends PHPUnit_Framework_TestCase
         $GLOBALS['PMA_Config'] = new PMA_Config();
         $GLOBALS['PMA_Config']->enableBc();
         $GLOBALS['cfg']['OBGzip'] = false;
-        $_SESSION['PMA_Theme'] = new PMA_Theme();
+        $_SESSION['PMA_Theme']    = new PMA_Theme();
         $GLOBALS['pmaThemeImage'] = 'theme/';
-        $GLOBALS['pmaThemePath'] = $_SESSION['PMA_Theme']->getPath();
-        $GLOBALS['server'] = 1;
-        $GLOBALS['db'] = '';
-        $GLOBALS['table'] = '';
+        $GLOBALS['pmaThemePath']  = $_SESSION['PMA_Theme']->getPath();
+        $GLOBALS['server']        = 1;
+        $GLOBALS['db']            = '';
+        $GLOBALS['table']         = '';
     }
 
     /**

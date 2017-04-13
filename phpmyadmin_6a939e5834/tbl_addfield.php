@@ -17,17 +17,17 @@ $scripts  = $header->getScripts();
 $scripts->addFile('tbl_structure.js');
 
 // Check parameters
-PMA_Util::checkParameters(array('db', 'table'));
+PMA_Util::checkParameters(['db', 'table']);
 
 
 /**
  * Defines the url to return to in case of error in a sql statement
  */
 $err_url = 'tbl_sql.php' . PMA_URL_getCommon(
-    array(
-        'db' => $db, 'table' => $table
-    )
-);
+        [
+            'db' => $db, 'table' => $table,
+        ]
+    );
 
 /**
  * The form used to define the field to add has been submitted
@@ -75,7 +75,8 @@ if (isset($_REQUEST['do_save_data'])) {
             $pmaString = $GLOBALS['PMA_String'];
             foreach ($_REQUEST['field_mimetype'] as $fieldindex => $mimetype) {
                 if (isset($_REQUEST['field_name'][$fieldindex])
-                    && /*overload*/mb_strlen($_REQUEST['field_name'][$fieldindex])
+                    && /*overload*/
+                    mb_strlen($_REQUEST['field_name'][$fieldindex])
                 ) {
                     PMA_setMIME(
                         $db, $table,

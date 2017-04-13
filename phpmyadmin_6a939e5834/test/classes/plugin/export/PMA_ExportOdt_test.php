@@ -21,7 +21,7 @@ require_once 'export.php';
  * tests for ExportOdt class
  *
  * @package PhpMyAdmin-test
- * @group medium
+ * @group   medium
  */
 class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
 {
@@ -38,17 +38,17 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             define("PMA_DRIZZLE", false);
         }
 
-        $GLOBALS['server'] = 0;
-        $GLOBALS['output_kanji_conversion'] = false;
-        $GLOBALS['output_charset_conversion'] = false;
-        $GLOBALS['buffer_needed'] = false;
-        $GLOBALS['asfile'] = true;
-        $GLOBALS['save_on_server'] = false;
-        $GLOBALS['plugin_param'] = array();
-        $GLOBALS['plugin_param']['export_type'] = 'table';
+        $GLOBALS['server']                       = 0;
+        $GLOBALS['output_kanji_conversion']      = false;
+        $GLOBALS['output_charset_conversion']    = false;
+        $GLOBALS['buffer_needed']                = false;
+        $GLOBALS['asfile']                       = true;
+        $GLOBALS['save_on_server']               = false;
+        $GLOBALS['plugin_param']                 = [];
+        $GLOBALS['plugin_param']['export_type']  = 'table';
         $GLOBALS['plugin_param']['single_table'] = false;
-        $GLOBALS['cfgRelation']['relation'] = true;
-        $this->object = new ExportOdt();
+        $GLOBALS['cfgRelation']['relation']      = true;
+        $this->object                            = new ExportOdt();
     }
 
     /**
@@ -68,9 +68,9 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
      */
     public function testSetProperties()
     {
-        $GLOBALS['plugin_param']['export_type'] = '';
+        $GLOBALS['plugin_param']['export_type']  = '';
         $GLOBALS['plugin_param']['single_table'] = false;
-        $GLOBALS['cfgRelation']['mimework'] = true;
+        $GLOBALS['cfgRelation']['mimework']      = true;
 
         $method = new ReflectionMethod('ExportOdt', 'setProperties');
         $method->setAccessible(true);
@@ -155,11 +155,11 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array(
-                'structure' => __('structure'),
-                'data' => __('data'),
-                'structure_and_data' => __('structure and data')
-            ),
+            [
+                'structure'          => __('structure'),
+                'data'               => __('data'),
+                'structure_and_data' => __('structure and data'),
+            ],
             $property->getValues()
         );
 
@@ -298,7 +298,7 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
         );
 
         // case 2
-        $GLOBALS['plugin_param']['export_type'] = 'table';
+        $GLOBALS['plugin_param']['export_type']  = 'table';
         $GLOBALS['plugin_param']['single_table'] = false;
 
         $method->invoke($this->object, null);
@@ -417,25 +417,25 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $flags = array();
-        $a = new StdClass;
+        $flags   = [];
+        $a       = new StdClass;
         $flags[] = $a;
 
-        $a = new StdClass;
+        $a       = new StdClass;
         $a->blob = true;
         $flags[] = $a;
 
-        $a = new StdClass;
+        $a          = new StdClass;
         $a->numeric = true;
-        $a->type = 'real';
-        $a->blob = false;
-        $flags[] = $a;
+        $a->type    = 'real';
+        $a->blob    = false;
+        $flags[]    = $a;
 
-        $a = new StdClass;
-        $a->type = "timestamp";
-        $a->blob = false;
+        $a          = new StdClass;
+        $a->type    = "timestamp";
+        $a->blob    = false;
         $a->numeric = false;
-        $flags[] = $a;
+        $flags[]    = $a;
 
         $dbi->expects($this->once())
             ->method('getFieldsMeta')
@@ -465,9 +465,9 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             ->with(true)
             ->will(
                 $this->returnValue(
-                    array(
-                        null, 'a<b', 'a>b', 'a&b'
-                    )
+                    [
+                        null, 'a<b', 'a>b', 'a&b',
+                    ]
                 )
             );
 
@@ -476,8 +476,8 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             ->with(true)
             ->will($this->returnValue(null));
 
-        $GLOBALS['dbi'] = $dbi;
-        $GLOBALS['what'] = 'foo';
+        $GLOBALS['dbi']      = $dbi;
+        $GLOBALS['what']     = 'foo';
         $GLOBALS['foo_null'] = "&";
 
         $this->assertTrue(
@@ -513,7 +513,7 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $flags = array();
+        $flags = [];
 
         $dbi->expects($this->once())
             ->method('getFieldsMeta')
@@ -551,9 +551,9 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
                 )
             );
 
-        $GLOBALS['dbi'] = $dbi;
-        $GLOBALS['what'] = 'foo';
-        $GLOBALS['foo_null'] = "&";
+        $GLOBALS['dbi']         = $dbi;
+        $GLOBALS['what']        = 'foo';
+        $GLOBALS['foo_null']    = "&";
         $GLOBALS['foo_columns'] = true;
 
         $this->assertTrue(
@@ -578,7 +578,7 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $flags = array();
+        $flags = [];
 
         $dbi->expects($this->once())
             ->method('getFieldsMeta')
@@ -604,12 +604,12 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
                 )
             );
 
-        $GLOBALS['dbi'] = $dbi;
+        $GLOBALS['dbi']               = $dbi;
         $GLOBALS['mediawiki_caption'] = true;
         $GLOBALS['mediawiki_headers'] = true;
-        $GLOBALS['what'] = 'foo';
-        $GLOBALS['foo_null'] = "&";
-        $GLOBALS['odt_buffer'] = '';
+        $GLOBALS['what']              = 'foo';
+        $GLOBALS['foo_null']          = "&";
+        $GLOBALS['odt_buffer']        = '';
 
         $this->assertTrue(
             $this->object->exportData(
@@ -641,13 +641,13 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
         $dbi->expects($this->once())
             ->method('getColumns')
             ->with('db', 'v&w')
-            ->will($this->returnValue(array(1, 2)));
+            ->will($this->returnValue([1, 2]));
 
         $GLOBALS['dbi'] = $dbi;
 
         $this->object = $this->getMockBuilder('ExportOdt')
             ->disableOriginalConstructor()
-            ->setMethods(array('formatOneColumnDefinition'))
+            ->setMethods(['formatOneColumnDefinition'])
             ->getMock();
 
         $this->object->expects($this->at(0))
@@ -684,7 +684,7 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
     public function testGetTableDef()
     {
         $this->object = $this->getMockBuilder('ExportOdt')
-            ->setMethods(array('formatOneColumnDefinition'))
+            ->setMethods(['formatOneColumnDefinition'])
             ->getMock();
 
         // case 1
@@ -695,29 +695,29 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
 
         $dbi->expects($this->at(1))
             ->method('fetchResult')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $dbi->expects($this->at(6))
             ->method('fetchResult')
             ->will(
                 $this->returnValue(
-                    array(
-                        'fieldname' => array(
-                            'values' => 'test-',
+                    [
+                        'fieldname' => [
+                            'values'         => 'test-',
                             'transformation' => 'testfoo',
-                            'mimetype' => 'test<'
-                        )
-                    )
+                            'mimetype'       => 'test<',
+                        ],
+                    ]
                 )
             );
 
-        $columns = array(
-            'Field' => 'fieldname'
-        );
+        $columns = [
+            'Field' => 'fieldname',
+        ];
         $dbi->expects($this->once())
             ->method('getColumns')
             ->with('database', '')
-            ->will($this->returnValue(array($columns)));
+            ->will($this->returnValue([$columns]));
 
         $dbi->expects($this->any())
             ->method('query')
@@ -731,9 +731,9 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             ->method('fetchAssoc')
             ->will(
                 $this->returnValue(
-                    array(
-                        'comment' => array('fieldname' => 'testComment')
-                    )
+                    [
+                        'comment' => ['fieldname' => 'testComment'],
+                    ]
                 )
             );
 
@@ -741,19 +741,19 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
 
         $this->object->expects($this->exactly(2))
             ->method('formatOneColumnDefinition')
-            ->with(array('Field' => 'fieldname'))
+            ->with(['Field' => 'fieldname'])
             ->will($this->returnValue(1));
 
         $GLOBALS['cfgRelation']['relation'] = true;
-        $_SESSION['relation'][0] = array(
-            'relwork' => true,
-            'commwork' => true,
-            'mimework' => true,
-            'db' => 'database',
-            'relation' => 'rel',
-            'column_info' => 'col'
-        );
-        $GLOBALS['controllink'] = null;
+        $_SESSION['relation'][0]            = [
+            'relwork'     => true,
+            'commwork'    => true,
+            'mimework'    => true,
+            'db'          => 'database',
+            'relation'    => 'rel',
+            'column_info' => 'col',
+        ];
+        $GLOBALS['controllink']             = null;
         $this->assertTrue(
             $this->object->getTableDef(
                 'database',
@@ -802,12 +802,12 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             ->method('fetchResult')
             ->will(
                 $this->returnValue(
-                    array(
-                        'fieldname' => array(
+                    [
+                        'fieldname' => [
                             'foreign_table' => 'ftable',
-                            'foreign_field' => 'ffield'
-                        )
-                    )
+                            'foreign_field' => 'ffield',
+                        ],
+                    ]
                 )
             );
 
@@ -815,24 +815,24 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             ->method('fetchResult')
             ->will(
                 $this->returnValue(
-                    array(
-                        'field' => array(
-                            'values' => 'test-',
+                    [
+                        'field' => [
+                            'values'         => 'test-',
                             'transformation' => 'testfoo',
-                            'mimetype' => 'test<'
-                        )
-                    )
+                            'mimetype'       => 'test<',
+                        ],
+                    ]
                 )
             );
 
-        $columns = array(
-            'Field' => 'fieldname'
-        );
+        $columns = [
+            'Field' => 'fieldname',
+        ];
 
         $dbi->expects($this->once())
             ->method('getColumns')
             ->with('database', '')
-            ->will($this->returnValue(array($columns)));
+            ->will($this->returnValue([$columns]));
 
         $dbi->expects($this->any())
             ->method('query')
@@ -846,23 +846,23 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             ->method('fetchAssoc')
             ->will(
                 $this->returnValue(
-                    array(
-                        'comment' => array('field' => 'testComment')
-                    )
+                    [
+                        'comment' => ['field' => 'testComment'],
+                    ]
                 )
             );
 
-        $GLOBALS['dbi'] = $dbi;
-        $GLOBALS['odt_buffer'] = '';
+        $GLOBALS['dbi']                     = $dbi;
+        $GLOBALS['odt_buffer']              = '';
         $GLOBALS['cfgRelation']['relation'] = true;
-        $_SESSION['relation'][0] = array(
-            'relwork' => true,
-            'commwork' => true,
-            'mimework' => true,
-            'db' => 'database',
-            'relation' => 'rel',
-            'column_info' => 'col'
-        );
+        $_SESSION['relation'][0]            = [
+            'relwork'     => true,
+            'commwork'    => true,
+            'mimework'    => true,
+            'db'          => 'database',
+            'relation'    => 'rel',
+            'column_info' => 'col',
+        ];
 
         $this->assertTrue(
             $this->object->getTableDef(
@@ -882,7 +882,7 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
         );
     }
 
-     /**
+    /**
      * Test for ExportOdt::getTriggers
      *
      * @return void
@@ -893,14 +893,14 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $triggers = array(
-            array(
-                'name' => 'tna"me',
-                'action_timing' => 'ac>t',
+        $triggers = [
+            [
+                'name'               => 'tna"me',
+                'action_timing'      => 'ac>t',
                 'event_manipulation' => 'manip&',
-                'definition' => 'def'
-            )
-        );
+                'definition'         => 'def',
+            ],
+        ];
 
         $dbi->expects($this->once())
             ->method('getTriggers')
@@ -961,7 +961,7 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
 
         $this->object = $this->getMockBuilder('ExportOdt')
-            ->setMethods(array('getTableDef', 'getTriggers', 'getTableDefStandIn'))
+            ->setMethods(['getTableDef', 'getTriggers', 'getTableDefStandIn'])
             ->getMock();
 
         $this->object->expects($this->at(0))
@@ -1061,12 +1061,12 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
         );
         $method->setAccessible(true);
 
-        $cols = array(
-            'Null' => 'Yes',
+        $cols = [
+            'Null'  => 'Yes',
             'Field' => 'field',
-            'Key' => 'PRI',
-            'Type' => 'set(abc)enum123'
-        );
+            'Key'   => 'PRI',
+            'Type'  => 'set(abc)enum123',
+        ];
 
         $col_alias = 'alias';
 
@@ -1080,13 +1080,13 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
             $method->invoke($this->object, $cols, $col_alias)
         );
 
-        $cols = array(
-            'Null' => 'NO',
-            'Field' => 'fields',
-            'Key' => 'COMP',
-            'Type' => '',
-            'Default' => 'def'
-        );
+        $cols = [
+            'Null'    => 'NO',
+            'Field'   => 'fields',
+            'Key'     => 'COMP',
+            'Type'    => '',
+            'Default' => 'def',
+        ];
 
         $this->assertEquals(
             '<table:table-row><table:table-cell office:value-type="string">' .
@@ -1099,4 +1099,5 @@ class PMA_ExportOdt_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

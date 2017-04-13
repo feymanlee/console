@@ -38,13 +38,13 @@ class PMA_DBI_Mysql_Test extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        if (! extension_loaded('mysql')) {
+        if (!extension_loaded('mysql')) {
             $this->markTestSkipped('The MySQL extension is not available.');
         }
-        $GLOBALS['cfg']['Server']['ssl'] = true;
+        $GLOBALS['cfg']['Server']['ssl']         = true;
         $GLOBALS['cfg']['PersistentConnections'] = false;
-        $GLOBALS['cfg']['Server']['compress'] = true;
-        $this->object = new PMA_DBI_Mysql();
+        $GLOBALS['cfg']['Server']['compress']    = true;
+        $this->object                            = new PMA_DBI_Mysql();
     }
 
     /**
@@ -84,7 +84,7 @@ class PMA_DBI_Mysql_Test extends PHPUnit_Framework_TestCase
      */
     public function testMysqlDBI()
     {
-        if (! PMA_HAS_RUNKIT) {
+        if (!PMA_HAS_RUNKIT) {
             $this->markTestSkipped("Cannot redefine function");
         }
         //FOR UT, we just test the right mysql client API is called
@@ -120,47 +120,47 @@ class PMA_DBI_Mysql_Test extends PHPUnit_Framework_TestCase
         );
 
         //test for fieldFlags
-        $result = array("table1", "table2");
-        $ret = $this->object->numFields($result);
+        $result = ["table1", "table2"];
+        $ret    = $this->object->numFields($result);
         $this->assertEquals(
             'mysql_num_fields',
             $ret
         );
 
         //test for fetchRow
-        $result = array("table1", "table2");
-        $ret = $this->object->fetchRow($result);
+        $result = ["table1", "table2"];
+        $ret    = $this->object->fetchRow($result);
         $this->assertEquals(
             'mysql_fetch_array',
             $ret
         );
 
         //test for fetchRow
-        $result = array("table1", "table2");
-        $ret = $this->object->fetchAssoc($result);
+        $result = ["table1", "table2"];
+        $ret    = $this->object->fetchAssoc($result);
         $this->assertEquals(
             'mysql_fetch_array',
             $ret
         );
 
         //test for affectedRows
-        $link = "PMA_link";
+        $link           = "PMA_link";
         $get_from_cache = false;
-        $ret = $this->object->affectedRows($link, $get_from_cache);
+        $ret            = $this->object->affectedRows($link, $get_from_cache);
         $this->assertEquals(
             "mysql_affected_rows",
             $ret
         );
 
         //test for connect
-        $user = 'PMA_user';
-        $password = 'PMA_password';
-        $is_controluser = false;
-        $server = array(
-            'port' => 8080,
+        $user                 = 'PMA_user';
+        $password             = 'PMA_password';
+        $is_controluser       = false;
+        $server               = [
+            'port'   => 8080,
             'socket' => 123,
-            'host' => 'locahost',
-        );
+            'host'   => 'locahost',
+        ];
         $auxiliary_connection = true;
 
         //test for connect
@@ -174,7 +174,7 @@ class PMA_DBI_Mysql_Test extends PHPUnit_Framework_TestCase
         );
 
         $GLOBALS['cfg']['PersistentConnections'] = true;
-        $ret = $this->object->connect(
+        $ret                                     = $this->object->connect(
             $user, $password, $is_controluser,
             $server, $auxiliary_connection
         );
@@ -184,10 +184,10 @@ class PMA_DBI_Mysql_Test extends PHPUnit_Framework_TestCase
         );
 
         //test for realQuery
-        $query = 'select * from DBI';
-        $link = $ret;
+        $query   = 'select * from DBI';
+        $link    = $ret;
         $options = 0;
-        $ret = $this->object->realQuery($query, $link, $options);
+        $ret     = $this->object->realQuery($query, $link, $options);
         $this->assertEquals(
             'mysql_query',
             $ret
@@ -195,7 +195,7 @@ class PMA_DBI_Mysql_Test extends PHPUnit_Framework_TestCase
 
         //test for fetchArray
         $result = $ret;
-        $ret = $this->object->fetchArray($result);
+        $ret    = $this->object->fetchArray($result);
         $this->assertEquals(
             'mysql_fetch_array',
             $ret
@@ -204,7 +204,7 @@ class PMA_DBI_Mysql_Test extends PHPUnit_Framework_TestCase
         //test for dataSeek
         $result = $ret;
         $offset = 12;
-        $ret = $this->object->dataSeek($result, $offset);
+        $ret    = $this->object->dataSeek($result, $offset);
         $this->assertEquals(
             'mysql_data_seek',
             $ret

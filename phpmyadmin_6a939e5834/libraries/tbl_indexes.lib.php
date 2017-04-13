@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -19,12 +19,13 @@ if (! defined('PHPMYADMIN')) {
  */
 function PMA_getNameAndTypeOfTheColumns($db, $table)
 {
-    $columns = array();
+    $columns = [];
     foreach ($GLOBALS['dbi']->getColumnsFull($db, $table) as $row) {
         if (preg_match('@^(set|enum)\((.+)\)$@i', $row['Type'], $tmp)) {
-            $tmp[2] = /*overload*/mb_substr(
-                preg_replace('@([^,])\'\'@', '\\1\\\'', ',' . $tmp[2]), 1
-            );
+            $tmp[2]                 = /*overload*/
+                mb_substr(
+                    preg_replace('@([^,])\'\'@', '\\1\\\'', ',' . $tmp[2]), 1
+                );
             $columns[$row['Field']] = $tmp[1] . '('
                 . str_replace(',', ', ', $tmp[2]) . ')';
         } else {
@@ -55,7 +56,7 @@ function PMA_handleCreateOrEditIndex($db, $table, $index)
         PMA_previewSQL($sql_query);
     }
 
-    if (! $error) {
+    if (!$error) {
         $GLOBALS['dbi']->query($sql_query);
         $message = PMA_Message::success(
             __('Table %1$s has been altered successfully.')
@@ -97,7 +98,7 @@ function PMA_getSqlQueryForIndexCreateOrEdit($db, $table, $index, &$error)
         . '.' . PMA_Util::backquote($table);
 
     // Drops the old index
-    if (! empty($_REQUEST['old_index'])) {
+    if (!empty($_REQUEST['old_index'])) {
         if ($_REQUEST['old_index'] == 'PRIMARY') {
             $sql_query .= ' DROP PRIMARY KEY,';
         } else {
@@ -108,29 +109,29 @@ function PMA_getSqlQueryForIndexCreateOrEdit($db, $table, $index, &$error)
 
     // Builds the new one
     switch ($index->getChoice()) {
-    case 'PRIMARY':
-        if ($index->getName() == '') {
-            $index->setName('PRIMARY');
-        } elseif ($index->getName() != 'PRIMARY') {
-            $error = PMA_Message::error(
-                __('The name of the primary key must be "PRIMARY"!')
-            );
-        }
-        $sql_query .= ' ADD PRIMARY KEY';
-        break;
-    case 'FULLTEXT':
-    case 'UNIQUE':
-    case 'INDEX':
-    case 'SPATIAL':
-        if ($index->getName() == 'PRIMARY') {
-            $error = PMA_Message::error(__('Can\'t rename index to PRIMARY!'));
-        }
-        $sql_query .= ' ADD ' . $index->getChoice() . ' '
-            . ($index->getName() ? PMA_Util::backquote($index->getName()) : '');
-        break;
+        case 'PRIMARY':
+            if ($index->getName() == '') {
+                $index->setName('PRIMARY');
+            } elseif ($index->getName() != 'PRIMARY') {
+                $error = PMA_Message::error(
+                    __('The name of the primary key must be "PRIMARY"!')
+                );
+            }
+            $sql_query .= ' ADD PRIMARY KEY';
+            break;
+        case 'FULLTEXT':
+        case 'UNIQUE':
+        case 'INDEX':
+        case 'SPATIAL':
+            if ($index->getName() == 'PRIMARY') {
+                $error = PMA_Message::error(__('Can\'t rename index to PRIMARY!'));
+            }
+            $sql_query .= ' ADD ' . $index->getChoice() . ' '
+                . ($index->getName() ? PMA_Util::backquote($index->getName()) : '');
+            break;
     } // end switch
 
-    $index_fields = array();
+    $index_fields = [];
     foreach ($index->getColumns() as $key => $column) {
         $index_fields[$key] = PMA_Util::backquote($column->getName());
         if ($column->getSubPart()) {
@@ -145,9 +146,9 @@ function PMA_getSqlQueryForIndexCreateOrEdit($db, $table, $index, &$error)
     }
 
     $keyBlockSizes = $index->getKeyBlockSize();
-    if (! empty($keyBlockSizes)) {
+    if (!empty($keyBlockSizes)) {
         $sql_query .= " KEY_BLOCK_SIZE = "
-             . PMA_Util::sqlAddSlashes($keyBlockSizes);
+            . PMA_Util::sqlAddSlashes($keyBlockSizes);
     }
 
     // specifying index type is allowed only for primary, unique and index only
@@ -160,12 +161,12 @@ function PMA_getSqlQueryForIndexCreateOrEdit($db, $table, $index, &$error)
     }
 
     $parser = $index->getParser();
-    if ($index->getChoice() == 'FULLTEXT' && ! empty($parser)) {
+    if ($index->getChoice() == 'FULLTEXT' && !empty($parser)) {
         $sql_query .= " WITH PARSER " . PMA_Util::sqlAddSlashes($parser);
     }
 
     $comment = $index->getComment();
-    if (! empty($comment)) {
+    if (!empty($comment)) {
         $sql_query .= " COMMENT '" . PMA_Util::sqlAddSlashes($comment) . "'";
     }
 
@@ -210,9 +211,9 @@ function PMA_getNumberOfFieldsForForm($index)
     if (isset($_REQUEST['index']) && is_array($_REQUEST['index'])) {
         // coming already from form
         $add_fields
-            = isset($_REQUEST['index']['columns']['names'])?
+            = isset($_REQUEST['index']['columns']['names']) ?
             count($_REQUEST['index']['columns']['names'])
-            - $index->getColumnCount():0;
+            - $index->getColumnCount() : 0;
         if (isset($_REQUEST['add_fields'])) {
             $add_fields += $_REQUEST['added_fields'];
         }
@@ -235,10 +236,10 @@ function PMA_getNumberOfFieldsForForm($index)
  */
 function PMA_getFormParameters($db, $table)
 {
-    $form_params = array(
+    $form_params = [
         'db'    => $db,
         'table' => $table,
-    );
+    ];
 
     if (isset($_REQUEST['create_index'])) {
         $form_params['create_index'] = 1;
@@ -379,11 +380,11 @@ function PMA_getHtmlForIndexForm($fields, $index, $form_params, $add_fields)
         . '</tr>'
         . '</thead>';
 
-    $odd_row = true;
-    $spatial_types = array(
+    $odd_row       = true;
+    $spatial_types = [
         'geometry', 'point', 'linestring', 'polygon', 'multipoint',
-        'multilinestring', 'multipolygon', 'geomtrycollection'
-    );
+        'multilinestring', 'multipolygon', 'geomtrycollection',
+    ];
     $html .= '<tbody>';
     /* @var $column PMA_Index_Column */
     foreach ($index->getColumns() as $column) {
@@ -396,14 +397,14 @@ function PMA_getHtmlForIndexForm($fields, $index, $form_params, $add_fields)
         $html .= '<option value="">-- ' . __('Ignore') . ' --</option>';
         foreach ($fields as $field_name => $field_type) {
             if (($index->getChoice() != 'FULLTEXT'
-                || preg_match('/(char|text)/i', $field_type))
+                    || preg_match('/(char|text)/i', $field_type))
                 && ($index->getChoice() != 'SPATIAL'
-                || in_array($field_type, $spatial_types))
+                    || in_array($field_type, $spatial_types))
             ) {
                 $html .= '<option value="' . htmlspecialchars($field_name) . '"'
                     . (($field_name == $column->getName())
-                    ? ' selected="selected"'
-                    : '') . '>'
+                        ? ' selected="selected"'
+                        : '') . '>'
                     . htmlspecialchars($field_name) . ' ['
                     . htmlspecialchars($field_type) . ']'
                     . '</option>' . "\n";
@@ -434,7 +435,7 @@ function PMA_getHtmlForIndexForm($fields, $index, $form_params, $add_fields)
         $j = 0;
         foreach ($fields as $field_name => $field_type) {
             if (isset($_REQUEST['create_edit_table'])) {
-                $col_index = $field_type[1];
+                $col_index  = $field_type[1];
                 $field_type = $field_type[0];
             }
             $html .= '<option value="'
@@ -477,4 +478,5 @@ function PMA_getHtmlForIndexForm($fields, $index, $form_params, $add_fields)
 
     return $html;
 }
+
 ?>

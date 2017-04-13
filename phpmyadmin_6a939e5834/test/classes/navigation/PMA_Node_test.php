@@ -25,9 +25,9 @@ class Node_Test extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $GLOBALS['server'] = 0;
+        $GLOBALS['server']                     = 0;
         $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
+        $_SESSION['PMA_Theme']                 = PMA_Theme::load('./themes/pmahomme');
     }
 
     /**
@@ -38,7 +38,7 @@ class Node_Test extends PHPUnit_Framework_TestCase
     public function testAddNode()
     {
         $parent = PMA_NodeFactory::getInstance('Node', 'parent');
-        $child = PMA_NodeFactory::getInstance('Node', 'child');
+        $child  = PMA_NodeFactory::getInstance('Node', 'child');
         $parent->addChild($child);
         $this->assertEquals(
             $parent->getChild($child->name),
@@ -76,7 +76,7 @@ class Node_Test extends PHPUnit_Framework_TestCase
     public function testRemoveNode()
     {
         $parent = PMA_NodeFactory::getInstance('Node', 'parent');
-        $child = PMA_NodeFactory::getInstance('Node', 'child');
+        $child  = PMA_NodeFactory::getInstance('Node', 'child');
         $parent->addChild($child);
         $this->assertEquals(
             $parent->getChild($child->name),
@@ -96,11 +96,11 @@ class Node_Test extends PHPUnit_Framework_TestCase
      */
     public function testNodeHasChildren()
     {
-        $parent = PMA_NodeFactory::getInstance();
+        $parent          = PMA_NodeFactory::getInstance();
         $empty_container = PMA_NodeFactory::getInstance(
             'Node', 'empty', Node::CONTAINER
         );
-        $child = PMA_NodeFactory::getInstance();
+        $child           = PMA_NodeFactory::getInstance();
         // test with no children
         $this->assertEquals(
             $parent->hasChildren(true),
@@ -172,16 +172,16 @@ class Node_Test extends PHPUnit_Framework_TestCase
     public function testParents()
     {
         $parent = PMA_NodeFactory::getInstance();
-        $this->assertEquals($parent->parents(), array()); // exclude self
-        $this->assertEquals($parent->parents(true), array($parent)); // include self
+        $this->assertEquals($parent->parents(), []); // exclude self
+        $this->assertEquals($parent->parents(true), [$parent]); // include self
 
         $child = PMA_NodeFactory::getInstance();
         $parent->addChild($child);
 
-        $this->assertEquals($child->parents(), array($parent)); // exclude self
+        $this->assertEquals($child->parents(), [$parent]); // exclude self
         $this->assertEquals(
             $child->parents(true),
-            array($child, $parent)
+            [$child, $parent]
         ); // include self
     }
 
@@ -210,7 +210,7 @@ class Node_Test extends PHPUnit_Framework_TestCase
     public function testHasSiblingsWithNoSiblings()
     {
         $parent = PMA_NodeFactory::getInstance();
-        $child = PMA_NodeFactory::getInstance();
+        $child  = PMA_NodeFactory::getInstance();
         $parent->addChild($child);
         $this->assertEquals(false, $child->hasSiblings());
     }
@@ -224,7 +224,7 @@ class Node_Test extends PHPUnit_Framework_TestCase
      */
     public function testHasSiblingsWithSiblings()
     {
-        $parent = PMA_NodeFactory::getInstance();
+        $parent     = PMA_NodeFactory::getInstance();
         $firstChild = PMA_NodeFactory::getInstance();
         $parent->addChild($firstChild);
         $secondChild = PMA_NodeFactory::getInstance();
@@ -232,7 +232,7 @@ class Node_Test extends PHPUnit_Framework_TestCase
         // Normal case; two Node:NODE type siblings
         $this->assertEquals(true, $firstChild->hasSiblings());
 
-        $parent = PMA_NodeFactory::getInstance();
+        $parent     = PMA_NodeFactory::getInstance();
         $firstChild = PMA_NodeFactory::getInstance();
         $parent->addChild($firstChild);
         $secondChild = PMA_NodeFactory::getInstance(
@@ -258,7 +258,7 @@ class Node_Test extends PHPUnit_Framework_TestCase
     public function testHasSiblingsForNodesAtLevelThree()
     {
         $parent = PMA_NodeFactory::getInstance();
-        $child = PMA_NodeFactory::getInstance();
+        $child  = PMA_NodeFactory::getInstance();
         $parent->addChild($child);
         $grandChild = PMA_NodeFactory::getInstance();
         $child->addChild($grandChild);
@@ -296,11 +296,11 @@ class Node_Test extends PHPUnit_Framework_TestCase
             $method->invoke($node, 'SCHEMA_NAME', 'schemaName')
         );
 
-        if (! isset($GLOBALS['cfg'])) {
-            $GLOBALS['cfg'] = array();
+        if (!isset($GLOBALS['cfg'])) {
+            $GLOBALS['cfg'] = [];
         }
-        if (! isset($GLOBALS['cfg']['Server'])) {
-            $GLOBALS['cfg']['Server'] = array();
+        if (!isset($GLOBALS['cfg']['Server'])) {
+            $GLOBALS['cfg']['Server'] = [];
         }
 
         // When hide_db regular expression is present
@@ -320,7 +320,7 @@ class Node_Test extends PHPUnit_Framework_TestCase
         unset($GLOBALS['cfg']['Server']['only_db']);
 
         // When only_db directive is present and it's an array of dbs
-        $GLOBALS['cfg']['Server']['only_db'] = array('onlyDbOne', 'onlyDbTwo');
+        $GLOBALS['cfg']['Server']['only_db'] = ['onlyDbOne', 'onlyDbTwo'];
         $this->assertEquals(
             "WHERE TRUE AND ( `SCHEMA_NAME` LIKE 'onlyDbOne' "
             . "OR `SCHEMA_NAME` LIKE 'onlyDbTwo' )",
@@ -338,17 +338,17 @@ class Node_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetDataWithEnabledISAndGroupingEnabled()
     {
-        $pos = 10;
+        $pos   = 10;
         $limit = 20;
-        if (! isset($GLOBALS['cfg'])) {
-            $GLOBALS['cfg'] = array();
+        if (!isset($GLOBALS['cfg'])) {
+            $GLOBALS['cfg'] = [];
         }
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
+        $GLOBALS['cfg']['Server']['DisableIS']          = false;
         $GLOBALS['cfg']['NavigationTreeEnableGrouping'] = true;
-        $GLOBALS['cfg']['FirstLevelNavigationItems'] = $limit;
-        $GLOBALS['cfg']['NavigationTreeDbSeparator'] = '_';
+        $GLOBALS['cfg']['FirstLevelNavigationItems']    = $limit;
+        $GLOBALS['cfg']['NavigationTreeDbSeparator']    = '_';
 
-        $expectedSql  = "SELECT `SCHEMA_NAME` ";
+        $expectedSql = "SELECT `SCHEMA_NAME` ";
         $expectedSql .= "FROM `INFORMATION_SCHEMA`.`SCHEMATA`, ";
         $expectedSql .= "(";
         $expectedSql .= "SELECT DB_first_level ";
@@ -389,16 +389,16 @@ class Node_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetDataWithEnabledISAndGroupingDisabled()
     {
-        $pos = 10;
+        $pos   = 10;
         $limit = 20;
-        if (! isset($GLOBALS['cfg'])) {
-            $GLOBALS['cfg'] = array();
+        if (!isset($GLOBALS['cfg'])) {
+            $GLOBALS['cfg'] = [];
         }
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
+        $GLOBALS['cfg']['Server']['DisableIS']          = false;
         $GLOBALS['cfg']['NavigationTreeEnableGrouping'] = false;
-        $GLOBALS['cfg']['FirstLevelNavigationItems'] = $limit;
+        $GLOBALS['cfg']['FirstLevelNavigationItems']    = $limit;
 
-        $expectedSql  = "SELECT `SCHEMA_NAME` ";
+        $expectedSql = "SELECT `SCHEMA_NAME` ";
         $expectedSql .= "FROM `INFORMATION_SCHEMA`.`SCHEMATA` ";
         $expectedSql .= "WHERE TRUE ";
         $expectedSql .= "ORDER BY `SCHEMA_NAME` ";
@@ -427,16 +427,16 @@ class Node_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetDataWithDisabledISAndGroupingEnabled()
     {
-        $pos = 0;
+        $pos   = 0;
         $limit = 10;
-        if (! isset($GLOBALS['cfg'])) {
-            $GLOBALS['cfg'] = array();
+        if (!isset($GLOBALS['cfg'])) {
+            $GLOBALS['cfg'] = [];
         }
-        $GLOBALS['cfg']['Server']['DisableIS'] = true;
-        $GLOBALS['dbs_to_test'] = false;
+        $GLOBALS['cfg']['Server']['DisableIS']          = true;
+        $GLOBALS['dbs_to_test']                         = false;
         $GLOBALS['cfg']['NavigationTreeEnableGrouping'] = true;
-        $GLOBALS['cfg']['FirstLevelNavigationItems'] = $limit;
-        $GLOBALS['cfg']['NavigationTreeDbSeparator'] = '_';
+        $GLOBALS['cfg']['FirstLevelNavigationItems']    = $limit;
+        $GLOBALS['cfg']['NavigationTreeDbSeparator']    = '_';
 
         $node = PMA_NodeFactory::getInstance();
 
@@ -451,18 +451,18 @@ class Node_Test extends PHPUnit_Framework_TestCase
             ->method('fetchArray')
             ->will(
                 $this->returnValue(
-                    array(
-                        '0' => 'db'
-                    )
+                    [
+                        '0' => 'db',
+                    ]
                 )
             );
         $dbi->expects($this->at(2))
             ->method('fetchArray')
             ->will(
                 $this->returnValue(
-                    array(
-                        '0' => 'aa_db'
-                    )
+                    [
+                        '0' => 'aa_db',
+                    ]
                 )
             );
         $dbi->expects($this->at(3))
@@ -488,9 +488,9 @@ class Node_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetPresenceWithEnabledISAndGroupingEnabled()
     {
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
+        $GLOBALS['cfg']['Server']['DisableIS']          = false;
         $GLOBALS['cfg']['NavigationTreeEnableGrouping'] = true;
-        $GLOBALS['cfg']['NavigationTreeDbSeparator'] = '_';
+        $GLOBALS['cfg']['NavigationTreeDbSeparator']    = '_';
 
         $query = "SELECT COUNT(*) ";
         $query .= "FROM ( ";
@@ -523,7 +523,7 @@ class Node_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetPresenceWithEnabledISAndGroupingDisabled()
     {
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
+        $GLOBALS['cfg']['Server']['DisableIS']          = false;
         $GLOBALS['cfg']['NavigationTreeEnableGrouping'] = false;
 
         $query = "SELECT COUNT(*) ";
@@ -531,7 +531,7 @@ class Node_Test extends PHPUnit_Framework_TestCase
         $query .= "WHERE TRUE ";
 
         $node = PMA_NodeFactory::getInstance();
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi  = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $dbi->expects($this->once())
@@ -549,8 +549,8 @@ class Node_Test extends PHPUnit_Framework_TestCase
      */
     public function testGetPresenceWithDisabledIS()
     {
-        $GLOBALS['cfg']['Server']['DisableIS'] = true;
-        $GLOBALS['dbs_to_test'] = false;
+        $GLOBALS['cfg']['Server']['DisableIS']          = true;
+        $GLOBALS['dbs_to_test']                         = false;
         $GLOBALS['cfg']['NavigationTreeEnableGrouping'] = true;
 
         $node = PMA_NodeFactory::getInstance();
@@ -576,4 +576,5 @@ class Node_Test extends PHPUnit_Framework_TestCase
         $node->getPresence('', 'dbname');
     }
 }
+
 ?>

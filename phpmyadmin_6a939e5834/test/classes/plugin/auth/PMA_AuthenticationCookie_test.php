@@ -42,15 +42,15 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
     function setup()
     {
         $GLOBALS['PMA_Config']->enableBc();
-        $GLOBALS['server'] = 0;
-        $GLOBALS['available_languages'] = array(
-            "en" => array("English", "US-ENGLISH"),
-            "ch" => array("Chinese", "TW-Chinese")
-        );
-        $GLOBALS['text_dir'] = 'ltr';
-        $GLOBALS['db'] = 'db';
-        $GLOBALS['table'] = 'table';
-        $this->object = new AuthenticationCookie();
+        $GLOBALS['server']              = 0;
+        $GLOBALS['available_languages'] = [
+            "en" => ["English", "US-ENGLISH"],
+            "ch" => ["Chinese", "TW-Chinese"],
+        ];
+        $GLOBALS['text_dir']            = 'ltr';
+        $GLOBALS['db']                  = 'db';
+        $GLOBALS['table']               = 'table';
+        $this->object                   = new AuthenticationCookie();
 
         $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
         $_SESSION['PMA_Theme'] = new PMA_Theme();
@@ -79,7 +79,7 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
 
         $mockResponse = $this->getMockBuilder('PMA_Response')
             ->disableOriginalConstructor()
-            ->setMethods(array('isAjax', 'isSuccess', 'addJSON'))
+            ->setMethods(['isAjax', 'isSuccess', 'addJSON'])
             ->getMock();
 
         $mockResponse->expects($this->once())
@@ -101,7 +101,7 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         $attrInstance = new ReflectionProperty('PMA_Response', '_instance');
         $attrInstance->setAccessible(true);
         $attrInstance->setValue($mockResponse);
-        $GLOBALS['conn_error'] = true;
+        $GLOBALS['conn_error']            = true;
         $GLOBALS['cfg']['PmaAbsoluteUri'] = 'https://phpmyadmin.net/';
         $this->assertTrue(
             $this->object->auth()
@@ -111,7 +111,7 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
 
         $mockResponse = $this->getMockBuilder('PMA_Response')
             ->disableOriginalConstructor()
-            ->setMethods(array('isAjax', 'getFooter', 'getHeader'))
+            ->setMethods(['isAjax', 'getFooter', 'getHeader'])
             ->getMock();
 
         $mockResponse->expects($this->once())
@@ -119,16 +119,16 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
             ->with()
             ->will($this->returnValue(false));
 
-        $_REQUEST['old_usr'] = '';
+        $_REQUEST['old_usr']                 = '';
         $GLOBALS['cfg']['LoginCookieRecall'] = true;
-        $GLOBALS['cfg']['blowfish_secret'] = 'secret';
-        $GLOBALS['PHP_AUTH_USER'] = 'pmauser';
-        $GLOBALS['pma_auth_server'] = 'localhost';
+        $GLOBALS['cfg']['blowfish_secret']   = 'secret';
+        $GLOBALS['PHP_AUTH_USER']            = 'pmauser';
+        $GLOBALS['pma_auth_server']          = 'localhost';
 
         // mock footer
         $mockFooter = $this->getMockBuilder('PMA_Footer')
             ->disableOriginalConstructor()
-            ->setMethods(array('setMinimal'))
+            ->setMethods(['setMinimal'])
             ->getMock();
 
         $mockFooter->expects($this->once())
@@ -140,12 +140,12 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         $mockHeader = $this->getMockBuilder('PMA_Header')
             ->disableOriginalConstructor()
             ->setMethods(
-                array(
+                [
                     'setBodyId',
                     'setTitle',
                     'disableMenuAndConsole',
-                    'disableWarnings'
-                )
+                    'disableWarnings',
+                ]
             )
             ->getMock();
 
@@ -181,16 +181,16 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         $attrInstance->setAccessible(true);
         $attrInstance->setValue($mockResponse);
 
-        $GLOBALS['pmaThemeImage'] = 'test';
-        $GLOBALS['conn_error'] = true;
-        $GLOBALS['cfg']['Lang'] = 'en';
-        $GLOBALS['cfg']['AllowArbitraryServer'] = true;
-        $GLOBALS['cfg']['Servers'] = array(1, 2);
+        $GLOBALS['pmaThemeImage']                 = 'test';
+        $GLOBALS['conn_error']                    = true;
+        $GLOBALS['cfg']['Lang']                   = 'en';
+        $GLOBALS['cfg']['AllowArbitraryServer']   = true;
+        $GLOBALS['cfg']['Servers']                = [1, 2];
         $GLOBALS['cfg']['CaptchaLoginPrivateKey'] = '';
-        $GLOBALS['cfg']['CaptchaLoginPublicKey'] = '';
-        $GLOBALS['target'] = 'testTarget';
-        $GLOBALS['db'] = 'testDb';
-        $GLOBALS['table'] = 'testTable';
+        $GLOBALS['cfg']['CaptchaLoginPublicKey']  = '';
+        $GLOBALS['target']                        = 'testTarget';
+        $GLOBALS['db']                            = 'testDb';
+        $GLOBALS['table']                         = 'testTable';
 
         file_put_contents('testlogo_right.png', '');
 
@@ -198,7 +198,7 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
 
         $mockErrorHandler = $this->getMockBuilder('PMA_Error_Handler')
             ->disableOriginalConstructor()
-            ->setMethods(array('hasDisplayErrors', 'dispErrors'))
+            ->setMethods(['hasDisplayErrors', 'dispErrors'])
             ->getMock();
 
         $mockErrorHandler->expects($this->once())
@@ -280,7 +280,7 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
 
         $mockResponse = $this->getMockBuilder('PMA_Response')
             ->disableOriginalConstructor()
-            ->setMethods(array('isAjax', 'getFooter', 'getHeader'))
+            ->setMethods(['isAjax', 'getFooter', 'getHeader'])
             ->getMock();
 
         $mockResponse->expects($this->once())
@@ -298,20 +298,20 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
             ->with()
             ->will($this->returnValue(new PMA_Header()));
 
-        $_REQUEST['old_usr'] = '';
+        $_REQUEST['old_usr']                 = '';
         $GLOBALS['cfg']['LoginCookieRecall'] = false;
 
         $attrInstance = new ReflectionProperty('PMA_Response', '_instance');
         $attrInstance->setAccessible(true);
         $attrInstance->setValue($mockResponse);
 
-        $GLOBALS['pmaThemeImage'] = 'test';
-        $GLOBALS['cfg']['Lang'] = '';
-        $GLOBALS['cfg']['AllowArbitraryServer'] = false;
-        $GLOBALS['cfg']['Servers'] = array(1);
+        $GLOBALS['pmaThemeImage']                 = 'test';
+        $GLOBALS['cfg']['Lang']                   = '';
+        $GLOBALS['cfg']['AllowArbitraryServer']   = false;
+        $GLOBALS['cfg']['Servers']                = [1];
         $GLOBALS['cfg']['CaptchaLoginPrivateKey'] = 'testprivkey';
-        $GLOBALS['cfg']['CaptchaLoginPublicKey'] = 'testpubkey';
-        $GLOBALS['server'] = 0;
+        $GLOBALS['cfg']['CaptchaLoginPublicKey']  = 'testpubkey';
+        $GLOBALS['server']                        = 0;
 
         $GLOBALS['error_handler'] = new PMA_Error_Handler;
 
@@ -374,7 +374,7 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
 
         $mockResponse = $this->getMockBuilder('PMA_Response')
             ->disableOriginalConstructor()
-            ->setMethods(array('isAjax'))
+            ->setMethods(['isAjax'])
             ->getMock();
 
         $mockResponse->expects($this->once())
@@ -386,7 +386,7 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         $attrInstance->setAccessible(true);
         $attrInstance->setValue($mockResponse);
 
-        $_REQUEST['old_usr'] = 'user1';
+        $_REQUEST['old_usr']                   = 'user1';
         $GLOBALS['cfg']['Server']['LogoutURL'] = 'https://www.phpmyadmin.net/logout';
 
         $this->assertTrue(
@@ -411,7 +411,7 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         $defineAgain = 'PMA_TEST_NO_DEFINE';
 
         if (defined('PMA_CLEAR_COOKIES')) {
-            if (! PMA_HAS_RUNKIT) {
+            if (!PMA_HAS_RUNKIT) {
                 $this->markTestSkipped(
                     'Cannot redefine constant/function - missing runkit extension'
                 );
@@ -425,9 +425,9 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         // case 2
 
         $GLOBALS['cfg']['CaptchaLoginPrivateKey'] = 'testprivkey';
-        $GLOBALS['cfg']['CaptchaLoginPublicKey'] = 'testpubkey';
-        $_POST["g-recaptcha-response"] = '';
-        $_REQUEST['pma_username'] = 'testPMAUser';
+        $GLOBALS['cfg']['CaptchaLoginPublicKey']  = 'testpubkey';
+        $_POST["g-recaptcha-response"]            = '';
+        $_REQUEST['pma_username']                 = 'testPMAUser';
 
         $this->assertFalse(
             $this->object->authCheck()
@@ -441,10 +441,10 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         // case 4
 
         $GLOBALS['cfg']['CaptchaLoginPrivateKey'] = '';
-        $GLOBALS['cfg']['CaptchaLoginPublicKey'] = '';
-        $_REQUEST['old_usr'] = 'pmaolduser';
-        $GLOBALS['cfg']['LoginCookieDeleteAll'] = true;
-        $GLOBALS['cfg']['Servers'] = array(1);
+        $GLOBALS['cfg']['CaptchaLoginPublicKey']  = '';
+        $_REQUEST['old_usr']                      = 'pmaolduser';
+        $GLOBALS['cfg']['LoginCookieDeleteAll']   = true;
+        $GLOBALS['cfg']['Servers']                = [1];
 
         $_COOKIE['pmaAuth-0'] = 'test';
 
@@ -457,11 +457,11 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         // case 5
 
         $GLOBALS['cfg']['CaptchaLoginPrivateKey'] = '';
-        $GLOBALS['cfg']['CaptchaLoginPublicKey'] = '';
-        $_REQUEST['old_usr'] = 'pmaolduser';
-        $GLOBALS['cfg']['LoginCookieDeleteAll'] = false;
-        $GLOBALS['cfg']['Servers'] = array(1);
-        $GLOBALS['server'] = 1;
+        $GLOBALS['cfg']['CaptchaLoginPublicKey']  = '';
+        $_REQUEST['old_usr']                      = 'pmaolduser';
+        $GLOBALS['cfg']['LoginCookieDeleteAll']   = false;
+        $GLOBALS['cfg']['Servers']                = [1];
+        $GLOBALS['server']                        = 1;
 
         $_COOKIE['pmaAuth-1'] = 'test';
 
@@ -474,12 +474,12 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         // case 6
 
         $GLOBALS['cfg']['CaptchaLoginPrivateKey'] = '';
-        $GLOBALS['cfg']['CaptchaLoginPublicKey'] = '';
-        $_REQUEST['old_usr'] = '';
-        $_REQUEST['pma_username'] = 'testPMAUser';
-        $_REQUEST['pma_servername'] = 'testPMAServer';
-        $_REQUEST['pma_password'] = 'testPMAPSWD';
-        $GLOBALS['cfg']['AllowArbitraryServer'] = true;
+        $GLOBALS['cfg']['CaptchaLoginPublicKey']  = '';
+        $_REQUEST['old_usr']                      = '';
+        $_REQUEST['pma_username']                 = 'testPMAUser';
+        $_REQUEST['pma_servername']               = 'testPMAServer';
+        $_REQUEST['pma_password']                 = 'testPMAPSWD';
+        $GLOBALS['cfg']['AllowArbitraryServer']   = true;
 
         $this->assertTrue(
             $this->object->authCheck()
@@ -507,9 +507,9 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         // case 7
 
         $_REQUEST['pma_username'] = '';
-        $GLOBALS['server'] = 1;
-        $_COOKIE['pmaUser-1'] = '';
-        $_COOKIE['pma_iv-1'] = base64_encode('testiv09testiv09');
+        $GLOBALS['server']        = 1;
+        $_COOKIE['pmaUser-1']     = '';
+        $_COOKIE['pma_iv-1']      = base64_encode('testiv09testiv09');
 
         $this->assertFalse(
             $this->object->authCheck()
@@ -517,12 +517,12 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
 
         // case 8
 
-        $GLOBALS['server'] = 1;
-        $_COOKIE['pmaUser-1'] = 'pmaUser1';
-        $_COOKIE['pma_iv-1'] = base64_encode('testiv09testiv09');
-        $_COOKIE['pmaAuth-1'] = '';
-        $GLOBALS['cfg']['blowfish_secret'] = 'secret';
-        $_SESSION['last_access_time'] = time() - 1000;
+        $GLOBALS['server']                     = 1;
+        $_COOKIE['pmaUser-1']                  = 'pmaUser1';
+        $_COOKIE['pma_iv-1']                   = base64_encode('testiv09testiv09');
+        $_COOKIE['pmaAuth-1']                  = '';
+        $GLOBALS['cfg']['blowfish_secret']     = 'secret';
+        $_SESSION['last_access_time']          = time() - 1000;
         $GLOBALS['cfg']['LoginCookieValidity'] = 1440;
 
         $this->assertFalse(
@@ -549,14 +549,14 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
 
         $remove = false;
 
-        if (! defined('PMA_CLEAR_COOKIES')) {
+        if (!defined('PMA_CLEAR_COOKIES')) {
             define('PMA_CLEAR_COOKIES', true);
             $remove = true;
         }
 
-        $GLOBALS['cfg']['Servers'] = array(1);
-        $_COOKIE['pmaAuth-0'] = 1;
-        $_COOKIE['pmaUser-0'] = 1;
+        $GLOBALS['cfg']['Servers'] = [1];
+        $_COOKIE['pmaAuth-0']      = 1;
+        $_COOKIE['pmaUser-0']      = 1;
 
         $this->assertFalse(
             $this->object->authCheck()
@@ -582,20 +582,20 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
      */
     public function testAuthCheckDecryptUser()
     {
-        $GLOBALS['server'] = 1;
-        $_REQUEST['old_usr'] = '';
-        $_REQUEST['pma_username'] = '';
-        $_COOKIE['pmaUser-1'] = 'pmaUser1';
-        $_COOKIE['pma_iv-1'] = base64_encode('testiv09testiv09');
-        $GLOBALS['cfg']['blowfish_secret'] = 'secret';
-        $_SESSION['last_access_time'] = '';
+        $GLOBALS['server']                        = 1;
+        $_REQUEST['old_usr']                      = '';
+        $_REQUEST['pma_username']                 = '';
+        $_COOKIE['pmaUser-1']                     = 'pmaUser1';
+        $_COOKIE['pma_iv-1']                      = base64_encode('testiv09testiv09');
+        $GLOBALS['cfg']['blowfish_secret']        = 'secret';
+        $_SESSION['last_access_time']             = '';
         $GLOBALS['cfg']['CaptchaLoginPrivateKey'] = '';
-        $GLOBALS['cfg']['CaptchaLoginPublicKey'] = '';
+        $GLOBALS['cfg']['CaptchaLoginPublicKey']  = '';
 
         // mock for blowfish function
         $this->object = $this->getMockBuilder('AuthenticationCookie')
             ->disableOriginalConstructor()
-            ->setMethods(array('cookieDecrypt'))
+            ->setMethods(['cookieDecrypt'])
             ->getMock();
 
         $this->object->expects($this->once())
@@ -619,22 +619,22 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
      */
     public function testAuthCheckDecryptPassword()
     {
-        $GLOBALS['server'] = 1;
-        $_REQUEST['old_usr'] = '';
-        $_REQUEST['pma_username'] = '';
-        $_COOKIE['pmaUser-1'] = 'pmaUser1';
-        $_COOKIE['pmaAuth-1'] = 'pmaAuth1';
-        $_COOKIE['pma_iv-1'] = base64_encode('testiv09testiv09');
-        $GLOBALS['cfg']['blowfish_secret'] = 'secret';
+        $GLOBALS['server']                        = 1;
+        $_REQUEST['old_usr']                      = '';
+        $_REQUEST['pma_username']                 = '';
+        $_COOKIE['pmaUser-1']                     = 'pmaUser1';
+        $_COOKIE['pmaAuth-1']                     = 'pmaAuth1';
+        $_COOKIE['pma_iv-1']                      = base64_encode('testiv09testiv09');
+        $GLOBALS['cfg']['blowfish_secret']        = 'secret';
         $GLOBALS['cfg']['CaptchaLoginPrivateKey'] = '';
-        $GLOBALS['cfg']['CaptchaLoginPublicKey'] = '';
-        $_SESSION['last_access_time'] = time() - 1000;
-        $GLOBALS['cfg']['LoginCookieValidity'] = 1440;
+        $GLOBALS['cfg']['CaptchaLoginPublicKey']  = '';
+        $_SESSION['last_access_time']             = time() - 1000;
+        $GLOBALS['cfg']['LoginCookieValidity']    = 1440;
 
         // mock for blowfish function
         $this->object = $this->getMockBuilder('AuthenticationCookie')
             ->disableOriginalConstructor()
-            ->setMethods(array('cookieDecrypt'))
+            ->setMethods(['cookieDecrypt'])
             ->getMock();
 
         $this->object->expects($this->at(1))
@@ -663,21 +663,21 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
      */
     public function testAuthCheckAuthFails()
     {
-        $GLOBALS['server'] = 1;
-        $_REQUEST['old_usr'] = '';
-        $_REQUEST['pma_username'] = '';
-        $_COOKIE['pmaUser-1'] = 'pmaUser1';
-        $_COOKIE['pma_iv-1'] = base64_encode('testiv09testiv09');
-        $GLOBALS['cfg']['blowfish_secret'] = 'secret';
-        $_SESSION['last_access_time'] = 1;
+        $GLOBALS['server']                        = 1;
+        $_REQUEST['old_usr']                      = '';
+        $_REQUEST['pma_username']                 = '';
+        $_COOKIE['pmaUser-1']                     = 'pmaUser1';
+        $_COOKIE['pma_iv-1']                      = base64_encode('testiv09testiv09');
+        $GLOBALS['cfg']['blowfish_secret']        = 'secret';
+        $_SESSION['last_access_time']             = 1;
         $GLOBALS['cfg']['CaptchaLoginPrivateKey'] = '';
-        $GLOBALS['cfg']['CaptchaLoginPublicKey'] = '';
-        $GLOBALS['cfg']['LoginCookieValidity'] = 0;
-        $_SESSION['last_access_time'] = -1;
+        $GLOBALS['cfg']['CaptchaLoginPublicKey']  = '';
+        $GLOBALS['cfg']['LoginCookieValidity']    = 0;
+        $_SESSION['last_access_time']             = -1;
         // mock for blowfish function
         $this->object = $this->getMockBuilder('AuthenticationCookie')
             ->disableOriginalConstructor()
-            ->setMethods(array('authFails'))
+            ->setMethods(['authFails'])
             ->getMock();
 
         $this->object->expects($this->once())
@@ -700,24 +700,24 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
     public function testAuthSetUser()
     {
         $GLOBALS['PHP_AUTH_USER'] = 'pmaUser2';
-        $arr = array(
-            'host' => 'a',
-            'port' => 1,
-            'socket' => true,
-            'ssl' => true,
+        $arr                      = [
+            'host'         => 'a',
+            'port'         => 1,
+            'socket'       => true,
+            'ssl'          => true,
             'connect_type' => 'port',
-            'user' => 'pmaUser2'
-        );
+            'user'         => 'pmaUser2',
+        ];
 
-        $GLOBALS['cfg']['Server'] = $arr;
-        $GLOBALS['cfg']['Server']['user'] = 'pmaUser';
-        $GLOBALS['cfg']['Servers'][1] = $arr;
+        $GLOBALS['cfg']['Server']               = $arr;
+        $GLOBALS['cfg']['Server']['user']       = 'pmaUser';
+        $GLOBALS['cfg']['Servers'][1]           = $arr;
         $GLOBALS['cfg']['AllowArbitraryServer'] = true;
-        $GLOBALS['pma_auth_server'] = 'b 2';
-        $GLOBALS['PHP_AUTH_PW'] = $_SERVER['PHP_AUTH_PW'] = 'testPW';
-        $GLOBALS['server'] = 2;
-        $GLOBALS['cfg']['LoginCookieStore'] = true;
-        $GLOBALS['from_cookie'] = true;
+        $GLOBALS['pma_auth_server']             = 'b 2';
+        $GLOBALS['PHP_AUTH_PW']                 = $_SERVER['PHP_AUTH_PW'] = 'testPW';
+        $GLOBALS['server']                      = 2;
+        $GLOBALS['cfg']['LoginCookieStore']     = true;
+        $GLOBALS['from_cookie']                 = true;
 
         $this->object->authSetUser();
 
@@ -740,8 +740,8 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         );
 
         $arr['password'] = 'testPW';
-        $arr['host'] = 'b';
-        $arr['port'] = '2';
+        $arr['host']     = 'b';
+        $arr['port']     = '2';
         $this->assertEquals(
             $arr,
             $GLOBALS['cfg']['Server']
@@ -763,33 +763,33 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         }
 
         $GLOBALS['PHP_AUTH_USER'] = 'pmaUser2';
-        $arr = array(
-            'host' => 'a',
-            'port' => 1,
-            'socket' => true,
-            'ssl' => true,
+        $arr                      = [
+            'host'         => 'a',
+            'port'         => 1,
+            'socket'       => true,
+            'ssl'          => true,
             'connect_type' => 'port',
-            'user' => 'pmaUser2'
-        );
+            'user'         => 'pmaUser2',
+        ];
 
-        $GLOBALS['cfg']['Server'] = $arr;
-        $GLOBALS['cfg']['Server']['host'] = 'b';
-        $GLOBALS['cfg']['Server']['user'] = 'pmaUser';
-        $GLOBALS['cfg']['Servers'][1] = $arr;
+        $GLOBALS['cfg']['Server']               = $arr;
+        $GLOBALS['cfg']['Server']['host']       = 'b';
+        $GLOBALS['cfg']['Server']['user']       = 'pmaUser';
+        $GLOBALS['cfg']['Servers'][1]           = $arr;
         $GLOBALS['cfg']['AllowArbitraryServer'] = true;
-        $GLOBALS['pma_auth_server'] = 'b 2';
-        $GLOBALS['PHP_AUTH_PW'] = $_SERVER['PHP_AUTH_PW'] = 'testPW';
-        $GLOBALS['server'] = 2;
-        $GLOBALS['cfg']['LoginCookieStore'] = true;
-        $GLOBALS['from_cookie'] = false;
-        $GLOBALS['cfg']['PmaAbsoluteUri'] = 'http://phpmyadmin.net/';
-        $GLOBALS['collation_connection'] = 'utf-8';
+        $GLOBALS['pma_auth_server']             = 'b 2';
+        $GLOBALS['PHP_AUTH_PW']                 = $_SERVER['PHP_AUTH_PW'] = 'testPW';
+        $GLOBALS['server']                      = 2;
+        $GLOBALS['cfg']['LoginCookieStore']     = true;
+        $GLOBALS['from_cookie']                 = false;
+        $GLOBALS['cfg']['PmaAbsoluteUri']       = 'http://phpmyadmin.net/';
+        $GLOBALS['collation_connection']        = 'utf-8';
 
         $restoreInstance = PMA_Response::getInstance();
 
         $mockResponse = $this->getMockBuilder('PMA_Response')
             ->disableOriginalConstructor()
-            ->setMethods(array('disable'))
+            ->setMethods(['disable'])
             ->getMock();
 
         $mockResponse->expects($this->at(0))
@@ -839,13 +839,13 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
 
         $this->object = $this->getMockBuilder('AuthenticationCookie')
             ->disableOriginalConstructor()
-            ->setMethods(array('auth'))
+            ->setMethods(['auth'])
             ->getMock();
 
         $this->object->expects($this->exactly(5))
             ->method('auth');
 
-        $GLOBALS['server'] = 2;
+        $GLOBALS['server']    = 2;
         $_COOKIE['pmaAuth-2'] = 'pass';
 
         // case 1
@@ -862,16 +862,16 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $GLOBALS['header'],
-            array(
+            [
                 'Cache-Control: no-store, no-cache, must-revalidate',
-                'Pragma: no-cache'
-            )
+                'Pragma: no-cache',
+            ]
         );
 
         // case 2
 
         $GLOBALS['login_without_password_is_forbidden'] = '';
-        $GLOBALS['allowDeny_forbidden'] = '1';
+        $GLOBALS['allowDeny_forbidden']                 = '1';
 
         $this->object->authFails();
 
@@ -882,8 +882,8 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
 
         // case 3
 
-        $GLOBALS['allowDeny_forbidden'] = '';
-        $GLOBALS['no_activity'] = '1';
+        $GLOBALS['allowDeny_forbidden']        = '';
+        $GLOBALS['no_activity']                = '1';
         $GLOBALS['cfg']['LoginCookieValidity'] = 10;
 
         $this->object->authFails();
@@ -907,9 +907,9 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
             ->method('getError')
             ->will($this->returnValue(false));
 
-        $GLOBALS['dbi'] = $dbi;
+        $GLOBALS['dbi']         = $dbi;
         $GLOBALS['no_activity'] = '';
-        $GLOBALS['errno'] = 42;
+        $GLOBALS['errno']       = 42;
 
         $this->object->authFails();
 
@@ -944,7 +944,7 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
         // case 1
 
         $GLOBALS['cfg']['blowfish_secret'] = '';
-        $_SESSION['encryption_key'] = '';
+        $_SESSION['encryption_key']        = '';
 
         $result = $method->invoke($this->object, null);
 
@@ -1056,38 +1056,39 @@ class PMA_AuthenticationCookie_Test extends PHPUnit_Framework_TestCase
      */
     public function secretsProvider()
     {
-        return array(
+        return [
             // Optimal case
-            array(
+            [
                 '1234567890123456abcdefghijklmnop',
                 '1234567890123456',
                 'abcdefghijklmnop',
-            ),
+            ],
             // Overlapping secret
-            array(
+            [
                 '12345678901234567',
                 '1234567890123456',
                 '2345678901234567',
-            ),
+            ],
             // Short secret
-            array(
+            [
                 '1234567890123456',
                 '1234567890123451',
                 '2345678901234562',
-            ),
+            ],
             // Really short secret
-            array(
+            [
                 '12',
                 '1111111111111111',
                 '2222222222222222',
-            ),
+            ],
             // Too short secret
-            array(
+            [
                 '1',
                 '1111111111111111',
                 '1111111111111111',
-            ),
-        );
+            ],
+        ];
     }
 }
+
 ?>

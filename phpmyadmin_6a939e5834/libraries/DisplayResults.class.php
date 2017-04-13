@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -23,145 +23,145 @@ class PMA_DisplayResults
 
     // Define constants
     const NO_EDIT_OR_DELETE = 'nn';
-    const UPDATE_ROW = 'ur';
-    const DELETE_ROW = 'dr';
-    const KILL_PROCESS = 'kp';
+    const UPDATE_ROW        = 'ur';
+    const DELETE_ROW        = 'dr';
+    const KILL_PROCESS      = 'kp';
 
-    const POSITION_LEFT = 'left';
+    const POSITION_LEFT  = 'left';
     const POSITION_RIGHT = 'right';
-    const POSITION_BOTH = 'both';
-    const POSITION_NONE = 'none';
+    const POSITION_BOTH  = 'both';
+    const POSITION_NONE  = 'none';
 
-    const PLACE_TOP_DIRECTION_DROPDOWN = 'top_direction_dropdown';
+    const PLACE_TOP_DIRECTION_DROPDOWN    = 'top_direction_dropdown';
     const PLACE_BOTTOM_DIRECTION_DROPDOWN = 'bottom_direction_dropdown';
 
-    const DISPLAY_FULL_TEXT = 'F';
+    const DISPLAY_FULL_TEXT    = 'F';
     const DISPLAY_PARTIAL_TEXT = 'P';
 
     const HEADER_FLIP_TYPE_AUTO = 'auto';
-    const HEADER_FLIP_TYPE_CSS = 'css';
+    const HEADER_FLIP_TYPE_CSS  = 'css';
     const HEADER_FLIP_TYPE_FAKE = 'fake';
 
-    const DATE_FIELD = 'date';
-    const DATETIME_FIELD = 'datetime';
+    const DATE_FIELD      = 'date';
+    const DATETIME_FIELD  = 'datetime';
     const TIMESTAMP_FIELD = 'timestamp';
-    const TIME_FIELD = 'time';
-    const STRING_FIELD = 'string';
-    const GEOMETRY_FIELD = 'geometry';
-    const BLOB_FIELD = 'BLOB';
-    const BINARY_FIELD = 'BINARY';
+    const TIME_FIELD      = 'time';
+    const STRING_FIELD    = 'string';
+    const GEOMETRY_FIELD  = 'geometry';
+    const BLOB_FIELD      = 'BLOB';
+    const BINARY_FIELD    = 'BINARY';
 
-    const RELATIONAL_KEY = 'K';
+    const RELATIONAL_KEY            = 'K';
     const RELATIONAL_DISPLAY_COLUMN = 'D';
 
     const GEOMETRY_DISP_GEOM = 'GEOM';
-    const GEOMETRY_DISP_WKT = 'WKT';
-    const GEOMETRY_DISP_WKB = 'WKB';
+    const GEOMETRY_DISP_WKT  = 'WKT';
+    const GEOMETRY_DISP_WKB  = 'WKB';
 
-    const SMART_SORT_ORDER = 'SMART';
-    const ASCENDING_SORT_DIR = 'ASC';
+    const SMART_SORT_ORDER    = 'SMART';
+    const ASCENDING_SORT_DIR  = 'ASC';
     const DESCENDING_SORT_DIR = 'DESC';
 
     const TABLE_TYPE_INNO_DB = 'InnoDB';
-    const ALL_ROWS = 'all';
-    const QUERY_TYPE_SELECT = 'SELECT';
+    const ALL_ROWS           = 'all';
+    const QUERY_TYPE_SELECT  = 'SELECT';
 
     const ROUTINE_PROCEDURE = 'procedure';
-    const ROUTINE_FUNCTION = 'function';
+    const ROUTINE_FUNCTION  = 'function';
 
     const ACTION_LINK_CONTENT_ICONS = 'icons';
-    const ACTION_LINK_CONTENT_TEXT = 'text';
+    const ACTION_LINK_CONTENT_TEXT  = 'text';
 
 
     // Declare global fields
 
     /** array with properties of the class */
-    private $_property_array = array(
+    private $_property_array = [
 
         /** string Database name */
-        'db' => null,
+        'db'                 => null,
 
         /** string Table name */
-        'table' => null,
+        'table'              => null,
 
         /** string the URL to go back in case of errors */
-        'goto' => null,
+        'goto'               => null,
 
         /** string the SQL query */
-        'sql_query' => null,
+        'sql_query'          => null,
 
         /**
          * integer the total number of rows returned by the SQL query without any
          *         appended "LIMIT" clause programmatically
          */
-        'unlim_num_rows' => null,
+        'unlim_num_rows'     => null,
 
         /** array meta information about fields */
-        'fields_meta' => null,
+        'fields_meta'        => null,
 
         /** boolean */
-        'is_count' => null,
+        'is_count'           => null,
 
         /** integer */
-        'is_export' => null,
+        'is_export'          => null,
 
         /** boolean */
-        'is_func' => null,
+        'is_func'            => null,
 
         /** integer */
-        'is_analyse' => null,
+        'is_analyse'         => null,
 
         /** integer the total number of rows returned by the SQL query */
-        'num_rows' => null,
+        'num_rows'           => null,
 
         /** integer the total number of fields returned by the SQL query */
-        'fields_cnt' => null,
+        'fields_cnt'         => null,
 
         /** double time taken for execute the SQL query */
-        'querytime' => null,
+        'querytime'          => null,
 
         /** string path for theme images directory */
-        'pma_theme_image' => null,
+        'pma_theme_image'    => null,
 
         /** string */
-        'text_dir' => null,
+        'text_dir'           => null,
 
         /** boolean */
-        'is_maint' => null,
+        'is_maint'           => null,
 
         /** boolean */
-        'is_explain' => null,
+        'is_explain'         => null,
 
         /** boolean */
-        'is_show' => null,
+        'is_show'            => null,
 
         /** boolean */
         'is_browse_distinct' => null,
 
         /** array table definitions */
-        'showtable' => null,
+        'showtable'          => null,
 
         /** string */
-        'printview' => null,
+        'printview'          => null,
 
         /** string URL query */
-        'url_query' => null,
+        'url_query'          => null,
 
         /** array column names to highlight */
-        'highlight_columns' => null,
+        'highlight_columns'  => null,
 
         /** array information used with vertical display mode */
-        'vertical_display' => null,
+        'vertical_display'   => null,
 
         /** array mime types information of fields */
-        'mime_map' => null,
+        'mime_map'           => null,
 
         /** boolean */
-        'editable' => null,
+        'editable'           => null,
 
         /** random unique ID to distinguish result set */
-        'unique_id' => null
-    );
+        'unique_id'          => null,
+    ];
 
     /**
      * This variable contains the column transformation information
@@ -229,117 +229,117 @@ class PMA_DisplayResults
      *
      * @return void
      */
-    private  function _setDefaultTransformations()
+    private function _setDefaultTransformations()
     {
-        $json_highlighting_data = array(
+        $json_highlighting_data     = [
             'libraries/plugins/transformations/output/Text_Plain_Json.class.php',
             'Text_Plain_Json',
-            'Text_Plain'
-        );
-        $sql_highlighting_data = array(
+            'Text_Plain',
+        ];
+        $sql_highlighting_data      = [
             'libraries/plugins/transformations/output/Text_Plain_Sql.class.php',
             'Text_Plain_Sql',
-            'Text_Plain'
-        );
-        $blob_sql_highlighting_data = array(
+            'Text_Plain',
+        ];
+        $blob_sql_highlighting_data = [
             'libraries/plugins/transformations/output/Text_Octetstream_Sql.class.php',
             'Text_Octetstream_Sql',
-            'Text_Octetstream'
-        );
-        $link_data = array(
+            'Text_Octetstream',
+        ];
+        $link_data                  = [
             'libraries/plugins/transformations/Text_Plain_Link.class.php',
             'Text_Plain_Link',
-            'Text_Plain'
-        );
-        $this->transformation_info = array(
-            'information_schema' => array(
-                'events' => array(
-                    'event_definition' => $sql_highlighting_data
-                ),
-                'processlist' => array(
-                    'info' => $sql_highlighting_data
-                ),
-                'routines' => array(
-                    'routine_definition' => $sql_highlighting_data
-                ),
-                'triggers' => array(
-                    'action_statement' => $sql_highlighting_data
-                ),
-                'views' => array(
-                    'view_definition' => $sql_highlighting_data
-                )
-            ),
-            'mysql' => array(
-                'event' => array(
-                    'body' => $blob_sql_highlighting_data,
-                    'body_utf8' => $blob_sql_highlighting_data
-                ),
-                'general_log' => array(
-                    'argument' => $sql_highlighting_data
-                ),
-                'help_category' => array(
-                    'url' => $link_data
-                ),
-                'help_topic' => array(
+            'Text_Plain',
+        ];
+        $this->transformation_info  = [
+            'information_schema' => [
+                'events'      => [
+                    'event_definition' => $sql_highlighting_data,
+                ],
+                'processlist' => [
+                    'info' => $sql_highlighting_data,
+                ],
+                'routines'    => [
+                    'routine_definition' => $sql_highlighting_data,
+                ],
+                'triggers'    => [
+                    'action_statement' => $sql_highlighting_data,
+                ],
+                'views'       => [
+                    'view_definition' => $sql_highlighting_data,
+                ],
+            ],
+            'mysql'              => [
+                'event'         => [
+                    'body'      => $blob_sql_highlighting_data,
+                    'body_utf8' => $blob_sql_highlighting_data,
+                ],
+                'general_log'   => [
+                    'argument' => $sql_highlighting_data,
+                ],
+                'help_category' => [
+                    'url' => $link_data,
+                ],
+                'help_topic'    => [
                     'example' => $sql_highlighting_data,
-                    'url' => $link_data
-                ),
-                'proc' => array(
+                    'url'     => $link_data,
+                ],
+                'proc'          => [
                     'param_list' => $blob_sql_highlighting_data,
-                    'returns' => $blob_sql_highlighting_data,
-                    'body' => $blob_sql_highlighting_data,
-                    'body_utf8' => $blob_sql_highlighting_data
-                ),
-                'slow_log' => array(
-                    'sql_text' => $sql_highlighting_data
-                )
-            )
-        );
+                    'returns'    => $blob_sql_highlighting_data,
+                    'body'       => $blob_sql_highlighting_data,
+                    'body_utf8'  => $blob_sql_highlighting_data,
+                ],
+                'slow_log'      => [
+                    'sql_text' => $sql_highlighting_data,
+                ],
+            ],
+        ];
 
         $cfgRelation = PMA_getRelationsParam();
         if ($cfgRelation['db']) {
-            $this->transformation_info[$cfgRelation['db']] = array();
-            $relDb = &$this->transformation_info[$cfgRelation['db']];
-            if (! empty($cfgRelation['history'])) {
-                $relDb[$cfgRelation['history']] = array(
-                    'sqlquery' => $sql_highlighting_data
-                );
+            $this->transformation_info[$cfgRelation['db']] = [];
+            $relDb                                         = &$this->transformation_info[$cfgRelation['db']];
+            if (!empty($cfgRelation['history'])) {
+                $relDb[$cfgRelation['history']] = [
+                    'sqlquery' => $sql_highlighting_data,
+                ];
             }
-            if (! empty($cfgRelation['bookmark'])) {
-                $relDb[$cfgRelation['bookmark']] = array(
-                    'query' => $sql_highlighting_data
-                );
+            if (!empty($cfgRelation['bookmark'])) {
+                $relDb[$cfgRelation['bookmark']] = [
+                    'query' => $sql_highlighting_data,
+                ];
             }
-            if (! empty($cfgRelation['tracking'])) {
-                $relDb[$cfgRelation['tracking']] = array(
+            if (!empty($cfgRelation['tracking'])) {
+                $relDb[$cfgRelation['tracking']] = [
                     'schema_sql' => $sql_highlighting_data,
-                    'data_sql' => $sql_highlighting_data
-                );
+                    'data_sql'   => $sql_highlighting_data,
+                ];
             }
-            if (! empty($cfgRelation['favorite'])) {
-                $relDb[$cfgRelation['favorite']] = array(
-                    'tables' => $json_highlighting_data
-                );
+            if (!empty($cfgRelation['favorite'])) {
+                $relDb[$cfgRelation['favorite']] = [
+                    'tables' => $json_highlighting_data,
+                ];
             }
-            if (! empty($cfgRelation['recent'])) {
-                $relDb[$cfgRelation['recent']] = array(
-                    'tables' => $json_highlighting_data
-                );
+            if (!empty($cfgRelation['recent'])) {
+                $relDb[$cfgRelation['recent']] = [
+                    'tables' => $json_highlighting_data,
+                ];
             }
-            if (! empty($cfgRelation['savedsearches'])) {
-                $relDb[$cfgRelation['savedsearches']] = array(
-                    'search_data' => $json_highlighting_data
-                );
+            if (!empty($cfgRelation['savedsearches'])) {
+                $relDb[$cfgRelation['savedsearches']] = [
+                    'search_data' => $json_highlighting_data,
+                ];
             }
-            if (! empty($cfgRelation['table_uiprefs'])) {
-                $relDb[$cfgRelation['table_uiprefs']] = array(
-                    'prefs' => $json_highlighting_data
-                );
+            if (!empty($cfgRelation['table_uiprefs'])) {
+                $relDb[$cfgRelation['table_uiprefs']] = [
+                    'prefs' => $json_highlighting_data,
+                ];
             }
-            if (! empty($cfgRelation['userconfig'])) {
-                $relDb[$cfgRelation['userconfig']] = array(
-                    'config_data' => $json_highlighting_data
-                );
+            if (!empty($cfgRelation['userconfig'])) {
+                $relDb[$cfgRelation['userconfig']] = [
+                    'config_data' => $json_highlighting_data,
+                ];
             }
         }
     }
@@ -347,27 +347,27 @@ class PMA_DisplayResults
     /**
      * Set properties which were not initialized at the constructor
      *
-     * @param integer $unlim_num_rows the total number of rows returned by
+     * @param integer $unlim_num_rows      the total number of rows returned by
      *                                     the SQL query without any appended
      *                                     "LIMIT" clause programmatically
-     * @param array   $fields_meta    meta information about fields
-     * @param boolean $is_count       statement is SELECT COUNT
-     * @param integer $is_export      statement contains INTO OUTFILE
-     * @param boolean $is_func        statement contains a function like SUM()
-     * @param integer $is_analyse     statement contains PROCEDURE ANALYSE
-     * @param integer $num_rows       total no. of rows returned by SQL query
-     * @param integer $fields_cnt     total no.of fields returned by SQL query
-     * @param double  $querytime      time taken for execute the SQL query
-     * @param string  $pmaThemeImage  path for theme images directory
-     * @param string  $text_dir       text direction
-     * @param boolean $is_maint       statement contains a maintenance command
-     * @param boolean $is_explain     statement contains EXPLAIN
-     * @param boolean $is_show        statement contains SHOW
-     * @param array   $showtable      table definitions
-     * @param string  $printview      print view was requested
-     * @param string  $url_query      URL query
-     * @param boolean $editable       whether the results set is editable
-     * @param boolean $browse_dist    whether browsing distinct values
+     * @param array   $fields_meta         meta information about fields
+     * @param boolean $is_count            statement is SELECT COUNT
+     * @param integer $is_export           statement contains INTO OUTFILE
+     * @param boolean $is_func             statement contains a function like SUM()
+     * @param integer $is_analyse          statement contains PROCEDURE ANALYSE
+     * @param integer $num_rows            total no. of rows returned by SQL query
+     * @param integer $fields_cnt          total no.of fields returned by SQL query
+     * @param double  $querytime           time taken for execute the SQL query
+     * @param string  $pmaThemeImage       path for theme images directory
+     * @param string  $text_dir            text direction
+     * @param boolean $is_maint            statement contains a maintenance command
+     * @param boolean $is_explain          statement contains EXPLAIN
+     * @param boolean $is_show             statement contains SHOW
+     * @param array   $showtable           table definitions
+     * @param string  $printview           print view was requested
+     * @param string  $url_query           URL query
+     * @param boolean $editable            whether the results set is editable
+     * @param boolean $browse_dist         whether browsing distinct values
      *
      * @return void
      *
@@ -426,24 +426,24 @@ class PMA_DisplayResults
 
         // 1. Following variables are needed for use in isset/empty or
         //    use with array indexes or safe use in foreach
-        $db = $this->__get('db');
-        $table = $this->__get('table');
+        $db             = $this->__get('db');
+        $table          = $this->__get('table');
         $unlim_num_rows = $this->__get('unlim_num_rows');
-        $num_rows = $this->__get('num_rows');
-        $fields_meta = $this->__get('fields_meta');
-        $printview = $this->__get('printview');
+        $num_rows       = $this->__get('num_rows');
+        $fields_meta    = $this->__get('fields_meta');
+        $printview      = $this->__get('printview');
 
         // 2. Updates the display mode
         if (isset($printview) && ($printview == '1')) {
             // 2.0 Print view -> set all elements to false!
             $displayParts['edit_lnk']  = self::NO_EDIT_OR_DELETE; // no edit link
             $displayParts['del_lnk']   = self::NO_EDIT_OR_DELETE; // no delete link
-            $displayParts['sort_lnk']  = (string) '0';
-            $displayParts['nav_bar']   = (string) '0';
-            $displayParts['ins_row']   = (string) '0';
-            $displayParts['bkm_form']  = (string) '0';
-            $displayParts['text_btn']  = (string) '0';
-            $displayParts['pview_lnk'] = (string) '0';
+            $displayParts['sort_lnk']  = (string)'0';
+            $displayParts['nav_bar']   = (string)'0';
+            $displayParts['ins_row']   = (string)'0';
+            $displayParts['bkm_form']  = (string)'0';
+            $displayParts['text_btn']  = (string)'0';
+            $displayParts['pview_lnk'] = (string)'0';
 
         } elseif ($this->__get('is_count') || $this->__get('is_analyse')
             || $this->__get('is_maint') || $this->__get('is_explain')
@@ -451,19 +451,19 @@ class PMA_DisplayResults
             // 2.1 Statement is a "SELECT COUNT", a
             //     "CHECK/ANALYZE/REPAIR/OPTIMIZE", an "EXPLAIN" one or
             //     contains a "PROC ANALYSE" part
-            $displayParts['edit_lnk']  = self::NO_EDIT_OR_DELETE; // no edit link
-            $displayParts['del_lnk']   = self::NO_EDIT_OR_DELETE; // no delete link
-            $displayParts['sort_lnk']  = (string) '0';
-            $displayParts['nav_bar']   = (string) '0';
-            $displayParts['ins_row']   = (string) '0';
-            $displayParts['bkm_form']  = (string) '1';
+            $displayParts['edit_lnk'] = self::NO_EDIT_OR_DELETE; // no edit link
+            $displayParts['del_lnk']  = self::NO_EDIT_OR_DELETE; // no delete link
+            $displayParts['sort_lnk'] = (string)'0';
+            $displayParts['nav_bar']  = (string)'0';
+            $displayParts['ins_row']  = (string)'0';
+            $displayParts['bkm_form'] = (string)'1';
 
             if ($this->__get('is_maint')) {
-                $displayParts['text_btn']  = (string) '1';
+                $displayParts['text_btn'] = (string)'1';
             } else {
-                $displayParts['text_btn']  = (string) '0';
+                $displayParts['text_btn'] = (string)'0';
             }
-            $displayParts['pview_lnk'] = (string) '1';
+            $displayParts['pview_lnk'] = (string)'1';
 
         } elseif ($this->__get('is_show')) {
             // 2.2 Statement is a "SHOW..."
@@ -480,7 +480,7 @@ class PMA_DisplayResults
 
             $bIsProcessList = isset($which[1]);
             if ($bIsProcessList) {
-                $str = ' ' . strtoupper($which[1]);
+                $str            = ' ' . strtoupper($which[1]);
                 $bIsProcessList = $bIsProcessList
                     && strpos($str, 'PROCESSLIST') > 0;
             }
@@ -489,29 +489,29 @@ class PMA_DisplayResults
                 // no edit link
                 $displayParts['edit_lnk'] = self::NO_EDIT_OR_DELETE;
                 // "kill process" type edit link
-                $displayParts['del_lnk']  = self::KILL_PROCESS;
+                $displayParts['del_lnk'] = self::KILL_PROCESS;
             } else {
                 // Default case -> no links
                 // no edit link
                 $displayParts['edit_lnk'] = self::NO_EDIT_OR_DELETE;
                 // no delete link
-                $displayParts['del_lnk']  = self::NO_EDIT_OR_DELETE;
+                $displayParts['del_lnk'] = self::NO_EDIT_OR_DELETE;
             }
             unset($bIsProcessList);
             // 2.2.2 Other settings
-            $displayParts['sort_lnk']  = (string) '0';
-            $displayParts['nav_bar']   = (string) '0';
-            $displayParts['ins_row']   = (string) '0';
-            $displayParts['bkm_form']  = (string) '1';
-            $displayParts['text_btn']  = (string) '1';
-            $displayParts['pview_lnk'] = (string) '1';
+            $displayParts['sort_lnk']  = (string)'0';
+            $displayParts['nav_bar']   = (string)'0';
+            $displayParts['ins_row']   = (string)'0';
+            $displayParts['bkm_form']  = (string)'1';
+            $displayParts['text_btn']  = (string)'1';
+            $displayParts['pview_lnk'] = (string)'1';
 
         } else {
             // 2.3 Other statements (ie "SELECT" ones) -> updates
             //     $displayParts['edit_lnk'], $displayParts['del_lnk'] and
             //     $displayParts['text_btn'] (keeps other default values)
-            $prev_table = '';
-            $displayParts['text_btn']  = (string) '1';
+            $prev_table               = '';
+            $displayParts['text_btn'] = (string)'1';
 
             for ($i = 0; $i < $this->__get('fields_cnt'); $i++) {
 
@@ -534,14 +534,14 @@ class PMA_DisplayResults
                      * in two joined table.
                      */
                     // $displayParts['sort_lnk'] = (string) '0';
-                    $displayParts['ins_row']  = (string) '0';
+                    $displayParts['ins_row'] = (string)'0';
                     if ($displayParts['text_btn'] == '1') {
                         break;
                     }
                 } // end if (2.3.2)
 
                 // 2.3.3 Always display print view link
-                $displayParts['pview_lnk']    = (string) '1';
+                $displayParts['pview_lnk'] = (string)'1';
                 if ($fields_meta[$i]->table != '') {
                     $prev_table = $fields_meta[$i]->table;
                 }
@@ -553,16 +553,17 @@ class PMA_DisplayResults
         if (isset($unlim_num_rows) && $unlim_num_rows != '') {
             $the_total = $unlim_num_rows;
         } elseif ((($displayParts['nav_bar'] == '1')
-            || ($displayParts['sort_lnk'] == '1'))
-            && (/*overload*/mb_strlen($db) && !empty($table))
+                || ($displayParts['sort_lnk'] == '1'))
+            && (/*overload*/
+                mb_strlen($db) && !empty($table))
         ) {
-            $the_total   = PMA_Table::countRecords($db, $table);
+            $the_total = PMA_Table::countRecords($db, $table);
         }
 
         // if for COUNT query, number of rows returned more than 1 (may be being used GROUP BY)
         if ($this->__get('is_count') && isset($num_rows) && $num_rows > 1) {
-            $displayParts['nav_bar']   = (string) '1';
-            $displayParts['sort_lnk']  = (string) '1';
+            $displayParts['nav_bar']  = (string)'1';
+            $displayParts['sort_lnk'] = (string)'1';
         }
         // 4. If navigation bar or sorting fields names URLs should be
         //    displayed but there is only one row, change these settings to
@@ -575,9 +576,9 @@ class PMA_DisplayResults
             //   of sorting VIEW results.
             if (isset($unlim_num_rows)
                 && ($unlim_num_rows < 2)
-                && ! PMA_Table::isView($db, $table)
+                && !PMA_Table::isView($db, $table)
             ) {
-                $displayParts['sort_lnk'] = (string) '0';
+                $displayParts['sort_lnk'] = (string)'0';
             }
         } // end if (3)
 
@@ -604,8 +605,8 @@ class PMA_DisplayResults
             $analyzed_sql[0]['select_expr'] = 0;
         }
 
-        return ! ($this->__get('is_count') || $this->__get('is_export')
-            || $this->__get('is_func') || $this->__get('is_analyse'))
+        return !($this->__get('is_count') || $this->__get('is_export')
+                || $this->__get('is_func') || $this->__get('is_analyse'))
             && (count($analyzed_sql[0]['select_expr']) == 0)
             && isset($analyzed_sql[0]['queryflags']['select_from'])
             && (count($analyzed_sql[0]['table_ref']) == 1);
@@ -711,8 +712,8 @@ class PMA_DisplayResults
 
             $table_navigation_html
                 .= $this->_getMoveBackwardButtonsForTableNavigation(
-                    $html_sql_query, $pos_prev
-                );
+                $html_sql_query, $pos_prev
+            );
 
         } // end move back
 
@@ -722,9 +723,9 @@ class PMA_DisplayResults
         if ($_SESSION['tmpval']['max_rows'] != self::ALL_ROWS) { //if1
 
             $pageNow = @floor(
-                $_SESSION['tmpval']['pos']
-                / $_SESSION['tmpval']['max_rows']
-            ) + 1;
+                    $_SESSION['tmpval']['pos']
+                    / $_SESSION['tmpval']['max_rows']
+                ) + 1;
 
             $nbTotalPage = @ceil(
                 $this->__get('unlim_num_rows')
@@ -734,13 +735,13 @@ class PMA_DisplayResults
             if ($nbTotalPage > 1) { //if2
 
                 $table_navigation_html .= '<td>';
-                $_url_params = array(
+                $_url_params = [
                     'db'                 => $this->__get('db'),
                     'table'              => $this->__get('table'),
                     'sql_query'          => $this->__get('sql_query'),
                     'goto'               => $this->__get('goto'),
                     'is_browse_distinct' => $this->__get('is_browse_distinct'),
-                );
+                ];
 
                 //<form> to keep the form alignment of button < and <<
                 // and also to know what to execute when the selector changes
@@ -775,8 +776,8 @@ class PMA_DisplayResults
 
             $table_navigation_html
                 .= $this->_getMoveForwardButtonsForTableNavigation(
-                    $html_sql_query, $pos_next, $is_innodb
-                );
+                $html_sql_query, $pos_next, $is_innodb
+            );
 
         } // end move toward
 
@@ -787,7 +788,7 @@ class PMA_DisplayResults
         }
 
         // Display the "Show all" button if allowed
-        if ($GLOBALS['cfg']['ShowAll'] || ($this->__get('unlim_num_rows') <= 500) ) {
+        if ($GLOBALS['cfg']['ShowAll'] || ($this->__get('unlim_num_rows') <= 500)) {
 
             $table_navigation_html .= $this->_getShowAllCheckboxForTableNavigation(
                 $showing_all, $html_sql_query
@@ -819,27 +820,27 @@ class PMA_DisplayResults
 
         $table_navigation_html .= '<form action="sql.php" method="post" '
             . 'onsubmit="return '
-                . '(checkFormElementInRange('
-                    . 'this, '
-                    . '\'session_max_rows\', '
-                    . '\''
-                    . str_replace('\'', '\\\'', __('%d is not valid row number.'))
-                    . '\', '
-                    . '1)'
-                . ' &amp;&amp; '
-                . 'checkFormElementInRange('
-                    . 'this, '
-                    . '\'pos\', '
-                    . '\''
-                    . str_replace('\'', '\\\'', __('%d is not valid row number.'))
-                    . '\', '
-                    . '0'
-                    . (($this->__get('unlim_num_rows') > 0)
-                        ? ', ' . ($this->__get('unlim_num_rows') - 1)
-                        : ''
-                    )
-                    . ')'
-                . ')'
+            . '(checkFormElementInRange('
+            . 'this, '
+            . '\'session_max_rows\', '
+            . '\''
+            . str_replace('\'', '\\\'', __('%d is not valid row number.'))
+            . '\', '
+            . '1)'
+            . ' &amp;&amp; '
+            . 'checkFormElementInRange('
+            . 'this, '
+            . '\'pos\', '
+            . '\''
+            . str_replace('\'', '\\\'', __('%d is not valid row number.'))
+            . '\', '
+            . '0'
+            . (($this->__get('unlim_num_rows') > 0)
+                ? ', ' . ($this->__get('unlim_num_rows') - 1)
+                : ''
+            )
+            . ')'
+            . ')'
             . '">';
 
         $table_navigation_html .= PMA_URL_getHiddenInputs(
@@ -884,12 +885,12 @@ class PMA_DisplayResults
         $html_sql_query, $pos_prev
     ) {
         return $this->_getTableNavigationButton(
-            '&lt;&lt;', _pgettext('First page', 'Begin'), 0, $html_sql_query, true
-        )
-        . $this->_getTableNavigationButton(
-            '&lt;', _pgettext('Previous page', 'Previous'), $pos_prev,
-            $html_sql_query, true
-        );
+                '&lt;&lt;', _pgettext('First page', 'Begin'), 0, $html_sql_query, true
+            )
+            . $this->_getTableNavigationButton(
+                '&lt;', _pgettext('Previous page', 'Previous'), $pos_prev,
+                $html_sql_query, true
+            );
     } // end of the '_getMoveBackwardButtonsForTableNavigation()' function
 
 
@@ -920,12 +921,12 @@ class PMA_DisplayResults
             . '<input type="hidden" name="is_browse_distinct" value="'
             . $this->__get('is_browse_distinct') . '" />'
             . '<input type="hidden" name="session_max_rows" value="'
-            . (! $showing_all ? 'all' : $GLOBALS['cfg']['MaxRows']) . '" />'
+            . (!$showing_all ? 'all' : $GLOBALS['cfg']['MaxRows']) . '" />'
             . '<input type="hidden" name="goto" value="' . $this->__get('goto')
             . '" />'
             . '<input type="checkbox" name="navig"'
             . ' id="showAll_' . $this->__get('unique_id') . '" class="showAllRows"'
-            . (! $showing_all ? '' : ' checked="checked"') . ' value="all" />'
+            . (!$showing_all ? '' : ' checked="checked"') . ' value="all" />'
             . '<label for="showAll_' . $this->__get('unique_id') . '">'
             . __('Show all') . '</label>'
             . '</form>'
@@ -971,12 +972,12 @@ class PMA_DisplayResults
             $input_for_real_end = $onclick = '';
         }
 
-        $maxRows = $_SESSION['tmpval']['max_rows'];
+        $maxRows  = $_SESSION['tmpval']['max_rows'];
         $onsubmit = 'onsubmit="return '
-            . ($_SESSION['tmpval']['pos']
-                + $maxRows
-                < $this->__get('unlim_num_rows')
-                && $this->__get('num_rows') >= $maxRows)
+        . ($_SESSION['tmpval']['pos']
+            + $maxRows
+            < $this->__get('unlim_num_rows')
+            && $this->__get('num_rows') >= $maxRows)
             ? 'true'
             : 'false' . '"';
 
@@ -985,9 +986,9 @@ class PMA_DisplayResults
             '&gt;&gt;',
             _pgettext('Last page', 'End'),
             @((ceil(
-                $this->__get('unlim_num_rows')
-                / $_SESSION['tmpval']['max_rows']
-            )- 1) * $maxRows),
+                        $this->__get('unlim_num_rows')
+                        / $_SESSION['tmpval']['max_rows']
+                    ) - 1) * $maxRows),
             $html_sql_query, false, $onsubmit, $input_for_real_end, $onclick
         );
 
@@ -1022,20 +1023,20 @@ class PMA_DisplayResults
             // Do not change the position when changing the number of rows
             . $_SESSION['tmpval']['pos'] . '" />'
             . '<input type="hidden" name="is_browse_distinct" value="'
-            . $this->__get('is_browse_distinct') . '" />'  ;
+            . $this->__get('is_browse_distinct') . '" />';
 
         $numberOfRowsPlaceholder = null;
         if ($_SESSION['tmpval']['max_rows'] == self::ALL_ROWS) {
             $numberOfRowsPlaceholder = __('All');
         }
 
-        $numberOfRowsChoices = array(
+        $numberOfRowsChoices = [
             '25'  => 25,
             '50'  => 50,
             '100' => 100,
             '250' => 250,
-            '500' => 500
-        );
+            '500' => 500,
+        ];
         $additional_fields_html .= __('Number of rows:') . ' ';
         $additional_fields_html .= PMA_Util::getDropdown(
             'session_max_rows', $numberOfRowsChoices,
@@ -1074,20 +1075,20 @@ class PMA_DisplayResults
         $table_headers_html = '';
         // Following variable are needed for use in isset/empty or
         // use with array indexes/safe use in foreach
-        $fields_meta = $this->__get('fields_meta');
+        $fields_meta       = $this->__get('fields_meta');
         $highlight_columns = $this->__get('highlight_columns');
-        $printview = $this->__get('printview');
-        $vertical_display = $this->__get('vertical_display');
+        $printview         = $this->__get('printview');
+        $vertical_display  = $this->__get('vertical_display');
 
         // required to generate sort links that will remember whether the
         // "Show all" button has been clicked
-        $sql_md5 = md5($this->__get('sql_query'));
+        $sql_md5          = md5($this->__get('sql_query'));
         $session_max_rows = $is_limited_display
             ? 0
             : $_SESSION['tmpval']['query'][$sql_md5]['max_rows'];
 
         if ($analyzed_sql == '') {
-            $analyzed_sql = array();
+            $analyzed_sql = [];
         }
 
         // can the result be sorted?
@@ -1095,8 +1096,8 @@ class PMA_DisplayResults
 
             list($unsorted_sql_query, $drop_down_html)
                 = $this->_getUnsortedSqlAndSortByKeyDropDown(
-                    $analyzed_sql, $sort_expression
-                );
+                $analyzed_sql, $sort_expression
+            );
 
             $table_headers_html .= $drop_down_html;
 
@@ -1119,12 +1120,12 @@ class PMA_DisplayResults
         $vertical_display['emptypre']   = 0;
         $vertical_display['emptyafter'] = 0;
         $vertical_display['textbtn']    = '';
-        $full_or_partial_text_link = null;
+        $full_or_partial_text_link      = null;
 
         $this->__set('vertical_display', $vertical_display);
 
         // Display options (if we are not in print view)
-        if (! (isset($printview) && ($printview == '1')) && ! $is_limited_display) {
+        if (!(isset($printview) && ($printview == '1')) && !$is_limited_display) {
 
             $table_headers_html .= $this->_getOptionsBlock();
 
@@ -1141,8 +1142,8 @@ class PMA_DisplayResults
         // text button or link
         list($colspan, $button_html)
             = $this->_getFieldVisibilityParams(
-                $displayParts, $full_or_partial_text_link
-            );
+            $displayParts, $full_or_partial_text_link
+        );
 
         $table_headers_html .= $button_html;
 
@@ -1170,7 +1171,7 @@ class PMA_DisplayResults
             $condition_field = (isset($highlight_columns[$fields_meta[$i]->name])
                 || isset(
                     $highlight_columns[PMA_Util::backquote($fields_meta[$i]->name)])
-                )
+            )
                 ? true
                 : false;
 
@@ -1179,16 +1180,16 @@ class PMA_DisplayResults
 
             $vertical_display = $this->__get('vertical_display');
 
-            if (($displayParts['sort_lnk'] == '1') && ! $is_limited_display) {
+            if (($displayParts['sort_lnk'] == '1') && !$is_limited_display) {
 
                 list($order_link, $sorted_header_html)
                     = $this->_getOrderLinkAndSortedHeaderHtml(
-                        $fields_meta[$i], $sort_expression,
-                        $sort_expression_nodirection, $i, $unsorted_sql_query,
-                        $session_max_rows, $comments,
-                        $sort_direction, $col_visib,
-                        $col_visib[$j]
-                    );
+                    $fields_meta[$i], $sort_expression,
+                    $sort_expression_nodirection, $i, $unsorted_sql_query,
+                    $session_max_rows, $comments,
+                    $sort_direction, $col_visib,
+                    $col_visib[$j]
+                );
 
                 $table_headers_html .= $sorted_header_html;
 
@@ -1202,9 +1203,9 @@ class PMA_DisplayResults
 
                 $table_headers_html
                     .= $this->_getDraggableClassForNonSortableColumns(
-                        $col_visib, $col_visib[$j], $condition_field,
-                        $fields_meta[$i], $comments
-                    );
+                    $col_visib, $col_visib[$j], $condition_field,
+                    $fields_meta[$i], $comments
+                );
 
                 $vertical_display['desc'][] = '    <th '
                     . 'class="draggable'
@@ -1220,7 +1221,7 @@ class PMA_DisplayResults
         } // end for
 
         // Display column at rightside - checkboxes or empty column
-        if (! $printview) {
+        if (!$printview) {
             $table_headers_html .= $this->_getColumnAtRightSide(
                 $displayParts, $full_or_partial_text_link, $colspan
             );
@@ -1251,7 +1252,7 @@ class PMA_DisplayResults
         $drop_down_html = '';
 
         // Just as fallback
-        $unsorted_sql_query     = $this->__get('sql_query');
+        $unsorted_sql_query = $this->__get('sql_query');
         if (isset($analyzed_sql[0]['unsorted_query'])) {
             $unsorted_sql_query = $analyzed_sql[0]['unsorted_query'];
         }
@@ -1283,7 +1284,7 @@ class PMA_DisplayResults
             }
         }
 
-        return array($unsorted_sql_query, $drop_down_html);
+        return [$unsorted_sql_query, $drop_down_html];
 
     } // end of the '_getUnsortedSqlAndSortByKeyDropDown()' function
 
@@ -1314,7 +1315,7 @@ class PMA_DisplayResults
             . __('Sort by key')
             . ': <select name="sql_query" class="autosubmit">' . "\n";
 
-        $used_index = false;
+        $used_index  = false;
         $local_order = (isset($sort_expression) ? $sort_expression : '');
 
         foreach ($indexes as $index) {
@@ -1336,16 +1337,16 @@ class PMA_DisplayResults
                 . 'FOR UPDATE|LOCK IN SHARE MODE))@is',
                 $unsorted_sql_query, $my_reg
             )) {
-                $unsorted_sql_query_first_part = $my_reg[1];
+                $unsorted_sql_query_first_part  = $my_reg[1];
                 $unsorted_sql_query_second_part = $my_reg[2];
             } else {
-                $unsorted_sql_query_first_part = $unsorted_sql_query;
+                $unsorted_sql_query_first_part  = $unsorted_sql_query;
                 $unsorted_sql_query_second_part = '';
             }
 
             $drop_down_html .= '<option value="'
                 . htmlspecialchars(
-                    $unsorted_sql_query_first_part  . "\n"
+                    $unsorted_sql_query_first_part . "\n"
                     . ' ORDER BY ' . $asc_sort
                     . $unsorted_sql_query_second_part
                 )
@@ -1396,7 +1397,7 @@ class PMA_DisplayResults
         &$displayParts, $full_or_partial_text_link
     ) {
 
-        $button_html = '';
+        $button_html      = '';
         $vertical_display = $this->__get('vertical_display');
 
         // 1. Displays the full/partial text button (part 1)...
@@ -1409,7 +1410,7 @@ class PMA_DisplayResults
 
         //     ... before the result table
         if ((($displayParts['edit_lnk'] == self::NO_EDIT_OR_DELETE)
-            && ($displayParts['del_lnk'] == self::NO_EDIT_OR_DELETE))
+                && ($displayParts['del_lnk'] == self::NO_EDIT_OR_DELETE))
             && ($displayParts['text_btn'] == '1')
         ) {
 
@@ -1418,7 +1419,7 @@ class PMA_DisplayResults
                 && ($displayParts['del_lnk'] != self::NO_EDIT_OR_DELETE)) ? 4 : 0;
 
         } elseif ((($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_LEFT)
-            || ($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_BOTH))
+                || ($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_BOTH))
             && ($displayParts['text_btn'] == '1')
         ) {
             //     ... at the left column of the result table header if possible
@@ -1432,9 +1433,9 @@ class PMA_DisplayResults
                 . $full_or_partial_text_link . '</th>';
 
         } elseif ((($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_LEFT)
-            || ($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_BOTH))
+                || ($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_BOTH))
             && (($displayParts['edit_lnk'] != self::NO_EDIT_OR_DELETE)
-            || ($displayParts['del_lnk'] != self::NO_EDIT_OR_DELETE))
+                || ($displayParts['del_lnk'] != self::NO_EDIT_OR_DELETE))
         ) {
             //     ... elseif no button, displays empty(ies) col(s) if required
 
@@ -1452,7 +1453,7 @@ class PMA_DisplayResults
 
         $this->__set('vertical_display', $vertical_display);
 
-        return array($colspan, $button_html);
+        return [$colspan, $button_html];
 
     } // end of the '_getFieldVisibilityParams()' function
 
@@ -1475,13 +1476,13 @@ class PMA_DisplayResults
         $comments_map = null;
 
         if ($GLOBALS['cfg']['ShowBrowseComments']) {
-            $comments_map = array();
+            $comments_map = [];
             if (isset($analyzed_sql[0])
                 && is_array($analyzed_sql[0])
                 && isset($analyzed_sql[0]['table_ref'])
             ) {
                 foreach ($analyzed_sql[0]['table_ref'] as $tbl) {
-                    $tb = $tbl['table_true_name'];
+                    $tb                = $tbl['table_true_name'];
                     $comments_map[$tb] = PMA_getComments($this->__get('db'), $tb);
                     unset($tb);
                 }
@@ -1507,7 +1508,7 @@ class PMA_DisplayResults
     private function _setHighlightedColumnGlobalField($analyzed_sql)
     {
 
-        $highlight_columns = array();
+        $highlight_columns = [];
         if (isset($analyzed_sql) && isset($analyzed_sql[0])
             && isset($analyzed_sql[0]['where_clause_identifiers'])
             && is_array($analyzed_sql[0]['where_clause_identifiers'])
@@ -1537,7 +1538,7 @@ class PMA_DisplayResults
         $data_html = '';
 
         // generate the column order, if it is set
-        $pmatable = new PMA_Table($this->__get('table'), $this->__get('db'));
+        $pmatable  = new PMA_Table($this->__get('table'), $this->__get('db'));
         $col_order = $pmatable->getUiProp(PMA_Table::PROP_COLUMN_ORDER);
 
         if ($col_order) {
@@ -1553,7 +1554,7 @@ class PMA_DisplayResults
         }
 
         // generate table create time
-        if (! PMA_Table::isView($this->__get('db'), $this->__get('table'))) {
+        if (!PMA_Table::isView($this->__get('db'), $this->__get('table'))) {
             $data_html .= '<input class="table_create_time" type="hidden" value="'
                 . PMA_Table::sGetStatusInfo(
                     $this->__get('db'), $this->__get('table'), 'Create_time'
@@ -1585,13 +1586,13 @@ class PMA_DisplayResults
         $options_html .= ' class="ajax" ';
 
         $options_html .= '>';
-        $url_params = array(
-            'db' => $this->__get('db'),
-            'table' => $this->__get('table'),
-            'sql_query' => $this->__get('sql_query'),
-            'goto' => $this->__get('goto'),
-            'display_options_form' => 1
-        );
+        $url_params = [
+            'db'                   => $this->__get('db'),
+            'table'                => $this->__get('table'),
+            'sql_query'            => $this->__get('sql_query'),
+            'goto'                 => $this->__get('goto'),
+            'display_options_form' => 1,
+        ];
 
         $options_html .= PMA_URL_getHiddenInputs($url_params)
             . '<br />'
@@ -1601,46 +1602,46 @@ class PMA_DisplayResults
             . '<fieldset>';
 
         $options_html .= '<div class="formelement">';
-        $choices = array(
-            'P'   => __('Partial texts'),
-            'F'   => __('Full texts')
-        );
+        $choices = [
+            'P' => __('Partial texts'),
+            'F' => __('Full texts'),
+        ];
 
         // pftext means "partial or full texts" (done to reduce line lengths)
         $options_html .= PMA_Util::getRadioFields(
-            'pftext', $choices,
-            $_SESSION['tmpval']['pftext'],
-            true, true, '', 'pftext_' . $this->__get('unique_id')
-        )
-        . '</div>';
+                'pftext', $choices,
+                $_SESSION['tmpval']['pftext'],
+                true, true, '', 'pftext_' . $this->__get('unique_id')
+            )
+            . '</div>';
 
         if ($GLOBALS['cfgRelation']['relwork']
             && $GLOBALS['cfgRelation']['displaywork']
         ) {
             $options_html .= '<div class="formelement">';
-            $choices = array(
-                'K'   => __('Relational key'),
-                'D'   => __('Relational display column')
-            );
+            $choices = [
+                'K' => __('Relational key'),
+                'D' => __('Relational display column'),
+            ];
 
             $options_html .= PMA_Util::getRadioFields(
-                'relational_display', $choices,
-                $_SESSION['tmpval']['relational_display'],
-                true, true, '', 'relational_display_' . $this->__get('unique_id')
-            )
-            . '</div>';
+                    'relational_display', $choices,
+                    $_SESSION['tmpval']['relational_display'],
+                    true, true, '', 'relational_display_' . $this->__get('unique_id')
+                )
+                . '</div>';
         }
 
         $options_html .= '<div class="formelement">'
             . PMA_Util::getCheckbox(
                 'display_binary', __('Show binary contents'),
-                ! empty($_SESSION['tmpval']['display_binary']), false,
+                !empty($_SESSION['tmpval']['display_binary']), false,
                 'display_binary_' . $this->__get('unique_id')
             )
             . '<br />'
             . PMA_Util::getCheckbox(
                 'display_blob', __('Show BLOB contents'),
-                ! empty($_SESSION['tmpval']['display_blob']), false,
+                !empty($_SESSION['tmpval']['display_blob']), false,
                 'display_blob_' . $this->__get('unique_id')
             )
             . '</div>';
@@ -1652,24 +1653,24 @@ class PMA_DisplayResults
         $options_html .= '<div class="formelement">'
             . PMA_Util::getCheckbox(
                 'hide_transformation', __('Hide browser transformation'),
-                ! empty($_SESSION['tmpval']['hide_transformation']), false,
+                !empty($_SESSION['tmpval']['hide_transformation']), false,
                 'hide_transformation_' . $this->__get('unique_id')
             )
             . '</div>';
 
-        if (! PMA_DRIZZLE) {
+        if (!PMA_DRIZZLE) {
             $options_html .= '<div class="formelement">';
-            $choices = array(
-                'GEOM'  => __('Geometry'),
-                'WKT'   => __('Well Known Text'),
-                'WKB'   => __('Well Known Binary')
-            );
+            $choices = [
+                'GEOM' => __('Geometry'),
+                'WKT'  => __('Well Known Text'),
+                'WKB'  => __('Well Known Binary'),
+            ];
 
             $options_html .= PMA_Util::getRadioFields(
-                'geoOption', $choices,
-                $_SESSION['tmpval']['geoOption'],
-                true, true, '', 'geoOption_' . $this->__get('unique_id')
-            )
+                    'geoOption', $choices,
+                    $_SESSION['tmpval']['geoOption'],
+                    true, true, '', 'geoOption_' . $this->__get('unique_id')
+                )
                 . '</div>';
         }
 
@@ -1699,31 +1700,31 @@ class PMA_DisplayResults
     private function _getFullOrPartialTextButtonOrLink()
     {
 
-        $url_params_full_text = array(
-            'db' => $this->__get('db'),
-            'table' => $this->__get('table'),
-            'sql_query' => $this->__get('sql_query'),
-            'goto' => $this->__get('goto'),
-            'full_text_button' => 1
-        );
+        $url_params_full_text = [
+            'db'               => $this->__get('db'),
+            'table'            => $this->__get('table'),
+            'sql_query'        => $this->__get('sql_query'),
+            'goto'             => $this->__get('goto'),
+            'full_text_button' => 1,
+        ];
 
         if ($_SESSION['tmpval']['pftext'] == self::DISPLAY_FULL_TEXT) {
             // currently in fulltext mode so show the opposite link
-            $tmp_image_file = $this->__get('pma_theme_image') . 's_partialtext.png';
-            $tmp_txt = __('Partial texts');
+            $tmp_image_file                 = $this->__get('pma_theme_image') . 's_partialtext.png';
+            $tmp_txt                        = __('Partial texts');
             $url_params_full_text['pftext'] = self::DISPLAY_PARTIAL_TEXT;
         } else {
-            $tmp_image_file = $this->__get('pma_theme_image') . 's_fulltext.png';
-            $tmp_txt = __('Full texts');
+            $tmp_image_file                 = $this->__get('pma_theme_image') . 's_fulltext.png';
+            $tmp_txt                        = __('Full texts');
             $url_params_full_text['pftext'] = self::DISPLAY_FULL_TEXT;
         }
 
         $tmp_image = '<img class="fulltext" src="' . $tmp_image_file . '" alt="'
-                     . $tmp_txt . '" title="' . $tmp_txt . '" />';
-        $tmp_url = 'sql.php' . PMA_URL_getCommon($url_params_full_text);
+            . $tmp_txt . '" title="' . $tmp_txt . '" />';
+        $tmp_url   = 'sql.php' . PMA_URL_getCommon($url_params_full_text);
 
         return PMA_Util::linkOrButton(
-            $tmp_url, $tmp_image, array(), false
+            $tmp_url, $tmp_image, [], false
         );
 
     } // end of the '_getFullOrPartialTextButtonOrLink()' function
@@ -1792,17 +1793,21 @@ class PMA_DisplayResults
                 $comments_map[$fields_meta->table][$fields_meta->name]
             );
 
-            $comments = '<span class="tblcomment" title="'
+            $comments   = '<span class="tblcomment" title="'
                 . $sanitized_comments . '">';
             $limitChars = $GLOBALS['cfg']['LimitChars'];
-            if (/*overload*/mb_strlen($sanitized_comments) > $limitChars) {
-                $sanitized_comments = /*overload*/mb_substr(
-                    $sanitized_comments, 0, $limitChars
-                ) . '…';
+            if (/*overload*/
+                mb_strlen($sanitized_comments) > $limitChars
+            ) {
+                $sanitized_comments = /*overload*/
+                    mb_substr(
+                        $sanitized_comments, 0, $limitChars
+                    ) . '…';
             }
             $comments .= $sanitized_comments;
             $comments .= '</span>';
         }
+
         return $comments;
     } // end of the '_getCommentForRow()' function
 
@@ -1819,7 +1824,8 @@ class PMA_DisplayResults
      * @param string  $comments                    comment for row
      * @param array   $sort_direction              sort direction
      * @param boolean $col_visib                   column is visible(false)
-     *        array                                column isn't visible(string array)
+     *                                             array                                column isn't visible(string
+     *                                             array)
      * @param string  $col_visib_j                 element of $col_visib array
      *
      * @return  array   2 element array - $order_link, $sorted_header_html
@@ -1843,7 +1849,8 @@ class PMA_DisplayResults
         // FROM `PMA_relation` AS `1` , `PMA_relation` AS `2`
 
         $sort_tbl = (isset($fields_meta->table)
-            && /*overload*/mb_strlen($fields_meta->table)
+            && /*overload*/
+            mb_strlen($fields_meta->table)
             && $fields_meta->orgname == $fields_meta->name)
             ? PMA_Util::backquote(
                 $fields_meta->table
@@ -1856,9 +1863,9 @@ class PMA_DisplayResults
         // of URL
         list($single_sort_order, $multi_sort_order, $order_img)
             = $this->_getSingleAndMultiSortUrls(
-                $sort_expression, $sort_expression_nodirection, $sort_tbl,
-                $name_to_use_in_sort, $sort_direction, $fields_meta, $column_index
-            );
+            $sort_expression, $sort_expression_nodirection, $sort_tbl,
+            $name_to_use_in_sort, $sort_direction, $fields_meta, $column_index
+        );
 
         if (preg_match(
             '@(.*)([[:space:]](LIMIT (.*)|PROCEDURE (.*)|FOR UPDATE|'
@@ -1866,29 +1873,29 @@ class PMA_DisplayResults
             $unsorted_sql_query, $regs3
         )) {
             $single_sorted_sql_query = $regs3[1] . $single_sort_order . $regs3[2];
-            $multi_sorted_sql_query = $regs3[1] . $multi_sort_order . $regs3[2];
+            $multi_sorted_sql_query  = $regs3[1] . $multi_sort_order . $regs3[2];
         } else {
             $single_sorted_sql_query = $unsorted_sql_query . $single_sort_order;
-            $multi_sorted_sql_query = $unsorted_sql_query . $multi_sort_order;
+            $multi_sorted_sql_query  = $unsorted_sql_query . $multi_sort_order;
         }
 
-        $_single_url_params = array(
+        $_single_url_params = [
             'db'                 => $this->__get('db'),
             'table'              => $this->__get('table'),
             'sql_query'          => $single_sorted_sql_query,
             'session_max_rows'   => $session_max_rows,
             'is_browse_distinct' => $this->__get('is_browse_distinct'),
-        );
+        ];
 
-        $_multi_url_params = array(
+        $_multi_url_params = [
             'db'                 => $this->__get('db'),
             'table'              => $this->__get('table'),
             'sql_query'          => $multi_sorted_sql_query,
             'session_max_rows'   => $session_max_rows,
             'is_browse_distinct' => $this->__get('is_browse_distinct'),
-        );
+        ];
         $single_order_url  = 'sql.php' . PMA_URL_getCommon($_single_url_params);
-        $multi_order_url = 'sql.php' . PMA_URL_getCommon($_multi_url_params);
+        $multi_order_url   = 'sql.php' . PMA_URL_getCommon($_multi_url_params);
 
         // Displays the sorting URL
         // enable sort order swapping for image
@@ -1902,7 +1909,7 @@ class PMA_DisplayResults
             $fields_meta, $order_link, $comments
         );
 
-        return array($order_link, $sorted_header_html);
+        return [$order_link, $sorted_header_html];
 
     } // end of the '_getOrderLinkAndSortedHeaderHtml()' function
 
@@ -1931,19 +1938,19 @@ class PMA_DisplayResults
     ) {
         $sort_order = "";
         // Check if the current column is in the order by clause
-        $is_in_sort = $this->_isInSorted(
+        $is_in_sort   = $this->_isInSorted(
             $sort_expression, $sort_expression_nodirection,
             $sort_tbl, $name_to_use_in_sort
         );
         $current_name = $name_to_use_in_sort;
         if ($sort_expression_nodirection[0] == '' || !$is_in_sort) {
-            $special_index = $sort_expression_nodirection[0] == ''
+            $special_index                  = $sort_expression_nodirection[0] == ''
                 ? 0
                 : count($sort_expression_nodirection);
             $sort_expression_nodirection[$special_index]
-                = PMA_Util::backquote(
-                    $current_name
-                );
+                                            = PMA_Util::backquote(
+                $current_name
+            );
             $sort_direction[$special_index] = (preg_match(
                 '@time|date@i',
                 $fields_meta->type
@@ -1952,21 +1959,23 @@ class PMA_DisplayResults
         }
 
         $sort_expression_nodirection = array_filter($sort_expression_nodirection);
-        $single_sort_order = null;
-        foreach ($sort_expression_nodirection as $index=>$expression) {
+        $single_sort_order           = null;
+        foreach ($sort_expression_nodirection as $index => $expression) {
             // check if this is the first clause,
             // if it is then we have to add "order by"
-            $is_first_clause = ($index == 0);
+            $is_first_clause     = ($index == 0);
             $name_to_use_in_sort = $expression;
-            $sort_tbl_new = $sort_tbl;
+            $sort_tbl_new        = $sort_tbl;
             // Test to detect if the column name is a standard name
             // Standard name has the table name prefixed to the column name
-            if (/*overload*/mb_strpos($name_to_use_in_sort, '.') !== false) {
+            if (/*overload*/
+                mb_strpos($name_to_use_in_sort, '.') !== false
+            ) {
                 $matches = explode('.', $name_to_use_in_sort);
                 // Matches[0] has the table name
                 // Matches[1] has the column name
                 $name_to_use_in_sort = $matches[1];
-                $sort_tbl_new = $matches[0];
+                $sort_tbl_new        = $matches[0];
             }
 
             // $name_to_use_in_sort might contain a space due to
@@ -1980,16 +1989,20 @@ class PMA_DisplayResults
             // order by clause to the  column name
             $query_head = $is_first_clause ? "\nORDER BY " : "";
             // Again a check to see if the given column is a aggregate column
-            if (/*overload*/mb_strpos($name_to_use_in_sort, '(') !== false) {
-                $sort_order .=  $query_head  . $name_to_use_in_sort . ' ' ;
+            if (/*overload*/
+                mb_strpos($name_to_use_in_sort, '(') !== false
+            ) {
+                $sort_order .= $query_head . $name_to_use_in_sort . ' ';
             } else {
-                if (/*overload*/mb_strlen($sort_tbl_new) > 0) {
+                if (/*overload*/
+                    mb_strlen($sort_tbl_new) > 0
+                ) {
                     $sort_tbl_new .= ".";
                 }
-                $sort_order .=  $query_head  . $sort_tbl_new
-                  . PMA_Util::backquote(
-                      $name_to_use_in_sort
-                  ) .  ' ' ;
+                $sort_order .= $query_head . $sort_tbl_new
+                    . PMA_Util::backquote(
+                        $name_to_use_in_sort
+                    ) . ' ';
             }
 
             // For a special case where the code generates two dots between
@@ -1997,7 +2010,9 @@ class PMA_DisplayResults
             $sort_order = preg_replace("/\.\./", ".", $sort_order);
             // Incase this is the current column save $single_sort_order
             if ($current_name == $name_to_use_in_sort) {
-                if (/*overload*/mb_strpos($current_name, '(') !== false) {
+                if (/*overload*/
+                    mb_strpos($current_name, '(') !== false
+                ) {
                     $single_sort_order = "\n" . 'ORDER BY ' . $current_name . ' ';
                 } else {
                     $single_sort_order = "\n" . 'ORDER BY ' . $sort_tbl
@@ -2008,9 +2023,9 @@ class PMA_DisplayResults
                 if ($is_in_sort) {
                     list($single_sort_order, $order_img)
                         = $this->_getSortingUrlParams(
-                            $sort_direction, $single_sort_order,
-                            $column_index, $index
-                        );
+                        $sort_direction, $single_sort_order,
+                        $column_index, $index
+                    );
                 } else {
                     $single_sort_order .= strtoupper($sort_direction[$index]);
                 }
@@ -2031,15 +2046,18 @@ class PMA_DisplayResults
         }
         // remove the comma from the last column name in the newly
         // constructed clause
-        $sort_order = /*overload*/mb_substr(
-            $sort_order,
-            0,
-            /*overload*/mb_strlen($sort_order)-2
-        );
+        $sort_order = /*overload*/
+            mb_substr(
+                $sort_order,
+                0,
+                /*overload*/
+                mb_strlen($sort_order) - 2
+            );
         if (empty($order_img)) {
             $order_img = '';
         }
-        return array($single_sort_order, $sort_order, $order_img);
+
+        return [$single_sort_order, $sort_order, $order_img];
     }
 
     /**
@@ -2064,9 +2082,11 @@ class PMA_DisplayResults
         $index_in_expression = 0;
 
         foreach ($sort_expression_nodirection as $index => $clause) {
-            if (/*overload*/mb_strpos($clause, '.') !== false) {
+            if (/*overload*/
+                mb_strpos($clause, '.') !== false
+            ) {
                 $fragments = explode('.', $clause);
-                $clause2 = $fragments[0] . "." . str_replace('`', '', $fragments[1]);
+                $clause2   = $fragments[0] . "." . str_replace('`', '', $fragments[1]);
             } else {
                 $clause2 = $sort_tbl . str_replace('`', '', $clause);
             }
@@ -2087,9 +2107,11 @@ class PMA_DisplayResults
             // Another query to test this:
             // SELECT p.*, FROM_UNIXTIME(p.temps) FROM mytable AS p
             // (and try clicking on each column's header twice)
-            if (! empty($sort_tbl)
-                && /*overload*/mb_strpos($sort_expression_nodirection[$index_in_expression], $sort_tbl) === false
-                && /*overload*/mb_strpos($sort_expression_nodirection[$index_in_expression], '(') === false
+            if (!empty($sort_tbl)
+                && /*overload*/
+                mb_strpos($sort_expression_nodirection[$index_in_expression], $sort_tbl) === false
+                && /*overload*/
+                mb_strpos($sort_expression_nodirection[$index_in_expression], '(') === false
             ) {
                 $new_sort_expression_nodirection = $sort_tbl
                     . $sort_expression_nodirection[$index_in_expression];
@@ -2103,7 +2125,7 @@ class PMA_DisplayResults
             $name_to_use_in_sort = str_replace('`', '', $name_to_use_in_sort);
 
             $is_in_sort = false;
-            $sort_name = str_replace('`', '', $sort_tbl) . $name_to_use_in_sort;
+            $sort_name  = str_replace('`', '', $sort_tbl) . $name_to_use_in_sort;
 
             if ($sort_name == str_replace('`', '', $new_sort_expression_nodirection)
                 || $sort_name == str_replace('`', '', $sort_expression_nodirection[$index_in_expression])
@@ -2136,26 +2158,27 @@ class PMA_DisplayResults
     ) {
         if (strtoupper(trim($sort_direction[$index])) == self::DESCENDING_SORT_DIR) {
             $sort_order .= ' ASC';
-            $order_img   = ' ' . PMA_Util::getImage(
-                's_desc.png', __('Descending'),
-                array('class' => "soimg$column_index", 'title' => '')
-            );
-            $order_img  .= ' ' . PMA_Util::getImage(
-                's_asc.png', __('Ascending'),
-                array('class' => "soimg$column_index hide", 'title' => '')
-            );
+            $order_img = ' ' . PMA_Util::getImage(
+                    's_desc.png', __('Descending'),
+                    ['class' => "soimg$column_index", 'title' => '']
+                );
+            $order_img .= ' ' . PMA_Util::getImage(
+                    's_asc.png', __('Ascending'),
+                    ['class' => "soimg$column_index hide", 'title' => '']
+                );
         } else {
             $sort_order .= ' DESC';
-            $order_img   = ' ' . PMA_Util::getImage(
-                's_asc.png', __('Ascending'),
-                array('class' => "soimg$column_index", 'title' => '')
-            );
-            $order_img  .=  ' ' . PMA_Util::getImage(
-                's_desc.png', __('Descending'),
-                array('class' => "soimg$column_index hide", 'title' => '')
-            );
+            $order_img = ' ' . PMA_Util::getImage(
+                    's_asc.png', __('Ascending'),
+                    ['class' => "soimg$column_index", 'title' => '']
+                );
+            $order_img .= ' ' . PMA_Util::getImage(
+                    's_desc.png', __('Descending'),
+                    ['class' => "soimg$column_index hide", 'title' => '']
+                );
         }
-        return array($sort_order, $order_img);
+
+        return [$sort_order, $order_img];
     } // end of the '_getSortingUrlParams()' function
 
 
@@ -2178,12 +2201,16 @@ class PMA_DisplayResults
         $order_img, $col_index,
         $fields_meta, $order_url, $multi_order_url
     ) {
-        $order_link_params = array();
+        $order_link_params = [];
         if (isset($order_img) && ($order_img != '')) {
-            if (/*overload*/mb_strstr($order_img, 'asc')) {
+            if (/*overload*/
+            mb_strstr($order_img, 'asc')
+            ) {
                 $order_link_params['onmouseover'] = "$('.soimg$col_index').toggle()";
                 $order_link_params['onmouseout']  = "$('.soimg$col_index').toggle()";
-            } elseif (/*overload*/mb_strstr($order_img, 'desc')) {
+            } elseif (/*overload*/
+            mb_strstr($order_img, 'desc')
+            ) {
                 $order_link_params['onmouseover'] = "$('.soimg$col_index').toggle()";
                 $order_link_params['onmouseout']  = "$('.soimg$col_index').toggle()";
             }
@@ -2191,7 +2218,7 @@ class PMA_DisplayResults
 
         $order_link_content = htmlspecialchars($fields_meta->name);
         $inner_link_content = $order_link_content . $order_img
-            . '<input type="hidden" value="' .  $multi_order_url . '" />';
+            . '<input type="hidden" value="' . $multi_order_url . '" />';
 
         return PMA_Util::linkOrButton(
             $order_url, $inner_link_content,
@@ -2211,7 +2238,7 @@ class PMA_DisplayResults
      *
      * @see  _getDraggableClassForSortableColumns()
      */
-    private function _getClassForNumericColumnType($fields_meta,&$th_class)
+    private function _getClassForNumericColumnType($fields_meta, &$th_class)
     {
         if (preg_match(
             '@int|decimal|float|double|real|bit|boolean|serial@i',
@@ -2225,7 +2252,7 @@ class PMA_DisplayResults
      * Prepare columns to draggable effect for sortable columns
      *
      * @param boolean $col_visib   the column is visible (false)
-     *        array                the column is not visible (string array)
+     *                             array                the column is not visible (string array)
      * @param string  $col_visib_j element of $col_visib array
      * @param array   $fields_meta set of field properties
      * @param string  $order_link  the order link
@@ -2243,8 +2270,8 @@ class PMA_DisplayResults
     ) {
 
         $draggable_html = '<th';
-        $th_class = array();
-        $th_class[] = 'draggable';
+        $th_class       = [];
+        $th_class[]     = 'draggable';
         $this->_getClassForNumericColumnType($fields_meta, $th_class);
         if ($col_visib && !$col_visib_j) {
             $th_class[] = 'hide';
@@ -2273,7 +2300,7 @@ class PMA_DisplayResults
      * Prepare columns to draggable effect for non sortable columns
      *
      * @param boolean $col_visib       the column is visible (false)
-     *        array                    the column is not visible (string array)
+     *                                 array                    the column is not visible (string array)
      * @param string  $col_visib_j     element of $col_visib array
      * @param boolean $condition_field whether to add CSS class condition
      * @param array   $fields_meta     set of field properties
@@ -2291,8 +2318,8 @@ class PMA_DisplayResults
     ) {
 
         $draggable_html = '<th';
-        $th_class = array();
-        $th_class[] = 'draggable';
+        $th_class       = [];
+        $th_class[]     = 'draggable';
         $this->_getClassForNumericColumnType($fields_meta, $th_class);
         if ($col_visib && !$col_visib_j) {
             $th_class[] = 'hide';
@@ -2334,14 +2361,14 @@ class PMA_DisplayResults
     ) {
 
         $right_column_html = '';
-        $vertical_display = $this->__get('vertical_display');
+        $vertical_display  = $this->__get('vertical_display');
 
         // Displays the needed checkboxes at the right
         // column of the result table header if possible and required...
         if ((($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_RIGHT)
-            || ($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_BOTH))
+                || ($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_BOTH))
             && (($displayParts['edit_lnk'] != self::NO_EDIT_OR_DELETE)
-            || ($displayParts['del_lnk'] != self::NO_EDIT_OR_DELETE))
+                || ($displayParts['del_lnk'] != self::NO_EDIT_OR_DELETE))
             && ($displayParts['text_btn'] == '1')
         ) {
 
@@ -2354,10 +2381,10 @@ class PMA_DisplayResults
                 . '</th>';
 
         } elseif ((($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_LEFT)
-            || ($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_BOTH))
+                || ($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_BOTH))
             && (($displayParts['edit_lnk'] == self::NO_EDIT_OR_DELETE)
-            && ($displayParts['del_lnk'] == self::NO_EDIT_OR_DELETE))
-            && (! isset($GLOBALS['is_header_sent']) || ! $GLOBALS['is_header_sent'])
+                && ($displayParts['del_lnk'] == self::NO_EDIT_OR_DELETE))
+            && (!isset($GLOBALS['is_header_sent']) || !$GLOBALS['is_header_sent'])
         ) {
             //     ... elseif no button, displays empty columns if required
             // (unless coming from Browse mode print view)
@@ -2417,6 +2444,7 @@ class PMA_DisplayResults
     {
         // the null class is needed for grid editing
         $decimals = isset($meta->decimals) ? $meta->decimals : '-1';
+
         return '<td ' . $align . ' data-decimals="' . $decimals
             . '" data-type="' . $meta->type . '"  class="'
             . $this->_addClass(
@@ -2477,10 +2505,10 @@ class PMA_DisplayResults
         $class, $condition_field, $meta, $nowrap, $is_field_truncated = false,
         $transformation_plugin = '', $default_function = ''
     ) {
-        $classes = array(
+        $classes = [
             $class,
             $nowrap,
-        );
+        ];
 
         if (isset($meta->mimetype)) {
             $classes[] = preg_replace('/\//', '_', $meta->mimetype);
@@ -2494,7 +2522,7 @@ class PMA_DisplayResults
             $classes[] = 'truncated';
         }
 
-        $mime_map = $this->__get('mime_map');
+        $mime_map       = $this->__get('mime_map');
         $orgFullColName = $this->__get('db') . '.' . $meta->orgtable . '.' . $meta->orgname;
         if ($transformation_plugin != $default_function
             || !empty($mime_map[$orgFullColName]['input_transformation'])
@@ -2503,19 +2531,23 @@ class PMA_DisplayResults
         }
 
         // Define classes to be added to this data field based on the type of data
-        $matches = array(
-            'enum' => 'enum',
-            'set' => 'set',
+        $matches = [
+            'enum'   => 'enum',
+            'set'    => 'set',
             'binary' => 'hex',
-        );
+        ];
 
         foreach ($matches as $key => $value) {
-            if (/*overload*/mb_strpos($meta->flags, $key) !== false) {
+            if (/*overload*/
+                mb_strpos($meta->flags, $key) !== false
+            ) {
                 $classes[] = $value;
             }
         }
 
-        if (/*overload*/mb_strpos($meta->type, 'bit') !== false) {
+        if (/*overload*/
+            mb_strpos($meta->type, 'bit') !== false
+        ) {
             $classes[] = 'bit';
         }
 
@@ -2535,7 +2567,7 @@ class PMA_DisplayResults
      *
      * @return string $table_body_html  html content
      *
-     * @global array   $row             current row data
+     * @global array  $row                current row data
      *
      * @access  private
      *
@@ -2546,7 +2578,7 @@ class PMA_DisplayResults
     ) {
 
         global $row; // mostly because of browser transformations,
-                     // to make the row-data accessible in a plugin
+        // to make the row-data accessible in a plugin
 
         $table_body_html = '';
 
@@ -2556,36 +2588,36 @@ class PMA_DisplayResults
 
         $vertical_display = $this->__get('vertical_display');
 
-        if (! is_array($map)) {
-            $map = array();
+        if (!is_array($map)) {
+            $map = [];
         }
 
         $row_no                         = 0;
-        $vertical_display['edit']       = array();
-        $vertical_display['copy']       = array();
-        $vertical_display['delete']     = array();
-        $vertical_display['data']       = array();
-        $vertical_display['row_delete'] = array();
+        $vertical_display['edit']       = [];
+        $vertical_display['copy']       = [];
+        $vertical_display['delete']     = [];
+        $vertical_display['data']       = [];
+        $vertical_display['row_delete'] = [];
         $this->__set('vertical_display', $vertical_display);
 
         // name of the class added to all grid editable elements;
         // if we don't have all the columns of a unique key in the result set,
         //  do not permit grid editing
-        if ($is_limited_display || ! $this->__get('editable')) {
+        if ($is_limited_display || !$this->__get('editable')) {
             $grid_edit_class = '';
         } else {
             switch ($GLOBALS['cfg']['GridEditing']) {
-            case 'double-click':
-                // trying to reduce generated HTML by using shorter
-                // classes like click1 and click2
-                $grid_edit_class = 'grid_edit click2';
-                break;
-            case 'click':
-                $grid_edit_class = 'grid_edit click1';
-                break;
-            default: // 'disabled'
-                $grid_edit_class = '';
-                break;
+                case 'double-click':
+                    // trying to reduce generated HTML by using shorter
+                    // classes like click1 and click2
+                    $grid_edit_class = 'grid_edit click2';
+                    break;
+                case 'click':
+                    $grid_edit_class = 'grid_edit click1';
+                    break;
+                default: // 'disabled'
+                    $grid_edit_class = '';
+                    break;
             }
         }
 
@@ -2617,7 +2649,7 @@ class PMA_DisplayResults
                 );
             }
 
-            $tr_class = array();
+            $tr_class = [];
             if ($GLOBALS['cfg']['BrowsePointerEnable'] != true) {
                 $tr_class[] = 'nopointer';
             }
@@ -2625,7 +2657,7 @@ class PMA_DisplayResults
                 $tr_class[] = 'nomarker';
             }
             $tr_class[] = ($odd_row ? 'odd' : 'even');
-            $odd_row = ! $odd_row;
+            $odd_row    = !$odd_row;
 
             // pointer code part
             $table_body_html .= '<tr class="' . implode(' ', $tr_class) . '">';
@@ -2640,11 +2672,11 @@ class PMA_DisplayResults
              */
             list($where_clause, $clause_is_unique, $condition_array)
                 = PMA_Util::getUniqueCondition(
-                    $dt_result,
-                    $this->__get('fields_cnt'),
-                    $this->__get('fields_meta'),
-                    $row
-                );
+                $dt_result,
+                $this->__get('fields_cnt'),
+                $this->__get('fields_meta'),
+                $row
+            );
             $where_clause_html = htmlspecialchars($where_clause);
 
             // In print view these variable needs to be initialized
@@ -2661,20 +2693,20 @@ class PMA_DisplayResults
 
                     list($edit_url, $copy_url, $edit_str, $copy_str,
                         $edit_anchor_class)
-                            = $this->_getModifiedLinks(
-                                $where_clause,
-                                $clause_is_unique, $url_sql_query
-                            );
+                        = $this->_getModifiedLinks(
+                        $where_clause,
+                        $clause_is_unique, $url_sql_query
+                    );
 
                 } // end if (1.2.1)
 
                 // 1.2.2 Delete/Kill link(s)
                 list($del_url, $del_str, $js_conf)
                     = $this->_getDeleteAndKillLinks(
-                        $where_clause, $clause_is_unique,
-                        $url_sql_query, $displayParts['del_lnk'],
-                        $row
-                    );
+                    $where_clause, $clause_is_unique,
+                    $url_sql_query, $displayParts['del_lnk'],
+                    $row
+                );
 
                 // 1.3 Displays the links at left if required
                 if (($GLOBALS['cfg']['RowActionLinks'] == self::POSITION_LEFT)
@@ -2742,23 +2774,23 @@ class PMA_DisplayResults
     private function _setMimeMap()
     {
         $fields_meta = $this->__get('fields_meta');
-        $mimeMap = array();
-        $added = array();
+        $mimeMap     = [];
+        $added       = [];
 
         for ($currentColumn = 0;
-                $currentColumn < $this->__get('fields_cnt');
-                ++$currentColumn) {
+            $currentColumn < $this->__get('fields_cnt');
+            ++$currentColumn) {
 
-            $meta = $fields_meta[$currentColumn];
+            $meta             = $fields_meta[$currentColumn];
             $orgFullTableName = $this->__get('db') . '.' . $meta->orgtable;
 
             if ($GLOBALS['cfgRelation']['commwork']
                 && $GLOBALS['cfgRelation']['mimework']
                 && $GLOBALS['cfg']['BrowseMIME']
-                && ! $_SESSION['tmpval']['hide_transformation']
+                && !$_SESSION['tmpval']['hide_transformation']
                 && empty($added[$orgFullTableName])
             ) {
-                $mimeMap = array_merge(
+                $mimeMap                  = array_merge(
                     $mimeMap, PMA_getMIME($this->__get('db'), $meta->orgtable, false, true)
                 );
                 $added[$orgFullTableName] = true;
@@ -2767,7 +2799,7 @@ class PMA_DisplayResults
 
         // special browser transformation for some SHOW statements
         if ($this->__get('is_show')
-            && ! $_SESSION['tmpval']['hide_transformation']
+            && !$_SESSION['tmpval']['hide_transformation']
         ) {
             preg_match(
                 '@^SHOW[[:space:]]+(VARIABLES|(FULL[[:space:]]+)?'
@@ -2777,23 +2809,23 @@ class PMA_DisplayResults
             );
 
             if (isset($which[1])) {
-                $str = ' ' . strtoupper($which[1]);
+                $str               = ' ' . strtoupper($which[1]);
                 $isShowProcessList = strpos($str, 'PROCESSLIST') > 0;
                 if ($isShowProcessList) {
-                    $mimeMap['..Info'] = array(
-                        'mimetype' => 'Text_Plain',
+                    $mimeMap['..Info'] = [
+                        'mimetype'       => 'Text_Plain',
                         'transformation' => 'output/Text_Plain_Sql.class.php',
-                    );
+                    ];
                 }
 
                 $isShowCreateTable = preg_match(
                     '@CREATE[[:space:]]+TABLE@i', $this->__get('sql_query')
                 );
                 if ($isShowCreateTable) {
-                    $mimeMap['..Create Table'] = array(
-                        'mimetype' => 'Text_Plain',
+                    $mimeMap['..Create Table'] = [
+                        'mimetype'       => 'Text_Plain',
                         'transformation' => 'output/Text_Plain_Sql.class.php',
-                    );
+                    ];
                 }
             }
         }
@@ -2814,7 +2846,7 @@ class PMA_DisplayResults
      * @param array   $map             the list of relations
      * @param string  $grid_edit_class the class for all editable columns
      * @param boolean $col_visib       column is visible(false)
-     *        array                    column isn't visible(string array)
+     *                                 array                    column isn't visible(string array)
      * @param string  $where_clause    where clause
      * @param string  $url_sql_query   the analyzed sql query
      * @param array   $analyzed_sql    the analyzed query
@@ -2835,33 +2867,33 @@ class PMA_DisplayResults
 
         // Following variable are needed for use in isset/empty or
         // use with array indexes/safe use in foreach
-        $sql_query = $this->__get('sql_query');
-        $fields_meta = $this->__get('fields_meta');
+        $sql_query         = $this->__get('sql_query');
+        $fields_meta       = $this->__get('fields_meta');
         $highlight_columns = $this->__get('highlight_columns');
-        $mime_map = $this->__get('mime_map');
+        $mime_map          = $this->__get('mime_map');
 
         $row_info = $this->_getRowInfoForSpecialLinks($row, $col_order);
 
-        $uniqueConditionMap = array();
+        $uniqueConditionMap = [];
 
         $columnCount = $this->__get('fields_cnt');
         for ($currentColumn = 0;
-                $currentColumn < $columnCount;
-                ++$currentColumn) {
+            $currentColumn < $columnCount;
+            ++$currentColumn) {
 
             // assign $i with appropriate column order
             $i = $col_order ? $col_order[$currentColumn] : $currentColumn;
 
-            $meta    = $fields_meta[$i];
+            $meta = $fields_meta[$i];
             $orgFullColName
-                = $this->__get('db') . '.' . $meta->orgtable . '.' . $meta->orgname;
+                  = $this->__get('db') . '.' . $meta->orgtable . '.' . $meta->orgname;
 
             $not_null_class = $meta->not_null ? 'not_null' : '';
             $relation_class = isset($map[$meta->name]) ? 'relation' : '';
-            $hide_class = ($col_visib && ! $col_visib[$currentColumn])
+            $hide_class     = ($col_visib && !$col_visib[$currentColumn])
                 ? 'hide'
                 : '';
-            $grid_edit = $meta->orgtable != '' ? $grid_edit_class : '';
+            $grid_edit      = $meta->orgtable != '' ? $grid_edit_class : '';
 
             // handle datetime-related class, for grid editing
             $field_type_class
@@ -2878,14 +2910,14 @@ class PMA_DisplayResults
             //  where-query.
             $condition_field = (isset($highlight_columns)
                 && (isset($highlight_columns[$meta->name])
-                || isset($highlight_columns[PMA_Util::backquote($meta->name)])))
+                    || isset($highlight_columns[PMA_Util::backquote($meta->name)])))
                 ? true
                 : false;
 
             // Wrap MIME-transformations. [MIME]
-            $default_function = 'PMA_mimeDefaultFunction'; // default_function
+            $default_function      = 'PMA_mimeDefaultFunction'; // default_function
             $transformation_plugin = $default_function;
-            $transform_options = array();
+            $transform_options     = [];
 
             if ($GLOBALS['cfgRelation']['mimework']
                 && $GLOBALS['cfg']['BrowseMIME']
@@ -2895,7 +2927,7 @@ class PMA_DisplayResults
                     && !empty($mime_map[$orgFullColName]['transformation'])
                 ) {
 
-                    $file = $mime_map[$orgFullColName]['transformation'];
+                    $file         = $mime_map[$orgFullColName]['transformation'];
                     $include_file = 'libraries/plugins/transformations/' . $file;
 
                     if (file_exists($include_file)) {
@@ -2903,18 +2935,18 @@ class PMA_DisplayResults
                         include_once $include_file;
                         $class_name = PMA_getTransformationClassName($file);
                         // todo add $plugin_manager
-                        $plugin_manager = null;
+                        $plugin_manager        = null;
                         $transformation_plugin = new $class_name(
                             $plugin_manager
                         );
 
-                        $transform_options  = PMA_Transformation_getOptions(
+                        $transform_options = PMA_Transformation_getOptions(
                             isset($mime_map[$orgFullColName]
                                 ['transformation_options']
                             )
-                            ? $mime_map[$orgFullColName]
+                                ? $mime_map[$orgFullColName]
                             ['transformation_options']
-                            : ''
+                                : ''
                         );
 
                         $meta->mimetype = str_replace(
@@ -2929,29 +2961,34 @@ class PMA_DisplayResults
 
             // Check whether the field needs to display with syntax highlighting
 
-            $dbLower = /*overload*/mb_strtolower($this->__get('db'));
-            $tblLower = /*overload*/mb_strtolower($meta->orgtable);
-            $nameLower = /*overload*/mb_strtolower($meta->orgname);
-            if (! empty($this->transformation_info[$dbLower][$tblLower][$nameLower])
+            $dbLower   = /*overload*/
+                mb_strtolower($this->__get('db'));
+            $tblLower  = /*overload*/
+                mb_strtolower($meta->orgtable);
+            $nameLower = /*overload*/
+                mb_strtolower($meta->orgname);
+            if (!empty($this->transformation_info[$dbLower][$tblLower][$nameLower])
                 && (trim($row[$i]) != '')
-                && ! $_SESSION['tmpval']['hide_transformation']
+                && !$_SESSION['tmpval']['hide_transformation']
             ) {
                 include_once $this->transformation_info
-                    [$dbLower][$tblLower][$nameLower][0];
+                [$dbLower][$tblLower][$nameLower][0];
                 $transformation_plugin = new $this->transformation_info
-                    [$dbLower][$tblLower][$nameLower][1](null);
+                [$dbLower][$tblLower][$nameLower][1](null);
 
-                $transform_options  = PMA_Transformation_getOptions(
+                $transform_options = PMA_Transformation_getOptions(
                     isset($mime_map[$orgFullColName]['transformation_options'])
-                    ? $mime_map[$orgFullColName]['transformation_options']
-                    : ''
+                        ? $mime_map[$orgFullColName]['transformation_options']
+                        : ''
                 );
 
                 $meta->mimetype = str_replace(
                     '_', '/',
                     $this->transformation_info[$dbLower]
-                    [/*overload*/mb_strtolower($meta->orgtable)]
-                    [/*overload*/mb_strtolower($meta->orgname)][2]
+                    [/*overload*/
+                    mb_strtolower($meta->orgtable)]
+                    [/*overload*/
+                    mb_strtolower($meta->orgname)][2]
                 );
 
             }
@@ -2960,20 +2997,21 @@ class PMA_DisplayResults
             include_once 'libraries/special_schema_links.lib.php';
 
             if (isset($GLOBALS['special_schema_links'])
-                && (! empty($GLOBALS['special_schema_links'][$dbLower][$tblLower][$nameLower]))
+                && (!empty($GLOBALS['special_schema_links'][$dbLower][$tblLower][$nameLower]))
             ) {
 
                 $linking_url = $this->_getSpecialLinkUrl(
-                    $row[$i], $row_info, /*overload*/mb_strtolower($meta->orgname)
+                    $row[$i], $row_info, /*overload*/
+                    mb_strtolower($meta->orgname)
                 );
                 include_once
-                    "libraries/plugins/transformations/Text_Plain_Link.class.php";
+                "libraries/plugins/transformations/Text_Plain_Link.class.php";
                 $transformation_plugin = new Text_Plain_Link();
 
-                $transform_options  = array(
+                $transform_options = [
                     0 => $linking_url,
-                    2 => true
-                );
+                    2 => true,
+                ];
 
                 $meta->mimetype = str_replace(
                     '_', '/',
@@ -2982,12 +3020,12 @@ class PMA_DisplayResults
 
             }
 
-            $_url_params = array(
+            $_url_params = [
                 'db'            => $this->__get('db'),
                 'table'         => $this->__get('table'),
                 'where_clause'  => $where_clause,
                 'transform_key' => $meta->name,
-            );
+            ];
 
             /*
              * The result set can have columns from more than one table,
@@ -2996,8 +3034,8 @@ class PMA_DisplayResults
              * costly and does not need to be called if we already know
              * the conditions for the current table.
              */
-            if (! isset($uniqueConditionMap[$meta->orgtable])) {
-                $unique_conditions = PMA_Util::getUniqueCondition(
+            if (!isset($uniqueConditionMap[$meta->orgtable])) {
+                $unique_conditions                   = PMA_Util::getUniqueCondition(
                     $dt_result,
                     $this->__get('fields_cnt'),
                     $this->__get('fields_meta'),
@@ -3008,15 +3046,15 @@ class PMA_DisplayResults
                 $uniqueConditionMap[$meta->orgtable] = $unique_conditions;
             }
 
-            $transform_url_params = array(
+            $transform_url_params = [
                 'db'            => $this->__get('db'),
                 'table'         => $meta->orgtable,
                 'where_clause'  => $uniqueConditionMap[$meta->orgtable][0],
-                'transform_key' => $meta->orgname
-            );
+                'transform_key' => $meta->orgname,
+            ];
 
-            if (! empty($sql_query)) {
-                $_url_params['sql_query'] = $url_sql_query;
+            if (!empty($sql_query)) {
+                $_url_params['sql_query']          = $url_sql_query;
                 $transform_url_params['sql_query'] = $url_sql_query;
             }
 
@@ -3032,11 +3070,11 @@ class PMA_DisplayResults
 
                 $vertical_display['data'][$row_no][$i]
                     = $this->_getDataCellForNumericColumns(
-                        $row[$i], $class, $condition_field, $meta, $map,
-                        $is_field_truncated, $analyzed_sql,
-                        $transformation_plugin, $default_function,
-                        $transform_options
-                    );
+                    $row[$i], $class, $condition_field, $meta, $map,
+                    $is_field_truncated, $analyzed_sql,
+                    $transformation_plugin, $default_function,
+                    $transform_options
+                );
 
             } elseif ($meta->type == self::GEOMETRY_FIELD) {
                 // g e o m e t r y
@@ -3047,21 +3085,21 @@ class PMA_DisplayResults
 
                 $vertical_display['data'][$row_no][$i]
                     = $this->_getDataCellForGeometryColumns(
-                        $row[$i], $class, $meta, $map, $_url_params,
-                        $condition_field, $transformation_plugin,
-                        $default_function, $transform_options, $analyzed_sql
-                    );
+                    $row[$i], $class, $meta, $map, $_url_params,
+                    $condition_field, $transformation_plugin,
+                    $default_function, $transform_options, $analyzed_sql
+                );
 
             } else {
                 // n o t   n u m e r i c
 
                 $vertical_display['data'][$row_no][$i]
                     = $this->_getDataCellForNonNumericColumns(
-                        $row[$i], $class, $meta, $map, $_url_params,
-                        $condition_field, $transformation_plugin,
-                        $default_function, $transform_options,
-                        $is_field_truncated, $analyzed_sql, $dt_result, $i
-                    );
+                    $row[$i], $class, $meta, $map, $_url_params,
+                    $condition_field, $transformation_plugin,
+                    $default_function, $transform_options,
+                    $is_field_truncated, $analyzed_sql, $dt_result, $i
+                );
 
             }
 
@@ -3096,18 +3134,20 @@ class PMA_DisplayResults
     private function _getSpecialLinkUrl($column_value, $row_info, $field_name)
     {
 
-        $linking_url_params = array();
-        $link_relations = $GLOBALS['special_schema_links']
-            [/*overload*/mb_strtolower($this->__get('db'))]
-            [/*overload*/mb_strtolower($this->__get('table'))]
-            [$field_name];
+        $linking_url_params = [];
+        $link_relations     = $GLOBALS['special_schema_links']
+        [/*overload*/
+        mb_strtolower($this->__get('db'))]
+        [/*overload*/
+        mb_strtolower($this->__get('table'))]
+        [$field_name];
 
-        if (! is_array($link_relations['link_param'])) {
+        if (!is_array($link_relations['link_param'])) {
             $linking_url_params[$link_relations['link_param']] = $column_value;
         } else {
             // Consider only the case of creating link for column field
             // sql query that needs to be passed as url param
-            $sql = 'SELECT `' . $column_value . '` FROM `'
+            $sql                                                  = 'SELECT `' . $column_value . '` FROM `'
                 . $row_info[$link_relations['link_param'][1]] . '`.`'
                 . $row_info[$link_relations['link_param'][2]] . '`';
             $linking_url_params[$link_relations['link_param'][0]] = $sql;
@@ -3130,7 +3170,8 @@ class PMA_DisplayResults
             }
 
             $linking_url_params[$new_param['param_info']]
-                = $row_info[/*overload*/mb_strtolower($new_param['column_name'])];
+                = $row_info[/*overload*/
+            mb_strtolower($new_param['column_name'])];
 
             // Special case 1 - when executing routines, according
             // to the type of the routine, url param changes
@@ -3155,13 +3196,14 @@ class PMA_DisplayResults
     private function _getRowInfoForSpecialLinks($row, $col_order)
     {
 
-        $row_info = array();
+        $row_info    = [];
         $fields_meta = $this->__get('fields_meta');
 
         for ($n = 0; $n < $this->__get('fields_cnt'); ++$n) {
             $m = $col_order ? $col_order[$n] : $n;
-            $row_info[/*overload*/mb_strtolower($fields_meta[$m]->name)]
-                = $row[$m];
+            $row_info[/*overload*/
+            mb_strtolower($fields_meta[$m]->name)]
+               = $row[$m];
         }
 
         return $row_info;
@@ -3187,7 +3229,8 @@ class PMA_DisplayResults
             && isset($analyzed_sql[0])
             && isset($analyzed_sql[0]['querytype'])
             && ($analyzed_sql[0]['querytype'] == self::QUERY_TYPE_SELECT)
-            && (/*overload*/mb_strlen($this->__get('sql_query')) > 200)
+            && (/*overload*/
+                mb_strlen($this->__get('sql_query')) > 200)
         ) {
 
             $url_sql_query = 'SELECT ';
@@ -3222,7 +3265,7 @@ class PMA_DisplayResults
     private function _getColumnParams($analyzed_sql)
     {
         if ($this->_isSelect($analyzed_sql)) {
-            $pmatable = new PMA_Table($this->__get('table'), $this->__get('db'));
+            $pmatable  = new PMA_Table($this->__get('table'), $this->__get('db'));
             $col_order = $pmatable->getUiProp(PMA_Table::PROP_COLUMN_ORDER);
             $col_visib = $pmatable->getUiProp(PMA_Table::PROP_COLUMN_VISIB);
         } else {
@@ -3230,7 +3273,7 @@ class PMA_DisplayResults
             $col_visib = false;
         }
 
-        return array($col_order, $col_visib);
+        return [$col_order, $col_visib];
     } // end of the '_getColumnParams()' function
 
 
@@ -3296,23 +3339,23 @@ class PMA_DisplayResults
         $where_clause, $clause_is_unique, $url_sql_query
     ) {
 
-        $_url_params = array(
-                'db'               => $this->__get('db'),
-                'table'            => $this->__get('table'),
-                'where_clause'     => $where_clause,
-                'clause_is_unique' => $clause_is_unique,
-                'sql_query'        => $url_sql_query,
-                'goto'             => 'sql.php',
-            );
+        $_url_params = [
+            'db'               => $this->__get('db'),
+            'table'            => $this->__get('table'),
+            'where_clause'     => $where_clause,
+            'clause_is_unique' => $clause_is_unique,
+            'sql_query'        => $url_sql_query,
+            'goto'             => 'sql.php',
+        ];
 
         $edit_url = 'tbl_change.php'
             . PMA_URL_getCommon(
-                $_url_params + array('default_action' => 'update')
+                $_url_params + ['default_action' => 'update']
             );
 
         $copy_url = 'tbl_change.php'
             . PMA_URL_getCommon(
-                $_url_params + array('default_action' => 'insert')
+                $_url_params + ['default_action' => 'insert']
             );
 
         $edit_str = $this->_getActionLinkContent(
@@ -3324,11 +3367,11 @@ class PMA_DisplayResults
 
         // Class definitions required for grid editing jQuery scripts
         $edit_anchor_class = "edit_row_anchor";
-        if ( $clause_is_unique == 0) {
+        if ($clause_is_unique == 0) {
             $edit_anchor_class .= ' nonunique';
         }
 
-        return array($edit_url, $copy_url, $edit_str, $copy_str, $edit_anchor_class);
+        return [$edit_url, $copy_url, $edit_str, $copy_str, $edit_anchor_class];
 
     } // end of the '_getModifiedLinks()' function
 
@@ -3357,13 +3400,13 @@ class PMA_DisplayResults
 
         if ($del_lnk == self::DELETE_ROW) { // delete row case
 
-            $_url_params = array(
-                'db'        => $this->__get('db'),
-                'table'     => $this->__get('table'),
-                'sql_query' => $url_sql_query,
+            $_url_params = [
+                'db'              => $this->__get('db'),
+                'table'           => $this->__get('table'),
+                'sql_query'       => $url_sql_query,
                 'message_to_show' => __('The row has been deleted.'),
-                'goto'      => (empty($goto) ? 'tbl_sql.php' : $goto),
-            );
+                'goto'            => (empty($goto) ? 'tbl_sql.php' : $goto),
+            ];
 
             $lnk_goto = 'sql.php' . PMA_URL_getCommon($_url_params, 'text');
 
@@ -3373,16 +3416,16 @@ class PMA_DisplayResults
                 . ' WHERE ' . $where_clause .
                 ($clause_is_unique ? '' : ' LIMIT 1');
 
-            $_url_params = array(
-                    'db'        => $this->__get('db'),
-                    'table'     => $this->__get('table'),
-                    'sql_query' => $del_query,
-                    'message_to_show' => __('The row has been deleted.'),
-                    'goto'      => $lnk_goto,
-                );
-            $del_url  = 'sql.php' . PMA_URL_getCommon($_url_params);
+            $_url_params = [
+                'db'              => $this->__get('db'),
+                'table'           => $this->__get('table'),
+                'sql_query'       => $del_query,
+                'message_to_show' => __('The row has been deleted.'),
+                'goto'            => $lnk_goto,
+            ];
+            $del_url     = 'sql.php' . PMA_URL_getCommon($_url_params);
 
-            $js_conf  = 'DELETE FROM ' . PMA_jsFormat($this->__get('db')) . '.'
+            $js_conf = 'DELETE FROM ' . PMA_jsFormat($this->__get('db')) . '.'
                 . PMA_jsFormat($this->__get('table'))
                 . ' WHERE ' . PMA_jsFormat($where_clause, false)
                 . ($clause_is_unique ? '' : ' LIMIT 1');
@@ -3391,12 +3434,12 @@ class PMA_DisplayResults
 
         } elseif ($del_lnk == self::KILL_PROCESS) { // kill process case
 
-            $_url_params = array(
-                    'db'        => $this->__get('db'),
-                    'table'     => $this->__get('table'),
-                    'sql_query' => $url_sql_query,
-                    'goto'      => 'index.php',
-                );
+            $_url_params = [
+                'db'        => $this->__get('db'),
+                'table'     => $this->__get('table'),
+                'sql_query' => $url_sql_query,
+                'goto'      => 'index.php',
+            ];
 
             $lnk_goto = 'sql.php'
                 . PMA_URL_getCommon(
@@ -3405,14 +3448,14 @@ class PMA_DisplayResults
 
             $kill = $GLOBALS['dbi']->getKillQuery($row[0]);
 
-            $_url_params = array(
-                    'db'        => 'mysql',
-                    'sql_query' => $kill,
-                    'goto'      => $lnk_goto,
-                );
+            $_url_params = [
+                'db'        => 'mysql',
+                'sql_query' => $kill,
+                'goto'      => $lnk_goto,
+            ];
 
-            $del_url  = 'sql.php' . PMA_URL_getCommon($_url_params);
-            $js_conf  = $kill;
+            $del_url = 'sql.php' . PMA_URL_getCommon($_url_params);
+            $js_conf = $kill;
             $del_str = PMA_Util::getIcon(
                 'b_drop.png', __('Kill')
             );
@@ -3420,7 +3463,7 @@ class PMA_DisplayResults
             $del_url = $del_str = $js_conf = null;
         }
 
-        return array($del_url, $del_str, $js_conf);
+        return [$del_url, $del_str, $js_conf];
 
     } // end of the '_getDeleteAndKillLinks()' function
 
@@ -3501,7 +3544,7 @@ class PMA_DisplayResults
         $edit_anchor_class, $edit_str, $copy_str, $del_str, $js_conf
     ) {
 
-        if (! isset($js_conf)) {
+        if (!isset($js_conf)) {
             $js_conf = '';
         }
 
@@ -3518,11 +3561,11 @@ class PMA_DisplayResults
     /**
      * Get the combined classes for a column
      *
-     * @param string  $grid_edit_class  the class for all editable columns
-     * @param string  $not_null_class   the class for not null columns
-     * @param string  $relation_class   the class for relations in a column
-     * @param string  $hide_class       the class for visibility of a column
-     * @param string  $field_type_class the class related to type of the field
+     * @param string $grid_edit_class  the class for all editable columns
+     * @param string $not_null_class   the class for not null columns
+     * @param string $relation_class   the class for relations in a column
+     * @param string $hide_class       the class for visibility of a column
+     * @param string $field_type_class the class related to type of the field
      *
      * @return string $class the combined classes
      *
@@ -3568,6 +3611,7 @@ class PMA_DisplayResults
         } else {
             $field_type_class = '';
         }
+
         return $field_type_class;
     } // end of the '_getClassForDateTimeRelatedFields()' function
 
@@ -3602,7 +3646,7 @@ class PMA_DisplayResults
         $transform_options
     ) {
 
-        if (! isset($column) || is_null($column)) {
+        if (!isset($column) || is_null($column)) {
 
             $cell = $this->_buildNullDisplay(
                 'right ' . $class, $condition_field, $meta, ''
@@ -3610,7 +3654,7 @@ class PMA_DisplayResults
 
         } elseif ($column != '') {
 
-            $nowrap = ' nowrap';
+            $nowrap           = ' nowrap';
             $where_comparison = ' = ' . $column;
 
             $cell = $this->_getRowData(
@@ -3657,13 +3701,15 @@ class PMA_DisplayResults
         $transformation_plugin, $default_function, $transform_options,
         $analyzed_sql
     ) {
-        if (! isset($column) || is_null($column)) {
+        if (!isset($column) || is_null($column)) {
             $cell = $this->_buildNullDisplay($class, $condition_field, $meta);
+
             return $cell;
         }
 
         if ($column == '') {
             $cell = $this->_buildEmptyDisplay($class, $condition_field, $meta);
+
             return $cell;
         }
 
@@ -3678,6 +3724,7 @@ class PMA_DisplayResults
             $cell = $this->_buildValueDisplay(
                 $class, $condition_field, $geometry_text
             );
+
             return $cell;
         }
 
@@ -3686,7 +3733,7 @@ class PMA_DisplayResults
             $where_comparison = ' = ' . $column;
 
             // Convert to WKT format
-            $wktval = PMA_Util::asWKT($column);
+            $wktval             = PMA_Util::asWKT($column);
             $is_field_truncated = $this->_getPartialText($wktval);
 
             $cell = $this->_getRowData(
@@ -3695,6 +3742,7 @@ class PMA_DisplayResults
                 $where_comparison, $transform_options,
                 $is_field_truncated
             );
+
             return $cell;
         }
 
@@ -3703,7 +3751,7 @@ class PMA_DisplayResults
         if ($_SESSION['tmpval']['display_binary']) {
             $where_comparison = ' = ' . $column;
 
-            $wkbval = substr(bin2hex($column), 8);
+            $wkbval             = substr(bin2hex($column), 8);
             $is_field_truncated = $this->_getPartialText($wkbval);
 
             $cell = $this->_getRowData(
@@ -3713,6 +3761,7 @@ class PMA_DisplayResults
                 $where_comparison, $transform_options,
                 $is_field_truncated
             );
+
             return $cell;
         }
 
@@ -3767,7 +3816,7 @@ class PMA_DisplayResults
         $transformation_plugin, $default_function, $transform_options,
         $is_field_truncated, $analyzed_sql, &$dt_result, $col_index
     ) {
-        $is_analyse = $this->__get('is_analyse');
+        $is_analyse  = $this->__get('is_analyse');
         $field_flags = $GLOBALS['dbi']->fieldFlags($dt_result, $col_index);
 
         $bIsText = gettype($transformation_plugin) === 'object'
@@ -3779,30 +3828,32 @@ class PMA_DisplayResults
         // or transformation plugin is of non text type
         // such as image
         if ((stristr($field_flags, self::BINARY_FIELD)
-            && ($GLOBALS['cfg']['ProtectBinary'] === 'all'
-            || ($GLOBALS['cfg']['ProtectBinary'] === 'noblob'
-            && !stristr($meta->type, self::BLOB_FIELD))
-            || ($GLOBALS['cfg']['ProtectBinary'] === 'blob'
-            && stristr($meta->type, self::BLOB_FIELD))))
+                && ($GLOBALS['cfg']['ProtectBinary'] === 'all'
+                    || ($GLOBALS['cfg']['ProtectBinary'] === 'noblob'
+                        && !stristr($meta->type, self::BLOB_FIELD))
+                    || ($GLOBALS['cfg']['ProtectBinary'] === 'blob'
+                        && stristr($meta->type, self::BLOB_FIELD))))
             || $bIsText
         ) {
             $class = str_replace('grid_edit', '', $class);
         }
 
-        if (! isset($column) || is_null($column)) {
+        if (!isset($column) || is_null($column)) {
             $cell = $this->_buildNullDisplay($class, $condition_field, $meta);
+
             return $cell;
         }
 
         if ($column == '') {
             $cell = $this->_buildEmptyDisplay($class, $condition_field, $meta);
+
             return $cell;
         }
 
         // Cut all fields to $GLOBALS['cfg']['LimitChars']
         // (unless it's a link-type transformation or binary)
         if (!(gettype($transformation_plugin) === "object"
-            && strpos($transformation_plugin->getName(), 'Link') !== false)
+                && strpos($transformation_plugin->getName(), 'Link') !== false)
             && !stristr($field_flags, self::BINARY_FIELD)
         ) {
             $is_field_truncated = $this->_getPartialText($column);
@@ -3832,7 +3883,7 @@ class PMA_DisplayResults
                 $transform_options, $default_function,
                 $meta, $_url_params, $is_field_truncated
             );
-            $class = $this->_addClass(
+            $class  = $this->_addClass(
                 $class, $condition_field, $meta, '',
                 $is_field_truncated, $transformation_plugin, $default_function
             );
@@ -3849,6 +3900,7 @@ class PMA_DisplayResults
             $cell = $this->_buildValueDisplay(
                 $class, $condition_field, $column
             );
+
             return $cell;
         }
 
@@ -3893,8 +3945,8 @@ class PMA_DisplayResults
     private function _getCheckBoxesForMultipleRowOperations($dir, $displayParts)
     {
 
-        $checkBoxes_html = '';
-        $cell_displayed = 0;
+        $checkBoxes_html  = '';
+        $cell_displayed   = 0;
         $vertical_display = $this->__get('vertical_display');
 
         foreach ($vertical_display['row_delete'] as $val) {
@@ -3905,10 +3957,10 @@ class PMA_DisplayResults
             ) {
 
                 $checkBoxes_html .= '<th'
-                    . (($displayParts['edit_lnk'] != self::NO_EDIT_OR_DELETE)
-                        && ($displayParts['del_lnk'] != self::NO_EDIT_OR_DELETE))
-                        ? ' rowspan="4"'
-                        : ''
+                . (($displayParts['edit_lnk'] != self::NO_EDIT_OR_DELETE)
+                    && ($displayParts['del_lnk'] != self::NO_EDIT_OR_DELETE))
+                    ? ' rowspan="4"'
+                    : ''
                     . '></th>' . "\n";
 
             }
@@ -3941,7 +3993,7 @@ class PMA_DisplayResults
     {
 
         $sql_md5 = md5($this->__get('sql_query'));
-        $query = array();
+        $query   = [];
         if (isset($_SESSION['tmpval']['query'][$sql_md5])) {
             $query = $_SESSION['tmpval']['query'][$sql_md5];
         }
@@ -3973,9 +4025,9 @@ class PMA_DisplayResults
 
         if (PMA_isValid(
             $_REQUEST['pftext'],
-            array(
-                self::DISPLAY_PARTIAL_TEXT, self::DISPLAY_FULL_TEXT
-            )
+            [
+                self::DISPLAY_PARTIAL_TEXT, self::DISPLAY_FULL_TEXT,
+            ]
         )
         ) {
             $query['pftext'] = $_REQUEST['pftext'];
@@ -3986,9 +4038,9 @@ class PMA_DisplayResults
 
         if (PMA_isValid(
             $_REQUEST['relational_display'],
-            array(
-                self::RELATIONAL_KEY, self::RELATIONAL_DISPLAY_COLUMN
-            )
+            [
+                self::RELATIONAL_KEY, self::RELATIONAL_DISPLAY_COLUMN,
+            ]
         )
         ) {
             $query['relational_display'] = $_REQUEST['relational_display'];
@@ -4002,10 +4054,10 @@ class PMA_DisplayResults
 
         if (PMA_isValid(
             $_REQUEST['geoOption'],
-            array(
+            [
                 self::GEOMETRY_DISP_WKT, self::GEOMETRY_DISP_WKB,
-                self::GEOMETRY_DISP_GEOM
-            )
+                self::GEOMETRY_DISP_GEOM,
+            ]
         )
         ) {
             $query['geoOption'] = $_REQUEST['geoOption'];
@@ -4059,26 +4111,26 @@ class PMA_DisplayResults
 
         // populate query configuration
         $_SESSION['tmpval']['pftext']
-            = $query['pftext'];
+                                                   = $query['pftext'];
         $_SESSION['tmpval']['relational_display']
-            = $query['relational_display'];
+                                                   = $query['relational_display'];
         $_SESSION['tmpval']['geoOption']
-            = $query['geoOption'];
-        $_SESSION['tmpval']['display_binary'] = isset(
+                                                   = $query['geoOption'];
+        $_SESSION['tmpval']['display_binary']      = isset(
             $query['display_binary']
         );
-        $_SESSION['tmpval']['display_blob'] = isset(
+        $_SESSION['tmpval']['display_blob']        = isset(
             $query['display_blob']
         );
         $_SESSION['tmpval']['hide_transformation'] = isset(
             $query['hide_transformation']
         );
         $_SESSION['tmpval']['pos']
-            = $query['pos'];
+                                                   = $query['pos'];
         $_SESSION['tmpval']['max_rows']
-            = $query['max_rows'];
+                                                   = $query['max_rows'];
         $_SESSION['tmpval']['repeat_cells']
-            = $query['repeat_cells'];
+                                                   = $query['repeat_cells'];
     }
 
 
@@ -4106,8 +4158,8 @@ class PMA_DisplayResults
         // Following variable are needed for use in isset/empty or
         // use with array indexes/safe use in foreach
         $fields_meta = $this->__get('fields_meta');
-        $showtable = $this->__get('showtable');
-        $printview = $this->__get('printview');
+        $showtable   = $this->__get('showtable');
+        $printview   = $this->__get('printview');
 
         // why was this called here? (already called from sql.php)
         //$this->setConfigParamsForDisplayTable();
@@ -4120,20 +4172,20 @@ class PMA_DisplayResults
             && $showtable['Type'] == self::TABLE_TYPE_INNO_DB);
 
         if ($is_innodb
-            && ! isset($analyzed_sql[0]['queryflags']['union'])
-            && ! isset($analyzed_sql[0]['table_ref'][1]['table_name'])
+            && !isset($analyzed_sql[0]['queryflags']['union'])
+            && !isset($analyzed_sql[0]['table_ref'][1]['table_name'])
             && (empty($analyzed_sql[0]['where_clause'])
-            || ($analyzed_sql[0]['where_clause'] == '1 '))
+                || ($analyzed_sql[0]['where_clause'] == '1 '))
         ) {
             // "j u s t   b r o w s i n g"
-            $pre_count = '~';
+            $pre_count   = '~';
             $after_count = PMA_Util::showHint(
                 PMA_sanitize(
                     __('May be approximate. See [doc@faq3-11]FAQ 3.11[/doc].')
                 )
             );
         } else {
-            $pre_count = '';
+            $pre_count   = '';
             $after_count = '';
         }
 
@@ -4141,7 +4193,7 @@ class PMA_DisplayResults
 
         // 1.1 Gets the information about which functionalities should be
         //     displayed
-        $total      = '';
+        $total        = '';
         $displayParts = $this->_setDisplayParts($displayParts, $total);
 
         // 1.2 Defines offsets for the next and previous pages
@@ -4158,12 +4210,12 @@ class PMA_DisplayResults
         list(
             $sort_expression, $sort_expression_nodirection,
             $sort_direction
-        ) = $this->_getSortParams($analyzed_sql[0]['order_by_clause']);
+            ) = $this->_getSortParams($analyzed_sql[0]['order_by_clause']);
 
         $number_of_columns = count($sort_expression_nodirection);
         // 1.4 Prepares display of first and last value of the sorted column
         $sorted_column_message = '';
-        for ( $i = 0; $i < $number_of_columns; $i++ ) {
+        for ($i = 0; $i < $number_of_columns; $i++) {
             $sorted_column_message .= $this->_getSortedColumnMessage(
                 $dt_result, $sort_expression_nodirection[$i]
             );
@@ -4183,7 +4235,7 @@ class PMA_DisplayResults
                 $message, $this->__get('sql_query'), 'success'
             );
 
-        } elseif (! isset($printview) || ($printview != '1')) {
+        } elseif (!isset($printview) || ($printview != '1')) {
 
             $table_html .= PMA_Util::getMessage(
                 __('Your SQL query has been executed successfully.'),
@@ -4216,7 +4268,7 @@ class PMA_DisplayResults
                 $is_innodb
             );
 
-        } elseif (! isset($printview) || ($printview != '1')) {
+        } elseif (!isset($printview) || ($printview != '1')) {
             $table_html .= "\n" . '<br /><br />' . "\n";
         }
 
@@ -4224,10 +4276,10 @@ class PMA_DisplayResults
         // (see the 'relation' configuration variable)
 
         // initialize map
-        $map = array();
+        $map = [];
 
         // find tables
-        $target=array();
+        $target = [];
         if (isset($analyzed_sql[0]['table_ref'])
             && is_array($analyzed_sql[0]['table_ref'])
         ) {
@@ -4235,34 +4287,36 @@ class PMA_DisplayResults
             foreach ($analyzed_sql[0]['table_ref']
                 as $table_ref_position => $table_ref) {
                 $target[] = $analyzed_sql[0]['table_ref']
-                    [$table_ref_position]['table_true_name'];
+                [$table_ref_position]['table_true_name'];
             }
 
         }
 
-        if (/*overload*/mb_strlen($this->__get('table'))) {
+        if (/*overload*/
+        mb_strlen($this->__get('table'))
+        ) {
             // This method set the values for $map array
             $this->_setParamForLinkForeignKeyRelatedTables($map);
 
             // Coming from 'Distinct values' action of structure page
             // We manipulate relations mechanism to show a link to related rows.
             if ($this->__get('is_browse_distinct')) {
-                $map[$fields_meta[1]->name] = array(
+                $map[$fields_meta[1]->name] = [
                     $this->__get('table'),
                     $fields_meta[1]->name,
                     '',
-                    $this->__get('db')
-                );
+                    $this->__get('db'),
+                ];
             }
         } // end if
         // end 2b
 
         // 3. ----- Prepare the results table -----
         $table_html .= $this->_getTableHeaders(
-            $displayParts, $analyzed_sql, $sort_expression,
-            $sort_expression_nodirection, $sort_direction, $is_limited_display
-        )
-        . '<tbody>' . "\n";
+                $displayParts, $analyzed_sql, $sort_expression,
+                $sort_expression_nodirection, $sort_direction, $is_limited_display
+            )
+            . '<tbody>' . "\n";
 
         $table_html .= $this->_getTableBody(
             $dt_result, $displayParts, $map, $analyzed_sql, $is_limited_display
@@ -4293,12 +4347,12 @@ class PMA_DisplayResults
                 $pos_next, $pos_prev, self::PLACE_BOTTOM_DIRECTION_DROPDOWN,
                 $is_innodb
             );
-        } elseif (! isset($printview) || ($printview != '1')) {
+        } elseif (!isset($printview) || ($printview != '1')) {
             $table_html .= "\n" . '<br /><br />' . "\n";
         }
 
         // 6. ----- Prepare "Query results operations"
-        if ((! isset($printview) || ($printview != '1')) && ! $is_limited_display) {
+        if ((!isset($printview) || ($printview != '1')) && !$is_limited_display) {
             $table_html .= $this->_getResultsOperations(
                 $displayParts, $analyzed_sql
             );
@@ -4322,22 +4376,22 @@ class PMA_DisplayResults
     {
 
         if ($_SESSION['tmpval']['max_rows'] == self::ALL_ROWS) {
-            $pos_next     = 0;
-            $pos_prev     = 0;
+            $pos_next = 0;
+            $pos_prev = 0;
         } else {
 
-            $pos_next     = $_SESSION['tmpval']['pos']
-                            + $_SESSION['tmpval']['max_rows'];
+            $pos_next = $_SESSION['tmpval']['pos']
+                + $_SESSION['tmpval']['max_rows'];
 
-            $pos_prev     = $_SESSION['tmpval']['pos']
-                            - $_SESSION['tmpval']['max_rows'];
+            $pos_prev = $_SESSION['tmpval']['pos']
+                - $_SESSION['tmpval']['max_rows'];
 
             if ($pos_prev < 0) {
                 $pos_prev = 0;
             }
         }
 
-        return array($pos_next, $pos_prev);
+        return [$pos_next, $pos_prev];
 
     } // end of the '_getOffsets()' function
 
@@ -4357,16 +4411,16 @@ class PMA_DisplayResults
     private function _getSortParams($order_by_clause)
     {
 
-        $sort_expression             = array();
-        $sort_expression_nodirection = array();
-        $sort_direction              = array();
-        if (! empty($order_by_clause)) {
+        $sort_expression             = [];
+        $sort_expression_nodirection = [];
+        $sort_direction              = [];
+        if (!empty($order_by_clause)) {
             // Each order by clause is assumed to be delimited by a comma
             // A typical order by clause would be order by column1 asc, column2 desc
             // The following line counts the number of columns in order by clause
             $matches = explode(',', $order_by_clause);
             // Iterate over each column in order by clause
-            foreach ($matches as $index=>$order_by_clause2) {
+            foreach ($matches as $index => $order_by_clause2) {
 
                 $sort_expression[$index] = trim(
                     str_replace('  ', ' ', $order_by_clause2)
@@ -4383,16 +4437,16 @@ class PMA_DisplayResults
                     ? trim($matches[1])
                     : $sort_expression[$index];
                 $sort_direction[$index]
-                    = isset($matches[2]) ? trim($matches[2]) : '';
+                                                     = isset($matches[2]) ? trim($matches[2]) : '';
             }
         } else {
             $sort_expression[0] = $sort_expression_nodirection[0]
                 = $sort_direction[0] = '';
         }
 
-        return array($sort_expression, $sort_expression_nodirection,
-            $sort_direction
-        );
+        return [$sort_expression, $sort_expression_nodirection,
+            $sort_direction,
+        ];
 
     } // end of the '_getSortParams()' function
 
@@ -4400,10 +4454,10 @@ class PMA_DisplayResults
     /**
      * Prepare sorted column message
      *
-     * @param integer &$dt_result                  the link id associated to the
+     * @param integer &$dt_result                   the link id associated to the
      *                                              query which results have to
      *                                              be displayed
-     * @param string  $sort_expression_nodirection sort expression without direction
+     * @param string  $sort_expression_nodirection  sort expression without direction
      *
      * @return  string                              html content
      *          null                                if not found sorted column
@@ -4422,15 +4476,17 @@ class PMA_DisplayResults
             return null;
         }
 
-        if (/*overload*/mb_strpos($sort_expression_nodirection, '.') === false) {
-            $sort_table = $this->__get('table');
+        if (/*overload*/
+            mb_strpos($sort_expression_nodirection, '.') === false
+        ) {
+            $sort_table  = $this->__get('table');
             $sort_column = $sort_expression_nodirection;
         } else {
             list($sort_table, $sort_column)
                 = explode('.', $sort_expression_nodirection);
         }
 
-        $sort_table = PMA_Util::unQuote($sort_table);
+        $sort_table  = PMA_Util::unQuote($sort_table);
         $sort_column = PMA_Util::unQuote($sort_column);
 
         // find the sorted column index in row result
@@ -4452,9 +4508,9 @@ class PMA_DisplayResults
         $row = $GLOBALS['dbi']->fetchRow($dt_result);
 
         // initializing default arguments
-        $default_function = 'PMA_mimeDefaultFunction';
+        $default_function      = 'PMA_mimeDefaultFunction';
         $transformation_plugin = $default_function;
-        $transform_options = array();
+        $transform_options     = [];
 
         // check for non printable sorted row data
         $meta = $fields_meta[$sorted_column_index];
@@ -4473,11 +4529,13 @@ class PMA_DisplayResults
             $column_for_first_row = $row[$sorted_column_index];
         }
 
-        $column_for_first_row = /*overload*/mb_strtoupper(
-            /*overload*/mb_substr(
-                $column_for_first_row, 0, $GLOBALS['cfg']['LimitChars']
-            )
-        );
+        $column_for_first_row = /*overload*/
+            mb_strtoupper(
+            /*overload*/
+                mb_substr(
+                    $column_for_first_row, 0, $GLOBALS['cfg']['LimitChars']
+                )
+            );
 
         // fetch last row of the result set
         $GLOBALS['dbi']->dataSeek($dt_result, $this->__get('num_rows') - 1);
@@ -4499,11 +4557,13 @@ class PMA_DisplayResults
             $column_for_last_row = $row[$sorted_column_index];
         }
 
-        $column_for_last_row = /*overload*/mb_strtoupper(
-            /*overload*/mb_substr(
-                $column_for_last_row, 0, $GLOBALS['cfg']['LimitChars']
-            )
-        );
+        $column_for_last_row = /*overload*/
+            mb_strtoupper(
+            /*overload*/
+                mb_substr(
+                    $column_for_last_row, 0, $GLOBALS['cfg']['LimitChars']
+                )
+            );
 
         // reset to first row for the loop in _getTableBody()
         $GLOBALS['dbi']->dataSeek($dt_result, 0);
@@ -4540,10 +4600,10 @@ class PMA_DisplayResults
 
         $unlim_num_rows = $this->__get('unlim_num_rows'); // To use in isset()
 
-        if (! empty($limit_clause)) {
+        if (!empty($limit_clause)) {
 
             $limit_data
-                = PMA_Util::analyzeLimitClause($limit_clause);
+                             = PMA_Util::analyzeLimitClause($limit_clause);
             $first_shown_rec = $limit_data['start'];
 
             if ($limit_data['length'] < $total) {
@@ -4621,7 +4681,7 @@ class PMA_DisplayResults
         $message_qt->addParam($this->__get('querytime'));
 
         $message->addMessage($message_qt, '');
-        if (! is_null($sorted_column_message)) {
+        if (!is_null($sorted_column_message)) {
             $message->addMessage($sorted_column_message, '');
         }
 
@@ -4637,7 +4697,7 @@ class PMA_DisplayResults
      *
      * @return  void
      *
-     * @access  private
+     * @access   private
      *
      * @see      getTable()
      */
@@ -4658,33 +4718,33 @@ class PMA_DisplayResults
 
             foreach ($exist_rel as $master_field => $rel) {
                 if ($master_field != 'foreign_keys_data') {
-                    $display_field = PMA_getDisplayField(
+                    $display_field      = PMA_getDisplayField(
                         $rel['foreign_db'], $rel['foreign_table']
                     );
-                    $map[$master_field] = array(
+                    $map[$master_field] = [
                         $rel['foreign_table'],
                         $rel['foreign_field'],
                         $display_field,
-                        $rel['foreign_db']
-                    );
+                        $rel['foreign_db'],
+                    ];
                 } else {
                     foreach ($rel as $key => $one_key) {
                         foreach ($one_key['index_list'] as $index => $one_field) {
                             $display_field = PMA_getDisplayField(
                                 isset($one_key['ref_db_name'])
-                                ? $one_key['ref_db_name']
-                                : $GLOBALS['db'],
+                                    ? $one_key['ref_db_name']
+                                    : $GLOBALS['db'],
                                 $one_key['ref_table_name']
                             );
 
-                            $map[$one_field] = array(
+                            $map[$one_field] = [
                                 $one_key['ref_table_name'],
                                 $one_key['ref_index_list'][$index],
                                 $display_field,
                                 isset($one_key['ref_db_name'])
-                                ? $one_key['ref_db_name']
-                                : $GLOBALS['db']
-                            );
+                                    ? $one_key['ref_db_name']
+                                    : $GLOBALS['db'],
+                            ];
                         }
                     }
                 }
@@ -4712,8 +4772,8 @@ class PMA_DisplayResults
         &$dt_result, $analyzed_sql, $del_link
     ) {
 
-        $links_html = '';
-        $url_query = $this->__get('url_query');
+        $links_html  = '';
+        $url_query   = $this->__get('url_query');
         $delete_text = ($del_link == self::DELETE_ROW) ? __('Delete') : __('Kill');
 
         $links_html .= '<img class="selectallarrow" width="38" height="22"'
@@ -4753,7 +4813,7 @@ class PMA_DisplayResults
             . ' value="' . htmlspecialchars($this->__get('sql_query')) . '" />'
             . "\n";
 
-        if (! empty($url_query)) {
+        if (!empty($url_query)) {
             $links_html .= '<input type="hidden" name="url_query"'
                 . ' value="' . $url_query . '" />' . "\n";
         }
@@ -4766,11 +4826,11 @@ class PMA_DisplayResults
         // in the multi-edit and multi-delete form
         list($where_clause, $clause_is_unique, $condition_array)
             = PMA_Util::getUniqueCondition(
-                $dt_result,
-                $this->__get('fields_cnt'),
-                $this->__get('fields_meta'),
-                $row
-            );
+            $dt_result,
+            $this->__get('fields_cnt'),
+            $this->__get('fields_meta'),
+            $row
+        );
         unset($where_clause, $condition_array);
 
         // reset to first row for the loop in _getTableBody()
@@ -4832,7 +4892,7 @@ class PMA_DisplayResults
      *
      * @access private
      *
-     * @see _getResultsOperations()
+     * @see    _getResultsOperations()
      */
     private function _getLinkForCreateView($analyzed_sql, $url_query)
     {
@@ -4847,10 +4907,11 @@ class PMA_DisplayResults
                     PMA_Util::getIcon(
                         'b_views.png', __('Create view'), true
                     ),
-                    array('class' => 'create_view' . $ajax_class), true, true, ''
+                    ['class' => 'create_view' . $ajax_class], true, true, ''
                 )
                 . '</span>' . "\n";
         }
+
         return $results_operations_html;
 
     }
@@ -4872,10 +4933,11 @@ class PMA_DisplayResults
         //calling to _getResultOperations with a fake $displayParts
         //and setting only_view parameter to be true to generate just view
         $results_operations_html .= $this->_getResultsOperations(
-            array(),
+            [],
             $analyzed_sql,
             true
         );
+
         return $results_operations_html;
     }
 
@@ -4898,18 +4960,18 @@ class PMA_DisplayResults
         global $printview;
 
         $results_operations_html = '';
-        $fields_meta = $this->__get('fields_meta'); // To safe use in foreach
-        $header_shown = false;
-        $header = '<fieldset><legend>' . __('Query results operations')
+        $fields_meta             = $this->__get('fields_meta'); // To safe use in foreach
+        $header_shown            = false;
+        $header                  = '<fieldset><legend>' . __('Query results operations')
             . '</legend>';
 
-        $_url_params = array(
-                    'db'        => $this->__get('db'),
-                    'table'     => $this->__get('table'),
-                    'printview' => '1',
-                    'sql_query' => $this->__get('sql_query'),
-                );
-        $url_query = PMA_URL_getCommon($_url_params);
+        $_url_params = [
+            'db'        => $this->__get('db'),
+            'table'     => $this->__get('table'),
+            'printview' => '1',
+            'sql_query' => $this->__get('sql_query'),
+        ];
+        $url_query   = PMA_URL_getCommon($_url_params);
 
         if (!$header_shown) {
             $results_operations_html .= $header;
@@ -4925,6 +4987,7 @@ class PMA_DisplayResults
             if ($header_shown) {
                 $results_operations_html .= '</fieldset><br />';
             }
+
             return $results_operations_html;
         }
 
@@ -4940,7 +5003,7 @@ class PMA_DisplayResults
                         PMA_Util::getIcon(
                             'b_print.png', __('Print view'), true
                         ),
-                        array('target' => 'print_view'),
+                        ['target' => 'print_view'],
                         true,
                         true,
                         'print_view'
@@ -4958,7 +5021,7 @@ class PMA_DisplayResults
                                 'b_print.png',
                                 __('Print view (with full texts)'), true
                             ),
-                            array('target' => 'print_view'),
+                            ['target' => 'print_view'],
                             true,
                             true,
                             'print_view'
@@ -4978,17 +5041,17 @@ class PMA_DisplayResults
         // display the Export link).
         if (isset($analyzed_sql[0])
             && ($analyzed_sql[0]['querytype'] == self::QUERY_TYPE_SELECT)
-            && ! isset($printview)
-            && ! isset($analyzed_sql[0]['queryflags']['procedure'])
+            && !isset($printview)
+            && !isset($analyzed_sql[0]['queryflags']['procedure'])
         ) {
 
             if (isset($analyzed_sql[0]['table_ref'][0]['table_true_name'])
-                && ! isset($analyzed_sql[0]['table_ref'][1]['table_true_name'])
+                && !isset($analyzed_sql[0]['table_ref'][1]['table_true_name'])
             ) {
                 $_url_params['single_table'] = 'true';
             }
 
-            if (! $header_shown) {
+            if (!$header_shown) {
                 $results_operations_html .= $header;
                 $header_shown = true;
             }
@@ -5003,7 +5066,7 @@ class PMA_DisplayResults
              * first table of this database, so that tbl_export.php and
              * the script it calls do not fail
              */
-            if (empty($_url_params['table']) && ! empty($_url_params['db'])) {
+            if (empty($_url_params['table']) && !empty($_url_params['db'])) {
                 $_url_params['table'] = $GLOBALS['dbi']->fetchValue("SHOW TABLES");
                 /* No result (probably no database selected) */
                 if ($_url_params['table'] === false) {
@@ -5012,29 +5075,29 @@ class PMA_DisplayResults
             }
 
             $results_operations_html .= PMA_Util::linkOrButton(
-                'tbl_export.php' . PMA_URL_getCommon($_url_params),
-                PMA_Util::getIcon(
-                    'b_tblexport.png', __('Export'), true
-                ),
-                '',
-                true,
-                true,
-                ''
-            )
-            . "\n";
+                    'tbl_export.php' . PMA_URL_getCommon($_url_params),
+                    PMA_Util::getIcon(
+                        'b_tblexport.png', __('Export'), true
+                    ),
+                    '',
+                    true,
+                    true,
+                    ''
+                )
+                . "\n";
 
             // prepare chart
             $results_operations_html .= PMA_Util::linkOrButton(
-                'tbl_chart.php' . PMA_URL_getCommon($_url_params),
-                PMA_Util::getIcon(
-                    'b_chart.png', __('Display chart'), true
-                ),
-                '',
-                true,
-                true,
-                ''
-            )
-            . "\n";
+                    'tbl_chart.php' . PMA_URL_getCommon($_url_params),
+                    PMA_Util::getIcon(
+                        'b_chart.png', __('Display chart'), true
+                    ),
+                    '',
+                    true,
+                    true,
+                    ''
+                )
+                . "\n";
 
             // prepare GIS chart
             $geometry_found = false;
@@ -5115,15 +5178,16 @@ class PMA_DisplayResults
      */
     private function _handleNonPrintableContents(
         $category, $content, $transformation_plugin, $transform_options,
-        $default_function, $meta, $url_params = array(), &$is_truncated = null
+        $default_function, $meta, $url_params = [], &$is_truncated = null
     ) {
 
         $is_truncated = false;
-        $result = '[' . $category;
+        $result       = '[' . $category;
 
         if (isset($content)) {
 
-            $size = /*overload*/mb_strlen($content, '8bit');
+            $size         = /*overload*/
+                mb_strlen($content, '8bit');
             $display_size = PMA_Util::formatByteDown($size, 3, 1);
             $result .= ' - ' . $display_size[0] . ' ' . $display_size[1];
 
@@ -5142,7 +5206,7 @@ class PMA_DisplayResults
                 $transformation_plugin->getMIMESubtype(),
                 'Octetstream'
             );
-            $posMimeText = strpos($transformation_plugin->getMIMEtype(), 'Text');
+            $posMimeText        = strpos($transformation_plugin->getMIMEtype(), 'Text');
             if ($posMimeOctetstream
                 || $posMimeText !== false
             ) {
@@ -5153,7 +5217,7 @@ class PMA_DisplayResults
         }
 
         if ($size <= 0) {
-            return($result);
+            return ($result);
         }
 
         if ($default_function != $transformation_plugin) {
@@ -5162,17 +5226,18 @@ class PMA_DisplayResults
                 $transform_options,
                 $meta
             );
-            return($result);
+
+            return ($result);
         }
 
-        $result = $default_function($result, array(), $meta);
+        $result = $default_function($result, [], $meta);
         if (($_SESSION['tmpval']['display_binary']
-            && $meta->type === self::STRING_FIELD)
+                && $meta->type === self::STRING_FIELD)
             || ($_SESSION['tmpval']['display_blob']
-            && stristr($meta->type, self::BLOB_FIELD))
+                && stristr($meta->type, self::BLOB_FIELD))
         ) {
             // in this case, restart from the original $content
-            $result = bin2hex($content);
+            $result       = bin2hex($content);
             $is_truncated = $this->_getPartialText($result);
         }
 
@@ -5180,14 +5245,14 @@ class PMA_DisplayResults
 
         // in PHP < 5.5, empty() only checks variables
         $tmpdb = $this->__get('db');
-        if ((count($url_params) > 0) && (! empty($tmpdb) && ! empty($meta->orgtable))) {
+        if ((count($url_params) > 0) && (!empty($tmpdb) && !empty($meta->orgtable))) {
             $result = '<a href="tbl_get_field.php'
                 . PMA_URL_getCommon($url_params)
                 . '" class="disableAjax">'
                 . $result . '</a>';
         }
 
-        return($result);
+        return ($result);
 
     } // end of the '_handleNonPrintableContents()' function
 
@@ -5229,9 +5294,9 @@ class PMA_DisplayResults
     ) {
 
         $relational_display = $_SESSION['tmpval']['relational_display'];
-        $printview = $this->__get('printview');
-        $decimals = isset($meta->decimals) ? $meta->decimals : '-1';
-        $result = '<td data-decimals="' . $decimals . '" data-type="'
+        $printview          = $this->__get('printview');
+        $decimals           = isset($meta->decimals) ? $meta->decimals : '-1';
+        $result             = '<td data-decimals="' . $decimals . '" data-type="'
             . $meta->type . '" class="'
             . $this->_addClass(
                 $class, $condition_field, $meta, $nowrap,
@@ -5248,14 +5313,14 @@ class PMA_DisplayResults
             ) {
 
                 $alias = $analyzed_sql[0]['select_expr']
-                    [$select_expr_position]['alias'];
+                [$select_expr_position]['alias'];
 
                 if (!isset($alias) || !/*overload*/mb_strlen($alias)) {
                     continue;
                 } // end if
 
                 $true_column = $analyzed_sql[0]['select_expr']
-                    [$select_expr_position]['column'];
+                [$select_expr_position]['column'];
 
                 if ($alias == $meta->name) {
                     // this change in the parameter does not matter
@@ -5270,7 +5335,8 @@ class PMA_DisplayResults
 
             // Field to display from the foreign table?
             if (isset($map[$meta->name][2])
-                && /*overload*/mb_strlen($map[$meta->name][2])
+                && /*overload*/
+                mb_strlen($map[$meta->name][2])
             ) {
 
                 $dispsql = 'SELECT '
@@ -5298,20 +5364,20 @@ class PMA_DisplayResults
                 @$GLOBALS['dbi']->freeResult($dispresult);
 
             } else {
-                $dispval     = '';
+                $dispval = '';
             } // end if... else...
 
             if (isset($printview) && ($printview == '1')) {
 
                 $result .= ($transformation_plugin != $default_function
-                    ? $transformation_plugin->applyTransformation(
-                        $data,
-                        $transform_options,
-                        $meta
+                        ? $transformation_plugin->applyTransformation(
+                            $data,
+                            $transform_options,
+                            $meta
+                        )
+                        : $default_function($data)
                     )
-                    : $default_function($data)
-                )
-                . ' <code>[-&gt;' . $dispval . ']</code>';
+                    . ' <code>[-&gt;' . $dispval . ']</code>';
 
             } else {
 
@@ -5319,7 +5385,7 @@ class PMA_DisplayResults
 
                     // user chose "relational key" in the display options, so
                     // the title contains the display field
-                    $title = (! empty($dispval))
+                    $title = (!empty($dispval))
                         ? ' title="' . htmlspecialchars($dispval) . '"'
                         : '';
 
@@ -5327,10 +5393,10 @@ class PMA_DisplayResults
                     $title = ' title="' . htmlspecialchars($data) . '"';
                 }
 
-                $_url_params = array(
-                    'db'    => $map[$meta->name][3],
-                    'table' => $map[$meta->name][0],
-                    'pos'   => '0',
+                $_url_params = [
+                    'db'        => $map[$meta->name][3],
+                    'table'     => $map[$meta->name][0],
+                    'pos'       => '0',
                     'sql_query' => 'SELECT * FROM '
                         . PMA_Util::backquote(
                             $map[$meta->name][3]
@@ -5343,7 +5409,7 @@ class PMA_DisplayResults
                             $map[$meta->name][1]
                         )
                         . $where_comparison,
-                );
+                ];
 
                 $result .= '<a class="ajax" href="sql.php'
                     . PMA_URL_getCommon($_url_params)
@@ -5360,7 +5426,7 @@ class PMA_DisplayResults
                 } else {
 
                     if ($relational_display == self::RELATIONAL_DISPLAY_COLUMN
-                       && ! empty($map[$meta->name][2])
+                        && !empty($map[$meta->name][2])
                     ) {
                         // user chose "relational display field" in the
                         // display options, so show display field in the cell
@@ -5417,10 +5483,10 @@ class PMA_DisplayResults
 
         $ret = '';
 
-        if (! empty($del_url) && $displayParts['del_lnk'] != self::KILL_PROCESS) {
+        if (!empty($del_url) && $displayParts['del_lnk'] != self::KILL_PROCESS) {
 
             $ret .= '<td ';
-            if (! empty($class)) {
+            if (!empty($class)) {
                 $ret .= 'class="' . $class . '"';
             }
 
@@ -5461,17 +5527,17 @@ class PMA_DisplayResults
     ) {
 
         $ret = '';
-        if (! empty($edit_url)) {
+        if (!empty($edit_url)) {
 
             $ret .= '<td class="' . $class . ' center" ' . ' ><span class="nowrap">'
-               . PMA_Util::linkOrButton(
-                   $edit_url, $edit_str, array(), false
-               );
+                . PMA_Util::linkOrButton(
+                    $edit_url, $edit_str, [], false
+                );
             /*
              * Where clause for selecting this row uniquely is provided as
              * a hidden input. Used by jQuery scripts for handling grid editing
              */
-            if (! empty($where_clause)) {
+            if (!empty($where_clause)) {
                 $ret .= '<input type="hidden" class="where_clause" value ="'
                     . $where_clause_html . '" />';
             }
@@ -5503,23 +5569,23 @@ class PMA_DisplayResults
     ) {
 
         $ret = '';
-        if (! empty($copy_url)) {
+        if (!empty($copy_url)) {
 
             $ret .= '<td class="';
-            if (! empty($class)) {
+            if (!empty($class)) {
                 $ret .= $class . ' ';
             }
 
             $ret .= 'center" ' . ' ><span class="nowrap">'
-               . PMA_Util::linkOrButton(
-                   $copy_url, $copy_str, array(), false
-               );
+                . PMA_Util::linkOrButton(
+                    $copy_url, $copy_str, [], false
+                );
 
             /*
              * Where clause for selecting this row uniquely is provided as
              * a hidden input. Used by jQuery scripts for handling grid editing
              */
-            if (! empty($where_clause)) {
+            if (!empty($where_clause)) {
                 $ret .= '<input type="hidden" class="where_clause" value="'
                     . $where_clause_html . '" />';
             }
@@ -5549,19 +5615,19 @@ class PMA_DisplayResults
     {
 
         $ret = '';
-        if (! empty($del_url)) {
+        if (!empty($del_url)) {
 
             $ret .= '<td class="';
-            if (! empty($class)) {
+            if (!empty($class)) {
                 $ret .= $class . ' ';
             }
             $ajax = PMA_Response::getInstance()->isAjax() ? ' ajax' : '';
             $ret .= 'center" ' . ' >'
-               . PMA_Util::linkOrButton(
-                   $del_url, $del_str, array('class' => 'delete_row requireConfirm' . $ajax), false
-               )
-               . '<div class="hide">' . $js_conf . '</div>'
-               . '</td>';
+                . PMA_Util::linkOrButton(
+                    $del_url, $del_str, ['class' => 'delete_row requireConfirm' . $ajax], false
+                )
+                . '<div class="hide">' . $js_conf . '</div>'
+                . '</td>';
         }
 
         return $ret;
@@ -5666,12 +5732,14 @@ class PMA_DisplayResults
      */
     private function _getPartialText(&$str)
     {
-        if (/*overload*/mb_strlen($str) > $GLOBALS['cfg']['LimitChars']
+        if (/*overload*/
+            mb_strlen($str) > $GLOBALS['cfg']['LimitChars']
             && $_SESSION['tmpval']['pftext'] === self::DISPLAY_PARTIAL_TEXT
         ) {
-            $str = /*overload*/mb_substr(
-                $str, 0, $GLOBALS['cfg']['LimitChars']
-            ) . '...';
+            $str = /*overload*/
+                mb_substr(
+                    $str, 0, $GLOBALS['cfg']['LimitChars']
+                ) . '...';
 
             return true;
         }

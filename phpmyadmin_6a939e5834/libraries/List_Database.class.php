@@ -6,7 +6,7 @@
  * @package PhpMyAdmin
  */
 
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -23,7 +23,7 @@ require_once './libraries/check_user_privileges.lib.php';
  * $PMA_List_Database = new PMA_List_Database($userlink);
  * </code>
  *
- * @todo this object should be attached to the PMA_Server object
+ * @todo    this object should be attached to the PMA_Server object
  *
  * @package PhpMyAdmin
  * @since   phpMyAdmin 2.9.10
@@ -49,7 +49,7 @@ class PMA_List_Database extends PMA_List
      */
     public function __construct($db_link_user = null)
     {
-        $this->db_link = $db_link_user;
+        $this->db_link      = $db_link_user;
         $this->db_link_user = $db_link_user;
 
         parent::__construct();
@@ -83,9 +83,9 @@ class PMA_List_Database extends PMA_List
      */
     protected function retrieve($like_db_name = null)
     {
-        $database_list = array();
-        $command = "";
-        if (! $GLOBALS['cfg']['Server']['DisableIS']) {
+        $database_list = [];
+        $command       = "";
+        if (!$GLOBALS['cfg']['Server']['DisableIS']) {
             $command .= "SELECT `SCHEMA_NAME` FROM `INFORMATION_SCHEMA`.`SCHEMATA`";
             if (null !== $like_db_name) {
                 $command .= " WHERE `SCHEMA_NAME` LIKE '" . $like_db_name . "'";
@@ -129,7 +129,7 @@ class PMA_List_Database extends PMA_List
      */
     public function build()
     {
-        if (! $this->checkOnlyDatabase()) {
+        if (!$this->checkOnlyDatabase()) {
             $items = $this->retrieve();
             $this->exchangeArray($items);
         }
@@ -145,24 +145,25 @@ class PMA_List_Database extends PMA_List
     protected function checkOnlyDatabase()
     {
         if (is_string($GLOBALS['cfg']['Server']['only_db'])
-            && /*overload*/mb_strlen($GLOBALS['cfg']['Server']['only_db'])
+            && /*overload*/
+            mb_strlen($GLOBALS['cfg']['Server']['only_db'])
         ) {
-            $GLOBALS['cfg']['Server']['only_db'] = array(
-                $GLOBALS['cfg']['Server']['only_db']
-            );
+            $GLOBALS['cfg']['Server']['only_db'] = [
+                $GLOBALS['cfg']['Server']['only_db'],
+            ];
         }
 
-        if (! is_array($GLOBALS['cfg']['Server']['only_db'])) {
+        if (!is_array($GLOBALS['cfg']['Server']['only_db'])) {
             return false;
         }
 
-        $items = array();
+        $items = [];
 
         foreach ($GLOBALS['cfg']['Server']['only_db'] as $each_only_db) {
 
             // check if the db name contains wildcard,
             // thus containing not escaped _ or %
-            if (! preg_match('/(^|[^\\\\])(_|%)/', $each_only_db)) {
+            if (!preg_match('/(^|[^\\\\])(_|%)/', $each_only_db)) {
                 // ... not contains wildcard
                 $items[] = PMA_Util::unescapeMysqlWildcards($each_only_db);
                 continue;
@@ -183,11 +184,14 @@ class PMA_List_Database extends PMA_List
      */
     public function getDefault()
     {
-        if (/*overload*/mb_strlen($GLOBALS['db'])) {
+        if (/*overload*/
+        mb_strlen($GLOBALS['db'])
+        ) {
             return $GLOBALS['db'];
         }
 
         return $this->getEmpty();
     }
 }
+
 ?>

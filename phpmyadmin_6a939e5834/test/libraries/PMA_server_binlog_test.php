@@ -42,17 +42,17 @@ class PMA_ServerBinlog_Test extends PHPUnit_Framework_TestCase
         $_REQUEST['pos'] = 3;
 
         //$GLOBALS
-        $GLOBALS['cfg']['MaxRows'] = 10;
-        $GLOBALS['server'] = 1;
-        $GLOBALS['cfg']['ServerDefault'] = "server";
-        $GLOBALS['cfg']['RememberSorting'] = true;
-        $GLOBALS['cfg']['SQP'] = array();
+        $GLOBALS['cfg']['MaxRows']                     = 10;
+        $GLOBALS['server']                             = 1;
+        $GLOBALS['cfg']['ServerDefault']               = "server";
+        $GLOBALS['cfg']['RememberSorting']             = true;
+        $GLOBALS['cfg']['SQP']                         = [];
         $GLOBALS['cfg']['MaxCharactersInDisplayedSQL'] = 1000;
-        $GLOBALS['cfg']['ShowSQL'] = true;
-        $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
+        $GLOBALS['cfg']['ShowSQL']                     = true;
+        $GLOBALS['cfg']['TableNavigationLinksMode']    = 'icons';
+        $GLOBALS['cfg']['LimitChars']                  = 100;
 
-        $GLOBALS['table'] = "table";
+        $GLOBALS['table']         = "table";
         $GLOBALS['pmaThemeImage'] = 'image';
 
         //$_SESSION
@@ -67,12 +67,12 @@ class PMA_ServerBinlog_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetLogSelector()
     {
-        $binary_log_file_names = array();
-        $binary_log_file_names[] = array("Log_name"=>"index1", "File_size"=>100);
-        $binary_log_file_names[] = array("Log_name"=>"index2", "File_size"=>200);
+        $binary_log_file_names   = [];
+        $binary_log_file_names[] = ["Log_name" => "index1", "File_size" => 100];
+        $binary_log_file_names[] = ["Log_name" => "index2", "File_size" => 200];
 
-        $url_params = array();
-        $url_params['log'] = "log";
+        $url_params                   = [];
+        $url_params['log']            = "log";
         $url_params['dontlimitchars'] = 1;
 
         $html = PMA_getLogSelector($binary_log_file_names, $url_params);
@@ -98,8 +98,8 @@ class PMA_ServerBinlog_Test extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetLogInfo()
     {
-        $url_params = array();
-        $url_params['log'] = "log";
+        $url_params                   = [];
+        $url_params['log']            = "log";
         $url_params['dontlimitchars'] = 1;
 
         //Mock DBI
@@ -108,31 +108,31 @@ class PMA_ServerBinlog_Test extends PHPUnit_Framework_TestCase
             ->getMock();
 
         //expects return value
-        $result = array(
-            array(
+        $result = [
+            [
                 "SHOW BINLOG EVENTS IN 'index1' LIMIT 3, 10",
                 null,
                 1,
                 true,
-                array("log1"=>"logd")
-            ),
-            array(
-                array("log2"=>"logb"),
+                ["log1" => "logd"],
+            ],
+            [
+                ["log2" => "logb"],
                 null,
                 0,
                 false,
-                'executed'
-            )
-        );
-        $value = array(
-                'Info' => "index1_Info",
-                'Log_name' => "index1_Log_name",
-                'Pos' => "index1_Pos",
-                'Event_type' => "index1_Event_type",
-                'End_log_pos' => "index1_End_log_pos",
-                'Server_id' => "index1_Server_id",
-        );
-        $count = 3;
+                'executed',
+            ],
+        ];
+        $value  = [
+            'Info'        => "index1_Info",
+            'Log_name'    => "index1_Log_name",
+            'Pos'         => "index1_Pos",
+            'Event_type'  => "index1_Event_type",
+            'End_log_pos' => "index1_End_log_pos",
+            'Server_id'   => "index1_Server_id",
+        ];
+        $count  = 3;
 
         //expects functions
         $dbi->expects($this->once())->method('query')
@@ -213,28 +213,28 @@ class PMA_ServerBinlog_Test extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $fetchAssoc = array(
-            'Info' => 'Info',
-            'Log_name' => 'Log_name',
-            'Pos' => 'Pos',
-            'Event_type' => 'Event_type',
-            'Server_id' => 'Server_id',
+        $fetchAssoc = [
+            'Info'         => 'Info',
+            'Log_name'     => 'Log_name',
+            'Pos'          => 'Pos',
+            'Event_type'   => 'Event_type',
+            'Server_id'    => 'Server_id',
             'Orig_log_pos' => 'Orig_log_pos',
-            'End_log_pos' => 'End_log_pos',
-        );
+            'End_log_pos'  => 'End_log_pos',
+        ];
         $dbi->expects($this->at(0))->method('fetchAssoc')
             ->will($this->returnValue($fetchAssoc));
 
         $dbi->expects($this->at(1))->method('fetchAssoc')
             ->will($this->returnValue(false));
 
-        $GLOBALS['dbi'] = $dbi;
+        $GLOBALS['dbi']               = $dbi;
         $GLOBALS['cfg']['LimitChars'] = 2;
 
-        $result = array();
+        $result         = [];
         $dontlimitchars = ";";
 
-        $html = PMA_getAllLogItemInfo($result, $dontlimitchars);
+        $html  = PMA_getAllLogItemInfo($result, $dontlimitchars);
         $value = $fetchAssoc;
         $this->assertContains(
             $value['Log_name'],

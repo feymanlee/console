@@ -45,28 +45,28 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
      */
     public function testUserPrefPageInit()
     {
-        $GLOBALS['cfg'] = array(
+        $GLOBALS['cfg']                      = [
             'Server/hide_db' => 'testval123',
-            'Server/only_db' => 'test213'
-        );
-        $GLOBALS['cfg']['AvailableCharsets'] = array();
-        $GLOBALS['forms'] = array(
-            'form1' => array(
-                array('Servers/1/hide_db', 'bar'),
-                array('test' => 'val')
-            )
-        );
+            'Server/only_db' => 'test213',
+        ];
+        $GLOBALS['cfg']['AvailableCharsets'] = [];
+        $GLOBALS['forms']                    = [
+            'form1' => [
+                ['Servers/1/hide_db', 'bar'],
+                ['test' => 'val'],
+            ],
+        ];
 
         PMA_userprefsPageInit(new ConfigFile());
 
         $this->assertEquals(
-            array(
-                'Servers' => array(
-                    1 => array(
-                        'hide_db' => 'testval123'
-                    )
-                )
-            ),
+            [
+                'Servers' => [
+                    1 => [
+                        'hide_db' => 'testval123',
+                    ],
+                ],
+            ],
             $_SESSION['ConfigFile' . $GLOBALS['server']]
         );
     }
@@ -89,7 +89,7 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array(),
+            [],
             $result['config_data']
         );
 
@@ -107,10 +107,10 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
 
         // case 2
         $_SESSION['relation'][$GLOBALS['server']]['userconfigwork'] = 1;
-        $_SESSION['relation'][$GLOBALS['server']]['db'] = "pma'db";
-        $_SESSION['relation'][$GLOBALS['server']]['userconfig'] = "testconf";
-        $_SESSION['relation'][$GLOBALS['server']]['user'] = "user";
-        $GLOBALS['controllink'] = null;
+        $_SESSION['relation'][$GLOBALS['server']]['db']             = "pma'db";
+        $_SESSION['relation'][$GLOBALS['server']]['userconfig']     = "testconf";
+        $_SESSION['relation'][$GLOBALS['server']]['user']           = "user";
+        $GLOBALS['controllink']                                     = null;
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
@@ -124,10 +124,10 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
             ->with($query, 'ASSOC', null)
             ->will(
                 $this->returnValue(
-                    array(
-                        'ts' => '123',
-                        'config_data' => json_encode(array(1, 2))
-                    )
+                    [
+                        'ts'          => '123',
+                        'config_data' => json_encode([1, 2]),
+                    ]
                 )
             );
         $GLOBALS['dbi'] = $dbi;
@@ -135,11 +135,11 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
         $result = PMA_loadUserprefs();
 
         $this->assertEquals(
-            array(
-                'config_data' => array(1, 2),
-                'mtime' => 123,
-                'type' => 'db'
-            ),
+            [
+                'config_data' => [1, 2],
+                'mtime'       => 123,
+                'type'        => 'db',
+            ],
             $result
         );
     }
@@ -147,15 +147,15 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
     /**
      * Test for PMA_saveUserprefs
      *
-     *  @return void
+     * @return void
      */
     public function testSaveUserprefs()
     {
-        $GLOBALS['server'] = 2;
+        $GLOBALS['server']                         = 2;
         $_SESSION['relation'][2]['userconfigwork'] = null;
         unset($_SESSION['userconfig']);
 
-        $result = PMA_saveUserprefs(array(1));
+        $result = PMA_saveUserprefs([1]);
 
         $this->assertTrue(
             $result
@@ -167,7 +167,7 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array(1),
+            [1],
             $_SESSION['userconfig']['db']
         );
 
@@ -191,16 +191,16 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
 
         // case 2
         $_SESSION['relation'][$GLOBALS['server']]['userconfigwork'] = 1;
-        $_SESSION['relation'][$GLOBALS['server']]['db'] = "pmadb";
-        $_SESSION['relation'][$GLOBALS['server']]['userconfig'] = "testconf";
-        $_SESSION['relation'][$GLOBALS['server']]['user'] = "user";
-        $GLOBALS['controllink'] = null;
+        $_SESSION['relation'][$GLOBALS['server']]['db']             = "pmadb";
+        $_SESSION['relation'][$GLOBALS['server']]['userconfig']     = "testconf";
+        $_SESSION['relation'][$GLOBALS['server']]['user']           = "user";
+        $GLOBALS['controllink']                                     = null;
 
         $query1 = 'SELECT `username` FROM `pmadb`.`testconf` '
             . 'WHERE `username` = \'user\'';
 
         $query2 = 'UPDATE `pmadb`.`testconf` SET `timevalue` = NOW(), `config_data` = \''
-            . json_encode(array(1)) . '\' WHERE `username` = \'user\'';
+            . json_encode([1]) . '\' WHERE `username` = \'user\'';
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
@@ -218,7 +218,7 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
 
         $GLOBALS['dbi'] = $dbi;
         $this->assertTrue(
-            PMA_saveUserprefs(array(1))
+            PMA_saveUserprefs([1])
         );
 
         // case 3
@@ -227,7 +227,7 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
             . 'WHERE `username` = \'user\'';
 
         $query2 = 'INSERT INTO `pmadb`.`testconf` (`username`, `timevalue`,`config_data`) '
-            . 'VALUES (\'user\', NOW(), \'' . json_encode(array(1)) . '\')';
+            . 'VALUES (\'user\', NOW(), \'' . json_encode([1]) . '\')';
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
@@ -250,7 +250,7 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
 
         $GLOBALS['dbi'] = $dbi;
 
-        $result = PMA_saveUserprefs(array(1));
+        $result = PMA_saveUserprefs([1]);
 
         $this->assertEquals(
             'Could not save configuration <br /><br /> err1',
@@ -265,27 +265,27 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
      */
     public function testApplyUserprefs()
     {
-        $GLOBALS['cfg']['UserprefsDisallow'] = array(
+        $GLOBALS['cfg']['UserprefsDisallow']     = [
             'test' => 'val',
-            'foo' => 'bar'
-        );
+            'foo'  => 'bar',
+        ];
         $GLOBALS['cfg']['UserprefsDeveloperTab'] = null;
-        $result = PMA_applyUserprefs(
-            array(
-                'DBG/sql' => true,
+        $result                                  = PMA_applyUserprefs(
+            [
+                'DBG/sql'               => true,
                 'Error_Handler/display' => true,
-                'Error_Handler/gather' => false,
-                'Servers/foobar' => '123',
-                'Server/hide_db' => true
-            )
+                'Error_Handler/gather'  => false,
+                'Servers/foobar'        => '123',
+                'Server/hide_db'        => true,
+            ]
         );
 
         $this->assertEquals(
-            array(
-                'Server' => array(
-                    'hide_db' => 1
-                )
-            ),
+            [
+                'Server' => [
+                    'hide_db' => 1,
+                ],
+            ],
             $result
         );
     }
@@ -302,15 +302,15 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
             count(PMA_readUserprefsFieldNames())
         );
 
-        $forms = array(
-            'form1' => array(
-                array('Servers/1/hide_db', 'bar'),
-                array('test' => 'val')
-            )
-        );
+        $forms = [
+            'form1' => [
+                ['Servers/1/hide_db', 'bar'],
+                ['test' => 'val'],
+            ],
+        ];
 
         $this->assertEquals(
-            array('Servers/1/hide_db', 'bar', 'test'),
+            ['Servers/1/hide_db', 'bar', 'test'],
             PMA_readUserprefsFieldNames($forms)
         );
     }
@@ -323,14 +323,14 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
     public function testPersistOption()
     {
         $_SESSION['relation'][$GLOBALS['server']]['userconfigwork'] = null;
-        $_SESSION['userconfig'] = array();
-        $_SESSION['userconfig']['ts'] = "123";
-        $_SESSION['userconfig']['db'] = array(
+        $_SESSION['userconfig']                                     = [];
+        $_SESSION['userconfig']['ts']                               = "123";
+        $_SESSION['userconfig']['db']                               = [
             'Server/hide_db' => true,
             'Server/only_db' => true,
-        );
+        ];
 
-        $GLOBALS['server'] = 2;
+        $GLOBALS['server']                         = 2;
         $_SESSION['relation'][2]['userconfigwork'] = null;
 
         $this->assertNull(
@@ -360,8 +360,8 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
         }
 
         $GLOBALS['cfg']['PmaAbsoluteUri'] = 'https://www.phpmyadmin.net';
-        $GLOBALS['cfg']['ServerDefault'] = 1;
-        $GLOBALS['lang'] = '';
+        $GLOBALS['cfg']['ServerDefault']  = 1;
+        $GLOBALS['lang']                  = '';
 
         $redefine = null;
         if (!defined('PMA_IS_IIS')) {
@@ -373,7 +373,7 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
 
         PMA_userprefsRedirect(
             'file.html',
-            array('a' => 'b'),
+            ['a' => 'b'],
             'h ash'
         );
 
@@ -398,7 +398,7 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
     public function testUserprefsAutoloadGetHeader()
     {
         $_SESSION['userprefs_autoload'] = false;
-        $_REQUEST['prefs_autoload'] = 'hide';
+        $_REQUEST['prefs_autoload']     = 'hide';
 
         $this->assertEquals(
             '',
@@ -409,10 +409,10 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
             $_SESSION['userprefs_autoload']
         );
 
-        $_REQUEST['prefs_autoload'] = 'nohide';
+        $_REQUEST['prefs_autoload']      = 'nohide';
         $GLOBALS['cfg']['ServerDefault'] = 1;
-        $GLOBALS['PMA_PHP_SELF'] = 'phpunit';
-        $result = PMA_userprefsAutoloadGetHeader();
+        $GLOBALS['PMA_PHP_SELF']         = 'phpunit';
+        $result                          = PMA_userprefsAutoloadGetHeader();
 
         $this->assertContains(
             '<form action="prefs_manage.php" method="post" class="disableAjax">',
@@ -440,4 +440,5 @@ class PMA_User_Preferences_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

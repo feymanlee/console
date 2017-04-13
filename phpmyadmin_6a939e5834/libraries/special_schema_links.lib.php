@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -44,418 +44,418 @@ if (! defined('PHPMYADMIN')) {
  * );
  *
  */
-$GLOBALS['special_schema_links'] = array(
-    'mysql' => array(
-        'columns_priv' => array(
-            'user' => array(
-                'link_param' => 'username',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'hostname',
-                        'column_name' => 'host'
-                    )
-                ),
-                'default_page' => 'server_privileges.php'
-            ),
-            'table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'Db'
-                    ),
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            ),
-            'column_name' => array(
-                'link_param' => 'field',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'Db'
-                    ),
-                    1 => array(
-                        'param_info' => 'table',
-                        'column_name' => 'Table_name'
-                    )
-                ),
-                'default_page' => 'tbl_structure.php?change_column=1'
-            ),
-        ),
-        'db' => array(
-            'user' => array(
-                'link_param' => 'username',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'hostname',
-                        'column_name' => 'host'
-                    )
-                ),
-                'default_page' => 'server_privileges.php'
-            )
-        ),
-        'event' => array(
-            'name' => array(
-                'link_param' => 'item_name',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'db'
-                    )
-                ),
-                'default_page' => 'db_events.php?edit_item=1'
-            ),
+$GLOBALS['special_schema_links'] = [
+    'mysql'              => [
+        'columns_priv'       => [
+            'user'        => [
+                'link_param'             => 'username',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'hostname',
+                        'column_name' => 'host',
+                    ],
+                ],
+                'default_page'           => 'server_privileges.php',
+            ],
+            'table_name'  => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'Db',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+            'column_name' => [
+                'link_param'             => 'field',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'Db',
+                    ],
+                    1 => [
+                        'param_info'  => 'table',
+                        'column_name' => 'Table_name',
+                    ],
+                ],
+                'default_page'           => 'tbl_structure.php?change_column=1',
+            ],
+        ],
+        'db'                 => [
+            'user' => [
+                'link_param'             => 'username',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'hostname',
+                        'column_name' => 'host',
+                    ],
+                ],
+                'default_page'           => 'server_privileges.php',
+            ],
+        ],
+        'event'              => [
+            'name' => [
+                'link_param'             => 'item_name',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'db',
+                    ],
+                ],
+                'default_page'           => 'db_events.php?edit_item=1',
+            ],
 
-        ),
-        'innodb_index_stats' => array(
-            'table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'database_name'
-                    ),
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            ),
-            'index_name' => array(
-                'link_param' => 'index',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'database_name'
-                    ),
-                    1 => array(
-                        'param_info' => 'table',
-                        'column_name' => 'table_name'
-                    )
-                ),
-                'default_page' => 'tbl_structure.php'
-            ),
-        ),
-        'innodb_table_stats' => array(
-            'table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'database_name'
-                    ),
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            ),
-        ),
-        'proc' => array(
-            'name' => array(
-                'link_param' => 'item_name',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'db'
-                    ),
-                    1 => array(
-                        'param_info' => 'item_type',
-                        'column_name' => 'type'
-                    )
-                ),
-                'default_page' => 'db_routines.php?edit_item=1'
-            ),
-            'specific_name' => array(
-                'link_param' => 'item_name',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'db'
-                    ),
-                    1 => array(
-                        'param_info' => 'item_type',
-                        'column_name' => 'type'
-                    )
-                ),
-                'default_page' => 'db_routines.php?edit_item=1'
-            ),
-        ),
-        'proc_priv' => array(
-            'user' => array(
-                'link_param' => 'username',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'hostname',
-                        'column_name' => 'Host'
-                    )
-                ),
-                'default_page' => 'server_privileges.php'
-            ),
-            'routine_name' => array(
-                'link_param' => 'item_name',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'Db'
-                    ),
-                    1 => array(
-                        'param_info' => 'item_type',
-                        'column_name' => 'Routine_type'
-                    )
-                ),
-                'default_page' => 'db_routines.php?edit_item=1'
-            ),
-        ),
-        'proxies_priv' => array(
-            'user' => array(
-                'link_param' => 'username',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'hostname',
-                        'column_name' => 'Host'
-                    )
-                ),
-                'default_page' => 'server_privileges.php'
-            ),
-        ),
-        'tables_priv' => array(
-            'user' => array(
-                'link_param' => 'username',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'hostname',
-                        'column_name' => 'Host'
-                    )
-                ),
-                'default_page' => 'server_privileges.php'
-            ),
-            'table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'Db'
-                    ),
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            ),
-        ),
-        'user' => array(
-            'user' => array(
-                'link_param' => 'username',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'hostname',
-                        'column_name' => 'host'
-                    )
-                ),
-                'default_page' => 'server_privileges.php'
-            )
-        )
-    ),
-    'information_schema' => array(
-        'columns' => array(
-            'table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'table_schema'
-                    )
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            ),
-            'column_name' => array(
-                'link_param' => 'field',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'table_schema'
-                    ),
-                    1 => array(
-                        'param_info' => 'table',
-                        'column_name' => 'table_name'
-                    )
-                ),
-                'default_page' => 'tbl_structure.php?change_column=1'
-            )
-        ),
-        'key_column_usage' => array(
-            'table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'constraint_schema'
-                    )
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            ),
-            'column_name' => array(
-                'link_param' => 'field',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'table_schema'
-                    ),
-                    1 => array(
-                        'param_info' => 'table',
-                        'column_name' => 'table_name'
-                    )
-                ),
-                'default_page' => 'tbl_structure.php?change_column=1'
-            ),
-            'referenced_table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'referenced_table_schema'
-                    )
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            ),
-            'referenced_column_name' => array(
-                'link_param' => 'field',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'referenced_table_schema'
-                    ),
-                    1 => array(
-                        'param_info' => 'table',
-                        'column_name' => 'referenced_table_name'
-                    )
-                ),
-                'default_page' => 'tbl_structure.php?change_column=1'
-            )
-        ),
-        'partitions' => array(
-            'table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'table_schema'
-                    )
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            )
-        ),
-        'processlist' => array(
-            'user' => array(
-                'link_param' => 'username',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'hostname',
-                        'column_name' => 'host'
-                    )
-                ),
-                'default_page' => 'server_privileges.php'
-            )
-        ),
-        'referential_constraints' => array(
-            'table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'constraint_schema'
-                    )
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            ),
-            'referenced_table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'constraint_schema'
-                    )
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            )
-        ),
-        'routines' => array(
-            'routine_name' => array(
-                'link_param' => 'item_name',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'routine_schema'
-                    ),
-                    1 => array(
-                        'param_info' => 'item_type',
-                        'column_name' => 'routine_type'
-                    )
-                ),
-                'default_page' => 'db_routines.php'
-            ),
-        ),
-        'schemata' => array(
-            'schema_name' => array(
-                'link_param' => 'db',
-                'default_page' => $GLOBALS['cfg']['DefaultTabDatabase']
-            )
-        ),
-        'statistics' => array(
-            'table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'table_schema'
-                    )
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            ),
-            'column_name' => array(
-                'link_param' => 'field',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'table_schema'
-                    ),
-                    1 => array(
-                        'param_info' => 'table',
-                        'column_name' => 'table_name'
-                    )
-                ),
-                'default_page' => 'tbl_structure.php?change_column=1'
-            )
-        ),
-        'tables' => array(
-            'table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'table_schema'
-                    )
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            ),
-        ),
-        'table_constraints' => array(
-            'table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'table_schema'
-                    )
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            ),
-        ),
-        'views' => array(
-            'table_name' => array(
-                'link_param' => 'table',
-                'link_dependancy_params' => array(
-                    0 => array(
-                        'param_info' => 'db',
-                        'column_name' => 'table_schema'
-                    )
-                ),
-                'default_page' => $GLOBALS['cfg']['DefaultTabTable']
-            ),
-        ),
-    )
-);
+        ],
+        'innodb_index_stats' => [
+            'table_name' => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'database_name',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+            'index_name' => [
+                'link_param'             => 'index',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'database_name',
+                    ],
+                    1 => [
+                        'param_info'  => 'table',
+                        'column_name' => 'table_name',
+                    ],
+                ],
+                'default_page'           => 'tbl_structure.php',
+            ],
+        ],
+        'innodb_table_stats' => [
+            'table_name' => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'database_name',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+        ],
+        'proc'               => [
+            'name'          => [
+                'link_param'             => 'item_name',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'db',
+                    ],
+                    1 => [
+                        'param_info'  => 'item_type',
+                        'column_name' => 'type',
+                    ],
+                ],
+                'default_page'           => 'db_routines.php?edit_item=1',
+            ],
+            'specific_name' => [
+                'link_param'             => 'item_name',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'db',
+                    ],
+                    1 => [
+                        'param_info'  => 'item_type',
+                        'column_name' => 'type',
+                    ],
+                ],
+                'default_page'           => 'db_routines.php?edit_item=1',
+            ],
+        ],
+        'proc_priv'          => [
+            'user'         => [
+                'link_param'             => 'username',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'hostname',
+                        'column_name' => 'Host',
+                    ],
+                ],
+                'default_page'           => 'server_privileges.php',
+            ],
+            'routine_name' => [
+                'link_param'             => 'item_name',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'Db',
+                    ],
+                    1 => [
+                        'param_info'  => 'item_type',
+                        'column_name' => 'Routine_type',
+                    ],
+                ],
+                'default_page'           => 'db_routines.php?edit_item=1',
+            ],
+        ],
+        'proxies_priv'       => [
+            'user' => [
+                'link_param'             => 'username',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'hostname',
+                        'column_name' => 'Host',
+                    ],
+                ],
+                'default_page'           => 'server_privileges.php',
+            ],
+        ],
+        'tables_priv'        => [
+            'user'       => [
+                'link_param'             => 'username',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'hostname',
+                        'column_name' => 'Host',
+                    ],
+                ],
+                'default_page'           => 'server_privileges.php',
+            ],
+            'table_name' => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'Db',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+        ],
+        'user'               => [
+            'user' => [
+                'link_param'             => 'username',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'hostname',
+                        'column_name' => 'host',
+                    ],
+                ],
+                'default_page'           => 'server_privileges.php',
+            ],
+        ],
+    ],
+    'information_schema' => [
+        'columns'                 => [
+            'table_name'  => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'table_schema',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+            'column_name' => [
+                'link_param'             => 'field',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'table_schema',
+                    ],
+                    1 => [
+                        'param_info'  => 'table',
+                        'column_name' => 'table_name',
+                    ],
+                ],
+                'default_page'           => 'tbl_structure.php?change_column=1',
+            ],
+        ],
+        'key_column_usage'        => [
+            'table_name'             => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'constraint_schema',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+            'column_name'            => [
+                'link_param'             => 'field',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'table_schema',
+                    ],
+                    1 => [
+                        'param_info'  => 'table',
+                        'column_name' => 'table_name',
+                    ],
+                ],
+                'default_page'           => 'tbl_structure.php?change_column=1',
+            ],
+            'referenced_table_name'  => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'referenced_table_schema',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+            'referenced_column_name' => [
+                'link_param'             => 'field',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'referenced_table_schema',
+                    ],
+                    1 => [
+                        'param_info'  => 'table',
+                        'column_name' => 'referenced_table_name',
+                    ],
+                ],
+                'default_page'           => 'tbl_structure.php?change_column=1',
+            ],
+        ],
+        'partitions'              => [
+            'table_name' => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'table_schema',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+        ],
+        'processlist'             => [
+            'user' => [
+                'link_param'             => 'username',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'hostname',
+                        'column_name' => 'host',
+                    ],
+                ],
+                'default_page'           => 'server_privileges.php',
+            ],
+        ],
+        'referential_constraints' => [
+            'table_name'            => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'constraint_schema',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+            'referenced_table_name' => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'constraint_schema',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+        ],
+        'routines'                => [
+            'routine_name' => [
+                'link_param'             => 'item_name',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'routine_schema',
+                    ],
+                    1 => [
+                        'param_info'  => 'item_type',
+                        'column_name' => 'routine_type',
+                    ],
+                ],
+                'default_page'           => 'db_routines.php',
+            ],
+        ],
+        'schemata'                => [
+            'schema_name' => [
+                'link_param'   => 'db',
+                'default_page' => $GLOBALS['cfg']['DefaultTabDatabase'],
+            ],
+        ],
+        'statistics'              => [
+            'table_name'  => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'table_schema',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+            'column_name' => [
+                'link_param'             => 'field',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'table_schema',
+                    ],
+                    1 => [
+                        'param_info'  => 'table',
+                        'column_name' => 'table_name',
+                    ],
+                ],
+                'default_page'           => 'tbl_structure.php?change_column=1',
+            ],
+        ],
+        'tables'                  => [
+            'table_name' => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'table_schema',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+        ],
+        'table_constraints'       => [
+            'table_name' => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'table_schema',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+        ],
+        'views'                   => [
+            'table_name' => [
+                'link_param'             => 'table',
+                'link_dependancy_params' => [
+                    0 => [
+                        'param_info'  => 'db',
+                        'column_name' => 'table_schema',
+                    ],
+                ],
+                'default_page'           => $GLOBALS['cfg']['DefaultTabTable'],
+            ],
+        ],
+    ],
+];
 
 ?>

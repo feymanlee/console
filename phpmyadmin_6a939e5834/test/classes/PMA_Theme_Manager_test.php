@@ -31,13 +31,13 @@ class PMA_Theme_Manager_Test extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $GLOBALS['cfg']['ThemePath'] = './themes';
+        $GLOBALS['cfg']['ThemePath']      = './themes';
         $GLOBALS['cfg']['ThemePerServer'] = false;
-        $GLOBALS['cfg']['ThemeDefault'] = 'pmahomme';
-        $GLOBALS['cfg']['ServerDefault'] = 0;
-        $GLOBALS['server'] = 99;
-        $GLOBALS['PMA_Config'] = new PMA_Config();
-        $GLOBALS['collation_connection'] = 'utf8_general_ci';
+        $GLOBALS['cfg']['ThemeDefault']   = 'pmahomme';
+        $GLOBALS['cfg']['ServerDefault']  = 0;
+        $GLOBALS['server']                = 99;
+        $GLOBALS['PMA_Config']            = new PMA_Config();
+        $GLOBALS['collation_connection']  = 'utf8_general_ci';
     }
 
     /**
@@ -158,4 +158,5 @@ class PMA_Theme_Manager_Test extends PHPUnit_Framework_TestCase
         );
     }
 }
+
 ?>

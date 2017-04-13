@@ -14,7 +14,7 @@
  * @package    PhpMyAdmin-DBI
  * @subpackage Drizzle
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -24,31 +24,31 @@ require_once './libraries/dbi/DBIExtension.int.php';
 /**
  * MySQL client API
  */
-if (! defined('PMA_MYSQL_CLIENT_API')) {
+if (!defined('PMA_MYSQL_CLIENT_API')) {
     define('PMA_MYSQL_CLIENT_API', (int)drizzle_version());
 }
 
 /**
  * Names of field flags.
  */
-if (! defined('DRIZZLE_COLUMN_FLAGS_NUM')) {
-    $pma_drizzle_flag_names = array();
+if (!defined('DRIZZLE_COLUMN_FLAGS_NUM')) {
+    $pma_drizzle_flag_names = [];
 } else {
-    $pma_drizzle_flag_names = array(
-        DRIZZLE_COLUMN_FLAGS_NUM => 'num',
-        DRIZZLE_COLUMN_FLAGS_PART_KEY => 'part_key',
-        DRIZZLE_COLUMN_FLAGS_SET => 'set',
-        DRIZZLE_COLUMN_FLAGS_TIMESTAMP => 'timestamp',
+    $pma_drizzle_flag_names = [
+        DRIZZLE_COLUMN_FLAGS_NUM            => 'num',
+        DRIZZLE_COLUMN_FLAGS_PART_KEY       => 'part_key',
+        DRIZZLE_COLUMN_FLAGS_SET            => 'set',
+        DRIZZLE_COLUMN_FLAGS_TIMESTAMP      => 'timestamp',
         DRIZZLE_COLUMN_FLAGS_AUTO_INCREMENT => 'auto_increment',
-        DRIZZLE_COLUMN_FLAGS_ENUM => 'enum',
-        DRIZZLE_COLUMN_FLAGS_ZEROFILL => 'zerofill',
-        DRIZZLE_COLUMN_FLAGS_UNSIGNED => 'unsigned',
-        DRIZZLE_COLUMN_FLAGS_BLOB => 'blob',
-        DRIZZLE_COLUMN_FLAGS_MULTIPLE_KEY => 'multiple_key',
-        DRIZZLE_COLUMN_FLAGS_UNIQUE_KEY => 'unique_key',
-        DRIZZLE_COLUMN_FLAGS_PRI_KEY => 'primary_key',
-        DRIZZLE_COLUMN_FLAGS_NOT_NULL => 'not_null',
-    );
+        DRIZZLE_COLUMN_FLAGS_ENUM           => 'enum',
+        DRIZZLE_COLUMN_FLAGS_ZEROFILL       => 'zerofill',
+        DRIZZLE_COLUMN_FLAGS_UNSIGNED       => 'unsigned',
+        DRIZZLE_COLUMN_FLAGS_BLOB           => 'blob',
+        DRIZZLE_COLUMN_FLAGS_MULTIPLE_KEY   => 'multiple_key',
+        DRIZZLE_COLUMN_FLAGS_UNIQUE_KEY     => 'unique_key',
+        DRIZZLE_COLUMN_FLAGS_PRI_KEY        => 'primary_key',
+        DRIZZLE_COLUMN_FLAGS_NOT_NULL       => 'not_null',
+    ];
 }
 
 /**
@@ -102,7 +102,7 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
     ) {
         global $cfg;
 
-        $server_port = $GLOBALS['dbi']->getServerPort($server);
+        $server_port   = $GLOBALS['dbi']->getServerPort($server);
         $server_socket = $GLOBALS['dbi']->getServerSocket($server);
 
         if ($server) {
@@ -125,7 +125,7 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
             $client_flags |= DRIZZLE_CAPABILITIES_SSL;
         }
 
-        if (! $server) {
+        if (!$server) {
             $link = @$this->_realConnect(
                 $drizzle, $cfg['Server']['host'],
                 $server_port, $server_socket, $user,
@@ -133,7 +133,7 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
             );
             // Retry with empty password if we're allowed to
             if ($link == false && isset($cfg['Server']['nopassword'])
-                && $cfg['Server']['nopassword'] && ! $is_controluser
+                && $cfg['Server']['nopassword'] && !$is_controluser
             ) {
                 $link = @$this->_realConnect(
                     $drizzle, $cfg['Server']['host'], $server_port, $server_socket,
@@ -177,7 +177,8 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
         $buffer_mode = $options & PMA_DatabaseInterface::QUERY_UNBUFFERED
             ? PMA_Drizzle::BUFFER_ROW
             : PMA_Drizzle::BUFFER_RESULT;
-        $res = $link->query($query, $buffer_mode);
+        $res         = $link->query($query, $buffer_mode);
+
         return $res;
     }
 
@@ -301,6 +302,7 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
         $str = $link->port()
             ? $link->host() . ':' . $link->port() . ' via TCP/IP'
             : 'Localhost via UNIX socket';
+
         return $str;
     }
 
@@ -338,10 +340,10 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
         $GLOBALS['errno'] = 0;
 
         if (null !== $link && false !== $link) {
-            $error_number = drizzle_con_errno($link->getConnectionObject());
+            $error_number  = drizzle_con_errno($link->getConnectionObject());
             $error_message = drizzle_con_error($link->getConnectionObject());
         } else {
-            $error_number = drizzle_errno();
+            $error_number  = drizzle_errno();
             $error_message = drizzle_error();
         }
         if (0 == $error_number) {
@@ -394,7 +396,7 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
     public function getFieldsMeta($result)
     {
         // Build an associative array for a type look up
-        $typeAr = array();
+        $typeAr = [];
         /*$typeAr[DRIZZLE_COLUMN_TYPE_DECIMAL]     = 'real';
         $typeAr[DRIZZLE_COLUMN_TYPE_NEWDECIMAL]  = 'real';
         $typeAr[DRIZZLE_COLUMN_TYPE_BIT]         = 'int';
@@ -440,49 +442,49 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
         // array of DrizzleColumn
         $columns = $result->getColumns();
         // columns in a standardized format
-        $std_columns = array();
+        $std_columns = [];
 
         foreach ($columns as $k => $column) {
-            $c = new stdClass();
-            $c->name = $column->name();
-            $c->orgname = $column->origName();
-            $c->table = $column->table();
+            $c           = new stdClass();
+            $c->name     = $column->name();
+            $c->orgname  = $column->origName();
+            $c->table    = $column->table();
             $c->orgtable = $column->origTable();
-            $c->def = $column->defaultValue();
-            $c->db = $column->db();
-            $c->catalog = $column->catalog();
+            $c->def      = $column->defaultValue();
+            $c->db       = $column->db();
+            $c->catalog  = $column->catalog();
             // $column->maxSize() returns always 0 while size() seems
             // to return a correct value (drizzle extension v.0.5, API v.7)
             $c->max_length = $column->size();
-            $c->decimals = $column->decimals();
-            $c->charsetnr = $column->charset();
-            $c->type = $typeAr[$column->typeDrizzle()];
-            $c->_type = $column->type();
-            $c->flags = $this->fieldFlags($result, $k);
-            $c->_flags = $column->flags();
+            $c->decimals   = $column->decimals();
+            $c->charsetnr  = $column->charset();
+            $c->type       = $typeAr[$column->typeDrizzle()];
+            $c->_type      = $column->type();
+            $c->flags      = $this->fieldFlags($result, $k);
+            $c->_flags     = $column->flags();
 
-            $c->multiple_key = (int) (bool) (
+            $c->multiple_key = (int)(bool)(
                 $c->_flags & DRIZZLE_COLUMN_FLAGS_MULTIPLE_KEY
             );
-            $c->primary_key =  (int) (bool) (
+            $c->primary_key  = (int)(bool)(
                 $c->_flags & DRIZZLE_COLUMN_FLAGS_PRI_KEY
             );
-            $c->unique_key =   (int) (bool) (
+            $c->unique_key   = (int)(bool)(
                 $c->_flags & DRIZZLE_COLUMN_FLAGS_UNIQUE_KEY
             );
-            $c->not_null =     (int) (bool) (
+            $c->not_null     = (int)(bool)(
                 $c->_flags & DRIZZLE_COLUMN_FLAGS_NOT_NULL
             );
-            $c->unsigned =     (int) (bool) (
+            $c->unsigned     = (int)(bool)(
                 $c->_flags & DRIZZLE_COLUMN_FLAGS_UNSIGNED
             );
-            $c->zerofill =     (int) (bool) (
+            $c->zerofill     = (int)(bool)(
                 $c->_flags & DRIZZLE_COLUMN_FLAGS_ZEROFILL
             );
-            $c->numeric =      (int) (bool) (
+            $c->numeric      = (int)(bool)(
                 $c->_flags & DRIZZLE_COLUMN_FLAGS_NUM
             );
-            $c->blob =         (int) (bool) (
+            $c->blob         = (int)(bool)(
                 $c->_flags & DRIZZLE_COLUMN_FLAGS_BLOB
             );
 
@@ -515,6 +517,7 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
     public function fieldLen($result, $i)
     {
         $colums = $result->getColumns();
+
         return $colums[$i]->size();
     }
 
@@ -529,6 +532,7 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
     public function fieldName($result, $i)
     {
         $colums = $result->getColumns();
+
         return $colums[$i]->name();
     }
 
@@ -542,12 +546,12 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
      */
     public function fieldFlags($result, $i)
     {
-        $columns = $result->getColumns();
-        $f = $columns[$i];
-        $type = $f->typeDrizzle();
+        $columns   = $result->getColumns();
+        $f         = $columns[$i];
+        $type      = $f->typeDrizzle();
         $charsetnr = $f->charset();
-        $f = $f->flags();
-        $flags = array();
+        $f         = $f->flags();
+        $flags     = [];
         foreach ($GLOBALS['pma_drizzle_flag_names'] as $flag => $name) {
             if ($f & $flag) {
                 $flags[] = $name;
@@ -560,11 +564,12 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
         // so we have to check also the type.
         // Unfortunately there is no equivalent in the mysql extension.
         if (($type == DRIZZLE_COLUMN_TYPE_DRIZZLE_BLOB
-            || $type == DRIZZLE_COLUMN_TYPE_DRIZZLE_VARCHAR)
+                || $type == DRIZZLE_COLUMN_TYPE_DRIZZLE_VARCHAR)
             && 63 == $charsetnr
         ) {
             $flags[] = 'binary';
         }
+
         return implode(' ', $flags);
     }
 
@@ -580,4 +585,5 @@ class PMA_DBI_Drizzle implements PMA_DBI_Extension
         return false;
     }
 }
+
 ?>

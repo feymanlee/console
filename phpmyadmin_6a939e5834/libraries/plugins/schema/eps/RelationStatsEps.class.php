@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -40,7 +40,7 @@ class Relation_Stats_Eps extends RelationStats
         parent::__construct(
             $master_table, $master_field, $foreign_table, $foreign_field
         );
-        $this->ySrc  += 10;
+        $this->ySrc += 10;
         $this->yDest += 10;
     }
 
@@ -50,10 +50,10 @@ class Relation_Stats_Eps extends RelationStats
      *
      * @param boolean $showColor Whether to use one color per relation or not
      *
-     * @global object $eps The current EPS document
+     * @global object $eps       The current EPS document
      *
      * @access public
-     * @see PMA_EPS
+     * @see    PMA_EPS
      *
      * @return void
      */
@@ -132,4 +132,5 @@ class Relation_Stats_Eps extends RelationStats
         );
     }
 }
+
 ?>

@@ -35,14 +35,14 @@ class PMA_Operations_Test extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $GLOBALS['table'] = 'table';
-        $GLOBALS['db'] = 'db';
+        $GLOBALS['table']      = 'table';
+        $GLOBALS['db']         = 'db';
         $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
-        $GLOBALS['cfg'] = array(
-            'ServerDefault' => 1,
+        $GLOBALS['cfg']        = [
+            'ServerDefault'   => 1,
             'ActionLinksMode' => 'icons',
-        );
-        $GLOBALS['server'] = 1;
+        ];
+        $GLOBALS['server']     = 1;
     }
 
     /**
@@ -96,7 +96,7 @@ class PMA_Operations_Test extends PHPUnit_Framework_TestCase
     public function testGetHtmlForCopyDatabase()
     {
         $_REQUEST['db_collation'] = 'db1';
-        $html = PMA_getHtmlForCopyDatabase("pma");
+        $html                     = PMA_getHtmlForCopyDatabase("pma");
         $this->assertRegExp('/.*db_operations.php.*/', $html);
         $this->assertRegExp('/.*db_copy.*/', $html);
         $this->assertRegExp('/.*Copy database to.*/', $html);
@@ -128,7 +128,7 @@ class PMA_Operations_Test extends PHPUnit_Framework_TestCase
         $this->assertRegExp(
             '/.*tbl_operations.php(.|[\n])*Alter table order by([\n]|.)*order_order.*/m',
             PMA_getHtmlForOrderTheTable(
-                array(array('Field' => "column1"), array('Field' => "column2"))
+                [['Field' => "column1"], ['Field' => "column2"]]
             )
         );
     }
@@ -159,8 +159,8 @@ class PMA_Operations_Test extends PHPUnit_Framework_TestCase
             '/.*href="sql.php.*post.*/',
             PMA_getMaintainActionlink(
                 "post",
-                array("name" => 'foo', "value" => 'bar'),
-                array(),
+                ["name" => 'foo', "value" => 'bar'],
+                [],
                 'doclink'
             )
         );
@@ -177,7 +177,7 @@ class PMA_Operations_Test extends PHPUnit_Framework_TestCase
         $this->assertRegExp(
             '/.*Delete data or table.*Empty the table.*Delete the table.*/m',
             PMA_getHtmlForDeleteDataOrTable(
-                array("truncate" => 'foo'), array("drop" => 'bar')
+                ["truncate" => 'foo'], ["drop" => 'bar']
             )
         );
     }
@@ -193,7 +193,7 @@ class PMA_Operations_Test extends PHPUnit_Framework_TestCase
         $this->assertRegExp(
             '/.*TRUNCATE.TABLE.foo.*id_truncate.*Truncate table.*/m',
             PMA_getDeleteDataOrTablelink(
-                array("sql" => 'TRUNCATE TABLE foo'),
+                ["sql" => 'TRUNCATE TABLE foo'],
                 "TRUNCATE_TABLE",
                 "Truncate table",
                 "id_truncate"
@@ -209,8 +209,8 @@ class PMA_Operations_Test extends PHPUnit_Framework_TestCase
     public function testGetHtmlForPartitionMaintenance()
     {
         $html = PMA_getHtmlForPartitionMaintenance(
-            array("partition1", "partion2"),
-            array("param1" => 'foo', "param2" => 'bar')
+            ["partition1", "partion2"],
+            ["param1" => 'foo', "param2" => 'bar']
         );
         $this->assertRegExp('/.*action="tbl_operations.php".*/', $html);
         $this->assertRegExp('/.*ANALYZE.*/', $html);
@@ -228,14 +228,14 @@ class PMA_Operations_Test extends PHPUnit_Framework_TestCase
         $this->assertRegExp(
             '/.*Check referential integrity.*href="sql.php(.|[\n])*/m',
             PMA_getHtmlForReferentialIntegrityCheck(
-                array(
-                    array(
+                [
+                    [
                         'foreign_db'    => 'db1',
                         'foreign_table' => "foreign1",
-                        'foreign_field' => "foreign2"
-                    )
-                ),
-                array("param1" => 'a', "param2" => 'b')
+                        'foreign_field' => "foreign2",
+                    ],
+                ],
+                ["param1" => 'a', "param2" => 'b']
             )
         );
     }

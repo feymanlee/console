@@ -12,9 +12,9 @@ require_once 'libraries/ServerStatusData.class.php';
 require_once 'libraries/server_status_advisor.lib.php';
 
 if (PMA_DRIZZLE) {
-    $GLOBALS['replication_info'] = array();
+    $GLOBALS['replication_info']                     = [];
     $GLOBALS['replication_info']['master']['status'] = false;
-    $GLOBALS['replication_info']['slave']['status'] = false;
+    $GLOBALS['replication_info']['slave']['status']  = false;
 } else {
     include_once 'libraries/replication.inc.php';
     include_once 'libraries/replication_gui.lib.php';
@@ -23,7 +23,7 @@ if (PMA_DRIZZLE) {
 $ServerStatusData = new PMA_ServerStatusData();
 
 $response = PMA_Response::getInstance();
-$scripts = $response->getHeader()->getScripts();
+$scripts  = $response->getHeader()->getScripts();
 $scripts->addFile('server_status_advisor.js');
 
 /**

@@ -8,6 +8,7 @@
 
 require_once 'libraries/properties/plugins/ImportPluginProperties.class.php';
 require_once 'libraries/properties/options/groups/OptionsPropertyRootGroup.class.php';
+
 /**
  * tests for ImportPluginProperties class
  *
@@ -85,4 +86,5 @@ class PMA_ImportPluginProperties_Test extends PHPUnit_Framework_TestCase
     }
 
 }
+
 ?>

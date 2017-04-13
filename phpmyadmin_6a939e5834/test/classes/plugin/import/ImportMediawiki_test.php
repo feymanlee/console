@@ -47,21 +47,21 @@ class ImportMediawiki_Test extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $GLOBALS['plugin_param'] = 'database';
-        $this->object = new ImportMediawiki();
+        $this->object            = new ImportMediawiki();
 
         //setting
-        $GLOBALS['finished'] = false;
-        $GLOBALS['read_limit'] = 100000000;
-        $GLOBALS['offset'] = 0;
-        $GLOBALS['cfg']['Server']['DisableIS'] = false;
-        $GLOBALS['cfg']['ServerDefault'] = 0;
+        $GLOBALS['finished']                     = false;
+        $GLOBALS['read_limit']                   = 100000000;
+        $GLOBALS['offset']                       = 0;
+        $GLOBALS['cfg']['Server']['DisableIS']   = false;
+        $GLOBALS['cfg']['ServerDefault']         = 0;
         $GLOBALS['cfg']['AllowUserDropDatabase'] = false;
 
-        $GLOBALS['import_file'] = 'test/test_data/phpmyadmin.mediawiki';
-        $GLOBALS['import_text'] = 'ImportMediawiki_Test';
-        $GLOBALS['compression'] = 'none';
+        $GLOBALS['import_file']   = 'test/test_data/phpmyadmin.mediawiki';
+        $GLOBALS['import_text']   = 'ImportMediawiki_Test';
+        $GLOBALS['compression']   = 'none';
         $GLOBALS['read_multiply'] = 10;
-        $GLOBALS['import_type'] = 'Mediawiki';
+        $GLOBALS['import_type']   = 'Mediawiki';
         $GLOBALS['import_handle'] = @fopen($GLOBALS['import_file'], 'r');
     }
 
@@ -100,7 +100,7 @@ class ImportMediawiki_Test extends PHPUnit_Framework_TestCase
             $properties->getMimeType()
         );
         $this->assertEquals(
-            array(),
+            [],
             $properties->getOptions()
         );
         $this->assertEquals(
@@ -123,7 +123,7 @@ class ImportMediawiki_Test extends PHPUnit_Framework_TestCase
         global $import_notice;
 
         //Mock DBI
-        $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
+        $dbi            = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $GLOBALS['dbi'] = $dbi;

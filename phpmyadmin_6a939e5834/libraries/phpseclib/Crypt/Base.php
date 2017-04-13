@@ -49,8 +49,8 @@ abstract class Base
 {
     /**#@+
      * @access public
-     * @see \phpseclib\Crypt\Base::encrypt()
-     * @see \phpseclib\Crypt\Base::decrypt()
+     * @see    \phpseclib\Crypt\Base::encrypt()
+     * @see    \phpseclib\Crypt\Base::decrypt()
      */
     /**
      * Encrypt / decrypt using the Counter mode.
@@ -93,7 +93,7 @@ abstract class Base
     /**
      * Whirlpool available flag
      *
-     * @see \phpseclib\Crypt\Base::_hashInlineCryptFunction()
+     * @see    \phpseclib\Crypt\Base::_hashInlineCryptFunction()
      * @var bool
      * @access private
      */
@@ -101,7 +101,7 @@ abstract class Base
 
     /**#@+
      * @access private
-     * @see \phpseclib\Crypt\Base::__construct()
+     * @see    \phpseclib\Crypt\Base::__construct()
      */
     /**
      * Base value for the internal implementation $engine switch
@@ -120,7 +120,7 @@ abstract class Base
     /**
      * The Encryption Mode
      *
-     * @see self::__construct()
+     * @see    self::__construct()
      * @var int
      * @access private
      */
@@ -137,7 +137,7 @@ abstract class Base
     /**
      * The Key
      *
-     * @see self::setKey()
+     * @see    self::setKey()
      * @var string
      * @access private
      */
@@ -146,7 +146,7 @@ abstract class Base
     /**
      * The Initialization Vector
      *
-     * @see self::setIV()
+     * @see    self::setIV()
      * @var string
      * @access private
      */
@@ -155,8 +155,8 @@ abstract class Base
     /**
      * A "sliding" Initialization Vector
      *
-     * @see self::enableContinuousBuffer()
-     * @see self::_clearBuffers()
+     * @see    self::enableContinuousBuffer()
+     * @see    self::_clearBuffers()
      * @var string
      * @access private
      */
@@ -165,8 +165,8 @@ abstract class Base
     /**
      * A "sliding" Initialization Vector
      *
-     * @see self::enableContinuousBuffer()
-     * @see self::_clearBuffers()
+     * @see    self::enableContinuousBuffer()
+     * @see    self::_clearBuffers()
      * @var string
      * @access private
      */
@@ -175,7 +175,7 @@ abstract class Base
     /**
      * Continuous Buffer status
      *
-     * @see self::enableContinuousBuffer()
+     * @see    self::enableContinuousBuffer()
      * @var bool
      * @access private
      */
@@ -184,8 +184,8 @@ abstract class Base
     /**
      * Encryption buffer for CTR, OFB and CFB modes
      *
-     * @see self::encrypt()
-     * @see self::_clearBuffers()
+     * @see    self::encrypt()
+     * @see    self::_clearBuffers()
      * @var array
      * @access private
      */
@@ -194,8 +194,8 @@ abstract class Base
     /**
      * Decryption buffer for CTR, OFB and CFB modes
      *
-     * @see self::decrypt()
-     * @see self::_clearBuffers()
+     * @see    self::decrypt()
+     * @see    self::_clearBuffers()
      * @var array
      * @access private
      */
@@ -207,7 +207,7 @@ abstract class Base
      * The mcrypt resource can be recreated every time something needs to be created or it can be created just once.
      * Since mcrypt operates in continuous mode, by default, it'll need to be recreated when in non-continuous mode.
      *
-     * @see self::encrypt()
+     * @see    self::encrypt()
      * @var resource
      * @access private
      */
@@ -219,7 +219,7 @@ abstract class Base
      * The mcrypt resource can be recreated every time something needs to be created or it can be created just once.
      * Since mcrypt operates in continuous mode, by default, it'll need to be recreated when in non-continuous mode.
      *
-     * @see self::decrypt()
+     * @see    self::decrypt()
      * @var resource
      * @access private
      */
@@ -228,8 +228,8 @@ abstract class Base
     /**
      * Does the enmcrypt resource need to be (re)initialized?
      *
-     * @see \phpseclib\Crypt\Twofish::setKey()
-     * @see \phpseclib\Crypt\Twofish::setIV()
+     * @see    \phpseclib\Crypt\Twofish::setKey()
+     * @see    \phpseclib\Crypt\Twofish::setIV()
      * @var bool
      * @access private
      */
@@ -238,8 +238,8 @@ abstract class Base
     /**
      * Does the demcrypt resource need to be (re)initialized?
      *
-     * @see \phpseclib\Crypt\Twofish::setKey()
-     * @see \phpseclib\Crypt\Twofish::setIV()
+     * @see    \phpseclib\Crypt\Twofish::setKey()
+     * @see    \phpseclib\Crypt\Twofish::setIV()
      * @var bool
      * @access private
      */
@@ -255,10 +255,10 @@ abstract class Base
      * In order to do the CFB-mode work (fast) phpseclib
      * use a separate ECB-mode mcrypt resource.
      *
-     * @link http://phpseclib.sourceforge.net/cfb-demo.phps
-     * @see self::encrypt()
-     * @see self::decrypt()
-     * @see self::_setupMcrypt()
+     * @link   http://phpseclib.sourceforge.net/cfb-demo.phps
+     * @see    self::encrypt()
+     * @see    self::decrypt()
+     * @see    self::_setupMcrypt()
      * @var resource
      * @access private
      */
@@ -280,7 +280,7 @@ abstract class Base
      * which, typically, depends on the complexity
      * on its internaly Key-expanding algorithm.
      *
-     * @see self::encrypt()
+     * @see    self::encrypt()
      * @var int
      * @access private
      */
@@ -289,9 +289,9 @@ abstract class Base
     /**
      * Does internal cipher state need to be (re)initialized?
      *
-     * @see self::setKey()
-     * @see self::setIV()
-     * @see self::disableContinuousBuffer()
+     * @see    self::setKey()
+     * @see    self::setIV()
+     * @see    self::disableContinuousBuffer()
      * @var bool
      * @access private
      */
@@ -300,7 +300,7 @@ abstract class Base
     /**
      * Padding status
      *
-     * @see self::enablePadding()
+     * @see    self::enablePadding()
      * @var bool
      * @access private
      */
@@ -309,7 +309,7 @@ abstract class Base
     /**
      * Is the mode one that is paddable?
      *
-     * @see self::__construct()
+     * @see    self::__construct()
      * @var bool
      * @access private
      */
@@ -324,9 +324,9 @@ abstract class Base
      * - self::ENGINE_MCRYPT   (fast, php-extension: mcrypt, extension_loaded('mcrypt') required)
      * - self::ENGINE_INTERNAL (slower, pure php-engine, no php-extension required)
      *
-     * @see self::_setEngine()
-     * @see self::encrypt()
-     * @see self::decrypt()
+     * @see    self::_setEngine()
+     * @see    self::encrypt()
+     * @see    self::decrypt()
      * @var int
      * @access private
      */
@@ -335,8 +335,8 @@ abstract class Base
     /**
      * Holds the preferred crypt engine
      *
-     * @see self::_setEngine()
-     * @see self::setPreferredEngine()
+     * @see    self::_setEngine()
+     * @see    self::setPreferredEngine()
      * @var int
      * @access private
      */
@@ -347,9 +347,9 @@ abstract class Base
      *
      * Only used if $engine == self::ENGINE_MCRYPT
      *
-     * @link http://www.php.net/mcrypt_module_open
-     * @link http://www.php.net/mcrypt_list_algorithms
-     * @see self::_setupMcrypt()
+     * @link   http://www.php.net/mcrypt_module_open
+     * @link   http://www.php.net/mcrypt_list_algorithms
+     * @see    self::_setupMcrypt()
      * @var string
      * @access private
      */
@@ -360,7 +360,7 @@ abstract class Base
      *
      * Only used if $engine == self::ENGINE_OPENSSL
      *
-     * @link http://www.php.net/openssl-get-cipher-methods
+     * @link   http://www.php.net/openssl-get-cipher-methods
      * @var string
      * @access private
      */
@@ -372,7 +372,7 @@ abstract class Base
      * If OpenSSL does not support the mode we're trying to use (CTR)
      * it can still be emulated with ECB mode.
      *
-     * @link http://www.php.net/openssl-get-cipher-methods
+     * @link   http://www.php.net/openssl-get-cipher-methods
      * @var string
      * @access private
      */
@@ -381,7 +381,7 @@ abstract class Base
     /**
      * The default salt used by setPassword()
      *
-     * @see self::setPassword()
+     * @see    self::setPassword()
      * @var string
      * @access private
      */
@@ -393,10 +393,10 @@ abstract class Base
      * Used by encrypt() / decrypt()
      * only if $engine == self::ENGINE_INTERNAL
      *
-     * @see self::encrypt()
-     * @see self::decrypt()
-     * @see self::_setupInlineCrypt()
-     * @see self::$use_inline_crypt
+     * @see    self::encrypt()
+     * @see    self::decrypt()
+     * @see    self::_setupInlineCrypt()
+     * @see    self::$use_inline_crypt
      * @var Callback
      * @access private
      */
@@ -405,9 +405,9 @@ abstract class Base
     /**
      * Holds whether performance-optimized $inline_crypt() can/should be used.
      *
-     * @see self::encrypt()
-     * @see self::decrypt()
-     * @see self::inline_crypt
+     * @see    self::encrypt()
+     * @see    self::decrypt()
+     * @see    self::inline_crypt
      * @var mixed
      * @access private
      */
@@ -416,7 +416,7 @@ abstract class Base
     /**
      * If OpenSSL can be used in ECB but not in CTR we can emulate CTR
      *
-     * @see self::_openssl_ctr_process()
+     * @see    self::_openssl_ctr_process()
      * @var bool
      * @access private
      */
@@ -425,7 +425,7 @@ abstract class Base
     /**
      * Determines what options are passed to openssl_encrypt/decrypt
      *
-     * @see self::isValidEngine()
+     * @see    self::isValidEngine()
      * @var mixed
      * @access private
      */
@@ -434,7 +434,7 @@ abstract class Base
     /**
      * Has the key length explicitly been set or should it be derived from the key, itself?
      *
-     * @see self::setKeyLength()
+     * @see    self::setKeyLength()
      * @var bool
      * @access private
      */
@@ -443,7 +443,7 @@ abstract class Base
     /**
      * Don't truncate / null pad key
      *
-     * @see self::_clearBuffers()
+     * @see    self::_clearBuffers()
      * @var bool
      * @access private
      */
@@ -469,6 +469,7 @@ abstract class Base
      * If not explicitly set, self::MODE_CBC will be used.
      *
      * @param int $mode
+     *
      * @access public
      */
     function __construct($mode = self::MODE_CBC)
@@ -477,7 +478,7 @@ abstract class Base
         switch ($mode) {
             case self::MODE_ECB:
                 $this->paddable = true;
-                $this->mode = self::MODE_ECB;
+                $this->mode     = self::MODE_ECB;
                 break;
             case self::MODE_CTR:
             case self::MODE_CFB:
@@ -488,7 +489,7 @@ abstract class Base
             case self::MODE_CBC:
             default:
                 $this->paddable = true;
-                $this->mode = self::MODE_CBC;
+                $this->mode     = self::MODE_CBC;
         }
 
         $this->_setEngine();
@@ -502,11 +503,13 @@ abstract class Base
     /**
      * Sets the initialization vector. (optional)
      *
-     * SetIV is not required when self::MODE_ECB (or ie for AES: \phpseclib\Crypt\AES::MODE_ECB) is being used.  If not explicitly set, it'll be assumed
-     * to be all zero's.
+     * SetIV is not required when self::MODE_ECB (or ie for AES: \phpseclib\Crypt\AES::MODE_ECB) is being used.  If not
+     * explicitly set, it'll be assumed to be all zero's.
      *
-     * @access public
+     * @access   public
+     *
      * @param string $iv
+     *
      * @internal Can be overwritten by a sub class, but does not have to be
      */
     function setIV($iv)
@@ -515,7 +518,7 @@ abstract class Base
             return;
         }
 
-        $this->iv = $iv;
+        $this->iv      = $iv;
         $this->changed = true;
     }
 
@@ -525,12 +528,13 @@ abstract class Base
      * Keys with explicitly set lengths need to be treated accordingly
      *
      * @access public
+     *
      * @param int $length
      */
     function setKeyLength($length)
     {
         $this->explicit_key_length = true;
-        $this->changed = true;
+        $this->changed             = true;
         $this->_setEngine();
     }
 
@@ -566,8 +570,10 @@ abstract class Base
      *
      * If the key is not explicitly set, it'll be assumed to be all null bytes.
      *
-     * @access public
+     * @access   public
+     *
      * @param string $key
+     *
      * @internal Could, but not must, extend by the child Crypt_* class
      */
     function setKey($key)
@@ -577,7 +583,7 @@ abstract class Base
             $this->explicit_key_length = false;
         }
 
-        $this->key = $key;
+        $this->key     = $key;
         $this->changed = true;
         $this->_setEngine();
     }
@@ -591,11 +597,13 @@ abstract class Base
      *
      *         Where $hash (default = sha1) currently supports the following hashes: see: Crypt/Hash.php
      *
-     * @see Crypt/Hash.php
+     * @see      Crypt/Hash.php
+     *
      * @param string $password
      * @param string $method
+     *
      * @return bool
-     * @access public
+     * @access   public
      * @internal Could, but not must, extend by the child Crypt_* class
      */
     function setPassword($password, $method = 'pbkdf2')
@@ -629,6 +637,7 @@ abstract class Base
                         $hashObj->setHash($hash);
                         if ($dkLen > $hashObj->getLength()) {
                             user_error('Derived key too long');
+
                             return false;
                         }
                         $t = $password . $salt;
@@ -653,9 +662,9 @@ abstract class Base
                             $f = $u = $hmac->hash($salt . pack('N', $i++));
                             for ($j = 2; $j <= $count; ++$j) {
                                 $u = $hmac->hash($u);
-                                $f^= $u;
+                                $f ^= $u;
                             }
-                            $key.= $f;
+                            $key .= $f;
                         }
                         $key = substr($key, 0, $dkLen);
                         break;
@@ -672,20 +681,21 @@ abstract class Base
     /**
      * Encrypts a message.
      *
-     * $plaintext will be padded with additional bytes such that it's length is a multiple of the block size. Other cipher
-     * implementations may or may not pad in the same manner.  Other common approaches to padding and the reasons why it's
-     * necessary are discussed in the following
-     * URL:
+     * $plaintext will be padded with additional bytes such that it's length is a multiple of the block size. Other
+     * cipher implementations may or may not pad in the same manner.  Other common approaches to padding and the
+     * reasons why it's necessary are discussed in the following URL:
      *
      * {@link http://www.di-mgt.com.au/cryptopad.html http://www.di-mgt.com.au/cryptopad.html}
      *
      * An alternative to padding is to, separately, send the length of the file.  This is what SSH, in fact, does.
-     * strlen($plaintext) will still need to be a multiple of the block size, however, arbitrary values can be added to make it that
-     * length.
+     * strlen($plaintext) will still need to be a multiple of the block size, however, arbitrary values can be added to
+     * make it that length.
      *
-     * @see self::decrypt()
-     * @access public
+     * @see      self::decrypt()
+     * @access   public
+     *
      * @param string $plaintext
+     *
      * @return string $ciphertext
      * @internal Could, but not must, extend by the child Crypt_* class
      */
@@ -705,12 +715,14 @@ abstract class Base
                     return openssl_encrypt($plaintext, $this->cipher_name_openssl, $this->key, $this->openssl_options);
                 case self::MODE_ECB:
                     $result = openssl_encrypt($plaintext, $this->cipher_name_openssl, $this->key, $this->openssl_options);
+
                     return !defined('OPENSSL_RAW_DATA') ? substr($result, 0, -$this->block_size) : $result;
                 case self::MODE_CBC:
                     $result = openssl_encrypt($plaintext, $this->cipher_name_openssl, $this->key, $this->openssl_options, $this->encryptIV);
                     if ($this->continuousBuffer) {
                         $this->encryptIV = substr($result, -$this->block_size);
                     }
+
                     return !defined('OPENSSL_RAW_DATA') ? substr($result, 0, -$this->block_size) : $result;
                 case self::MODE_CTR:
                     return $this->_openssl_ctr_process($plaintext, $this->encryptIV, $this->enbuffer);
@@ -719,46 +731,46 @@ abstract class Base
                     // {@link http://cvs.openssl.org/fileview?f=openssl/crypto/modes/cfb128.c&v=1.3.2.2.2.1}
                     $ciphertext = '';
                     if ($this->continuousBuffer) {
-                        $iv = &$this->encryptIV;
+                        $iv  = &$this->encryptIV;
                         $pos = &$this->enbuffer['pos'];
                     } else {
-                        $iv = $this->encryptIV;
+                        $iv  = $this->encryptIV;
                         $pos = 0;
                     }
                     $len = strlen($plaintext);
-                    $i = 0;
+                    $i   = 0;
                     if ($pos) {
                         $orig_pos = $pos;
-                        $max = $this->block_size - $pos;
+                        $max      = $this->block_size - $pos;
                         if ($len >= $max) {
                             $i = $max;
-                            $len-= $max;
+                            $len -= $max;
                             $pos = 0;
                         } else {
                             $i = $len;
-                            $pos+= $len;
+                            $pos += $len;
                             $len = 0;
                         }
                         // ie. $i = min($max, $len), $len-= $i, $pos+= $i, $pos%= $blocksize
                         $ciphertext = substr($iv, $orig_pos) ^ $plaintext;
-                        $iv = substr_replace($iv, $ciphertext, $orig_pos, $i);
-                        $plaintext = substr($plaintext, $i);
+                        $iv         = substr_replace($iv, $ciphertext, $orig_pos, $i);
+                        $plaintext  = substr($plaintext, $i);
                     }
 
                     $overflow = $len % $this->block_size;
 
                     if ($overflow) {
-                        $ciphertext.= openssl_encrypt(substr($plaintext, 0, -$overflow) . str_repeat("\0", $this->block_size), $this->cipher_name_openssl, $this->key, $this->openssl_options, $iv);
+                        $ciphertext .= openssl_encrypt(substr($plaintext, 0, -$overflow) . str_repeat("\0", $this->block_size), $this->cipher_name_openssl, $this->key, $this->openssl_options, $iv);
                         $iv = $this->_string_pop($ciphertext, $this->block_size);
 
-                        $size = $len - $overflow;
+                        $size  = $len - $overflow;
                         $block = $iv ^ substr($plaintext, -$overflow);
-                        $iv = substr_replace($iv, $block, 0, $overflow);
-                        $ciphertext.= $block;
+                        $iv    = substr_replace($iv, $block, 0, $overflow);
+                        $ciphertext .= $block;
                         $pos = $overflow;
                     } elseif ($len) {
                         $ciphertext = openssl_encrypt($plaintext, $this->cipher_name_openssl, $this->key, $this->openssl_options, $iv);
-                        $iv = substr($ciphertext, -$this->block_size);
+                        $iv         = substr($ciphertext, -$this->block_size);
                     }
 
                     return $ciphertext;
@@ -782,25 +794,25 @@ abstract class Base
             // rewritten CFB implementation the above outputs the same thing twice.
             if ($this->mode == self::MODE_CFB && $this->continuousBuffer) {
                 $block_size = $this->block_size;
-                $iv = &$this->encryptIV;
-                $pos = &$this->enbuffer['pos'];
-                $len = strlen($plaintext);
+                $iv         = &$this->encryptIV;
+                $pos        = &$this->enbuffer['pos'];
+                $len        = strlen($plaintext);
                 $ciphertext = '';
-                $i = 0;
+                $i          = 0;
                 if ($pos) {
                     $orig_pos = $pos;
-                    $max = $block_size - $pos;
+                    $max      = $block_size - $pos;
                     if ($len >= $max) {
                         $i = $max;
-                        $len-= $max;
+                        $len -= $max;
                         $pos = 0;
                     } else {
                         $i = $len;
-                        $pos+= $len;
+                        $pos += $len;
                         $len = 0;
                     }
-                    $ciphertext = substr($iv, $orig_pos) ^ $plaintext;
-                    $iv = substr_replace($iv, $ciphertext, $orig_pos, $i);
+                    $ciphertext                      = substr($iv, $orig_pos) ^ $plaintext;
+                    $iv                              = substr_replace($iv, $ciphertext, $orig_pos, $i);
                     $this->enbuffer['enmcrypt_init'] = true;
                 }
                 if ($len >= $block_size) {
@@ -809,24 +821,24 @@ abstract class Base
                             mcrypt_generic_init($this->enmcrypt, $this->key, $iv);
                             $this->enbuffer['enmcrypt_init'] = false;
                         }
-                        $ciphertext.= mcrypt_generic($this->enmcrypt, substr($plaintext, $i, $len - $len % $block_size));
+                        $ciphertext .= mcrypt_generic($this->enmcrypt, substr($plaintext, $i, $len - $len % $block_size));
                         $iv = substr($ciphertext, -$block_size);
-                        $len%= $block_size;
+                        $len %= $block_size;
                     } else {
                         while ($len >= $block_size) {
                             $iv = mcrypt_generic($this->ecb, $iv) ^ substr($plaintext, $i, $block_size);
-                            $ciphertext.= $iv;
-                            $len-= $block_size;
-                            $i+= $block_size;
+                            $ciphertext .= $iv;
+                            $len -= $block_size;
+                            $i += $block_size;
                         }
                     }
                 }
 
                 if ($len) {
-                    $iv = mcrypt_generic($this->ecb, $iv);
+                    $iv    = mcrypt_generic($this->ecb, $iv);
                     $block = $iv ^ substr($plaintext, -$len);
-                    $iv = substr_replace($iv, $block, 0, $len);
-                    $ciphertext.= $block;
+                    $iv    = substr_replace($iv, $block, 0, $len);
+                    $ciphertext .= $block;
                     $pos = $len;
                 }
 
@@ -848,25 +860,26 @@ abstract class Base
         }
         if ($this->use_inline_crypt) {
             $inline = $this->inline_crypt;
+
             return $inline('encrypt', $this, $plaintext);
         }
 
-        $buffer = &$this->enbuffer;
+        $buffer     = &$this->enbuffer;
         $block_size = $this->block_size;
         $ciphertext = '';
         switch ($this->mode) {
             case self::MODE_ECB:
-                for ($i = 0; $i < strlen($plaintext); $i+=$block_size) {
-                    $ciphertext.= $this->_encryptBlock(substr($plaintext, $i, $block_size));
+                for ($i = 0; $i < strlen($plaintext); $i += $block_size) {
+                    $ciphertext .= $this->_encryptBlock(substr($plaintext, $i, $block_size));
                 }
                 break;
             case self::MODE_CBC:
                 $xor = $this->encryptIV;
-                for ($i = 0; $i < strlen($plaintext); $i+=$block_size) {
+                for ($i = 0; $i < strlen($plaintext); $i += $block_size) {
                     $block = substr($plaintext, $i, $block_size);
                     $block = $this->_encryptBlock($block ^ $xor);
-                    $xor = $block;
-                    $ciphertext.= $block;
+                    $xor   = $block;
+                    $ciphertext .= $block;
                 }
                 if ($this->continuousBuffer) {
                     $this->encryptIV = $xor;
@@ -875,21 +888,21 @@ abstract class Base
             case self::MODE_CTR:
                 $xor = $this->encryptIV;
                 if (strlen($buffer['ciphertext'])) {
-                    for ($i = 0; $i < strlen($plaintext); $i+=$block_size) {
+                    for ($i = 0; $i < strlen($plaintext); $i += $block_size) {
                         $block = substr($plaintext, $i, $block_size);
                         if (strlen($block) > strlen($buffer['ciphertext'])) {
-                            $buffer['ciphertext'].= $this->_encryptBlock($xor);
+                            $buffer['ciphertext'] .= $this->_encryptBlock($xor);
                         }
                         $this->_increment_str($xor);
                         $key = $this->_string_shift($buffer['ciphertext'], $block_size);
-                        $ciphertext.= $block ^ $key;
+                        $ciphertext .= $block ^ $key;
                     }
                 } else {
-                    for ($i = 0; $i < strlen($plaintext); $i+=$block_size) {
+                    for ($i = 0; $i < strlen($plaintext); $i += $block_size) {
                         $block = substr($plaintext, $i, $block_size);
-                        $key = $this->_encryptBlock($xor);
+                        $key   = $this->_encryptBlock($xor);
                         $this->_increment_str($xor);
-                        $ciphertext.= $block ^ $key;
+                        $ciphertext .= $block ^ $key;
                     }
                 }
                 if ($this->continuousBuffer) {
@@ -903,60 +916,60 @@ abstract class Base
                 // cfb loosely routines inspired by openssl's:
                 // {@link http://cvs.openssl.org/fileview?f=openssl/crypto/modes/cfb128.c&v=1.3.2.2.2.1}
                 if ($this->continuousBuffer) {
-                    $iv = &$this->encryptIV;
+                    $iv  = &$this->encryptIV;
                     $pos = &$buffer['pos'];
                 } else {
-                    $iv = $this->encryptIV;
+                    $iv  = $this->encryptIV;
                     $pos = 0;
                 }
                 $len = strlen($plaintext);
-                $i = 0;
+                $i   = 0;
                 if ($pos) {
                     $orig_pos = $pos;
-                    $max = $block_size - $pos;
+                    $max      = $block_size - $pos;
                     if ($len >= $max) {
                         $i = $max;
-                        $len-= $max;
+                        $len -= $max;
                         $pos = 0;
                     } else {
                         $i = $len;
-                        $pos+= $len;
+                        $pos += $len;
                         $len = 0;
                     }
                     // ie. $i = min($max, $len), $len-= $i, $pos+= $i, $pos%= $blocksize
                     $ciphertext = substr($iv, $orig_pos) ^ $plaintext;
-                    $iv = substr_replace($iv, $ciphertext, $orig_pos, $i);
+                    $iv         = substr_replace($iv, $ciphertext, $orig_pos, $i);
                 }
                 while ($len >= $block_size) {
                     $iv = $this->_encryptBlock($iv) ^ substr($plaintext, $i, $block_size);
-                    $ciphertext.= $iv;
-                    $len-= $block_size;
-                    $i+= $block_size;
+                    $ciphertext .= $iv;
+                    $len -= $block_size;
+                    $i += $block_size;
                 }
                 if ($len) {
-                    $iv = $this->_encryptBlock($iv);
+                    $iv    = $this->_encryptBlock($iv);
                     $block = $iv ^ substr($plaintext, $i);
-                    $iv = substr_replace($iv, $block, 0, $len);
-                    $ciphertext.= $block;
+                    $iv    = substr_replace($iv, $block, 0, $len);
+                    $ciphertext .= $block;
                     $pos = $len;
                 }
                 break;
             case self::MODE_OFB:
                 $xor = $this->encryptIV;
                 if (strlen($buffer['xor'])) {
-                    for ($i = 0; $i < strlen($plaintext); $i+=$block_size) {
+                    for ($i = 0; $i < strlen($plaintext); $i += $block_size) {
                         $block = substr($plaintext, $i, $block_size);
                         if (strlen($block) > strlen($buffer['xor'])) {
                             $xor = $this->_encryptBlock($xor);
-                            $buffer['xor'].= $xor;
+                            $buffer['xor'] .= $xor;
                         }
                         $key = $this->_string_shift($buffer['xor'], $block_size);
-                        $ciphertext.= $block ^ $key;
+                        $ciphertext .= $block ^ $key;
                     }
                 } else {
-                    for ($i = 0; $i < strlen($plaintext); $i+=$block_size) {
+                    for ($i = 0; $i < strlen($plaintext); $i += $block_size) {
                         $xor = $this->_encryptBlock($xor);
-                        $ciphertext.= substr($plaintext, $i, $block_size) ^ $xor;
+                        $ciphertext .= substr($plaintext, $i, $block_size) ^ $xor;
                     }
                     $key = $xor;
                 }
@@ -978,12 +991,14 @@ abstract class Base
     /**
      * Decrypts a message.
      *
-     * If strlen($ciphertext) is not a multiple of the block size, null bytes will be added to the end of the string until
-     * it is.
+     * If strlen($ciphertext) is not a multiple of the block size, null bytes will be added to the end of the string
+     * until it is.
      *
-     * @see self::encrypt()
-     * @access public
+     * @see      self::encrypt()
+     * @access   public
+     *
      * @param string $ciphertext
+     *
      * @return string $plaintext
      * @internal Could, but not must, extend by the child Crypt_* class
      */
@@ -1006,14 +1021,14 @@ abstract class Base
                     break;
                 case self::MODE_ECB:
                     if (!defined('OPENSSL_RAW_DATA')) {
-                        $ciphetext.= openssl_encrypt('', $this->cipher_name_openssl_ecb, $this->key, true);
+                        $ciphetext .= openssl_encrypt('', $this->cipher_name_openssl_ecb, $this->key, true);
                     }
                     $plaintext = openssl_decrypt($ciphertext, $this->cipher_name_openssl, $this->key, $this->openssl_options);
                     break;
                 case self::MODE_CBC:
                     if (!defined('OPENSSL_RAW_DATA')) {
                         $padding = str_repeat(chr($this->block_size), $this->block_size) ^ substr($ciphertext, -$this->block_size);
-                        $ciphertext.= substr(openssl_encrypt($padding, $this->cipher_name_openssl_ecb, $this->key, true), 0, $this->block_size);
+                        $ciphertext .= substr(openssl_encrypt($padding, $this->cipher_name_openssl_ecb, $this->key, true), 0, $this->block_size);
                     }
                     $plaintext = openssl_decrypt($ciphertext, $this->cipher_name_openssl, $this->key, $this->openssl_options, $this->decryptIV);
                     if ($this->continuousBuffer) {
@@ -1028,43 +1043,43 @@ abstract class Base
                     // {@link http://cvs.openssl.org/fileview?f=openssl/crypto/modes/cfb128.c&v=1.3.2.2.2.1}
                     $plaintext = '';
                     if ($this->continuousBuffer) {
-                        $iv = &$this->decryptIV;
+                        $iv  = &$this->decryptIV;
                         $pos = &$this->buffer['pos'];
                     } else {
-                        $iv = $this->decryptIV;
+                        $iv  = $this->decryptIV;
                         $pos = 0;
                     }
                     $len = strlen($ciphertext);
-                    $i = 0;
+                    $i   = 0;
                     if ($pos) {
                         $orig_pos = $pos;
-                        $max = $this->block_size - $pos;
+                        $max      = $this->block_size - $pos;
                         if ($len >= $max) {
                             $i = $max;
-                            $len-= $max;
+                            $len -= $max;
                             $pos = 0;
                         } else {
                             $i = $len;
-                            $pos+= $len;
+                            $pos += $len;
                             $len = 0;
                         }
                         // ie. $i = min($max, $len), $len-= $i, $pos+= $i, $pos%= $this->blocksize
-                        $plaintext = substr($iv, $orig_pos) ^ $ciphertext;
-                        $iv = substr_replace($iv, substr($ciphertext, 0, $i), $orig_pos, $i);
+                        $plaintext  = substr($iv, $orig_pos) ^ $ciphertext;
+                        $iv         = substr_replace($iv, substr($ciphertext, 0, $i), $orig_pos, $i);
                         $ciphertext = substr($ciphertext, $i);
                     }
                     $overflow = $len % $this->block_size;
                     if ($overflow) {
-                        $plaintext.= openssl_decrypt(substr($ciphertext, 0, -$overflow), $this->cipher_name_openssl, $this->key, $this->openssl_options, $iv);
+                        $plaintext .= openssl_decrypt(substr($ciphertext, 0, -$overflow), $this->cipher_name_openssl, $this->key, $this->openssl_options, $iv);
                         if ($len - $overflow) {
                             $iv = substr($ciphertext, -$overflow - $this->block_size, -$overflow);
                         }
                         $iv = openssl_encrypt(str_repeat("\0", $this->block_size), $this->cipher_name_openssl, $this->key, $this->openssl_options, $iv);
-                        $plaintext.= $iv ^ substr($ciphertext, -$overflow);
-                        $iv = substr_replace($iv, substr($ciphertext, -$overflow), 0, $overflow);
+                        $plaintext .= $iv ^ substr($ciphertext, -$overflow);
+                        $iv  = substr_replace($iv, substr($ciphertext, -$overflow), 0, $overflow);
                         $pos = $overflow;
                     } elseif ($len) {
-                        $plaintext.= openssl_decrypt($ciphertext, $this->cipher_name_openssl, $this->key, $this->openssl_options, $iv);
+                        $plaintext .= openssl_decrypt($ciphertext, $this->cipher_name_openssl, $this->key, $this->openssl_options, $iv);
                         $iv = substr($ciphertext, -$this->block_size);
                     }
                     break;
@@ -1087,37 +1102,37 @@ abstract class Base
             }
 
             if ($this->mode == self::MODE_CFB && $this->continuousBuffer) {
-                $iv = &$this->decryptIV;
-                $pos = &$this->debuffer['pos'];
-                $len = strlen($ciphertext);
+                $iv        = &$this->decryptIV;
+                $pos       = &$this->debuffer['pos'];
+                $len       = strlen($ciphertext);
                 $plaintext = '';
-                $i = 0;
+                $i         = 0;
                 if ($pos) {
                     $orig_pos = $pos;
-                    $max = $block_size - $pos;
+                    $max      = $block_size - $pos;
                     if ($len >= $max) {
                         $i = $max;
-                        $len-= $max;
+                        $len -= $max;
                         $pos = 0;
                     } else {
                         $i = $len;
-                        $pos+= $len;
+                        $pos += $len;
                         $len = 0;
                     }
                     // ie. $i = min($max, $len), $len-= $i, $pos+= $i, $pos%= $blocksize
                     $plaintext = substr($iv, $orig_pos) ^ $ciphertext;
-                    $iv = substr_replace($iv, substr($ciphertext, 0, $i), $orig_pos, $i);
+                    $iv        = substr_replace($iv, substr($ciphertext, 0, $i), $orig_pos, $i);
                 }
                 if ($len >= $block_size) {
                     $cb = substr($ciphertext, $i, $len - $len % $block_size);
-                    $plaintext.= mcrypt_generic($this->ecb, $iv . $cb) ^ $cb;
+                    $plaintext .= mcrypt_generic($this->ecb, $iv . $cb) ^ $cb;
                     $iv = substr($cb, -$block_size);
-                    $len%= $block_size;
+                    $len %= $block_size;
                 }
                 if ($len) {
                     $iv = mcrypt_generic($this->ecb, $iv);
-                    $plaintext.= $iv ^ substr($ciphertext, -$len);
-                    $iv = substr_replace($iv, substr($ciphertext, -$len), 0, $len);
+                    $plaintext .= $iv ^ substr($ciphertext, -$len);
+                    $iv  = substr_replace($iv, substr($ciphertext, -$len), 0, $len);
                     $pos = $len;
                 }
 
@@ -1139,24 +1154,25 @@ abstract class Base
         }
         if ($this->use_inline_crypt) {
             $inline = $this->inline_crypt;
+
             return $inline('decrypt', $this, $ciphertext);
         }
 
         $block_size = $this->block_size;
 
-        $buffer = &$this->debuffer;
+        $buffer    = &$this->debuffer;
         $plaintext = '';
         switch ($this->mode) {
             case self::MODE_ECB:
-                for ($i = 0; $i < strlen($ciphertext); $i+=$block_size) {
-                    $plaintext.= $this->_decryptBlock(substr($ciphertext, $i, $block_size));
+                for ($i = 0; $i < strlen($ciphertext); $i += $block_size) {
+                    $plaintext .= $this->_decryptBlock(substr($ciphertext, $i, $block_size));
                 }
                 break;
             case self::MODE_CBC:
                 $xor = $this->decryptIV;
-                for ($i = 0; $i < strlen($ciphertext); $i+=$block_size) {
+                for ($i = 0; $i < strlen($ciphertext); $i += $block_size) {
                     $block = substr($ciphertext, $i, $block_size);
-                    $plaintext.= $this->_decryptBlock($block) ^ $xor;
+                    $plaintext .= $this->_decryptBlock($block) ^ $xor;
                     $xor = $block;
                 }
                 if ($this->continuousBuffer) {
@@ -1166,21 +1182,21 @@ abstract class Base
             case self::MODE_CTR:
                 $xor = $this->decryptIV;
                 if (strlen($buffer['ciphertext'])) {
-                    for ($i = 0; $i < strlen($ciphertext); $i+=$block_size) {
+                    for ($i = 0; $i < strlen($ciphertext); $i += $block_size) {
                         $block = substr($ciphertext, $i, $block_size);
                         if (strlen($block) > strlen($buffer['ciphertext'])) {
-                            $buffer['ciphertext'].= $this->_encryptBlock($xor);
+                            $buffer['ciphertext'] .= $this->_encryptBlock($xor);
                             $this->_increment_str($xor);
                         }
                         $key = $this->_string_shift($buffer['ciphertext'], $block_size);
-                        $plaintext.= $block ^ $key;
+                        $plaintext .= $block ^ $key;
                     }
                 } else {
-                    for ($i = 0; $i < strlen($ciphertext); $i+=$block_size) {
+                    for ($i = 0; $i < strlen($ciphertext); $i += $block_size) {
                         $block = substr($ciphertext, $i, $block_size);
-                        $key = $this->_encryptBlock($xor);
+                        $key   = $this->_encryptBlock($xor);
                         $this->_increment_str($xor);
-                        $plaintext.= $block ^ $key;
+                        $plaintext .= $block ^ $key;
                     }
                 }
                 if ($this->continuousBuffer) {
@@ -1192,61 +1208,61 @@ abstract class Base
                 break;
             case self::MODE_CFB:
                 if ($this->continuousBuffer) {
-                    $iv = &$this->decryptIV;
+                    $iv  = &$this->decryptIV;
                     $pos = &$buffer['pos'];
                 } else {
-                    $iv = $this->decryptIV;
+                    $iv  = $this->decryptIV;
                     $pos = 0;
                 }
                 $len = strlen($ciphertext);
-                $i = 0;
+                $i   = 0;
                 if ($pos) {
                     $orig_pos = $pos;
-                    $max = $block_size - $pos;
+                    $max      = $block_size - $pos;
                     if ($len >= $max) {
                         $i = $max;
-                        $len-= $max;
+                        $len -= $max;
                         $pos = 0;
                     } else {
                         $i = $len;
-                        $pos+= $len;
+                        $pos += $len;
                         $len = 0;
                     }
                     // ie. $i = min($max, $len), $len-= $i, $pos+= $i, $pos%= $blocksize
                     $plaintext = substr($iv, $orig_pos) ^ $ciphertext;
-                    $iv = substr_replace($iv, substr($ciphertext, 0, $i), $orig_pos, $i);
+                    $iv        = substr_replace($iv, substr($ciphertext, 0, $i), $orig_pos, $i);
                 }
                 while ($len >= $block_size) {
                     $iv = $this->_encryptBlock($iv);
                     $cb = substr($ciphertext, $i, $block_size);
-                    $plaintext.= $iv ^ $cb;
+                    $plaintext .= $iv ^ $cb;
                     $iv = $cb;
-                    $len-= $block_size;
-                    $i+= $block_size;
+                    $len -= $block_size;
+                    $i += $block_size;
                 }
                 if ($len) {
                     $iv = $this->_encryptBlock($iv);
-                    $plaintext.= $iv ^ substr($ciphertext, $i);
-                    $iv = substr_replace($iv, substr($ciphertext, $i), 0, $len);
+                    $plaintext .= $iv ^ substr($ciphertext, $i);
+                    $iv  = substr_replace($iv, substr($ciphertext, $i), 0, $len);
                     $pos = $len;
                 }
                 break;
             case self::MODE_OFB:
                 $xor = $this->decryptIV;
                 if (strlen($buffer['xor'])) {
-                    for ($i = 0; $i < strlen($ciphertext); $i+=$block_size) {
+                    for ($i = 0; $i < strlen($ciphertext); $i += $block_size) {
                         $block = substr($ciphertext, $i, $block_size);
                         if (strlen($block) > strlen($buffer['xor'])) {
                             $xor = $this->_encryptBlock($xor);
-                            $buffer['xor'].= $xor;
+                            $buffer['xor'] .= $xor;
                         }
                         $key = $this->_string_shift($buffer['xor'], $block_size);
-                        $plaintext.= $block ^ $key;
+                        $plaintext .= $block ^ $key;
                     }
                 } else {
-                    for ($i = 0; $i < strlen($ciphertext); $i+=$block_size) {
+                    for ($i = 0; $i < strlen($ciphertext); $i += $block_size) {
                         $xor = $this->_encryptBlock($xor);
-                        $plaintext.= substr($ciphertext, $i, $block_size) ^ $xor;
+                        $plaintext .= substr($ciphertext, $i, $block_size) ^ $xor;
                     }
                     $key = $xor;
                 }
@@ -1261,6 +1277,7 @@ abstract class Base
                 $plaintext = $this->_decryptBlock($ciphertext);
                 break;
         }
+
         return $this->paddable ? $this->_unpad($plaintext) : $plaintext;
     }
 
@@ -1272,11 +1289,13 @@ abstract class Base
      * and Base::decrypt(). Also, OpenSSL doesn't implement CTR for all of it's symmetric ciphers so this
      * function will emulate CTR with ECB when necesary.
      *
-     * @see self::encrypt()
-     * @see self::decrypt()
+     * @see    self::encrypt()
+     * @see    self::decrypt()
+     *
      * @param string $plaintext
      * @param string $encryptIV
-     * @param array $buffer
+     * @param array  $buffer
+     *
      * @return string
      * @access private
      */
@@ -1285,29 +1304,29 @@ abstract class Base
         $ciphertext = '';
 
         $block_size = $this->block_size;
-        $key = $this->key;
+        $key        = $this->key;
 
         if ($this->openssl_emulate_ctr) {
             $xor = $encryptIV;
             if (strlen($buffer['ciphertext'])) {
-                for ($i = 0; $i < strlen($plaintext); $i+=$block_size) {
+                for ($i = 0; $i < strlen($plaintext); $i += $block_size) {
                     $block = substr($plaintext, $i, $block_size);
                     if (strlen($block) > strlen($buffer['ciphertext'])) {
                         $result = openssl_encrypt($xor, $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
                         $result = !defined('OPENSSL_RAW_DATA') ? substr($result, 0, -$this->block_size) : $result;
-                        $buffer['ciphertext'].= $result;
+                        $buffer['ciphertext'] .= $result;
                     }
                     $this->_increment_str($xor);
                     $otp = $this->_string_shift($buffer['ciphertext'], $block_size);
-                    $ciphertext.= $block ^ $otp;
+                    $ciphertext .= $block ^ $otp;
                 }
             } else {
-                for ($i = 0; $i < strlen($plaintext); $i+=$block_size) {
+                for ($i = 0; $i < strlen($plaintext); $i += $block_size) {
                     $block = substr($plaintext, $i, $block_size);
-                    $otp = openssl_encrypt($xor, $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
-                    $otp = !defined('OPENSSL_RAW_DATA') ? substr($otp, 0, -$this->block_size) : $otp;
+                    $otp   = openssl_encrypt($xor, $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
+                    $otp   = !defined('OPENSSL_RAW_DATA') ? substr($otp, 0, -$this->block_size) : $otp;
                     $this->_increment_str($xor);
-                    $ciphertext.= $block ^ $otp;
+                    $ciphertext .= $block ^ $otp;
                 }
             }
             if ($this->continuousBuffer) {
@@ -1322,7 +1341,7 @@ abstract class Base
 
         if (strlen($buffer['ciphertext'])) {
             $ciphertext = $plaintext ^ $this->_string_shift($buffer['ciphertext'], strlen($plaintext));
-            $plaintext = substr($plaintext, strlen($ciphertext));
+            $plaintext  = substr($plaintext, strlen($ciphertext));
 
             if (!strlen($plaintext)) {
                 return $ciphertext;
@@ -1332,15 +1351,15 @@ abstract class Base
         $overflow = strlen($plaintext) % $block_size;
         if ($overflow) {
             $plaintext2 = $this->_string_pop($plaintext, $overflow); // ie. trim $plaintext to a multiple of $block_size and put rest of $plaintext in $plaintext2
-            $encrypted = openssl_encrypt($plaintext . str_repeat("\0", $block_size), $this->cipher_name_openssl, $key, $this->openssl_options, $encryptIV);
-            $temp = $this->_string_pop($encrypted, $block_size);
-            $ciphertext.= $encrypted . ($plaintext2 ^ $temp);
+            $encrypted  = openssl_encrypt($plaintext . str_repeat("\0", $block_size), $this->cipher_name_openssl, $key, $this->openssl_options, $encryptIV);
+            $temp       = $this->_string_pop($encrypted, $block_size);
+            $ciphertext .= $encrypted . ($plaintext2 ^ $temp);
             if ($this->continuousBuffer) {
                 $buffer['ciphertext'] = substr($temp, $overflow);
-                $encryptIV = $temp;
+                $encryptIV            = $temp;
             }
         } elseif (!strlen($buffer['ciphertext'])) {
-            $ciphertext.= openssl_encrypt($plaintext . str_repeat("\0", $block_size), $this->cipher_name_openssl, $key, $this->openssl_options, $encryptIV);
+            $ciphertext .= openssl_encrypt($plaintext . str_repeat("\0", $block_size), $this->cipher_name_openssl, $key, $this->openssl_options, $encryptIV);
             $temp = $this->_string_pop($ciphertext, $block_size);
             if ($this->continuousBuffer) {
                 $encryptIV = $temp;
@@ -1348,7 +1367,7 @@ abstract class Base
         }
         if ($this->continuousBuffer) {
             if (!defined('OPENSSL_RAW_DATA')) {
-                $encryptIV.= openssl_encrypt('', $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
+                $encryptIV .= openssl_encrypt('', $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
             }
             $encryptIV = openssl_decrypt($encryptIV, $this->cipher_name_openssl_ecb, $key, $this->openssl_options);
             if ($overflow) {
@@ -1366,38 +1385,40 @@ abstract class Base
      * for OFB is the same for both encrypting and decrypting this function is re-used by both Base::encrypt()
      * and Base::decrypt().
      *
-     * @see self::encrypt()
-     * @see self::decrypt()
+     * @see    self::encrypt()
+     * @see    self::decrypt()
+     *
      * @param string $plaintext
      * @param string $encryptIV
-     * @param array $buffer
+     * @param array  $buffer
+     *
      * @return string
      * @access private
      */
     function _openssl_ofb_process($plaintext, &$encryptIV, &$buffer)
     {
         if (strlen($buffer['xor'])) {
-            $ciphertext = $plaintext ^ $buffer['xor'];
+            $ciphertext    = $plaintext ^ $buffer['xor'];
             $buffer['xor'] = substr($buffer['xor'], strlen($ciphertext));
-            $plaintext = substr($plaintext, strlen($ciphertext));
+            $plaintext     = substr($plaintext, strlen($ciphertext));
         } else {
             $ciphertext = '';
         }
 
         $block_size = $this->block_size;
 
-        $len = strlen($plaintext);
-        $key = $this->key;
+        $len      = strlen($plaintext);
+        $key      = $this->key;
         $overflow = $len % $block_size;
 
         if (strlen($plaintext)) {
             if ($overflow) {
-                $ciphertext.= openssl_encrypt(substr($plaintext, 0, -$overflow) . str_repeat("\0", $block_size), $this->cipher_name_openssl, $key, $this->openssl_options, $encryptIV);
+                $ciphertext .= openssl_encrypt(substr($plaintext, 0, -$overflow) . str_repeat("\0", $block_size), $this->cipher_name_openssl, $key, $this->openssl_options, $encryptIV);
                 $xor = $this->_string_pop($ciphertext, $block_size);
                 if ($this->continuousBuffer) {
                     $encryptIV = $xor;
                 }
-                $ciphertext.= $this->_string_shift($xor, $overflow) ^ substr($plaintext, -$overflow);
+                $ciphertext .= $this->_string_shift($xor, $overflow) ^ substr($plaintext, -$overflow);
                 if ($this->continuousBuffer) {
                     $buffer['xor'] = $xor;
                 }
@@ -1448,7 +1469,7 @@ abstract class Base
      * away characters that shouldn't be stripped away. (SSH knows how many bytes are added because the length is
      * transmitted separately)
      *
-     * @see self::disablePadding()
+     * @see    self::disablePadding()
      * @access public
      */
     function enablePadding()
@@ -1459,7 +1480,7 @@ abstract class Base
     /**
      * Do not pad packets.
      *
-     * @see self::enablePadding()
+     * @see    self::enablePadding()
      * @access public
      */
     function disablePadding()
@@ -1496,13 +1517,13 @@ abstract class Base
      * outputs.  The reason is due to the fact that the initialization vector's change after every encryption /
      * decryption round when the continuous buffer is enabled.  When it's disabled, they remain constant.
      *
-     * Put another way, when the continuous buffer is enabled, the state of the \phpseclib\Crypt\*() object changes after each
-     * encryption / decryption round, whereas otherwise, it'd remain constant.  For this reason, it's recommended that
-     * continuous buffers not be used.  They do offer better security and are, in fact, sometimes required (SSH uses them),
-     * however, they are also less intuitive and more likely to cause you problems.
+     * Put another way, when the continuous buffer is enabled, the state of the \phpseclib\Crypt\*() object changes
+     * after each encryption / decryption round, whereas otherwise, it'd remain constant.  For this reason, it's
+     * recommended that continuous buffers not be used.  They do offer better security and are, in fact, sometimes
+     * required (SSH uses them), however, they are also less intuitive and more likely to cause you problems.
      *
-     * @see self::disableContinuousBuffer()
-     * @access public
+     * @see      self::disableContinuousBuffer()
+     * @access   public
      * @internal Could, but not must, extend by the child Crypt_* class
      */
     function enableContinuousBuffer()
@@ -1521,8 +1542,8 @@ abstract class Base
      *
      * The default behavior.
      *
-     * @see self::enableContinuousBuffer()
-     * @access public
+     * @see      self::enableContinuousBuffer()
+     * @access   public
      * @internal Could, but not must, extend by the child Crypt_* class
      */
     function disableContinuousBuffer()
@@ -1535,7 +1556,7 @@ abstract class Base
         }
 
         $this->continuousBuffer = false;
-        $this->changed = true;
+        $this->changed          = true;
 
         $this->_setEngine();
     }
@@ -1543,8 +1564,10 @@ abstract class Base
     /**
      * Test for engine validity
      *
-     * @see self::__construct()
+     * @see    self::__construct()
+     *
      * @param int $engine
+     *
      * @access public
      * @return bool
      */
@@ -1556,10 +1579,10 @@ abstract class Base
                     return false;
                 }
                 $this->openssl_emulate_ctr = false;
-                $result = $this->cipher_name_openssl &&
-                          extension_loaded('openssl') &&
-                          // PHP 5.3.0 - 5.3.2 did not let you set IV's
-                          version_compare(PHP_VERSION, '5.3.3', '>=');
+                $result                    = $this->cipher_name_openssl &&
+                    extension_loaded('openssl') &&
+                    // PHP 5.3.0 - 5.3.2 did not let you set IV's
+                    version_compare(PHP_VERSION, '5.3.3', '>=');
                 if (!$result) {
                     return false;
                 }
@@ -1582,14 +1605,16 @@ abstract class Base
                     case self::MODE_CTR:
                         if (in_array($this->cipher_name_openssl_ecb, $methods)) {
                             $this->openssl_emulate_ctr = true;
+
                             return true;
                         }
                 }
+
                 return false;
             case self::ENGINE_MCRYPT:
                 return $this->cipher_name_mcrypt &&
-                       extension_loaded('mcrypt') &&
-                       in_array($this->cipher_name_mcrypt, mcrypt_list_algorithms());
+                    extension_loaded('mcrypt') &&
+                    in_array($this->cipher_name_mcrypt, mcrypt_list_algorithms());
             case self::ENGINE_INTERNAL:
                 return true;
         }
@@ -1610,8 +1635,10 @@ abstract class Base
      *
      * If the preferred crypt engine is not available the fastest available one will be used
      *
-     * @see self::__construct()
+     * @see    self::__construct()
+     *
      * @param int $engine
+     *
      * @access public
      */
     function setPreferredEngine($engine)
@@ -1632,7 +1659,7 @@ abstract class Base
     /**
      * Returns the engine currently being utilized
      *
-     * @see self::_setEngine()
+     * @see    self::_setEngine()
      * @access public
      */
     function getEngine()
@@ -1643,18 +1670,18 @@ abstract class Base
     /**
      * Sets the engine as appropriate
      *
-     * @see self::__construct()
+     * @see    self::__construct()
      * @access private
      */
     function _setEngine()
     {
         $this->engine = null;
 
-        $candidateEngines = array(
+        $candidateEngines = [
             $this->preferredEngine,
             self::ENGINE_OPENSSL,
-            self::ENGINE_MCRYPT
-        );
+            self::ENGINE_MCRYPT,
+        ];
         foreach ($candidateEngines as $engine) {
             if ($this->isValidEngine($engine)) {
                 $this->engine = $engine;
@@ -1688,7 +1715,9 @@ abstract class Base
      * Note: Must be extended by the child \phpseclib\Crypt\* class
      *
      * @access private
+     *
      * @param string $in
+     *
      * @return string
      */
     abstract function _encryptBlock($in);
@@ -1699,7 +1728,9 @@ abstract class Base
      * Note: Must be extended by the child \phpseclib\Crypt\* class
      *
      * @access private
+     *
      * @param string $in
+     *
      * @return string
      */
     abstract function _decryptBlock($in);
@@ -1711,7 +1742,7 @@ abstract class Base
      *
      * Note: Must extend by the child \phpseclib\Crypt\* class
      *
-     * @see self::_setup()
+     * @see    self::_setup()
      * @access private
      */
     abstract function _setupKey();
@@ -1733,10 +1764,10 @@ abstract class Base
      *
      * - First run of encrypt() / decrypt() with no init-settings
      *
-     * @see self::setKey()
-     * @see self::setIV()
-     * @see self::disableContinuousBuffer()
-     * @access private
+     * @see      self::setKey()
+     * @see      self::setIV()
+     * @see      self::disableContinuousBuffer()
+     * @access   private
      * @internal _setup() is always called before en/decryption.
      * @internal Could, but not must, extend by the child Crypt_* class
      */
@@ -1767,10 +1798,10 @@ abstract class Base
      *
      * - First run of encrypt() / decrypt()
      *
-     * @see self::setKey()
-     * @see self::setIV()
-     * @see self::disableContinuousBuffer()
-     * @access private
+     * @see      self::setKey()
+     * @see      self::setIV()
+     * @see      self::disableContinuousBuffer()
+     * @access   private
      * @internal Could, but not must, extend by the child Crypt_* class
      */
     function _setupMcrypt()
@@ -1779,14 +1810,14 @@ abstract class Base
         $this->enchanged = $this->dechanged = true;
 
         if (!isset($this->enmcrypt)) {
-            static $mcrypt_modes = array(
+            static $mcrypt_modes = [
                 self::MODE_CTR    => 'ctr',
                 self::MODE_ECB    => MCRYPT_MODE_ECB,
                 self::MODE_CBC    => MCRYPT_MODE_CBC,
                 self::MODE_CFB    => 'ncfb',
                 self::MODE_OFB    => MCRYPT_MODE_NOFB,
                 self::MODE_STREAM => MCRYPT_MODE_STREAM,
-            );
+            ];
 
             $this->demcrypt = mcrypt_module_open($this->cipher_name_mcrypt, '', $mcrypt_modes[$this->mode], '');
             $this->enmcrypt = mcrypt_module_open($this->cipher_name_mcrypt, '', $mcrypt_modes[$this->mode], '');
@@ -1814,8 +1845,10 @@ abstract class Base
      * If padding is disabled and $text is not a multiple of the blocksize, the string will be padded regardless
      * and padding will, hence forth, be enabled.
      *
-     * @see self::_unpad()
+     * @see    self::_unpad()
+     *
      * @param string $text
+     *
      * @access private
      * @return string
      */
@@ -1843,8 +1876,10 @@ abstract class Base
      * If padding is enabled and the reported padding length is invalid the encryption key will be assumed to be wrong
      * and false will be returned.
      *
-     * @see self::_pad()
+     * @see    self::_pad()
+     *
      * @param string $text
+     *
      * @access private
      * @return string
      */
@@ -1870,12 +1905,12 @@ abstract class Base
      * after disableContinuousBuffer() or on cipher $engine (re)init
      * ie after setKey() or setIV()
      *
-     * @access public
+     * @access   public
      * @internal Could, but not must, extend by the child Crypt_* class
      */
     function _clearBuffers()
     {
-        $this->enbuffer = $this->debuffer = array('ciphertext' => '', 'xor' => '', 'pos' => 0, 'enmcrypt_init' => true);
+        $this->enbuffer = $this->debuffer = ['ciphertext' => '', 'xor' => '', 'pos' => 0, 'enmcrypt_init' => true];
 
         // mcrypt's handling of invalid's $iv:
         // $this->encryptIV = $this->decryptIV = strlen($this->iv) == $this->block_size ? $this->iv : str_repeat("\0", $this->block_size);
@@ -1892,7 +1927,8 @@ abstract class Base
      * Inspired by array_shift
      *
      * @param string $string
-     * @param int $index
+     * @param int    $index
+     *
      * @access private
      * @return string
      */
@@ -1900,6 +1936,7 @@ abstract class Base
     {
         $substr = substr($string, 0, $index);
         $string = substr($string, $index);
+
         return $substr;
     }
 
@@ -1909,7 +1946,8 @@ abstract class Base
      * Inspired by array_pop
      *
      * @param string $string
-     * @param int $index
+     * @param int    $index
+     *
      * @access private
      * @return string
      */
@@ -1917,20 +1955,23 @@ abstract class Base
     {
         $substr = substr($string, -$index);
         $string = substr($string, 0, -$index);
+
         return $substr;
     }
 
     /**
      * Increment the current string
      *
-     * @see self::decrypt()
-     * @see self::encrypt()
+     * @see    self::decrypt()
+     * @see    self::encrypt()
+     *
      * @param string $var
+     *
      * @access private
      */
     function _increment_str(&$var)
     {
-        for ($i = 4; $i <= strlen($var); $i+= 4) {
+        for ($i = 4; $i <= strlen($var); $i += 4) {
             $temp = substr($var, -$i, 4);
             switch ($temp) {
                 case "\xFF\xFF\xFF\xFF":
@@ -1938,10 +1979,12 @@ abstract class Base
                     break;
                 case "\x7F\xFF\xFF\xFF":
                     $var = substr_replace($var, "\x80\x00\x00\x00", -$i, 4);
+
                     return;
                 default:
                     $temp = unpack('Nnum', $temp);
-                    $var = substr_replace($var, pack('N', $temp['num'] + 1), -$i, 4);
+                    $var  = substr_replace($var, pack('N', $temp['num'] + 1), -$i, 4);
+
                     return;
             }
         }
@@ -1954,7 +1997,7 @@ abstract class Base
 
         $temp = unpack('Nnum', str_pad(substr($var, 0, $remainder), 4, "\0", STR_PAD_LEFT));
         $temp = substr(pack('N', $temp['num'] + 1), -$remainder);
-        $var = substr_replace($var, $temp, 0, $remainder);
+        $var  = substr_replace($var, $temp, 0, $remainder);
     }
 
     /**
@@ -2010,11 +2053,11 @@ abstract class Base
      *       - The callback function should not use the 'return' statement, but en/decrypt'ing the content of $in only
      *
      *
-     * @see self::_setup()
-     * @see self::_createInlineCryptFunction()
-     * @see self::encrypt()
-     * @see self::decrypt()
-     * @access private
+     * @see      self::_setup()
+     * @see      self::_createInlineCryptFunction()
+     * @see      self::encrypt()
+     * @see      self::decrypt()
+     * @access   private
      * @internal If a Crypt_* class providing inline crypting it must extend _setupInlineCrypt()
      */
     function _setupInlineCrypt()
@@ -2132,10 +2175,12 @@ abstract class Base
      *    );
      *    </code>
      *
-     * @see self::_setupInlineCrypt()
-     * @see self::encrypt()
-     * @see self::decrypt()
+     * @see    self::_setupInlineCrypt()
+     * @see    self::encrypt()
+     * @see    self::decrypt()
+     *
      * @param array $cipher_code
+     *
      * @access private
      * @return string (the name of the created callback function)
      */
@@ -2144,9 +2189,9 @@ abstract class Base
         $block_size = $this->block_size;
 
         // optional
-        $init_crypt    = isset($cipher_code['init_crypt'])    ? $cipher_code['init_crypt']    : '';
-        $init_encrypt  = isset($cipher_code['init_encrypt'])  ? $cipher_code['init_encrypt']  : '';
-        $init_decrypt  = isset($cipher_code['init_decrypt'])  ? $cipher_code['init_decrypt']  : '';
+        $init_crypt   = isset($cipher_code['init_crypt']) ? $cipher_code['init_crypt'] : '';
+        $init_encrypt = isset($cipher_code['init_encrypt']) ? $cipher_code['init_encrypt'] : '';
+        $init_decrypt = isset($cipher_code['init_decrypt']) ? $cipher_code['init_decrypt'] : '';
         // required
         $encrypt_block = $cipher_code['encrypt_block'];
         $decrypt_block = $cipher_code['decrypt_block'];
@@ -2160,9 +2205,9 @@ abstract class Base
                     $_ciphertext = "";
                     $_plaintext_len = strlen($_text);
 
-                    for ($_i = 0; $_i < $_plaintext_len; $_i+= '.$block_size.') {
-                        $in = substr($_text, $_i, '.$block_size.');
-                        '.$encrypt_block.'
+                    for ($_i = 0; $_i < $_plaintext_len; $_i+= ' . $block_size . ') {
+                        $in = substr($_text, $_i, ' . $block_size . ');
+                        ' . $encrypt_block . '
                         $_ciphertext.= $in;
                     }
 
@@ -2171,12 +2216,12 @@ abstract class Base
 
                 $decrypt = $init_decrypt . '
                     $_plaintext = "";
-                    $_text = str_pad($_text, strlen($_text) + ('.$block_size.' - strlen($_text) % '.$block_size.') % '.$block_size.', chr(0));
+                    $_text = str_pad($_text, strlen($_text) + (' . $block_size . ' - strlen($_text) % ' . $block_size . ') % ' . $block_size . ', chr(0));
                     $_ciphertext_len = strlen($_text);
 
-                    for ($_i = 0; $_i < $_ciphertext_len; $_i+= '.$block_size.') {
-                        $in = substr($_text, $_i, '.$block_size.');
-                        '.$decrypt_block.'
+                    for ($_i = 0; $_i < $_ciphertext_len; $_i+= ' . $block_size . ') {
+                        $in = substr($_text, $_i, ' . $block_size . ');
+                        ' . $decrypt_block . '
                         $_plaintext.= $in;
                     }
 
@@ -2190,22 +2235,22 @@ abstract class Base
                     $_xor = $self->encryptIV;
                     $_buffer = &$self->enbuffer;
                     if (strlen($_buffer["ciphertext"])) {
-                        for ($_i = 0; $_i < $_plaintext_len; $_i+= '.$block_size.') {
-                            $_block = substr($_text, $_i, '.$block_size.');
+                        for ($_i = 0; $_i < $_plaintext_len; $_i+= ' . $block_size . ') {
+                            $_block = substr($_text, $_i, ' . $block_size . ');
                             if (strlen($_block) > strlen($_buffer["ciphertext"])) {
                                 $in = $_xor;
-                                '.$encrypt_block.'
+                                ' . $encrypt_block . '
                                 $self->_increment_str($_xor);
                                 $_buffer["ciphertext"].= $in;
                             }
-                            $_key = $self->_string_shift($_buffer["ciphertext"], '.$block_size.');
+                            $_key = $self->_string_shift($_buffer["ciphertext"], ' . $block_size . ');
                             $_ciphertext.= $_block ^ $_key;
                         }
                     } else {
-                        for ($_i = 0; $_i < $_plaintext_len; $_i+= '.$block_size.') {
-                            $_block = substr($_text, $_i, '.$block_size.');
+                        for ($_i = 0; $_i < $_plaintext_len; $_i+= ' . $block_size . ') {
+                            $_block = substr($_text, $_i, ' . $block_size . ');
                             $in = $_xor;
-                            '.$encrypt_block.'
+                            ' . $encrypt_block . '
                             $self->_increment_str($_xor);
                             $_key = $in;
                             $_ciphertext.= $_block ^ $_key;
@@ -2213,7 +2258,7 @@ abstract class Base
                     }
                     if ($self->continuousBuffer) {
                         $self->encryptIV = $_xor;
-                        if ($_start = $_plaintext_len % '.$block_size.') {
+                        if ($_start = $_plaintext_len % ' . $block_size . ') {
                             $_buffer["ciphertext"] = substr($_key, $_start) . $_buffer["ciphertext"];
                         }
                     }
@@ -2228,22 +2273,22 @@ abstract class Base
                     $_buffer = &$self->debuffer;
 
                     if (strlen($_buffer["ciphertext"])) {
-                        for ($_i = 0; $_i < $_ciphertext_len; $_i+= '.$block_size.') {
-                            $_block = substr($_text, $_i, '.$block_size.');
+                        for ($_i = 0; $_i < $_ciphertext_len; $_i+= ' . $block_size . ') {
+                            $_block = substr($_text, $_i, ' . $block_size . ');
                             if (strlen($_block) > strlen($_buffer["ciphertext"])) {
                                 $in = $_xor;
-                                '.$encrypt_block.'
+                                ' . $encrypt_block . '
                                 $self->_increment_str($_xor);
                                 $_buffer["ciphertext"].= $in;
                             }
-                            $_key = $self->_string_shift($_buffer["ciphertext"], '.$block_size.');
+                            $_key = $self->_string_shift($_buffer["ciphertext"], ' . $block_size . ');
                             $_plaintext.= $_block ^ $_key;
                         }
                     } else {
-                        for ($_i = 0; $_i < $_ciphertext_len; $_i+= '.$block_size.') {
-                            $_block = substr($_text, $_i, '.$block_size.');
+                        for ($_i = 0; $_i < $_ciphertext_len; $_i+= ' . $block_size . ') {
+                            $_block = substr($_text, $_i, ' . $block_size . ');
                             $in = $_xor;
-                            '.$encrypt_block.'
+                            ' . $encrypt_block . '
                             $self->_increment_str($_xor);
                             $_key = $in;
                             $_plaintext.= $_block ^ $_key;
@@ -2251,7 +2296,7 @@ abstract class Base
                     }
                     if ($self->continuousBuffer) {
                         $self->decryptIV = $_xor;
-                        if ($_start = $_ciphertext_len % '.$block_size.') {
+                        if ($_start = $_ciphertext_len % ' . $block_size . ') {
                             $_buffer["ciphertext"] = substr($_key, $_start) . $_buffer["ciphertext"];
                         }
                     }
@@ -2275,7 +2320,7 @@ abstract class Base
                     $_i = 0;
                     if ($_pos) {
                         $_orig_pos = $_pos;
-                        $_max = '.$block_size.' - $_pos;
+                        $_max = ' . $block_size . ' - $_pos;
                         if ($_len >= $_max) {
                             $_i = $_max;
                             $_len-= $_max;
@@ -2288,17 +2333,17 @@ abstract class Base
                         $_ciphertext = substr($_iv, $_orig_pos) ^ $_text;
                         $_iv = substr_replace($_iv, $_ciphertext, $_orig_pos, $_i);
                     }
-                    while ($_len >= '.$block_size.') {
+                    while ($_len >= ' . $block_size . ') {
                         $in = $_iv;
-                        '.$encrypt_block.';
-                        $_iv = $in ^ substr($_text, $_i, '.$block_size.');
+                        ' . $encrypt_block . ';
+                        $_iv = $in ^ substr($_text, $_i, ' . $block_size . ');
                         $_ciphertext.= $_iv;
-                        $_len-= '.$block_size.';
-                        $_i+= '.$block_size.';
+                        $_len-= ' . $block_size . ';
+                        $_i+= ' . $block_size . ';
                     }
                     if ($_len) {
                         $in = $_iv;
-                        '.$encrypt_block.'
+                        ' . $encrypt_block . '
                         $_iv = $in;
                         $_block = $_iv ^ substr($_text, $_i);
                         $_iv = substr_replace($_iv, $_block, 0, $_len);
@@ -2323,7 +2368,7 @@ abstract class Base
                     $_i = 0;
                     if ($_pos) {
                         $_orig_pos = $_pos;
-                        $_max = '.$block_size.' - $_pos;
+                        $_max = ' . $block_size . ' - $_pos;
                         if ($_len >= $_max) {
                             $_i = $_max;
                             $_len-= $_max;
@@ -2336,19 +2381,19 @@ abstract class Base
                         $_plaintext = substr($_iv, $_orig_pos) ^ $_text;
                         $_iv = substr_replace($_iv, substr($_text, 0, $_i), $_orig_pos, $_i);
                     }
-                    while ($_len >= '.$block_size.') {
+                    while ($_len >= ' . $block_size . ') {
                         $in = $_iv;
-                        '.$encrypt_block.'
+                        ' . $encrypt_block . '
                         $_iv = $in;
-                        $cb = substr($_text, $_i, '.$block_size.');
+                        $cb = substr($_text, $_i, ' . $block_size . ');
                         $_plaintext.= $_iv ^ $cb;
                         $_iv = $cb;
-                        $_len-= '.$block_size.';
-                        $_i+= '.$block_size.';
+                        $_len-= ' . $block_size . ';
+                        $_i+= ' . $block_size . ';
                     }
                     if ($_len) {
                         $in = $_iv;
-                        '.$encrypt_block.'
+                        ' . $encrypt_block . '
                         $_iv = $in;
                         $_plaintext.= $_iv ^ substr($_text, $_i);
                         $_iv = substr_replace($_iv, substr($_text, $_i), 0, $_len);
@@ -2366,29 +2411,29 @@ abstract class Base
                     $_buffer = &$self->enbuffer;
 
                     if (strlen($_buffer["xor"])) {
-                        for ($_i = 0; $_i < $_plaintext_len; $_i+= '.$block_size.') {
-                            $_block = substr($_text, $_i, '.$block_size.');
+                        for ($_i = 0; $_i < $_plaintext_len; $_i+= ' . $block_size . ') {
+                            $_block = substr($_text, $_i, ' . $block_size . ');
                             if (strlen($_block) > strlen($_buffer["xor"])) {
                                 $in = $_xor;
-                                '.$encrypt_block.'
+                                ' . $encrypt_block . '
                                 $_xor = $in;
                                 $_buffer["xor"].= $_xor;
                             }
-                            $_key = $self->_string_shift($_buffer["xor"], '.$block_size.');
+                            $_key = $self->_string_shift($_buffer["xor"], ' . $block_size . ');
                             $_ciphertext.= $_block ^ $_key;
                         }
                     } else {
-                        for ($_i = 0; $_i < $_plaintext_len; $_i+= '.$block_size.') {
+                        for ($_i = 0; $_i < $_plaintext_len; $_i+= ' . $block_size . ') {
                             $in = $_xor;
-                            '.$encrypt_block.'
+                            ' . $encrypt_block . '
                             $_xor = $in;
-                            $_ciphertext.= substr($_text, $_i, '.$block_size.') ^ $_xor;
+                            $_ciphertext.= substr($_text, $_i, ' . $block_size . ') ^ $_xor;
                         }
                         $_key = $_xor;
                     }
                     if ($self->continuousBuffer) {
                         $self->encryptIV = $_xor;
-                        if ($_start = $_plaintext_len % '.$block_size.') {
+                        if ($_start = $_plaintext_len % ' . $block_size . ') {
                              $_buffer["xor"] = substr($_key, $_start) . $_buffer["xor"];
                         }
                     }
@@ -2402,29 +2447,29 @@ abstract class Base
                     $_buffer = &$self->debuffer;
 
                     if (strlen($_buffer["xor"])) {
-                        for ($_i = 0; $_i < $_ciphertext_len; $_i+= '.$block_size.') {
-                            $_block = substr($_text, $_i, '.$block_size.');
+                        for ($_i = 0; $_i < $_ciphertext_len; $_i+= ' . $block_size . ') {
+                            $_block = substr($_text, $_i, ' . $block_size . ');
                             if (strlen($_block) > strlen($_buffer["xor"])) {
                                 $in = $_xor;
-                                '.$encrypt_block.'
+                                ' . $encrypt_block . '
                                 $_xor = $in;
                                 $_buffer["xor"].= $_xor;
                             }
-                            $_key = $self->_string_shift($_buffer["xor"], '.$block_size.');
+                            $_key = $self->_string_shift($_buffer["xor"], ' . $block_size . ');
                             $_plaintext.= $_block ^ $_key;
                         }
                     } else {
-                        for ($_i = 0; $_i < $_ciphertext_len; $_i+= '.$block_size.') {
+                        for ($_i = 0; $_i < $_ciphertext_len; $_i+= ' . $block_size . ') {
                             $in = $_xor;
-                            '.$encrypt_block.'
+                            ' . $encrypt_block . '
                             $_xor = $in;
-                            $_plaintext.= substr($_text, $_i, '.$block_size.') ^ $_xor;
+                            $_plaintext.= substr($_text, $_i, ' . $block_size . ') ^ $_xor;
                         }
                         $_key = $_xor;
                     }
                     if ($self->continuousBuffer) {
                         $self->decryptIV = $_xor;
-                        if ($_start = $_ciphertext_len % '.$block_size.') {
+                        if ($_start = $_ciphertext_len % ' . $block_size . ') {
                              $_buffer["xor"] = substr($_key, $_start) . $_buffer["xor"];
                         }
                     }
@@ -2434,12 +2479,12 @@ abstract class Base
             case self::MODE_STREAM:
                 $encrypt = $init_encrypt . '
                     $_ciphertext = "";
-                    '.$encrypt_block.'
+                    ' . $encrypt_block . '
                     return $_ciphertext;
                     ';
                 $decrypt = $init_decrypt . '
                     $_plaintext = "";
-                    '.$decrypt_block.'
+                    ' . $decrypt_block . '
                     return $_plaintext;
                     ';
                 break;
@@ -2451,9 +2496,9 @@ abstract class Base
 
                     $in = $self->encryptIV;
 
-                    for ($_i = 0; $_i < $_plaintext_len; $_i+= '.$block_size.') {
-                        $in = substr($_text, $_i, '.$block_size.') ^ $in;
-                        '.$encrypt_block.'
+                    for ($_i = 0; $_i < $_plaintext_len; $_i+= ' . $block_size . ') {
+                        $in = substr($_text, $_i, ' . $block_size . ') ^ $in;
+                        ' . $encrypt_block . '
                         $_ciphertext.= $in;
                     }
 
@@ -2466,14 +2511,14 @@ abstract class Base
 
                 $decrypt = $init_decrypt . '
                     $_plaintext = "";
-                    $_text = str_pad($_text, strlen($_text) + ('.$block_size.' - strlen($_text) % '.$block_size.') % '.$block_size.', chr(0));
+                    $_text = str_pad($_text, strlen($_text) + (' . $block_size . ' - strlen($_text) % ' . $block_size . ') % ' . $block_size . ', chr(0));
                     $_ciphertext_len = strlen($_text);
 
                     $_iv = $self->decryptIV;
 
-                    for ($_i = 0; $_i < $_ciphertext_len; $_i+= '.$block_size.') {
-                        $in = $_block = substr($_text, $_i, '.$block_size.');
-                        '.$decrypt_block.'
+                    for ($_i = 0; $_i < $_ciphertext_len; $_i+= ' . $block_size . ') {
+                        $in = $_block = substr($_text, $_i, ' . $block_size . ');
+                        ' . $decrypt_block . '
                         $_plaintext.= $in ^ $_iv;
                         $_iv = $_block;
                     }
@@ -2508,16 +2553,19 @@ abstract class Base
      */
     function &_getLambdaFunctions()
     {
-        static $functions = array();
+        static $functions = [];
+
         return $functions;
     }
 
     /**
      * Generates a digest from $bytes
      *
-     * @see self::_setupInlineCrypt()
+     * @see    self::_setupInlineCrypt()
      * @access private
+     *
      * @param $bytes
+     *
      * @return string
      */
     function _hashInlineCryptFunction($bytes)
@@ -2527,7 +2575,7 @@ abstract class Base
         }
 
         $result = '';
-        $hash = $bytes;
+        $hash   = $bytes;
 
         switch (true) {
             case self::$WHIRLPOOL_AVAILABLE:
@@ -2535,14 +2583,16 @@ abstract class Base
                     $hash = hash('whirlpool', $hash, true);
                     $result .= $t ^ $hash;
                 }
+
                 return $result . hash('whirlpool', $hash, true);
             default:
                 $len = strlen($bytes);
-                for ($i = 0; $i < $len; $i+=20) {
-                    $t = substr($bytes, $i, 20);
+                for ($i = 0; $i < $len; $i += 20) {
+                    $t    = substr($bytes, $i, 20);
                     $hash = pack('H*', sha1($hash));
                     $result .= $t ^ $hash;
                 }
+
                 return $result . pack('H*', sha1($hash));
         }
     }

@@ -42,35 +42,35 @@ class PMA_TblPrintViewTest extends PHPUnit_Framework_TestCase
         /**
          * SET these to avoid undefined index error
          */
-        $GLOBALS['server'] = 1;
+        $GLOBALS['server']                          = 1;
         $GLOBALS['cfg']['TableNavigationLinksMode'] = 'icons';
-        $GLOBALS['cfg']['LimitChars'] = 100;
-        $_SESSION['relation'][$GLOBALS['server']] = array(
+        $GLOBALS['cfg']['LimitChars']               = 100;
+        $_SESSION['relation'][$GLOBALS['server']]   = [
             'table_coords' => "table_name",
-            'displaywork' => 'displaywork',
-            'db' => "information_schema",
-            'table_info' => 'table_info',
-            'column_info' => 'column_info',
-            'relwork' => 'relwork',
-            'relation' => 'relation',
-            'commwork' => 'commwork',
+            'displaywork'  => 'displaywork',
+            'db'           => "information_schema",
+            'table_info'   => 'table_info',
+            'column_info'  => 'column_info',
+            'relwork'      => 'relwork',
+            'relation'     => 'relation',
+            'commwork'     => 'commwork',
             'bookmarkwork' => 'bookmarkwork',
-        );
+        ];
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $fetchResult = array(
-            'column1' => array('mimetype' => 'value1', 'transformation'=> 'pdf'),
-            'column2' => array('mimetype' => 'value2', 'transformation'=> 'xml'),
-        );
+        $fetchResult = [
+            'column1' => ['mimetype' => 'value1', 'transformation' => 'pdf'],
+            'column2' => ['mimetype' => 'value2', 'transformation' => 'xml'],
+        ];
 
         $dbi->expects($this->any())->method('fetchResult')
             ->will($this->returnValue($fetchResult));
 
         $dbi->expects($this->any())->method('getTableIndexes')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $GLOBALS['dbi'] = $dbi;
     }
@@ -83,7 +83,7 @@ class PMA_TblPrintViewTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForTablesInfo()
     {
-        $the_tables = array("PMA_table1", "PMA_table2");
+        $the_tables = ["PMA_table1", "PMA_table2"];
 
         $html = PMA_getHtmlForTablesInfo($the_tables);
 
@@ -125,20 +125,20 @@ class PMA_TblPrintViewTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForRowStatistics()
     {
-        $showtable = array(
-            'Row_format' => "Fixed",
-            'Rows' => 10,
+        $showtable       = [
+            'Row_format'     => "Fixed",
+            'Rows'           => 10,
             'Avg_row_length' => 123,
-            'Data_length' => 345,
+            'Data_length'    => 345,
             'Auto_increment' => 1234,
-            'Create_time' => "today",
-            'Update_time' => "time2",
-            'Check_time' => "yesterday",
-        );
+            'Create_time'    => "today",
+            'Update_time'    => "time2",
+            'Check_time'     => "yesterday",
+        ];
         $cell_align_left = "cell_align_left";
-        $avg_size = 12;
-        $avg_unit = 45;
-        $mergetable = false;
+        $avg_size        = 12;
+        $avg_unit        = 45;
+        $mergetable      = false;
 
         $html = PMA_getHtmlForRowStatistics(
             $showtable, $cell_align_left, $avg_size, $avg_unit, $mergetable
@@ -242,17 +242,17 @@ class PMA_TblPrintViewTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForSpaceUsage()
     {
-        $data_size = '10';
-        $data_unit = '11';
-        $index_size = '12';
-        $index_unit = '13';
-        $free_size = '14';
-        $free_unit = '15';
+        $data_size   = '10';
+        $data_unit   = '11';
+        $index_size  = '12';
+        $index_unit  = '13';
+        $free_size   = '14';
+        $free_unit   = '15';
         $effect_size = '16';
         $effect_unit = '17';
-        $tot_size = '18';
-        $tot_unit = '19';
-        $mergetable = false;
+        $tot_size    = '18';
+        $tot_unit    = '19';
+        $mergetable  = false;
 
         $html = PMA_getHtmlForSpaceUsage(
             $data_size, $data_unit, $index_size, $index_unit,
@@ -334,23 +334,23 @@ class PMA_TblPrintViewTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForSpaceUsageAndRowStatistics()
     {
-        $showtable = array(
-            'Row_format' => "Fixed",
-            'Rows' => 10,
+        $showtable       = [
+            'Row_format'     => "Fixed",
+            'Rows'           => 10,
             'Avg_row_length' => 123,
-            'Data_length' => 345,
+            'Data_length'    => 345,
             'Auto_increment' => 1234,
-            'Create_time' => "today",
-            'Update_time' => "time2",
-            'Check_time' => "yesterday",
-            'Data_length' => 10,
-            'Index_length' => 12334,
-            'Data_length' => 4567,
-            'Data_free' => 3456,
-            'Check_time' => 1234,
-        );
-        $db = "pma_db";
-        $table = "pma_table";
+            'Create_time'    => "today",
+            'Update_time'    => "time2",
+            'Check_time'     => "yesterday",
+            'Data_length'    => 10,
+            'Index_length'   => 12334,
+            'Data_length'    => 4567,
+            'Data_free'      => 3456,
+            'Check_time'     => 1234,
+        ];
+        $db              = "pma_db";
+        $table           = "pma_table";
         $cell_align_left = "cell_align_left";
 
         $html = PMA_getHtmlForSpaceUsageAndRowStatistics(
@@ -373,8 +373,8 @@ class PMA_TblPrintViewTest extends PHPUnit_Framework_TestCase
         //validation 2 : $data_size, $data_unit
         list($index_size, $index_unit)
             = PMA_Util::formatByteDown(
-                $showtable['Index_length']
-            );
+            $showtable['Index_length']
+        );
         $this->assertContains(
             $index_size,
             $html
@@ -387,8 +387,8 @@ class PMA_TblPrintViewTest extends PHPUnit_Framework_TestCase
         //validation 3 : $free_size, $free_unit
         list($free_size, $free_unit)
             = PMA_Util::formatByteDown(
-                $showtable['Data_free']
-            );
+            $showtable['Data_free']
+        );
         $this->assertContains(
             $free_size,
             $html
@@ -401,9 +401,9 @@ class PMA_TblPrintViewTest extends PHPUnit_Framework_TestCase
         //validation 4 : $effect_size, $effect_unit
         list($effect_size, $effect_unit)
             = PMA_Util::formatByteDown(
-                $showtable['Data_length'] + $showtable['Index_length']
-                - $showtable['Data_free']
-            );
+            $showtable['Data_length'] + $showtable['Index_length']
+            - $showtable['Data_free']
+        );
         $this->assertContains(
             $effect_size,
             $html
@@ -435,29 +435,29 @@ class PMA_TblPrintViewTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForPrintViewColumns()
     {
-        $columns = array(
-            array(
-                "Type" => "Type1",
+        $columns      = [
+            [
+                "Type"    => "Type1",
                 "Default" => "Default1",
-                "Null" => "Null1",
-                "Field" => "Field1",
-            )
-        );
-        $analyzed_sql = array(
-            array(
-                'create_table_fields' => array(
-                     "Field1" => array(
-                         "type" => "TIMESTAMP",
-                         "timestamp_not_null" => true
-                     )
-                 )
-            )
-        );
-        $have_rel = false;
-        $res_rel = array();
-        $db = "pma_db";
-        $table = "pma_table";
-        $cfgRelation = array('mimework' => true);
+                "Null"    => "Null1",
+                "Field"   => "Field1",
+            ],
+        ];
+        $analyzed_sql = [
+            [
+                'create_table_fields' => [
+                    "Field1" => [
+                        "type"               => "TIMESTAMP",
+                        "timestamp_not_null" => true,
+                    ],
+                ],
+            ],
+        ];
+        $have_rel     = false;
+        $res_rel      = [];
+        $db           = "pma_db";
+        $table        = "pma_table";
+        $cfgRelation  = ['mimework' => true];
 
         $html = PMA_getHtmlForPrintViewColumns(
             false, $columns, $analyzed_sql, $have_rel,
@@ -477,7 +477,7 @@ class PMA_TblPrintViewTest extends PHPUnit_Framework_TestCase
 
         //validation 2 : $field_name
         $field_name = htmlspecialchars($row['Field']);
-        $comments = PMA_getComments($db, $table);
+        $comments   = PMA_getComments($db, $table);
         $this->assertContains(
             $field_name,
             $html
@@ -485,8 +485,8 @@ class PMA_TblPrintViewTest extends PHPUnit_Framework_TestCase
 
         //validation 3 : $extracted_columnspec
         $extracted_columnspec = PMA_Util::extractColumnSpec($row['Type']);
-        $type = $extracted_columnspec['print_type'];
-        $attribute = $extracted_columnspec['attribute'];
+        $type                 = $extracted_columnspec['print_type'];
+        $attribute            = $extracted_columnspec['attribute'];
         $this->assertContains(
             $type,
             $html

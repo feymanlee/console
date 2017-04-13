@@ -5,7 +5,7 @@
  *
  * @package PhpMyAdmin
  */
-if (! defined('PHPMYADMIN')) {
+if (!defined('PHPMYADMIN')) {
     exit;
 }
 
@@ -34,7 +34,7 @@ class PMA_Partition
                 . "' AND `TABLE_NAME` = '" . PMA_Util::sqlAddSlashes($table) . "'"
             );
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -44,7 +44,7 @@ class PMA_Partition
      * @static
      * @staticvar boolean $have_partitioning
      * @staticvar boolean $already_checked
-     * @access  public
+     * @access    public
      * @return boolean
      */
     static public function havePartitioning()
@@ -52,11 +52,12 @@ class PMA_Partition
         static $have_partitioning = false;
         static $already_checked = false;
 
-        if (! $already_checked) {
+        if (!$already_checked) {
             if (PMA_MYSQL_INT_VERSION < 50600) {
                 if ($GLOBALS['dbi']->fetchValue(
                     "SHOW VARIABLES LIKE 'have_partitioning';"
-                )) {
+                )
+                ) {
                     $have_partitioning = true;
                 }
             } else {
@@ -71,7 +72,9 @@ class PMA_Partition
             }
             $already_checked = true;
         }
+
         return $have_partitioning;
     }
 }
+
 ?>

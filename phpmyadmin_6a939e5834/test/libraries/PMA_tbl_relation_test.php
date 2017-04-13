@@ -31,14 +31,14 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $GLOBALS['server'] = 0;
-        $GLOBALS['pmaThemeImage'] = 'theme/';
+        $GLOBALS['server']          = 0;
+        $GLOBALS['pmaThemeImage']   = 'theme/';
         $GLOBALS['cfg']['ShowHint'] = true;
         //$_SESSION
         $_SESSION['PMA_Theme'] = PMA_Theme::load('./themes/pmahomme');
         $_SESSION['PMA_Theme'] = new PMA_Theme();
 
-        $GLOBALS['pma'] = new DataBasePMAMockForTblRelation();
+        $GLOBALS['pma']            = new DataBasePMAMockForTblRelation();
         $GLOBALS['pma']->databases = new DataBaseMockForTblRelation();
 
         $dbi = $this->getMockBuilder('PMA_DatabaseInterface')
@@ -77,10 +77,10 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
         // test for title
         $this->assertStringStartsWith(
             '<select name="name" title="title"',
-            PMA_generateRelationalDropdown('name', array(), false, 'title')
+            PMA_generateRelationalDropdown('name', [], false, 'title')
         );
 
-        $values = array('value1', '<alue2', 'value3');
+        $values = ['value1', '<alue2', 'value3'];
         // test for empty option
         $this->assertContains(
             '<option value=""></option>',
@@ -116,9 +116,9 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
     public function testPMAGenerateDropdown()
     {
         $dropdown_question = "dropdown_question";
-        $select_name = "select_name";
-        $choices = array("choice1", "choice2");
-        $selected_value = "";
+        $select_name       = "select_name";
+        $choices           = ["choice1", "choice2"];
+        $selected_value    = "";
 
         $html_output = PMA_generateDropdown(
             $dropdown_question, $select_name, $choices, $selected_value
@@ -156,7 +156,7 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
         $text = "test `PMA` Back `quote` Split";
 
         $this->assertEquals(
-            array('`PMA`', '`quote`'),
+            ['`PMA`', '`quote`'],
             PMA_backquoteSplit($text)
         );
     }
@@ -169,13 +169,13 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetSQLToCreateForeignKey()
     {
-        $table = "PMA_table";
-        $field = array("PMA_field1", "PMA_field2");
-        $foreignDb = "foreignDb";
+        $table        = "PMA_table";
+        $field        = ["PMA_field1", "PMA_field2"];
+        $foreignDb    = "foreignDb";
         $foreignTable = "foreignTable";
-        $foreignField = array("foreignField1", "foreignField2");
+        $foreignField = ["foreignField1", "foreignField2"];
 
-        $sql =  PMA_getSQLToCreateForeignKey(
+        $sql          = PMA_getSQLToCreateForeignKey(
             $table, $field, $foreignDb, $foreignTable, $foreignField
         );
         $sql_excepted = 'ALTER TABLE `PMA_table` ADD  '
@@ -196,7 +196,7 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
     public function testPMAGetSQLToDropForeignKey()
     {
         $table = "pma_table";
-        $fk = "pma_fk";
+        $fk    = "pma_fk";
 
         $this->assertEquals(
             "ALTER TABLE `pma_table` DROP FOREIGN KEY `pma_fk`;",
@@ -212,22 +212,22 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForCommonForm()
     {
-        $db = "pma_db";
-        $table = "pma_table";
-        $columns = array(
-            array("Field" => "Field1")
-        );
-        $cfgRelation = array(
+        $db                 = "pma_db";
+        $table              = "pma_table";
+        $columns            = [
+            ["Field" => "Field1"],
+        ];
+        $cfgRelation        = [
             'displaywork' => true,
-            'relwork' => true,
+            'relwork'     => true,
             'displaywork' => true,
-        );
+        ];
         $tbl_storage_engine = "InnoDB";
-        $existrel =  array();
-        $existrel_foreign =  array();
-        $options_array =  array();
+        $existrel           = [];
+        $existrel_foreign   = [];
+        $options_array      = [];
 
-        $save_row =  array();
+        $save_row = [];
         foreach ($columns as $row) {
             $save_row[] = $row;
         }
@@ -287,7 +287,7 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
 
         //case 4: PMA_getHtmlForForeignKeyRow
         $row = PMA_getHtmlForForeignKeyRow(
-            array(), true, $columns, 0,
+            [], true, $columns, 0,
             $options_array, $tbl_storage_engine, $db
         );
         $this->assertContains(
@@ -316,12 +316,12 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetHtmlForDisplayFieldInfos()
     {
-        $db = "pma_db";
-        $table = "pma_table";
-        $save_row = array(
-            array("Field" => "Field1"),
-            array("Field" => "Field2"),
-        );
+        $db       = "pma_db";
+        $table    = "pma_table";
+        $save_row = [
+            ["Field" => "Field1"],
+            ["Field" => "Field2"],
+        ];
 
         $html = PMA_getHtmlForDisplayFieldInfos($db, $table, $save_row);
 
@@ -347,21 +347,21 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
      */
     public function testPMAGetQueryForDisplayUpdate()
     {
-        $disp = true;
+        $disp          = true;
         $display_field = '';
-        $db = "pma_db";
-        $table = "pma_table";
-        $cfgRelation = array(
+        $db            = "pma_db";
+        $table         = "pma_table";
+        $cfgRelation   = [
             'displaywork' => true,
-            'relwork' => true,
+            'relwork'     => true,
             'displaywork' => true,
-            'table_info' => 'table_info',
-        );
+            'table_info'  => 'table_info',
+        ];
 
         $GLOBALS['cfgRelation']['db'] = 'global_db';
 
         //case 1: $disp == true && $display_field == ''
-        $query = PMA_getQueryForDisplayUpdate(
+        $query        = PMA_getQueryForDisplayUpdate(
             $disp, $display_field, $db, $table, $cfgRelation
         );
         $query_expect = "DELETE FROM `global_db`.`table_info` "
@@ -373,7 +373,7 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
 
         //case 2: $disp == true && $display_field == 'display_field'
         $display_field == 'display_field';
-        $query = PMA_getQueryForDisplayUpdate(
+        $query        = PMA_getQueryForDisplayUpdate(
             $disp, $display_field, $db, $table, $cfgRelation
         );
         $query_expect = "DELETE FROM `global_db`.`table_info` "
@@ -384,12 +384,12 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
         );
 
         //case 3: $disp == false && $display_field == 'display_field'
-        $disp = false;
+        $disp          = false;
         $display_field = 'display_field';
-        $query = PMA_getQueryForDisplayUpdate(
+        $query         = PMA_getQueryForDisplayUpdate(
             $disp, $display_field, $db, $table, $cfgRelation
         );
-        $query_expect = "INSERT INTO `global_db`.`table_info`"
+        $query_expect  = "INSERT INTO `global_db`.`table_info`"
             . "(db_name, table_name, display_field)"
             . " VALUES('pma_db','pma_table','display_field')";
         $this->assertEquals(
@@ -398,12 +398,12 @@ class PMA_TblRelationTest extends PHPUnit_Framework_TestCase
         );
 
         //case 4: $disp == false && $display_field == ''
-        $disp = false;
+        $disp          = false;
         $display_field = '';
-        $query = PMA_getQueryForDisplayUpdate(
+        $query         = PMA_getQueryForDisplayUpdate(
             $disp, $display_field, $db, $table, $cfgRelation
         );
-        $query_expect = '';
+        $query_expect  = '';
         $this->assertEquals(
             $query_expect,
             $query
@@ -440,4 +440,5 @@ Class DataBaseMockForTblRelation
         return true;
     }
 }
+
 ?>

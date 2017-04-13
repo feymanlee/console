@@ -72,47 +72,47 @@ class PMA_Types_MySQL_Test extends PHPUnit_Framework_TestCase
      */
     public function providerForTestGetTypeDescription()
     {
-        return array(
-            array('TINYINT'),
-            array('SMALLINT'),
-            array('MEDIUMINT'),
-            array('INT'),
-            array('BIGINT'),
-            array('DECIMAL'),
-            array('FLOAT'),
-            array('DOUBLE'),
-            array('REAL'),
-            array('BIT'),
-            array('BOOLEAN'),
-            array('SERIAL'),
-            array('DATE'),
-            array('DATETIME'),
-            array('TIMESTAMP'),
-            array('TIME'),
-            array('YEAR'),
-            array('CHAR'),
-            array('VARCHAR'),
-            array('TINYTEXT'),
-            array('TEXT'),
-            array('MEDIUMTEXT'),
-            array('LONGTEXT'),
-            array('BINARY'),
-            array('VARBINARY'),
-            array('TINYBLOB'),
-            array('MEDIUMBLOB'),
-            array('BLOB'),
-            array('LONGBLOB'),
-            array('ENUM'),
-            array('SET'),
-            array('GEOMETRY'),
-            array('POINT'),
-            array('LINESTRING'),
-            array('POLYGON'),
-            array('MULTIPOINT'),
-            array('MULTILINESTRING'),
-            array('MULTIPOLYGON'),
-            array('GEOMETRYCOLLECTION'),
-        );
+        return [
+            ['TINYINT'],
+            ['SMALLINT'],
+            ['MEDIUMINT'],
+            ['INT'],
+            ['BIGINT'],
+            ['DECIMAL'],
+            ['FLOAT'],
+            ['DOUBLE'],
+            ['REAL'],
+            ['BIT'],
+            ['BOOLEAN'],
+            ['SERIAL'],
+            ['DATE'],
+            ['DATETIME'],
+            ['TIMESTAMP'],
+            ['TIME'],
+            ['YEAR'],
+            ['CHAR'],
+            ['VARCHAR'],
+            ['TINYTEXT'],
+            ['TEXT'],
+            ['MEDIUMTEXT'],
+            ['LONGTEXT'],
+            ['BINARY'],
+            ['VARBINARY'],
+            ['TINYBLOB'],
+            ['MEDIUMBLOB'],
+            ['BLOB'],
+            ['LONGBLOB'],
+            ['ENUM'],
+            ['SET'],
+            ['GEOMETRY'],
+            ['POINT'],
+            ['LINESTRING'],
+            ['POLYGON'],
+            ['MULTIPOINT'],
+            ['MULTILINESTRING'],
+            ['MULTIPOLYGON'],
+            ['GEOMETRYCOLLECTION'],
+        ];
     }
 
     /**
@@ -140,28 +140,28 @@ class PMA_Types_MySQL_Test extends PHPUnit_Framework_TestCase
      */
     public function providerFortTestGetTypeClass()
     {
-        return array(
-            array(
+        return [
+            [
                 'SERIAL',
-                'NUMBER'
-            ),
-            array(
+                'NUMBER',
+            ],
+            [
                 'YEAR',
-                'DATE'
-            ),
-            array(
+                'DATE',
+            ],
+            [
                 'GEOMETRYCOLLECTION',
-                'SPATIAL'
-            ),
-            array(
+                'SPATIAL',
+            ],
+            [
                 'SET',
-                'CHAR'
-            ),
-            array(
+                'CHAR',
+            ],
+            [
                 'UNKNOWN',
-                ''
-            )
-        );
+                '',
+            ],
+        ];
     }
 
     /**
@@ -189,10 +189,10 @@ class PMA_Types_MySQL_Test extends PHPUnit_Framework_TestCase
      */
     public function providerFortTestGetFunctionsClass()
     {
-        return array(
-            array(
+        return [
+            [
                 'CHAR',
-                array(
+                [
                     'AES_DECRYPT',
                     'AES_ENCRYPT',
                     'BIN',
@@ -226,11 +226,11 @@ class PMA_Types_MySQL_Test extends PHPUnit_Framework_TestCase
                     'USER',
                     'UUID',
                     'VERSION',
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'DATE',
-                array(
+                [
                     'CURRENT_DATE',
                     'CURRENT_TIME',
                     'DATE',
@@ -246,11 +246,11 @@ class PMA_Types_MySQL_Test extends PHPUnit_Framework_TestCase
                     'UTC_TIME',
                     'UTC_TIMESTAMP',
                     'YEAR',
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'SPATIAL',
-                array(
+                [
                     'GeomFromText',
                     'GeomFromWKB',
 
@@ -269,21 +269,21 @@ class PMA_Types_MySQL_Test extends PHPUnit_Framework_TestCase
                     'MPointFromWKB',
                     'PolyFromWKB',
                     'MPolyFromWKB',
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'NUMBER',
-                array(
-                    '0' => 'ABS',
-                    '1' => 'ACOS',
-                    '2' => 'ASCII',
-                    '3' => 'ASIN',
-                    '4' => 'ATAN',
-                    '5' => 'BIT_LENGTH',
-                    '6' => 'BIT_COUNT',
-                    '7' => 'CEILING',
-                    '8' => 'CHAR_LENGTH',
-                    '9' => 'CONNECTION_ID',
+                [
+                    '0'  => 'ABS',
+                    '1'  => 'ACOS',
+                    '2'  => 'ASCII',
+                    '3'  => 'ASIN',
+                    '4'  => 'ATAN',
+                    '5'  => 'BIT_LENGTH',
+                    '6'  => 'BIT_COUNT',
+                    '7'  => 'CEILING',
+                    '8'  => 'CHAR_LENGTH',
+                    '9'  => 'CONNECTION_ID',
                     '10' => 'COS',
                     '11' => 'COT',
                     '12' => 'CRC32',
@@ -324,14 +324,14 @@ class PMA_Types_MySQL_Test extends PHPUnit_Framework_TestCase
                     '47' => 'WEEK',
                     '48' => 'WEEKDAY',
                     '49' => 'WEEKOFYEAR',
-                    '50' => 'YEARWEEK'
-                )
-            ),
-            array(
+                    '50' => 'YEARWEEK',
+                ],
+            ],
+            [
                 'UNKNOWN',
-                array()
-            )
-        );
+                [],
+            ],
+        ];
     }
 
     /**
@@ -342,13 +342,13 @@ class PMA_Types_MySQL_Test extends PHPUnit_Framework_TestCase
     public function testGetAttributes()
     {
         $this->assertEquals(
-            array(
+            [
                 '',
                 'BINARY',
                 'UNSIGNED',
                 'UNSIGNED ZEROFILL',
                 'on update CURRENT_TIMESTAMP',
-            ),
+            ],
             $this->object->getAttributes()
         );
     }
@@ -361,12 +361,12 @@ class PMA_Types_MySQL_Test extends PHPUnit_Framework_TestCase
     public function testGetColumns()
     {
         $this->assertEquals(
-            array(
-                0 => 'INT',
-                1 => 'VARCHAR',
-                2 => 'TEXT',
-                3 => 'DATE',
-                'Numeric' => array (
+            [
+                0               => 'INT',
+                1               => 'VARCHAR',
+                2               => 'TEXT',
+                3               => 'DATE',
+                'Numeric'       => [
                     'TINYINT',
                     'SMALLINT',
                     'MEDIUMINT',
@@ -381,15 +381,15 @@ class PMA_Types_MySQL_Test extends PHPUnit_Framework_TestCase
                     'BIT',
                     'BOOLEAN',
                     'SERIAL',
-                ),
-                'Date and time' => array (
+                ],
+                'Date and time' => [
                     'DATE',
                     'DATETIME',
                     'TIMESTAMP',
                     'TIME',
                     'YEAR',
-                ),
-                'String' => array (
+                ],
+                'String'        => [
                     'CHAR',
                     'VARCHAR',
                     '-',
@@ -408,8 +408,8 @@ class PMA_Types_MySQL_Test extends PHPUnit_Framework_TestCase
                     '-',
                     'ENUM',
                     'SET',
-                ),
-                'Spatial' => array (
+                ],
+                'Spatial'       => [
                     'GEOMETRY',
                     'POINT',
                     'LINESTRING',
@@ -418,8 +418,8 @@ class PMA_Types_MySQL_Test extends PHPUnit_Framework_TestCase
                     'MULTILINESTRING',
                     'MULTIPOLYGON',
                     'GEOMETRYCOLLECTION',
-                )
-            ),
+                ],
+            ],
             $this->object->getColumns()
         );
     }
